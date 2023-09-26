@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
+class LoginController extends Controller
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
+    use AuthenticatesUsers;
+    
+    /*public function show()//by arvind
+    {
+        echo 'jai ho';
+    }*/
+
+    /*   //custum method by arvind 
+    use AuthenticatesUsers {
+        logout as performLogout;
+    }
+
+    //Then, define a new logout() method in your LoginController:
+
+    public function logout(Request $request)
+    {
+        $this->performLogout($request);
+        return redirect()->route('your_route');
+    }
+    */
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+        //$this->show();//by arvind
+    }
+}

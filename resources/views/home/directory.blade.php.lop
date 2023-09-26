@@ -1,0 +1,195 @@
+@extends('layouts.home-master')
+@section('content')
+<?php 
+$reviews = array( 1, 3, 5, 10, 15, 20 );
+$ratings = array( 1, 2, 3, 4, 5 );
+if( isset( $_REQUEST['location'] ) && !empty( $_REQUEST['location'] ) )
+{
+	$loc 	= $_REQUEST['location'];
+	$place 	= strtolower( $loc );
+}
+else
+{
+	$loc 	= '';
+	$place 	= '';
+}
+if( isset( $_REQUEST['services'] ) )
+{
+	$subcat = $_REQUEST['services'];
+	$slug 	= strtolower( str_replace( ' ', '-', $subcategories[ $subcat[0] ] ) );
+}
+else
+{
+	$subcat = array();
+	$slug 	= '';
+}
+$bud 	= isset( $_REQUEST['budget'] ) 	? $_REQUEST['budget'] 	: '';
+$rev 	= isset( $_REQUEST['reviews'] ) ? $_REQUEST['reviews'] 	: '';
+$rat 	= isset( $_REQUEST['rating'] ) 	? $_REQUEST['rating'] 	: '';
+$rates 	= isset( $_REQUEST['rates'] ) 	? $_REQUEST['rates'] 	: array();
+$ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
+?>
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<!--  section start -->
+<section class="container-fluid list-top">
+    <div class=" container">
+        <a href="">Home | Directory</a>
+        <h2>Top <?php if(!empty($_REQUEST['services'][0])){ echo $subcategories[$subcat[0]];} ?> Companies</h2>
+    </div>
+</section>
+
+<section class="container-fluid mt-5 mb-5 list-box">
+    <div class=" container">
+        <div class="row">
+            <div class="col-lg-3 col-md-5 text-right pr-md-5">
+                <a href="">Clear All</a>
+
+                <form id="form1" method="get" action="" class=""><!--was-validated-->
+
+                <div class="filter-box mt-2">
+                    <div class="dropbox">
+
+                        <div class="dropinner">
+                            <select id="location" class="location-filter form-control" name="location" onchange="searchCompany()">
+                                <option value="">Select Location</option>
+                                @foreach( $loc_dropdown as $loc_drp  )
+                                    @if( !empty( $loc_drp->city ) )
+                                        <option value="{{ $loc_drp->city }}">{{ $loc_drp->city }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="dropinner">
+                            <select id="services" name="services[]" onchange="searchCompany()">
+                                <option value="">Select Services</option>
+                                @foreach( $subcategories as $key => $subcategoy )
+                                <option <?php if(isset($subcat) && in_array($key, $subcat)){echo 'checked';}else {echo 'disabled="disabled"'; }?> value="{{$key}}">{{$subcategoy}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="dropinner">
+                            <select class="form-control dropdown1" id="chk_budget" name="budget" onchange="searchCompany()">
+                                <option value="">Client Budget</option>
+                                @foreach($budget as $b)
+                                    <?php 
+                                        $bb     = explode( '-', $b['budget'] );
+                                        $budd   = '$'. $bb[0] . ' - $' . $bb[1];
+                                    ?>
+                                    <option <?php if(isset($bud) && $bud == $b['budget']){echo 'selected';} ?> value="{{$b['budget']}}"> {{$budd}} </option>
+                                @endforeach 
+                            </select>
+                        </div>
+
+                        <div class="dropinner">
+                            <select class="form-control dropdown1" id="rates" name="rates[]" onchange="searchCompany()">
+                                <option value="">Hourly Rate</option>
+                                @foreach( $rates as $b )
+                                <?php 
+                                $bb = explode('-',$b['rate']);
+                                $rr = '$'.$bb[0].' - $'.$bb[1];
+                                ?>
+                                <option <?php if(isset($rates) && in_array($b['rate'], $rates) ) { echo 'checked'; } ?> value="{{$b['rate']}}"> {{$rr}} </option>
+                                
+                            @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="dropinner">
+                            <select class="form-control dropdown1" id="industry" name="industry[]" onchange="searchCompany()">
+                                <option value="">Industry</option>
+                                @foreach( $industry as $key => $indust )
+                                <option <?php if(isset($ind) && in_array($key, $ind)){echo 'checked';}?> value="{{$key}}"> {{$indust}} </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="dropinner">
+                            <select class="form-control dropdown1" id="reviews" name="reviews" onchange="searchCompany()">
+                                <option selected>All Companies</option>
+                                @foreach( $reviews as $key => $review )
+                                <option <?php if( isset( $rev ) && $rev == $review ) { echo 'checked'; } ?> value="{{$review}}"> {{$review}}+ </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="dropinner">
+                            <select class="form-control dropdown1">
+                                <option selected>Reviews</option>
+                                <option>Reviews</option>
+                                <option>Reviews</option>
+                                <option>Reviews</option>
+                            </select>
+                        </div>
+                        <div class="dropinner">
+                            <select class="form-control dropdown1">
+                                <option selected>Rating</option>
+                                <option>Rating</option>
+                                <option>Rating</option>
+                                <option>Rating</option>
+                            </select>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-lg-9 col-md-7 firm-sec pl-md-4">
+                <div class="input-group ">
+                    <button type="button"><img src="{{asset('front_components/images/search-icon.png')}}" alt=""> </button>
+                    <input type="text" class="form-control" placeholder="Location">
+                </div>
+                <div class="firm-box d-lg-flex ">
+                    <p class="mr-5">31 Firms</p>
+                    <p>List of the Best Advertising Firms</p>
+                </div>
+                <div class="graph-sec row border mx-0 py-4 px-3 align-items-center">
+                    <div class="col-xl-2 col-lg-6 border-right verified-sec pb-3 pb-md-0">
+                        <img src="{{asset('front_components/images/dorsay.png')}}" alt="" class="img-fluid ">
+                        <img src="{{asset('front_components/images/verified.png')}}" alt="" class="img-fluid ">
+                        <div class="icon-box mt-4">
+                            <p class="d-flex  align-items-center"><img src="{{asset('front_components/images/verified-icon1.png')}}" alt="">
+                                $25000+</p>
+                            <p class="d-flex  align-items-center"><img src="{{asset('front_components/images/time.png')}}" alt=""> $25-$50/hr</p>
+                            <p class="d-flex  align-items-center"><img src="{{asset('front_components/images/person.png')}}" alt=""> 10-50</p>
+                            <p class="d-flex  align-items-center"><img src="{{asset('front_components/images/location2.png')}}" alt=""> Pontiac
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 pl-md-4 mt-md-0 mt-4">
+                        <h3>Dorsay Creative</h3>
+                        <p> Your goals are our driving force. <br>
+                            We make your business thrive</p>
+                        <div class="reviews-row">
+                            <h3>2.0 </h3>
+                            <div class="px-3">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <h3>1 REVIEWS</h3>
+                        </div>
+                        <div class="links">
+                            <a href="#">View Website</a>
+                            <a href="#">View Profile</a>
+                            <a href="#">Contact</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-4  pl-md-0 mt-xl-0 mt-5">
+                        <img src="{{asset('front_components/images/graph.png')}}" alt="" class="img-fluid ml-xl-n4 mx-auto d-block">
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+@endsection
+@section('script')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+@endsection
