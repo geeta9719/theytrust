@@ -27,7 +27,7 @@ if(Auth::check())
         <div class="collapse navbar-collapse {{$cls}}" id="collapsibleNavbar">
             <ul class="navbar-nav topheader ">
                 <li class="nav-item  ">
-					<a class="nav-link " href="javascript:void(0)">Services <span class="drop-arrow down"></span></a>
+					<a class="nav-link" href="javascript:void(0)">Sefffrvices<span class="drop-arrow down"></span></a>
 					
 					<div class="accordion" id="myAccordion">
 						<?php $i = 1; ?>
@@ -35,7 +35,7 @@ if(Auth::check())
 							<div class="accordion-item">
 								<h2 class="accordion-header" id="headingOne">
 									<div type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
-										data-bs-target="#collapseOne{{$i}}">{{$category->category}}</div>
+										data-bs-target="#collapseOne{{$i}}">{{   $category->category}}</div>
 								</h2>
 								<div id="collapseOne{{$i}}" class="accordion-collapse collapse" data-bs-parent="#myAccordion">
 									<div class="card-body">

@@ -1162,17 +1162,28 @@ class HomeController extends Controller
     }
 
 
-    public function subscribeNewsletter( Request $request )
-    {
+    // public function subscribeNewsletter( Request $request )
+    // {
 
-        $request->validate( [ 'email'  => 'required|email' ] );
+    //     $request->validate( [ 'email'  => 'required|email' ] );
         
-        $inputs['email']      = $request->email;
+    //     $inputs['email']      = $request->email;
     
-        Newsletters::create( $inputs );
+    //     Newsletters::create( $inputs );
 
-        return back()->with( 'newsuccess', 'Thanks.. You have been subscribed successfully.' );
+    //     return back()->with( 'newsuccess', 'Thanks.. You have been subscribed successfully.' );
 
-    }
+    // }
+
+    public function subscribeNewsletter(Request $request)
+{
+    $request->validate(['email' => 'required|email']);
+
+    $inputs['email'] = $request->email;
+    Newsletters::create($inputs);
+
+    return redirect()->to(url()->previous() . '#newsletter-section')->with('newsuccess', 'Thanks.. You have been subscribed successfully.');
+}
+
     
 }

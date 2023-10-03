@@ -13,7 +13,7 @@ else
 	$loc 	= '';
 	$place 	= '';
 }
-if( isset( $_REQUEST['services'] ) )
+if (isset($_REQUEST['services']) && is_array($_REQUEST['services']) && !($_REQUEST['services'][0] === ""))
 {
 	$subcat = $_REQUEST['services'];
 	$slug 	= strtolower( str_replace( ' ', '-', $subcategories[ $subcat[0] ] ) );
@@ -186,7 +186,9 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
 
                 <div class="firm-box d-lg-flex ">
                     <p class="mr-5">@if($company) {{ $totalRecord }} @else {{0}} @endif Firms</p>
-                    <p>List of the Best {{$subcategories[$subcat[0]]}} Firms</p>
+                    <p>List of the Best @if (isset($subcat[0]) && isset($subcategories[$subcat[0]]))
+    {{ $subcategories[$subcat[0]] }}
+@endif Firms</p>
                 </div>
 
                 @if( $company )
@@ -358,8 +360,10 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
                     $blankFirst = "";
 
 
+
                     $request_uri  = url()->current();
-                    $query_string = $_SERVER['QUERY_STRING'];
+                    $query_string = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : 'default_value';
+
                     
                     $query_str  = "";
                     $prev_url   = url( $request_uri . '?page=' . ( $currentPage - 1 ) );

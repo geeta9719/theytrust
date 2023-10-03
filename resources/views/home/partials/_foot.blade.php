@@ -27,13 +27,16 @@ if(Auth::check())
                         {{ session()->get('newsuccess') }}
                     </div>
                 @endif
-
+                <div id="newsletter-section">
                     <form method="post" class="d-flex" action="{{ route('subscribe') }}">
                         @csrf
+                        
                         <input type="email" class="form-control email emailbrd" id="email" name="email" placeholder="Email Address">
                         <button type="submit" class="submit" name="submit_news" value="submit-newsletter">Subscribe</button>
-                     
-                    </form></br>
+                       
+                    </form>
+                    </div>
+                </br>
                     <span  >To Recieve Our Updates Via E-mail</span>
                     <!-- <form action="/action_page.php" class="emailbox">
                         <input type="email" id="email" name="email" placeholder="Enter Address">

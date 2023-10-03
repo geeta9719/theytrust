@@ -206,10 +206,9 @@ input:focus {
 .header .right-section {
     max-width: max-content;
     width: 100%;
-    position: absolute;
-    right: 20px;
-
-    top: 40px;
+    /* position: absolute; */
+    /* right: 20px; */
+    /* top: 40px; */
     display: flex;
     justify-content: space-between;
     align-items: center;

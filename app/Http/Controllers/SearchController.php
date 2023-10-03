@@ -195,9 +195,14 @@ class SearchController extends Controller
 
 
         
-        if( !empty( $request->services ) )
-        {
-            $where[] = 'WHERE service_lines.subcategory_id IN (' . implode( ',', $request->services ) . ')';
+        if (!empty($request->services)) {
+            $filteredServices = array_filter($request->services, function ($value) {
+                return !is_null($value);
+            });
+        
+            if (!empty($filteredServices)) {
+                $where[] = 'WHERE service_lines.subcategory_id IN (' . implode(',', $filteredServices) . ')';
+            }
         }
 
         elseif( !empty( $ser ) )
@@ -222,10 +227,10 @@ class SearchController extends Controller
             }
 
         }
-
         
         if( !empty( $request->location ) )
         {
+            // dd($request->location);
             $where[]= "addresses.city='".$request->location . "'";
         }
         

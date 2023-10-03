@@ -6,7 +6,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>They Trust Us</title>
-        <link rel="icon" type="image/x-icon" href="{{asset('front/assets/favicon.ico')}}" />
+        <link rel="icon" type="image/x-icon" href="{{asset('front_components/images/favicon.png')}}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->

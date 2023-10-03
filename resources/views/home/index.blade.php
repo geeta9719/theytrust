@@ -42,7 +42,6 @@
                 <p>I am looking for</p>
 
                 <select class="form-control dropdown1 address" id="subcategories" name="services[]">
-                    <option class="form-control" value=''>e.g. App Development, UX</option>
                     @foreach($subcategories as $subcategory)
                     <option value="{{$subcategory->id}}" data-name="{{strtolower(str_replace(' ','-',$subcategory->subcategory))}}">
                         {{$subcategory->subcategory}}</option>
@@ -52,7 +51,7 @@
                <div class="d-flex align-items-center location">
                 <img src="{{asset('front_components/images/map1.png')}}" alt="" class="img-fluid mapcss">
                 <!-- <i class="fa fa-map-marker mr-md-5" aria-hidden="true"></i> -->
-                <select class="form-control address location dropdown2" id="locations" name="location[]"></select>
+                <select class="form-control address location dropdown2" id="locations" name="location"></select>
                </div>
                 <button class="btn btn-secondary" onclick="setAction()">Find Provider</button>
             </div>
@@ -216,30 +215,46 @@
                     <div class="col-md-8 mx-auto">
                         <div class="testimonials-slider">
 
-                            <div>
-                                <h4>Jason Perry
-                                <span>Engagency</span></h4>
-                                <p>They Trust.us is the best way to reach our audience and validate our commitment to providing
-                                    exceptional service.”</p>
-                               </div>
-        
-                              
-                            <div>
-                                <h4>Jason Perry
-                                <span>Engagency</span></h4>
-                                <p>They Trust.us is the best way to reach our audience and validate our commitment to providing
-                                    exceptional service.”</p>
-                               </div>
-        
-                              
-                            <div>
-                                <h4>Jason Perry
-                                <span>Engagency</span></h4>
-                                <p>They Trust.us is the best way to reach our audience and validate our commitment to providing
-                                    exceptional service.”</p>
-                               </div>
-        
-                         </div>
+                        <div>
+    <h4>Samuel L. <span>TechSolutions</span></h4>
+    <p>"They Trust Us" transformed our brand's presence in the B2B landscape, making us a beacon of trust and excellence for our target audience."</p>
+</div>
+
+<div>
+    <h4>Nina V. <span>Greenfield Corp.</span></h4>
+    <p>In today's cluttered market, "They Trust Us" has been pivotal in cementing our reputation and increasing our brand visibility.</p>
+</div>
+
+<div>
+    <h4>Jordan R. <span>Elite Manufacturers</span></h4>
+    <p>From day one, the impact of "They Trust Us" was evident in our leads, engagements, and conversions. It's truly a game-changer!</p>
+</div>
+
+<div>
+    <h4>Tasha Y. <span>InnovateDesign</span></h4>
+    <p>Our growth trajectory took off once we started with "They Trust Us". The platform's trust and recognition in the B2B world is unmatched.</p>
+</div>
+
+<div>
+    <h4>Harvey K. <span>BuildConstruct Ltd.</span></h4>
+    <p>Making a mark in the B2B sector is tough, but "They Trust Us" made it achievable by showcasing our credibility to the right audience.</p>
+</div>
+
+<div>
+    <h4>Elena M. <span>DataSync Corp.</span></h4>
+    <p>Of all the B2B platforms we've been on, "They Trust Us" is unparalleled in terms of reach, engagement quality, and trust-building.</p>
+</div>
+
+<div>
+    <h4>Vincent P. <span>SecureNet Technologies</span></h4>
+    <p>I had reservations initially, but the overwhelming positive feedback post-onboarding with "They Trust Us" made me a believer.</p>
+</div>
+
+<div>
+    <h4>Lydia J. <span>WebSoft Services</span></h4>
+    <p>In B2B, trust is everything. With "They Trust Us", our brand found its most valuable asset: widespread trust and recognition.</p>
+</div>
+
                     </div>
                     </div>
                   
@@ -255,9 +270,9 @@
             <p class="text-white my-4 animated fadeInLeft slower">Get your company in front of
                  <span>500,000+ buyers in <br class="d-inline d-md-none">
                     20 minutes or less.</span></p>
-            <div class="d-md-flex d-block align-items-center" style="justify-content: center;"><button
-                    class="btn btn-primary animated fadeInRight slower">They Trust us </button> <button
-                    class="btnb btnb-primary animated fadeInRight slower">Learn More </button></div>
+            <div class="d-md-flex d-block align-items-center" style="justify-content: center;">
+            <button class="btn btn-primary animated fadeInRight slower"><a href="{{url('about')}}" class="text-dark"> They Trust us </a></button> 
+            <button class="btnb btnb-primary animated fadeInRight slower"><a href="{{url('about')}}" class="text-light"> Learn More </a> </button></div>
 
 
         </div>
@@ -283,39 +298,44 @@
 <script>
     var setAction;
     jQuery(document).ready(function () {
-        jQuery.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        });
-        jQuery('#subcategories').on('change', function () {
-            var subcategory_id = jQuery(this).val();
-            //alert(subcategory_id)
-            jQuery.ajax({
-                url: "{{ url('get-location') }}",
-                method: "POST",
-                data: {
-                    subcategory_id: subcategory_id
-                },
-                success: function (res) {
-                    jQuery('#locations').empty();
-                    jQuery('#locations').append(res);
-                    //console.log(res);
-                }
-            });
-        });
-        /**/
-        setAction = function () {
-            var service = $("#subcategories").find(':selected').data('name')
-            var location = $("#locations").find(':selected').attr('data-name')
-            if (location == undefined || location == '') {
-                $('#searchForm').attr("action", "{{url('directory')}}/" + service);
-            } else {
-                $('#searchForm').attr("action", "{{url('directory')}}/" + service + '/' + location);
-            }
-            $('#searchForm').submit();
+    jQuery.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
         }
     });
+    
+    jQuery('#subcategories').on('change', function () {
+        var subcategory_id = jQuery(this).val();
+        //alert(subcategory_id)
+        jQuery.ajax({
+            url: "{{ url('get-location') }}",
+            method: "POST",
+            data: {
+                subcategory_id: subcategory_id
+            },
+            success: function (res) {
+                jQuery('#locations').empty();
+                jQuery('#locations').append(res);
+                //console.log(res);
+            }
+        });
+    });
+
+    // Trigger the change event on page load
+    jQuery('#subcategories').trigger('change');
+
+    setAction = function () {
+        var service = $("#subcategories").find(':selected').data('name')
+        var location = $("#locations").find(':selected').attr('data-name')
+        if (location == undefined || location == '') {
+            $('#searchForm').attr("action", "{{url('directory')}}/" + service);
+        } else {
+            $('#searchForm').attr("action", "{{url('directory')}}/" + service + '/' + location);
+        }
+        $('#searchForm').submit();
+    }
+});
+
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
