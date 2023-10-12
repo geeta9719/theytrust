@@ -9,8 +9,6 @@ html {
 .mapcss{
     margin-right:9px;
 }
-
-
 .drop-arrow:after {
     content: url(../images/pluc-icon.png);
     
@@ -35,7 +33,6 @@ html {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
-
 .category-service a{
     color:#fff;
 }
@@ -58,7 +55,7 @@ html {
     height: 1.25rem;
     margin-left: auto;
     content: "";
-    background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e);
+    /* background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e); */
     background-repeat: no-repeat;
     background-size: 1.25rem;
     transition: transform .2s ease-in-out;
@@ -403,20 +400,16 @@ input:focus {
     margin-top: -50px;
     position: relative;
 }
-
 .provider-sec p{
     font-size: 20px;
 }
-
 .provider-sec p {
     font-size: 20px;
     margin: 0 -32px 0 0;
 }
-
 .provider-sec .dropdown1{
 max-width: 440px;
 }
-
 .provider-sec .dropdown2{
     max-width: 310px;
     }
@@ -443,7 +436,6 @@ max-width: 440px;
 select {
 	appearance: none;
 }
-
   .btn-secondary {
     border-radius: 44px;
     background: #000;
@@ -795,7 +787,6 @@ color:#388cff;
     /* background-attachment: fixed; */
     margin-bottom: 115px;
 }
-
 .agencies h3 {
  font-weight: bold;
  color: #388cff;
@@ -804,7 +795,6 @@ color:#388cff;
 .agencies p {
     font-size: 20px;
 }
-
 .agencies .container {
     max-width: 1300px;
 }
@@ -1039,19 +1029,16 @@ color:#388cff;
     content: url(../images/testi-bullet.png);
   
 }
-
 .testimonial .slick-dots li.slick-active button:before {
     
     content: url(../images/testi-bullet-active.png);
   
 }
-
 .testimonial .slick-dots {
    
     bottom: -85px;
  
 }
-
 /* .testimonial .testimonialbox:after {
     content: url(../images/testi-arrow.png);
     position: absolute;
@@ -1450,7 +1437,7 @@ color:#388cff;
 .signin-banner {
     background-image: url(../images/innerpage-bg.jpg);
     background-size: cover;
-    padding: 90px 0 210px 0;
+    padding: 50px 0 50px 0;
     background-position: center center;
 }
 .signin-banner h2 {
@@ -2430,4 +2417,17 @@ padding: 0;
     background-image: none !important;
     height: 0px;
     content: none !important;
+}
+
+/* Header Css */
+
+
+.fixed-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 1000 !important; /* You can adjust this value based on your needs */
+    background-color: #fff !important; /* Adjust the background color as needed */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important; /* Optional: Add a shadow for a subtle effect */
 }

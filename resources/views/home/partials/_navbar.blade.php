@@ -1,9 +1,8 @@
-<?php 
+<?php
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Subcategory;
 $categoriese = Category::all();
-
 $cd = '';
 if(Auth::check())
 {
@@ -12,24 +11,21 @@ if(Auth::check())
 }
 ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
- <!-- menu section start-->
- <section class="container header position-relative py-md-4   mb-3 mb-md-0  ">
-        
-        <nav class="navbar navbar-expand-xl  navbar-dark px-0">
-            
+<!-- menu section start-->
+<div class="header-container">
+    <section class="container header position-relative py-md-4 mb-3 mb-md-0 ">       
+        <nav class="navbar navbar-expand-xl  navbar-dark px-0">  
             <a class="navbar-brand" href="/">
                 <img src="{{asset('front_components/images/logo.png')}}" alt="" class="logo">
             </a>
             <div class="right-section d-lg-flex d-xl-none d-none" > 
-<div class="input-group ">
-    <input type="text" class="form-control search" name="search" id="search"  placeholder="Search" onkeyup="search()">
-    <div class="input-group-prepend">
-        <span class="input-group-text"><i class="fa fa-search"></i></span>
-    </div>
-</div>
-</div>
-          
+                <div class="input-group ">
+                    <input type="text" class="form-control search" name="search" id="search"  placeholder="Search" onkeyup="search()">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
             <div class="d-block d-xl-none">
             @if(!Auth::check())
             <a class="nav-link brdnone modal-signin" href="#"  data-toggle="modal" data-target="#singin-modal">
@@ -40,7 +36,6 @@ if(Auth::check())
                             <a class="nav-link brdnone dropdown-toggle ProfileImg" href="#" id="navbardrop" data-toggle="dropdown">
                                 <img src="@if(auth()->user()->avatar) {{auth()->user()->avatar}} @else {{asset('front_components/images/user1.png')}} @endif " class="img-circle elevation-2" alt="User" width="100%" height="100%" style="border-radius: 25px;"> Me
                             </a>
-                            
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
                                 @if($cd)
@@ -58,12 +53,9 @@ if(Auth::check())
                         </li>
                     @endif
                     </div>
-
-
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
             @if(Auth::check()) 
                 @php $cls = 'afterLogin' @endphp 
             @else
@@ -77,7 +69,6 @@ if(Auth::check())
                         <?php $i = 1; ?>
                         @foreach($categoriese as $category)
                             <div class="accordion-item">
-                                
                                 <h2 class="accordion-header" id="collapseOne">
                                     <div type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
                                         data-bs-target="#collapseOne{{$i}}">{{$category->category}}</div>
@@ -94,17 +85,12 @@ if(Auth::check())
                         @endforeach
                         </div>
                     </li>
-
                     <li class="nav-item  ">
                         <a class="nav-link " href="#">Blog</a>
-
                     </li>
                     <li class="nav-item  ">
                         <a class="nav-link " href="{{url('contact')}}"> Contact Us </a>
-
                     </li>
-
-
                     @if(!Auth::check())
                         <li class="nav-item  ">
                             <a class="nav-link brdnone modal-signin" href="#"  data-toggle="modal" data-target="#singin-modal"> Sign in</a>
@@ -113,8 +99,7 @@ if(Auth::check())
                         <li class="nav-item  dropdown ">    
                             <a class="nav-link brdnone dropdown-toggle ProfileImg" href="#" id="navbardrop" data-toggle="dropdown">
                                 <img src="@if(auth()->user()->avatar) {{auth()->user()->avatar}} @else {{asset('front_components/images/user1.png')}} @endif " class="img-circle elevation-2" alt="User" width="100%" height="100%" style="border-radius: 25px;"> Me
-                            </a>
-                            
+                            </a>   
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
                                 @if($cd)
@@ -131,22 +116,17 @@ if(Auth::check())
                             </div>
                         </li>
                     @endif
-
-
-
                 </ul>
             </div>
             <div class="right-section d-lg-none d-xl-flex">
-<div class="input-group">
-    <input type="text" class="form-control search" name="search" id="search"  placeholder="Search" onkeyup="search()">
-    <div class="input-group-prepend">
-        <span class="input-group-text"><i class="fa fa-search"></i></span>
-    </div>
-</div>
-</div>
-
+            <div class="input-group">
+                <input type="text" class="form-control search" name="search" id="search"  placeholder="Search" onkeyup="search()">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+            </div>
         </nav>
-       
     </section>
     <section class="container-fluid category-service ">
         <div class="container">
@@ -159,9 +139,46 @@ if(Auth::check())
                         <li><a style="text-decoration: none;color: #fff;" href="{{url('directory/'.strtolower(str_replace(' ','-',$cat->category)))}}">{{$cat->category}}</a></li>
                     @endif
                 @endforeach
-        
             </ul>
         </div>
     </section>
+</div>
+    <!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- JavaScript to make the header sticky -->
+<script>
+    $(document).ready(function () {
+        var header = $(".header-container");
+        var offset = header.offset().top;
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > offset) {
+                header.addClass("fixed-header");
+            } else {
+                header.removeClass("fixed-header");
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".accordion-button").click(function () {
+            // Find the parent accordion item
+            var parent = $(this).closest(".accordion-item");
+
+            // Check if it's already collapsed
+            if (parent.hasClass("collapsed")) {
+                // Collapse all accordion items
+                $(".accordion-item").addClass("collapsed");
+                // Expand the clicked item
+                parent.removeClass("collapsed");
+            } else {
+                // Toggle the collapse state of the clicked item
+                parent.toggleClass("collapsed");
+            }
+        });
+    });
+</script>
+
 
 <!-- menu section End -->

@@ -12,7 +12,7 @@
 		</div>
 	</div>
 </section>
-<section class="formbox container contact-form-sec">
+<section class="formbox container contact-form-sec mt-1">
 	<div class="row  ">
 		<div class="col-lg-12">
 			<div class="col-lg-12  form-size">

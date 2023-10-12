@@ -224,7 +224,7 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
 
                             @if( $cmp->budget )
                                 <p class="d-flex  align-items-center">
-                                    <img src="{{asset('front_components/images/verified-icon1.png')}}" alt=""> {{ $bbb }}+
+                                    <img src="{{asset('front_components/images/verified-icon1.png')}}" alt=""> {{ $bbb }}
                                 </p>
                             @endif
 

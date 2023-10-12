@@ -1,19 +1,43 @@
 @extends('layouts.home-master')
 @section('content')
 <style>
-    #accordion {
-        width: 100%;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 41px 36px;
+    .faq-section {
+        background-color: #f5f5f5;
+        padding: 60px 0;
     }
-    #accordion .card-body {
-        padding: 0 24px !important;
-        display: block;
+    .faq-heading {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #333;
+        font-size: 28px;
+    }
+    .faq-item {
+        background-color: #fff;
+        border: 1px solid #000;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        padding: 20px;
+        transition: background-color 0.3s ease-in-out;
+    }
+    .faq-item:hover {
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+        border: 1px solid #ddd;
+        cursor: pointer;
+    }
+    .faq-question {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    .faq-answer {
+        font-size: 16px;
+        color: #666;
     }
 </style>
-<section class="container-fluid signin-banner animatedParent hero-section ">
-    <div class="container ">
+<section class="container-fluid signin-banner animatedParent hero-section">
+    <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="col-md-5 mx-auto text-center">
@@ -23,17 +47,19 @@
         </div>
     </div>
 </section>
-<section class="formbox container">
-    <div class="row  ">
+<section class="faq-section">
+    <div class="container">
+        <div class="row">
         <div class="col-lg-12">
-            <div class="col-lg-12  form-size">
-                <div class="container">
-                    <p>FAQ</p>
-                    @if(Session::get('success'))
-                    <div class="alert alert-success">{{Session::get('success')}}</div>
-                    @endif
-                    <span>
-                        <strong>Can I Update My Review?</strong></br>
+                <h2 class="faq-heading">Frequently Asked Questions</h2>
+                @if(Session::get('success'))
+                <div class="alert alert-success">{{Session::get('success')}}</div>
+                @endif
+                </div>
+                <div class="col-lg-6">
+                <div class="faq-item">
+                    <div class="faq-question">Can I Update My Review?</div>
+                    <div class="faq-answer">
                         We don't allow reviewers to delete their reviews, but we do allow them to update their review.
                         We allow reviews to be updated if:
                         A substantial amount of additional work has been completed, or
@@ -45,23 +71,13 @@
                         feedback.
                         No original review content, including the quote, will be changed or removed from Theytrustus.co.
                         The original content will be listed at the bottom of the more recent review.
-                    </span>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section class=" container mb-5">
-    <div class="row  ">
-        <div id="accordion">
-            <div class="card">
-                <div class="card-header">
-                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
-                        Is a TheyTrustUs Recommended Rating Helpful For Businesses When Choosing A Partner?
-                    </a>
                 </div>
-                <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
+                <div class="col-lg-6">
+                <div class="faq-item">
+                    <div class="faq-question">Is a TheyTrustUs Recommended Rating Helpful For Businesses When Choosing A Partner?</div>
+                    <div class="faq-answer">
                         Data from public and third-party sources are incorporated into the TheyTrustUs Recommendability
                         Rating. When making a purchase decision, it shouldn't be treated as the only source of
                         information. Combined with other sources of information on a service provider's credibility,
@@ -70,15 +86,11 @@
                         assessment of a service provider's quality.
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
-                        Does TheyTrustUs offer any free features?
-                    </a>
                 </div>
-                <div id="collapseThree" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
+                <div class="col-lg-6">
+                <div class="faq-item">
+                    <div class="faq-question">Does TheyTrustUs offer any free features?</div>
+                    <div class="faq-answer">
                         TheyTrustUs offers service providers a variety of free options to find leads, establish online
                         reputations, and establish brand leadership. Upgraded companies can also choose from premium
                         options. Like:
@@ -90,16 +102,11 @@
                         </ul>
                     </div>
                 </div>
-            </div>
- 
-            <div class="card">
-                <div class="card-header">
-                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseEight">
-                        Who are TheyTrustUs' clients/customers/businesses looking for IT companies to hire?
-                    </a>
                 </div>
-                <div id="collapseEight" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
+                <div class="col-lg-6">
+                <div class="faq-item">
+                    <div class="faq-question">Who are TheyTrustUs' clients/customers/businesses looking for IT companies to hire?</div>
+                    <div class="faq-answer">
                         The TheyTrustUs list identifies the best companies and software in various IT domains based on
                         their results from the research process. There are various categories on TheyTrustUs for
                         outsourcing different services and software solutions. Users can browse the categories with
@@ -108,15 +115,11 @@
                         their businesses is greatly reduced for service/software seekers.
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
-                        What makes TheyTrustUs different from other listing platforms?
-                    </a>
                 </div>
-                <div id="collapseFour" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
+                <div class="col-lg-6">
+                <div class="faq-item">
+                    <div class="faq-question">What makes TheyTrustUs different from other listing platforms?</div>
+                    <div class="faq-answer">
                         <ul>
                             <li>
                                 Compared to our competitors, our prices are low. Category selections are charged per web
@@ -128,15 +131,11 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
-                        What can I do to improve my TheyTrustUs profile?
-                    </a>
                 </div>
-                <div id="collapseFive" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
+                <div class="col-lg-6">
+                <div class="faq-item">
+                    <div class="faq-question">What can I do to improve my TheyTrustUs profile?</div>
+                    <div class="faq-answer">
                         You can easily and quickly improve your agency or business' Recommended Rating score by doing
                         the following:
                         <ul>
@@ -149,15 +148,11 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseSix">
-                        What can IT companies or software products do with TheyTrustUs?
-                    </a>
                 </div>
-                <div id="collapseSix" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
+                <div class="col-lg-6">
+                <div class="faq-item">
+                    <div class="faq-question">What can IT companies or software products do with TheyTrustUs?</div>
+                    <div class="faq-answer">
                         Using TheyTrustUs, businesses can search for online services and software solutions, generating
                         potential web traffic for their websites. Clients and software companies, and products are
                         connected through TheyTrustUs. The possibility of showcasing their work to the right audience
@@ -165,8 +160,8 @@
                         this massive exposure to generate leads.
                     </div>
                 </div>
+                </div>
             </div>
-        </div>
     </div>
 </section>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
