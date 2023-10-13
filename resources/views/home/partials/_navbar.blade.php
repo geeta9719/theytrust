@@ -10,15 +10,41 @@ if(Auth::check())
     $cd = Company::select('*')->where('user_id', '=', $uid)->first();
 }
 ?>
+<style>
+    .accordion {
+    margin: 0 auto;
+}
+
+.accordion-item {
+    margin-bottom: 5px;
+}
+
+.accordion-header {
+    cursor: pointer;
+}
+
+.accordion-content {
+    display: none;
+}
+
+.accordion-toggle{
+    font-size: 20px !important;
+    border: none !important;
+    background: none !important;
+    color: #fff !important;
+
+}
+
+</style>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- menu section start-->
 <div class="header-container">
-    <section class="container header position-relative py-md-4 mb-3 mb-md-0 ">       
-        <nav class="navbar navbar-expand-xl  navbar-dark px-0">  
+    <section class="container header position-relative py-md-4 mb-3 mb-md-0 ">
+        <nav class="navbar navbar-expand-xl  navbar-dark px-0">
             <a class="navbar-brand" href="/">
                 <img src="{{asset('front_components/images/logo.png')}}" alt="" class="logo">
             </a>
-            <div class="right-section d-lg-flex d-xl-none d-none" > 
+            <div class="right-section d-lg-flex d-xl-none d-none" >
                 <div class="input-group ">
                     <input type="text" class="form-control search" name="search" id="search"  placeholder="Search" onkeyup="search()">
                     <div class="input-group-prepend">
@@ -30,9 +56,9 @@ if(Auth::check())
             @if(!Auth::check())
             <a class="nav-link brdnone modal-signin" href="#"  data-toggle="modal" data-target="#singin-modal">
             <img src="{{asset('front_components/images/user-login.png')}}" alt="" style="width:40px">
-            </a>      
+            </a>
                     @else
-                        <li class="nav-item  dropdown ">    
+                        <li class="nav-item  dropdown ">
                             <a class="nav-link brdnone dropdown-toggle ProfileImg" href="#" id="navbardrop" data-toggle="dropdown">
                                 <img src="@if(auth()->user()->avatar) {{auth()->user()->avatar}} @else {{asset('front_components/images/user1.png')}} @endif " class="img-circle elevation-2" alt="User" width="100%" height="100%" style="border-radius: 25px;"> Me
                             </a>
@@ -56,10 +82,10 @@ if(Auth::check())
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            @if(Auth::check()) 
-                @php $cls = 'afterLogin' @endphp 
+            @if(Auth::check())
+                @php $cls = 'afterLogin' @endphp
             @else
-                @php $cls = '' @endphp 
+                @php $cls = '' @endphp
             @endif
             <div class="collapse navbar-collapse {{$cls}}" id="collapsibleNavbar">
                 <ul class="navbar-nav topheader ">
@@ -68,16 +94,19 @@ if(Auth::check())
                         <div class="accordion" id="myAccordion">
                         <?php $i = 1; ?>
                         @foreach($categoriese as $category)
+
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="collapseOne">
-                                    <div type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne{{$i}}">{{$category->category}}</div>
+                                <h2 class="accordion-header">
+                                    <div class="d-flex align-items-center justify-content-between pr-2">
+                                        {{$category->category}}
+                                        <button class="accordion-toggle">+</button>
+                                    </div>
                                 </h2>
-                                <div id="collapseOne{{$i}}" class="accordion-collapse collapse" data-bs-parent="#myAccordion">
+                                <div class="accordion-content">
                                     <div class="card-body">
                                         @foreach($category->subcategory as $sub_cat)
                                             <a href="{{ url('directory/'.strtolower($sub_cat->subcategory)) }}">{{$sub_cat->subcategory}}</a>
-                                        @endforeach 
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -94,12 +123,12 @@ if(Auth::check())
                     @if(!Auth::check())
                         <li class="nav-item  ">
                             <a class="nav-link brdnone modal-signin" href="#"  data-toggle="modal" data-target="#singin-modal"> Sign in</a>
-                        </li>       
+                        </li>
                     @else
-                        <li class="nav-item  dropdown ">    
+                        <li class="nav-item  dropdown ">
                             <a class="nav-link brdnone dropdown-toggle ProfileImg" href="#" id="navbardrop" data-toggle="dropdown">
                                 <img src="@if(auth()->user()->avatar) {{auth()->user()->avatar}} @else {{asset('front_components/images/user1.png')}} @endif " class="img-circle elevation-2" alt="User" width="100%" height="100%" style="border-radius: 25px;"> Me
-                            </a>   
+                            </a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
                                 @if($cd)
@@ -161,23 +190,41 @@ if(Auth::check())
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $(".accordion-button").click(function () {
-            // Find the parent accordion item
-            var parent = $(this).closest(".accordion-item");
+    // $(document).ready(function () {
+    //     $(".accordion-button").click(function () {
+    //         // Find the parent accordion item
+    //         var parent = $(this).closest(".accordion-item");
 
-            // Check if it's already collapsed
-            if (parent.hasClass("collapsed")) {
-                // Collapse all accordion items
-                $(".accordion-item").addClass("collapsed");
-                // Expand the clicked item
-                parent.removeClass("collapsed");
-            } else {
-                // Toggle the collapse state of the clicked item
-                parent.toggleClass("collapsed");
-            }
-        });
+    //         // Check if it's already collapsed
+    //         if (parent.hasClass("collapsed")) {
+    //             // Collapse all accordion items
+    //             $(".accordion-item").addClass("collapsed");
+    //             // Expand the clicked item
+    //             parent.removeClass("collapsed");
+    //         } else {
+    //             // Toggle the collapse state of the clicked item
+    //             parent.toggleClass("collapsed");
+    //         }
+    //     });
+    // });
+    const accordionItems = document.querySelectorAll('.accordion-item');
+
+accordionItems.forEach((item) => {
+    const header = item.querySelector('.accordion-header');
+    const content = item.querySelector('.accordion-content');
+    const toggleButton = header.querySelector('.accordion-toggle');
+
+    header.addEventListener('click', () => {
+        if (content.style.display === 'none' || content.style.display === '') {
+            content.style.display = 'block';
+            toggleButton.textContent = '-';
+        } else {
+            content.style.display = 'none';
+            toggleButton.textContent = '+';
+        }
     });
+});
+
 </script>
 
 
