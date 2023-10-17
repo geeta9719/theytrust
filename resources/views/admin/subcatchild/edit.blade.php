@@ -43,7 +43,7 @@
                                         <div class="card-body">
 
                                             <div class="form-group">
-                                                <label for="subcategory_id">Category</label>
+                                                <label for="subcategory_id">Subcategory</label>
                                                 <select name="subcategory_id" id="subcategory_id" class="form-control">
                                                     <option value="">Select Business</option>
                                                     @foreach($subcategory as $c)
@@ -63,7 +63,7 @@
                                             </div>
                                             
                                             <div class="form-group">
-                                                <label for="name">Subcategory</label>
+                                                <label for="name">Subcategory Child</label>
                                                 <input type="text" class="form-control {{$errors->has('name') ? 'is-invalid' : ''}}" id="name" name="name" value="{{$subcategorychild->name}}">
                                                 @error('name')
                                                 <div class="invalid-feedback">{{$message}}</div>

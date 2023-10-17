@@ -126,11 +126,75 @@ class CompanyController extends Controller
         return back();
     }
 
+public function users_list(Request $request)
+{
+    $query = User::orderBy('id', 'DESC');
 
-    public function users_list()
-    {
-        $data['users'] = User::orderBy( 'id', 'DESC' )->paginate( 50 );
-        return view( 'admin.users.index', $data );
+    // If search term is provided
+    if ($request->input('search')) {
+        $search = $request->input('search');
+        $query->where('name', 'LIKE', "%{$search}%")
+              ->orWhere('email', 'LIKE', "%{$search}%"); // You can add more fields as per your requirements.
     }
+
+    $users = $query->paginate(50);
+
+    if ($request->ajax()) {
+        
+        return view('admin.users.partial-table', compact('users'))->render();
+    }
+
+    return view('admin.users.index', compact('users'));
+}
+ 
+    public function users_edit($id)
+    {
+        $user = User::find($id);
+        return view( 'admin.users.edit', ['user'=>$user] );
+    }
+
+    public function users_update(Request $request, $user_id){
+        $user = User::find($user_id);
     
+        $inputs = request()->validate([
+            'email' => 'required|email',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // image validation
+        ]);
+    
+        $user->email = $inputs['email'];
+        $user->first_name = $inputs['first_name'];
+        $user->last_name = $inputs['last_name'];
+        $user->company = $request['company'];
+        $user->bio = $request['bio'];
+        $user->mobile = $request['mobile'];
+        
+    
+        if ($request->hasFile('image')) {
+            // Remove the old image from storage if it exists
+            if ($user->image) {
+                Storage::delete($user->image);
+            }
+    
+            // Store the new image
+            $path = $request->file('image')->store('users');
+            $user->avatar = $path;
+        }
+    
+        $user->save();
+    
+        session()->flash('msg','User data is updated');
+        return redirect()->route('admin.users.list'); // Update the route name if necessary
+    }
+
+    public function destroy(User $user)
+    {
+        try {
+            $user->delete();
+            return redirect()->route('admin.users.list')->with('msg', 'User successfully deleted!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('message', 'Failed to delete the user. Error: ' . $e->getMessage());
+        }
+    }
 }

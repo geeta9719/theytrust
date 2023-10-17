@@ -248,8 +248,11 @@ Route::middleware('auth')->group(function(){
         Route::delete('/admin/budget/{budget}/destroy', [BudgetController::class, 'destroy'])->name('admin.budget.destroy');
 
         Route::get('admin/users/list', [CompanyController::class, 'users_list'])->name('admin.users.list');
+        Route::get('admin/users/{user}/edit', [CompanyController::class, 'users_edit'])->name('admin.users.edit');
+        Route::put('/admin/user/{user}/update', [CompanyController::class, 'users_update'])->name('admin.user.update');
         Route::post('admin/publish-user', [CompanyController::class, 'publish_company'])->name('admin.publish_user');
         Route::post('admin/publish-all-users', [CompanyController::class, 'publish_all_company'])->name('admin.publish_all_users');
+        Route::delete('/admin/user/{user}', [App\Http\Controllers\CompanyController::class, 'destroy'])->name('admin.user.destroy');
         
     });    
     
