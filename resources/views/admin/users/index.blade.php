@@ -33,7 +33,14 @@
                                         <th>Id</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <!-- Add more columns as needed -->
+                                        <th>Mobile</th>
+                                        <th>Image</th>
+                                        <th>Company</th>
+                                        <th>Bio</th>
+                                        <th>Twitter</th>
+                                        <th>Linkedin</th>
+                                        <th>User Type</th>
+                                        <th>Created_at</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

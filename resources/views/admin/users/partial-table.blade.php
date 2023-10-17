@@ -9,7 +9,8 @@
         <td>{{ $user->bio }}</td>
         <td>{{ $user->twitter }}</td>
         <td>{{ $user->linkedin }}</td>
-        <td>{{ $user->user_type }}</td>
+        <td>{{ $user->slug }}</td>
+        <td>{{ $user->created_at }}</td>
         <td nowrap>
             <a href="{{route('admin.users.edit', $user)}}" class="btn btn-sm btn-primary">Edit</a>
 
