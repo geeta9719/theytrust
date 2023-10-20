@@ -88,41 +88,41 @@ if( Auth::check() )
 }
 
 ?>
-<section class="container-fluid signin-banner animatedParent hero-section ">		
+<section class="container-fluid signin-banner animatedParent hero-section ">
     <div class="container ">
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-5 mx-auto text-center">   
-                   
+                <div class="col-md-5 mx-auto text-center">
+
                 </div>
             </div>
         </div>
     </div>
 </section>
-<section class="formbox container">
+<section class="formbox container mt-1">
     <div class="row">
         <div class="col-lg-12">
-            <div class="col-lg-12  form-size">  
+            <div class="col-lg-12  form-size">
                 <div class="region region-content">
 					<div class="register-wrapper">
-						<?php 
+						<?php
                         $basic = ""; $premium = ""; $sponsorship = "";
 
                         $clr1 = ""; $clr2 = ""; $clr3 = "";
-                        
+
                         if( !empty( $cd ) && $cd->profile_type == 'basic' )
-                        { 
-                            $basic = "background-color:#ff3d2e;"; 
+                        {
+                            $basic = "background-color:#ff3d2e;";
                             $clr1 = "color:#fff;";
                         }
                         elseif( !empty( $cd ) && $cd->profile_type == 'premium' )
-                        { 
-                            $premium = "background-color:red;"; 
+                        {
+                            $premium = "background-color:red;";
                             $clr2 = "color:#fff;";
                         }
                         elseif( !empty( $cd ) && $cd->profile_type == 'sponsorship' )
-                        { 
-                            $sponsorship = "background-color:red;"; 
+                        {
+                            $sponsorship = "background-color:red;";
                             $clr3 = "color:#fff;";
                         }
                         ?>
@@ -133,7 +133,7 @@ if( Auth::check() )
 								<!--<li class="grey"><a href="{{url('get-listed?price_temp=basic')}}" class="button">Select</a></li>-->
                                 <li class="grey" >
                                     <!-- <a href='{{url("user/$user/basicInfo?profile=basic")}}' class="button" style="<?php echo $basic; echo $clr1; ?>"> Get Started </a> -->
-                                    
+
                                     <button class="button choose-plan" data-uid="{{ $user }}" data-url='{{ url( "user/$user/basicInfo?profile=basic" )}}' name="basic" value="basic" style="<?php echo $basic; echo $clr1; ?>">  Get Started  </button>
 
                                 </li>
@@ -146,22 +146,22 @@ if( Auth::check() )
 
 						<div class="columns">
 							<ul class="price">
-								
+
                                 <li class="header">   Premium</li>
-								
+
                                 <li class="grey">$200/month Or $100/month billed annually</li>
 
 								<!--<li class="grey"><a href="{{url('get-listed?price_temp=premium')}}" class="button">Buy</a></li>-->
-                                
+
                                 <li class="grey">
                                     <!-- <a href='{{url("user/$user/basicInfo?profile=premium")}}' class="button" style="<?php echo $premium; echo $clr2; ?>">Get Started</a> -->
                                     <button class="button choose-plan" data-uid="{{ $user }}" data-url='{{url("user/$user/basicInfo?profile=premium")}}' name="premium" value="premium" style="<?php echo $premium; echo $clr2; ?>" disabled>  Coming Soon  </button>
                                 </li>
-								
+
                                 <li><strong>Includes benefits of Basic Profile, and more</strong></li>
 								<li>Collect unlimited reviews by phone and online</li>
 								<li>Priority publishing of reviews</li>
-								
+
 								<li>Priority support for Profile, and Verification eligibility
 </li>
 							</ul>
@@ -171,9 +171,9 @@ if( Auth::check() )
 							<ul class="price">
 								<li class="header"> Reviews Feature Sponsorship</li>
 								<li class="grey">Starts from $300/month</li>
-								
+
                                 <!--<li class="grey"><a href="{{url('get-listed?price_temp=sponsorship')}}" class="button">Learn More</a></li>-->
-                                
+
                                 <li class="grey">
 
                                     <!-- <a href='{{url("user/$user/basicInfo?profile=sponsorship")}}' class="button" style="<?php echo $sponsorship; echo $clr3; ?>">Get Started </a> -->
@@ -183,7 +183,7 @@ if( Auth::check() )
 								<li><strong>Includes benefits of Premium Profile, and more</strong></li>
 								<li>Listing shown above Free and Premium </li>
 								<li>Enhanced level of visibility on all pages with Profile Verification</li>
-								
+
 								<li>Customer Success Analyst with additional analytics tracking</li>
 							</ul>
 						</div>
@@ -192,9 +192,9 @@ if( Auth::check() )
             </div>
         </div>
     </div>
-</section> 
+</section>
 
-                      
+
 @endsection
 
 @section('script')
@@ -204,7 +204,7 @@ if( Auth::check() )
         var plan    = $(this).val();
         var url     = $(this).data('url');
         var user_id = $(this).data('uid');
-        
+
          $.ajax({
                     url:"{{url('/user/choose-plan')}}",
                     type: "POST",
@@ -218,5 +218,5 @@ if( Auth::check() )
                     }
             });
     });
-</script> 
+</script>
 @endsection

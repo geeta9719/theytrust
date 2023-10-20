@@ -14,7 +14,7 @@
             <div class="row   ">
                 <div class="col-lg-7 pr-lg-5 animated fast go fadeInLeft  pt-md-5">
                     <div class="whitebox">
-                     
+
                         <h3>Enabling Reviews <span>and Ratings for Top</span> </h3>
                         <h4><span>B2B companies</span></h4>
                         <p>They Trust Us is instrumental in helping millions of <span>B2B</span> firms establish their
@@ -26,7 +26,7 @@
                     class="col-lg-5  text-center pl-lg-5  d-flex justify-content-end pt-5 pt-lg-0 animated fadeInRight fast go">
                     <img src="{{asset('front_components/images/hero-1.png')}}" alt="" class="img-fluid desktop-sec">
 
-                   
+
                 </div>
             </div>
         </div>
@@ -172,7 +172,7 @@
                             </p>
                             <a href="/directory/accounting-&-finance"><img src="{{asset('front_components/images/btn.png')}}" alt="" class="img-fluid iconbtn mt-0 mt-md-0"></a>
 
-                           
+
                         </div>
                     </div>
                 </div>
@@ -211,7 +211,7 @@
                     <div class="testimonialbox">
 
                         <img src="{{asset('front_components/images/testi-icon.png')}}" alt="" class="img-fluid">
-                    
+
                     <div class="col-md-8 mx-auto">
                         <div class="testimonials-slider">
 
@@ -257,21 +257,21 @@
 
                     </div>
                     </div>
-                  
+
                 </div>
 
             </div>
         </div>
     </section>
 
-    <section class="container-fluid profile pt-5  animatedParent">
+    <section class="container-fluid profile pt-5  animatedParent" id="success-msg">
         <div class=" text-center container">
             <h3 class="animated fadeInLeft slower">Create a Company Profile</h3>
             <p class="text-white my-4 animated fadeInLeft slower">Get your company in front of
                  <span>500,000+ buyers in <br class="d-inline d-md-none">
                     20 minutes or less.</span></p>
             <div class="d-md-flex d-block align-items-center" style="justify-content: center;">
-            <button class="btn btn-primary animated fadeInRight slower"><a href="{{url('about')}}" class="text-dark"> They Trust us </a></button> 
+            <button class="btn btn-primary animated fadeInRight slower"><a href="{{url('about')}}" class="text-dark"> They Trust us </a></button>
             <button class="btnb btnb-primary animated fadeInRight slower"><a href="{{url('about')}}" class="text-light"> Learn More </a> </button></div>
 
 
@@ -280,7 +280,7 @@
     <!-- contact section -->
 
 
-   
+
     <!-- contact section end-->
 
 
@@ -303,7 +303,7 @@
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         }
     });
-    
+
     jQuery('#subcategories').on('change', function () {
         var subcategory_id = jQuery(this).val();
         //alert(subcategory_id)

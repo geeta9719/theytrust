@@ -11,7 +11,7 @@ html {
 }
 .drop-arrow:after {
     content: url(../images/pluc-icon.png);
-    
+
     position: relative;
     left: 4px;
     top: 2px;
@@ -261,7 +261,7 @@ input:focus {
     background-color: transparent;
     border: 0;
 }
- 
+
 .topheader li {
     /* border-right: 2px solid #a4a4a4; */
     line-height: 0px;
@@ -425,7 +425,7 @@ max-width: 440px;
      font-size: 20px;    height: calc(2em + 0.75rem + 2px);
      padding: 0.375rem 1.2rem;
      background-image: url(../images/dropdown-arrow.png);
-     background-position:  right center; 
+     background-position:  right center;
      background-repeat: no-repeat;
 
     }
@@ -442,7 +442,7 @@ select {
     font-weight: 300;
     font-size: 18px;
     padding: 14px 35px;
-    
+
     color: #fff;
 }
 .bluestar {
@@ -491,7 +491,7 @@ select {
     background-repeat: no-repeat;
     background-position: 97% 17%;
     background-size: 5%;
-    
+
 }
 .filter-box option {
     font-size: 14px;
@@ -653,7 +653,7 @@ line-height:33px;
         text-align: center;}
 
       .reviews-row .fa {
-           
+
             font-size: 20px;}
 
 
@@ -670,6 +670,16 @@ line-height:33px;
         border-bottom: 1px solid #dee2e6 !important;
     }
 }
+
+
+@media screen and (max-width:375px) {
+    .header .logo {
+        max-width: 150px !important;
+    }
+}
+
+
+
 @media (min-width: 1200px){
 .container, .container-lg, .container-md, .container-sm, .container-xl {
     max-width: 1210px;
@@ -687,7 +697,7 @@ line-height:33px;
     color: #fff;
     border-radius: 40px;
     padding: 30px 54px;
-   
+
 }
 #email::placeholder {
     color: #fff;
@@ -847,7 +857,7 @@ color:#388cff;
     font-family: 'Helvetica LT Std';
     font-weight: bold;
     text-align: left;
-    
+
 }
 .agencies .agenciesbox hr {
     border-top: 2px solid rgb(0, 0, 0);
@@ -932,7 +942,7 @@ color:#388cff;
 .profile {
     background-color: #cee3ff;
     padding: 40px 0;
-  
+
 }
 .profile h3 {
     font-size: 36px;
@@ -1017,27 +1027,27 @@ color:#388cff;
     font-weight: normal;
     font-size:20px;
     margin: 27px 0 0 0;
- 
+
    }
 
    .testimonial .slick-dots li button:before {
-    
+
     font-size: 20px;
      border: 1px solid #fff;
     opacity: 1 !important;
     color: #fff;
     content: url(../images/testi-bullet.png);
-  
+
 }
 .testimonial .slick-dots li.slick-active button:before {
-    
+
     content: url(../images/testi-bullet-active.png);
-  
+
 }
 .testimonial .slick-dots {
-   
+
     bottom: -85px;
- 
+
 }
 /* .testimonial .testimonialbox:after {
     content: url(../images/testi-arrow.png);
@@ -1284,10 +1294,10 @@ color:#388cff;
     max-width: 1350px;
 }
 .trust-row {
-  
+
      background-image: url('../images/storybg.png');
     background-position: center center;
-    background-size: cover; 
+    background-size: cover;
     background-repeat: no-repeat;
 }
 .trust-row h3 {
@@ -1546,7 +1556,7 @@ color:#388cff;
 }
 /* search page start*/
 .nav-link {
-    padding: 3px 22px !important;
+    padding: 3px 22px;
     line-height: 11px !important;
 }
 /* dashboard */
@@ -1744,24 +1754,24 @@ color:#388cff;
     height: auto;
 }
 @media (max-width:767px) {
-   
+
 .provider-sec {
     border-radius: 10px;
     padding: 40px 13px;}
     .email-sec #email {
         width: 79%;
-       
-     
+
+
         padding: 27px 0px;
         margin-right: 5px;
         display: block;
     }
     .provider-sec .select2-container--default .select2-selection--single {
-      
+
         font-size: 15px;
         height: calc(2em + 0.75rem + 2px);
         padding: 0.375rem 1.2rem;
-       
+
     }
     .provider-sec .select2-container--default .select2-selection--single .select2-selection__rendered {
         color: #444;
@@ -1769,16 +1779,16 @@ color:#388cff;
         text-align: left;
     }
     .provider-sec .select2-container {
-       
+
         margin: 0;
-        
+
         width: 237px!important;
         padding: 22px 0;
     }
     .desktop-sec{
         display: none!important;
     }
-    .mobilesec{display: flex; 
+    .mobilesec{display: flex;
     justify-content: center;}
     .mobilesec img{
         width: 15%!important;
@@ -1786,21 +1796,21 @@ color:#388cff;
     }
     .email-sec #email {
         width: 100%;
-       
+
     }
     .email-sec .submit {
-        
+
         padding: 12px 112px;
-        
+
     }
- 
+
     .terms{
         margin-top: -20px!important;
     }
     .footer ul li {
-     
+
         border-right: 0;
-        
+
     }
     .footer ul {
         display: block;
@@ -1808,26 +1818,26 @@ color:#388cff;
     }
 
     .btnb-primary {
-      
+
         font-size: 18px;
         padding: 13px 39px;
         margin-top: 15px;
         margin-left: 0;
     }
     .storybox {
-       
+
         top: -55px;
         left: 1px;
-    }    
+    }
     .testimonial {
-       
+
         margin-top: 0;
     }
     .storybox {
-     
+
         position: relative;}
     /* .testimonial {
- 
+
         margin-top: 443px;} */
     .banner .whitebox h3 span {
         color: #000;
@@ -1966,11 +1976,11 @@ color:#388cff;
 }
 @media (max-width:820px) {
     .testimonial {
-       
+
         margin-top: 412px;
     }
     .select2-container {
-        
+
         margin-bottom: 20px!important;
     }
     .tabview {
@@ -2059,40 +2069,40 @@ color:#388cff;
 @media (max-width:1199px) {
 
     .provider-sec .inner {
-      
+
         display: block;
- 
+
         text-align: center;
     }
     .provider-sec .dropdown1 {
         max-width: 100%;
         margin: 10px 0 10px 0;
-       
+
     }
     .provider-sec {
         border-radius: 10px;
-       
+
         padding: 40px 30px;
-        
+
         margin-top: 0px;
-     
+
     }
 
     .provider-sec .btn-secondary {
-        margin-top: 10px; 
+        margin-top: 10px;
         font-size: 15px;
         padding: 10px 35px;
- 
+
         width: 100%;
     }
     .provider-sec .dropdown2 {
         max-width: 100%;
-     
+
     }
 
     .provider-sec .location {
       width: 100%;
-   
+
         position: relative;
         justify-content: space-between;
     }
@@ -2148,7 +2158,7 @@ color:#388cff;
 @media (max-width:650px) {
 
     .footer ul li {
-    
+
         font-size: 10px;
         line-height: 30px;
         padding: 0px 5px;
@@ -2156,7 +2166,7 @@ color:#388cff;
 
     .email-sec h3 {
         font-size: 18px;
- 
+
     }
     .email-sec #email:placeholder{
         font-size: 22px;
@@ -2164,22 +2174,22 @@ color:#388cff;
     .contact .about-box h3 {
         font-size: 18px;
         margin: 0;
-     
+
     }
- 
+
     .email-sec p {
         font-size: 15px;
- 
+
     }
 
     .email-sec #email {
         width: 100%;
- 
+
         text-align: center;
     }
     .email-sec span {
         font-size: 13px;
-  
+
     }
     .email-sec .submit {
         padding: 0;
@@ -2191,9 +2201,9 @@ color:#388cff;
         border: 0;
         font-size: 14px;
     }
-   
 
-    .profile .btn-primary, 
+
+    .profile .btn-primary,
         .profile .btnb-primary{
         font-size: 16px;
         padding: 10px 22px;
@@ -2210,49 +2220,49 @@ padding: 0;
     }
 
     .agencies {
- 
+
         margin-bottom: 25px;
     }
     .agencies .agenciesbox h3 {
         font-size: 19px;
-    
+
         height: auto;
- 
+
     }
     .agencies .agenciesbox h4 {
         font-size: 14px;
- 
+
     }
     .agencies .agenciesbox p {
         font-size: 13px;
-    
+
     }
 
     .agencies h3 {
-       
+
         font-size: 27px;
     }
 
     .agencies p {
         font-size: 16px;
-        
+
         line-height: normal;
 
     }
   .agencies p br {
        display: none;
-        
+
     }
     .banner .whitebox h3 span {
-    
+
         font-size: 18px;
-         
+
     }
 
     .category-service span {
-       
+
         font-size: 16px;
-    
+
         margin-left: 0;
     }
     .category-service ul {
@@ -2265,13 +2275,13 @@ padding: 0;
     }
 
     .provider-sec .form-control {
-  
+
         font-size: 15px;
- 
+
     }
 
     .header .right-section {
- 
+
         margin-top: 6px;
     }
     .header .logo {
@@ -2280,11 +2290,11 @@ padding: 0;
 
     .navbar-toggler {
         padding: 0;
-     
+
     }
 
     .header .right-section .form-control {
-     
+
         font-size: 10px;
     }
 
@@ -2350,9 +2360,9 @@ padding: 0;
         line-height: 25px;
     }
     .testimonial h3 span {
-     
+
         font-size: 27px;
-   
+
     }
     .btn-primary {
         font-size: 16px;
@@ -2388,7 +2398,7 @@ padding: 0;
     }
 
     .testimonial .testimonialbox p {
- 
+
         font-size: 17px;
         margin: 21px 0 0 0;
         line-height: 22px;
@@ -2399,14 +2409,14 @@ padding: 0;
 
     .profile p span {
         font-size: 20px;
-    
+
     }
     .profile h3 {
         font-size: 28px;
     }
     .profile p {
         font-size: 20px;
-    
+
     }
 }
 .pac-container {
@@ -2431,3 +2441,33 @@ padding: 0;
     background-color: #fff !important; /* Adjust the background color as needed */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important; /* Optional: Add a shadow for a subtle effect */
 }
+
+.modal-signin img{
+    width: 40px;
+}
+
+@media screen and (max-width:375px) {
+    .modal-signin img{
+        width: 30px !important;
+    }
+
+    .nav-link {
+        padding: 0 !important;
+
+    }
+
+}
+
+
+/* Read more revies section  */
+
+.scrollable-section {
+    height: 600px; /* Adjust the height as per your design */
+    overflow-y: scroll;
+}
+
+.top-space{
+    margin-top: 150px !important;
+}
+
+

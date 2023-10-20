@@ -56,7 +56,7 @@ class HomeController extends Controller
         $data['subcategories']  = Subcategory::all();
         $data['category']       = Category::where('top_cat',1)->get();
 
-        return view('home.index', $data);       
+        return view('home.index', $data);
     }
 
     public function about()
@@ -79,7 +79,7 @@ class HomeController extends Controller
     {
         return view( 'home.faq' );
     }
-    
+
     public function showLocationsFromService( Request $request )
     {
 
@@ -94,16 +94,16 @@ class HomeController extends Controller
             ->groupBy('addresses.address')
             ->get();
 
-           
+
         $html = '<option value="">Select Location</option>';
-        
+
         foreach( $locations as $loc )
         {
             $html .= "<option value='".$loc->city."' data-name='".strtolower($loc->city)."'>".$loc->city.", ".$data['country'][$loc->country_iso2]."</option>";
         }
 
         die( $html );
-    } 
+    }
 
     public function getCompany( Request $request )
     {
@@ -111,7 +111,7 @@ class HomeController extends Controller
         /*************************************/
 
         $data['subcategories']  =   $subcategories = DB::table('subcategories')->pluck('subcategory','id')->all();
-        $rate_reviews           =   DB::select("SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, 
+        $rate_reviews           =   DB::select("SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating,
                                     position_title, most_impressive FROM company_reviews GROUP BY company_reviews.company_id");
         $rate_review            = array();
 
@@ -121,7 +121,7 @@ class HomeController extends Controller
         }
 
         $data['rate_review'] = $rate_review;
-        
+
         $service_line        = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent FROM service_lines");
         $service_lines       = array();
 
@@ -132,12 +132,12 @@ class HomeController extends Controller
 
         $data['service_lines'] = $service_lines;
 
-        
+
         /*************************************/
 
 
         $where = array();
-        
+
         if( !empty( $request->services ) )
         {
             $where[]= 'WHERE service_lines.subcategory_id IN ('.implode(',',$request->services).')';
@@ -175,18 +175,18 @@ class HomeController extends Controller
 
         $where      = implode( ' AND ', $where );
 
-        $company    = DB::select("SELECT DISTINCT(companies.id),companies.*,addresses.address FROM companies LEFT JOIN addresses ON addresses.company_id = companies.id 
-                        LEFT JOIN service_lines     ON service_lines.company_id     = addresses.company_id 
-                        LEFT JOIN add_industries    ON add_industries.company_id    = service_lines.company_id 
-                        LEFT JOIN company_reviews   ON company_reviews.company_id   = add_industries.company_id ".$where);     
+        $company    = DB::select("SELECT DISTINCT(companies.id),companies.*,addresses.address FROM companies LEFT JOIN addresses ON addresses.company_id = companies.id
+                        LEFT JOIN service_lines     ON service_lines.company_id     = addresses.company_id
+                        LEFT JOIN add_industries    ON add_industries.company_id    = service_lines.company_id
+                        LEFT JOIN company_reviews   ON company_reviews.company_id   = add_industries.company_id ".$where);
 
-        
 
-        $totalList  = ( $company ) ? count( $company ) : 0; 
+
+        $totalList  = ( $company ) ? count( $company ) : 0;
 
         $html       = "";
         $html      .=  '
-       
+
         <div class="col-md-12  pr-5">
             <h5><span class="totalList serchbtn">'.$totalList.' Firms</span> List of the Best Advertising Agencies & Marketing Firms</h5>
         </div>';
@@ -207,7 +207,7 @@ class HomeController extends Controller
                                 if( isset( $rate_review[ $val->id ] ) )
                                 {
                                     $html .=  '<span style="font-weight:bolder ;">'.number_format((float)$rate_review[$val->id]->rating, 1, '.', '').'</span>';
-                                    
+
                                     for( $i=1; $i<=5; $i++ )
                                     {
                                         if( $i <= $rate_review[ $val->id ]->rating )
@@ -244,24 +244,24 @@ class HomeController extends Controller
                             <p><i class="fa fa-map-marker" aria-hidden="true"></i>'.$val->address.'</p>
                         </div>
                         <div class="col-md-6 brdright">';
-                            
+
                             $html .= '<p>
 
                             <div id="piechart'.$val->id.'"></div>';
-                                
+
                                 $t      = 0;
                                 $data   = array();
                                 $data[0]= array( 'Services', 'Percent' );
 
                                 for( $i = 0; $i < count( $service_lines[ $val->id ] ); $i++ )
-                                {                                 
-                                    if( $service_lines[ $val->id ][$i]->percent > 0 ) 
+                                {
+                                    if( $service_lines[ $val->id ][$i]->percent > 0 )
                                     {
                                         $t          = $t + $service_lines[ $val->id ][ $i ]->percent;
                                         $data[$i+1] = array( $subcategories[ $service_lines[ $val->id ][$i]->subcategory_id ], (int)$service_lines[ $val->id ][$i]->percent );
-                                    }   
+                                    }
                                 }
-                                
+
                                 if( $t < 100 )
                                 {
                                     $p          = 100 - $t;
@@ -272,33 +272,37 @@ class HomeController extends Controller
 
                                 ?>
 
-                                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                                <script type="text/javascript">
-                                // Load google charts
-                                google.charts.load( 'current', { 'packages' : ['corechart'] } );
-                                google.charts.setOnLoadCallback( drawChart );
-                                
-                                function drawChart() 
-                                {
-                                    var data = google.visualization.arrayToDataTable( <?=$data ?> );
-                                    
-                                    var options = {'title':'Service Focus', 'width':350, 'height':250};
-                                    
-                                    var chart = new google.visualization.PieChart( document.getElementById( "piechart<?=$val->id?>" ) );
-                                    chart.draw( data, options );
-                                }
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {
+    'packages': ['corechart']
+});
+google.charts.setOnLoadCallback(drawChart);
 
-                                </script>
-                                
-                            <?php
+function drawChart() {
+    var data = google.visualization.arrayToDataTable(<?=$data ?>);
+
+    var options = {
+        'title': 'Service Focus',
+        'width': 350,
+        'height': 250
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById("piechart<?=$val->id?>"));
+    chart.draw(data, options);
+}
+</script>
+
+<?php
                             $html .= '
                             </p>';
-                            
+
                             $html .='
                         </div>
                         <div class="col-md-4 pt-3">';
 
-                            if( isset( $rate_review[ $val->id ] ) ) 
+                            if( isset( $rate_review[ $val->id ] ) )
                             {
                                 $html .='<p>"'.$rate_review[ $val->id ]->most_impressive.'</p>
                                 <p>'.$rate_review[$val->id]->position_title.'</p>';
@@ -319,7 +323,7 @@ class HomeController extends Controller
                         <a href="'. url( 'company-contact/' . $val->id ) .'" target="_blank" class="serchbtn w-100">Contact</a>
                    </div>
                 </div>
-            </div> <br/> 
+            </div> <br/>
             ';
         }
 
@@ -334,11 +338,11 @@ class HomeController extends Controller
         $data['budget']     = Budget::pluck('budget','id')->all();
         $data['rate']       = Rate::pluck('rate','id')->all();
         $data['locations']  = DB::table('addresses')->where('addresses.address','!=', '')->pluck('address','state_iso2')->all();
-        
+
         /*************************************/
 
         $data['subcategories']  = DB::table('subcategories')->pluck('subcategory','id')->all();
-        $rate_review            = DB::select( "SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, 
+        $rate_review            = DB::select( "SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating,
                                   position_title, most_impressive FROM company_reviews GROUP BY company_reviews.company_id" );
         $rate                   = array();
 
@@ -348,7 +352,7 @@ class HomeController extends Controller
         }
 
         $data['rate_review'] = $rate;
-        
+
 
         $service_line        = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent FROM service_lines");
         $service_lines       = array();
@@ -361,7 +365,7 @@ class HomeController extends Controller
         $data['service_lines'] = $service_lines;
 
         //dd($data['service_lines']);
-        
+
         /*************************************/
 
         $where = array();
@@ -403,20 +407,20 @@ class HomeController extends Controller
 
         $where = implode( ' AND ', $where );
 
-        $data['company'] = $company = DB::select( "SELECT DISTINCT(companies.id), companies.*, addresses.address FROM companies 
-                                        LEFT JOIN addresses ON addresses.company_id = companies.id 
-                                        LEFT JOIN service_lines ON service_lines.company_id = companies.id 
-                                        LEFT JOIN add_industries ON add_industries.company_id = companies.id 
+        $data['company'] = $company = DB::select( "SELECT DISTINCT(companies.id), companies.*, addresses.address FROM companies
+                                        LEFT JOIN addresses ON addresses.company_id = companies.id
+                                        LEFT JOIN service_lines ON service_lines.company_id = companies.id
+                                        LEFT JOIN add_industries ON add_industries.company_id = companies.id
                                         LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where );
 
         return view( 'home.searchDirectory', $data );
 
-    }   
+    }
 
     public function getSearchList( Request $request )
     {
         $term           = explode(' ',$request->term);
-        
+
         $whereComp      = array();
         $whereComp1     = array();
         $whereCity      = array();
@@ -431,7 +435,7 @@ class HomeController extends Controller
 
                 $whereComp[]    = " companies.name like '%".$t."%'";
                 $whereComp1[]   = " 'name', 'like', '%".$request->term."%'";
-            }   
+            }
         }
 
         $whereC         = ' WHERE '.implode(' OR ', $whereComp);
@@ -446,7 +450,7 @@ class HomeController extends Controller
         $subc = array();
 
         //print_r($data['sub']);
-        
+
         if( count( $data['sub'] ) > 0 )
         {
             foreach( $data['sub'] as $sub )
@@ -461,12 +465,12 @@ class HomeController extends Controller
             $subc = "";
         }
 
-        //echo "SELECT subcategories.id,subcategories.subcategory FROM subcategories ".$whereS;     
-        
+        //echo "SELECT subcategories.id,subcategories.subcategory FROM subcategories ".$whereS;
+
         $data['city']   = DB::select("SELECT addresses.company_id,addresses.city FROM addresses ".$whereCI." GROUP BY addresses.city");
         $city           = array();
 
-    
+
         if( count( $data['city'] ) > 0 )
         {
             foreach( $data['city'] as $add )
@@ -492,8 +496,8 @@ class HomeController extends Controller
 
         if( !empty( $subc ) || !empty( $city ) )
         {
-            $data['subcategory'] = DB::select("SELECT subcategories.id,subcategories.subcategory,addresses.city,addresses.state_iso2 FROM subcategories 
-                                    INNER JOIN service_lines ON service_lines.subcategory_id = subcategories.id 
+            $data['subcategory'] = DB::select("SELECT subcategories.id,subcategories.subcategory,addresses.city,addresses.state_iso2 FROM subcategories
+                                    INNER JOIN service_lines ON service_lines.subcategory_id = subcategories.id
                                     INNER JOIN addresses ON addresses.company_id = service_lines.company_id  " . $subc . $city . " GROUP BY service_lines.subcategory_id" );
         }
         else
@@ -505,23 +509,23 @@ class HomeController extends Controller
 
 
         $rate_review     = DB::select("SELECT company_reviews.company_id, avg(overall_rating) as rating FROM company_reviews GROUP BY company_reviews.company_id");
-        
+
         $rate = array();
-        
+
         foreach( $rate_review as $val )
         {
             $rate[$val->company_id] = $val;
         }
 
         $data['rate_review'] = $rate;
-        
+
         $html       = "";
         $subcat_loc = "";
         $state_iso2 = "";
 
         $html      .= '
         <div class="search_results__row top_companies">';
-            
+
             if( count( $data['subcategory'] ) > 0 )
             {
                 $html .= '
@@ -532,7 +536,7 @@ class HomeController extends Controller
                 {
                     if( !empty( $data['city'] ) )
                     {
-                        $subcat_loc = " in ".ucfirst($subcat->city); 
+                        $subcat_loc = " in ".ucfirst($subcat->city);
                         $state_iso2 = '&location[]='.$subcat->state_iso2;
                     }
 
@@ -548,20 +552,20 @@ class HomeController extends Controller
             if( count( $data['company'] ) > 0 )
             {
                 $html .= '
-                
+
                 <div class="search_results__title"><strong>Profiles</strong></div>
                 <ul class="search_results__content">';
 
                 foreach( $data['company'] as $company )
                 {
-                    
+
                     if( isset( $data['rate_review'][$company->id] ) )
                     {
                         $rt = number_format((float)$data['rate_review'][$company->id]->rating, 1, '.', '').' <img src="'.asset('front_components/images/red.png').'" width="15px;">';
                     }
                     else
                     {
-                        $rt = '0.0  <img src="'.asset('front_components/images/red.png').'" width="15px;">'; 
+                        $rt = '0.0  <img src="'.asset('front_components/images/red.png').'" width="15px;">';
                     }
 
                     $html .= '
@@ -569,7 +573,7 @@ class HomeController extends Controller
                         <a style="text-decoration:none;" href="'.url('company-profile/'.ucfirst($company->id)).'"><img src="'.asset('storage/'.$company->logo).'" width="20px" height="20px"> &nbsp;<strong>'.$company->name.'</strong> '.$company_loc.'</a>
                         <span style="float:right;">'.$rt.' </span>
                     </li>';
-                }  
+                }
 
                 $html .= '</ul>';
             }
@@ -584,11 +588,11 @@ class HomeController extends Controller
         /*************************************/
 
         $data = array();
-        
+
         $data['subcategories']  = DB::table('subcategories')->pluck('subcategory','id')->all();
         $data['subcat_child']   = DB::table('subcat_children')->pluck('name','id')->all();
         $data['industry']       = DB::table('industries')->pluck('name','id')->all();
-        
+
         $rate_review = DB::select( "SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive FROM company_reviews WHERE company_reviews.company_id = ".$company_id." GROUP BY company_reviews.company_id" );
 
         if( $rate_review )
@@ -615,29 +619,29 @@ class HomeController extends Controller
         //dd($data['service_lines'])
 
         $review             = DB::select( "SELECT company_reviews.* FROM company_reviews WHERE company_reviews.company_id = ".$company_id );
-        
+
         $data['review']     = $review;
 
         //dd($data['review']);
 
         /*************************************/
 
-        $data['company']    = Company::find($company_id);  
-        $data['address']    = Address::where('company_id',$company_id)->get(); 
+        $data['company']    = Company::find($company_id);
+        $data['address']    = Address::where('company_id',$company_id)->get();
 
         //dd($data);
         return view('home.companyProfile', $data);
     }
-    
+
     public function companyContact( Request $request, $company_id )
     {
         session( [ 'referer' => url( 'company-contact/' . $company_id ) ] );
 
         $data['companies'] = DB::table('companies')->where( 'id', $company_id )->get();
-        
+
         if( Auth::check() )
         {
-            
+
             return view('home.companyContact', $data);
         }
         else
@@ -645,7 +649,7 @@ class HomeController extends Controller
             return redirect('auth/linkedin');
         }
     }
-    
+
     public function sendCompanycontactEmail( Request $request )
     {
         //echo "<pre>"; print_r($request->all());die;
@@ -653,7 +657,7 @@ class HomeController extends Controller
         $request->validate([
             'full_name'     => 'required',
             'company_name'  => 'required',
-            'contact_email' => 'required|email', 
+            'contact_email' => 'required|email',
             'subject'       => 'required',
             'message'       => 'required'
         ]);
@@ -665,7 +669,7 @@ class HomeController extends Controller
             'subject'       => $request->subject,
             'message'       => $request->message
         ];
-        
+
         Mail::to('raivipin94@gmail.com')->send(new SendMail($details));
 
         return back()->with('success', 'Mail Send!!!');
@@ -673,7 +677,7 @@ class HomeController extends Controller
 
     public function validationStep(Request $request)
     {
-        
+
         //dd($request);
 
         $data = array();
@@ -796,23 +800,23 @@ class HomeController extends Controller
 
         if( $request->form == 'form3' )
         {
-            
+
             if( $request->full_name == '' )
             {
                 $data['full_name'] = 'Name should not be empty';
             }
-            
+
             elseif( strlen( $request->full_name ) == 2 )
             {
                 $data['full_name'] = 'Minimum Length should be two charecters';
             }
-            
+
             if($request->position_title != '')
             {
                 if( strlen( $request->position_title ) == 2 )
                 {
                     $data['position_title'] = 'Minimum length should be two charecters';
-                }   
+                }
             }
             if( $request->company_name != '' )
             {
@@ -850,8 +854,8 @@ class HomeController extends Controller
             {
                 $data['company_email'] = 'Email should not be empty';
             }
-            
-            elseif( filter_var( $request->company_email, FILTER_VALIDATE_EMAIL ) === false ) 
+
+            elseif( filter_var( $request->company_email, FILTER_VALIDATE_EMAIL ) === false )
             {
                 $data['company_email'] = 'Email not valid';
             }
@@ -876,10 +880,10 @@ class HomeController extends Controller
                 $data['linkedin_url'] = 'Linkedin url should not be empty';
             }
 
-            elseif( filter_var( $request->linkedin_url, FILTER_VALIDATE_URL ) === false ) 
+            elseif( filter_var( $request->linkedin_url, FILTER_VALIDATE_URL ) === false )
             {
                 $data['linkedin_url'] = 'Url is not a valid URL';
-            } 
+            }
 
             if( $request->company_url != '' )
             {
@@ -889,8 +893,8 @@ class HomeController extends Controller
             }
         }
 
-        return response()->json($data); 
-    }   
+        return response()->json($data);
+    }
 
     public function getListed(Request $request)
     {
@@ -945,11 +949,11 @@ class HomeController extends Controller
 
         if( $user->save() )
         {
-            return response()->json( ['status'=> 'success'] ); 
+            return response()->json( ['status'=> 'success'] );
         }
         else
         {
-            return response()->json( ['status'=> 'failure'] ); 
+            return response()->json( ['status'=> 'failure'] );
         }
 
     }
@@ -969,38 +973,38 @@ class HomeController extends Controller
 
     public function getReview( Request $request, $company )
     {
-        
-        $data['company'] = Company::find($company); 
-        $data['category'] = Category::All();    
-        
+
+        $data['company'] = Company::find($company);
+        $data['category'] = Category::All();
+
         //$data['size'] = Size::pluck('size','id')->all();
 
         $s = Size::all();
-        
-        foreach ( $s as $value ) 
+
+        foreach ( $s as $value )
         {
             $b = explode('-',$value->size);
-            $size[$b[0]] = $value; 
+            $size[$b[0]] = $value;
         }
 
         ksort($size);
-        
+
         //dd($size);
-        
+
         $data['size'] = $size;
-        
-        //$data['budget'] = Budget::pluck('budget','id')->all(); 
+
+        //$data['budget'] = Budget::pluck('budget','id')->all();
 
         $bud = Budget::all();
         foreach ($bud as $value) {
             $b = explode('-',$value->budget);
-            $budget[$b[0]] = $value; 
+            $budget[$b[0]] = $value;
         }
         ksort($budget);
         //dd($budget);
         $data['budget'] = $budget;
-        
-        $data['attribution'] = Attribution::All(); 
+
+        $data['attribution'] = Attribution::All();
 
         $data['countries']     = Country::All();
 
@@ -1011,13 +1015,13 @@ class HomeController extends Controller
     {
 
         $inputs = array();
-        
+
         $inputs['company_id']               = $request->company_id;
         $inputs['user_id']                  = $request->user_id;
-        
+
 
         # Step 1
-        
+
         $inputs['project_type']             = $request->project_type;
         $inputs['project_title']            = $request->project_title;
         $inputs['company_type']             = $request->company_type;
@@ -1038,10 +1042,10 @@ class HomeController extends Controller
         $inputs['most_impressive']          = $request->most_impressive;
         $inputs['area_of_improvements']     = $request->area_of_improvements;
 
-        
+
         $inputs['quality']                  = $request->quality;
         $inputs['quality_review']           = $request->quality_review;
-        
+
         $inputs['timeliness']               = $request->timeliness;
         $inputs['timeliness_review']        = $request->timeliness_review;
 
@@ -1062,7 +1066,7 @@ class HomeController extends Controller
 
         $inputs['overall_rating']           = $request->overall_rating;
         $inputs['overall_rating_review']    = $request->overall_rating_review;
-        
+
 
         #DONE
 
@@ -1081,7 +1085,7 @@ class HomeController extends Controller
         $inputs['company_url']              = $request->company_url;
 
         CompanyReview::create( $inputs );
-        
+
         return response()->json( $inputs );
 
     }
@@ -1090,7 +1094,7 @@ class HomeController extends Controller
     {
         return view('home.contact');
     }
-    
+
     public function sendContactEmail( Request $request )
     {
 
@@ -1099,7 +1103,7 @@ class HomeController extends Controller
                                 'first_name'    => 'required',
                                 'last_name'     => 'required',
                                 'email'         => 'required|email',
-                                'phone'         => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:14',                        
+                                'phone'         => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:14',
                           ]);
 
 
@@ -1109,7 +1113,7 @@ class HomeController extends Controller
         $inputs['last_name']      = $request->last_name;
         $inputs['email']          = $request->email;
         $inputs['phone']          = $request->phone;
-        
+
 
         Contact::create( $inputs );
 
@@ -1134,10 +1138,10 @@ class HomeController extends Controller
 
     public function send_email_to_reviewer( Request $request )
     {
-    
+
         $inputs['email']          = $request->email;
         $inputs['email_subject']  = $request->email_subject;
-        $inputs['email_content']  = html_entity_decode( $request->email_content, ENT_QUOTES, "ISO-8859-1" ); 
+        $inputs['email_content']  = html_entity_decode( $request->email_content, ENT_QUOTES, "ISO-8859-1" );
 
         ReviewerEmailLog::create( $inputs );
 
@@ -1166,9 +1170,9 @@ class HomeController extends Controller
     // {
 
     //     $request->validate( [ 'email'  => 'required|email' ] );
-        
+
     //     $inputs['email']      = $request->email;
-    
+
     //     Newsletters::create( $inputs );
 
     //     return back()->with( 'newsuccess', 'Thanks.. You have been subscribed successfully.' );
@@ -1182,8 +1186,8 @@ class HomeController extends Controller
     $inputs['email'] = $request->email;
     Newsletters::create($inputs);
 
-    return redirect()->to(url()->previous() . '#newsletter-section')->with('newsuccess', 'Thanks.. You have been subscribed successfully.');
+    return redirect()->to(url()->previous() . '#success-msg')->with('newsuccess', 'Thanks.. You have been subscribed successfully.');
 }
 
-    
+
 }

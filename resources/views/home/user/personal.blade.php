@@ -6,7 +6,7 @@
     <div class="container ">
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-8 mx-auto text-center">   
+                <div class="col-md-8 mx-auto text-center">
                     <h2>EDIT PROFILE</h2>
                     <h3><strong class="card-title text-black" style="">Logged In With : {{auth()->user()->email ?? ''}} </strong></h3>
                     <p class="flashmsg"> @if(Session::has('message'))
@@ -20,16 +20,16 @@
         </div>
     </div>
 </section>
-<section class="formbox container">
+<section class="formbox container mt-3">
     <div class="row  ">
         <div class="col-lg-12">
-            <div class="col-lg-12  form-size">  
+            <div class="col-lg-12  form-size">
                 <!--<form action="/action_page.php" class="was-validated">-->
                 <form role="form" name="addPer" id="addPer" class="" action="{{route('user.savePersonal',auth()->user()->id)}}" method="post" enctype="multipart/form-data">
-                    @csrf    
+                    @csrf
                     <input type="hidden" name="form" value="personal">
                     <input type="hidden" id="oldAvatar" name="oldAvatar" value="{{auth()->user()->avatar ?? ''}}">
-                    <h4><strong class="card-title" >Personal Information</strong></h4> 
+                    <h4><strong class="card-title" >Personal Information</strong></h4>
                     <div class="pt-4 file-field">
                         <img src="{{ isset(auth()->user()->avatar) ? auth()->user()->avatar : asset('front_components/images/user1.png') }}" width="40" height="40" style="border-radius:25px;">
                         <input type="file" class=" rmvId" id="avatar" name="avatar">
@@ -60,7 +60,7 @@
                         <div class="invalid-feedback email rmvCls"></div>
                     </div>
 
-                    <h4 class="pt-4"><strong class="card-title">About</strong></h4> 
+                    <h4 class="pt-4"><strong class="card-title">About</strong></h4>
                     <div class="form-group pt-4">
                         <label for="twitter">Twitter</label>
                         <input type="text" class="form-control rmvId" id="twitter" name="twitter" value="{{auth()->user()->twitter ?? '' }}" placeholder="https://twitter.com/jondoe">
@@ -72,12 +72,12 @@
                         <input type="text" class="form-control rmvId" id="linkedin" name="linkedin" value="{{auth()->user()->linkedin ?? '' }}" placeholder="https://linkedin.com/jondoe">
                         <div class="invalid-feedback linkedin rmvId"></div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="bio">Bio</label>
                         <textarea name="bio" id="bio-dd" cols="50" rows="5" class="form-control rmvId">{{auth()->user()->bio ?? '' }}</textarea>
                         <div class="invalid-feedback bio rmvCls"></div>
-                    </div>                                                        
+                    </div>
                     <div class="card-footer">
                         <!--<button type="submit" class="btn btn-sm btn-primary">Save Changes</button>-->
                         <button type="button" class="btn btn-sm btn-primary" onclick="checkValue()">Save Changes</button>
@@ -86,13 +86,13 @@
             </div>
         </div>
     </div>
-</section>                        
+</section>
 @endsection
 
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript">      
-    $('.date').datepicker({  
+<script type="text/javascript">
+    $('.date').datepicker({
        format: 'mm-dd-yyyy'
     });
 
@@ -127,10 +127,10 @@
                         $(".alert").html('');
                         $(".alert").removeClass('alert-success');
                         $(".alert").removeClass('alert-danger');
-                        $("html, body").animate({ scrollTop: "0" }); 
+                        $("html, body").animate({ scrollTop: "0" });
                     }else{
                         $("#addPer").submit();
-                    }    
+                    }
                 },
                 error: function(result){
                     console.log("error");
@@ -139,7 +139,7 @@
 
             });
         }
-    });    
+    });
 
 </script>
 @endsection
