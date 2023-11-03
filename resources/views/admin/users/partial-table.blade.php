@@ -1,7 +1,8 @@
 @foreach($users as $user)
     <tr>
         <td>{{ $loop->iteration }}</td>
-        <td>{{ $user->name }}</td>
+        <th><a href="{{ route('admin.users.edit', ['user' => $user->id]) }}">{{ $user->name }}</a></th>
+
         <td>{{ $user->email }}</td>
         <td>{{ $user->mobile }}</td>
         <td><img src="{{ asset('path-to-your-images-directory/' . $user->image) }}" alt="{{ $user->name }}" width="50"></td>

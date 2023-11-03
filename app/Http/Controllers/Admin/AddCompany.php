@@ -40,11 +40,17 @@ class AddCompany extends Controller
 
     public function add_company_and_user( $user_id = null, $company_id = null )
     {
-        $budgets     = Budget::pluck( 'budget', 'id' )->all();
+        $budgets = Budget::pluck('budget', 'id')->map(function ($value) {
+            return '$' . $value;
+        })->all();
 
-        $rates       = Rate::pluck( 'rate', 'id' )->all();
+        $rates = Rate::pluck('rate', 'id')->map(function ($value) {
+            return '$' . $value;
+        })->all();
 
         $sizes       = Size::pluck( 'size', 'id' )->all();
+
+
 
         if( $user_id !== null && $company_id !== null )
         {
@@ -58,6 +64,7 @@ class AddCompany extends Controller
         }
 
 
+        
         return view( 'admin.company.add_company', [ 
                                                             'budgets'   => $budgets, 
                                                             'rates'     => $rates, 
