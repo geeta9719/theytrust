@@ -1,6 +1,7 @@
 @extends('layouts.home-master')
 @section('content')
 <?php 
+
 $reviews = array( 1, 3, 5, 10, 15, 20 );
 $ratings = array( 1, 2, 3, 4, 5 );
 if( isset( $_REQUEST['location'] ) && !empty( $_REQUEST['location'] ) )
