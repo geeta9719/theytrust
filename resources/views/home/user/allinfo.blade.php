@@ -17,7 +17,7 @@ else
 .basicbox{
     background-color: #e8edf0;
     padding: 70px 0;
-    margin-top: -150px;
+    /* margin-top: -150px; */
     margin-bottom: 150px;
 }
 .basicbox  .boxcss {
