@@ -1,7 +1,6 @@
 @extends('layouts.home-master')
 @section('content')
 <?php 
-
 $reviews = array( 1, 3, 5, 10, 15, 20 );
 $ratings = array( 1, 2, 3, 4, 5 );
 if( isset( $_REQUEST['location'] ) && !empty( $_REQUEST['location'] ) )
@@ -286,9 +285,7 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
                                     
                             </div>
                             @isset($cmp->id)
-                            <a href="{{ url( 'profile/'.$cmp->id ) }}" target="_blank" class="">
-                            <h3>{{$rate_review[$cmp->id]->review}} REVIEWS</h3>
-                            </a>
+                            <a href="{{ url('profile/'.$cmp->id) }}#reviewsec" target="_blank" class=""> <h3>{{$rate_review[$cmp->id]->review}} REVIEWS</h3> </a>
                             @endisset
                         </div>
 

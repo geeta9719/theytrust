@@ -80,7 +80,7 @@ html {
     z-index: 15;
     max-width: 300px;
     overflow: auto;
-    height: 225px;
+    height: 244px;
 }
 .card-body {
     padding: 0 !important;
@@ -90,13 +90,13 @@ html {
     color: #fff;
     font-size: 15px;
     font-weight: 600;
-    padding: 12px 0;
+    padding: 9px 0 9px 0;
     margin: 0;
     border-bottom: 1px solid #2a93e6;
 }
 .card-body a {
     display: block;
-    padding: 15px 0 !important;
+    padding: 22px 0 !important;
     color: #0087f2;
     background-color: #fff;
     font-size: 13px;
@@ -565,7 +565,8 @@ margin: auto;
     margin-right: 5px;
 }
 .graph-sec h3 {
-    font-size: 25px;
+    font-size: 18px;
+    text-transform: capitalize;
 }
 .graph-sec p {
     font-size: 12px;
@@ -593,6 +594,7 @@ margin: auto;
 }
 .verified-sec img {
     display: block;
+    margin-bottom: 11px;
 }
 .email-sec span{margin-top: 10px;}
 .locationbox a {
@@ -656,7 +658,10 @@ line-height:33px;
 
             font-size: 20px;}
 
-
+            /* .select2-container--default .select2-selection--single {
+                
+                width: 77%;
+            } */
 
 @media (max-width:600px) {
     .graph-sec .links a:nth-child(2) {
@@ -1474,7 +1479,7 @@ color:#388cff;
     width: 1160px;
     background-color: #fff;
     border: 1px solid #ccc;
-    margin-top: -194px;
+    /* margin-top: -194px; */
     padding: 40px 0;
     margin-bottom: 40px;
     box-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
@@ -1754,6 +1759,42 @@ color:#388cff;
     height: auto;
 }
 @media (max-width:767px) {
+    .graph-sec h3 {
+        font-size: 14px;
+        text-transform: capitalize;
+        font-weight: bold;
+    }
+#navbarSupportedContent{
+    
+
+    background-color: #c4d1e8;
+}
+#navbarSupportedContent .nav-link {
+    margin-left: -132px;
+}
+#navbarSupportedContent .dropdown-toggle{
+    margin-left: 0px;
+}
+    .dropdown-menu {
+        left:-159px!important;
+        float: none!important;
+        min-width: 17rem!important;
+        padding: 0.5rem 0;
+        margin: auto!important;
+        right: 0!important;
+        /* clear: both; */
+        border: 1px solid #c4d1e8!important;
+    }
+
+
+
+
+
+
+
+
+
+
 
 .provider-sec {
     border-radius: 10px;

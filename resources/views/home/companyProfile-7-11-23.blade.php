@@ -1,7 +1,5 @@
 @extends('layouts.home-master')
 @section('content')
-
-
 <!-- listing section start -->
 <section class="container-fluid list-top">
     <div class=" container">
@@ -100,59 +98,6 @@
             </div>
         </div>
 </section>
-<!--THE Review sticky section -->
-<style>
-.sticky{
-    position: fixed;
-    top: 45%;
-    width: 16%;
-    border: 1px solid #388cff;
-    padding: 10px 30px;
-    left: 3px;
-    background-color: #388cffcf;
-    z-index: 999;
-    border-radius: 12px;
-    color: #fff;
-}
-.sticky h2{
-    font-size:16px;
-    color:#000;
-    font-weight:bold;
-}
-.sticky p{
-    font-size:14px; 
-    color:#fff; 
-}
-
-
-@media (max-width: 767px)
-{
-    .sticky {
-    width: 52%;}
-
-}
-
-
-
-
-
-
-
-
-
-
-</style>
-
-<div class="sticky">
-    <h2>THE REVIEW </h2>
-    <p>Background</p>
-    <p>Challenge</p>
-    <p>Solution</p>
-    <p>Results</p>
-    <p>Ratings</p>
-</div>
-<!--THE Review sticky section -->
-
 <section class="container-fluid mt-5 mb-5 focus-sec">
     <div class=" container">
         <div class="row">
@@ -324,14 +269,14 @@
                     @endforeach
                 @endif
             </div>
-                    <div class="col-xl-4  pl-md-5 mt-xl-0 mt-5 focus-box" >
-                        <h3 id="reviewsec"><a href="{{ route('claim-your-profile', $company->user_id ) }}" class="btn btn-lg btn-primary">Claim Your Profile</a></h3>
+                    <div class="col-xl-4  pl-md-5 mt-xl-0 mt-5 focus-box">
+                        <h3><a href="{{ route('claim-your-profile', $company->user_id ) }}" class="btn btn-lg btn-primary">Claim Your Profile</a></h3>
                     </div>
                 </div>
             </div>
         </div>
 </section>
-<section class="container-fluid mt-5 mb-5 review-sec" >
+<section class="container-fluid mt-5 mb-5 review-sec">
     <div class=" container">
         <div class="row graph-sec">
             <div class="col-lg-12 col-md-7  pl-md-4">
@@ -432,9 +377,9 @@
                             Quality: {{ $val->quality }}/5                </br>
                             Timeliness: {{ $val->timeliness }}          </br>
                             Cost: {{ $val->cost }}                      </br>
-                            Communication: {{ $val->communication }}/5    </br>
-                            Expertise: {{ $val->expertise }}/5           </br>
-                            Ease of working: {{ $val->ease_of_working }}/5 </br>
+                            Communication: {{ $val->communication }}    </br>
+                            Expertise: {{ $val->expertise }}            </br>
+                            Ease of working: {{ $val->ease_of_working }}</br>
                             Refer-ability: {{ $val->refer_ability }}
                         </p>
                     </div>

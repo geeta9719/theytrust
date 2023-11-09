@@ -55,7 +55,7 @@ if(Auth::check())
             <div class="d-block d-xl-none">
             @if(!Auth::check())
             <a class="nav-link brdnone modal-signin px-0" href="#"  data-toggle="modal" data-target="#singin-modal">
-            <img src="{{asset('front_components/images/user-login.png')}}" alt="">
+            <img src="https://theytrust-us.developmentserver.info/front_components/images/user1.png" alt="">
             </a>
                     @else
                     <li class="nav-item dropdown">

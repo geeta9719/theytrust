@@ -53,7 +53,9 @@ class AuthController extends Controller
 
             $user                   = Socialite::driver('linkedin2')->user();
             $user_id_to_be_claimed  = Session::get('claim_profile_id');
-    dd($$user_id_to_be_claimed);
+
+    #dd($$user_id_to_be_claimed);
+
             Session::forget( 'claim_profile_id' );
 
             if( !empty( $user_id_to_be_claimed ) )
