@@ -47,9 +47,16 @@ class AuthController extends Controller
 
 
     public function handleLinkedinCalimYourProfile()
+{
+    try 
     {
-        try 
+        $user = Socialite::driver('linkedin2')->user();
+        $user_id_to_be_claimed = Session::get('claim_profile_id');
+        Session::forget('claim_profile_id');
+
+        if (!empty($user_id_to_be_claimed)) 
         {
+            $user_to_be_claimed = User::where('id', $user_id_to_be_claimed)->first();
 
             $user                   = Socialite::driver('linkedin2')->user();
             $user_id_to_be_claimed  = Session::get('claim_profile_id');
@@ -60,38 +67,41 @@ class AuthController extends Controller
 
             if( !empty( $user_id_to_be_claimed ) )
             {
-                
-                $user_to_be_claimed    = User::where( 'id', $user_id_to_be_claimed )->first();
+                // Check if the claimed LinkedIn user's email already exists
+                $existingUser = User::where('email', $user->email)->first();
+                if ($existingUser && $existingUser->id !== $user_id_to_be_claimed) {
+                    // An existing user with the same email has already claimed the profile
+                    return redirect(url('/error'))->with('message', 'This email has already been claimed by another user.');
+                }
 
-                if( $user_to_be_claimed )
+                $user_to_be_claimed->name = $user->name;
+                $user_to_be_claimed->email = $user->email;
+                $user_to_be_claimed->linkedin_id = $user->id;
+                $user_to_be_claimed->first_name = $user->first_name;
+                $user_to_be_claimed->last_name = $user->last_name;
+                $user_to_be_claimed->avatar = $user->avatar;
+                $user_to_be_claimed->role = 2;
+                $user_to_be_claimed->slug = 'User';
+
+                if ($user_to_be_claimed->save()) 
                 {
-                    $user_to_be_claimed->name           = $user->name;
-                    $user_to_be_claimed->email          = $user->email;
-                    $user_to_be_claimed->linkedin_id    = $user->id;
-                    $user_to_be_claimed->first_name     = $user->first_name;
-                    $user_to_be_claimed->last_name      = $user->last_name;
-                    $user_to_be_claimed->avatar         = $user->avatar;
-                    $user_to_be_claimed->role           = 2;
-                    $user_to_be_claimed->slug           = 'User';
-
-                    if( $user_to_be_claimed->save() )
-                    {
-                        $company = Company::where( 'user_id', $user_id_to_be_claimed )->first();
-                        Auth::login( $user_to_be_claimed );
-                        return redirect( url( '/company/'.$company->id.'/dashboard' ) )->with( 'message', 'Yay.. You have successfully claimed this profile.' ); 
-                    }
-                    else
-                    {
-                         return redirect( url( '/error' ) );
-                    }
+                    $company = Company::where('user_id', $user_id_to_be_claimed)->first();
+                    Auth::login($user_to_be_claimed);
+                    return redirect(url('/company/' . $company->id . '/dashboard'))->with('message', 'Yay.. You have successfully claimed this profile.');
+                } 
+                else 
+                {
+                    return redirect(url('/error'));
                 }
             }
-        } 
-        catch ( Exception $e ) 
-        {
-            dd( $e->getMessage() ); 
         }
+    } 
+    catch (Exception $e) 
+    {
+        dd($e->getMessage());
     }
+}
+
 
 /* --------------------------------------------------------------------------------- */
 

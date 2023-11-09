@@ -11,6 +11,24 @@ use App\Models\Country;
 use App\Models\State;
 use App\Models\City;
 use Illuminate\Support\Facades\DB;
+use App\Models\Size;
+use App\Models\Subcategory;
+use App\Mail\SendMail;
+use App\Mail\ContactMail;
+use App\Models\Budget;
+use App\Models\Rate;
+
+use App\Models\Attribution;
+use App\Models\Industry;
+
+use App\Models\Address;
+
+
+
+
+use App\Models\Contact;
+use App\Models\Newsletters;
+use App\Models\ReviewerEmailLog;
 
 
 class CompanyController extends Controller
@@ -89,6 +107,75 @@ class CompanyController extends Controller
 		return view('admin.company.viewreviews', $data);
 	}
 
+    public function edit_review($viewreview)
+{
+
+    // $data['company'] = Company::find($company);
+        $data['category'] = Category::All();
+
+        //$data['size'] = Size::pluck('size','id')->all();
+
+        $s = Size::all();
+
+        foreach ( $s as $value )
+        {
+            $b = explode('-',$value->size);
+            $size[$b[0]] = $value;
+        }
+
+        ksort($size);
+
+        //dd($size);
+
+        $data['size'] = $size;
+
+        //$data['budget'] = Budget::pluck('budget','id')->all();
+
+        $bud = Budget::all();
+        foreach ($bud as $value) {
+            $b = explode('-',$value->budget);
+            $budget[$b[0]] = $value;
+        }
+        ksort($budget);
+        //dd($budget);
+        $data['budget'] = $budget;
+
+        $data['attribution'] = Attribution::All();
+
+        $data['countries']     = Country::All();
+    // Fetch the review you want to edit, for example, assuming you have a 'Review' model:
+      $data['review'] = CompanyReview::find($viewreview);
+
+    // Check if the review exists
+    if (!$data['review']) {
+        return abort(404); 
+    }
+    return view('admin.company.edit_review', ['data' => $data]);
+}
+
+public function update_review(Request $request, $id)
+{
+    // Validation rules for all fields
+    $validatedData = $request->validate([
+        'company_name' => 'required|string',
+        'project_type' => 'required|string',
+        'project_title' => 'required|string',
+        'company_type' => 'required|string',
+        'cost_range' => 'required|string',
+        'project_start' => 'required|date',
+        'project_end' => 'required|date',
+        'company_position' => 'required|string'
+    ]);
+
+    // Find the review by its ID
+    $review = CompanyReview::find($id);
+
+    // Update the review with the validated data
+    $review->update($validatedData);
+    return redirect()->route('admin.company.review')->with('success', 'Review updated successfully');
+}
+
+
     public function publish_review( Request $request )
     {
         $review             = CompanyReview::find($request->id);
@@ -155,24 +242,24 @@ public function users_list(Request $request)
 
     public function users_update(Request $request, $user_id){
         $user = User::find($user_id);
-    
-        $inputs = request()->validate([
-            'email' => 'required|email',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // image validation
-        ]);
-    
-        $user->email = $inputs['email'];
-        $user->first_name = $inputs['first_name'];
-        $user->last_name = $inputs['last_name'];
-        $user->company = $request['company'];
-        $user->bio = $request['bio'];
-        $user->mobile = $request['mobile'];
         
-    
+            $inputs = request()->validate([
+                'email' => 'required|email',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // image validation
+            ]);
+        
+            $user->email = $inputs['email'];
+            $user->first_name = $inputs['first_name'];
+            $user->last_name = $inputs['last_name'];
+            $user->company = $request['company'];
+            $user->bio = $request['bio'];
+            $user->mobile = $request['mobile'];
+            
+        
         if ($request->hasFile('image')) {
-            // Remove the old image from storage if it exists
+                        // Remove the old image from storage if it exists
             if ($user->image) {
                 Storage::delete($user->image);
             }
@@ -194,7 +281,8 @@ public function users_list(Request $request)
             $user->delete();
             return redirect()->route('admin.users.list')->with('msg', 'User successfully deleted!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('message', 'Failed to delete the user. Error: ' . $e->getMessage());
+            return redirect()->back()->with('ZSmessage', 'Failed to delete the user. Error: ' . $e->getMessage());
         }
     }
 }
+            

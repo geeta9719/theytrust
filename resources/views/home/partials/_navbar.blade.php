@@ -162,7 +162,9 @@ if(Auth::check())
             </div>
             <div class="right-section d-lg-none d-xl-flex">
             <div class="input-group">
-                <input type="text" class="form-control search" name="search" id="search"  placeholder="Search" onkeyup="search()">
+            <input type="text" class="form-control search" name="search" id="search1" placeholder="Sedarch">
+            <div class="srcbxc"></div>
+
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-search"></i></span>
                 </div>
@@ -203,6 +205,50 @@ if(Auth::check())
             }
         });
     });
+    $(document).ready(function () {
+    var header = $(".header-container");
+    var offset = header.offset().top;
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > offset) {
+            header.addClass("fixed-header");
+        } else {
+            header.removeClass("fixed-header");
+        }
+    });
+
+    // Bind the input event for the search field
+    $("#search1").on('input', function () {
+        // debugger;
+        search1();
+    });
+
+    function search1() {
+        console.log("asdfsdf");
+        var term = $("#search1").val();
+        if (term.length >= 3) {
+            $.ajax({
+                url: "{{ route('get-search-list') }}", // Update with the correct route
+                type: "GET",
+                data: { term: term, _token: $('meta[name="csrf-token"]').attr('content') },
+                success: function (result) {
+                    console.log(result);
+                    $(".srcbxc").html(result);
+                    $(".srcbxc").show();
+                }
+            });
+        } else {
+            $(".srcbxc").hide();
+        }
+    }
+
+    $("body").click(function (e) {
+        if (!$(e.target).hasClass('srcbxc')) {
+            $(".srcbxc").hide();
+        }
+    });
+});
+
 </script>
 <script>
     // $(document).ready(function () {

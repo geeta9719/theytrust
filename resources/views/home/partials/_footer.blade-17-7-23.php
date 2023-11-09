@@ -7,8 +7,11 @@
 var search;
 $(document).ready(function(){
     search = function(){
+        debugger;
         var term = $("#search").val();  
+        console.log("ASdfasdf");
         if(term.length >= 3){
+        
             $.ajax({
                 url:"{{url('get-search-list')}}",
                 type: "GET",

@@ -214,6 +214,9 @@ Route::middleware('auth')->group(function(){
         
         Route::get('admin/company/review', [CompanyController::class, 'company_review'])->name('admin.company.review');
         Route::get('admin/company/{viewreview}/viewreview', [CompanyController::class, 'view_reviews'])->name('admin.company.viewreview');
+        Route::get('admin/company/{viewreview}/edit', [CompanyController::class, 'edit_review'])->name('admin.company.editreview');
+        Route::put('admin/company/{viewreview}/update', [CompanyController::class, 'update_review'])->name('admin.company.update');
+
         Route::post('admin/publish-review', [CompanyController::class, 'publish_review'])->name('admin.publish_review');
         Route::post('admin/publish-all-review', [CompanyController::class, 'publish_all_review'])->name('admin.publish_all_review');
         Route::get('admin/review/{review}/edit', [CompanyController::class, 'review_edit'])->name('admin.review.edit');
