@@ -109,16 +109,16 @@
                             <img src="{{asset('front_components/images/icon2.png')}}" alt="" class="img-fluid iconimg">
                             <h3><a href="/directory/development">Development</a></h3>
                             <hr>
-                            <h4><a href="/directory/ar%20&%20vr%20development">AR and VR Development</a></h4>
+                            <h4><a href="/directory/ar-&-vr-development">AR and VR Development</a></h4>
                             <p>Unlock the potential of Augmented Reality (AR) and Virtual Reality (VR) with our expert
                                 AR/VR development services.
                             </p>
                             <hr>
-                            <h4><a href="/directory/android%20app%20development">Android App Development</a></h4>
+                            <h4><a href="/directory/android-app-development">Android App Development</a></h4>
                             <p>Establish a unique and memorable brand identity that reflects your values and resonates
                                 with your target audience.</p>
                             <hr>
-                            <h4><a href="/directory/artificial%20intelligence">Artificial Intelligence</a></h4>
+                            <h4><a href="/directory/artificial-intelligence">Artificial Intelligence</a></h4>
                             <p>Harness the power of AI to revolutionise your business and drive innovation.
                             </p>
                             <a href="/directory/development"><img src="{{asset('front_components/images/btn.png')}}" alt="" class="img-fluid iconbtn mt-0"></a>
@@ -134,17 +134,17 @@
                             <h3><a href="/directory/supply-chain-&-logistics">Supply Chain and
                                 Logistics</a></h3>
                             <hr>
-                            <h4><a href="/directory/air%20freight">Air Freight</a></h4>
+                            <h4><a href="/directory/air-freight">Air Freight</a></h4>
                             <p>Fast and reliable transportation of goods by air to meet urgent delivery requirements and
                                 optimise supply chain efficiency.
                             </p>
                             <hr>
-                            <h4><a href="/directory/container%20shipping">Container Shipping</a></h4>
+                            <h4><a href="/directory/container-shipping">Container Shipping</a></h4>
                             <p>Secure and efficient shipping of goods in standardised containers, providing
                                 cost-effective and scalable logistics solutions.
                             </p>
                             <hr>
-                            <h4><a href="/directory/custom%20brokerage">Custom Brokerage</a></h4>
+                            <h4><a href="/directory/custom-brokerage">Custom Brokerage</a></h4>
                             <p>Expert assistance navigating complex customs regulations and procedures, ensuring smooth
                                 clearance and compliance for international trade transactions.</p>
                             <a href="/directory/supply-chain-&-logistics"><img src="{{asset('front_components/images/btn.png')}}" alt="" class="img-fluid iconbtn"></a>
@@ -166,7 +166,7 @@
                             <p>Accurate and efficient tracking of financial transactions to ensure precise financial
                                 records.</p>
                             <hr>
-                            <h4> <a href="/directory/forensic%20accounting">Forensic Accounting</a></h4>
+                            <h4> <a href="/directory/forensic-accounting">Forensic Accounting</a></h4>
                             <p>Expert analysis and investigation to uncover financial fraud and provide litigation
                                 support.
                             </p>
