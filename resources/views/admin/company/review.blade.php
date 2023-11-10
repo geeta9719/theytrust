@@ -73,7 +73,9 @@
                                         <td>{{date('d-m-Y H:i:s',strtotime($review->created_at))}}</td>
                                         <td nowrap>
                                             <a href="{{route('admin.company.viewreview', $review->id)}}" class="btn btn-sm btn-primary" id="vuew_reviews">View</a>
-											<a href="{{route('admin.review.edit',$review->id)}}" class="btn btn-sm btn-primary viewBtn" id="viewhBtn_{{$review->id}}">Update</a>
+                                            
+                                            <a href="{{ route('admin.company.editreview', $review->id) }}" class="btn btn-sm btn-warning" id="edit_review">Edit</a>
+				                            <a href="{{route('admin.review.edit',$review->id)}}" class="btn btn-sm btn-primary viewBtn" id="viewhBtn_{{$review->id}}">Update</a>
                                             <a href="javascript:void(0)" class="btn btn-sm btn-primary publishBtn" id="publishBtn_{{$review->id}}" onclick="publish({{$review->id}})">{{$btnText}}</a>
                                             <a href="javascript:void(0)" class="btn btn-sm btn-primary send-email-model" data-email="{{$review->company_email}}">Reply</button>
                                         </td>

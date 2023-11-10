@@ -240,7 +240,7 @@ class SearchController extends Controller
             $_REQUEST['location']        = $loc;
             $where[] = "addresses.city   = '".$loc."'";
         }
-
+        
         if( !empty( $request->budget ) )
         {
             $where[]= 'companies.budget = "'.$request->budget.'"';
@@ -893,12 +893,22 @@ class SearchController extends Controller
 
     public function companyProfile( Request $request, $company_id )
     {
+
+       
+        // dd($company_id);
         
         $data  = array();
         $focus = array();
 
 
-        $data['company']     = Company::find($company_id);
+        $data['company'] = Company::where('id', $company_id)->first();
+
+        if (!$data['company']) {
+            $cleaned_company_id = str_replace('-', ' ', $company_id);
+            $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
+        }
+
+                    
 
         $data['rate_review'] = DB::table('company_reviews')
                                 ->select('company_id','position_title','most_impressive')

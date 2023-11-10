@@ -123,7 +123,7 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
                                 @foreach($budget as $b)
                                     <?php 
                                         $bb     = explode( '-', $b['budget'] );
-                                        $budd   = '$'. $bb[0] . ' - $' . $bb[1];
+                                        $budd   =  $bb[0] . ' - $' . $bb[1];
                                     ?>
                                     <option <?php if(isset($bud) && $bud == $b['budget']){echo 'selected';} ?> value="{{$b['budget']}}"> {{$budd}} </option>
                                 @endforeach 
@@ -136,7 +136,7 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
                                 @foreach( $rate as $b )
                                 <?php 
                                 $bb = explode('-',$b['rate']);
-                                $rr = '$'.$bb[0].' - $'.$bb[1];
+                                $rr = $bb[0].' - $'.$bb[1];
                                 ?>
                                 <option <?php if(isset($rates) && in_array($b['rate'], $rates) ) { echo 'checked'; } ?> value="{{$b['rate']}}"> {{$rr}} </option>
                                 
@@ -292,8 +292,17 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
                         @endif
 
                         <div class="links">
-                            <a href="{{ url( $cmp->website ) }}" target="_blank" class=""><i class="fa fa-globe mr-1" aria-hidden="true"></i> View Website</a>
-                            <a href="{{ url( 'profile/'.$cmp->id ) }}" target="_blank" class=""><i class="fa fa-user mr-1" aria-hidden="true"></i> View Profile</a>
+                        @php
+    $urlParts = explode('/', request()->path());
+    $parentCategoryName = end($urlParts);
+@endphp
+
+<a href="{{ url($cmp->website) }}?utm_source=theythustus.co&utm_medium=referral&utm_campaign={{ $parentCategoryName }}" target="_blank" class=""><i class="fa fa-globe mr-1" aria-hidden="true"></i> View Website</a>
+
+
+                            <a href="{{ url('profile/' . str_replace('+', '-', html_entity_decode(urlencode($cmp->name)))) }}" target="_blank" class="">
+    <i class="fa fa-user mr-1" aria-hidden="true"></i> View Profile
+</a>                            
                             <a href="{{ url( 'company-contact/'.$cmp->id ) }}" target="_blank" class=""><i class="fa fa-phone mr-1" aria-hidden="true"></i> Contact</a>
                         </div>
                     </div>
