@@ -81,108 +81,110 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
 <section class="container-fluid mt-5 mb-5 list-box">
     <div class=" container">
         <div class="row">
-            <div class="col-lg-3 col-md-5  pr-md-5">
-                <a href="">Clear All</a>
+            <div class="col-lg-3 col-md-5  pr-md-5 side-bar">
+               <div class="inner bg-white p-4 shadow">
+               <a href="">Clear All</a>
 
-                <form id="form2" action="{{ url('directory',[$slug, $place]) }}" method="POST">
-                    @csrf
-                    <input type="hidden" id="sub" name="services[]" value="<?php if(!empty($_REQUEST['services'][0])){echo $subcat[0];} ?>">
-                    <input type="hidden" id="loc" name="location" value="<?php if(!empty($_REQUEST['location'])){echo $loc;} ?>">
-                </form>
+<form id="form2" action="{{ url('directory',[$slug, $place]) }}" method="POST">
+    @csrf
+    <input type="hidden" id="sub" name="services[]" value="<?php if(!empty($_REQUEST['services'][0])){echo $subcat[0];} ?>">
+    <input type="hidden" id="loc" name="location" value="<?php if(!empty($_REQUEST['location'])){echo $loc;} ?>">
+</form>
 
-                <form class="filter-directory" id="form1">
+<form class="filter-directory" id="form1">
 
-                <div class="filter-box mt-2">
-                    <div class="dropbox">
+<div class="filter-box mt-2">
+    <div class="dropbox">
 
-                        <div class="dropinner">
-                            <select id="location" class="location-filter form-control" name="location" onchange="searchCompany()">
-                                <option value="">Select Location</option>
-                                @foreach( $loc_dropdown as $loc_drp  )
-                                    @if( !empty( $loc_drp->city ) )
-                                        <option value="{{ $loc_drp->city }}">{{ $loc_drp->city }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
+        <div class="dropinner">
+            <select id="location" class="location-filter form-control" name="location" onchange="searchCompany()">
+                <option value="">Select Location</option>
+                @foreach( $loc_dropdown as $loc_drp  )
+                    @if( !empty( $loc_drp->city ) )
+                        <option value="{{ $loc_drp->city }}">{{ $loc_drp->city }}</option>
+                    @endif
+                @endforeach
+            </select>
+        </div>
 
-                        <div class="dropinner">
-                            <select id="services" name="services[]" multiple="multiple" onchange="searchCompany()">
-                                <option value="">Select Services</option>
-                                @foreach( $subcategories as $key => $subcategoy )
-                                @if( in_array( $key, $subcat ) )
-                                <option <?php if(isset($subcat) && in_array($key, $subcat)){echo 'selected';}?> value="{{$key}}">{{$subcategoy}}</option>
-                                @endif
-                                @endforeach
-                            </select>
-                        </div>
+        <div class="dropinner servicestxt">
+            <select id="services" name="services[]" multiple="multiple" onchange="searchCompany()">
+                <option value="">Select Services</option>
+                @foreach( $subcategories as $key => $subcategoy )
+                @if( in_array( $key, $subcat ) )
+                <option <?php if(isset($subcat) && in_array($key, $subcat)){echo 'selected';}?> value="{{$key}}">{{$subcategoy}}</option>
+                @endif
+                @endforeach
+            </select>
+        </div>
 
-                        <div class="dropinner">
-                            <select class="form-control dropdown1" id="chk_budget" name="budget" onchange="searchCompany()">
-                                <option value="">Client Budget</option>
-                                @foreach($budget as $b)
-                                    <?php 
-                                        $bb     = explode( '-', $b['budget'] );
-                                        $budd   = '$'. $bb[0] . ' - $' . $bb[1];
-                                    ?>
-                                    <option <?php if(isset($bud) && $bud == $b['budget']){echo 'selected';} ?> value="{{$b['budget']}}"> {{$budd}} </option>
-                                @endforeach 
-                            </select>
-                        </div>
+        <div class="dropinner">
+            <select class="form-control dropdown1" id="chk_budget" name="budget" onchange="searchCompany()">
+                <option value="">Client Budget</option>
+                @foreach($budget as $b)
+                    <?php 
+                        $bb     = explode( '-', $b['budget'] );
+                        $budd   = '$'. $bb[0] . ' - $' . $bb[1];
+                    ?>
+                    <option <?php if(isset($bud) && $bud == $b['budget']){echo 'selected';} ?> value="{{$b['budget']}}"> {{$budd}} </option>
+                @endforeach 
+            </select>
+        </div>
 
-                        <div class="dropinner">
-                            <select class="form-control dropdown1" id="rates" name="rates[]" onchange="searchCompany()">
-                                <option value="">Hourly Rate</option>
-                                @foreach( $rate as $b )
-                                <?php 
-                                $bb = explode('-',$b['rate']);
-                                $rr = '$'.$bb[0].' - $'.$bb[1];
-                                ?>
-                                <option <?php if(isset($rates) && in_array($b['rate'], $rates) ) { echo 'checked'; } ?> value="{{$b['rate']}}"> {{$rr}} </option>
-                                
-                            @endforeach
-                            </select>
-                        </div>
-                        
-                        <div class="dropinner">
-                            <select class="form-control dropdown1" id="industry" multiple="multiple" name="industry[]" onchange="searchCompany()">
-                                <option value="">Industry</option>
-                                @foreach( $industry as $key => $indust )
-                                <option <?php if(isset($ind) && in_array($key, $ind)){echo 'checked';}?> value="{{$key}}"> {{$indust}} </option>
-                                @endforeach
-                            </select>
-                        </div>
+        <div class="dropinner">
+            <select class="form-control dropdown1" id="rates" name="rates[]" onchange="searchCompany()">
+                <option value="">Hourly Rate</option>
+                @foreach( $rate as $b )
+                <?php 
+                $bb = explode('-',$b['rate']);
+                $rr = '$'.$bb[0].' - $'.$bb[1];
+                ?>
+                <option <?php if(isset($rates) && in_array($b['rate'], $rates) ) { echo 'checked'; } ?> value="{{$b['rate']}}"> {{$rr}} </option>
+                
+            @endforeach
+            </select>
+        </div>
+        
+        <div class="dropinner">
+            <select class="form-control dropdown1" id="industry" multiple="multiple" name="industry[]" onchange="searchCompany()">
+                <option value="">Industry</option>
+                @foreach( $industry as $key => $indust )
+                <option <?php if(isset($ind) && in_array($key, $ind)){echo 'checked';}?> value="{{$key}}"> {{$indust}} </option>
+                @endforeach
+            </select>
+        </div>
 
-                        <div class="dropinner">
-                            <select class="form-control dropdown1" id="reviews" name="reviews" onchange="searchCompany()">
-                                <option value="">Reviews</option>
-                                @foreach( $reviews as $key => $review )
-                                <option <?php if( isset( $rev ) && $rev == $review ) { echo 'checked'; } ?> value="{{$review}}"> {{$review}}+ </option>
-                                @endforeach
-                            </select>
-                        </div>
+        <div class="dropinner">
+            <select class="form-control dropdown1" id="reviews" name="reviews" onchange="searchCompany()">
+                <option value="">Reviews</option>
+                @foreach( $reviews as $key => $review )
+                <option <?php if( isset( $rev ) && $rev == $review ) { echo 'checked'; } ?> value="{{$review}}"> {{$review}}+ </option>
+                @endforeach
+            </select>
+        </div>
 
-                        <div class="dropinner">
-                            <select class="form-control dropdown1" id="ratings" name="rating" onchange="searchCompany()">
-                                <option value="">Ratings</option>
-                                
-                                @foreach($ratings as $key=>$rating)
-                                <option <?php if(isset($rat) && $rat == $rating){echo 'checked';}?> value="{{$rating}}">{{$rating}} 
-                                    <span style="color:#ff3b00f2;font-size:35px;font-weight:bolder;padding-top:2px;"> 
-                                        <img src="{{asset('front_components/images/red.png')}}" width="15px;" /> </span>
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+        <div class="dropinner">
+            <select class="form-control dropdown1" id="ratings" name="rating" onchange="searchCompany()">
+                <option value="">Ratings</option>
+                
+                @foreach($ratings as $key=>$rating)
+                <option <?php if(isset($rat) && $rat == $rating){echo 'checked';}?> value="{{$rating}}">{{$rating}} 
+                    <span style="color:#ff3b00f2;font-size:35px;font-weight:bolder;padding-top:2px;"> 
+                        <img src="{{asset('front_components/images/red.png')}}" width="15px;" /> </span>
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-                    </div>
-                </div>
-                </form>
+    </div>
+</div>
+</form>
+               </div>
             </div>
 
 
 
-            <div class="col-lg-9 col-md-7 firm-sec pl-md-4" id="addCompanyList">
+            <div class="col-lg-9 col-md-7 firm-sec p-3 mt-4 mt-md-0 shadow  " id="addCompanyList">
 
                 <div class="firm-box d-lg-flex ">
                     <p class="mr-5">@if($company) {{ $totalRecord }} @else {{0}} @endif Firms</p>
@@ -195,7 +197,7 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
                     
                 @foreach( $company as $key => $cmp )
 
-                <div class="graph-sec row border mx-0 py-4 px-3 align-items-center item{{$key}}">
+                <div class="graph-sec row border mx-0  px-3 align-items-center item{{$key}}">
                     
                     <div class="col-xl-2 col-lg-6 border-right verified-sec pb-3 pb-md-0">
                         <img src="{{ url('storage/'.$cmp->logo) }}" alt="" class="img-fluid ">
@@ -462,6 +464,8 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
 
             </div>
         </div>
+        
+    
 </section>
 @endsection
 
