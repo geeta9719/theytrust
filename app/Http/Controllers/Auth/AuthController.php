@@ -99,7 +99,8 @@ class AuthController extends Controller
     } 
     catch (Exception $e) 
     {
-        // dd($e->getMessage());
+        dd($e,"Asfasdf");
+        dd($e->getMessage());
     }
 }
 
