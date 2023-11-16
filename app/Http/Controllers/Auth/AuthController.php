@@ -50,7 +50,7 @@ class AuthController extends Controller
 {
     try 
     {
-        $user = Socialite::driver('linkedin2')->user();
+        $user = Socialite::driver('linkedin2')->stateless()->user();
         $user_id_to_be_claimed = Session::get('claim_profile_id');
         Session::forget('claim_profile_id');
 
