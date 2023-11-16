@@ -177,15 +177,15 @@
          </div>
 
          <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingThree">
+            <div class="panel-heading" role="tab" id="headingFour">
                 <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                         <i class="more-less glyphicon glyphicon-plus"></i>
                         Who are TheyTrustUs' clients/customers/businesses looking for IT companies to hire?
                     </a>
                 </h4>
             </div>
-            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
                 <div class="panel-body">
                 The TheyTrustUs list identifies the best companies and software in various IT domains based on their results from the research process. There are various categories on TheyTrustUs for outsourcing different services and software solutions. Users can browse the categories with verified reviews. They can even compare the prices of similar products and services different companies offer. Therefore, the task of finding an authenticated service/software online for their businesses is greatly reduced for service/software seekers.
                 </div>
@@ -193,15 +193,15 @@
          </div>
 
          <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingThree">
+            <div class="panel-heading" role="tab" id="headingFive">
                 <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                         <i class="more-less glyphicon glyphicon-plus"></i>
                         What makes TheyTrustUs different from other listing platforms?
                     </a>
                 </h4>
             </div>
-            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
                 <div class="panel-body">
                     <ul>
                         <li>
@@ -225,15 +225,15 @@
 
 
          <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingTwo">
+            <div class="panel-heading" role="tab" id="headingSix">
                 <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
                         <i class="more-less glyphicon glyphicon-plus"></i>
                         What can I do to improve my TheyTrustUs profile?
                     </a>
                 </h4>
             </div>
-            <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
                 <div class="panel-body">
                 You can easily and quickly improve your agency or business' Recommended Rating score by doing the following:
 <ul>
@@ -257,15 +257,15 @@
 
 
         <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingTwo">
+            <div class="panel-heading" role="tab" id="headingSeven">
                 <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
                         <i class="more-less glyphicon glyphicon-plus"></i>
                         What can IT companies or software products do with TheyTrustUs?
                     </a>
                 </h4>
             </div>
-            <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
                 <div class="panel-body">
                 Using TheyTrustUs, businesses can search for online services and software solutions, generating potential web traffic for their websites. Clients and software companies, and products are connected through TheyTrustUs. The possibility of showcasing their work to the right audience can be taken advantage of when IT companies and products register with GoodFirms and leverage this massive exposure to generate leads.
                 </div>

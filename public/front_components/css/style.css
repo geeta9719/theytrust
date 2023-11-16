@@ -9,6 +9,9 @@ html {
 .mapcss{
     margin-right:9px;
 }
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+    background-color: #d9e9f5!important;
+}
 .drop-arrow:after {
     content: url(../images/pluc-icon.png);
 
@@ -464,7 +467,7 @@ select {
 }
 .list-box a {
     color: #000;
-    font-size: 22px;
+    font-size: 14px;
     text-decoration: underline;
 }
 .filter-box .form-control::placeholder {
@@ -472,26 +475,15 @@ select {
     font-weight: 500;
 }
 .filter-box .form-control {
-    /* border: 0px;
-    font-size: 14px;
-    padding: 2px 16px;
+    font-size: 13px;
+    padding: 0 10px;
     border-radius: 0;
-    color: #000 !important;
+    color: #333!important;
     font-weight: bold;
     background-image: url(../images/dropdown-arrows.png);
     background-repeat: no-repeat;
-    background-position: right center; */
-    border: 0px;
-    font-size: 14px;
-    padding: 0px 18px;
-    border-radius: 0;
-    color: #000 !important;
-    font-weight: bold;
-    background-image: url(../images/dropdown-arrows.png);
-    background-repeat: no-repeat;
-    background-position: 97% 17%;
+    background-position: 96%;
     background-size: 5%;
-
 }
 .filter-box option {
     font-size: 14px;
@@ -508,9 +500,29 @@ select {
 .filter-box select {
     font-size: 12px;
 }
-.filter-box .dropbox {
+/* .filter-box .dropbox {
     border: 1px solid #ccc;
+} */
+.side-bar  .select2-selection,
+.side-bar .select2-container {
+width: 100% !important;
 }
+
+.side-bar .select2-selection--multiple {
+    width: 100% !important;
+    border: 1px solid #aaa!important;
+    border-radius: 0!important;
+    font-size: 14px !important;
+ 
+}
+
+.side-bar .select2-selection--single {
+ 
+    font-size: 13px;
+    border-radius: 0 !important;
+}
+
+
 .firmbox h3 {
     color: #000;
     font-size: 32px;
@@ -539,8 +551,9 @@ select {
     padding: 10px 25px;
 }
 .firm-box p {
-    font-size: 22px;
+    font-size: 16px;
     text-decoration: underline;
+    margin-bottom: 0;
 }
 .fullreview{
     margin-bottom: 50px;
@@ -558,14 +571,14 @@ margin: auto;
     padding: 25px 0;
 }
 .graph-sec .icon-box p {
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 5px;
 }
 .graph-sec .icon-box img {
     margin-right: 5px;
 }
 .graph-sec h3 {
-    font-size: 18px;
+    font-size: 16px;
     text-transform: capitalize;
 }
 .graph-sec p {
@@ -594,8 +607,23 @@ margin: auto;
 }
 .verified-sec img {
     display: block;
-    margin-bottom: 11px;
+    margin-bottom: 0;
 }
+
+#addCompanyList .pagination{
+    justify-content: end;
+ 
+    margin-top: 10px;      
+}
+
+#addCompanyList .page-link {
+ 
+    border: 0px solid
+
+}
+
+
+
 .email-sec span{margin-top: 10px;}
 .locationbox a {
     color: #388cff;
@@ -1759,8 +1787,43 @@ color:#388cff;
     height: auto;
 }
 @media (max-width:767px) {
-    .graph-sec h3 {
+    .list-top {
+        
+        padding: 50px 0 50px 0;
+    }
+    .firm-box p {
         font-size: 14px;
+    }
+    /* .shadow .side-bar .select2-selection--multiple{
+        margin-bottom: 10px;
+    } */
+    .shadow .filter-box .form-control{
+        margin-bottom: 10px;
+    }
+    .shadow .select2-container--default  {
+        margin-bottom: 10px;
+    }
+    .shadow .servicestxt {
+        margin-top: 10px;
+    }
+    #piechart103{
+        margin-left: -17px;
+    }
+ 
+    .shadow .select2-selection--multiple{margin-bottom: 10px;}
+    .shadow .dropbox .dropinner{
+        border-bottom: 0px solid #ccc;
+        padding: 0px 0;
+    }
+    .graph-sec .links a {
+        /* font-size: 15px; */
+        font-size: 10px;
+    }
+    .shadow .select2-container {
+        margin-bottom: 0;
+    }
+    .graph-sec h3 {
+        font-size: 13px;
         text-transform: capitalize;
         font-weight: bold;
     }
@@ -2022,7 +2085,7 @@ color:#388cff;
     }
     .select2-container {
 
-        margin-bottom: 20px!important;
+        margin-bottom: 20px;
     }
     .tabview {
         margin-top: 104px;

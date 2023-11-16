@@ -118,41 +118,41 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
             </select>
         </div>
 
-        <div class="dropinner">
-            <select class="form-control dropdown1" id="chk_budget" name="budget" onchange="searchCompany()">
-                <option value="">Client Budget</option>
-                @foreach($budget as $b)
-                    <?php 
-                        $bb     = explode( '-', $b['budget'] );
-                        $budd   = '$'. $bb[0] . ' - $' . $bb[1];
-                    ?>
-                    <option <?php if(isset($bud) && $bud == $b['budget']){echo 'selected';} ?> value="{{$b['budget']}}"> {{$budd}} </option>
-                @endforeach 
-            </select>
-        </div>
+                        <div class="dropinner">
+                            <select class="form-control dropdown1" id="chk_budget" name="budget" onchange="searchCompany()">
+                                <option value="">Client Budget</option>
+                                @foreach($budget as $b)
+                                    <?php 
+                                        $bb     = explode( '-', $b['budget'] );
+                                        $budd   =  $bb[0] . ' - $' . $bb[1];
+                                    ?>
+                                    <option <?php if(isset($bud) && $bud == $b['budget']){echo 'selected';} ?> value="{{$b['budget']}}"> {{$budd}} </option>
+                                @endforeach 
+                            </select>
+                        </div>
 
-        <div class="dropinner">
-            <select class="form-control dropdown1" id="rates" name="rates[]" onchange="searchCompany()">
-                <option value="">Hourly Rate</option>
-                @foreach( $rate as $b )
-                <?php 
-                $bb = explode('-',$b['rate']);
-                $rr = '$'.$bb[0].' - $'.$bb[1];
-                ?>
-                <option <?php if(isset($rates) && in_array($b['rate'], $rates) ) { echo 'checked'; } ?> value="{{$b['rate']}}"> {{$rr}} </option>
-                
-            @endforeach
-            </select>
-        </div>
-        
-        <div class="dropinner">
-            <select class="form-control dropdown1" id="industry" multiple="multiple" name="industry[]" onchange="searchCompany()">
-                <option value="">Industry</option>
-                @foreach( $industry as $key => $indust )
-                <option <?php if(isset($ind) && in_array($key, $ind)){echo 'checked';}?> value="{{$key}}"> {{$indust}} </option>
-                @endforeach
-            </select>
-        </div>
+                        <div class="dropinner">
+                            <select class="form-control dropdown1" id="rates" name="rates[]" onchange="searchCompany()">
+                                <option value="">Hourly Rate</option>
+                                @foreach( $rate as $b )
+                                <?php 
+                                $bb = explode('-',$b['rate']);
+                                $rr = $bb[0].' - $'.$bb[1];
+                                ?>
+                                <option <?php if(isset($rates) && in_array($b['rate'], $rates) ) { echo 'checked'; } ?> value="{{$b['rate']}}"> {{$rr}} </option>
+                                
+                            @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="dropinner">
+                            <select class="form-control dropdown1" id="industry" multiple="multiple" name="industry[]" onchange="searchCompany()">
+                                <option value="">Industry</option>
+                                @foreach( $industry as $key => $indust )
+                                <option <?php if(isset($ind) && in_array($key, $ind)){echo 'checked';}?> value="{{$key}}"> {{$indust}} </option>
+                                @endforeach
+                            </select>
+                        </div>
 
         <div class="dropinner">
             <select class="form-control dropdown1" id="reviews" name="reviews" onchange="searchCompany()">
@@ -209,12 +209,12 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
 
                         <?php
                             $bb   = explode('-',$cmp->budget);
-                            $bbb  = '$'.$bb[0].'+';
+                            $bbb  = $bb[0].'+';
 
                             if( !empty( $cmp->rate ) )
                             {
                                 $rr = explode('-',$cmp->rate);
-                                $rrr = '$'.$rr[0].'-$'.$rr[1];
+                                $rrr = $rr[0].'-$'.$rr[1];
                             }
                             else
                             {
@@ -294,8 +294,17 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
                         @endif
 
                         <div class="links">
-                            <a href="{{ url( $cmp->website ) }}" target="_blank" class=""><i class="fa fa-globe mr-1" aria-hidden="true"></i> View Website</a>
-                            <a href="{{ url( 'profile/'.$cmp->id ) }}" target="_blank" class=""><i class="fa fa-user mr-1" aria-hidden="true"></i> View Profile</a>
+                        @php
+    $urlParts = explode('/', request()->path());
+    $parentCategoryName = end($urlParts);
+@endphp
+
+<a href="{{ url($cmp->website) }}?utm_source=theythustus.co&utm_medium=referral&utm_campaign={{ $parentCategoryName }}" target="_blank" class=""><i class="fa fa-globe mr-1" aria-hidden="true"></i> View Website</a>
+
+
+                            <a href="{{ url('profile/' . str_replace('+', '-', html_entity_decode(urlencode($cmp->name)))) }}" target="_blank" class="">
+    <i class="fa fa-user mr-1" aria-hidden="true"></i> View Profile
+</a>                            
                             <a href="{{ url( 'company-contact/'.$cmp->id ) }}" target="_blank" class=""><i class="fa fa-phone mr-1" aria-hidden="true"></i> Contact</a>
                         </div>
                     </div>
