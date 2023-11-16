@@ -70,6 +70,7 @@ class AuthController extends Controller
                 // Check if the claimed LinkedIn user's email already exists
                 $existingUser = User::where('email', $user->email)->first();
                 if ($existingUser && $existingUser->id !== $user_id_to_be_claimed) {
+                    dd("adfasdf");
                     // An existing user with the same email has already claimed the profile
                     return redirect(url('/error'))->with('message', 'This email has already been claimed by another user.');
                 }
