@@ -1,4 +1,8 @@
-@extends('layouts.home-master')
+@php
+    $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
+@endphp
+@extends($company ? 'layouts.home-master' : 'layouts.home')
+@section('content')
 
 @section('content')
 <script src="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/js/bootstrap-multiselect.js"></script>
