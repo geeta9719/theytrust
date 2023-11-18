@@ -70,7 +70,6 @@ class AuthController extends Controller
             {
                 $existingUser = User::where('email', $user->email)->first();
                 if ($existingUser && $existingUser->id !== $user_id_to_be_claimed) {
-                    dd("asdfasdf");
                     return redirect()->back()->with('message', 'This email has already been claimed by another user.');
 
                 }
@@ -88,7 +87,6 @@ class AuthController extends Controller
                 {
                     $company = Company::where('user_id', $user_id_to_be_claimed)->first();
                     Auth::login($user_to_be_claimed);
-                    dd("eheheheheh");
                     return redirect()->back()->with('message', 'Yay.. You have successfully claimed this profile.');
                 } 
                 else 
