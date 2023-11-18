@@ -86,14 +86,13 @@ class AuthController extends Controller
                 {
                     $company = Company::where('user_id', $user_id_to_be_claimed)->first();
                     Auth::login($user_to_be_claimed);
-                    return redirect(url('/company/' . $company->id . '/dashboard'))->with('message', 'Yay.. You have successfully claimed this profile.');
+                    return redirect()->back()->with('message', 'Yay.. You have successfully claimed this profile.');
                 } 
                 else 
                 {
                     return redirect(url('/error'));
                 }
             }
-            dd("Asdfadsf");
         }
     } 
     catch (Exception $e) 
