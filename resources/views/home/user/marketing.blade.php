@@ -1,3 +1,4 @@
+@php
 $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
     $data = $company ? \App\Models\AdminInfo::where('company_id', $company->id)->first() : null;
 @endphp
