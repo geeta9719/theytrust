@@ -124,7 +124,7 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
                                 @foreach($budget as $b)
                                     <?php 
                                         $bb     = explode( '-', $b['budget'] );
-                                        $budd   =  $bb[0] . ' - $' . $bb[1];
+                                        $budd   =  $bb[0] . ' - ' . $bb[1];
                                     ?>
                                     <option <?php if(isset($bud) && $bud == $b['budget']){echo 'selected';} ?> value="{{$b['budget']}}"> {{$budd}} </option>
                                 @endforeach 
@@ -137,7 +137,7 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
                                 @foreach( $rate as $b )
                                 <?php 
                                 $bb = explode('-',$b['rate']);
-                                $rr = $bb[0].' - $'.$bb[1];
+                                $rr = $bb[0].' - '.$bb[1];
                                 ?>
                                 <option <?php if(isset($rates) && in_array($b['rate'], $rates) ) { echo 'checked'; } ?> value="{{$b['rate']}}"> {{$rr}} </option>
                                 
