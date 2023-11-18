@@ -1,4 +1,7 @@
-@extends('layouts.home-master')
+$company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
+    $admin = $company ? \App\Models\AdminInfo::where('company_id', $company->id)->first() : null;
+@endphp
+@extends($admin ? 'layouts.home-master' : 'layouts.home')
 
 @section('content')
 
