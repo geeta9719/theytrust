@@ -26,7 +26,7 @@ if (Auth::check()) {
                         {{ session()->get('newsuccess') }}
                     </div>
                 @endif
-                <div id="newsletter-section">
+                <!-- <div id="newsletter-section">
                     <form method="post" class="d-flex" action="{{ route('subscribe') }}">
                         @csrf
 
@@ -36,7 +36,7 @@ if (Auth::check()) {
                             value="submit-newsletter">Subscribe</button>
 
                     </form>
-                </div>
+                </div> -->
                 </br>
                 <span>To Recieve Our Updates Via E-mail</span>
                 <!-- <form action="/action_page.php" class="emailbox">
@@ -55,7 +55,7 @@ if (Auth::check()) {
 
                 </span>
                 <h3>ABOUT US</h3>
-                <p>At TheyTrustUs, our goal is to streamline your quest for reputable enterprises and their outstanding offerings through dependable B2B evaluations. Our portal presents an extensive listing of premier businesses spanning diverse sectors. We are committed to equipping you with trustworthy insights and appraisals, empowering you to make 
+                <p>At TheyTrustUs, our goal is to streamline your quest for reputable enterprises and their outstanding offerings through dependable B2B evaluations. Our portal presents an extensive listing of premier businesses spanning diverse sectors. We are committed to equipping you with trustworthy insights and appraisals, empowering you to make At TheyTrustUs, our goal is to streamline your quest for reputable enterprises and their outstanding offerings through dependable B2B evaluations. Our portal presents an extensive listing of premier businesses spanning diverse sectors. We are committed to equipping you with trustworthy insights and appraisals, empowering you to make well-informed choices. Become part of the multitude of content customers who count on us for precise perspectives. Depend on us to link you with the crème de la crème in the industry.
                 </p>
             </div>
 

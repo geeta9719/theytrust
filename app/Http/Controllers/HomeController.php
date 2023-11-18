@@ -911,7 +911,7 @@ function drawChart() {
             }
             else
             {
-                return redirect('sponsorship');
+                return redirect('membership-plans');
                 //return redirect()->route('user.personal');
                 //return view('home.getListed');
             }

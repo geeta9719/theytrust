@@ -56,7 +56,7 @@ Route::get('/get-search', [HomeController::class, 'getSearchList'])->name('get-s
 /*****************Abandoned*******************/
 
 Route::post('/sendCompanycontactEmail', [HomeController::class, 'sendCompanycontactEmail']);
-Route::get('/sponsorship', [HomeController::class, 'getPriceListing']);
+Route::get('/membership-plans', [HomeController::class, 'getPriceListing']);
 Route::get('/company-contact/{company_id}', [HomeController::class, 'companyContact']);
 Route::get('get-listed', [HomeController::class, 'getListed'])->name('get-listed');
 
