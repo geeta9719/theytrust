@@ -77,6 +77,12 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
         <h2>Top <?php if(!empty($_REQUEST['services'][0])){ echo $subcategories[$subcat[0]];} ?> Companies</h2>
     </div>
 </section>
+@if(session('message'))
+    <div class="alert alert-danger">
+        {{ session('message') }}
+    </div>
+@endif
+
 
 <section class="container-fluid mt-5 mb-5 list-box">
     <div class=" container">
