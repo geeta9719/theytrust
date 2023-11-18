@@ -58,10 +58,10 @@ class AuthController extends Controller
         {
             $user_to_be_claimed = User::where('id', $user_id_to_be_claimed)->first();
 
-            $user                   = Socialite::driver('linkedin2')->user();
-            $user_id_to_be_claimed  = Session::get('claim_profile_id');
+            // $user                   = Socialite::driver('linkedin2')->user();
+            // $user_id_to_be_claimed  = Session::get('claim_profile_id');
 
-            dd($user_id_to_be_claimed);
+            // dd($user_id_to_be_claimed);
 
 
             Session::forget( 'claim_profile_id' );
