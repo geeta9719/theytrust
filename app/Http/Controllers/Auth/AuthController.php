@@ -61,12 +61,13 @@ class AuthController extends Controller
             $user                   = Socialite::driver('linkedin2')->user();
             $user_id_to_be_claimed  = Session::get('claim_profile_id');
 
+            dd($user_id_to_be_claimed);
+
 
             Session::forget( 'claim_profile_id' );
 
             if( !empty( $user_id_to_be_claimed ) )
             {
-                // Check if the claimed LinkedIn user's email already exists
                 $existingUser = User::where('email', $user->email)->first();
                 if ($existingUser && $existingUser->id !== $user_id_to_be_claimed) {
                     return redirect()->back()->with('message', 'This email has already been claimed by another user.');
