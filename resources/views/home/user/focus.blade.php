@@ -1,6 +1,12 @@
-@extends('layouts.home-master')
+@php
+    $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
+    $addresses = $company ? \App\Models\ServiceLine::where('company_id', $company->id)->first() : null;
+@endphp
+@extends($addresses ? 'layouts.home-master' : 'layouts.home')
 
 @section('content')
+@section('content')
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <link rel="stylesheet" href="{{asset('front_components/css/focusStyle.css')}}">
@@ -237,6 +243,10 @@
 @endsection
 
 @section('script')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+
 <script>
     var addValue;
     var addInd;
@@ -305,6 +315,7 @@
         }
 
         addInd = function(idd,idd1,cls,cls1){
+            console.log("addInd")
             var hasclass = $("#"+idd1).attr('data-has-class');
             var hasFirst = $("#"+idd1).attr('data-first');
             var arrName = $("#"+idd1).attr('data-name');
@@ -326,6 +337,7 @@
         }
 
         addPercent = function(cls,idd,idd1,name){
+            console.log("addPercent");
             var ss = 0;
             var s = 0;
             $("."+cls).each(function() {

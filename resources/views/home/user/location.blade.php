@@ -1,6 +1,11 @@
-@extends('layouts.home-master')
+@php
+    $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
+    $addresses = $company ? \App\Models\Address::where('company_id', $company->id)->first() : null;
+@endphp
+@extends($addresses ? 'layouts.home-master' : 'layouts.home')
 
 @section('content')
+
 <link rel="stylesheet" href="css/style.css">
 <style>
    .innerformbox{

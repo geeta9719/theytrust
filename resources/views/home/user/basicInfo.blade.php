@@ -1,5 +1,7 @@
-@extends('layouts.home-master')
-
+@php
+    $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
+@endphp
+@extends($company ? 'layouts.home-master' : 'layouts.home')
 @section('content')
 
 <?php
@@ -69,7 +71,7 @@ if(isset($_GET['profile']) && !empty($_GET['profile'])){
                                 @foreach($budget as $b)
                                     <?php 
                                     $bb = explode('-',$b['budget']);
-                                    $bud = '$'.$bb[0].' - $'.$bb[1];
+                                    $bud = $bb[0].' -'.$bb[1];
                                     ?>
                                     <option value="{{ $b['budget'] }}" <?php if(!empty($company->budget)){ echo 'selected';}?> >{{ $bud }}</option>
                                 @endforeach    
@@ -84,7 +86,7 @@ if(isset($_GET['profile']) && !empty($_GET['profile'])){
                                 @foreach($rate as $b)
                                     <?php 
                                     $bb = explode('-',$b['rate']);
-                                    $bud = '$'.$bb[0].' - $'.$bb[1];
+                                    $bud = $bb[0].' -'.$bb[1];
                                     ?>
                                     <option value="{{ $b['rate'] }}" <?php if(!empty($company->rate)){ echo 'selected';}?>>{{ $bud }}</option>
                                 @endforeach    
