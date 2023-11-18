@@ -50,7 +50,7 @@ class AuthController extends Controller
 {
     try 
     {
-        $user = Socialite::driver('linkedin2')->stateless()->user();
+        $user = Socialite::driver('linkedin2')->user();
         $user_id_to_be_claimed = Session::get('claim_profile_id');
         Session::forget('claim_profile_id');
 
@@ -61,7 +61,6 @@ class AuthController extends Controller
             $user                   = Socialite::driver('linkedin2')->user();
             $user_id_to_be_claimed  = Session::get('claim_profile_id');
 
-    #dd($$user_id_to_be_claimed);
 
             Session::forget( 'claim_profile_id' );
 
@@ -93,6 +92,7 @@ class AuthController extends Controller
                     return redirect(url('/error'));
                 }
             }
+            dd("Asdfadsf");
         }
     } 
     catch (Exception $e) 
