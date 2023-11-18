@@ -9,7 +9,7 @@
 
         @yield('content')
         
-        
+        @include('home.partials._foot2')
         @include('home.partials._footer')
         
         @yield('script')
