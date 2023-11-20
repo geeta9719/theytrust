@@ -17,6 +17,8 @@ use App\Http\Controllers\RateController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\Admin\AddCompany;
 
+use App\Http\Controllers\swapcontroller;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,7 +31,7 @@ use App\Http\Controllers\Admin\AddCompany;
 */
 
 Auth::routes();
-
+Route::get('swap',[swapcontroller::class,'swap']);
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/terms', [HomeController::class, 'terms'])->name('terms');
@@ -57,6 +59,7 @@ Route::get('/get-search', [HomeController::class, 'getSearchList'])->name('get-s
 
 Route::post('/sendCompanycontactEmail', [HomeController::class, 'sendCompanycontactEmail']);
 Route::get('/membership-plans', [HomeController::class, 'getPriceListing']);
+Route::get('/plans-compare', [HomeController::class, 'getPlancompare']);
 Route::get('/company-contact/{company_id}', [HomeController::class, 'companyContact']);
 Route::get('get-listed', [HomeController::class, 'getListed'])->name('get-listed');
 

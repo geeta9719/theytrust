@@ -924,6 +924,38 @@ function drawChart() {
         }
     }
 
+    public function getPlancompare(Request $request)
+    {
+        // dd("adsfsdf");
+
+
+        return view('home.plans');
+        $cd = '';
+
+        if(Auth::check())
+        {
+            $uid = auth()->user()->id;
+            $cd = Company::select('*')->where('user_id', '=', $uid)->first();
+
+            if($cd)
+            {
+                return redirect()->route('company.dashboard',$cd->id);
+            }
+            else
+            {
+                return view('plans-compare');
+               
+            }
+        }
+        else
+        {
+            //session(['referer' => url('user/personal')]);
+            session(['referer' => url('sponsorship')]);
+            return redirect('auth/linkedin');
+        }
+    }
+
+
     public function getPriceListing()
     {
         if( Auth::check() )
