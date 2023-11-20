@@ -37,7 +37,6 @@ if(Auth::check())
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- menu section start-->
 <div class="header-container">
     <section class="container header position-relative py-md-4 mb-3 mb-md-0 ">
         <nav class="navbar navbar-expand-xl  navbar-dark px-0 d-flex align-items-center">
@@ -162,7 +161,7 @@ if(Auth::check())
             </div>
             <div class="right-section d-lg-none d-xl-flex">
             <div class="input-group">
-            <input type="text" class="form-control search" name="search" id="search1" placeholder="Sedarch">
+            <input type="text" class="form-control search" name="search" id="search1" placeholder="Search">
             <div class="srcbxc"></div>
 
                 <div class="input-group-prepend">

@@ -162,7 +162,7 @@ if(Auth::check())
             </div>
             <div class="right-section d-lg-none d-xl-flex">
             <div class="input-group">
-            <input type="text" class="form-control search" name="search" id="search1" placeholder="Sedarch">
+            <input type="text" class="form-control search" name="search" id="search1" placeholder="Search">
             <div class="srcbxc"></div>
 
                 <div class="input-group-prepend">
