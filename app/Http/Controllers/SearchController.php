@@ -22,6 +22,7 @@ use App\Models\AddClientSize;
 use App\Models\AddIndustry;
 use App\Models\AddFocus;
 use App\Models\ServiceLine;
+use App\Models\Seo;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -774,10 +775,12 @@ class SearchController extends Controller
 
         $whereS     = ' WHERE ' . implode(' OR ', $whereSub ) . ' OR ' .implode( ' OR ', $whereCat );
         $whereCI    = ' WHERE '.implode(' OR ', $whereCity);
+        
 
         $data['sub']= DB::select( "SELECT subcategories.id, subcategories.subcategory FROM subcategories 
                                    LEFT JOIN categories  on categories.id = subcategories.category_id " . $whereS );
 
+                            
         
         
         $subc       = array();
@@ -844,6 +847,19 @@ class SearchController extends Controller
         $data['rate_review'] = $rate;
 
 
+        $query = Seo::query();
+
+        
+
+        if ($request->term) {
+            $query->where('name', 'LIKE', "%$request->term%");
+        }
+
+        $topSeoCompanies = $query->orderBy('usage_count', 'desc')->take(2)->get();
+
+
+
+
         $html = "";
 
         $subcat_loc = "";
@@ -863,6 +879,18 @@ class SearchController extends Controller
                 }
                 $html .= '</ul>';
             }
+ 
+                $html .= '<div class="search_results__title"><strong>Top SEO Companies</strong></div>
+                <ul class="search_results__content">';
+                foreach ($topSeoCompanies as $seoCompany) {
+                    $html .= '<li style="list-style:none;">
+                        <a style="text-decoration:none;" href="' . url('profile/' . $seoCompany->id) . '"><img src="' . asset('storage/' . $seoCompany->logo) . '" width="20px" height="20px"> &nbsp;<strong>' . $seoCompany->name . '</strong></a>
+                    </li>';
+                }
+                $html .= '</ul>';
+
+
+
             $company_loc = "";
             if( count( $data['company'] ) > 0 )
             {
@@ -890,6 +918,7 @@ class SearchController extends Controller
 
         echo $html; die(); 
     }  
+
 
     public function companyProfile( Request $request, $company_id )
     {
