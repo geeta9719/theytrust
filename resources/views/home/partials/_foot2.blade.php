@@ -98,7 +98,7 @@ if (Auth::check()) {
                 </div>
             </div> -->
             <div class="col-lg-6 about-box  mb-md-0 mb-5">
-                <div class="col-lg-9 mx-auto socialbox p-0">
+                <div class="col-lg-12 ml-3 socialbox p-0">
                     <h3>CONTACT INFO</h3>
                     <!-- <p>4111-e Rose Lake Rd #2492, Charlotte,</br>
                         North Carolina 28217</p> -->

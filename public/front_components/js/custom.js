@@ -14,3 +14,18 @@ $('.testimonials-slider').slick({
   infinite: true,
  
 });
+
+// $(document).ready(function(){
+//   $('.navbar-toggler').on('click', function(){
+//     $(".navbar-collapse").toggleClass('show1');
+//   });
+// });
+$(document).ready(function(){
+  $('.navbar-toggler').on('click', function(){
+  $("#navbarSupportedContent").toggleClass('show');
+ });
+});
+
+
+
+

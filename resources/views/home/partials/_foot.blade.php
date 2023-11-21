@@ -55,13 +55,15 @@ if (Auth::check()) {
 
                 </span>
                 <h3>ABOUT US</h3>
-                <p>At <a href="">TheyTrustUs</a>, we aim to simplify your search for trusted companies and their
+                <!-- <p>At <a href="">TheyTrustUs</a>, we aim to simplify your search for trusted companies and their
                     exceptional services with reliable B2B reviews. Our platform provides a comprehensive directory
                     of top-notch businesses across various industries. We strive to empower you with reliable
                     information and reviews, enabling you to make informed decisions. Join millions of satisfied
                     users who rely on us for accurate insights. Trust us to connect you with the best in the
                     business.
-                </p>
+                </p> -->
+                <p>At <a href="">TheyTrustUs</a>, our goal is to streamline your quest for reputable enterprises and their outstanding offerings through dependable B2B evaluations. Our portal presents an extensive listing of premier businesses spanning diverse sectors. We are committed to equipping you with trustworthy insights and appraisals, empowering you to make well-informed choices. Become part of the multitude of content customers who count on us for precise perspectives. Depend on us to link you with the crème de la crème in the industry.
+</p>
             </div>
 
         </div>
