@@ -224,7 +224,7 @@ if(Auth::check())
     });
 
     function search1() {
-        console.log("asdfsdf");
+console.log("asdfsdf");
         var term = $("#search1").val();
         if (term.length >= 3) {
             $.ajax({
@@ -235,6 +235,8 @@ if(Auth::check())
                     console.log(result);
                     $(".srcbxc").html(result);
                     $(".srcbxc").show();
+                    $(".input-group-prepend").hide();
+
                 }
             });
         } else {

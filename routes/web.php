@@ -54,6 +54,7 @@ Route::get('/company-profile/{company_id}', [HomeController::class, 'companyProf
 Route::get('/companies', [HomeController::class, 'companies'])->name('company');
 Route::get('/get-company', [HomeController::class, 'getCompany'])->name('get-company');
 Route::get('/get-search', [HomeController::class, 'getSearchList'])->name('get-search');
+Route::get('/seo/search', [SearchController::class, 'Seosearch'])->name('seo-search');
 
 /*****************Abandoned*******************/
 

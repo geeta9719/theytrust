@@ -308,9 +308,10 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
 <a href="{{ url($cmp->website) }}?utm_source=theythustus.co&utm_medium=referral&utm_campaign={{ $parentCategoryName }}" target="_blank" class=""><i class="fa fa-globe mr-1" aria-hidden="true"></i> View Website</a>
 
 
-                            <a href="{{ url('profile/' . str_replace('+', '-', html_entity_decode(urlencode($cmp->name)))) }}" target="_blank" class="">
+<a href="{{ url('profile/' . str_replace('+', '-', strtolower(html_entity_decode(urlencode($cmp->name))))) }}" target="_blank" class="">
     <i class="fa fa-user mr-1" aria-hidden="true"></i> View Profile
-</a>                            
+</a>
+                            
                             <a href="{{ url( 'company-contact/'.$cmp->id ) }}" target="_blank" class=""><i class="fa fa-phone mr-1" aria-hidden="true"></i> Contact</a>
                         </div>
                     </div>
