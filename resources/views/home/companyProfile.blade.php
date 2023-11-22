@@ -9,6 +9,11 @@
         {{--<h2>TheyTrustUsLogin</h2>--}}
     </div>
 </section>
+@if(session('message'))
+    <div class="alert alert-danger">
+        {{ session('message') }}
+    </div>
+@endif
 <section class="container-fluid mt-5 mb-5 list-box">
     <div class=" container">
         <div class="row ">
