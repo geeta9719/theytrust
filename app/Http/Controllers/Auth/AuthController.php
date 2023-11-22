@@ -58,10 +58,7 @@ class AuthController extends Controller
         {
             $user_to_be_claimed = User::where('id', $user_id_to_be_claimed)->first();
 
-            // $user                   = Socialite::driver('linkedin2')->user();
-            // $user_id_to_be_claimed  = Session::get('claim_profile_id');
 
-            // dd($user_id_to_be_claimed);
 
 
             Session::forget( 'claim_profile_id' );
@@ -70,6 +67,7 @@ class AuthController extends Controller
             {
                 $existingUser = User::where('email', $user->email)->first();
                 if ($existingUser && $existingUser->id !== $user_id_to_be_claimed) {
+                    dd("Asdfasdfdsf");
                     return redirect()->back()->with('message', 'This email has already been claimed by another user.');
 
                 }
@@ -146,7 +144,7 @@ class AuthController extends Controller
         } 
         catch ( Exception $e ) 
         {
-            dd( $e->getMessage() );
+            dd( $e );
         }
     }
 }
