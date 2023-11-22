@@ -110,7 +110,7 @@
     padding: 10px 30px;
     left: 3px;
     background-color: #388cffcf;
-    z-index: 999;
+    z-index: 9999999;
     border-radius: 12px;
     color: #fff;
 }
@@ -131,15 +131,6 @@
     width: 52%;}
 
 }
-
-
-
-
-
-
-
-
-
 
 </style>
 
@@ -453,7 +444,7 @@
             </div>
         </div>
 </section>
-<div class=" container text-center fullreview">
+<div class="container-fluid text-center fullreview">
     <div class="row ">
         <a href="#fullreview{{$val->id}}" style="color:#fff;"><span class="submitbtn fr{{$val->id}}" onclick="showHideReview('fr{{$val->id}}','hr{{$val->id}}','fullreviews{{$val->id}}')">
         Read full Reviews</span>
@@ -463,6 +454,7 @@
     </div>
 </div>
  <!--Full Reviews section start -->
+ <section class="container-fluid ">
                     <div id="reviewContainer" class="row  ml-0 mr-0 company-dec px-4 py-5 fullreviews{{$val->id}} full{{$val->id}} " id="fullreview{{$val->id}}" style="display: none;" >
                         <div id="stick-top">
                         <div class="col-md-12 px-3 py-3">
@@ -626,6 +618,7 @@
                             </div>
                         </div>
                     </div>
+                                </section>
 <!--Full Reviews section end -->
 @endforeach
 @endsection
