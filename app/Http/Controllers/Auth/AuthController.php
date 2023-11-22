@@ -69,7 +69,7 @@ class AuthController extends Controller
                 if ($existingUser && $existingUser->id !== $user_id_to_be_claimed) {
                     $company = Company::where('user_id', $user_id_to_be_claimed)->first();
                      $companySlug = str_replace('+', '-', strtolower(html_entity_decode(urlencode($company['name']))));
-                     return Redirect::to(route('profile', $companySlug))->with('message', 'This email has already been claimed by another user.');
+                     return  route('profile', $companySlug)->with('message', 'This email has already been claimed by another user.');
 
                 }
 
