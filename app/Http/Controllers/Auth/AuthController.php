@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Company;
+use Illuminate\Support\Facades\Redirect;
+
 
 use Socialite;
 use Auth;
@@ -69,7 +71,7 @@ class AuthController extends Controller
                 if ($existingUser && $existingUser->id !== $user_id_to_be_claimed) {
                     $company = Company::where('user_id', $user_id_to_be_claimed)->first();
                      $companySlug = str_replace('+', '-', strtolower(html_entity_decode(urlencode($company['name']))));
-                     return  route('profile', $companySlug)->with('message', 'This email has already been claimed by another user.');
+                     return Redirect::to(route('profile', $companySlug))->with('message', 'This email has already been claimed by another user.');
 
                 }
 
