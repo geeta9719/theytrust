@@ -57,27 +57,44 @@
 @endsection
 
 @section('script')
+@section('script')
 <script>
     document.getElementById('searchButton').addEventListener('click', function() {
-        var searchTerm = document.getElementById('searchInput').value;
-
-        fetch(`/admin/users/list?search=${searchTerm}`, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => {
-            // Ensure the content type of the response is text/html
-            if (response.headers.get("content-type")?.indexOf("text/html") !== -1) {
-                return response.text();
-            }
-            throw new TypeError("Oops, we haven't got text/html!");
-        })
-        .then(data => {
-            document.querySelector('#example3 tbody').innerHTML = data;
-        })
-        .catch(error => console.error('Error:', error));
+        performSearch();
     });
+
+    // Add event listener for changes in the search input
+    document.getElementById('searchInput').addEventListener('input', function() {
+        performSearch();
+    });
+
+    function performSearch() {
+        var searchTerm = document.getElementById('searchInput').value.trim();
+
+        if (searchTerm !== '') {
+            fetch(`/admin/users/list?search=${searchTerm}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (response.headers.get("content-type")?.indexOf("text/html") !== -1) {
+                    return response.text();
+                }
+                throw new TypeError("Oops, we haven't got text/html!");
+            })
+            .then(data => {
+                document.querySelector('#example3 tbody').innerHTML = data;
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+            // If search term is empty, fetch the original data or reload the page
+            window.location.reload();
+        }
+    }
+</script>
+@endsection
+
 </script>
 
 @endsection
