@@ -51,25 +51,26 @@
 						
 						<h6><b>Our team will be able to respond to your inquiry more quickly if you provide us with your contact information and additional details.</b> </h6>
 						
-						<div class="form-group">
-							<label for="usr">First Name*:</label>
-							<input type="text" class="form-control" id="first_name" name="first_name" required="required" />
-						</div>
+								<div class="form-group">
+				<label for="first_name">First Name*:</label>
+				<input type="text" class="form-control" id="first_name" name="first_name" required="required" value="{{ old('first_name') }}">
+			</div>
 
-						<div class="form-group">
-							<label for="usr">Last Name*:</label>
-							<input type="text" class="form-control" id="last_name" name="last_name" required="required" />
-						</div>
+			<div class="form-group">
+				<label for="last_name">Last Name*:</label>
+				<input type="text" class="form-control" id="last_name" name="last_name" required="required" value="{{ old('last_name') }}">
+			</div>
 
-						<div class="form-group">
-							<label for="pwd"> Email*:</label>
-							<input type="text" class="form-control" id="email" name="email" required="required" />
-						</div>
+			<div class="form-group">
+				<label for="email">Email*:</label>
+				<input type="text" class="form-control" id="email" name="email" required="required" value="{{ old('email') }}">
+			</div>
 
-						<div class="form-group">
-							<label for="">Phone Number*:</label>
-							<input type="tel" class="form-control" id="phone" name="phone" required="required" />
-						</div>
+			<div class="form-group">
+				<label for="phone">Phone Number*:</label>
+				<input type="tel" class="form-control" id="phone" name="phone" required="required" value="{{ old('phone') }}">
+			</div>
+
 
 						<div class="form-group">
     <label for="message">Message*:</label>
