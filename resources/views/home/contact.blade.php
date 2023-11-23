@@ -71,6 +71,11 @@
 							<input type="tel" class="form-control" id="phone" name="phone" required="required" />
 						</div>
 
+						<div class="form-group">
+    <label for="message">Message*:</label>
+    <textarea class="form-control" id="message" name="message" required="required" rows="4"></textarea>
+</div>
+
 						<br>
 						
 						<input type="submit" name="send-contact" value="Submit" class="btn btn-primary" />
