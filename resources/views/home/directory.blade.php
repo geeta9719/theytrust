@@ -220,7 +220,7 @@ $ind 	= isset( $_REQUEST['industry'] )? $_REQUEST['industry'] : array();
                             if( !empty( $cmp->rate ) )
                             {
                                 $rr = explode('-',$cmp->rate);
-                                $rrr = $rr[0].$rr[1];
+                                $rrr = '$'.$rr[0].'-$'.$rr[1];
                             }
                             else
                             {
