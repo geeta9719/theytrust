@@ -32,7 +32,7 @@
                                         <th>Email Heading</th>
                                         <th>Email Content</th>
                                         <th>Created</th>
-                                        <th>Action</th>
+                                        <!-- <th>Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -45,10 +45,10 @@
                                         <td>{{ $review_log->email_subject }}</td>
                                         <td>{!! $review_log->email_content !!}</td>
                                         <td>{{ $review_log->created_at }}</td>
-                                        <td nowrap>
+                                        <!-- <td nowrap>
                                             <a href="" class="btn btn-sm btn-primary" id="vuew_reviews">View</a>
 											<a href="" class="btn btn-sm btn-primary viewBtn" id="viewhBtn">Update</a>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                   @endforeach   
                           

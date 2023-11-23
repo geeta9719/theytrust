@@ -60,7 +60,7 @@ Route::get('/seo/search', [SearchController::class, 'Seosearch'])->name('seo-sea
 
 Route::post('/sendCompanycontactEmail', [HomeController::class, 'sendCompanycontactEmail']);
 Route::get('/membership-plans', [HomeController::class, 'getPriceListing']);
-Route::get('/plans-compare', [HomeController::class, 'getPlancompare']);
+Route::get('/plans-compare', [HomeController::class, 'getPlancompare'])->name('plans.compare');
 Route::get('/company-contact/{company_id}', [HomeController::class, 'companyContact']);
 Route::get('get-listed', [HomeController::class, 'getListed'])->name('get-listed');
 
