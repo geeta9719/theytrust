@@ -74,7 +74,7 @@
 
 						<div class="form-group">
     <label for="message">Message*:</label>
-    <textarea class="form-control" id="message" name="message" required="required" rows="4"></textarea>
+    <textarea class="form-control" id="message" name="message" required="required" rows="4"  value="{{ old('phone') }}"></textarea>
 </div>
 
 						<br>
