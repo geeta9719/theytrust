@@ -1145,6 +1145,7 @@ function drawChart() {
         $inputs['last_name']      = $request->last_name;
         $inputs['email']          = $request->email;
         $inputs['phone']          = $request->phone;
+        $inputs['message']          = $request->message;
 
 
         Contact::create( $inputs );
@@ -1188,9 +1189,6 @@ function drawChart() {
 
     public function company_review_email_logs( Request $request )
     {
-        #echo "Pavan";
-
-        #ReviewerEmailLog::create( $inputs );
 
         $data['review_logs'] = ReviewerEmailLog::paginate(5);
 
