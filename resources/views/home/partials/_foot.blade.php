@@ -129,7 +129,7 @@ if (Auth::check()) {
         <ul>
             <li><a href="https://theytrust-us.developmentserver.info/"> Home</a></li>
             <li><a href="{{ url('about') }}"> About</a></li>
-            <li><a href="{{ url('/sponsorship') }}">Sponsorship</a> </li>
+            <!-- <li><a href="{{ url('/sponsorship') }}">Sponsorship</a> </li> -->
             <li><a href="{{ url('contact') }}">Contact</a></li>
             <li><a href="{{ url('privacy') }}"> Privacy Policy</a> </li>
         </ul>

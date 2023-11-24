@@ -24,6 +24,9 @@ $(document).ready(function(){
   $('.navbar-toggler').on('click', function(){
   $("#navbarSupportedContent").toggleClass('show');
  });
+ $('.services-tab').on('click', function(){
+  $("#myAccordion").toggleClass('show-accordion');
+ });
 });
 
 

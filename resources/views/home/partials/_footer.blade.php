@@ -1,6 +1,7 @@
 <!-- Latest compiled JavaScript -->
 <script src="{{asset('front_components/js/jquery.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{asset('front_components/js/css3-animate-it.js')}}"></script>
 <script src="{{asset('front_components/js/slick.js')}}"></script>
 <script src="{{asset('front_components/js/custom.js')}}"></script>

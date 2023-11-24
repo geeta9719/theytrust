@@ -59,7 +59,7 @@ if(Auth::check())
             </a>
                     @else
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="
                             {{-- @if(auth()->user()->avatar) {{auth()->user()->avatar}} @else --}}
                             {{asset('front_components/images/user1.png')}}
@@ -79,7 +79,45 @@ if(Auth::check())
                                 @csrf
                                 <button class="btn btn-sm btn-primary btnLogout" type="submit">Logout</button>
                             </form>
-                        </ul>
+                        </ul> -->
+
+
+
+                        <div class="dropdown">
+  <button type="button" class=" " data-toggle="dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="
+                            {{-- @if(auth()->user()->avatar) {{auth()->user()->avatar}} @else --}}
+                            {{asset('front_components/images/user1.png')}}
+                             {{-- @endif --}}
+                              " class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
+                        </a>
+  </button>
+  <div class="dropdown-menu shadow-sm mobiledrp">
+  <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
+                            @if($cd)
+                            <a class="dropdown-item" href="{{ route('company.dashboard',$cd->id) }}">Company Dashboard</a>
+                            <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
+                            <a class="dropdown-item" href="{{ route('user.allinfo',auth()->user()->id) }}">Update Company Profile</a>
+                            @else
+                            <a class="dropdown-item" href="{{url('get-listed')}}">Update Company Profile</a>
+                            @endif
+                            <form method="post" action="/logout">
+                                @csrf
+                                <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
+                            </form>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
                       </li>
                     @endif
                     </div>
@@ -98,7 +136,7 @@ if(Auth::check())
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav topheader align-items-center">
                     <li class="nav-item  ">
-                    <a class="nav-link " href="javascript:void(0)">Services <span class="drop-arrow down"></span></a>
+                    <a class="nav-link services-tab" href="javascript:void(0)">Services <span class="drop-arrow down"></span></a>
                         <div class="accordion" id="myAccordion">
                         <?php $i = 1; ?>
                         @foreach($categoriese as $category)
@@ -134,8 +172,8 @@ if(Auth::check())
                         </li>
                     @else
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <li class="nav-item ">
+                            <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="
                                 {{-- @if(auth()->user()->avatar) {{auth()->user()->avatar}} @else --}}
                                 {{asset('front_components/images/user1.png')}}
@@ -155,10 +193,53 @@ if(Auth::check())
                                     @csrf
                                     <button class="btn btn-sm btn-primary btnLogout" type="submit">Logout</button>
                                 </form>
-                            </ul>
+                            </ul> -->
+
+
+
+                            <div class="dropdown mymobile">
+  <button type="button" class="" data-toggle="dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="
+                                {{-- @if(auth()->user()->avatar) {{auth()->user()->avatar}} @else --}}
+                                {{asset('front_components/images/user1.png')}}
+                                 {{-- @endif --}}
+                                  " class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
+                            </a>
+  </button>
+  <div class="dropdown-menu shadow-sm ">
+  <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
+                                @if($cd)
+                                <a class="dropdown-item" href="{{ route('company.dashboard',$cd->id) }}">Company Dashboard</a>
+                                <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
+                                <a class="dropdown-item" href="{{ route('user.allinfo',auth()->user()->id) }}">Update Company Profile</a>
+                                @else
+                                <a class="dropdown-item" href="{{url('get-listed')}}">Update Company Profile</a>
+                                @endif
+                                <form method="post" action="/logout">
+                                    @csrf
+                                    <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
+                                </form>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
                           </li>
                     @endif
                 </ul>
+
+              
+
             </div>
             <div class="right-section d-lg-none d-xl-flex">
             <div class="input-group">

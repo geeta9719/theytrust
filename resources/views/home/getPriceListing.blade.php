@@ -151,7 +151,8 @@ Reach the b2b customers that are looking for genuine providers like you and</br>
 
 
 </h2>
-<a href="">Get started today</a>
+<button class="button choose-plan" data-uid="{{ $user }}" data-url='{{ url( "user/$user/basicInfo?profile=basic" )}}' name="basic" value="basic" >  Get Started  </button>
+<!-- <a href="">Get started today</a> -->
 
 
         </div>
@@ -243,7 +244,8 @@ They Trust Us has plans for any size of business. Check out our full list of fea
 
                                 <li class="grey">
                                     <!-- <a href='{{url("user/$user/basicInfo?profile=premium")}}' class="button" style="<?php echo $premium; echo $clr2; ?>">Get Started</a> -->
-                                    <button class="button choose-plan" data-uid="{{ $user }}" data-url='{{url("user/$user/basicInfo?profile=premium")}}' name="premium" value="premium" style="<?php echo $premium; echo $clr2; ?>" disabled>  Coming Soon  </button>
+                                    <!-- <button class="button choose-plan" data-uid="{{ $user }}" data-url='{{url("user/$user/basicInfo?profile=premium")}}' name="premium" value="premium" style="<?php echo $premium; echo $clr2; ?>" disabled>  Coming Soon  </button> -->
+                                    <a href="{{ route('plans.compare') }}" class="btn btn-primary">Coming Soon </a>
                                 </li>
 
                                 <li><strong>Includes benefits of Basic Profile, and more</strong></li>
@@ -269,7 +271,8 @@ They Trust Us has plans for any size of business. Check out our full list of fea
                                 <li class="grey">
 
                                     <!-- <a href='{{url("user/$user/basicInfo?profile=sponsorship")}}' class="button" style="<?php echo $sponsorship; echo $clr3; ?>">Get Started </a> -->
-                                    <button class="button choose-plan" data-uid="{{ $user }}" data-url='{{url("user/$user/basicInfo?profile=sponsorship")}}' name="sponsorship" value="sponsorship" style="<?php echo $sponsorship; echo $clr3; ?>" disabled>  Coming Soon  </button>
+                                    <!-- <button class="button choose-plan" data-uid="{{ $user }}" data-url='{{url("user/$user/basicInfo?profile=sponsorship")}}' name="sponsorship" value="sponsorship" style="<?php echo $sponsorship; echo $clr3; ?>" disabled>  Coming Soon  </button> -->
+                                    <a href="{{ route('plans.compare') }}" class="btn btn-primary">Coming Soon </a>
                                 </li>
 
 								<li><strong>Includes benefits of Premium Profile, and more</strong></li>
