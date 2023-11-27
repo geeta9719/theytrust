@@ -115,27 +115,25 @@ class SearchController extends Controller
         $bud              = Budget::all();
 
 
-        foreach ( $bud as $value ) 
-        {
-            $b = explode( '-', $value->budget );
-            $budget[$b[0]] = $value; 
+        foreach ($bud as $value) {
+            $b = explode('-', $value->budget);
+            $minValue = intval(str_replace('$', '', $b[0])); // Extract and convert the minimum value to an integer
+            $budget[$minValue] = $value;
         }
+        
 
         ksort( $budget );
-
         $data[ 'budget' ] = $budget;
-        
         $r = Rate::all();
-        
-        foreach ($r as $value) 
-        {
-            $b              = explode( '-', $value->rate );
-            $rate[$b[0]]    = $value; 
+
+
+        foreach ($r as $value) {
+            $b = explode('-', $value->rate);
+            $minValue = intval(str_replace('$', '', $b[0])); // Extract and convert the minimum value to an integer
+            $rate[$minValue] = $value;
         }
-
-        
-
-        ksort( $rate );
+    
+        ksort($rate);
 
 
 
@@ -275,15 +273,6 @@ class SearchController extends Controller
         
 
         $where = implode( ' AND ', $where );
-
-
-
-
-
-
-
-
-
         /************** pagination *********************/
 
 
@@ -507,12 +496,12 @@ class SearchController extends Controller
         
 
         $bb   = explode('-',$val->budget);
-        $bbb  = '$'.$bb[0].'+';
+        $bbb  = $bb[0].'+';
 
         if( !empty( $val->rate ) )
         {
             $rr = explode('-',$val->rate);
-            $rrr = '$'.$rr[0].'-$'.$rr[1];
+            $rrr = $rr[0].'-'.$rr[1];
         }
         else
         {
@@ -593,46 +582,48 @@ class SearchController extends Controller
                     </div>
                 </div>';
 
-        $html  .=  '<div class="col-xl-4  pl-md-0 mt-xl-0 mt-5">';
-                            $html .= '<p>
-                                        <div id="piechart'.$val->id.'"></div>';
-                                $t = 0;
-                                $data = array();
-                                $data[0] = array('Services','Percent');
+                $html .= '<div class="col-xl-4 pl-md-0 mt-xl-0 mt-5">';
+                $html .= '<p>';
+                $html .= '<div id="piechart' . $val->id . '"></div>';
+                
+                $t = 0;
+                $data = [];
+                $data[] = ['Services', 'Percent'];
+                
+                for ($i = 0; $i < count($service_lines[$val->id]); $i++) {
+                    if ($service_lines[$val->id][$i]->percent > 0) {
+                        $t = $t + $service_lines[$val->id][$i]->percent;
+                        $data[$i + 1] = [
+                            $subcategories[$service_lines[$val->id][$i]->subcategory_id],
+                            (int)$service_lines[$val->id][$i]->percent
+                        ];
+                    }
+                }
+                
+                if ($t < 100) {
+                    $p = 100 - $t;
+                    $data[$i + 1] = ['None', $p];
+                }
+                
+                $data = json_encode($data);
+                $html .= '</p>';
+                $html .= '</div>';
+                
+                // JavaScript Section
+                $html .= '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>';
+                $html .= '<script type="text/javascript">';
+                $html .= 'google.charts.load("current", {"packages":["corechart"]});';
+                $html .= 'google.charts.setOnLoadCallback(drawChart' . $val->id . ');';
+                
+                $html .= 'function drawChart' . $val->id . '() {';
+                $html .= 'var data = google.visualization.arrayToDataTable(' . $data . ');';
+                $html .= 'var options = {"title":"Service Focus", "width":350, "height":250};';
+                $html .= 'var chart = new google.visualization.PieChart(document.getElementById("piechart' . $val->id . '"));';
+                $html .= 'chart.draw(data, options);';
+                $html .= '}';
+                $html .= '</script>';
 
-                                for($i = 0;$i < count($service_lines[$val->id]); $i++)
-                                {                                 
-                                    if($service_lines[$val->id][$i]->percent > 0)
-                                    {
-                                        $t = $t + $service_lines[$val->id][$i]->percent;
-                                        $data[$i+1] = array($subcategories[$service_lines[$val->id][$i]->subcategory_id],(int)$service_lines[$val->id][$i]->percent);
-                                    }   
-                                }
-                                if($t < 100){
-                                    $p = 100-$t;
-                                    $data[$i+1] = array("None",$p);
-                                }
-
-                                $data = json_encode($data);
-                                
-                                ?>
-                                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                                <script type="text/javascript">
-                                // Load google charts
-                                google.charts.load('current', {'packages':['corechart']});
-                                google.charts.setOnLoadCallback(drawChart);
-                                // Draw the chart and set the chart values
-                                function drawChart() {
-                                    var data = google.visualization.arrayToDataTable(<?=$data?>);
-                                    // Optional; add a title and set the width and height of the chart
-                                    var options = {'title':'Service Focus', 'width':350, 'height':250};
-                                    // Display the chart inside the <div> element with id="piechart"
-                                    var chart = new google.visualization.PieChart(document.getElementById("piechart<?=$val->id?>"));
-                                    chart.draw(data, options);
-                                }
-                                </script>
-
-        <?php
+        // <?php
 
         $html .= '              </p>
                             </div>
