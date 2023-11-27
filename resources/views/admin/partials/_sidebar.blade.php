@@ -167,8 +167,10 @@
                 @php $a = 'menu-open' @endphp 
               @elseif(request()->is('admin/size/show'))
                 @php $a = 'menu-open' @endphp
-              @elseif(request()->is('admin/budget/show'))
-                @php $a = 'menu-open' @endphp           
+              @elseif(request()->is('admin/contacts'))
+                @php $a = 'menu-open' @endphp    
+                @elseif(request()->is('admin/budget/show'))
+                @php $a = 'menu-open' @endphp         
               @else
                 @php $a = '' @endphp
               @endif
@@ -179,11 +181,18 @@
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
+
                 <ul class="nav nav-treeview me" id="me3">
                   <li class="nav-item">
                     <a href="{{route('admin.attribution.show')}}" class="nav-link {{ request()->is('admin/attribution/show') ? 'active act' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Attribution</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{route('admin.contacts.index')}}" class="nav-link {{ request()->is('admin/contacts') ? 'active act' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Contacts</p>
                     </a>
                   </li>
                   <li class="nav-item">

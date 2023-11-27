@@ -16,6 +16,8 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\Admin\AddCompany;
+use App\Http\Controllers\ContactController;
+
 
 use App\Http\Controllers\swapcontroller;
 
@@ -260,6 +262,8 @@ Route::middleware('auth')->group(function(){
         Route::post('admin/publish-user', [CompanyController::class, 'publish_company'])->name('admin.publish_user');
         Route::post('admin/publish-all-users', [CompanyController::class, 'publish_all_company'])->name('admin.publish_all_users');
         Route::delete('/admin/user/{user}', [App\Http\Controllers\CompanyController::class, 'destroy'])->name('admin.user.destroy');
+        Route::get('admin/contacts', [ContactController::class, 'index'])->name('admin.contacts.index');
+        
         
     });    
     
