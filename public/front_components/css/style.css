@@ -500,6 +500,13 @@ max-width: 440px;
     .provider-sec .fa {
     font-size: 30px;
 }
+.allinforow{
+    display:flex; justify-content: space-between;    text-decoration: none;width:100%;
+}
+.allinforow:hover{
+    text-decoration: none;
+}
+
 select {
 	appearance: none;
 }
