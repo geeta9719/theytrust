@@ -105,54 +105,12 @@
             </div>
         </div>
 </section>
-<!--THE Review sticky section -->
-<style>
-.sticky{
-    position: fixed;
-    top: 45%;
-    width: 16%;
-    border: 1px solid #388cff;
-    padding: 10px 30px;
-    left: 3px;
-    background-color: #388cffcf;
-    z-index: 9999999;
-    border-radius: 12px;
-    color: #fff;
-}
-.sticky h2{
-    font-size:16px;
-    color:#000;
-    font-weight:bold;
-}
-.sticky p{
-    font-size:14px; 
-    color:#fff; 
-}
 
-
-@media (max-width: 767px)
-{
-    .sticky {
-    width: 52%;}
-
-}
-
-</style>
-
-<div class="sticky">
-    <h2>THE REVIEW </h2>
-    <p>Background</p>
-    <p>Challenge</p>
-    <p>Solution</p>
-    <p>Results</p>
-    <p>Ratings</p>
-</div>
-<!--THE Review sticky section -->
 
 <section class="container-fluid mt-5 mb-5 focus-sec">
     <div class=" container">
         <div class="row">
-            <div class="col-lg-12 col-md-7  pl-md-4">
+            <div class="col-lg-12 col-md-12  pl-md-4">
                 <div class=" row border mx-0 py-4 px-3 align-items-center">
                     <div class="col-xl-8  pl-md-5 mt-xl-0 mt-5">
                         <h2>Focus</h2>
@@ -327,12 +285,20 @@
             </div>
         </div>
 </section>
-<section class="container-fluid mt-5 mb-5 review-sec" >
-    <div class=" container">
+<section class="container-fluid mt-5 mb-5 pr-0 pl-0 review-sec" >
+    <div class="  container-fluid pr-0 pl-0 ml-0 mr-0">
         <div class="row graph-sec">
-            <div class="col-lg-12 col-md-7  pl-md-4">
+            <div class="col-lg-12 col-md-12  pl-md-0">
+
+
+
+            <div class="  container mb-md-4 mb-0 pl-md-4 pl-0">
+
+
+
+
                 <div class=" row border mx-0 py-4 px-3 align-items-center">
-                    <div class="col-xl-6  pl-md-5 mt-xl-0 mt-5">
+                    <div class="col-xl-6  pl-md-5 pl-5 mt-xl-0 mt-5">
                         <h2>Reviews</h2>
                         <div class="reviews-row">
                             @if( isset( $rate_review ) )
@@ -370,6 +336,14 @@
                         <h2><a class="submitbtn" style="color:#fff;" href="{{ route( 'company.review', $company->id ) }}">Submit Review</a></h2>
                     </div>
                 </div>
+
+
+               </div>
+
+
+
+
+
                 @foreach($review as $key => $val)
                 <div class="  row border mx-0 py-5 px-3 previw-sec" id="review{{$val->id}}">
                     <div class="col-md-3  pt-0 border-right">
@@ -449,7 +423,7 @@
             </div>
         </div>
 </section>
-<div class="container-fluid text-center fullreview">
+<section class="container-fluid text-center fullreview">
     <div class="row ">
         <a href="#fullreview{{$val->id}}" style="color:#fff;"><span class="submitbtn fr{{$val->id}}" onclick="showHideReview('fr{{$val->id}}','hr{{$val->id}}','fullreviews{{$val->id}}')">
         Read full Reviews</span>
@@ -457,7 +431,7 @@
         <a href="#review{{$val->id}}" style="color:#fff;"><span class="submitbtn hr{{$val->id}}" style="display: none;" onclick="showHideReview('hr{{$val->id}}','fr{{$val->id}}','full{{$val->id}}')">Minimize Reviews</span>
         </a>
     </div>
-</div>
+</section>
  <!--Full Reviews section start -->
  <section class="container-fluid ">
                     <div id="reviewContainer" class="row  ml-0 mr-0 company-dec px-4 py-5 fullreviews{{$val->id}} full{{$val->id}} " id="fullreview{{$val->id}}" style="display: none;" >
@@ -623,7 +597,7 @@
                             </div>
                         </div>
                     </div>
-                                </section>
+                  </section>
 <!--Full Reviews section end -->
 @endforeach
 @endsection
@@ -653,6 +627,6 @@
 </script>
 
 
-</script>
+ </script> 
 
 @endsection

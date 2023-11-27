@@ -39,16 +39,16 @@ else
             <h2>Edit Profile</h2>
             </div>
             <div class="col-md-10 mx-auto d-flex align-items-center justify-content-between boxcss">
-                <p>Company Information</p>
-             <a href="{{route('user.basicInfo',$uid)}}"> <i class="fa fa-plus" aria-hidden="true" ></i></a>  
+                
+             <a href="{{route('user.basicInfo',$uid)}}" class="allinforow"> <p>Company Information</p> <i class="fa fa-plus" aria-hidden="true" ></i></a>  
             </div>
             <div class="col-md-10 mx-auto mt-4 d-flex align-items-center justify-content-between boxcss">
-                <p>Locations</p>
-                <a href="{{route('company.location', $company_id)}}"> <i class="fa fa-plus" aria-hidden="true" ></i></a>  
+                
+                <a href="{{route('company.location', $company_id)}}"  class="allinforow"><p>Locations</p> <i class="fa fa-plus" aria-hidden="true" ></i></a>  
             </div>
             <div class="col-md-10 mx-auto mt-4 d-flex align-items-center justify-content-between boxcss">
-                <p>Project Informations</p>
-                <a href="{{route('company.focus', $company_id)}}"> <i class="fa fa-plus" aria-hidden="true"></i></a>  
+               
+                <a href="{{route('company.focus', $company_id)}}"  class="allinforow"> <p>Project Informations</p> <i class="fa fa-plus" aria-hidden="true"></i></a>  
             </div>
         </div>
     </div>
