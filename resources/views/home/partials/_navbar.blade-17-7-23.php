@@ -96,7 +96,7 @@ if(Auth::check())
 					</div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Blog</a>
+                    <a class="nav-link" href="#">Blog1</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{url('contact')}}"> Contact Us</a>

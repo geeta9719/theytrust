@@ -63,7 +63,7 @@
                                             <input type="checkbox" name="published[]" class="publishChk" data-id="{{$review->id}}" id="publishChk_{{$review->id}}" value="{{$published}}"> 
                                         </td>
                                         <td>{{$i++}}</td>
-                                        <td>{{$review->company->name}}</td>
+                                        <td>{{ optional($review->company)->name ?? '' }}</td>
                                         <td>{{$review->project_type}}</td>
                                         <td>{{$review->full_name}}</td>
                                         <td>{{$review->company_email}}</td>

@@ -909,7 +909,9 @@ class SearchController extends Controller
 
         echo $html; die(); 
     }  
-
+        public function Seosearch(){
+            return view('search.index');
+        }
 
     public function companyProfile( Request $request, $company_id )
     {

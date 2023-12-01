@@ -58,7 +58,9 @@
               @elseif(request()->is('admin/subcategory/show'))
                 @php $a = 'menu-open' @endphp 
               @elseif(request()->is('admin/subcategory/create'))
-                @php $a = 'menu-open' @endphp  
+                @php $a = 'menu-open' @endphp 
+                @elseif(request()->is('admin/seo-search'))
+                @php $a = 'menu-open' @endphp   
               @elseif(request()->is('admin/subcategory-child/show'))
                 @php $a = 'menu-open' @endphp          
               @else
@@ -102,6 +104,12 @@
                       <i class="far fa-circle nav-icon"></i>
                       <p>Subcategory Child</p>
                     </a>
+                  </li>
+
+                  <li class="nav-item">
+                      <a href="{{ route('admin.seo-search') }}" class="nav-link {{ request()->is('admin/seo-search') ? 'active act' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        SEO Search</a>
                   </li>
 
                 </ul>
@@ -156,6 +164,8 @@
                       <p>Company Review Logs</p>
                     </a>
                   </li>
+
+                 
 
                 </ul>
               </li>
@@ -236,10 +246,11 @@
                   
                 </ul>
               </li>
+            </li>
+
+         
 
 
-            </ul> 
-          </li>
           <script>
               function hideShow(id){
                 $(".see").removeClass('menu-open');

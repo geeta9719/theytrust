@@ -17,6 +17,7 @@ use App\Http\Controllers\RateController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\Admin\AddCompany;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SeosearchController;
 
 
 use App\Http\Controllers\swapcontroller;
@@ -56,7 +57,7 @@ Route::get('/company-profile/{company_id}', [HomeController::class, 'companyProf
 Route::get('/companies', [HomeController::class, 'companies'])->name('company');
 Route::get('/get-company', [HomeController::class, 'getCompany'])->name('get-company');
 Route::get('/get-search', [HomeController::class, 'getSearchList'])->name('get-search');
-Route::get('/seo/search', [SearchController::class, 'Seosearch'])->name('seo-search');
+// Route::get('/seo/search', [SearchController::class, 'Seosearch'])->name('seo-search');
 
 /*****************Abandoned*******************/
 
@@ -103,12 +104,14 @@ Route::get('claim-profile-status', function(){
     return view( 'home.companyClaimProfileStatus' );
 });
 
+
+Route::get('/sponsorship', [HomeController::class, 'getPriceListing']);
 //////////////////////////////////////////
 Route::middleware('auth')->group(function(){
     
     //user
     Route::get('/user', [HomeController::class, 'index'])->name('home');
-    //Route::get('/sponsorship', [HomeController::class, 'getPriceListing']);
+    // Route::get('/sponsorship', [HomeController::class, 'getPriceListing']);
     Route::get('/company/{company}/dashboard', [UserController::class, 'dashboard'])->name('company.dashboard');
 
     Route::post('/get-listed-validation-step', [UserController::class, 'validationStep'])->name('get-listed-validation-step');
@@ -166,6 +169,23 @@ Route::middleware('auth')->group(function(){
         Route::put('/admin/category/{category}/update', [CategoryController::class, 'update'])->name('admin.category.update');
         Route::delete('/admin/category/{category}/destroy', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
         Route::post('/admin/category/set-priority', [CategoryController::class, 'set_priority'])->name('admin.category.set_priority');
+      //  Route::get('/seo/search', [SearchController::class, 'Seosearch'])->name('seo-search');
+        //Route::get('/admin/seo-search',[SeosearchController::class,'index']);
+       // Route::get('/admin/seo-search/{id}',[SeosearchController::class,'show']);
+        
+        // Route::namespace('Admin')->group(function () {
+            Route::get('admin/seo-search', [SeosearchController::class,'index'])->name('admin.seo-search');
+            Route::get('/upload-seo-excel', [SeosearchController::class, 'showForm']);
+            Route::post('/upload-seo-excel', [SeosearchController::class, 'importExcel']);
+          //  Route::get('/seo/{id}/edit', [SeosearchController::class, 'edit'])->name('seo.edit');
+            Route::put('/seo/{id}', [SeosearchController::class, 'update'])->name('seo.update');
+            Route::delete('/seo/{id}', [SeosearchController::class, 'destroy'])->name('seo.destroy');
+       
+        // });
+
+        Route::get('/file-import',[SeosearchController::class,'importView'])->name('import-view'); 
+        Route::post('/import',[SeosearchController::class,'import'])->name('import'); 
+        Route::get('/export-users',[SeosearchController::class,'exportUsers'])->name('export-users');
 
 
 

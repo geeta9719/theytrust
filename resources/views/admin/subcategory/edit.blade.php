@@ -49,14 +49,14 @@
                                                 <select name="category_id" id="category_id" class="form-control">
                                                     <option value="">Select Business</option>
                                                     @foreach($category as $c)
-                                                        <?php
+                                                      <?php
                                                         if($c->id == $subcategory->category_id){
                                                             $selected = 'selected';
                                                         }else{
                                                             $selected = '';
                                                         } 
-                                                        ?> 
-                                                        <option value="{{$c->id}}"  {{$selected}}>{{$c->category}}</option>
+                                                      ?> 
+                                                    <option value="{{$c->id}}"  {{$selected}}>{{$c->category}}</option>
                                                     @endforeach    
                                                 </select>
                                                 @error('category_id')
@@ -88,14 +88,14 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /.card-body -->
+                       
                     </div>
-                    <!-- /.card -->
+                   
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
-    <!-- /.content -->
+   
 
 @endsection
 

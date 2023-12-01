@@ -26,7 +26,7 @@
                         @endif
                         <?php
                             $bb  = explode( '-', $company->budget );
-                            $bbb = '$'.$bb[0] . '+';
+                            $bbb = $bb[0] .'+';
                             if( !empty( $rr ) )
                             {
                                 $rr  = explode('-',$company->rate);

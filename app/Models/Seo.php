@@ -10,7 +10,7 @@ class Seo extends Model
 
 
     use HasFactory;
-    protected $fillable = ['name', 'usage_count', 'subcategory_id'];
+    protected $fillable = ['name', 'usage_count', 'subcategory_id','url'];
     protected $table = 'seo';
 
 
@@ -36,7 +36,8 @@ class Seo extends Model
         return $query->with('subcategory')
             ->orderBy('name', 'asc')
             ->orderBy('subcategories.name', 'asc') // Assuming the subcategories table has a 'name' column
-            ->orderBy('usage_count', 'desc');
+            ->orderBy('usage_count', 'desc')
+            ->orderBy('url');
     }
 
     /**

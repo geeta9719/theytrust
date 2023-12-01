@@ -52,7 +52,8 @@
 
                                 <!-- Company Type -->
                                                             <div class="form-group">
-                                <l  abel for="company_type">Choose your company type</label><strong style="color: red;"> *</strong>
+                                <label for="company_type">Choose your company type</label>
+                                <strong style="color: red;"> *</strong>
                                 <select class="form-control rmvId" id="company_type" name="company_type" required>
                                     <option value="">Select a value</option>
                                     @foreach($data['category'] as $cat)
@@ -70,7 +71,8 @@
         @foreach($data['budget'] as $b)
             <?php 
                 $bb = explode('-', $b['budget']);
-                $budget_range = '$' . $bb[0] . ' - $' . $bb[1];
+               
+                $budget_range =  $bb[0] . ' - ' .$bb[1];
             ?>
             <option value="{{ $b['budget'] }}" @if($b['budget'] == $data['review']->cost_range) selected @endif>{{ $budget_range }}</option>
         @endforeach
@@ -235,7 +237,8 @@
                                     <label for="overall_rating">Overall Rating</label>
                                     <input type="text" name="overall_rating" class="form-control" value="{{ $data['review']->overall_rating }}">
                                 </div>
-
+                                
+                            
                                 <!-- Overall Rating Review -->
                                 <div class="form-group">
                                     <label for="overall_rating_review">Overall Rating Review</label>
