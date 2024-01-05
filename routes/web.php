@@ -21,6 +21,10 @@ use App\Http\Controllers\SeosearchController;
 
 
 use App\Http\Controllers\swapcontroller;
+use App\Http\Controllers\PlanController;
+use App\Http\Controllers\PlanFeatureController;
+use App\Http\Controllers\PaymentContorller;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +44,7 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/terms', [HomeController::class, 'terms'])->name('terms');
 Route::get('/privacy', [HomeController::class, 'privacy'])->name('privacy');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
+Route::post('/stripe/webhook', [PaymentContorller::class, 'handle']);
 
 Route::get('/auth/linkedin', [AuthController::class, 'redirectToLinkedin'])->name('auth.linkedin');
 Route::get('/auth/linkedin/callback', [ AuthController::class, 'handleLinkedinCallback'] );
@@ -169,20 +174,11 @@ Route::middleware('auth')->group(function(){
         Route::put('/admin/category/{category}/update', [CategoryController::class, 'update'])->name('admin.category.update');
         Route::delete('/admin/category/{category}/destroy', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
         Route::post('/admin/category/set-priority', [CategoryController::class, 'set_priority'])->name('admin.category.set_priority');
-      //  Route::get('/seo/search', [SearchController::class, 'Seosearch'])->name('seo-search');
-        //Route::get('/admin/seo-search',[SeosearchController::class,'index']);
-       // Route::get('/admin/seo-search/{id}',[SeosearchController::class,'show']);
-        
-        // Route::namespace('Admin')->group(function () {
             Route::get('admin/seo-search', [SeosearchController::class,'index'])->name('admin.seo-search');
             Route::get('/upload-seo-excel', [SeosearchController::class, 'showForm']);
             Route::post('/upload-seo-excel', [SeosearchController::class, 'importExcel']);
-          //  Route::get('/seo/{id}/edit', [SeosearchController::class, 'edit'])->name('seo.edit');
             Route::put('/seo/{id}', [SeosearchController::class, 'update'])->name('seo.update');
             Route::delete('/seo/{id}', [SeosearchController::class, 'destroy'])->name('seo.destroy');
-       
-        // });
-
         Route::get('/file-import',[SeosearchController::class,'importView'])->name('import-view'); 
         Route::post('/import',[SeosearchController::class,'import'])->name('import'); 
         Route::get('/export-users',[SeosearchController::class,'exportUsers'])->name('export-users');
@@ -283,8 +279,17 @@ Route::middleware('auth')->group(function(){
         Route::post('admin/publish-all-users', [CompanyController::class, 'publish_all_company'])->name('admin.publish_all_users');
         Route::delete('/admin/user/{user}', [App\Http\Controllers\CompanyController::class, 'destroy'])->name('admin.user.destroy');
         Route::get('admin/contacts', [ContactController::class, 'index'])->name('admin.contacts.index');
-        
-        
+        Route::resource('plans', PlanController::class);
+        Route::resource('planfeatures', PlanFeatureController::class);
     });    
+    Route::get('/checkout', [PaymentContorller::class, 'checkout'])->name('checkout');
+    Route::post('/user/choose-plan', [PaymentContorller::class, 'choosePlan'])->name('user.choosePlan');
+    Route::post('/create-checkout-session', [PaymentContorller::class, 'createCheckoutSession']);
     
+  
+
+
+
 });
+
+Route::get('/subscribe/{plan}/{user}', [PaymentContorller::class, 'subscribeToPlan']);

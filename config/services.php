@@ -41,5 +41,9 @@ return [
                         'client_secret' => 'vyYjYpvtszO3Wwa3',
                         'redirect'      => 'https://theytrust-us.developmentserver.info/linkedin/callback_claim_profile'
                     ],
+     'stripe' => [
+                        'key' => 'pk_test_51OMTmgSBpRscNHwB4qiyJOy6swL8uwFI7DFbTzrmLZYaPXnKs1qVKLOdwwZz2R1UqL9SgOxc5BZaxFN9Nr9flN6U00duoOXtey',
+                        'secret' => 'sk_test_51OMTmgSBpRscNHwBohIRTFpbv0SFsLr4pYMDFWghhtqmEFVHCT0SZo0L6q5MDdFr4NzIXIsTRwoYqkPTeJMKN9R900BTtTiNn2',
+     ],
 
 ];

@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,9 +13,9 @@ class AddUrlToSeo extends Migration
      */
     public function up()
     {
-        Schema::table('seo', function (Blueprint $table) {
-            $table->string('url');
-        });
+        // Schema::table('seo', function (Blueprint $table) {
+        //     $table->string('url');
+        // });
     }
 
     /**
@@ -25,8 +25,8 @@ class AddUrlToSeo extends Migration
      */
     public function down()
     {
-        Schema::table('seo', function (Blueprint $table) {
-            $table->dropColumn('url');
-        });
+        // Schema::table('seo', function (Blueprint $table) {
+        //     $table->dropColumn('url');
+        // });
     }
-}
+} 

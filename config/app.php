@@ -179,6 +179,7 @@ return [
 
         /* linkdin login*/
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Rennokki\Plans\PlansServiceProvider::class,
 
     ],
 
@@ -238,6 +239,7 @@ return [
         /*linkedin login*/
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        
 
     ],
 

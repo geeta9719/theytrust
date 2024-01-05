@@ -3,9 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Facades\Mail;
-
+use Rennokki\Plans\Traits\HasPlans;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Mail\SendMail;
@@ -25,6 +24,7 @@ use App\Models\City;
 use App\Models\Contact;
 use App\Models\Newsletters;
 use App\Models\ReviewerEmailLog;
+use Rennokki\Plans\Models\PlanModel;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -958,9 +958,29 @@ function drawChart() {
 
     public function getPriceListing()
     {
+      $user =  Auth::user();
+    //   $plans = PlanModel::find(6);
+
+      $key = \config('services.stripe.secret');
+      $stripe = new \Stripe\StripeClient($key);
+      $plansraw = $stripe->plans->all();
+      $plans = $plansraw->data;
+      
+      foreach($plans as $plan) {
+          $prod = $stripe->products->retrieve(
+              $plan->product,[]
+          );
+          $plan->product = $prod;
+      }
+      $user = Auth::user();
+        
+
         if( Auth::check() )
         {
-            return view('home.getPriceListing');
+            return view('home.getPriceListing', [
+                'user'=>$user,
+                'plans' => $plans
+            ]);
         }
         else
         {
