@@ -246,6 +246,60 @@
                   
                 </ul>
               </li>
+
+              @if(request()->is('plans*'))
+              @php $a = 'menu-open' @endphp
+          @else
+              @php $a = '' @endphp
+          @endif
+          
+          <li class="nav-item {{ $a }} see" id="se5" onclick="hideShow('5')">
+              <a href="#" class="nav-link active se">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>Plans<i class="right fas fa-angle-left"></i></p>
+              </a>
+              <ul class="nav nav-treeview me" id="me5">
+                  <li class="nav-item">
+                      <a href="{{ route('plans.index') }}" class="nav-link {{ request()->is('plans*') ? 'active act' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Plans List</p>
+                      </a>
+                  </li>
+              </ul>
+
+              <ul class="nav nav-treeview me" id="me7">
+                <li class="nav-item">
+                  
+                    <a href="{{ route('plans.test') }}" class="nav-link {{ request()->is('plans*') ? 'active act' : '' }}">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Plans Subscriptionlist</p>
+                  </a>
+                  </li>
+            </ul>
+          </li>
+          
+
+            @if(request()->is('planfeatures*'))
+            @php $a = 'menu-open' @endphp          
+          @else
+            @php $a = '' @endphp
+          @endif
+          <li class="nav-item  {{ $a }} see" id="se6" onclick="hideShow('6')" ><!--menu-open-->
+            <a href="#" class="nav-link active se">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p >PlanFeature<i class="right fas fa-angle-left"></i></p>
+            </a>
+            <ul class="nav nav-treeview me" id="me6">
+              <li class="nav-item">
+                <a href="{{route('planfeatures.index')}}" class="nav-link {{ request()->is('planfeatures*') ? 'active act' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>PlanFeature List</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+
             </li>
 
          

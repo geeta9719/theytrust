@@ -3,19 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\PlanFeature;
+use Rennokki\Plans\Models\PlanModel;
+//use App\Models\PlanModel;
 use Illuminate\Http\Request;
 
 class PlanFeatureController extends Controller
 {
+    
     public function index()
     {
         $planFeatures = PlanFeature::all();
-        return view('planfeatures.index', compact('planFeatures'));
+       // dd($planFeatures);
+        return view('admin.plan_features.index', compact('planFeatures'));
     }
-
     public function create()
     {
-        return view('planfeatures.create');
+        $plans = PlanModel::all();
+        
+        return view('admin.plan_features.create', compact('plans'));
     }
 
     public function store(Request $request)
@@ -34,29 +39,32 @@ class PlanFeatureController extends Controller
         return redirect()->route('planfeatures.index')
             ->with('success', 'Plan feature created successfully');
     }
-    public function edit(PlanFeature $planFeature)
+    
+    public function edit(PlanFeature $planfeature)
     {
-        return view('planfeatures.edit', compact('planFeature'));
+        $plans = PlanModel::all(); // or fetch plans from your database
+
+        return view('admin.plan_features.edit', compact('planfeature', 'plans'));
     }
 
-   
 
-    public function update(Request $request, PlanFeature $planFeature)
+    public function update(Request $request, PlanFeature $planfeature)
     {
-        $request->validate([
-            'name' => 'required',
-            'code' => 'required',
-            'description' => 'required',
-            'limit' => 'required|integer',
-            'type' => 'required',
-            'plan_id' => 'required|exists:plans,id',
-        ]);
+            $request->validate([
+                'name' => 'required',
+                'code' => 'required',
+                'description' => 'required',
+                'limit' => 'required|integer',
+                'type' => 'required',
+                'plan_id' => 'required|exists:plans,id',
+            ]);
 
-        $planFeature->update($request->all());
+            $planfeature->update($request->all());
 
-        return redirect()->route('planfeatures.index')
-            ->with('success', 'Plan feature updated successfully');
-    }
+            return redirect()->route('planfeatures.index')
+                ->with('success', 'Plan feature updated successfully');
+        }
+
 
     public function destroy(PlanFeature $planFeature)
     {
