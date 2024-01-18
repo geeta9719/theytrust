@@ -267,7 +267,7 @@
                   </li>
               </ul>
 
-              <ul class="nav nav-treeview me" id="me7">
+              {{-- <ul class="nav nav-treeview me" id="me7">
                 <li class="nav-item">
                   
                     <a href="{{ route('plans.test') }}" class="nav-link {{ request()->is('plans*') ? 'active act' : '' }}">
@@ -275,7 +275,7 @@
                       <p>Plans Subscriptionlist</p>
                   </a>
                   </li>
-            </ul>
+            </ul> --}}
           </li>
           
 
