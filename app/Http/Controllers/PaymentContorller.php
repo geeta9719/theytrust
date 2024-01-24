@@ -69,12 +69,11 @@ class PaymentContorller extends Controller
     public function choosePlan(Request $request)
     {
         try {
-            Log::info('Webhook event handled successfully - Type:');
+            // Log::info('Webhook event handled successfully - Type:');
             $request->validate([
                 'plan' => 'required|string',
                 'user_id' => 'required|integer',
             ]);
-            // Create a Checkout Session using the Stripe API
             $session = $this->createCheckoutSession($request);
             return response()->json(['status' => 'success', 'sessionId' => $session]);
         } catch (\Exception $e) {
@@ -84,7 +83,7 @@ class PaymentContorller extends Controller
 
     public function handle(Request $request)
     {
-        // Log::info("Webhook event handled :",$request->all());
+        Log::info("Webhook event handled :",$request->all());
     
         $payload = $request->getContent();
         $sigHeader = $request->header('Stripe-Signature');
