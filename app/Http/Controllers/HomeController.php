@@ -958,25 +958,27 @@ function drawChart() {
 
     public function getPriceListing()
     {
-      $user =  Auth::user();
-    //   $plans = PlanModel::find(6);
 
-      $key = \config('services.stripe.secret');
-      $stripe = new \Stripe\StripeClient($key);
-      $plansraw = $stripe->plans->all();
-      $plans = $plansraw->data;
-      
-      foreach($plans as $plan) {
-          $prod = $stripe->products->retrieve(
-              $plan->product,[]
-          );
-          $plan->product = $prod;
-      }
-      $user = Auth::user();
+    
         
 
         if( Auth::check() )
         {
+
+            $user =  Auth::user();
+            $key = \config('services.stripe.secret');
+            $stripe = new \Stripe\StripeClient($key);
+            $plansraw = $stripe->plans->all();
+            $plans = $plansraw->data;
+            
+            foreach($plans as $plan) {
+                $prod = $stripe->products->retrieve(
+                    $plan->product,[]
+                );
+                $plan->product = $prod;
+            }
+            $user = Auth::user();
+
             return view('home.getPriceListing', [
                 'user'=>$user,
                 'plans' => $plans
