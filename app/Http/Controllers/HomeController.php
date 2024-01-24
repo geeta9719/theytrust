@@ -961,7 +961,7 @@ function drawChart() {
 
         if( Auth::check() )
         {
-
+            dd("sdfsdfsdf");
             $user =  Auth::user();
             $key = \config('services.stripe.secret');
             $stripe = new \Stripe\StripeClient($key);
@@ -983,6 +983,7 @@ function drawChart() {
         }
         else
         {
+            dd("hhhhhhhhhhhhhhhhf");
             return redirect('auth/linkedin');
         }
     }
