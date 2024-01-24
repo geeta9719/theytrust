@@ -142,8 +142,9 @@ class PaymentContorller extends Controller
                     $transaction->user_id = $userId;
                     $transaction->save();
                 });
-
-                $this->subscribeToPlan($planId,$userId);
+                $plan = PlanModel::find($planId);
+                $user = User::find($userId);
+                    $this->subscribeToPlan($plan,$user);
             // }
         } catch (\Exception $e) {
             // Log the error specific to handleAllowedEvents
