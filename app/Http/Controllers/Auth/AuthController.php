@@ -118,7 +118,7 @@ class AuthController extends Controller
         try 
         {
             $user       = Socialite::driver( 'linkedin' )->user();    
-            $finduser   = User::where( 'linkedin_id', $user->id )->first();
+            $finduser   = User::where( 'linkedin_id', $user->id )->first()
 
             if( $finduser )
             {
@@ -139,6 +139,9 @@ class AuthController extends Controller
                                         ]);
                 
                 Auth::login( $newUser );
+
+                dd( session( 'referer' ));
+                
                 
                 return redirect( str_replace( url( '/membership-plans' ), '', session( 'referer' ) ) );
             }
