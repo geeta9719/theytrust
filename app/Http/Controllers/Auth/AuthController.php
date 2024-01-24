@@ -139,10 +139,8 @@ class AuthController extends Controller
                                         ]);
                 
                 Auth::login( $newUser );
-
-                dd( session( 'referer' ));
                 
-                
+            
                 return redirect( str_replace( url( '/membership-plans' ), '', session( 'referer' ) ) );
             }
             

@@ -959,9 +959,7 @@ function drawChart() {
     public function getPriceListing()
     {
 
-    
-        
-
+        dd("sdfsdf");
         if( Auth::check() )
         {
 
@@ -986,7 +984,7 @@ function drawChart() {
         }
         else
         {
-            session(['referer' => url('sponsorship')]);
+            // session(['referer' => url('sponsorship')]);
             return redirect('auth/linkedin');
         }
     }
