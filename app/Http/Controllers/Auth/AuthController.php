@@ -123,6 +123,8 @@ class AuthController extends Controller
             if( $finduser )
             {
                 Auth::login( $finduser );
+                dd(str_replace( url('/membership-plans'), '', session( 'referer' ) ),"asdfasdfasdf");
+
                 return redirect( str_replace( url('/membership-plans'), '', session( 'referer' ) ) );
             }
             else
@@ -141,6 +143,7 @@ class AuthController extends Controller
                 Auth::login( $newUser );
                 
             
+                dd("asdfasdfasdfasdf");
                 return redirect( str_replace( url( '/membership-plans' ), '', session( 'referer' ) ) );
             }
             
