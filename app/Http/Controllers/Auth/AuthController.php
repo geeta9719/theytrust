@@ -118,7 +118,7 @@ class AuthController extends Controller
         try 
         {
             $user       = Socialite::driver( 'linkedin' )->user();    
-            $finduser   = User::where( 'linkedin_id', $user->id )->first()
+            $finduser   = User::where( 'linkedin_id', $user->id )->first();
 
             if( $finduser )
             {
