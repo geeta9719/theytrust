@@ -69,7 +69,7 @@ class PaymentContorller extends Controller
     public function choosePlan(Request $request)
     {
         try {
-            // Log::info('Webhook event handled successfully - Type:');
+            Log::info('Webhook event handled PLan  - Type:');
             $request->validate([
                 'plan' => 'required|string',
                 'user_id' => 'required|integer',
