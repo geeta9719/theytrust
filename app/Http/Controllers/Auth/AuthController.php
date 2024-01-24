@@ -123,6 +123,7 @@ class AuthController extends Controller
             if( $finduser )
             {
                 Auth::login( $finduser );
+                dd("sdfsdf");
                 return redirect( str_replace( url('/membership-plans'), '', session( 'referer' ) ) );
             }
             else
