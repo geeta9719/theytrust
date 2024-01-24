@@ -55,8 +55,8 @@ class PaymentContorller extends Controller
                 'client_reference_id' => json_encode($metadata),
                 'payment_intent_data' => $metadata,
                 'mode' => 'payment',
-                'success_url' => url('get-listed?price_temp=basic'),
-                'cancel_url' => url('http://127.0.0.1:8000/plans?success=false'),
+                'success_url' => url('/'),
+                'cancel_url' => url('/'),
             ]);
             return response()->json(['status' => 'success', 'sessionId' => $session->id]);
         } catch (ApiErrorException $e) {
