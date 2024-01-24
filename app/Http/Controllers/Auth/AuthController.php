@@ -120,11 +120,10 @@ class AuthController extends Controller
             $user       = Socialite::driver( 'linkedin' )->user();    
             $finduser   = User::where( 'linkedin_id', $user->id )->first();
 
-
             if( $finduser )
             {
                 Auth::login( $finduser );
-                return redirect( str_replace( url('/'), '', session( 'referer' ) ) );
+                return redirect( str_replace( url('/membership-plans'), '', session( 'referer' ) ) );
             }
             else
             {
@@ -141,7 +140,7 @@ class AuthController extends Controller
                 
                 Auth::login( $newUser );
                 
-                return redirect( str_replace( url( '/' ), '', session( 'referer' ) ) );
+                return redirect( str_replace( url( '/membership-plans' ), '', session( 'referer' ) ) );
             }
             
         } 
