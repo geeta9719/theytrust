@@ -50,7 +50,7 @@ class HomeController extends Controller
     {
         if( ! Auth::check() )
         {
-            session( [ 'referer' => url('user/choice') ] );
+            session( [ 'referer' => url('/membership-plans') ] );
         }
 
         $data['subcategories']  = Subcategory::all();
@@ -1013,8 +1013,6 @@ function drawChart() {
 
     public function review(Request $request,$company)
     {
-        //session(['referer' => url()->current()]);
-        //return view('home.companyReview',["company"=> $company]);
         if(Auth::check()){
             return redirect()->route('company.getReview',$company);
         }else{
