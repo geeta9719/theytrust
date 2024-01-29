@@ -55,7 +55,7 @@ class PaymentContorller extends Controller
                 'client_reference_id' => json_encode($metadata),
                 'payment_intent_data' => $metadata,
                 'mode' => 'payment',
-                'success_url' => url('/'),
+                'success_url' => url('user/' . $user->id . '/basicInfo?profile=basic'),
                 'cancel_url' => url('/'),
             ]);
             return response()->json(['status' => 'success', 'sessionId' => $session->id]);
