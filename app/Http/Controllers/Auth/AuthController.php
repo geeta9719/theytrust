@@ -142,7 +142,8 @@ class AuthController extends Controller
 
             
     
-                return redirect( str_replace( url( '/membership-plans' ), '', session( 'referer' ) ) );
+                return redirect(url('/membership-plans'));
+                // return redirect( str_replace( url( '/membership-plans' ), '', session( 'referer' ) ) );
             }
             
         } 
