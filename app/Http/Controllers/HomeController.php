@@ -961,7 +961,6 @@ function drawChart() {
 
         if( Auth::check() )
         {
-            dd("sdfsdfsdf");
             $user =  Auth::user();
             $key = \config('services.stripe.secret');
             $stripe = new \Stripe\StripeClient($key);
