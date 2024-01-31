@@ -12,6 +12,8 @@ use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 use Rennokki\Plans\Traits\HasPlans;
 use App\Models\User;
+use Rennokki\Plans\Events\NewSubscription;
+use Rennokki\Plans\Traits\PlanSubscriptionModel;
 
 class PaymentContorller extends Controller
 {
@@ -98,20 +100,16 @@ class PaymentContorller extends Controller
             Log::info('Webhook event handled successfully - Type: ', $e);
             return response()->json(['error' => 'Invalid signature'], 400);
         }
-
-        //  $this->handleAllowedEvents($event);
-    
-        // // Check the type of the event
         switch ($event->type) {
             case 'payment_intent.succeeded':
                 $this->handleAllowedEvents($event);
                 break;
-            case 'payment_intent.payment_failed':
-                $this->handleAllowedEvents($event);
-                break;
-            default:
-                Log::info('Ignoring event type: ' . $event->type);
-                break;
+            // case 'payment_intent.payment_failed':
+            //     $this->handleAllowedEvents($event);
+            //     break;
+            // default:
+            //     Log::info('Ignoring event type: ' . $event->type);
+            //     break;
         }
     
         return response()->json(['success' => true]);
@@ -144,10 +142,9 @@ class PaymentContorller extends Controller
                 });
                 $plan = PlanModel::find($planId);
                 $user = User::find($userId);
-                    $this->subscribeToPlan($plan,$user);
+                $subscription = $this->subscribeToPlan($plan,$user,false);
             // }
         } catch (\Exception $e) {
-            // Log the error specific to handleAllowedEvents
             Log::error('Error in handleAllowedEvents: ' . $e->getMessage());
             // Optionally, you can throw the exception again if you want it to propagate to the outer catch block
             // throw $e;
@@ -158,10 +155,10 @@ class PaymentContorller extends Controller
     public function subscribeToPlan(PlanModel $plan,User $user){
     try 
     {
-        $subscription = $user->subscribeTo($plan, 30); 
-        
+        $subscription = $user->subscribeTo($plan,$plan->duration,false);
         return response()->json(['message' => 'Subscription successful']);
     } catch (\Exception $e) {
+        dd($e);
         return response()->json(['error' => 'Subscription failed: ' . $e->getMessage()], 500);
     }
 }

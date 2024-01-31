@@ -215,17 +215,13 @@ public function update_review(Request $request, $id)
 
 public function users_list(Request $request)
 {
-    $query = User::orderBy('id', 'DESC');
-
-    // If search term is provided
+    $query = User::with('currentSubscription','currentSubscription.plan')->orderBy('id', 'DESC');
     if ($request->input('search')) {
         $search = $request->input('search');
         $query->where('name', 'LIKE', "%{$search}%")
               ->orWhere('email', 'LIKE', "%{$search}%"); // You can add more fields as per your requirements.
     }
-
-    $users = $query->paginate(50);
-
+    $users = $query->paginate(20);
     if ($request->ajax()) {
         
         return view('admin.users.partial-table', compact('users'))->render();
