@@ -34,9 +34,13 @@ class UserController extends Controller
 
     public function dashboard(Request $request, $company)
     {   
+        $user     =    auth()->user();
         $uid      = auth()->user()->id;
 		$urole    = auth()->user()->role;
         $cid      = Company::where('user_id',$uid)->first();
+        $data['currentSubscription'] =  $user->currentSubscription;
+        // dd($data);
+        
 		
         if( ( isset( $cid->id ) && $cid->id == $company ) || $urole == 1 )
         {
