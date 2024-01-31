@@ -911,13 +911,28 @@ function drawChart() {
             }
             else
             {
-                return redirect('membership-plans');
-                //return redirect()->route('user.personal');
-                //return view('home.getListed');
+                $user =  Auth::user();
+                 if(!$user->hasActiveSubscription()){
+                    return redirect('membership-plans');
+                 }
+                 $company = Company::where('user_id', $user->id)->first();
+                 if (!$company) {
+                    return redirect()->route('user.basicInfo', ['user' => $user]);
+                }
+                // // // Check for the company's address
+                // // $address = Address::where('company_id', $company->id)->first();
+                // // if (!$address) {
+                // //     return redirect()->route('company.location', ['company' => $company]);
+                // // }
+
+                // // return redirect('membership-plans');
+                // return redirect()->route('user.personal');
+                return view('home.getListed');
             }
         }
         else
         {
+            
             //session(['referer' => url('user/personal')]);
             session(['referer' => url('sponsorship')]);
             return redirect('auth/linkedin');
@@ -982,7 +997,6 @@ function drawChart() {
         }
         else
         {
-            dd("hhhhhhhhhhhhhhhhf");
             return redirect('auth/linkedin');
         }
     }
