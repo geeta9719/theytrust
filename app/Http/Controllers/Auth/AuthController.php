@@ -52,7 +52,6 @@ class AuthController extends Controller
 
     public function handleLinkedinCalimYourProfile()
 {
-    dd("sadfasdf");
     try 
     {
         $user = Socialite::driver('linkedin2')->user();
@@ -118,6 +117,7 @@ class AuthController extends Controller
 
     public function handleLinkedinCallback()
     {  
+        dd("asdfasdf");
         try 
         {
             $user       = Socialite::driver( 'linkedin' )->user();    
