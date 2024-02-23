@@ -18,7 +18,7 @@ class PlanFeatureController extends Controller
 
     public function create()
     {
-        $plans = PlanFeatureModel::all(); 
+        $plans = PlanModel::all(); 
         return view('plan_features.create', compact('plans'));
     }
 
