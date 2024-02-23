@@ -165,7 +165,7 @@ class PaymentContorller extends Controller
             $pdfContent = $this->generatePdf($user);
 
             $data =    Mail::send([], [], function ($message) use ($user, $pdfContent) {
-                $message->to('DK8430996231@GMAIL.COM')
+                $message->to($user->email)
                         ->subject('User Details PDF')
                         ->attachData($pdfContent, 'user_details.pdf', [
                             'mime' => 'application/pdf',
