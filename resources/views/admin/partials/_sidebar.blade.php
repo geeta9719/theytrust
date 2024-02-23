@@ -298,6 +298,17 @@
               </li>
               
             </ul>
+              {{-- plansubscription --}}
+            <ul class="nav nav-treeview me" id="me7">
+              <li class="nav-item">
+                <a href="{{route('plansubscription.index')}}" class="nav-link {{ request()->is('plansubscription*') ? 'active act' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>plansubscription List</p>
+                </a>
+              </li>
+              
+            </ul>
+
           </li>
 
             </li>

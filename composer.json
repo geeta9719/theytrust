@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "barryvdh/laravel-dompdf": "^2.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "ipop/plans": "^2.1",
@@ -65,3 +66,5 @@
     "minimum-stability": "dev",
     "prefer-stable": true
 }
+
+

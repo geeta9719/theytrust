@@ -55,3 +55,10 @@ class SizeController extends Controller
     }  
     
 }
+
+public function store(){
+    input:: $request->validate([
+        'size'-> 'required',
+
+    ])
+}

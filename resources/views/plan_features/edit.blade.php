@@ -1,37 +1,36 @@
 @extends('layouts.admin-master')
 @section('content')
-    <div class="container">
+
+ <div class="container">
         <h1>Edit Plan Feature</h1>
-
-       
-    <form action="{{ route('planfeatures.update', ['planfeature' => $planfeature->id]) }}" method="POST">
-
+    
+    <form role="form" action="{{ route('planfeatures.update', ['planfeature' => $planFeature->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
     
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" name="name" class="form-control" value="{{ $planfeature->name }}" required>
+            <input type="text" name="name" class="form-control" value="{{ $planFeature->name }}" required>
         </div>
     
         <div class="form-group">
             <label for="code">Code:</label>
-            <input type="text" name="code" class="form-control" value="{{ $planfeature->code }}" required>
+            <input type="text" name="code" class="form-control" value="{{ $planFeature->code }}" required>
         </div>
     
         <div class="form-group">
             <label for="description">Description:</label>
-            <textarea name="description" class="form-control">{{ $planfeature->description }}</textarea>
+            <input type="text" name="description" class="form-control" value="{{ $planFeature->description }}" required>
         </div>
     
         <div class="form-group">
             <label for="limit">Limit:</label>
-            <input type="number" name="limit" class="form-control" value="{{ $planfeature->limit }}">
+            <input type="text" name="limit" class="form-control" value="{{ $planFeature->limit }}" required>
         </div>
     
         <div class="form-group">
             <label for="type">Type:</label>
-            <input type="text" name="type" class="form-control" value="{{ $planfeature->type }}" required>
+            <input type="text" name="type" class="form-control" value="{{ $planFeature->type }}" required>
         </div>
     
         <div class="form-group">
@@ -48,8 +47,10 @@
         <button type="submit" class="btn btn-primary">Update Plan Feature</button>
     </form>
     
-    </div>
-@endsection
 
+    </div>
+
+@endsection
+  
 
 

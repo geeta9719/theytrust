@@ -12,6 +12,22 @@
         <td>{{ $user->linkedin }}</td>
         <td>{{ $user->slug }}</td>
         <td>{{ $user->created_at }}</td>
+        <td>
+            @if($user->currentSubscription)
+                @if($user->currentSubscription->isNotEmpty())
+                    @foreach($user->currentSubscription as $subscription)
+                        {{ $subscription->plan->name }}<br>
+                    @endforeach
+                @else
+                    No current subscriptions
+                @endif
+            @else
+                Current subscriptions not loaded
+            @endif
+        </td>
+        
+        
+
         <td nowrap>
             <a href="{{route('admin.users.edit', $user)}}" class="btn btn-sm btn-primary">Edit</a>
 
@@ -33,3 +49,5 @@
         <td colspan="12" style="text-align:center">No Record Found</td>
     </tr>    
 @endif
+
+

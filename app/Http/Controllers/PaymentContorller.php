@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Rennokki\Plans\Models\PlanModel;
 use Stripe\Checkout\Session;
+use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
 use Stripe\Event;
 use Illuminate\Support\Facades\Log;
@@ -14,6 +15,11 @@ use Rennokki\Plans\Traits\HasPlans;
 use App\Models\User;
 use Rennokki\Plans\Events\NewSubscription;
 use Rennokki\Plans\Traits\PlanSubscriptionModel;
+use Dompdf\Dompdf;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Mail;
+use PDF;
+// use App\Http\Controllers\PDF;
 
 class PaymentContorller extends Controller
 {
@@ -143,6 +149,8 @@ class PaymentContorller extends Controller
                 $plan = PlanModel::find($planId);
                 $user = User::find($userId);
                 $subscription = $this->subscribeToPlan($plan,$user,false);
+                $this->sendEmailWithPdf($user->id);
+
             // }
         } catch (\Exception $e) {
             Log::error('Error in handleAllowedEvents: ' . $e->getMessage());
@@ -151,6 +159,34 @@ class PaymentContorller extends Controller
         }
     }
 
+    public function sendEmailWithPdf($userId) {
+        try{
+            $user = User::findOrFail($userId); 
+            $pdfContent = $this->generatePdf($user);
+
+            $data =    Mail::send([], [], function ($message) use ($user, $pdfContent) {
+                $message->to('DK8430996231@GMAIL.COM')
+                        ->subject('User Details PDF')
+                        ->attachData($pdfContent, 'user_details.pdf', [
+                            'mime' => 'application/pdf',
+                        ]);
+            });
+            // dd($data);
+        }catch(\Exception $e) {
+            dd($e);
+            // Log::error('Error in handleAllowedEvents: ' . $e->getMessage());
+
+        }
+    
+        return "Email sent successfully";
+    }
+
+    public function generatePdf($user){
+        // dd($user);
+        $pdf = PDF::loadView('invoicePDF', [$user]);
+        return $pdf->download('invoice.pdf');
+
+    }
 
     public function subscribeToPlan(PlanModel $plan,User $user){
     try 

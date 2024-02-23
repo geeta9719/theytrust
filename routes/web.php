@@ -23,6 +23,7 @@ use App\Http\Controllers\SeosearchController;
 use App\Http\Controllers\swapcontroller;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PlanFeatureController;
+use App\Http\Controllers\PlanSubscriptionController;
 use App\Http\Controllers\PaymentContorller;
 
 
@@ -203,11 +204,6 @@ Route::middleware('auth')->group(function(){
         Route::post( 'admin/send-reviwer-mail', [ HomeController::class, 'send_email_to_reviewer'] );
 
         Route::get('admin/company/review/email-logs', [ HomeController::class, 'company_review_email_logs'] )->name('admin.review.email.logs');
-
-
-
-
-
         Route::get('/admin/subcategory/show', [SubCategoryController::class, 'index'])->name('admin.subcategory.index');
         Route::get('/admin/subcategory/create', [SubCategoryController::class, 'create'])->name('admin.subcategory.create');
         Route::post('/admin/subcategory/store', [SubCategoryController::class, 'store'])->name('admin.subcategory.store');
@@ -280,13 +276,19 @@ Route::middleware('auth')->group(function(){
         Route::delete('/admin/user/{user}', [App\Http\Controllers\CompanyController::class, 'destroy'])->name('admin.user.destroy');
         Route::get('admin/contacts', [ContactController::class, 'index'])->name('admin.contacts.index');
         Route::resource('plans', PlanController::class);
-        Route::resource('planfeatures', PlanFeatureController::class);
+        // Route::resource('planfeatures', PlanFeatureController::class);
+        Route::resource('plansubscription', PlanSubscriptionController::class);
     });    
     Route::get('/checkout', [PaymentContorller::class, 'checkout'])->name('checkout');
     Route::post('/user/choose-plan', [PaymentContorller::class, 'choosePlan'])->name('user.choosePlan');
     Route::post('/create-checkout-session', [PaymentContorller::class, 'createCheckoutSession']);
-    
-  
+   
+    Route::get('/send-email/{userId}', [PaymentContorller::class, 'sendEmailWithPdf'])->name('send.email.with.pdf');
+    Route::resource('planfeatures', PlanFeatureController::class);
+    // Route::resource('planfeatures', PlanFeatureController::class)->except([
+    //     'update' 
+    // ]);
+   // Route::put('planfeatures/{planfeature}', [PlanFeatureController::class,'update'])->name('planfeatures.update');
 
 
 
