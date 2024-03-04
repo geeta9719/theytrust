@@ -65,8 +65,6 @@ class CompanyController extends Controller
         }
     }
 
-
-
     public function get_states_by_country( Request $request )
     {
         $states = DB::table('states')->where( 'country_code','=', $request->iso2 )->orderBy( 'name', 'ASC')->pluck( 'name', 'iso2' )->all();
@@ -98,7 +96,7 @@ class CompanyController extends Controller
     public function company_review()
     {
         $data['reviews'] = CompanyReview::paginate( 10 );
-        return view( 'admin.company.review', $data );
+        return view('admin.company.review',$data );
     }
 
 	public function view_reviews( Request $request )
@@ -108,12 +106,10 @@ class CompanyController extends Controller
 	}
 
     public function edit_review($viewreview)
-{
+   {
 
-    // $data['company'] = Company::find($company);
         $data['category'] = Category::All();
 
-        //$data['size'] = Size::pluck('size','id')->all();
 
         $s = Size::all();
 
@@ -125,11 +121,7 @@ class CompanyController extends Controller
 
         ksort($size);
 
-        //dd($size);
-
         $data['size'] = $size;
-
-        //$data['budget'] = Budget::pluck('budget','id')->all();
 
         $bud = Budget::all();
         foreach ($bud as $value) {
@@ -137,16 +129,16 @@ class CompanyController extends Controller
             $budget[$b[0]] = $value;
         }
         ksort($budget);
-        //dd($budget);
+       
         $data['budget'] = $budget;
 
         $data['attribution'] = Attribution::All();
 
         $data['countries']     = Country::All();
-    // Fetch the review you want to edit, for example, assuming you have a 'Review' model:
+
       $data['review'] = CompanyReview::find($viewreview);
 
-    // Check if the review exists
+    
     if (!$data['review']) {
         return abort(404); 
     }
@@ -213,22 +205,23 @@ public function update_review(Request $request, $id)
         return back();
     }
 
-public function users_list(Request $request)
-{
-    $query = User::with('currentSubscription','currentSubscription.plan')->orderBy('id', 'DESC');
-    if ($request->input('search')) {
-        $search = $request->input('search');
-        $query->where('name', 'LIKE', "%{$search}%")
-              ->orWhere('email', 'LIKE', "%{$search}%"); // You can add more fields as per your requirements.
-    }
-    $users = $query->paginate(20);
-    if ($request->ajax()) {
-        
-        return view('admin.users.partial-table', compact('users'))->render();
-    }
+    public function users_list(Request $request)
+    {
+        $query = User::with('currentSubscription','currentSubscription.plan')->orderBy('id', 'DESC');
+        if ($request->input('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('email', 'LIKE', "%{$search}%"); 
+                
+        }
+        $users = $query->paginate(20);
+        if ($request->ajax()) {
+            
+            return view('admin.users.partial-table', compact('users'))->render();
+        }
 
-    return view('admin.users.index', compact('users'));
-}
+        return view('admin.users.index', compact('users'));
+    }
  
     public function users_edit($id)
     {
@@ -244,7 +237,7 @@ public function users_list(Request $request)
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // image validation
-            ]);
+]);
         
             $user->email = $inputs['email'];
             $user->first_name = $inputs['first_name'];
@@ -255,12 +248,12 @@ public function users_list(Request $request)
             
         
         if ($request->hasFile('image')) {
-                        // Remove the old image from storage if it exists
+                      
             if ($user->image) {
                 Storage::delete($user->image);
             }
     
-            // Store the new image
+       
             $path = $request->file('image')->store('users');
             $user->avatar = $path;
         }
@@ -268,7 +261,8 @@ public function users_list(Request $request)
         $user->save();
     
         session()->flash('msg','User data is updated');
-        return redirect()->route('admin.users.list'); // Update the route name if necessary
+        return redirect()->route('admin.users.list'); 
+       
     }
 
     public function destroy(User $user)
@@ -281,4 +275,7 @@ public function users_list(Request $request)
         }
     }
 }
-            
+
+
+
+

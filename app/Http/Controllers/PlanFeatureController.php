@@ -18,7 +18,8 @@ class PlanFeatureController extends Controller
 
     public function create()
     {
-        $plans = PlanModel::all(); 
+        // $plans = PlanFeatureModel::all(); 
+        $plans = PlanModel::all();
         return view('plan_features.create', compact('plans'));
     }
 
@@ -30,17 +31,21 @@ class PlanFeatureController extends Controller
         return redirect()->route('planfeatures.index')->with('success', 'Plan feature created successfully.');
     }
 
-    public function show(PlanFeature $planFeature)
+   
+    public function show($id)
     {
-       
-        return view('plan_features.show', compact('planFeatures'));
+        $planFeature = PlanFeatureModel::findOrFail($id);
+        return view('plan_features.show', compact('planFeature', 'id'));
     }
+    
+
    
   
     
     public function edit($id) {
-        $planFeature = PlanFeature::findOrFail($id);
-        return view('plan_features.edit', compact('planFeature'));
+        $planFeature = PlanFeatureModel::findOrFail($id);
+        $plans = PlanModel::all(); 
+        return view('plan_features.edit', compact('planFeature', 'plans'));
       
     }
     
@@ -48,34 +53,38 @@ class PlanFeatureController extends Controller
     
     public function update(Request $request, $id)
     {
-            $planFeature = PlanFeature::findOrFail($id); 
-
+            $planFeature = PlanFeatureModel::findOrFail($id); 
             $request->validate([
                 'name' => 'required',
-                'code' => 'required',
                 'description' => 'required',
-                'limit' => 'required|integer',
-                'type' => 'required',
                 'plan_id' => 'required|exists:plans,id',
+                // 'code' => 'required',
+                // 'limit' => 'required|integer',
+                // 'type' => 'required',
+                
             ]);
 
             $planFeature->update([
                 'name' => $request->input('name'),
-                'code' => $request->input('code'),
                 'description' => $request->input('description'),
-                'limit' => $request->input('limit'),
-                'type' => $request->input('type'),
                 'plan_id' => $request->input('plan_id'),
+                  // 'code' => $request->input('code'),
+                // 'limit' => $request->input('limit'),
+                // 'type' => $request->input('type'),
+                
             ]);
+            $planFeature->update($request->all());
 
             return redirect()->route('planfeatures.index')->with('success', 'Plan feature updated successfully.');
     }
 
+   
+
+
     public function destroy($id)
     {
-        $planFeature = PlanFeature::findOrFail($id);
+        $planFeature = PlanFeatureModel::findOrFail($id);
         $planFeature->delete();
-
         return redirect()->route('planfeatures.index')->with('success', 'Plan feature deleted successfully');
     }
 }

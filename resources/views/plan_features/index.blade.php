@@ -13,10 +13,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Code</th>
                             <th>Description</th>
-                            <th>Limit</th>
-                            <th>Type</th>
                             <th>Plan</th>
                             <th>Actions</th>
                         </tr>
@@ -25,10 +22,9 @@
                         @foreach ($planFeatures as $planFeature)
                             <tr>
                                 <td>{{ $planFeature->name }}</td>
-                                <td>{{ $planFeature->code }}</td>
+                               
                                 <td>{{ $planFeature->description }}</td>
-                                <td>{{ $planFeature->limit }}</td>
-                                <td>{{ $planFeature->type }}</td>
+                              
                                 <td>
                                     @if ($planFeature->plan)
                                         {{ $planFeature->plan->name }}
@@ -38,14 +34,13 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="{{ route('planfeatures.edit', $planFeature->id) }}"
-                                            class="btn btn-primary btn-sm">Edit</a>
+                                        <a href="{{ route('planfeatures.edit', $planFeature->id) }}" class="btn btn-primary btn-sm">Edit</a>
                   
-                    <form action="{{ route('planfeatures.destroy', $planFeature->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this plan feature?')">Delete</button>
-                    </form>
+                                            <form action="{{ route('planfeatures.destroy', $planFeature->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this plan feature?')">Delete</button>
+                                            </form>
                     
 
                                     </div>

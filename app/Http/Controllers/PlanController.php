@@ -29,16 +29,14 @@ class PlanController extends Controller
             'description' => 'nullable',
         ]);
     
-        // Extract metadata from the request and format it as an associative array
         $metadataKeys = $request->input('metadata.key');
         $metadataValues = $request->input('metadata.value');
         $metadata = array_combine($metadataKeys, $metadataValues);
     
-        // Add metadata to the request data
         $requestData = $request->except(['metadata']);
         $requestData['metadata'] = $metadata;
     
-        // Create the plan
+    
         PlanModel::create($requestData);
     
         return redirect()->route('plans.index')->with('success', 'Plan created successfully');
