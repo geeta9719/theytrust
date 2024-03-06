@@ -2,631 +2,495 @@
 @section('content')
 
 
-<!-- listing section start -->
-<section class="container-fluid list-top">
-    <div class=" container">
-        <a href="">Home | Company Profile</a>
-        {{--<h2>TheyTrustUsLogin</h2>--}}
-    </div>
-</section>
-@if(session('message'))
-    <div class="alert alert-danger">
-        {{ session('message') }}
-    </div>
-@endif
-<section class="container-fluid mt-5 mb-5 list-box">
-    <div class=" container">
-        <div class="row ">
-            <div class="col-lg-12 col-md-12 firm-sec pl-md-4">
-                <div class="graph-sec row border mx-0 pt-5 pb-5 px-3 ">
-                    <div class="col-xl-2 col-lg-6 border-right verified-sec pb-3 pb-md-0">
-                        <img src="{{ asset( $company->logo ) }}" alt="" class="img-fluid ">
-                        @if( $company->is_publish )
-                            <img src="{{asset('front_components/images/verified.png')}}" alt="" class="img-fluid ">
-                        @endif
-                        <?php
-                            $bb  = explode( '-', $company->budget );
-                            $bbb = $bb[0] .'+';
-                            if( !empty( $rr ) )
-                            {
-                                $rr  = explode('-',$company->rate);
-                                $rrr = '$'.$rr[0].'-$'.$rr[1];
-                            }
-                            else
-                            {
-                                $rrr = 'N/A ';
-                            }
-                        ?>
-                        <div class="icon-box mt-4">
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/verified-icon1.png')}}" alt="">
-                                {{ $bbb }}
-                            </p>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/time.png')}}" alt="">
-                                {{ $rrr ?? 'NA' }} / Hr
-                            </p>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/person.png')}}" alt="">
-                                {{ $company->size }}
-                            </p>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/location2.png')}}" alt="">
-                                {{ $company->address[0]->city ?? '' }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 pl-md-4 mt-md-0 mt-4">
-                        <h3>{{ ucfirst( $company->name ) }}</h3>
-                        <p>{{ $company->tagline }}</p>
-                        <div class="reviews-row">
-                            <h3> {{number_format((float)$rate_review->rating, 1, '.', '') ?? ''}} </h3>
-                            <div class="px-3">
-                                <?php
-                                    for($i=1;$i<=5;$i++)
-                                    {
-                                        if($i <= $rate_review->rating)
-                                        {
-                                        ?>
-                                            <i class="fa fa-star bluestar"></i>
-                                        <?php
-                                        }
-                                        elseif($rate_review->rating <= $i-1)
-                                        {
-                                        ?>
-                                            <i class="fa fa-star-o bluestar"></i>
-                                        <?php
-                                        }
-                                        else
-                                        {
-                                        ?>
-                                            <i class="fa fa-star-half-o bluestar"></i>
-                                        <?php
-                                        }
-                                    }
-                                ?>
-                            </div>
-                            <h3>{{$rate_review->review}} REVIEWS</h3>
-                        </div>
-                        <div class="links">
-                            <p>{{ $company->short_description }}</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4  pl-md-0 mt-xl-0 mt-5 locationbox">
-                        <h3>Location </h3>
-                        <div class="d-flex align-items-center mb-4">
-                            <img src="{{asset('front_components/images/profilemap.png')}}" alt="" class="img-fluid"> &nbsp; {{ $company->address[0]->city ?? '' }} {{ $company->address[0]->country->name ?? ''}} <!-- <a href="">Show All</a> -->
-                        </div>
-                        {{-- <img src="{{asset('front_components/images/profile-google.jpg')}}" alt=""
-                            class="img-fluid mt-4"> --}}
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15281491.841751238!2d72.1038341019075!3d20.757563059676368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1697655190803!5m2!1sen!2sin" width="365" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                </div>
-            </div>
+    <style>
+        .verified-sec .veri {
+            margin: auto;
+            padding-top: 10px;
+        }
+
+        .alert-success {
+
+            width: 36% !important;
+            margin: auto auto 10px 23% !important;
+            text-align: center;
+        }
+
+        .select2-container--default .select2-selection--multiple {
+            width: 229px;
+            margin-left: 2px;
+        }
+
+        .directory-blade .verified-sec a {
+            display: flex;
+        }
+
+        .directory-blade .verified-sec a::after {
+            content: url('https://theytrust-us.developmentserver.info/front_components/images/min-arrow.png');
+            max-width: 30px;
+            margin-left: 10px;
+        }
+
+        .emp p {
+            margin-right: 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .reviews-sec h3 {
+            font-size: 20px;
+            text-transform: capitalize;
+            font-weight: bold;
+        }
+
+        .reviews-sec p {
+            font-size: 1rem;
+        }
+
+        .scroll-content p b {
+            color: #388cff;
+        }
+
+        .location-sec iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .location-sec p {
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .scroll-content {
+            display: inline-block;
+            white-space: normal;
+        }
+
+        .scroll-container {
+            width: 100%;
+            white-space: nowrap;
+            overflow-x: auto;
+            height: 250px;
+            padding-right: 15px;
+        }
+
+
+
+        .reviews-row {
+            display: flex;
+            justify-content: end;
+        }
+
+        .reviews-row .fa {
+            font-size: 20px;
+        }
+
+        .bluestar {
+            color: #388cff;
+        }
+
+        .reviews-row h3 {
+            font-size: 16px;
+        }
+
+        .gray-bg {
+            background-color: #f9f9fc;
+
+        }
+
+        .my-heading {
+            font-size: 20px;
+            text-transform: capitalize;
+            font-weight: bold;
+            margin: 0;
+            padding: 8px 20px;
+            background-color: #95c7ef;
+            color: #fff;
+            width: 100%;
+            border-radius: 3px;
+        }
+
+        .target-sec h2.area {
+            border-radius: 3px 0 0 3px;
+        }
+
+        .target-sec h2.industries {
+            border-radius: 0 3px 3px 0;
+        }
+
+        .target-sec h3 {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 12px;
+            margin-bottom: 0;
+
+        }
+
+        .reviews-row2 h3 {
+            font-size: 1.75rem !important;
+        }
+
+        .btn-target {
+            border: 1px solid #dee2e6;
+            padding: 10px 15px;
+            border-radius: 0 0 5px 5px;
+            text-decoration: none !important;
+            display: block;
+            color: #0087f2 !important;
+            border-top: 0;
+            font-weight: bold;
+            transition: all .3s;
+
+        }
+
+        .btn-target:hover {
+            color: #fff;
+            text-decoration: none;
+            background-color: #95c7ef;
+
+        }
+
+        .percentbox img {
+            width: 42% !important;
+        }
+
+        .agency-sec p {
+            font-size: 1rem;
+        }
+
+        .agency-sec a:hover {
+            color: #007bff !important;
+            text-decoration: underline !important;
+            font-weight: 600 !important;
+        }
+
+        .agency-sec a {
+            color: #007bff !important;
+            text-decoration: underline !important;
+            font-weight: 600 !important;
+        }
+
+        .faq p {
+            font-size: 1rem;
+        }
+
+        .case-box .border {
+            border: 1px solid #dee2e6 !important;
+        }
+
+        .review-by h3 {
+            font-size: 15px;
+        }
+
+        .review-by p {
+            font-size: 14px;
+        }
+
+        @media (max-width: 650px) {
+            .alert-success {
+                font-size: 13px;
+                width: 100% !important;
+                margin: auto auto 10px auto !important;
+            }
+
+        }
+    </style>
+
+    <!-- listing section start -->
+    <section class="container-fluid list-top">
+        <div class=" container">
+            <a href="">Home | Company Profile</a>
+            {{-- <h2>TheyTrustUsLogin</h2> --}}
         </div>
-</section>
-
-
-<section class="container-fluid mt-5 mb-5 focus-sec">
-    <div class=" container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12  pl-md-4">
-                <div class=" row border mx-0 py-4 px-3 align-items-center">
-                    <div class="col-xl-8  pl-md-5 mt-xl-0 mt-5">
-                        <h2>Focus</h2>
-                    </div>
-                <div class="row ml-0 mr-0">
-                <div class="col-md-4 pt-2">
-                    <p>
-                        <div class="row text-center" id="piechart1"></div>
-                        <?php
-                        if(count($service_lines) > 0){
-                            $t = 0;
-                            $data = array();
-                            $data[0] = array('Service Lines','Percent');
-                            for($i = 0;$i < count($service_lines); $i++){
-                                if($service_lines[$i]->percent > 0){
-                                    $t = $t + $service_lines[$i]->percent;
-                                    $data[$i+1] = array($service_lines[$i]->subcategory->subcategory,(int)$service_lines[$i]->percent);
-                                }
-                            }
-                            if($t < 100){
-                                $p = 100-$t;
-                                $data[$i+1] = array("None",$p);
-                            }
-                            $data = json_encode($data);
-                            ?>
-                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                            <script type="text/javascript">
-                            // Load google charts
-                            google.charts.load('current', {'packages':['corechart']});
-                            google.charts.setOnLoadCallback(drawChart);
-                            // Draw the chart and set the chart values
-                            function drawChart() {
-                                var data = google.visualization.arrayToDataTable(<?=$data?>);
-                                // Optional; add a title and set the width and height of the chart
-                                var options = {'title':'Service Lines', 'width':450, 'height':300};
-                                // Display the chart inside the <div> element with id="piechart"
-                                var chart = new google.visualization.PieChart(document.getElementById("piechart1"));
-                                chart.draw(data, options);
-                            }
-                            </script>
-                            <?php
-                        }
-                        ?>
-                    </p>
-                </div>
-                <div class="col-md-4 pt-2">
-                    <p>
-                        <div class="row text-center" id="piechart4"></div>
-                        <?php
-                        if(count($add_client_size) > 0){
-                            $t = 0;
-                            $data = array();
-                            $data[0] = array('Client Focus','Percent');
-                            for($i = 0;$i < count($add_client_size); $i++){
-                                if($add_client_size[$i]->percent > 0){
-                                    $t = $t + $add_client_size[$i]->percent;
-                                    $data[$i+1] = array($add_client_size[$i]->client_size->name,(int)$add_client_size[$i]->percent);
-                                }
-                            }
-                            if($t < 100){
-                                $p = 100-$t;
-                                $data[$i+1] = array("None",$p);
-                            }
-                            $data = json_encode($data);
-                            ?>
-                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                            <script type="text/javascript">
-                            // Load google charts
-                            google.charts.load('current', {'packages':['corechart']});
-                            google.charts.setOnLoadCallback(drawChart);
-                            // Draw the chart and set the chart values
-                            function drawChart() {
-                                var data = google.visualization.arrayToDataTable(<?=$data?>);
-                                // Optional; add a title and set the width and height of the chart
-                                var options = {'title':'Client Focus', 'width':440, 'height':300};
-                                // Display the chart inside the <div> element with id="piechart"
-                                var chart = new google.visualization.PieChart(document.getElementById("piechart4"));
-                                chart.draw(data, options);
-                            }
-                            </script>
-                            <?php
-                        }
-                        ?>
-                    </p>
-                </div>
-                <div class="col-md-4 pt-2">
-                    <p>
-                        <div class="row text-center" id="piechart2"></div>
-                        <?php $t = 0;
-                        if(count($add_industry) > 0){
-                            $data = array();
-                            $data[0] = array('Industry Focus','Percent');
-                            for($i = 0;$i < count($add_industry); $i++){
-                                if($add_industry[$i]->percent > 0){
-                                    $t = $t + $add_industry[$i]->percent;
-                                    $data[$i+1] = array($add_industry[$i]->industry->name,(int)$add_industry[$i]->percent);
-                                }
-                            }
-                            if($t < 100){
-                                $p = 100-$t;
-                                $data[$i+1] = array("None",$p);
-                            }
-                            $data = json_encode($data);
-                            ?>
-                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                            <script type="text/javascript">
-                            // Load google charts
-                            google.charts.load('current', {'packages':['corechart']});
-                            google.charts.setOnLoadCallback(drawChart);
-                            // Draw the chart and set the chart values
-                            function drawChart() {
-                                var data = google.visualization.arrayToDataTable(<?=$data?>);
-                                // Optional; add a title and set the width and height of the chart
-                                var options = {'title':'Industry Focus', 'width':450, 'height':300};
-                                // Display the chart inside the <div> element with id="piechart"
-                                var chart = new google.visualization.PieChart(document.getElementById("piechart2"));
-                                chart.draw(data, options);
-                            }
-                            </script>
-                            <?php
-                        }?>
-                    </p>
-                </div>
-                @if(count($add_focus) > 0)
-                    @foreach($add_focus as $key => $value)
-                    <div class="col-md-4 pt-2">
-                        <p>
-                            <div class="row text-center" id="piechart3{{$key}}"></div>
-                            <?php
-                            $t = 0;
-                            if(count($value) > 0){
-                                $data = array();
-                                $data[0] = array($add_focus[$key][0]->subcategory->subcategory.' Focus','Percent');
-                                for($i = 0;$i < count($value); $i++){
-                                    if($value[$i]->percent > 0){
-                                        $t = $t + $value[$i]->percent;
-                                        $data[$i+1] = array($value[$i]->subcat_child->name,(int)$value[$i]->percent);
-                                    }
-                                }
-                                if($t < 100){
-                                    $p = 100-$t;
-                                    $data[$i+1] = array("None",$p);
-                                }
-                                $data = json_encode($data);
-                                ?>
-                                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                                <script type="text/javascript">
-                                // Load google charts
-                                google.charts.load('current', {'packages':['corechart']});
-                                google.charts.setOnLoadCallback(drawChart);
-                                // Draw the chart and set the chart values
-                                function drawChart() {
-                                    var data = google.visualization.arrayToDataTable(<?=$data?>);
-                                    // Optional; add a title and set the width and height of the chart
-                                    var options = {'title':'{{$add_focus[$key][0]->subcategory->subcategory}} Focus', 'width':450, 'height':300};
-                                    // Display the chart inside the <div> element with id="piechart"
-                                    var chart = new google.visualization.PieChart(document.getElementById("piechart3{{$key}}"));
-                                    chart.draw(data, options);
-                                }
-                                </script>
-                                <?php
-                            }?>
-                        </p>
-                    </div>
-                    @endforeach
-                @endif
-            </div>
-                    <div class="col-xl-4  pl-md-5 mt-xl-0 mt-5 focus-box" >
-                        <h3 id="reviewsec"><a href="{{ route('claim-your-profile', $company->user_id ) }}" class="btn btn-lg btn-primary">Claim Your Profile</a></h3>
-                    </div>
-                </div>
-            </div>
+    </section>
+    @if (session('message'))
+        <div class="alert alert-danger">
+            {{ session('message') }}
         </div>
-</section>
-<section class="container-fluid mt-5 mb-5 pr-0 pl-0 review-sec" >
-    <div class="  container-fluid pr-0 pl-0 ml-0 mr-0">
-        <div class="row graph-sec">
-            <div class="col-lg-12 col-md-12  pl-md-0">
-
-
-
-            <div class="  container mb-md-4 mb-0 pl-md-4 pl-0">
-
-
-
-
-                <div class=" row border mx-0 py-4 px-3 align-items-center">
-                    <div class="col-xl-6  pl-md-5 pl-5 mt-xl-0 mt-5">
-                        <h2>Reviews</h2>
-                        <div class="reviews-row">
-                            @if( isset( $rate_review ) )
-                            <h3>{{ number_format( (float)$rate_review->rating, 1, '.', '' ) ?? '' }}</h3>
-                            <div class="px-3">
-                                <?php
-                                for( $i=1; $i <= 5; $i++ )
-                                {
-                                    if($i <= $rate_review->rating)
-                                    {
-                                    ?>
+    @endif
+    <section class="container-fluid mt-5 mb-5 list-box">
+        <div class=" container">
+            <div class="row">
+                <div class="col-lg-12 col-md-7 firm-sec p-3 mt-4 mt-md-0 shadow directory-blade" id="addCompanyList">
+                    <div class="row">
+                        <div class="col-md-7">
+                                <img src="{{ asset( $company->logo ) }}" alt="" class="img-fluid ">
+                        </div>
+                        <div class="col-md-5 text-right">
+                            <div class="reviews-row">
+                                <h3>{{ number_format((float)$rate_review->rating, 1) }}</h3>
+                                <div class="px-3">
+                                    @php
+                                        $full_stars = floor($rate_review->rating);
+                                        $half_star = ceil($rate_review->rating - $full_stars);
+                                        $empty_stars = 5 - ($full_stars + $half_star);
+                                    @endphp
+                                    
+                                    @for ($i = 0; $i < $full_stars; $i++)
                                         <i class="fa fa-star bluestar"></i>
-                                    <?php
-                                    }
-                                    elseif( $rate_review->rating <= $i-1 )
-                                    {
-                                    ?>
-                                        <i class="fa fa-star-o bluestar"></i>
-                                    <?php
-                                    }
-                                    else
-                                    {
-                                    ?>
+                                    @endfor
+                                    
+                                    @if ($half_star)
                                         <i class="fa fa-star-half-o bluestar"></i>
-                                    <?php
-                                    }
-                                }
-                                ?>
+                                    @endif
+                                    
+                                    @for ($i = 0; $i < $empty_stars; $i++)
+                                        <i class="fa fa-star-o bluestar"></i>
+                                    @endfor
+                                </div>
+                                <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank">
+                                    <h3>1 REVIEWS</h3>
+                                </a>
                             </div>
-                            <h3>{{ $rate_review->review }} REVIEWS</h3>
-                             @endif
                         </div>
-                      </div>
-                    <div class="col-xl-6  pl-md-5 mt-xl-0 mt-5 pt-4 ">
-                        <h2><a class="submitbtn" style="color:#fff;" href="{{ route( 'company.review', $company->id ) }}">Submit Review</a></h2>
+                        
                     </div>
-                </div>
-
-
-               </div>
-
-
-
-
-
-                @foreach($review as $key => $val)
-                <div class="  row border mx-0 py-5 px-3 previw-sec" id="review{{$val->id}}">
-                    <div class="col-md-3  pt-0 border-right">
-                        <div class="icon-box ">
-                            <h4>THE PROJECT</h4>
-                            <h3>{{ ucfirst($val->project_title) }}</h3>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/verified-icon1.png')}}" alt="" class="img-fluid">
-                                {{$val->project_type}}
-                            </p>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/verified-icon1.png')}}" alt="" class="img-fluid">
-                                {{$val->cost_range}}
-                            </p>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/profilecalender.png')}}" alt="" class="img-fluid">
-                                {{ date('M Y',strtotime($val->project_start)) }} - {{ date('M Y',strtotime( $val->project_end ) ) }}
-                            </p>
+                    <div class="row mt-5 target-sec">
+                        <div class="col-md-8 pr-md-1">
+                            <h2 class="area my-heading"> Target Services Area</h2>
+                            <hr class="mt-2">
+                            <div class="row mx-0 percentbox">
+                                @foreach ($add_industry as $item)
+                                    <div class="col-md-4 text-center mb-2 p-2">
+                                        <div class="border p-3 w-100 rounded shadow-sm h-100">
+                                            <h3>{{ $item->industry->name }}</h3>
+                                            <div id="piechart_{{ str_replace('-', '_', Str::slug($item->industry->name))}}"></div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="col-md-4 pl-md-1">
+                            <h2 class="industries my-heading">Target Industries</h2>
+                            <hr class="mt-2 mb-4">
+                            @foreach ($service_lines as $service_line)
+                                <a href="#" class="btn-target">{{ $service_line->subcategory->subcategory }}</a>
+                            @endforeach
                         </div>
                     </div>
-                    <div class="col-md-3  pt-0 border-right">
-                        <h4>THE REVIEW</h4>
-                        <p>{{ date('d M Y', strtotime( $val->updated_at ) ) }}</p>
-                        <p>{{$val->communication_review ? $val->communication_review : '' }}</p>
+                    <div class="container mt-5 agency-sec">
+                        <h2 class="my-heading"> Agency Profile</h2>
+                        <hr>
+                        <p>{{ $company->short_description}}</p>
+                        <p><a href=""><u>Read More ></u></a></p>
                     </div>
-                    <div class="col-md-3  pt-0 border-right">
-                        <div class="reviews-row p-0">
-                            <h3 class="mr-2">{{ number_format((float)$val->overall_rating, 1, '.', '') ?? '' }}</h3>
-                            <div class="">
-                                <?php
-                                    for( $i=1; $i<=5; $i++ )
-                                    {
-                                        if($i <= $val->overall_rating)
-                                        {
-                                        ?>
-                                           <i class="fa fa-star bluestar"></i>
-                                        <?php
-                                        }
-                                        elseif( $val->overall_rating <= $i-1 )
-                                        {
-                                        ?>
-                                            <i class="fa fa-star-o bluestar"></i>
-                                        <?php
-                                        }
-                                        else
-                                        {
-                                        ?>
-                                            <i class="fa fa-star-half-o bluestar"></i>
-                                        <?php
-                                        }
-                                    }
-                                    ?>
-                            </div></br>
+                    <div class="container mt-5">
+                        <h2 class="my-heading"> Locations</h2>
+                        <hr>
+                        <div class="row location-sec">
+                            <div class="col-md-4">
+                                <div class="scroll-container">
+                                    <div class="scroll-content">
+                                        @foreach($addresses as $address)
+                                            <p class="address"><b>{{ $address->city }}</b></p>
+                                            <p class="autocomplete">{{ $address->autocomplete }}</p>
+                                            <br>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div id="map" style="width: 100%; height: 100%;"></div>
+                            </div>
                         </div>
-                        <p class="mt-2 qualitytxt">
-                            Quality: {{ $val->quality }}/5                </br>
-                            Timeliness: {{ $val->timeliness }}          </br>
-                            Cost: {{ $val->cost }}                      </br>
-                            Communication: {{ $val->communication }}/5    </br>
-                            Expertise: {{ $val->expertise }}/5           </br>
-                            Ease of working: {{ $val->ease_of_working }}/5 </br>
-                            Refer-ability: {{ $val->refer_ability }}
-                        </p>
                     </div>
-                    <div class="col-md-3  pt-0 text-center">
-                        <h4>THE REVIEWER</h4>
-                        <p>{{ $val->position_title }}, {{ $val->company_name }}</p>
-                        <img src="{{asset('front_components/images/userprofile.png')}}" alt="" class="img-fluid">
-                        <div class="icon-box  ">
-                            <p class="d-flex mt-4 justify-content-center align-items-center">
-                                <img src="{{asset('front_components/images/verified-icon1.png')}}" alt="" class="img-fluid">
-                                {{$val->project_type}}
-                            </p>
+                    <div class="container mt-5 reviews-sec">
+                        <h2 class="my-heading"> Reviews
+                        </h2>
+                        <hr>
+                        <div class="row align-items-end">
+                            <div class="col-md-4 ">
+                                <h3>Review Title </h3>
+                                <p>dummy text of the printing and typesetting inddummdummy text of the printing and
+                                    typesetting inddummdummy text of the printing and typesetting inddumm</p>
+                            </div>
+                            <div class="col-md-5 review-by">
+                                <h3>Review By</h3>
+                                <p>dummy text of the printing and typesetting
+                                  dummy text of the printing and typesetting
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="container">
+                        <div class=" row quality-sec ">
+                            <div class="reviews-row2 d-flex align-items-center col-md-12 mt-2 ">
+                                <div class="pl-0 pr-2">
+                                    <i class="fa fa-star bluestar"></i>
+                                    <i class="fa fa-star bluestar"></i>
+                                    <i class="fa fa-star bluestar"></i>
+                                    <i class="fa fa-star-half-o bluestar"></i>
+                                    <i class="fa fa-star-o bluestar"></i>
+                                </div>
+                                <h3>3.5 </h3>
+                            </div>
+                            <div class="col-md-2 ">
+                                Quality 5.0
+                            </div>
+                            <div class="col-md-2 ">
+                                Quality 5.0
+                            </div>
+                            <div class="col-md-2 ">
+                                Quality 5.0
+                            </div>
+                            <div class="col-md-2 ">
+                                Quality 5.0
+                            </div>
+                            <div class="col-md-2 ">
+                                Quality 5.0
+                            </div>
+                            <div class="col-md-2 ">
+                                Quality 5.0
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container my-5 faq">
+                        <div class="border p-2 px-3 mb-2">
+                            <p class="mb-0"> <strong>What Services Dummy Text Of The Printing ?</strong> <br>
+                                dummy text of the printingdummy text of the printing text of the printing text of the
+                                printing text of</p>
+                        </div>
+                        <div class="border p-2 px-3 mb-2">
+                            <p class="mb-0"> <strong>What Services Dummy Text Of The Printing ?</strong> <br>
+                                dummy text of the printingdummy text of the printing text of the printing text of the
+                                printing text of</p>
+                        </div>
+                        <div class="border p-2 px-3 mb-2">
+                            <p class="mb-0"> <strong>What Services Dummy Text Of The Printing ?</strong> <br>
+                                dummy text of the printingdummy text of the printing text of the printing text of the
+                                printing text of</p>
+                        </div>
+                        <div class="border p-2 px-3 mb-2">
+                            <p class="mb-0"> <strong>What Services Dummy Text Of The Printing ?</strong> <br>
+                                dummy text of the printingdummy text of the printing text of the printing text of the
+                                printing text of</p>
+                        </div>
+                    </div>
+                    <div class="container mt-5 reviews-sec">
+                        <h2 class="my-heading"> Portfolio / Case Studies
+                        </h2>
+                        <hr>
+                        <div class="row align-items-end case-box">
+                            @foreach($projects as $project)
+                            <div class="col-md-4 mb-3">
+                                <div class="border p-2 mb-2">
+                                    <img src="{{ asset('storage/' . $project->thumbnail_image) }}" class="w-100">
+                                    {{-- <img src="{{ $project->image_url }}" alt="" class="w-100" onerror="this.src='{{ asset('path/to/blank_image.jpg') }}';"> --}}
+                                    <h3 class="mt-3 mb-2">{{ $project->title }}</h3>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-</section>
-<section class="container-fluid text-center fullreview">
-    <div class="row ">
-        <a href="#fullreview{{$val->id}}" style="color:#fff;"><span class="submitbtn fr{{$val->id}}" onclick="showHideReview('fr{{$val->id}}','hr{{$val->id}}','fullreviews{{$val->id}}')">
-        Read full Reviews</span>
-        </a>
-        <a href="#review{{$val->id}}" style="color:#fff;"><span class="submitbtn hr{{$val->id}}" style="display: none;" onclick="showHideReview('hr{{$val->id}}','fr{{$val->id}}','full{{$val->id}}')">Minimize Reviews</span>
-        </a>
-    </div>
-</section>
- <!--Full Reviews section start -->
- <section class="container-fluid ">
-                    <div id="reviewContainer" class="row  ml-0 mr-0 company-dec px-4 py-5 fullreviews{{$val->id}} full{{$val->id}} " id="fullreview{{$val->id}}" style="display: none;" >
-                        <div id="stick-top">
-                        <div class="col-md-12 px-3 py-3">
-                              <div class="row  ml-0 mr-0 searchresult">
-                                <div class="col-md-3 pt-3 text-left px-0 stick-sec">
-                                    <div class="container py-2 border-bottom ">
-                                        <p >THE REVIEWER</p></br>
-                                        <a href="#background{{$val->id}}" class="btnreview" > Background </a>
-                                    </div>
-                                    <div class="container py-2 border-bottom ">
-                                        <a href="#challenge{{$val->id}}" class="btnreview"> Challenge </a>
-                                    </div>
-                                    <div class="container py-2 border-bottom ">
-                                        <a href="#solution{{$val->id}}" class="btnreview"> Solution </a>
-                                    </div>
-                                    <div class="container py-2 border-bottom ">
-                                        <a href="#results{{$val->id}}" class="btnreview"> Results </a>
-                                    </div>
-                                    <div class="container py-2 border-bottom ">
-                                        <a href="#ratings{{$val->id}}" class="btnreview"> Ratings </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-9 recordbox border-left">
-                                    <div class="scrollable-section">
-                                    <div class="row  ml-0 mr-0 border-bottom pt-2 pb-2">
-                                        <div class="col-md-12  pt-3" id="background{{$val->id}}">
-                                            <p>A Theytrustus analyst personally interviewed this client over the phone. Below is an edited transcript.</p>
-                                            <h3 class="pt-3"> BACKGROUND</h3>
-                                            <h5><strong>Introduce your business and what you do there.</strong>   </h5>
-                                            <p> {{$val->company_position}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row  ml-0 mr-0 border-bottom pt-2 pb-2">
-                                        <div class="col-md-12  pt-3" id="challenge{{$val->id}}">
-                                           <h3 class="pt-3"> OPPORTUNITY / CHALLENGE</h3>
-                                            <h5><strong>What challenge were you trying to address with "<strong>{{ucfirst($company->name)}}</strong>"?</strong>  </h5>
-                                            <p>{{$val->for_what_project}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row  ml-0 mr-0 border-bottom pt-2 pb-2">
-                                        <div class="col-md-12  pt-3" id="solution{{$val->id}}">
-                                            <h3 class="pt-3"> SOLUTION</h3>
-                                            <h5>  <strong> What was the scope of their involvement ? </strong>  </h5>
-                                            <p>{{$val->how_select}}</p>
-                                            <h5>  <strong>What is the team composition?</strong>  </h5>
-                                            <p>{{$val->team_composition}}</p>
-                                            <h5>  <strong>How did you come to work with?</strong>  </h5>
-                                            <p>{{$val->scope_of_work}}</p>
-                                            <h5>  <strong>How much have you invested with them?</strong>  </h5>
-                                             <p>{{$val->cost_range}}</p>
-                                             <!-- <p>{{$val->any_outcomes}}</p> -->
-                                        </div>
-                                    </div>
-                                    <div class="row  ml-0 mr-0 border-bottom pt-2 pb-2">
-                                        <div class="col-md-12  pt-3" id="results{{$val->id}}">
-                                            <h5>  <strong>What is the status of this engagement?</strong>  </h5>
-                                            <p>{{$val->how_effective}}</p>
-                                            <h3 class="pt-3">RESULTS & FEEDBACK</h3>
-                                            <h5><strong>What did you find most impressive about them?</strong>  </h5>
-                                             <p>{{$val->most_impressive}}</p>
-                                             <h5><strong>Are there any areas they could improve?</strong>  </h5>
-                                             <p>{{$val->area_of_improvements}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row  ml-0 mr-0 border-bottom pt-2 pb-2">
-                                        <div class="col-md-12  pt-3" id="ratings{{$val->id}}">
-                                           <h3 class="pt-3">  RATINGS</h3>
-                                            <h5>  <strong> What evidence can you share that demonstrates the impact of the?</strong></h5>
-                                            <div class="row">
-                                                <div class="col-md-12 d-flex" >
-                                                    <div><p class="" style="color:#000; font-weight:bold;font-size: 18px;"><strong>{{ 'Overall Score' }}</strong></p></div>
-                                                <div class="ml-2 d-block"> <p style="color:#000; font-weight:bold;font-size: 18px;"><strong>{{number_format((float)$val->overall_rating, 1, '.', '') ?? ''}}</strong></p>
-                                            </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="row bggray">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Timeliness</strong> <br/>{{ $val->timeliness_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{ number_format(( float )$val->timeliness, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="row bggray mt-md-0 mt-3" >
-                                                                <div class="col-md-9 ">
-                                                                    <span><strong>Cost</strong> <br/>{{ $val->cost_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->cost, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row pt-3">
-                                                        <div class="col-md-6">
-                                                            <div class="row bggray">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Quality</strong> <br/>{{ $val->quality_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->quality, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 ">
-                                                            <div class="row bggray mt-md-0 mt-3">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Refer-ability</strong> <br/>{{ $val->refer_ability_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->refer_ability, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row pt-3">
-                                                        <div class="col-md-6">
-                                                            <div class="row bggray">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Communication</strong> <br/>{{ $val->communication_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->communication, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 ">
-                                                            <div class="row bggray mt-md-0 mt-3">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Expertise</strong> <br/>{{ $val->expertise_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->expertise, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row pt-3">
-                                                        <div class="col-md-6">
-                                                            <div class="row bggray">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Ease of working</strong> <br/>{{ $val->ease_of_working_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->ease_of_working, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                  </section>
-<!--Full Reviews section end -->
-@endforeach
 @endsection
 @section('script')
+    <script type="text/javascript">
+        var showHideReview;
+        var showHideAdd;
+        $(document).ready(function() {
+            showHideAdd = function(idd, idd1) {
+                $("#" + idd).hide();
+                $("#" + idd1).show();
+            }
+        });
+        $(document).ready(function() {
+            showHideReview = function(idd, idd1, idd2) {
+                $("." + idd2).toggle();
+                $("." + idd).hide();
+                $("." + idd1).show();
+            }
+        });
+    </script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-
-    var showHideReview;
-    var showHideAdd;
-    $(document).ready(function () {
-        showHideAdd = function (idd, idd1) {
-            $("#" + idd).hide();
-            $("#" + idd1).show();
-        }
+    google.charts.load('current', {
+        'packages': ['corechart']
     });
-    $(document).ready(function () {
-        showHideReview = function (idd, idd1, idd2) {
-            $("." + idd2).toggle();
-            $("." + idd).hide();
-            $("." + idd1).show();
+    google.charts.setOnLoadCallback(drawCharts);
+
+    function drawCharts() {
+    @foreach ($add_industry as $item)
+        var containerId = "piechart_{{ str_replace('-', '_', Str::slug($item->industry->name)) }}";
+        var containerElement = document.getElementById(containerId);
+        if (containerElement) {
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Percentage'],
+                ['{{ $item->industry->name }}', {{$item->percent}}],
+                ['', {{ 100 - $item->percent }}]
+            ]);
+
+            var options = {
+                'title': '{{ $item->industry->name }}',
+                'width': 150,
+                'height': 100,
+                'slices': {
+                    0: { color: 'blue' },
+                    1: { color: 'white' }
+                }
+            };
+            var chart = new google.visualization.PieChart(containerElement);
+            chart.draw(data, options);
+        } else {
+            console.error("Container element not found: " + containerId);
         }
-    });
-
-    var container = document.getElementById('reviewContainer');
-            container.scrollIntoView({ behavior: 'smooth' }); // Scroll to the container smoothly
-
+    @endforeach
+}
 
 </script>
 
+<script>
+//    <script>
+    function initMap() {
+        var firstAddress = document.querySelector('.scroll-content .address');
+        var city = firstAddress.querySelector('b').innerText;
+        var autocomplete = firstAddress.nextElementSibling.innerText;
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': autocomplete }, function (results, status) {
+            if (status === 'OK' && results && results.length > 0) {
+                var location = results[0].geometry.location;
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: location,
+                    zoom: 8
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
 
- </script> 
+    document.addEventListener("DOMContentLoaded", function() {
+        initMap();
+        var addresses = document.querySelectorAll('.scroll-content .address');
+        addresses.forEach(function(address) {
+            address.addEventListener('click', function() {
+                var city = this.querySelector('b').innerText;
+                var autocomplete = this.nextElementSibling.innerText;
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'address': autocomplete }, function (results, status) {
+                    if (status === 'OK' && results && results.length > 0) {
+                        var location = results[0].geometry.location;
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                            center: location,
+                            zoom: 8
+                        });
+                    } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            });
+        });
+    });
+</script>
+{{-- </script> --}}
+
+
+<!-- Include Google Maps JavaScript API with your API key -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy836GvKy71SW3C0NQ3FdGkuNjlce_fOA&callback=initMap" async defer></script>
 
 @endsection

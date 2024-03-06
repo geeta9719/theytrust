@@ -93,6 +93,7 @@ Route::get('/search/city-select2', [SearchController::class, 'get_searched_city_
 Route::get('/get-search-list', [SearchController::class, 'getSearchList'])->name('get-search-list');
 Route::get('/get-company-list', [SearchController::class, 'getCompany'])->name('get-company-list');
 Route::get('/profile/{company}', [SearchController::class, 'companyProfile'])->name('profile');
+Route::get('/test/{company}', [SearchController::class, 'test'])->name('test');
 
 /*search end*/
 
@@ -285,6 +286,9 @@ Route::middleware('auth')->group(function(){
    
     Route::get('/send-email/{userId}', [PaymentContorller::class, 'sendEmailWithPdf'])->name('send.email.with.pdf');
     Route::resource('planfeatures', PlanFeatureController::class);
+    Route::get('/company/{company}/projects', [CompanyController::class, 'CompnayProjectIndex'])->name('projects.index');
+    Route::Post('store', [CompanyController::class, 'CompnayProjectStore'])->name('projects.store');
+    
     // Route::resource('planfeatures', PlanFeatureController::class)->except([
     //     'update' 
     // ]);

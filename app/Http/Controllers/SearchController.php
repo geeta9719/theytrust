@@ -23,6 +23,9 @@ use App\Models\AddIndustry;
 use App\Models\AddFocus;
 use App\Models\ServiceLine;
 use App\Models\Seo;
+use App\Models\CompanyHasProject;
+
+
 
 
 use Illuminate\Support\Facades\Auth;
@@ -374,7 +377,7 @@ class SearchController extends Controller
 
         if( !empty( $request->location ) )
         {
-            $where[]= " addresses.city IN('".$request->location."')";
+            $where[]= "addresses.city IN('".$request->location."')";
         }
 
         if( !empty( $request->budget ) )
@@ -915,10 +918,6 @@ class SearchController extends Controller
 
     public function companyProfile( Request $request, $company_id )
     {
-
-       
-        // dd($company_id);
-        
         $data  = array();
         $focus = array();
 
@@ -928,10 +927,46 @@ class SearchController extends Controller
         if (!$data['company']) {
             $cleaned_company_id = str_replace('-', ' ', $company_id);
             $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
+            $company_id =   $data['company']->id;
         }
-
                     
 
+        $data['rate_review'] = DB::table('company_reviews')
+                                ->select('company_id','position_title','most_impressive')
+                                ->selectRaw('count(id) as review')
+                                ->selectRaw('avg(overall_rating) as rating')
+                                ->where('company_id',$company_id)
+                                ->first();
+
+                                // dd($company_id);
+
+        $data['review']         = CompanyReview::where( 'company_id', $company_id )->get();
+        $data['service_lines']  = ServiceLine::where( 'company_id', $company_id )->get();
+        $data['add_industry']   = AddIndustry::where( 'company_id', $company_id )->get();
+        $data['add_client_size']= AddClientSize::where( 'company_id', $company_id )->get();
+        $data['add_focus']      = AddFocus::where( 'company_id', $company_id )->get();
+        $data['addresses']      = Address::where( 'company_id', $company_id )->get();
+        $data['projects']      = CompanyHasProject::where( 'company_id', $company_id )->get();
+        foreach( $data['add_focus'] as $add_focus )
+        {
+            $focus[$add_focus->subcategory_id][] = $add_focus;
+        }
+        $data['add_focus'] = $focus;
+        return view( 'home.companyProfile', $data );
+    }
+
+    public function test( Request $request, $company_id )
+    {
+
+        $data  = array();
+        $focus = array();
+        $data['company'] = Company::where('id', $company_id)->first();
+
+        if (!$data['company']) {
+            $cleaned_company_id = str_replace('-', ' ', $company_id);
+            $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
+            $company_id =   $data['company']->id;
+        }
         $data['rate_review'] = DB::table('company_reviews')
                                 ->select('company_id','position_title','most_impressive')
                                 ->selectRaw('count(id) as review')
@@ -944,17 +979,15 @@ class SearchController extends Controller
         $data['add_industry']   = AddIndustry::where( 'company_id', $company_id )->get();
         $data['add_client_size']= AddClientSize::where( 'company_id', $company_id )->get();
         $data['add_focus']      = AddFocus::where( 'company_id', $company_id )->get();
+    
+    
 
         foreach( $data['add_focus'] as $add_focus )
         {
             $focus[$add_focus->subcategory_id][] = $add_focus;
         }
-
         $data['add_focus'] = $focus;
-
-        //dd($data['add_focus']);
-
-        return view( 'home.companyProfile', $data );
+        return view( 'home.test', $data );
     }
 
     public function get_searched_city_select2( Request $request )
@@ -971,9 +1004,6 @@ class SearchController extends Controller
             $d_sql= 'SELECT ad.city as city, count(c.id) as count FROM `addresses` ad 
                      LEFT JOIN companies c ON c.id = ad.company_id 
                      WHERE ad.city LIKE "%'. $city .'%" AND ad.city IS NOT NULL /*AND c.is_publish = 1*/ GROUP BY city ORDER BY count DESC';
-
-                #
-
              $result = DB::select( $d_sql );
 
              if( count( $result ) > 0 )
@@ -1001,3 +1031,5 @@ class SearchController extends Controller
         }
     }
 }
+
+

@@ -17,18 +17,14 @@ use App\Mail\SendMail;
 use App\Mail\ContactMail;
 use App\Models\Budget;
 use App\Models\Rate;
-
+use App\Models\CompanyHasProject;
 use App\Models\Attribution;
 use App\Models\Industry;
-
 use App\Models\Address;
-
-
-
-
 use App\Models\Contact;
 use App\Models\Newsletters;
 use App\Models\ReviewerEmailLog;
+use Illuminate\Support\Facades\Validator;
 
 
 class CompanyController extends Controller
@@ -274,6 +270,49 @@ public function update_review(Request $request, $id)
             return redirect()->back()->with('ZSmessage', 'Failed to delete the user. Error: ' . $e->getMessage());
         }
     }
+
+    public function CompnayProjectIndex($company){
+        $company = Company::with('projects')->findOrFail($company);
+        $projects = $company->projects;
+    $categories = Category::pluck('category', 'id');
+    return view('admin.company.project_index', compact('projects','categories'));
+    }
+
+    public function CompnayProjectStore(Request $request){
+        $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
+            $validator = Validator::make($request->all(), [
+                'title' => 'required',
+                'thumbnail_image' => 'required',
+                'services_id' => 'required',
+                'project_size' => 'required',
+                'description' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            if ($request->hasFile('thumbnail_image')) {
+                $imagePath = $request->file('thumbnail_image')->store('/thumbnails');
+            } else {
+                $imagePath = null;
+            }
+
+            $project = new CompanyHasProject();
+            $project->title = $request->input('title');
+            $project->thumbnail_image = $imagePath;
+            $project->services_id = $request->input('services_id');
+            $project->project_size = $request->input('project_size');
+            $project->description = $request->input('description');
+            $project->company_id = $company->id;
+
+            // Save the project
+            $project->save();
+
+            // Redirect back or to a specific route after successful submission
+            return redirect()->back()->with('success', 'Project created successfully.');
+        }
+
 }
 
 
