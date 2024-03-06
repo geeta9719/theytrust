@@ -287,17 +287,14 @@ public function update_review(Request $request, $id)
                 'project_size' => 'required',
                 'description' => 'required',
             ]);
-
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-
             if ($request->hasFile('thumbnail_image')) {
                 $imagePath = $request->file('thumbnail_image')->store('/thumbnails');
             } else {
                 $imagePath = null;
             }
-
             $project = new CompanyHasProject();
             $project->title = $request->input('title');
             $project->thumbnail_image = $imagePath;
@@ -305,13 +302,13 @@ public function update_review(Request $request, $id)
             $project->project_size = $request->input('project_size');
             $project->description = $request->input('description');
             $project->company_id = $company->id;
-
-            // Save the project
             $project->save();
-
-            // Redirect back or to a specific route after successful submission
             return redirect()->back()->with('success', 'Project created successfully.');
         }
+
+            public function CompnayProjectEdit(Request $request){
+            
+            }
 
 }
 

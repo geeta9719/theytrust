@@ -100,7 +100,7 @@ if(Auth::check())
                             <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
                             <a class="dropdown-item" href="{{ route('user.allinfo',auth()->user()->id) }}">Update Company Profile</a>
                             @else
-                            <a class="dropdown-item" href="{{url('get-listed')}}">Update Company Profile</a>
+                            <a class="dropdown-item" href="{{url('get-listed')}}">Update Company Profile 1</a>
                             @endif
                             <form method="post" action="/logout">
                                 @csrf
@@ -212,7 +212,9 @@ if(Auth::check())
                                 @if($cd)
                                 <a class="dropdown-item" href="{{ route('company.dashboard',$cd->id) }}">Company Dashboard</a>
                                 <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
-                                <a class="dropdown-item" href="{{ route('user.allinfo',auth()->user()->id) }}">Update Company Profile</a>
+                                <a class="dropdown-item" href="{{ route('user.allinfo',auth()->user()->id) }}">Update Company Profile </a>
+                                <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
+
                                 @else
                                 <a class="dropdown-item" href="{{url('get-listed')}}">Update Company Profile</a>
                                 @endif

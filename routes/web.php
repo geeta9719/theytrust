@@ -20,11 +20,13 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SeosearchController;
 
 
-use App\Http\Controllers\swapcontroller;
+// use App\Http\Controllers\swapcontroller;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PlanFeatureController;
 use App\Http\Controllers\PlanSubscriptionController;
 use App\Http\Controllers\PaymentContorller;
+// use App\Http\Controllers\CompanyController;
+
 
 
 /*
@@ -39,7 +41,7 @@ use App\Http\Controllers\PaymentContorller;
 */
 
 Auth::routes();
-Route::get('swap',[swapcontroller::class,'swap']);
+// Route::get('swap',[swapcontroller::class,'swap']);
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/terms', [HomeController::class, 'terms'])->name('terms');
@@ -287,7 +289,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/send-email/{userId}', [PaymentContorller::class, 'sendEmailWithPdf'])->name('send.email.with.pdf');
     Route::resource('planfeatures', PlanFeatureController::class);
     Route::get('/company/{company}/projects', [CompanyController::class, 'CompnayProjectIndex'])->name('projects.index');
-    Route::Post('store', [CompanyController::class, 'CompnayProjectStore'])->name('projects.store');
+    // Route::Post('store', [CompanyController::class, 'CompnayProjectStore'])->name('projects.store');
+    // Route::get('/projects/{id}/edit', [CompanyController::class, 'CompnayProjectEdit'])->name('projects.edit');
+    // Route::put('/projects/{id}', [CompanyController::class, 'update'])->name('projects.update');
+    Route::resource('Projects','App\Http\Controllers\ProjectController');
     
     // Route::resource('planfeatures', PlanFeatureController::class)->except([
     //     'update' 
