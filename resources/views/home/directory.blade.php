@@ -26,15 +26,15 @@
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
-        .graph-sec .col-xl-5:last-child {
-            z-index: -1;
-            position: relative;
+        /* .graph-sec .col-xl-5:last-child {
+                        z-index: -1;
+                        position: relative;
 
-        }
+                    } */
 
-        .graph-sec .col-xl-5:last-child {
-            left: -66px;
-        }
+        /* .graph-sec .col-xl-5:last-child {
+                        left: -66px;
+                    } */
 
         .verified-sec .veri {
             margin: auto;
@@ -53,6 +53,291 @@
             margin-left: 2px;
         }
 
+        .directory-blade .verified-sec a {
+            display: flex;
+        }
+
+        .directory-blade .verified-sec a::after {
+            content: url('https://theytrust-us.developmentserver.info/front_components/images/min-arrow.png');
+            max-width: 30px;
+            margin-left: 10px;
+        }
+
+        .emp p {
+            margin-right: 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .reviews-sec h3 {
+            font-size: 20px;
+            text-transform: capitalize;
+            font-weight: bold;
+        }
+
+        .reviews-sec p {
+            font-size: 1rem;
+        }
+
+        .scroll-content p b {
+            color: #388cff;
+        }
+
+        .location-sec iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .location-sec p {
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .scroll-content {
+            display: inline-block;
+            white-space: normal;
+        }
+
+        .scroll-container {
+            width: 100%;
+            white-space: nowrap;
+            overflow-x: auto;
+            height: 250px;
+            padding-right: 15px;
+        }
+
+
+
+        .reviews-row {
+            display: flex;
+            justify-content: end;
+        }
+
+        .reviews-row .fa {
+            font-size: 20px;
+        }
+
+        .bluestar {
+            color: #388cff;
+        }
+
+        .reviews-row h3 {
+            font-size: 16px;
+        }
+
+        .gray-bg {
+            background-color: #f9f9fc;
+
+        }
+
+        .my-heading {
+            font-size: 20px;
+            text-transform: capitalize;
+            font-weight: bold;
+            margin: 0;
+            padding: 8px 20px;
+            background-color: #95c7ef;
+            color: #fff;
+            width: 100%;
+            border-radius: 3px;
+        }
+
+        .target-sec h2.area {
+            border-radius: 3px 0 0 3px;
+        }
+
+        .target-sec h2.industries {
+            border-radius: 0 3px 3px 0;
+        }
+
+        .target-sec h3 {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 12px;
+            margin-bottom: 0;
+
+        }
+
+        .reviews-row2 h3 {
+            font-size: 1.75rem !important;
+        }
+
+        .btn-target {
+            border: 1px solid #dee2e6 !important;
+            padding: 7px 15px;
+            border-radius: 0 0 5px 5px;
+            text-decoration: none !important;
+            display: block;
+            color: #0087f2 !important;
+            border-top: 0;
+            font-weight: bold;
+            transition: all .3s;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        /* .btn-target:hover {
+                        color: #fff;
+                        text-decoration: none;
+                        background-color: #95c7ef;
+
+                    } */
+
+        .percentbox img {
+            width: 42% !important;
+        }
+
+        .agency-sec p {
+            font-size: 1rem;
+        }
+
+        .agency-sec a:hover {
+            color: #007bff !important;
+            text-decoration: underline !important;
+            font-weight: 600 !important;
+        }
+
+        .agency-sec a {
+            color: #007bff !important;
+            text-decoration: underline !important;
+            font-weight: 600 !important;
+        }
+
+        .faq p {
+            font-size: 1rem;
+        }
+
+        .case-box .border {
+            border: 1px solid #dee2e6 !important;
+        }
+
+        .review-by h3 {
+            font-size: 15px;
+        }
+
+        .review-by p {
+            font-size: 14px;
+        }
+
+        .porfile-sec a {
+            border: 0;
+            background-color: #388cff;
+            padding: 5px 19px;
+            border-right: 1px solid #ccc;
+            color: #fff;
+            border-radius: 10px;
+            margin-right: 11px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+
+        .logo-wrapper {
+            display: flex;
+        }
+
+        .logo-wrapper img {
+            width: 158px;
+            margin-right: 20px;
+        }
+
+        .logo-wrapper h2 {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .logo-wrapper a h2::after {
+            content: url('https://theytrust-us.developmentserver.info/front_components/images/min-arrow.png');
+            max-width: 30px;
+            margin-left: 10px;
+        }
+
+        .logo-wrapper p {
+            font-size: 18px;
+            color: #191b1f;
+            margin: 3px;
+        }
+
+        .recordbox p {
+            font-weight: bold;
+            font-size: 15px;
+            margin-right: 17px;
+
+        }
+
+        .recordbox {
+            border: 0;
+        }
+
+        .reviews-row a h3::after {
+            content: url('https://theytrust-us.developmentserver.info/front_components/images/min-arrow.png');
+            max-width: 30px;
+            margin-left: 10px;
+        }
+
+        /* read0more */
+        .expandable-text {
+
+            margin: 0 auto;
+        }
+
+        .hidden-text {
+            display: none;
+        }
+
+        .read-more-btn {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+
+        .read-more-btn {
+            color: #007bff !important;
+            text-decoration: underline !important;
+            font-weight: 600 !important;
+            float: right;
+            border: 0 !important;
+            font-size: 13px;
+        }
+
+
+        /* read0more */
+
+
+
+        @media (max-width: 650px) {
+            .logo-wrapper {
+                display: block;
+                text-align: center;
+            }
+
+            .logo-wrapper h2 {
+
+                margin: 14px 0;
+            }
+
+            .porfile-sec a {
+
+                margin-right: 0;
+                margin-bottom: 4px;
+                margin-left: 15px;
+            }
+
+
+
+
+
+
+
+        }
+
+
+
         @media (max-width: 650px) {
             .alert-success {
                 font-size: 13px;
@@ -60,14 +345,11 @@
                 margin: auto auto 10px auto !important;
             }
 
-            .graph-sec .col-xl-5:last-child {
-                z-index: -1;
-                position: relative;
-                left: -92px;
-            }
+
 
         }
     </style>
+
     <!--  section start -->
     <section class="container-fluid list-top">
         <div class=" container">
@@ -111,11 +393,11 @@
                                         <select id="location" class="location-filter form-control" name="location"
                                             onchange="searchCompany()">
                                             <option value="">Select Location</option>
-                                            @foreach ($loc_dropdown as $loc_drp)
+                                            {{-- @foreach ($loc_dropdown as $loc_drp)
                                                 @if (!empty($loc_drp->city))
                                                     <option value="{{ $loc_drp->city }}">{{ $loc_drp->city }}</option>
                                                 @endif
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
 
@@ -238,175 +520,170 @@
 
                     @if ($company)
                         @foreach ($company as $key => $cmp)
-                            <div class="graph-sec row border mx-0  px-3 align-items-center item{{ $key }}">
-
-                                <div class="col-xl-2 col-lg-6 border-right verified-sec pb-3 pb-md-0">
-                                    <img src="{{ url('storage/' . $cmp->logo) }}" alt="" class="img-fluid ">
-
-                                    @if ($cmp->is_publish)
-                                        <img src="{{ asset('front_components/images/verified.png') }}" alt=""
-                                            class="img-fluid veri">
-                                    @endif
-
-
-                                    <?php
-                                    $bb = explode('-', $cmp->budget);
-                                    $bbb = $bb[0] . '+';
-                                    
-                                    if (!empty($cmp->rate)) {
-                                        $rr = explode('-', $cmp->rate);
-                                        $rrr = $rr[0] . '-' . $rr[1];
-                                    } else {
-                                        $rrr = 'N/A';
-                                    }
-                                    ?>
-
-                                    <div class="icon-box mt-4">
-
-                                        @if ($cmp->budget)
-                                            <p class="d-flex  align-items-center">
-                                                <img src="{{ asset('front_components/images/verified-icon1.png') }}"
-                                                    alt=""> {{ $bbb }}
-                                            </p>
-                                        @endif
-
-                                        @if ($cmp->rate)
-                                            <p class="d-flex  align-items-center">
-                                                <img src="{{ asset('front_components/images/time.png') }}" alt="">
-                                                {{ $rrr }}/hr
-                                            </p>
-                                        @endif
-
-                                        @if ($cmp->size)
-                                            <p class="d-flex  align-items-center">
-                                                <img src="{{ asset('front_components/images/person.png') }}"
-                                                    alt=""> {{ $cmp->size }}
-                                            </p>
-                                        @endif
-
-                                        @if ($cmp->city)
-                                            <p class="d-flex  align-items-center">
-                                                <img src="{{ asset('front_components/images/location2.png') }}"
-                                                    alt=""> {{ $cmp->city }}
-                                            </p>
-                                        @endif
-                                    </div>
-                                </div>
-
-
-                                <div class="col-xl-5 col-lg-6 pl-md-4 mt-md-0 mt-4">
-                                    <h3>{{ $cmp->name }}</h3>
-                                    <p>{{ $cmp->tagline }}</p>
-
-
-                                    @if (isset($rate_review[$cmp->id]))
-                                        <div class="reviews-row">
-                                            <h3>{{ number_format((float) $rate_review[$cmp->id]->rating, 1, '.', '') ?? '' }}
-                                            </h3>
-                                            <div class="px-3">
-                                                <?php
-                                for( $i=1; $i<=5; $i++ )
-                                {
-                                    if( $i <= $rate_review[$cmp->id]->rating )
-                                    {
-                                    ?>
-                                                <i class="fa fa-star bluestar"></i>
-                                                <?php
-                                    }
-                                    elseif( $rate_review[$cmp->id]->rating <= $i-1 )
-                                    {
-                                    ?>
-                                                <i class="fa fa-star-o bluestar"></i>
-                                                <?php
-                                    }
-                                    else
-                                    {
-                                    ?>
-                                                <i class="fa fa-star-half-o bluestar"></i>
-                                                <?php
-                                    }
-                                }
-                                ?>
-
+                            <div class="col-lg-9 col-md-7 firm-sec p-3 mt-4 mt-md-0 shadow directory-blade"
+                                id="addCompanyList">
+                                <!-- Card Start -->
+                                <div class="card-start">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="logo-wrapper">
+                                                <div> <img src="{{ asset($cmp->logo) }}" alt="" class="img-fluid ">
+                                                </div>
+                                                <div><a href="">
+                                                        <h2>{{ $cmp->name }}</h2>
+                                                    </a>
+                                                    <p>{{ $cmp->tagline }}</p>
+                                                    <!-- <div class="d-flex recordbox"><p>$50-$100</p> <p>50-200 Employees</p> <p>$1000</p></div>  -->
+                                                </div>
+                                                <!-- <img src="https://theytrust-us.developmentserver.info/front_components/images/logoimg.jpg" alt="" class="img-fluid"> -->
                                             </div>
-                                            @isset($cmp->id)
-                                                <a href="{{ url('profile/' . $cmp->id) }}#reviewsec" target="_blank"
-                                                    class="">
-                                                    <h3>{{ $rate_review[$cmp->id]->review }} REVIEWS</h3>
-                                                </a>
-                                            @endisset
                                         </div>
-                                    @endif
+                                        @if (isset($rate_review[$cmp->id]))
+                                            <div class="col-md-5 text-right">
+                                                <div class="reviews-row">
+                                                    <h3>{{ number_format((float) $rate_review[$cmp->id]->rating, 1, '.', '') ?? '' }}
+                                                    </h3>
+                                                    <div class="px">
+                                                        @php
+                                                            $rating = $rate_review[$cmp->id]->rating;
+                                                            $fullStars = floor($rating);
+                                                            $halfStar = ceil($rating) != $fullStars;
+                                                            $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+                                                        @endphp
 
-                                    <div class="links">
-                                        @php
-                                            $urlParts = explode('/', request()->path());
-                                            $parentCategoryName = end($urlParts);
-                                        @endphp
+                                                        @for ($i = 1; $i <= $fullStars; $i++)
+                                                            <i class="fa fa-star bluestar"></i>
+                                                        @endfor
 
-                                        <a href="{{ url($cmp->website) }}?utm_source=theythustus.co&utm_medium=referral&utm_campaign={{ $parentCategoryName }}"
-                                            target="_blank" class=""><i class="fa fa-globe mr-1"
-                                                aria-hidden="true"></i> View Website</a>
+                                                        @if ($halfStar)
+                                                            <i class="fa fa-star-half-o bluestar"></i>
+                                                        @endif
 
+                                                        @for ($i = 1; $i <= $emptyStars; $i++)
+                                                            <i class="fa fa-star-o bluestar"></i>
+                                                        @endfor
+                                                    </div>
 
-                                        <a href="{{ url('profile/' . str_replace('+', '-', strtolower(html_entity_decode(urlencode($cmp->name))))) }}"
-                                            target="_blank" class="">
-                                            <i class="fa fa-user mr-1" aria-hidden="true"></i> View Profile
-                                        </a>
+                                                    @isset($cmp->id)
+                                                        <a href="{{ url('profile/' . $cmp->id) }}#reviewsec" target="_blank">
+                                                            <h3>{{ $rate_review[$cmp->id]->review }} REVIEWS</h3>
+                                                        </a>
+                                                    @endisset
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="row mt-2 porfile-sec">
+                                        <div class="col-md-8 pr-md-1">
 
-                                        <a href="{{ url('company-contact/' . $cmp->id) }}" target="_blank"
-                                            class=""><i class="fa fa-phone mr-1" aria-hidden="true"></i>
-                                            Contact</a>
+                                        </div>
+                                        <div class="col-md-4 pr-md-1">
+                                            <div class="d-flex"> <a href="{{$cmp->website}}">View Porfile</a><a
+                                                    href="">Request
+                                                    Quote</a> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1 target-sec">
+                                        <div class="col-md-8 pr-md-1">
+
+                                            <h2 class="area my-heading"> Target Services Area</h2>
+                                            <hr class="mt-2">
+                                            <div class="row mx-0 percentbox">
+                                                <div class="col-md-4 text-center mb-2 p-2">
+                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
+                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
+                                                            alt="" class="img-fluid">
+                                                        <h3>Advertising</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center mb-2 p-2">
+                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
+                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
+                                                            alt="" class="img-fluid">
+                                                        <h3>Advertising</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center mb-2 p-2">
+                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
+                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
+                                                            alt="" class="img-fluid">
+                                                        <h3>Content Marketing</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center mb-2 p-2">
+                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
+                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
+                                                            alt="" class="img-fluid">
+                                                        <h3>Content Marketing</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center mb-2 p-2">
+                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
+                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
+                                                            alt="" class="img-fluid">
+                                                        <h3>Advertising</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center mb-3 p-2">
+                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
+                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
+                                                            alt="" class="img-fluid">
+                                                        <h3>Content Marketing</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center mb-3 p-2">
+                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
+                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
+                                                            alt="" class="img-fluid">
+                                                        <h3>Advertising</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center mb-3 p-2">
+                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
+                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
+                                                            alt="" class="img-fluid">
+                                                        <h3>Advertising</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 text-center mb-3 p-2">
+                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
+                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
+                                                            alt="" class="img-fluid">
+                                                        <h3>Advertising</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 pl-md-1">
+
+                                            <h2 class="industries my-heading"> Target Industries</h2>
+                                            @foreach ($service_lines[$cmp->id] as $service_line)
+                                            <a href="#" class="btn-target">
+                                                {{ App\Models\Subcategory::find($service_line->subcategory_id)->subcategory }}
+                                            </a>
+                                           @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="container mt-5 agency-sec">
+                                        <h2 class="my-heading"> Agency Profile</h2>
+                                        <hr>
+                                        <p class="expandable-text">{{$cmp->description}}
+                                            <span class="hidden-text">
+                                                It was
+                                                popularised in the 1960s with the release of Letraset sheets containing
+                                                Lorem Ipsum
+                                                passages,
+                                                and more recently with desktop publishing software like Aldus PageMaker
+                                                including
+                                                versions of
+                                                Lorem Ipsum.
+                                            </span>
+                                        </p>
+                                        <button class="read-more-btn" onclick="toggleReadMore()">Read More ></button>
+                                        <!-- <p><a href=""><u>Read More ></u></a></p> -->
                                     </div>
                                 </div>
-
-                                <div class="col-xl-5  pl-md-0 mt-xl-0 mt-5">
-
-                                    <p>
-                                        <?php $t = 0; ?>
-
-                                    <div id="piechart{{ $cmp->id }}"></div>
-
-                                    <?php
-                                    $data = [];
-                                    $data[0] = ['Services', 'Percent'];
-                                    
-                                    for ($i = 0; $i < count($service_lines[$cmp->id]); $i++) {
-                                        if ($service_lines[$cmp->id][$i]->percent > 0) {
-                                            $t = $t + $service_lines[$cmp->id][$i]->percent;
-                                            $data[$i + 1] = [$subcategories[$service_lines[$cmp->id][$i]->subcategory_id], (int) $service_lines[$cmp->id][$i]->percent];
-                                        }
-                                    }
-                                    
-                                    if ($t < 100) {
-                                        $p = 100 - $t;
-                                        $data[$i + 1] = ['None', $p];
-                                    }
-                                    
-                                    $data = json_encode($data);
-                                    
-                                    ?>
-                                    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                                    <script type="text/javascript">
-                                        google.charts.load('current', {
-                                            'packages': ['corechart']
-                                        });
-                                        google.charts.setOnLoadCallback(drawChart);
-
-                                        function drawChart() {
-                                            var data = google.visualization.arrayToDataTable(<?php echo $data; ?>);
-                                            var options = {
-                                                'title': 'Service Focus',
-                                                'width': 450,
-                                                'height': 250
-                                            };
-                                            var chart = new google.visualization.PieChart(document.getElementById("piechart<?php echo $cmp->id; ?>"));
-                                            chart.draw(data, options);
-                                        }
-                                    </script>
-                                    </p>
-
-                                </div>
+                                <!-- Card End -->
                             </div>
                         @endforeach
 
@@ -577,20 +854,20 @@
             }
         });
     </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Add an event listener to the "Clear All" link
-        document.getElementById("clearAllFilters").addEventListener("click", function (event) {
-            event.preventDefault();
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Add an event listener to the "Clear All" link
+            document.getElementById("clearAllFilters").addEventListener("click", function(event) {
+                event.preventDefault();
 
-            // Clear the values of the filters
-            $(".location-filter").val(null).trigger("change"); // Clear Select2 location filter
-            $("#services, #chk_budget, #rates, #industry, #reviews, #ratings").val("").trigger("change"); // Clear other filters
+                // Clear the values of the filters
+                $(".location-filter").val(null).trigger("change"); // Clear Select2 location filter
+                $("#services, #chk_budget, #rates, #industry, #reviews, #ratings").val("").trigger(
+                    "change"); // Clear other filters
 
-            // Trigger the searchCompany function to update the company list
-            searchCompany();
+                // Trigger the searchCompany function to update the company list
+                searchCompany();
+            });
         });
-    });
-</script>
-
+    </script>
 @endsection
