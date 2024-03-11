@@ -27,14 +27,14 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         /* .graph-sec .col-xl-5:last-child {
-                        z-index: -1;
-                        position: relative;
+                                z-index: -1;
+                                position: relative;
 
-                    } */
+                            } */
 
         /* .graph-sec .col-xl-5:last-child {
-                        left: -66px;
-                    } */
+                                left: -66px;
+                            } */
 
         .verified-sec .veri {
             margin: auto;
@@ -178,11 +178,11 @@
         }
 
         /* .btn-target:hover {
-                        color: #fff;
-                        text-decoration: none;
-                        background-color: #95c7ef;
+                                color: #fff;
+                                text-decoration: none;
+                                background-color: #95c7ef;
 
-                    } */
+                            } */
 
         .percentbox img {
             width: 42% !important;
@@ -578,7 +578,7 @@
 
                                         </div>
                                         <div class="col-md-4 pr-md-1">
-                                            <div class="d-flex"> <a href="{{$cmp->website}}">View Porfile</a><a
+                                            <div class="d-flex"> <a href="{{ $cmp->website }}">View Porfile</a><a
                                                     href="">Request
                                                     Quote</a> </div>
                                         </div>
@@ -588,86 +588,34 @@
 
                                             <h2 class="area my-heading"> Target Services Area</h2>
                                             <hr class="mt-2">
+
                                             <div class="row mx-0 percentbox">
-                                                <div class="col-md-4 text-center mb-2 p-2">
-                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
-                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
-                                                            alt="" class="img-fluid">
-                                                        <h3>Advertising</h3>
+                                                @foreach ($cmp->industries ?? [] as $items)
+                                                    <div class="col-md-4 text-center mb-2 p-2">
+                                                        <div class="border p-3 w-100 rounded shadow-sm h-100">
+                                                            <h3>{{ $items->name }}</h3>
+                                                            <div
+                                                                id="piechart_{{ str_replace('-', '_', Str::slug($items->name))}}_{{$cmp->id }}">
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-4 text-center mb-2 p-2">
-                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
-                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
-                                                            alt="" class="img-fluid">
-                                                        <h3>Advertising</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 text-center mb-2 p-2">
-                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
-                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
-                                                            alt="" class="img-fluid">
-                                                        <h3>Content Marketing</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 text-center mb-2 p-2">
-                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
-                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
-                                                            alt="" class="img-fluid">
-                                                        <h3>Content Marketing</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 text-center mb-2 p-2">
-                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
-                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
-                                                            alt="" class="img-fluid">
-                                                        <h3>Advertising</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 text-center mb-3 p-2">
-                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
-                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
-                                                            alt="" class="img-fluid">
-                                                        <h3>Content Marketing</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 text-center mb-3 p-2">
-                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
-                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
-                                                            alt="" class="img-fluid">
-                                                        <h3>Advertising</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 text-center mb-3 p-2">
-                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
-                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
-                                                            alt="" class="img-fluid">
-                                                        <h3>Advertising</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 text-center mb-3 p-2">
-                                                    <div class="border p-3 w-100 rounded shadow-sm h-100">
-                                                        <img src="https://theytrust-us.developmentserver.info/front_components/images/progress.jpg"
-                                                            alt="" class="img-fluid">
-                                                        <h3>Advertising</h3>
-                                                    </div>
-                                                </div>
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="col-md-4 pl-md-1">
 
                                             <h2 class="industries my-heading"> Target Industries</h2>
                                             @foreach ($service_lines[$cmp->id] as $service_line)
-                                            <a href="#" class="btn-target">
-                                                {{ App\Models\Subcategory::find($service_line->subcategory_id)->subcategory }}
-                                            </a>
-                                           @endforeach
+                                                <a href="#" class="btn-target">
+                                                    {{ App\Models\Subcategory::find($service_line->subcategory_id)->subcategory }}
+                                                </a>
+                                            @endforeach
                                         </div>
                                     </div>
                                     <div class="container mt-5 agency-sec">
                                         <h2 class="my-heading"> Agency Profile</h2>
                                         <hr>
-                                        <p class="expandable-text">{{$cmp->description}}
+                                        <p class="expandable-text">{{ $cmp->description }}
                                             <span class="hidden-text">
                                                 It was
                                                 popularised in the 1960s with the release of Letraset sheets containing
@@ -870,4 +818,48 @@
             });
         });
     </script>
+
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {
+        'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawCharts);
+
+    function drawCharts() {
+
+        @foreach ($company as $cmp)
+        @foreach ($cmp->industries as $item)
+            var containerId = "piechart_{{ str_replace('-', '_', Str::slug($item->name)) }}_{{ $cmp->id }}";
+            var containerElement = document.getElementById(containerId);
+            if (containerElement) {
+                var data = google.visualization.arrayToDataTable([
+                    ['Task', 'Percentage'],
+                    ['{{ $item->name }}', {{ 30 }}],
+                    ['', {{ 100 - 30 }}]
+                ]);
+
+                var options = {
+                    'title': '{{ $item->name }}',
+                    'width': 150,
+                    'height': 100,
+                    'slices': {
+                        0: {
+                            color: 'blue'
+                        },
+                        1: {
+                            color: 'white'
+                        }
+                    }
+                };
+                var chart = new google.visualization.PieChart(containerElement);
+                chart.draw(data, options);
+            } else {
+                console.error("Container element not found: " + containerId);
+            }
+        @endforeach
+        @endforeach
+    }
+</script>
 @endsection
