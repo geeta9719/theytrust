@@ -1,7 +1,5 @@
 @extends('layouts.home-master')
 @section('content')
-
-
     <style>
         .verified-sec .veri {
             margin: auto;
@@ -214,26 +212,26 @@
                 <div class="col-lg-12 col-md-7 firm-sec p-3 mt-4 mt-md-0 shadow directory-blade" id="addCompanyList">
                     <div class="row">
                         <div class="col-md-7">
-                                <img src="{{ asset( $company->logo ) }}" alt="" class="img-fluid ">
+                            <img src="{{ asset($company->logo) }}" alt="" class="img-fluid ">
                         </div>
                         <div class="col-md-5 text-right">
                             <div class="reviews-row">
-                                <h3>{{ number_format((float)$rate_review->rating, 1) }}</h3>
+                                <h3>{{ number_format((float) $rate_review->rating, 1) }}</h3>
                                 <div class="px-3">
                                     @php
                                         $full_stars = floor($rate_review->rating);
                                         $half_star = ceil($rate_review->rating - $full_stars);
                                         $empty_stars = 5 - ($full_stars + $half_star);
                                     @endphp
-                                    
+
                                     @for ($i = 0; $i < $full_stars; $i++)
                                         <i class="fa fa-star bluestar"></i>
                                     @endfor
-                                    
+
                                     @if ($half_star)
                                         <i class="fa fa-star-half-o bluestar"></i>
                                     @endif
-                                    
+
                                     @for ($i = 0; $i < $empty_stars; $i++)
                                         <i class="fa fa-star-o bluestar"></i>
                                     @endfor
@@ -243,7 +241,7 @@
                                 </a>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="row mt-5 target-sec">
                         <div class="col-md-8 pr-md-1">
@@ -254,7 +252,9 @@
                                     <div class="col-md-4 text-center mb-2 p-2">
                                         <div class="border p-3 w-100 rounded shadow-sm h-100">
                                             <h3>{{ $item->industry->name }}</h3>
-                                            <div id="piechart_{{ str_replace('-', '_', Str::slug($item->industry->name))}}"></div>
+                                            <div
+                                                id="piechart_{{ str_replace('-', '_', Str::slug($item->industry->name)) }}">
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -271,17 +271,18 @@
                     <div class="container mt-5 agency-sec">
                         <h2 class="my-heading"> Agency Profile</h2>
                         <hr>
-                        <p>{{ $company->short_description}}</p>
+                        <p>{{ $company->short_description }}</p>
                         <p><a href=""><u>Read More ></u></a></p>
                     </div>
                     <div class="container mt-5">
                         <h2 class="my-heading"> Locations</h2>
                         <hr>
+                        
                         <div class="row location-sec">
                             <div class="col-md-4">
                                 <div class="scroll-container">
                                     <div class="scroll-content">
-                                        @foreach($addresses as $address)
+                                        @foreach ($addresses as $address)
                                             <p class="address"><b>{{ $address->city }}</b></p>
                                             <p class="autocomplete">{{ $address->autocomplete }}</p>
                                             <br>
@@ -294,185 +295,232 @@
                             </div>
                         </div>
                     </div>
-                    <div class="container mt-5 reviews-sec">
-                        <h2 class="my-heading"> Reviews
-                        </h2>
-                        <hr>
-                        <div class="row align-items-end">
-                            <div class="col-md-4 ">
-                                <h3>Review Title </h3>
-                                <p>dummy text of the printing and typesetting inddummdummy text of the printing and
-                                    typesetting inddummdummy text of the printing and typesetting inddumm</p>
-                            </div>
-                            <div class="col-md-5 review-by">
-                                <h3>Review By</h3>
-                                <p>dummy text of the printing and typesetting
-                                  dummy text of the printing and typesetting
-                                </p>
-                            </div>
+                    <div class="review-card">
+                        <div class="container mt-5 reviews-sec">
+                            <h2 class="my-heading"> Reviews </h2>
                         </div>
                     </div>
+                    <?php foreach ($review as $rev): ?>
+                
+                        <div class="review-card">
+                            <div class="container mt-5 reviews-sec p-0">
+                                <div class="row align-items-end ml-md-4 ml-0">
+                                    <div class="col-md-4">
+                                        <h3>{{$rev->project_title}} </h3>
+                                        <p>{{$rev->for_what_project }}</p>
 
-
-                    <div class="container">
-                        <div class=" row quality-sec ">
-                            <div class="reviews-row2 d-flex align-items-center col-md-12 mt-2 ">
-                                <div class="pl-0 pr-2">
-                                    <i class="fa fa-star bluestar"></i>
-                                    <i class="fa fa-star bluestar"></i>
-                                    <i class="fa fa-star bluestar"></i>
-                                    <i class="fa fa-star-half-o bluestar"></i>
-                                    <i class="fa fa-star-o bluestar"></i>
+                                    </div>
+                                    <div class="col-md-5 review-by">
+                                        <h3>Review By</h3>
+                                        <p><?php echo $rev->scope_of_work  ?></p>
+                                    </div>
                                 </div>
-                                <h3>3.5 </h3>
                             </div>
-                            <div class="col-md-2 ">
-                                Quality 5.0
+                            <div class="container">
+                                <div class="row quality-sec ml-md-2 ml-0">
+                                    <div class="reviews-row2 d-flex align-items-center col-md-12 mt-2">
+                                        <div class="pl-0 pr-2">
+                                            <?php
+                                            $average_rating = $rev->overall_rating;
+                                            for ($i = 0; $i < 5; $i++) {
+                                                if ($average_rating >= $i + 1) {
+                                                    echo '<i class="fa fa-star bluestar"></i>';
+                                                } elseif ($average_rating > $i) {
+                                                    echo '<i class="fa fa-star-half-o bluestar"></i>';
+                                                } else {
+                                                    echo '<i class="fa fa-star-o bluestar"></i>';
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                        {{-- <h3><?php echo number_format($average_rating, 1); ?></h3>
+                                             --}}
+                                             
+                                    </div>
+                                  
+                                    <div class="col-md-2 ">
+                                        Timeliness : {{$rev->timeliness}}
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        Cost {{$rev->cost}}
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        Expertise :{{$rev->expertise}}
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        Quality : {{$rev->quality}}
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        Communication {{$rev->communication}}
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        Refer Ability : {{$rev->refer_ability}}
+                                    </div>
+                                </div>
+                                <div class="container my-5 faq ">
+                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
+                                        <p class="mb-0"> <strong>Please tell us about your business and what is your role ?</strong> <br>
+                                            dummy text of the printingdummy text of the printing text of the printing text of the
+                                            printing text of</p>
+                                    </div>
+                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
+                                        <p class="mb-0"> <strong>What specific challenges were you facing before working with (Company name)?
+                                        </strong> <br>
+                                            dummy text of the printingdummy text of the printing text of the printing text of the
+                                            printing text of</p>
+                                    </div>
+                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
+                                        <p class="mb-0"> <strong>Tell us about the project in detail
+
+                                        </strong> <br>
+                                            dummy text of the printingdummy text of the printing text of the printing text of the
+                                            printing text of</p>
+                                    </div>
+                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
+                                        <p class="mb-0"> <strong>What services did you receive from (Company Name)?  for eg. Digital Marketing, Web design, Mobile App development)
+                                        </strong> <br>
+                                            dummy text of the printingdummy text of the printing text of the printing text of the
+                                            printing text of</p>
+                                    </div>
+                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
+                                        <p class="mb-0"> <strong>What factors led to the selection of the vendor
+
+                                        </strong> <br>
+                                            dummy text of the printingdummy text of the printing text of the printing text of the
+                                            printing text of</p>
+                                    </div>
+                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
+                                        <p class="mb-0"> <strong>Talk about how the vendor made this project a success
+
+                                        </strong> <br>
+                                            dummy text of the printingdummy text of the printing text of the printing text of the
+                                            printing text of</p>
+                                    </div>
+                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
+                                        <p class="mb-0"> <strong>In what ways have the services positively impacted your business? (eg. increased sales, improved brand awareness, Enhanced user engagement)
+
+
+                                        </strong> <br>
+                                            dummy text of the printingdummy text of the printing text of the printing text of the
+                                            printing text of</p>
+                                    </div>
+                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
+                                        <p class="mb-0"> <strong>In what ways have the services positively impacted your business? (eg. increased sales, improved brand awareness, Enhanced user engagement)
+
+
+                                        </strong> <br>
+                                            dummy text of the printingdummy text of the printing text of the printing text of the
+                                            printing text of</p>
+                                    </div>
+                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
+                                        <p class="mb-0"> <strong>What were the top 3 things that impressed you the most about the vendor (eg. communication, expertise, creativity, process etc)Is there anything else you would like to share about your experience
+                                        </strong> <br>
+                                            dummy text of the printingdummy text of the printing text of the printing text of the
+                                            printing text of</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-2 ">
-                                Quality 5.0
-                            </div>
-                            <div class="col-md-2 ">
-                                Quality 5.0
-                            </div>
-                            <div class="col-md-2 ">
-                                Quality 5.0
-                            </div>
-                            <div class="col-md-2 ">
-                                Quality 5.0
-                            </div>
-                            <div class="col-md-2 ">
-                                Quality 5.0
+
+                            <div class="container my-5 faq">
+                                {{-- <?php foreach ($review['faq'] as $faq): ?>
+                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
+                                        <p class="mb-0"><strong><?php echo $faq; ?></strong><br>
+                                            dummy text of the printingdummy text of the printing text of the printing text of the printing text of the printing text of
+                                        </p>
+                                    </div>
+                                <?php endforeach; ?> --}}
                             </div>
                         </div>
-                    </div>
-                    <div class="container my-5 faq">
-                        <div class="border p-2 px-3 mb-2">
-                            <p class="mb-0"> <strong>What Services Dummy Text Of The Printing ?</strong> <br>
-                                dummy text of the printingdummy text of the printing text of the printing text of the
-                                printing text of</p>
-                        </div>
-                        <div class="border p-2 px-3 mb-2">
-                            <p class="mb-0"> <strong>What Services Dummy Text Of The Printing ?</strong> <br>
-                                dummy text of the printingdummy text of the printing text of the printing text of the
-                                printing text of</p>
-                        </div>
-                        <div class="border p-2 px-3 mb-2">
-                            <p class="mb-0"> <strong>What Services Dummy Text Of The Printing ?</strong> <br>
-                                dummy text of the printingdummy text of the printing text of the printing text of the
-                                printing text of</p>
-                        </div>
-                        <div class="border p-2 px-3 mb-2">
-                            <p class="mb-0"> <strong>What Services Dummy Text Of The Printing ?</strong> <br>
-                                dummy text of the printingdummy text of the printing text of the printing text of the
-                                printing text of</p>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                     <div class="container mt-5 reviews-sec">
                         <h2 class="my-heading"> Portfolio / Case Studies
                         </h2>
                         <hr>
                         <div class="row align-items-end case-box">
-                            @foreach($projects as $project)
-                            <div class="col-md-4 mb-3">
-                                <div class="border p-2 mb-2">
-                                    <img src="{{ asset('storage/' . $project->thumbnail_image) }}" class="w-100">
-                                    {{-- <img src="{{ $project->image_url }}" alt="" class="w-100" onerror="this.src='{{ asset('path/to/blank_image.jpg') }}';"> --}}
-                                    <h3 class="mt-3 mb-2">{{ $project->title }}</h3>
+                            @foreach ($projects as $project)
+                                <div class="col-md-4 mb-3">
+                                    <div class="border p-2 mb-2">
+                                        <img src="{{ asset('storage/' . $project->thumbnail_image) }}" class="w-100">
+                                        {{-- <img src="{{ $project->image_url }}" alt="" class="w-100" onerror="this.src='{{ asset('path/to/blank_image.jpg') }}';"> --}}
+                                        <h3 class="mt-3 mb-2">{{ $project->title }}</h3>
+                                    </div>
                                 </div>
-                            </div>
                             @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-@endsection
-@section('script')
-    <script type="text/javascript">
-        var showHideReview;
-        var showHideAdd;
-        $(document).ready(function() {
-            showHideAdd = function(idd, idd1) {
-                $("#" + idd).hide();
-                $("#" + idd1).show();
-            }
-        });
-        $(document).ready(function() {
-            showHideReview = function(idd, idd1, idd2) {
-                $("." + idd2).toggle();
-                $("." + idd).hide();
-                $("." + idd1).show();
-            }
-        });
-    </script>
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', {
-        'packages': ['corechart']
-    });
-    google.charts.setOnLoadCallback(drawCharts);
-
-    function drawCharts() {
-    @foreach ($add_industry as $item)
-        var containerId = "piechart_{{ str_replace('-', '_', Str::slug($item->industry->name)) }}";
-        var containerElement = document.getElementById(containerId);
-        if (containerElement) {
-            var data = google.visualization.arrayToDataTable([
-                ['Task', 'Percentage'],
-                ['{{ $item->industry->name }}', {{$item->percent}}],
-                ['', {{ 100 - $item->percent }}]
-            ]);
-
-            var options = {
-                'title': '{{ $item->industry->name }}',
-                'width': 150,
-                'height': 100,
-                'slices': {
-                    0: { color: 'blue' },
-                    1: { color: 'white' }
+    @endsection
+    @section('script')
+        <script type="text/javascript">
+            var showHideReview;
+            var showHideAdd;
+            $(document).ready(function() {
+                showHideAdd = function(idd, idd1) {
+                    $("#" + idd).hide();
+                    $("#" + idd1).show();
                 }
-            };
-            var chart = new google.visualization.PieChart(containerElement);
-            chart.draw(data, options);
-        } else {
-            console.error("Container element not found: " + containerId);
-        }
-    @endforeach
-}
+            });
+            $(document).ready(function() {
+                showHideReview = function(idd, idd1, idd2) {
+                    $("." + idd2).toggle();
+                    $("." + idd).hide();
+                    $("." + idd1).show();
+                }
+            });
+        </script>
 
-</script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {
+                'packages': ['corechart']
+            });
+            google.charts.setOnLoadCallback(drawCharts);
 
-<script>
-//    <script>
-    function initMap() {
-        var firstAddress = document.querySelector('.scroll-content .address');
-        var city = firstAddress.querySelector('b').innerText;
-        var autocomplete = firstAddress.nextElementSibling.innerText;
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ 'address': autocomplete }, function (results, status) {
-            if (status === 'OK' && results && results.length > 0) {
-                var location = results[0].geometry.location;
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    center: location,
-                    zoom: 8
-                });
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
+            function drawCharts() {
+                @foreach ($add_industry as $item)
+                    var containerId = "piechart_{{ str_replace('-', '_', Str::slug($item->industry->name)) }}";
+                    var containerElement = document.getElementById(containerId);
+                    if (containerElement) {
+                        var data = google.visualization.arrayToDataTable([
+                            ['Task', 'Percentage'],
+                            ['{{ $item->industry->name }}', {{ $item->percent }}],
+                            ['', {{ 100 - $item->percent }}]
+                        ]);
+
+                        var options = {
+                            'title': '{{ $item->industry->name }}',
+                            'width': 150,
+                            'height': 100,
+                            'slices': {
+                                0: {
+                                    color: 'blue'
+                                },
+                                1: {
+                                    color: 'white'
+                                }
+                            }
+                        };
+                        var chart = new google.visualization.PieChart(containerElement);
+                        chart.draw(data, options);
+                    } else {
+                        console.error("Container element not found: " + containerId);
+                    }
+                @endforeach
             }
-        });
-    }
+        </script>
 
-    document.addEventListener("DOMContentLoaded", function() {
-        initMap();
-        var addresses = document.querySelectorAll('.scroll-content .address');
-        addresses.forEach(function(address) {
-            address.addEventListener('click', function() {
-                var city = this.querySelector('b').innerText;
-                var autocomplete = this.nextElementSibling.innerText;
+        <script>
+            //    <script>
+            function initMap() {
+                var firstAddress = document.querySelector('.scroll-content .address');
+                var city = firstAddress.querySelector('b').innerText;
+                var autocomplete = firstAddress.nextElementSibling.innerText;
                 var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ 'address': autocomplete }, function (results, status) {
+                geocoder.geocode({
+                    'address': autocomplete
+                }, function(results, status) {
                     if (status === 'OK' && results && results.length > 0) {
                         var location = results[0].geometry.location;
                         var map = new google.maps.Map(document.getElementById('map'), {
@@ -483,14 +531,38 @@
                         alert('Geocode was not successful for the following reason: ' + status);
                     }
                 });
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                initMap();
+                var addresses = document.querySelectorAll('.scroll-content .address');
+                addresses.forEach(function(address) {
+                    address.addEventListener('click', function() {
+                        var city = this.querySelector('b').innerText;
+                        var autocomplete = this.nextElementSibling.innerText;
+                        var geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({
+                            'address': autocomplete
+                        }, function(results, status) {
+                            if (status === 'OK' && results && results.length > 0) {
+                                var location = results[0].geometry.location;
+                                var map = new google.maps.Map(document.getElementById('map'), {
+                                    center: location,
+                                    zoom: 8
+                                });
+                            } else {
+                                alert('Geocode was not successful for the following reason: ' +
+                                    status);
+                            }
+                        });
+                    });
+                });
             });
-        });
-    });
-</script>
-{{-- </script> --}}
+        </script>
+        {{-- </script> --}}
 
 
-<!-- Include Google Maps JavaScript API with your API key -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy836GvKy71SW3C0NQ3FdGkuNjlce_fOA&callback=initMap" async defer></script>
-
-@endsection
+        <!-- Include Google Maps JavaScript API with your API key -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy836GvKy71SW3C0NQ3FdGkuNjlce_fOA&callback=initMap" async
+            defer></script>
+    @endsection
