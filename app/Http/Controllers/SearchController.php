@@ -114,6 +114,11 @@ class SearchController extends Controller
         $cat_id           = $this->getIdByCatName( $ser );
 
         $data['industry'] = Industry::pluck( 'name','id' )->all();
+
+        $industry = AddIndustry::with('industry')->get();
+    
+
+
         
         $bud              = Budget::all();
 
@@ -259,7 +264,7 @@ class SearchController extends Controller
 
         if( !empty( $request->industry ) )
         {
-            $where[]= 'add_industries.industry_id IN ('.implode(',',$request->industry).')';
+            $where[]= 'add_industries.* IN ('.implode(',',$request->industry).')';
         }
 
         if( !empty( $request->reviews ) )
@@ -280,7 +285,7 @@ class SearchController extends Controller
 
 
         $total_record = DB::select(
-                                    "SELECT count( DISTINCT(companies.id) ) as record FROM companies 
+                                    "SELECT count( DISTINCT(companies.id) )  as record  ,add_industries.* FROM companies 
                                      LEFT JOIN addresses ON addresses.company_id = companies.id 
                                      LEFT JOIN service_lines ON service_lines.company_id = companies.id 
                                      LEFT JOIN add_industries ON add_industries.company_id = companies.id 
@@ -316,20 +321,26 @@ class SearchController extends Controller
 
         
 
-        $company_sql     = "SELECT DISTINCT(companies.id), companies.*, addresses.address, addresses.city , subcategories.id as subcategory_id ,subcategories.subcategory as subcategory_name  FROM companies 
+        $company_sql     = "SELECT DISTINCT(companies.id), companies.*,   add_industries.id as add_industries_id,  add_industries.percent as percent,industries.name as i_name , addresses.address, addresses.city ,subcategories.id as subcategory_id ,subcategories.subcategory as subcategory_name  FROM companies 
                                                     LEFT JOIN addresses ON addresses.company_id             = companies.id 
                                                     LEFT JOIN service_lines ON service_lines.company_id     = companies.id 
                                                     LEFT JOIN add_industries ON add_industries.company_id   = companies.id 
                                                     LEFT JOIN subcategories ON subcategories.id = service_lines.subcategory_id
+                                                    LEFT JOIN industries ON industries.id = add_industries.industry_id
                                                     LEFT JOIN company_reviews ON company_reviews.company_id = companies.id ".$where." 
                                                     AND  companies.is_publish !=0 LIMIT ".$per_page." OFFSET ".$offset;
         
         $data['company'] = $company = DB::select( $company_sql ); 
 
 
-        // dd($data);
 
-    
+        $industry = AddIndustry::with('industry')->get();
+
+
+        foreach ($data['company'] as $company) {
+            $company->industries = $industry->where('company_id', $company->id)->pluck('industry');
+            // You may add other associations here if needed
+        }
 
 
         return view( 'home.directory', $data );
@@ -1159,11 +1170,13 @@ class SearchController extends Controller
                     
 
         $data['rate_review'] = DB::table('company_reviews')
-                                ->select('company_id','position_title','most_impressive')
+                                ->select('company_id','position_title','most_impressive','project_title')
                                 ->selectRaw('count(id) as review')
                                 ->selectRaw('avg(overall_rating) as rating')
                                 ->where('company_id',$company_id)
                                 ->first();
+
+
 
                                 // dd($company_id);
 
