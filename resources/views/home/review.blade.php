@@ -204,12 +204,6 @@
             }
 
         }
-        .button-container {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center; /* optional: aligns the button vertically with the heading */
-        }
-
 
         /* Modal Styles */
             .modal {
@@ -266,91 +260,6 @@
         <div class=" container">
             <div class="row">
                 <div class="col-lg-12 col-md-7 firm-sec p-3 mt-4 mt-md-0 shadow directory-blade" id="addCompanyList">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <img src="{{ asset($company->logo) }}" alt="" class="img-fluid ">
-                        </div>
-                        <div class="col-md-5 text-right">
-                            <div class="reviews-row">
-                                <h3>{{ number_format((float) $rate_review->rating, 1) }}</h3>
-                                <div class="px-3">
-                                    @php
-                                        $full_stars = floor($rate_review->rating);
-                                        $half_star = ceil($rate_review->rating - $full_stars);
-                                        $empty_stars = 5 - ($full_stars + $half_star);
-                                    @endphp
-
-                                    @for ($i = 0; $i < $full_stars; $i++)
-                                        <i class="fa fa-star bluestar"></i>
-                                    @endfor
-
-                                    @if ($half_star)
-                                        <i class="fa fa-star-half-o bluestar"></i>
-                                    @endif
-
-                                    @for ($i = 0; $i < $empty_stars; $i++)
-                                        <i class="fa fa-star-o bluestar"></i>
-                                    @endfor
-                                </div>
-                                <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank">
-                                    <h3>1 REVIEWS</h3>
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row mt-5 target-sec">
-                        <div class="col-md-8 pr-md-1">
-                            <h2 class="area my-heading"> Target Services Area</h2>
-                            <hr class="mt-2">
-                            <div class="row mx-0 percentbox">
-                                @foreach ($add_industry as $item)
-                                    <div class="col-md-4 text-center mb-2 p-2">
-                                        <div class="border p-3 w-100 rounded shadow-sm h-100">
-                                            <h3>{{ $item->industry->name }}</h3>
-                                            <div
-                                                id="piechart_{{ str_replace('-', '_', Str::slug($item->industry->name)) }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="col-md-4 pl-md-1">
-                            <h2 class="industries my-heading">Target Industries</h2>
-                            <hr class="mt-2 mb-4">
-                            @foreach ($service_lines as $service_line)
-                                <a href="#" class="btn-target">{{ $service_line->subcategory->subcategory }}</a>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="container mt-5 agency-sec">
-                        <h2 class="my-heading"> Agency Profile</h2>
-                        <hr>
-                        <p>{{ $company->short_description }}</p>
-                        <p><a href=""><u>Read More ></u></a></p>
-                    </div>
-                    <div class="container mt-5">
-                        <h2 class="my-heading"> Locations</h2>
-                        <hr>
-                        
-                        <div class="row location-sec">
-                            <div class="col-md-4">
-                                <div class="scroll-container">
-                                    <div class="scroll-content">
-                                        @foreach ($addresses as $address)
-                                            <p class="address"><b>{{ $address->city }}</b></p>
-                                            <p class="autocomplete">{{ $address->autocomplete }}</p>
-                                            <br>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div id="map" style="width: 100%; height: 100%;"></div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="review-card">
                         <div class="container mt-5 reviews-sec">
                             <h2 class="my-heading"> Reviews </h2>
@@ -486,71 +395,8 @@
                                 <?php endforeach; ?> --}}
                             </div>
                         </div>
-                      
-
                     <?php endforeach; ?>
-                    <div class="container mt-5 reviews-sec">
-                        {{-- <h2 class="my-heading"> Portfolio / Case Studies
-                            
-                            <a href="{{ url('review/{company}') }}" class="btn btn-primary">Get All Reviews</a>
-
-
-                        </h2>
-                        <hr> --}}
-                        <h2 class="my-heading"> Portfolio / Case Studies
-                            <div class="button-container">
-                                <a href="{{ url('review/{company}') }}" class="btn btn-primary">Get All Reviews</a>
-                            </div>
-                        </h2>
-                        <hr>
-                        <div class="row align-items-end case-box">
-                            
-
-                        @foreach($projects as $project)
-                            <div class="portfolio-case-study"
-                                data-title="{{ $project->title }}"
-                                 data-company-id="{{ $project->company_id }}"
-                                 data-project-id="{{ $project->project_id }}"
-                                 data-description="{{ $project->description }}"
-                                 data-thumbnail="{{ asset('storage/' . $project->thumbnail_image) }}"
-                                 data-service-id="{{ $project->service_id }}"
-                                 data-project-size="{{ $project->project_size }}"
-                                 data-upload-image="{{ asset('storage/' . $project->upload_image) }}"
-                                 data-youtube-video="{{ $project->youtube_video }}"
-                            >
-                               
-                                        <img src="{{ asset('storage/' . $project->thumbnail_image) }}" class="w-50"> 
-                                       
-                                        <h3 class="mt-3 mb-2">{{ $project->title }}</h3>
-                            </div>
-                        @endforeach 
- 
-
-                        </div>
-                    </div>
-
-                   
-
-              <!-- Modal -->
-              <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h2>Case Study Details</h2>
-                    <div id="modal-content">
-                        <p>title: <span id="title"></span></p>
-                        <p>Company ID: <span id="company_id"></span></p>
-                        <p>Project ID: <span id="project_id"></span></p>
-                        <p>Description: <span id="description"></span></p>
-                        <img id="thumbnail_image" class="w-50" src="" alt="Thumbnail">
-                        <p>Service ID: <span id="service_id"></span></p>
-                        <p>Project Size: <span id="project_size"></span></p>
-                        <img id="upload_image" class="w-50" src="" alt="Uploaded Image">
-                        <iframe id="youtube_video" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
-                   
-                    </div>
-                </div>
-            </div>
-
+                  
                 </div>
             </div>
         </div>
@@ -669,73 +515,6 @@
 
 
 
-<script>
-   // Get the modal
-var modal = document.getElementById("myModal");
-
-// Get the portfolio case studies
-var caseStudies = document.getElementsByClassName("portfolio-case-study");
-
-// Get the modal content
-var modalContent = document.getElementById("modal-content");
-
-// Loop through the portfolio case studies and add onclick event
-for (var i = 0; i < caseStudies.length; i++) {
-    caseStudies[i].onclick = function() {
-        // Set modal content with data attributes
-        modalContent.innerHTML = `
-            <p>Company ID: ${this.getAttribute('data-company-id')}</p>
-            <p>Project ID: ${this.getAttribute('data-project-id')}</p>
-            <p>Description: ${this.getAttribute('data-description')}</p>
-            <img src="${this.getAttribute('data-thumbnail')}" alt="Thumbnail">
-            <p>Service ID: ${this.getAttribute('data-service-id')}</p>
-            <p>Project Size: ${this.getAttribute('data-project-size')}</p>
-            <img src="${this.getAttribute('data-upload-image')}" alt="Uploaded Image">
-            <iframe width="560" height="315" src="${this.getAttribute('data-youtube-video')}" frameborder="0" allowfullscreen></iframe>
-        `;
-        
-        // Display the modal
-        modal.style.display = "block";
-    };
-}
-
-// Close the modal when the close button is clicked
-document.getElementsByClassName("close")[0].onclick = function() {
-    modal.style.display = "none";
-};
-
-// Close the modal when clicking outside the modal content
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-};
-
-</script>
-<script>
-    // JavaScript Function
-    document.getElementById('getAllReviewsBtn').addEventListener('click', function() {
-        var companyId = this.getAttribute('data-company-id');
-
-        // AJAX Request
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/reviews/' + companyId, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // Handle successful response
-                    var reviews = JSON.parse(xhr.responseText);
-                    // Process the retrieved reviews (e.g., display them on the page)
-                    console.log(reviews);
-                } else {
-                    // Handle error response
-                    console.error('Error fetching reviews:', xhr.statusText);
-                }
-            }
-        };
-        xhr.send();
-    });
-</script>
 
         
 

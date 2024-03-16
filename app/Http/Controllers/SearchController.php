@@ -321,27 +321,41 @@ class SearchController extends Controller
 
         
 
-        $company_sql     = "SELECT DISTINCT(companies.id), companies.*,   add_industries.id as add_industries_id,  add_industries.percent as percent,industries.name as i_name , addresses.address, addresses.city ,subcategories.id as subcategory_id ,subcategories.subcategory as subcategory_name  FROM companies 
-                                                    LEFT JOIN addresses ON addresses.company_id             = companies.id 
-                                                    LEFT JOIN service_lines ON service_lines.company_id     = companies.id 
-                                                    LEFT JOIN add_industries ON add_industries.company_id   = companies.id 
-                                                    LEFT JOIN subcategories ON subcategories.id = service_lines.subcategory_id
-                                                    LEFT JOIN industries ON industries.id = add_industries.industry_id
-                                                    LEFT JOIN company_reviews ON company_reviews.company_id = companies.id ".$where." 
-                                                    AND  companies.is_publish !=0 LIMIT ".$per_page." OFFSET ".$offset;
+        $company_sql     = "SELECT companies.id, companies.*, add_industries.id as add_industries_id, add_industries.percent as percent, industries.name as i_name, addresses.address, addresses.city, subcategories.id as subcategory_id, subcategories.subcategory as subcategory_name  
+        FROM companies 
+        LEFT JOIN addresses ON addresses.company_id = companies.id 
+        LEFT JOIN service_lines ON service_lines.company_id = companies.id 
+        LEFT JOIN add_industries ON add_industries.company_id = companies.id 
+        LEFT JOIN subcategories ON subcategories.id = service_lines.subcategory_id
+        LEFT JOIN industries ON industries.id = add_industries.industry_id
+        LEFT JOIN company_reviews ON company_reviews.company_id = companies.id 
+        " . $where . " AND companies.is_publish != 0 LIMIT " . $per_page . " OFFSET " . $offset;
         
         $data['company'] = $company = DB::select( $company_sql ); 
 
-
+        $data['company'] = array_values(array_unique($data['company'], SORT_REGULAR));
 
         $industry = AddIndustry::with('industry')->get();
 
 
-        foreach ($data['company'] as $company) {
-            $company->industries = $industry->where('company_id', $company->id)->pluck('industry');
-            // You may add other associations here if needed
-        }
+                    $uniqueCompanies = [];
+            $seenIds = [];
 
+            foreach ($data['company'] as $company) {
+                if (!in_array($company->id, $seenIds)) {
+                    $uniqueCompanies[] = $company;
+                    $seenIds[] = $company->id;
+                }
+            }
+
+$data['company'] = $uniqueCompanies;
+
+
+
+        foreach ($data['company'] as $company) {
+             $company->industries = $industry->where('company_id', $company->id)->pluck('industry');
+          
+        }
 
         return view( 'home.directory', $data );
 
@@ -463,8 +477,7 @@ class SearchController extends Controller
             if( !empty( $cat ) )
             {
                 
-                foreach( $cat as $scat )
-                {
+                foreach( $cat as $scat ) {
                     $_REQUEST['services'][] = $scat->sid;
                 }
 
@@ -1158,6 +1171,7 @@ class SearchController extends Controller
     {
         $data  = array();
         $focus = array();
+       
 
 
         $data['company'] = Company::where('id', $company_id)->first();
@@ -1176,8 +1190,61 @@ class SearchController extends Controller
                                 ->where('company_id',$company_id)
                                 ->first();
 
+        $data['review']         = CompanyReview::where( 'company_id', $company_id )->get();
+        $data['service_lines']  = ServiceLine::where( 'company_id', $company_id )->get();
+        $data['add_industry']   = AddIndustry::where( 'company_id', $company_id )->get();
+        $data['add_client_size']= AddClientSize::where( 'company_id', $company_id )->get();
+        $data['add_focus']      = AddFocus::where( 'company_id', $company_id )->get();
+        $data['addresses']      = Address::where( 'company_id', $company_id )->get();
+        $data['projects']      = CompanyHasProject::where( 'company_id', $company_id )->get();
+        foreach( $data['add_focus'] as $add_focus )
+        {
+            $focus[$add_focus->subcategory_id][] = $add_focus;
+        }
+        $data['add_focus'] = $focus;
+        return view( 'home.companyProfile', $data );
+    }
 
 
+    public function review( Request $request, $company_id )
+    {
+        $data  = array();
+        $focus = array();
+
+
+        $data['company'] = Company::where('id', $company_id)->first();
+
+        // if (!$data['company']) {
+        //     $cleaned_company_id = str_replace('-', ' ', $company_id);
+        //     $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
+        //     $company_id =   $data['company']->id;
+        // }
+        if (!$data['company']) {
+            $cleaned_company_id = str_replace('-', ' ', $company_id);
+            $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
+           
+        
+           
+            if ($data['company']) {
+                $company_id = $data['company']->id;
+              
+            } else {
+               
+                 $company_id = 0; // or any default value
+              
+            }
+        }
+                    
+
+        $data['rate_review'] = DB::table('company_reviews')
+                                ->select('company_id','position_title','most_impressive','project_title')
+                                ->selectRaw('count(id) as review')
+                                ->selectRaw('avg(overall_rating) as rating')
+                                ->where('company_id',$company_id)
+                                ->first();
+
+
+       
                                 // dd($company_id);
 
         $data['review']         = CompanyReview::where( 'company_id', $company_id )->get();
@@ -1192,7 +1259,7 @@ class SearchController extends Controller
             $focus[$add_focus->subcategory_id][] = $add_focus;
         }
         $data['add_focus'] = $focus;
-        return view( 'home.companyProfile', $data );
+        return view( 'home.review', $data );
     }
 
     public function test( Request $request, $company_id )
