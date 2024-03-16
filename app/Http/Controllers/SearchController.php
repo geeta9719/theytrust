@@ -320,16 +320,18 @@ class SearchController extends Controller
         $data['lastPage']   = $total_pages;
 
         
-
-        $company_sql     = "SELECT companies.id, companies.*, add_industries.id as add_industries_id, add_industries.percent as percent, industries.name as i_name, addresses.address, addresses.city, subcategories.id as subcategory_id, subcategories.subcategory as subcategory_name  
+        $company_sql = "SELECT companies.id, companies.*, add_industries.id as add_industries_id, add_industries.percent as percent, industries.name as i_name, addresses.address, addresses.city, subcategories.id as subcategory_id, subcategories.subcategory as subcategory_name  
         FROM companies 
         LEFT JOIN addresses ON addresses.company_id = companies.id 
         LEFT JOIN service_lines ON service_lines.company_id = companies.id 
         LEFT JOIN add_industries ON add_industries.company_id = companies.id 
         LEFT JOIN subcategories ON subcategories.id = service_lines.subcategory_id
         LEFT JOIN industries ON industries.id = add_industries.industry_id
-        LEFT JOIN company_reviews ON company_reviews.company_id = companies.id 
-        " . $where . " AND companies.is_publish != 0 LIMIT " . $per_page . " OFFSET " . $offset;
+        LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where . " AND companies.is_publish != 0 
+        GROUP BY companies.id 
+        LIMIT " . $per_page . " OFFSET " . $offset;
+
+
         
         $data['company'] = $company = DB::select( $company_sql ); 
 
@@ -338,17 +340,7 @@ class SearchController extends Controller
         $industry = AddIndustry::with('industry')->get();
 
 
-                    $uniqueCompanies = [];
-            $seenIds = [];
-
-            foreach ($data['company'] as $company) {
-                if (!in_array($company->id, $seenIds)) {
-                    $uniqueCompanies[] = $company;
-                    $seenIds[] = $company->id;
-                }
-            }
-
-$data['company'] = $uniqueCompanies;
+        
 
 
 
