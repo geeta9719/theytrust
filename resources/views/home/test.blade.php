@@ -1,633 +1,475 @@
 @extends('layouts.home-master')
+
 @section('content')
+    <style>
+        /* Hide radio buttons */
+        input[type="radio"].visually-hidden {
+            position: absolute;
+            clip: rect(0, 0, 0, 0);
+            pointer-events: none;
+        }
 
-
-
-<!-- listing section start -->
-<section class="container-fluid list-top">
-    <div class=" container">
-        <a href="">Home | Company Profile</a>
-        {{--<h2>TheyTrustUsLogin</h2>--}}
-    </div>
-</section>
-@if(session('message'))
-    <div class="alert alert-danger">
-        {{ session('message') }}
-    </div>
-@endif
-<section class="container-fluid mt-5 mb-5 list-box">
-    <div class=" container">
-        <div class="row ">
-            <div class="col-lg-12 col-md-12 firm-sec pl-md-4">
-                <div class="graph-sec row border mx-0 pt-5 pb-5 px-3 ">
-                    <div class="col-xl-2 col-lg-6 border-right verified-sec pb-3 pb-md-0">
-                        <img src="{{ asset( $company->logo ) }}" alt="" class="img-fluid ">
-                        @if( $company->is_publish )
-                            <img src="{{asset('front_components/images/verified.png')}}" alt="" class="img-fluid ">
-                        @endif
-                        <?php
-                            $bb  = explode( '-', $company->budget );
-                            $bbb = $bb[0] .'+';
-                            if( !empty( $rr ) )
-                            {
-                                $rr  = explode('-',$company->rate);
-                                $rrr = '$'.$rr[0].'-$'.$rr[1];
-                            }
-                            else
-                            {
-                                $rrr = 'N/A ';
-                            }
-                        ?>
-                        <div class="icon-box mt-4">
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/verified-icon1.png')}}" alt="">
-                                {{ $bbb }}
-                            </p>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/time.png')}}" alt="">
-                                {{ $rrr ?? 'NA' }} / Hr
-                            </p>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/person.png')}}" alt="">
-                                {{ $company->size }}
-                            </p>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/location2.png')}}" alt="">
-                                {{ $company->address[0]->city ?? '' }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 pl-md-4 mt-md-0 mt-4">
-                        <h3>{{ ucfirst( $company->name ) }}</h3>
-                        <p>{{ $company->tagline }}</p>
-                        <div class="reviews-row">
-                            <h3> {{number_format((float)$rate_review->rating, 1, '.', '') ?? ''}} </h3>
-                            <div class="px-3">
-                                <?php
-                                    for($i=1;$i<=5;$i++)
-                                    {
-                                        if($i <= $rate_review->rating)
-                                        {
-                                        ?>
-                                            <i class="fa fa-star bluestar"></i>
-                                        <?php
-                                        }
-                                        elseif($rate_review->rating <= $i-1)
-                                        {
-                                        ?>
-                                            <i class="fa fa-star-o bluestar"></i>
-                                        <?php
-                                        }
-                                        else
-                                        {
-                                        ?>
-                                            <i class="fa fa-star-half-o bluestar"></i>
-                                        <?php
-                                        }
-                                    }
-                                ?>
-                            </div>
-                            <h3>{{$rate_review->review}} REVIEWS</h3>
-                        </div>
-                        <div class="links">
-                            <p>{{ $company->short_description }}</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-4  pl-md-0 mt-xl-0 mt-5 locationbox">
-                        <h3>Location </h3>
-                        <div class="d-flex align-items-center mb-4">
-                            <img src="{{asset('front_components/images/profilemap.png')}}" alt="" class="img-fluid"> &nbsp; {{ $company->address[0]->city ?? '' }} {{ $company->address[0]->country->name ?? ''}} <!-- <a href="">Show All</a> -->
-                        </div>
-                        {{-- <img src="{{asset('front_components/images/profile-google.jpg')}}" alt=""
-                            class="img-fluid mt-4"> --}}
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15281491.841751238!2d72.1038341019075!3d20.757563059676368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1697655190803!5m2!1sen!2sin" width="365" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                </div>
-            </div>
+        /* Style the label of the selected category */
+        input[type="radio"]:checked+label {
+            background-color: #f0f8ff;
+            /* Light blue background */
+            color: #333;
+            /* Dark text color */
+        }
+    </style>
+    <!-- listing section start -->
+    <section class="container-fluid list-top">
+        <div class="container">
+            <a href="">Home | Company Profile</a>
         </div>
-</section>
+    </section>
 
+    <style>
+        .selected-label {
+            background-color: lightblue;
+        }
+    </style>
 
-<section class="container-fluid mt-5 mb-5 focus-sec">
-    <div class=" container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12  pl-md-4">
-                <div class=" row border mx-0 py-4 px-3 align-items-center">
-                    <div class="col-xl-8  pl-md-5 mt-xl-0 mt-5">
-                        <h2>Focus</h2>
-                    </div>
-                <div class="row ml-0 mr-0">
-                <div class="col-md-4 pt-2">
-                    <p>
-                        <div class="row text-center" id="piechart1"></div>
-                        <?php
-                        if(count($service_lines) > 0){
-                            $t = 0;
-                            $data = array();
-                            $data[0] = array('Service Lines','Percent');
-                            for($i = 0;$i < count($service_lines); $i++){
-                                if($service_lines[$i]->percent > 0){
-                                    $t = $t + $service_lines[$i]->percent;
-                                    $data[$i+1] = array($service_lines[$i]->subcategory->subcategory,(int)$service_lines[$i]->percent);
-                                }
-                            }
-                            if($t < 100){
-                                $p = 100-$t;
-                                $data[$i+1] = array("None",$p);
-                            }
-                            $data = json_encode($data);
-                            ?>
-                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                            <script type="text/javascript">
-                            // Load google charts
-                            google.charts.load('current', {'packages':['corechart']});
-                            google.charts.setOnLoadCallback(drawChart);
-                            // Draw the chart and set the chart values
-                            function drawChart() {
-                                var data = google.visualization.arrayToDataTable(<?=$data?>);
-                                // Optional; add a title and set the width and height of the chart
-                                var options = {'title':'Service Lines', 'width':450, 'height':300};
-                                // Display the chart inside the <div> element with id="piechart"
-                                var chart = new google.visualization.PieChart(document.getElementById("piechart1"));
-                                chart.draw(data, options);
-                            }
-                            </script>
-                            <?php
-                        }
-                        ?>
-                    </p>
-                </div>
-                <div class="col-md-4 pt-2">
-                    <p>
-                        <div class="row text-center" id="piechart4"></div>
-                        <?php
-                        if(count($add_client_size) > 0){
-                            $t = 0;
-                            $data = array();
-                            $data[0] = array('Client Focus','Percent');
-                            for($i = 0;$i < count($add_client_size); $i++){
-                                if($add_client_size[$i]->percent > 0){
-                                    $t = $t + $add_client_size[$i]->percent;
-                                    $data[$i+1] = array($add_client_size[$i]->client_size->name,(int)$add_client_size[$i]->percent);
-                                }
-                            }
-                            if($t < 100){
-                                $p = 100-$t;
-                                $data[$i+1] = array("None",$p);
-                            }
-                            $data = json_encode($data);
-                            ?>
-                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                            <script type="text/javascript">
-                            // Load google charts
-                            google.charts.load('current', {'packages':['corechart']});
-                            google.charts.setOnLoadCallback(drawChart);
-                            // Draw the chart and set the chart values
-                            function drawChart() {
-                                var data = google.visualization.arrayToDataTable(<?=$data?>);
-                                // Optional; add a title and set the width and height of the chart
-                                var options = {'title':'Client Focus', 'width':440, 'height':300};
-                                // Display the chart inside the <div> element with id="piechart"
-                                var chart = new google.visualization.PieChart(document.getElementById("piechart4"));
-                                chart.draw(data, options);
-                            }
-                            </script>
-                            <?php
-                        }
-                        ?>
-                    </p>
-                </div>
-                <div class="col-md-4 pt-2">
-                    <p>
-                        <div class="row text-center" id="piechart2"></div>
-                        <?php $t = 0;
-                        if(count($add_industry) > 0){
-                            $data = array();
-                            $data[0] = array('Industry Focus','Percent');
-                            for($i = 0;$i < count($add_industry); $i++){
-                                if($add_industry[$i]->percent > 0){
-                                    $t = $t + $add_industry[$i]->percent;
-                                    $data[$i+1] = array($add_industry[$i]->industry->name,(int)$add_industry[$i]->percent);
-                                }
-                            }
-                            if($t < 100){
-                                $p = 100-$t;
-                                $data[$i+1] = array("None",$p);
-                            }
-                            $data = json_encode($data);
-                            ?>
-                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                            <script type="text/javascript">
-                            // Load google charts
-                            google.charts.load('current', {'packages':['corechart']});
-                            google.charts.setOnLoadCallback(drawChart);
-                            // Draw the chart and set the chart values
-                            function drawChart() {
-                                var data = google.visualization.arrayToDataTable(<?=$data?>);
-                                // Optional; add a title and set the width and height of the chart
-                                var options = {'title':'Industry Focus', 'width':450, 'height':300};
-                                // Display the chart inside the <div> element with id="piechart"
-                                var chart = new google.visualization.PieChart(document.getElementById("piechart2"));
-                                chart.draw(data, options);
-                            }
-                            </script>
-                            <?php
-                        }?>
-                    </p>
-                </div>
-                @if(count($add_focus) > 0)
-                    @foreach($add_focus as $key => $value)
-                    <div class="col-md-4 pt-2">
-                        <p>
-                            <div class="row text-center" id="piechart3{{$key}}"></div>
-                            <?php
-                            $t = 0;
-                            if(count($value) > 0){
-                                $data = array();
-                                $data[0] = array($add_focus[$key][0]->subcategory->subcategory.' Focus','Percent');
-                                for($i = 0;$i < count($value); $i++){
-                                    if($value[$i]->percent > 0){
-                                        $t = $t + $value[$i]->percent;
-                                        $data[$i+1] = array($value[$i]->subcat_child->name,(int)$value[$i]->percent);
-                                    }
-                                }
-                                if($t < 100){
-                                    $p = 100-$t;
-                                    $data[$i+1] = array("None",$p);
-                                }
-                                $data = json_encode($data);
-                                ?>
-                                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                                <script type="text/javascript">
-                                // Load google charts
-                                google.charts.load('current', {'packages':['corechart']});
-                                google.charts.setOnLoadCallback(drawChart);
-                                // Draw the chart and set the chart values
-                                function drawChart() {
-                                    var data = google.visualization.arrayToDataTable(<?=$data?>);
-                                    // Optional; add a title and set the width and height of the chart
-                                    var options = {'title':'{{$add_focus[$key][0]->subcategory->subcategory}} Focus', 'width':450, 'height':300};
-                                    // Display the chart inside the <div> element with id="piechart"
-                                    var chart = new google.visualization.PieChart(document.getElementById("piechart3{{$key}}"));
-                                    chart.draw(data, options);
-                                }
-                                </script>
-                                <?php
-                            }?>
-                        </p>
-                    </div>
-                    @endforeach
-                @endif
-            </div>
-                    <div class="col-xl-4  pl-md-5 mt-xl-0 mt-5 focus-box" >
-                        <h3 id="reviewsec"><a href="{{ route('claim-your-profile', $company->user_id ) }}" class="btn btn-lg btn-primary">Claim Your Profile</a></h3>
-                    </div>
-                </div>
-            </div>
+    @if (session('message'))
+        <div class="alert alert-danger">
+            {{ session('message') }}
         </div>
-</section>
-<section class="container-fluid mt-5 mb-5 pr-0 pl-0 review-sec" >
-    <div class="  container-fluid pr-0 pl-0 ml-0 mr-0">
-        <div class="row graph-sec">
-            <div class="col-lg-12 col-md-12  pl-md-0">
+    @endif
 
 
-
-            <div class="  container mb-md-4 mb-0 pl-md-4 pl-0">
-
-
-
-
-                <div class=" row border mx-0 py-4 px-3 align-items-center">
-                    <div class="col-xl-6  pl-md-5 pl-5 mt-xl-0 mt-5">
-                        <h2>Reviews</h2>
-                        <div class="reviews-row">
-                            @if( isset( $rate_review ) )
-                            <h3>{{ number_format( (float)$rate_review->rating, 1, '.', '' ) ?? '' }}</h3>
-                            <div class="px-3">
-                                <?php
-                                for( $i=1; $i <= 5; $i++ )
-                                {
-                                    if($i <= $rate_review->rating)
-                                    {
-                                    ?>
-                                        <i class="fa fa-star bluestar"></i>
-                                    <?php
-                                    }
-                                    elseif( $rate_review->rating <= $i-1 )
-                                    {
-                                    ?>
-                                        <i class="fa fa-star-o bluestar"></i>
-                                    <?php
-                                    }
-                                    else
-                                    {
-                                    ?>
-                                        <i class="fa fa-star-half-o bluestar"></i>
-                                    <?php
-                                    }
-                                }
-                                ?>
-                            </div>
-                            <h3>{{ $rate_review->review }} REVIEWS</h3>
-                             @endif
-                        </div>
-                      </div>
-                    <div class="col-xl-6  pl-md-5 mt-xl-0 mt-5 pt-4 ">
-                        <h2><a class="submitbtn" style="color:#fff;" href="{{ route( 'company.review', $company->id ) }}">Submit Review</a></h2>
-                    </div>
-                </div>
-
-
-               </div>
-
-
-
-
-
-                @foreach($review as $key => $val)
-                <div class="  row border mx-0 py-5 px-3 previw-sec" id="review{{$val->id}}">
-                    <div class="col-md-3  pt-0 border-right">
-                        <div class="icon-box ">
-                            <h4>THE PROJECT</h4>
-                            <h3>{{ ucfirst($val->project_title) }}</h3>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/verified-icon1.png')}}" alt="" class="img-fluid">
-                                {{$val->project_type}}
-                            </p>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/verified-icon1.png')}}" alt="" class="img-fluid">
-                                {{$val->cost_range}}
-                            </p>
-                            <p class="d-flex  align-items-center">
-                                <img src="{{asset('front_components/images/profilecalender.png')}}" alt="" class="img-fluid">
-                                {{ date('M Y',strtotime($val->project_start)) }} - {{ date('M Y',strtotime( $val->project_end ) ) }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-3  pt-0 border-right">
-                        <h4>THE REVIEW</h4>
-                        <p>{{ date('d M Y', strtotime( $val->updated_at ) ) }}</p>
-                        <p>{{$val->communication_review ? $val->communication_review : '' }}</p>
-                    </div>
-                    <div class="col-md-3  pt-0 border-right">
-                        <div class="reviews-row p-0">
-                            <h3 class="mr-2">{{ number_format((float)$val->overall_rating, 1, '.', '') ?? '' }}</h3>
-                            <div class="">
-                                <?php
-                                    for( $i=1; $i<=5; $i++ )
-                                    {
-                                        if($i <= $val->overall_rating)
-                                        {
-                                        ?>
-                                           <i class="fa fa-star bluestar"></i>
-                                        <?php
-                                        }
-                                        elseif( $val->overall_rating <= $i-1 )
-                                        {
-                                        ?>
-                                            <i class="fa fa-star-o bluestar"></i>
-                                        <?php
-                                        }
-                                        else
-                                        {
-                                        ?>
-                                            <i class="fa fa-star-half-o bluestar"></i>
-                                        <?php
-                                        }
-                                    }
-                                    ?>
-                            </div></br>
-                        </div>
-                        <p class="mt-2 qualitytxt">
-                            Quality: {{ $val->quality }}/5                </br>
-                            Timeliness: {{ $val->timeliness }}          </br>
-                            Cost: {{ $val->cost }}                      </br>
-                            Communication: {{ $val->communication }}/5    </br>
-                            Expertise: {{ $val->expertise }}/5           </br>
-                            Ease of working: {{ $val->ease_of_working }}/5 </br>
-                            Refer-ability: {{ $val->refer_ability }}
-                        </p>
-                    </div>
-                    <div class="col-md-3  pt-0 text-center">
-                        <h4>THE REVIEWER</h4>
-                        <p>{{ $val->position_title }}, {{ $val->company_name }}</p>
-                        <img src="{{asset('front_components/images/userprofile.png')}}" alt="" class="img-fluid">
-                        <div class="icon-box  ">
-                            <p class="d-flex mt-4 justify-content-center align-items-center">
-                                <img src="{{asset('front_components/images/verified-icon1.png')}}" alt="" class="img-fluid">
-                                {{$val->project_type}}
-                            </p>
-                        </div>
+    <section class="container-fluid mt-5 mb-5 list-box">
+        <form id="categoryForm">
+            <div id="primarySkillSection" class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <h4 class="font-weight-bold">Primary Skill</h4>
+                    <div id="sessionMessage" class="card p-3 mb-3">
+                        <!-- Content goes here -->
                     </div>
                 </div>
             </div>
-        </div>
-</section>
-<section class="container-fluid text-center fullreview">
-    <div class="row ">
-        <a href="#fullreview{{$val->id}}" style="color:#fff;"><span class="submitbtn fr{{$val->id}}" onclick="showHideReview('fr{{$val->id}}','hr{{$val->id}}','fullreviews{{$val->id}}')">
-        Read full Reviews</span>
-        </a>
-        <a href="#review{{$val->id}}" style="color:#fff;"><span class="submitbtn hr{{$val->id}}" style="display: none;" onclick="showHideReview('hr{{$val->id}}','fr{{$val->id}}','full{{$val->id}}')">Minimize Reviews</span>
-        </a>
-    </div>
-</section>
- <!--Full Reviews section start -->
- <section class="container-fluid ">
-                    <div id="reviewContainer" class="row  ml-0 mr-0 company-dec px-4 py-5 fullreviews{{$val->id}} full{{$val->id}} " id="fullreview{{$val->id}}" style="display: none;" >
-                        <div id="stick-top">
-                        <div class="col-md-12 px-3 py-3">
-                              <div class="row  ml-0 mr-0 searchresult">
-                                <div class="col-md-3 pt-3 text-left px-0 stick-sec">
-                                    <div class="container py-2 border-bottom ">
-                                        <p >THE REVIEWER</p></br>
-                                        <a href="#background{{$val->id}}" class="btnreview" > Background </a>
-                                    </div>
-                                    <div class="container py-2 border-bottom ">
-                                        <a href="#challenge{{$val->id}}" class="btnreview"> Challenge </a>
-                                    </div>
-                                    <div class="container py-2 border-bottom ">
-                                        <a href="#solution{{$val->id}}" class="btnreview"> Solution </a>
-                                    </div>
-                                    <div class="container py-2 border-bottom ">
-                                        <a href="#results{{$val->id}}" class="btnreview"> Results </a>
-                                    </div>
-                                    <div class="container py-2 border-bottom ">
-                                        <a href="#ratings{{$val->id}}" class="btnreview"> Ratings </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-9 recordbox border-left">
-                                    <div class="scrollable-section">
-                                    <div class="row  ml-0 mr-0 border-bottom pt-2 pb-2">
-                                        <div class="col-md-12  pt-3" id="background{{$val->id}}">
-                                            <p>A Theytrustus analyst personally interviewed this client over the phone. Below is an edited transcript.</p>
-                                            <h3 class="pt-3"> BACKGROUND</h3>
-                                            <h5><strong>Introduce your business and what you do there.</strong>   </h5>
-                                            <p> {{$val->company_position}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row  ml-0 mr-0 border-bottom pt-2 pb-2">
-                                        <div class="col-md-12  pt-3" id="challenge{{$val->id}}">
-                                           <h3 class="pt-3"> OPPORTUNITY / CHALLENGE</h3>
-                                            <h5><strong>What challenge were you trying to address with "<strong>{{ucfirst($company->name)}}</strong>"?</strong>  </h5>
-                                            <p>{{$val->for_what_project}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row  ml-0 mr-0 border-bottom pt-2 pb-2">
-                                        <div class="col-md-12  pt-3" id="solution{{$val->id}}">
-                                            <h3 class="pt-3"> SOLUTION</h3>
-                                            <h5>  <strong> What was the scope of their involvement ? </strong>  </h5>
-                                            <p>{{$val->how_select}}</p>
-                                            <h5>  <strong>What is the team composition?</strong>  </h5>
-                                            <p>{{$val->team_composition}}</p>
-                                            <h5>  <strong>How did you come to work with?</strong>  </h5>
-                                            <p>{{$val->scope_of_work}}</p>
-                                            <h5>  <strong>How much have you invested with them?</strong>  </h5>
-                                             <p>{{$val->cost_range}}</p>
-                                             <!-- <p>{{$val->any_outcomes}}</p> -->
-                                        </div>
-                                    </div>
-                                    <div class="row  ml-0 mr-0 border-bottom pt-2 pb-2">
-                                        <div class="col-md-12  pt-3" id="results{{$val->id}}">
-                                            <h5>  <strong>What is the status of this engagement?</strong>  </h5>
-                                            <p>{{$val->how_effective}}</p>
-                                            <h3 class="pt-3">RESULTS & FEEDBACK</h3>
-                                            <h5><strong>What did you find most impressive about them?</strong>  </h5>
-                                             <p>{{$val->most_impressive}}</p>
-                                             <h5><strong>Are there any areas they could improve?</strong>  </h5>
-                                             <p>{{$val->area_of_improvements}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row  ml-0 mr-0 border-bottom pt-2 pb-2">
-                                        <div class="col-md-12  pt-3" id="ratings{{$val->id}}">
-                                           <h3 class="pt-3">  RATINGS</h3>
-                                            <h5>  <strong> What evidence can you share that demonstrates the impact of the?</strong></h5>
-                                            <div class="row">
-                                                <div class="col-md-12 d-flex" >
-                                                    <div><p class="" style="color:#000; font-weight:bold;font-size: 18px;"><strong>{{ 'Overall Score' }}</strong></p></div>
-                                                <div class="ml-2 d-block"> <p style="color:#000; font-weight:bold;font-size: 18px;"><strong>{{number_format((float)$val->overall_rating, 1, '.', '') ?? ''}}</strong></p>
-                                            </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="row bggray">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Timeliness</strong> <br/>{{ $val->timeliness_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{ number_format(( float )$val->timeliness, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="row bggray mt-md-0 mt-3" >
-                                                                <div class="col-md-9 ">
-                                                                    <span><strong>Cost</strong> <br/>{{ $val->cost_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->cost, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row pt-3">
-                                                        <div class="col-md-6">
-                                                            <div class="row bggray">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Quality</strong> <br/>{{ $val->quality_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->quality, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 ">
-                                                            <div class="row bggray mt-md-0 mt-3">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Refer-ability</strong> <br/>{{ $val->refer_ability_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->refer_ability, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row pt-3">
-                                                        <div class="col-md-6">
-                                                            <div class="row bggray">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Communication</strong> <br/>{{ $val->communication_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->communication, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 ">
-                                                            <div class="row bggray mt-md-0 mt-3">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Expertise</strong> <br/>{{ $val->expertise_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->expertise, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row pt-3">
-                                                        <div class="col-md-6">
-                                                            <div class="row bggray">
-                                                                <div class="col-md-9">
-                                                                    <span><strong>Ease of working</strong> <br/>{{ $val->ease_of_working_review }}</span>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <strong>{{number_format((float)$val->ease_of_working, 1, '.', '') ?? ''}}</strong>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
+            <div id="primarySkillSection" class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <h4 class="font-weight-bold">Sub Category</h4>
+                    <div id="sessionSubcategory" class="card p-3 mb-3">
+                        <!-- Content goes here -->
                     </div>
-                  </section>
-<!--Full Reviews section end -->
-@endforeach
+                </div>
+            </div>
+
+            <div class="container">
+                <br>
+                <br>
+
+                {{-- <form id="categoryForm"> --}}
+                <div class="row">
+                    <div class="col-md-3">
+                        <fieldset>
+                            <legend>Choose Primary Service</legend>
+                            @foreach ($categories as $category)
+                                <div>
+                                    <input type="checkbox" id="{{ strtolower(str_replace(' ', '', $category->id)) }}"
+                                        name="primaryService[]"
+                                        value="{{ strtolower(str_replace(' ', '', $category->id)) }}"
+                                        data-category-name="{{ $category->category }}" class="primary-service">
+                                    <label
+                                        for="{{ strtolower(str_replace(' ', '', $category->id)) }}">{{ $category->category }}</label>
+                                </div>
+                            @endforeach
+
+                        </fieldset>
+                    </div>
+
+                    <div class="col-md-3">
+                        <fieldset>
+                            <legend>Choose Sub Category</legend>
+                            <div id="subCategoryFieldset"></div>
+                        </fieldset>
+                    </div>
+
+                    <div class="col-md-3">
+                        <fieldset>
+                            <legend>Choose Skills</legend>
+                            <div id="Skills"></div>
+                            <!-- Skills checkboxes will go here -->
+                        </fieldset>
+                    </div>
+
+                    <div class="col-md-3">
+                        <fieldset>
+                            <legend>Choose Deep Skill Tags</legend>
+                            <!-- Deep skill tags checkboxes will go here -->
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary submit">Submit</button>
+                    </div>
+                </div>
+        </form>
+        </div>
+    </section>
 @endsection
+
 @section('script')
-<script type="text/javascript">
+    <script>
+        $(document).ready(function() {
+            $('.primary-service').change(function() {
+                var selectedCategory = $(this).val();
+                var categoryName = $(this).data('category-name');
+                var categoryNameSlug = generateSlug(categoryName);
+                $('.selected-label').removeClass('selected-label');
+                var selectedLabel = $('label[for="' + $(this).attr('id') + '"]');
+                selectedLabel.addClass('selected-label');
 
-    var showHideReview;
-    var showHideAdd;
-    $(document).ready(function () {
-        showHideAdd = function (idd, idd1) {
-            $("#" + idd).hide();
-            $("#" + idd1).show();
+                if ($(this).is(':checked')) {
+
+                    var selectedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];
+                    if (!selectedCategories.includes(selectedCategory)) {
+                        selectedCategories.push(selectedCategory);
+                    }
+                    localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
+                    generateCategoryNameTextbox(selectedCategory, categoryName);
+                } else {
+                    // Remove deselected category from localStorage
+                    var selectedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];
+                    var index = selectedCategories.indexOf(selectedCategory);
+                    if (index !== -1) {
+                        selectedCategories.splice(index, 1);
+                    }
+                    localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
+                    var subCategoryDivId = categoryNameSlug + '_subCategorydiv';
+                    $('#' + selectedCategory).remove();
+                    $('#' + subCategoryDivId).remove();
+                }
+
+                $.ajax({
+                    url: '/api/subcategories',
+                    type: 'GET',
+                    data: {
+                        categories: selectedCategory
+                    },
+                    success: function(response) {
+                        var subCategoryFieldset = $('#subCategoryFieldset');
+                        subCategoryFieldset.empty();
+
+                        if (response.length > 0) {
+                            var html = '<div>';
+                            for (var i = 0; i < response.length; i++) {
+                                html += '<input type="checkbox" id="' + response[i].id +
+                                    '" name="subCategory[]" value="' + response[i].subcategory +
+                                    '" class="subcategory-checkbox" data-name="' + response[i]
+                                    .category_name + '">';
+                                html += '<label for="' + response[i].id + '"> ' + response[i]
+                                    .subcategory + '</label><br>';
+                            }
+                            html += '</div>';
+                            subCategoryFieldset.append(html);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+            // $('.primary-service + label').click(function() {
+            //     $('.selected-label').removeClass('selected-label');
+            //     $(this).toggleClass('selected-label');
+
+
+            //     var selectedCategory = $(this).attr('for');
+            //     var categoryName = $(this).prev('input[type="checkbox"]').data('category-name');
+            //     console.log(categoryName);
+            //     const TextBoxdivId = checkIfSubCategoryExists(categoryName);
+
+
+            //     $.ajax({
+            //         url: '/api/subcategories',
+            //         type: 'GET',
+            //         data: {
+            //             categories: selectedCategory
+            //         },
+            //         success: function(response) {
+            //             var subCategoryFieldset = $('#subCategoryFieldset');
+            //             subCategoryFieldset.empty();
+
+            //             if (response.length > 0) {
+            //                 var html = '<div>';
+            //                 for (var i = 0; i < response.length; i++) {
+            //                     html += '<input type="checkbox" id="' + response[i].id +
+            //                         '" name="subCategory[]" value="' + response[i].subcategory +
+            //                         '" class="subcategory-checkbox" data-name="' + response[i]
+            //                         .category_name + '">';
+            //                     html += '<label for="' + response[i].id + '"> ' + response[i]
+            //                         .subcategory + '</label><br>';
+            //                 }
+            //                 html += '</div>';
+            //                 subCategoryFieldset.append(html);
+            //             }
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.error(error);
+            //         }
+            //     });
+            // });
+
+            $('.primary-service + label').click(function() {
+                $('.selected-label').removeClass('selected-label');
+                $(this).toggleClass('selected-label');
+
+                var selectedCategory = $(this).attr('for');
+                var categoryName = $(this).prev('input[type="checkbox"]').data('category-name');
+
+                const TextBoxdivId = checkIfSubCategoryExists(categoryName);
+                $.ajax({
+                    url: '/api/subcategories',
+                    type: 'GET',
+                    data: {
+                        categories: selectedCategory
+                    },
+                    success: function(response) {
+                        var subCategoryFieldset = $('#subCategoryFieldset');
+                        subCategoryFieldset.empty();
+
+                        if (response.length > 0) {
+                            var html = '<div>';
+                            for (var i = 0; i < response.length; i++) {
+                                html += '<input type="checkbox" id="' + response[i].id +
+                                    '" name="subCategory[]" value="' + response[i].subcategory +
+                                    '" class="subcategory-checkbox" data-name="' + response[i]
+                                    .category_name + '">';
+
+                                html += '<label for="' + response[i].id + '"> ' + response[i]
+                                    .subcategory + '</label><br>';
+                            }
+                            html += '</div>';
+                            subCategoryFieldset.append(html);
+
+                            // Now that checkboxes are appended, check them based on certain condition
+                            $('.SubCategoryNameText').each(function() {
+                                var subcategoryName = $(this).data('subcategoryname');
+                                console.log(subcategoryName, "Asdfasdf");
+                                subCategoryFieldset.find('input[type="checkbox"]').each(
+                                    function() {
+                                        console.log(this.value, "asdfasdf")
+                                        if (this.value === subcategoryName) {
+                                            debugger
+                                            $(this).prop('checked', true);
+                                        }
+                                    });
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+
+            });
+
+            $(document).on('change', '.subcategory-checkbox', function() {
+                var categoryname = $(this).data('name');
+                var subCategoryName = $(this).val();
+                const subcategoryslug = generateSlug(subCategoryName);
+
+                var primaryCategory = $('.primary-service[data-category-name="' + categoryname + '"]');
+                var isChecked = primaryCategory.is(':checked');
+
+
+                if (isChecked) {
+                    if ($(this).is(':checked')) {
+                        var categoryslug = generateSlug($(this).data('name'));
+                        hitAPIAndCreateCheckbox(subCategoryName, subcategoryslug, subcategoryslug);
+                        generateSubCategoryNameTextbox($(this).data('name'), categoryslug, subcategoryslug,
+                            subCategoryName);
+                    } else {
+                        removeElementAndParentIfSingleChild(subcategoryslug);
+                    }
+                } else {
+                    alert("select  the Primay  Category")
+                    $(this).prop('checked', false);
+
+                }
+            });
+
+
+
+            // Generate input field for category name
+            function generateCategoryNameTextbox(categoryid, categoryName) {
+                var categoryContainer = $('<div class="row category-container" id="' + categoryid +
+                    '"></div>'); // Assign categoryid as the ID
+
+                var labelColumn = $('<div class="col-md-3"></div>'); // Label column with col-3 width
+                var inputColumn = $('<div class="col-md-9"></div>'); // Input column
+
+                var categoryNameLabel = $('<label class="category-label font-weight-bold" for="' + categoryid +
+                    '">' + categoryName + ': </label>'); // Bold label
+
+                var categoryNameInput = $('<input type="text" class="form-control form-control-sm" name="' +
+                    categoryid + '" id="' + categoryid + '" placeholder="Enter ' +
+                    categoryName + ' name">'); // Small text box
+
+                labelColumn.append(categoryNameLabel); // Append label to label column
+                inputColumn.append(categoryNameInput); // Append input field to input column
+
+                categoryContainer.append(labelColumn, inputColumn); // Append both columns to the row
+                $('#sessionMessage').append(categoryContainer);
+            }
+
+
+
+
+            // Generate slug from input string
+            function generateSlug(inputString) {
+                return inputString.toLowerCase().replace(/\s+/g,
+                        '-') // Convert to lowercase and replace spaces with hyphens
+                    .replace(/[^\w\-]+/g, '') // Remove non-word characters except hyphens
+                    .replace(/\-\-+/g, '-') // Replace multiple consecutive hyphens with single hyphen
+                    .replace(/^-+/, '') // Remove leading hyphens
+                    .replace(/-+$/, ''); // Remove trailing hyphens
+            }
+
+
+            function generateSubCategoryNameText(slug, subCategoryName) {
+                var subCategoryNameTextbox =
+                    '<div class="card-body p-3 mb-3  SubCategoryNameText" id="subCategoryName_' + slug +
+                    '" data-subcategoryname="' + subCategoryName + '">' +
+                    '<label for="subCategoryName_input' + slug + '">' + subCategoryName + ':</label>' +
+                    '<div><input type="text" name="subCategoryName" id="subCategoryName_input' + slug +
+                    '" class="form-control form-control-sm" placeholder="Enter ' + subCategoryName +
+                    ' name"></div>' +
+                    '</div>';
+                return subCategoryNameTextbox;
+            }
+
+
+
+            function generateSubCategoryNameTextbox(categoryname, categoryslug, subcategoryslug, subCategoryName) {
+                console.log(categoryslug, "slug");
+                var subCategoryDivExists = checkSubCategoryDivExistence(categoryslug);
+                console.log(subCategoryDivExists);
+
+                if (!subCategoryDivExists) {
+                    var subCategoryDivId = categoryslug + '_subCategorydiv';
+                    var subCategoryContainer = $('<div class="card p-3 mb-3" id="' + subCategoryDivId +
+                        '" data-categoryname="' + categoryname + '"></div>'); // Added padding and margin
+                    var subCategoryCardBody = $('<div class="card-body"></div>');
+                    var subCategoryHeading = $('<h5 class="card-title font-weight-bold">' + categoryname +
+                        '</h5>'); // Made the card-title bold
+
+                    subCategoryCardBody.append(subCategoryHeading);
+                    subCategoryContainer.append(subCategoryCardBody);
+
+                    $('#sessionSubcategory').append(subCategoryContainer);
+                }
+
+                $('#' + categoryslug + '_subCategorydiv').append(generateSubCategoryNameText(subcategoryslug,
+                    subCategoryName));
+            }
+
+            // Check if subcategory div exists
+            function checkSubCategoryDivExistence(categoryslug) {
+                var subCategoryDivId = categoryslug + '_subCategorydiv';
+                var subCategoryDivExists = $('#' + subCategoryDivId).length > 0;
+
+                return subCategoryDivExists;
+            }
+
+            function removeElementAndParentIfSingleChild(subcategoryslug) {
+                var elementToRemove = $('#subCategoryName_' + subcategoryslug);
+                var parentDiv = elementToRemove.parent('.card');
+
+                // Check if the parent div has only one child element
+                if (parentDiv.children('.card-body').length === 2) {
+                    // If only one child element, remove both the parent and child elements
+                    parentDiv.remove();
+                } else {
+                    // If more than one child element, remove only the child element
+                    elementToRemove.remove();
+                }
+                $('#Skills .' + subcategoryslug).remove();
+            }
+
+
+
+
+            function validateInputValues() {
+                var totalValue = 0;
+                var $errorMessage = $('<div class="error-message"></div>'); // Create a new error message element
+                var $textboxes = $('#sessionMessage input[type="text"]');
+                $('.error-message').remove();
+                $textboxes.css('border-color', '');
+
+                // Calculate total value and highlight textbox if total exceeds 100
+                $textboxes.each(function() {
+                    var value = parseFloat($(this).val());
+                    if (!isNaN(value)) {
+                        totalValue += value;
+                    }
+                });
+
+                if (totalValue > 100) {
+                    var excessValue = totalValue - 100;
+                    $errorMessage.text('Total value cannot exceed 100. Excess: ' + excessValue.toFixed(2));
+
+                    // Highlight the first exceeding textbox
+                    var currentTotal = 0;
+                    $textboxes.each(function() {
+                        var value = parseFloat($(this).val());
+                        if (!isNaN(value)) {
+                            currentTotal += value;
+                            if (currentTotal > 100) {
+                                $(this).css('border-color', 'red');
+                                return false; // Exit the loop after highlighting the first exceeding textbox
+                            }
+                        }
+                    });
+
+                    $('#sessionMessage').append($errorMessage); // Append the error message below the textboxes
+                }
+            }
+            $('.submit').click(function() {
+                validateInputValues();
+            });
+
+            function hitAPIAndCreateCheckbox(subCategoryName, subcategoryslug, subcategoryslug) {
+                console.log(subcategoryslug, "subcategoryslug");
+                $.ajax({
+                    url: '/api/skill',
+                    type: 'get',
+                    data: {
+                        id: subcategoryslug // Assuming you're passing the subcategory slug as the ID
+                    },
+                    success: function(response) {
+                        response.forEach(function(skill) {
+                            var checkbox = $('<div class="form-check ' + subcategoryslug +'">' +
+                                '<input class="form-check-input" type="checkbox" name="softSkills[]" id="softSkill_' +
+                                skill.id + '" value="' + skill.id + '">' +
+                                '<label class="form-check-label" for="softSkill_' + skill
+                                .id + '">' + skill.name + '</label>' +
+                                '</div>');
+
+                            $('#Skills').append(checkbox);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        console.error(error);
+                    }
+                });
+            }
+
+        });
+
+        function checkIfSubCategoryExists(selectedCategory) {
+            var foundId = false;
+            $('#sessionSubcategory > div[data-categoryname="' + selectedCategory + '"]').each(function() {
+                foundId = $(this).attr('id');
+                return false;
+            });
+
+            return foundId;
         }
-    });
-    $(document).ready(function () {
-        showHideReview = function (idd, idd1, idd2) {
-            $("." + idd2).toggle();
-            $("." + idd).hide();
-            $("." + idd1).show();
-        }
-    });
-
-    var container = document.getElementById('reviewContainer');
-            container.scrollIntoView({ behavior: 'smooth' }); // Scroll to the container smoothly
-
-
-</script>
-
-
- </script> 
-
+    </script>
 @endsection
