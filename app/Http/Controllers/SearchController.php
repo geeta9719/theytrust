@@ -1261,7 +1261,7 @@ class SearchController extends Controller
         $comp           = Company::where('id', $company)->first();
         $category       = Category::all();
         $serviceLine    = ServiceLine::where('company_id', $company)->get();
-        DD($serviceLine);
+        // DD($serviceLine);
 
         foreach( $serviceLine as $value ) 
         {
