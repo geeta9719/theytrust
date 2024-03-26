@@ -88,14 +88,16 @@ Route::post('/directory/{name}', [SearchController::class, 'companies'])->name('
 Route::get('/directory/{name}/{loc?}', [SearchController::class, 'companies'])->name('in');
 
 Route::get('/search/city-select2', [SearchController::class, 'get_searched_city_select2'])->name('select2-cities');
-
-
-
+Route::get('/test1/{name}/{loc?}', [SearchController::class, 'test1'])->name('in');
 
 Route::get('/get-search-list', [SearchController::class, 'getSearchList'])->name('get-search-list');
 Route::get('/get-company-list', [SearchController::class, 'getCompany'])->name('get-company-list');
+Route::get('/review/{company}', [SearchController::class, 'review'])->name('review');
 Route::get('/profile/{company}', [SearchController::class, 'companyProfile'])->name('profile');
-Route::get('/test/{company}', [SearchController::class, 'test'])->name('test');
+Route::get('/test/{company}', [UserController::class, 'test'])->name('test');
+Route::get('/api/subcategories', [UserController::class, 'subcategories']);
+Route::get('/api/skill', [UserController::class, 'skill']);
+
 
 /*search end*/
 
