@@ -63,18 +63,21 @@
                 {{-- <form id="categoryForm"> --}}
                 <div class="row">
                     <div class="col-md-3">
+
                         <fieldset>
-                            <legend>Choose Primary Service</legend>
-                            @foreach ($categories as $category)
-                                <div>
-                                    <input type="checkbox" id="{{ strtolower(str_replace(' ', '', $category->id)) }}"
-                                        name="primaryService[]"
-                                        value="{{ strtolower(str_replace(' ', '', $category->id)) }}"
-                                        data-category-name="{{ $category->category }}" class="primary-service">
-                                    <label
-                                        for="{{ strtolower(str_replace(' ', '', $category->id)) }}">{{ $category->category }}</label>
-                                </div>
-                            @endforeach
+                            <div id="categoryFieldset">
+                                <legend>Choose Primary Service</legend>
+                                @foreach ($categories as $category)
+                                    <div>
+                                        <input type="checkbox" id="{{ strtolower(str_replace(' ', '', $category->id)) }}"
+                                            name="primaryService[]"
+                                            value="{{ strtolower(str_replace(' ', '', $category->id)) }}"
+                                            data-category-name="{{ $category->category }}" class="primary-service">
+                                        <label
+                                            for="{{ strtolower(str_replace(' ', '', $category->id)) }}">{{ $category->category }}</label>
+                                    </div>
+                                @endforeach
+                            </div>
 
                         </fieldset>
                     </div>
@@ -115,7 +118,9 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('.primary-service').change(function() {
+            // $('.primary-service').change(function() {
+            $('#categoryFieldset').on('change', '.primary-service', function() {
+                debugger;
                 var selectedCategory = $(this).val();
                 var categoryName = $(this).data('category-name');
                 var categoryNameSlug = generateSlug(categoryName);
@@ -157,11 +162,13 @@
                         if (response.length > 0) {
                             var html = '<div>';
                             for (var i = 0; i < response.length; i++) {
+                                var subcategoryslug = generateSlug(response[i].subcategory);
                                 html += '<input type="checkbox" id="' + response[i].id +
                                     '" name="subCategory[]" value="' + response[i].subcategory +
-                                    '" class="subcategory-checkbox" data-name="' + response[i]
+                                    '" class="subcategory-checkbox" data-subcategory="' +
+                                    subcategoryslug + '" data-name="' + response[i]
                                     .category_name + '">';
-                                html += '<label for="' + response[i].id + '"> ' + response[i]
+                                html += ' <label for="' + response[i].id + '"> ' + response[i]
                                     .subcategory + '</label><br>';
                             }
                             html += '</div>';
@@ -173,48 +180,8 @@
                     }
                 });
             });
-            // $('.primary-service + label').click(function() {
-            //     $('.selected-label').removeClass('selected-label');
-            //     $(this).toggleClass('selected-label');
-
-
-            //     var selectedCategory = $(this).attr('for');
-            //     var categoryName = $(this).prev('input[type="checkbox"]').data('category-name');
-            //     console.log(categoryName);
-            //     const TextBoxdivId = checkIfSubCategoryExists(categoryName);
-
-
-            //     $.ajax({
-            //         url: '/api/subcategories',
-            //         type: 'GET',
-            //         data: {
-            //             categories: selectedCategory
-            //         },
-            //         success: function(response) {
-            //             var subCategoryFieldset = $('#subCategoryFieldset');
-            //             subCategoryFieldset.empty();
-
-            //             if (response.length > 0) {
-            //                 var html = '<div>';
-            //                 for (var i = 0; i < response.length; i++) {
-            //                     html += '<input type="checkbox" id="' + response[i].id +
-            //                         '" name="subCategory[]" value="' + response[i].subcategory +
-            //                         '" class="subcategory-checkbox" data-name="' + response[i]
-            //                         .category_name + '">';
-            //                     html += '<label for="' + response[i].id + '"> ' + response[i]
-            //                         .subcategory + '</label><br>';
-            //                 }
-            //                 html += '</div>';
-            //                 subCategoryFieldset.append(html);
-            //             }
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //         }
-            //     });
-            // });
-
             $('.primary-service + label').click(function() {
+                debugger;
                 $('.selected-label').removeClass('selected-label');
                 $(this).toggleClass('selected-label');
 
@@ -235,12 +202,13 @@
                         if (response.length > 0) {
                             var html = '<div>';
                             for (var i = 0; i < response.length; i++) {
+                                var subcategoryslug = generateSlug(response[i].subcategory);
                                 html += '<input type="checkbox" id="' + response[i].id +
                                     '" name="subCategory[]" value="' + response[i].subcategory +
-                                    '" class="subcategory-checkbox" data-name="' + response[i]
+                                    '" class="subcategory-checkbox" data-subcategory="' +
+                                    subcategoryslug + '" data-name="' + response[i]
                                     .category_name + '">';
-
-                                html += '<label for="' + response[i].id + '"> ' + response[i]
+                                html += ' <label for="' + response[i].id + '"> ' + response[i]
                                     .subcategory + '</label><br>';
                             }
                             html += '</div>';
@@ -268,9 +236,36 @@
 
             });
 
-            $(document).on('change', '.subcategory-checkbox', function() {
+            $('#subCategoryFieldset').on('change', 'input.subcategory-checkbox', function(event) {
+                debugger;
                 var categoryname = $(this).data('name');
                 var subCategoryName = $(this).val();
+                const subcategoryslug = generateSlug(subCategoryName);
+
+                var primaryCategory = $('.primary-service[data-category-name="' + categoryname + '"]');
+                console.log(primaryCategory, "Primary Category");
+                var isChecked = primaryCategory.is(':checked');
+
+                if (isChecked) {
+                    if ($(this).is(':checked')) {
+                        var categoryslug = generateSlug($(this).data('name'));
+                        hitAPIAndCreateCheckbox(subCategoryName, subcategoryslug, subcategoryslug,
+                            categoryslug);
+                        generateSubCategoryNameTextbox($(this).data('name'), categoryslug, subcategoryslug,
+                            subCategoryName);
+                    } else {
+                        removeElementAndParentIfSingleChild(subcategoryslug);
+                    }
+                } else {
+                    alert("Select the Primary Category");
+                    $(this).prop('checked', false);
+                }
+            });
+
+            $('#subCategoryFieldset').on('click', 'input.subcategory-checkbox + label', function(event) {
+                debugger;
+                var categoryname = $(this).prev('.subcategory-checkbox').data('name');
+                var subCategoryName = $(this).prev('.subcategory-checkbox').val();
                 const subcategoryslug = generateSlug(subCategoryName);
 
                 var primaryCategory = $('.primary-service[data-category-name="' + categoryname + '"]');
@@ -278,20 +273,126 @@
 
 
                 if (isChecked) {
-                    if ($(this).is(':checked')) {
-                        var categoryslug = generateSlug($(this).data('name'));
-                        hitAPIAndCreateCheckbox(subCategoryName, subcategoryslug, subcategoryslug);
-                        generateSubCategoryNameTextbox($(this).data('name'), categoryslug, subcategoryslug,
-                            subCategoryName);
-                    } else {
-                        removeElementAndParentIfSingleChild(subcategoryslug);
-                    }
-                } else {
-                    alert("select  the Primay  Category")
+                    // if ($(this).is(':checked')) {
                     $(this).prop('checked', false);
+                    var categoryslug = generateSlug(categoryname);
+                    hitAPIAndCreateCheckbox(subCategoryName, subcategoryslug, subcategoryslug,
+                        categoryslug);
+                    const skillappenddiv = "subCategoryName_" + subcategoryslug;
+                    var getsoftskills = $('#' + skillappenddiv).find('.getsoftskill');
 
+                    // Initialize an array to store IDs of getsoftskill elements
+                    var softSkillIDs = [];
+
+
+                    getsoftskills.each(function() {
+                        // Get the ID of the current getsoftskill element
+                        var softSkillID = $(this).attr('id');
+
+                        // Push the ID to the softSkillIDs array
+                        softSkillIDs.push(softSkillID);
+                    });
+                    console.log(softSkillIDs,"softSkillIDssoftSkillIDssoftSkillIDs");
+                    // Get all checkboxes with class 'skillsCheckbox'
+                    // var checkboxes = document.('.skillsCheckbox');
+                        console.log($("#Skills").find(".Skills"));
+                        debugger;
+
+                    // Iterate through each checkbox
+                    checkboxes.forEach(function(checkbox) {
+                        // Get the ID of the current checkbox
+                        var checkboxID = checkbox.id;
+
+                        // Check if the checkboxID exists in the softSkillIDs array
+                        if (softSkillIDs.includes(checkboxID)) {
+                            // Check the checkbox
+                            checkbox.checked = true;
+                        }
+                    });
+
+
+
+
+
+
+
+
+
+
+                    // $('#Skills .Skills').each(function() {
+                    //     // Get the ID of the current element
+                    //     var currentID = $(this).find('input.skillsCheckbox').attr('id');
+
+                    //     // Check if the current ID matches the desired ID
+                    //     if (currentID === desiredID) {
+                    //         // Do something if the ID matches
+                    //         console.log("The desired ID is present.");
+                    //     } else {
+                    //         // Do something else if the ID does not match
+                    //         console.log("The desired ID is not present.");
+                    //     }
+                    // });
+
+                    // generateSubCategoryNameTextbox($(this).data('name'), categoryslug, subcategoryslug,
+                    //     subCategoryName);
+                    // } else {
+                    // removeElementAndParentIfSingleChild(subcategoryslug);
+                    // }
+                } else {
+                    alert("Select the Primary Category");
+                    $(this).prop('checked', false);
                 }
             });
+
+            $(document).on('click', '.skillsCheckbox', function() {
+
+                if ($(this).prop('checked')) {
+                    var subcategory = $(this).data('subcategory');
+                    var appendDive = "subCategoryName_" + $(this).data('subcategory');
+                    var subcategorydiv = $(this).data('name') + "_subCategorydiv";
+                    console.log(subcategorydiv, "    asdfasdfasdf");
+                    var checkboxValue = $(this).val();
+                    const softSkillTag = generateSlug(checkboxValue);
+
+                    // Create a new div element
+                    var newDiv = $('<div>');
+
+                    // Set id attribute
+                    newDiv.attr('id', softSkillTag);
+
+                    // Set data attributes
+                    newDiv.attr({
+                        'data-category': $(this).data('name'),
+                        'data-subcategory': subcategory
+                    });
+
+                    newDiv.addClass('getsoftskill');
+
+                    // Create a new span element
+                    var newSpan = $('<span>');
+
+                    // Set text content
+                    newSpan.text(checkboxValue);
+
+                    // Append the span to the div
+                    newDiv.append(newSpan);
+                    console.log()
+
+                    // Append the new div to the target element
+                    $('#' + appendDive).append(newDiv);
+                } else {
+                    // Get the id of the soft skill tag
+                    var checkboxValue = $(this).val();
+                    const softSkillTag = generateSlug(checkboxValue);
+
+                    // Remove the generated div with the soft skill tag id
+                    $('#' + softSkillTag).remove();
+
+                    console.log("unchecked");
+                    // Handle the case when the checkbox is unchecked if needed
+                }
+            });
+
 
 
 
@@ -317,10 +418,6 @@
                 $('#sessionMessage').append(categoryContainer);
             }
 
-
-
-
-            // Generate slug from input string
             function generateSlug(inputString) {
                 return inputString.toLowerCase().replace(/\s+/g,
                         '-') // Convert to lowercase and replace spaces with hyphens
@@ -433,26 +530,34 @@
                 validateInputValues();
             });
 
-            function hitAPIAndCreateCheckbox(subCategoryName, subcategoryslug, subcategoryslug) {
-                console.log(subcategoryslug, "subcategoryslug");
+            function hitAPIAndCreateCheckbox(subCategoryName, subcategoryslug, subcategoryslug, categoryslug) {
+
+                var skills = $('#Skills');
+                skills.empty();
                 $.ajax({
                     url: '/api/skill',
                     type: 'get',
                     data: {
-                        id: subcategoryslug // Assuming you're passing the subcategory slug as the ID
+                        id: subcategoryslug
                     },
                     success: function(response) {
                         response.forEach(function(skill) {
-                            var checkbox = $('<div class="form-check ' + subcategoryslug +'">' +
-                                '<input class="form-check-input" type="checkbox" name="softSkills[]" id="softSkill_' +
-                                skill.id + '" value="' + skill.id + '">' +
+                            const skilId = generateSlug(skill.name)
+                            var checkbox = $('<div class="form-check Skills ' +
+                                subcategoryslug +
+                                '">' +
+                                '<input class="form-check-input skillsCheckbox" type="checkbox" name="softSkills[]" id="' +
+                                skilId + '" value="' + skill.name +
+                                '" data-subcategory="' +
+                                subcategoryslug + '" data-name="' + categoryslug + '">' +
                                 '<label class="form-check-label" for="softSkill_' + skill
                                 .id + '">' + skill.name + '</label>' +
                                 '</div>');
 
-                            $('#Skills').append(checkbox);
+                            skills.append(checkbox);
                         });
                     },
+
                     error: function(xhr, status, error) {
                         // Handle error
                         console.error(error);
