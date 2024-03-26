@@ -34,7 +34,7 @@ class UserController extends Controller
 
     public function dashboard(Request $request, $company)
     {   
-        $user     =    auth()->user();
+        $user     = auth()->user();
         $uid      = auth()->user()->id;
 		$urole    = auth()->user()->role;
         $cid      = Company::where('user_id',$uid)->first();
@@ -210,8 +210,8 @@ class UserController extends Controller
 
             $company->save();
         }
-        else
-        {
+        else{
+
             $inputs['profile_type']     = $request->profile_type;
             $inputs['name']             = $request->name;
             $inputs['website']          = $request->website;
@@ -353,6 +353,99 @@ class UserController extends Controller
                                             'subcat_child'      => $subcat_child
                                         ] );
     }
+
+
+    public function test( Request $request, $company )
+    {
+
+
+        $comp           = Company::where('id', $company)->first();
+        $category       = Category::all();
+       
+        $serviceLine    = ServiceLine::where('company_id', $company)->get();
+        
+
+        foreach( $serviceLine as $value ) 
+        {
+            if( $value->percent > 10 )
+            {
+                $subcat[] = $value->subcategory_id;
+            }
+        } 
+        
+        $subcat_children = SubcatChild::all();
+        $subcat_child    = array();
+        // dd( $subcat_children);
+        
+        foreach ( $subcat_children as $value ) 
+        {
+            $subcat_child[$value->subcategory_id][] = $value;
+        } 
+        
+
+        $addFocus = AddFocus::where( 'company_id', $company )->get();
+        $add_focus = array();
+        
+        foreach ($addFocus as $value) 
+        {
+            $add_focus[$value->subcategory_id][] = $value;
+        }  
+       
+        
+        $industry           = Industry::all();
+        $addIndustry        = AddIndustry::where( 'company_id', $company )->get();
+        
+        $clientSize         = ClientSize::all();
+        $addClientSize      = AddClientSize::where( 'company_id', $company )->get();
+        
+        $specialization     = Specialization::all();
+        $addSpecialization  = AddSpecialization::where( 'company_id', $company )->get();
+        
+        return view( 'home.test', [
+                                            'categories'          => $category,
+                                            'company'           => $comp,
+                                            'addFocus'          => $addFocus,
+                                            'industry'          => $industry,
+                                            'addIndustry'       => $addIndustry,
+                                            'clientSize'        => $clientSize,
+                                            'addClientSize'     => $addClientSize,
+                                            'specialization'    => $specialization,
+                                            'addSpecialization' => $addSpecialization,
+                                            'serviceLine'       => $serviceLine,
+                                            'add_focus'         => $add_focus,
+                                            'subcat_child'      => $subcat_child
+                                        ] );
+    }
+
+
+    public function skill( Request $request )
+    {
+
+        $selectedCategories = $request->input('categories');
+
+
+        $subcategories = SubcatChild::with('subcategory')->get();
+
+    
+        // Return subcategories and their corresponding category names as JSON response
+        return response()->json($subcategories);
+    }
+
+    public function subcategories( Request $request )
+    {
+
+        $selectedCategories = $request->input('categories');
+        $subcategories = Subcategory::select('subcategories.*', 'categories.category as category_name','categories.id as category_id')
+                                    ->join('categories', 'categories.id', '=', 'subcategories.category_id')
+                                    ->where('category_id', $selectedCategories)
+                                    ->get();
+    
+        // Return subcategories and their corresponding category names as JSON response
+        return response()->json($subcategories);
+    }
+
+
+
 
     public function saveFocus(Request $request)
     {
@@ -907,13 +1000,13 @@ class UserController extends Controller
         return response()->json($data);
     }
 
-    public function getState(Request $request)
+    public function getstate(Request $request)
     {
         $data['states'] = State::where( "country_code", $request->country_code )->get( [ "name", "iso2" ] );
         return response()->json( $data );
     }
 
-    public function getCity( Request $request )
+    public function get( Request $request )
     {
         $data['cities'] = City::where( "state_code", $request->state_code )->where('country_code',$request->country_code )->get( [ "name", "id" ] );
         return response()->json( $data );
@@ -936,3 +1029,13 @@ class UserController extends Controller
 
 
 }
+   
+           
+         
+        
+
+        
+            
+            
+       
+                            
