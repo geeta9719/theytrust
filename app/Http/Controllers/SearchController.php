@@ -1254,39 +1254,63 @@ class SearchController extends Controller
         return view( 'home.review', $data );
     }
 
-    public function test( Request $request, $company_id )
+    public function test( Request $request, $company )
     {
+        // dd($company);
 
-        $data  = array();
-        $focus = array();
-        $data['company'] = Company::where('id', $company_id)->first();
+        $comp           = Company::where('id', $company)->first();
+        $category       = Category::all();
+        $serviceLine    = ServiceLine::where('company_id', $company)->get();
+        DD($serviceLine);
 
-        if (!$data['company']) {
-            $cleaned_company_id = str_replace('-', ' ', $company_id);
-            $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
-            $company_id =   $data['company']->id;
-        }
-        $data['rate_review'] = DB::table('company_reviews')
-                                ->select('company_id','position_title','most_impressive')
-                                ->selectRaw('count(id) as review')
-                                ->selectRaw('avg(overall_rating) as rating')
-                                ->where('company_id',$company_id)
-                                ->first();
-
-        $data['review']         = CompanyReview::where( 'company_id', $company_id )->get();
-        $data['service_lines']  = ServiceLine::where( 'company_id', $company_id )->get();
-        $data['add_industry']   = AddIndustry::where( 'company_id', $company_id )->get();
-        $data['add_client_size']= AddClientSize::where( 'company_id', $company_id )->get();
-        $data['add_focus']      = AddFocus::where( 'company_id', $company_id )->get();
-    
-    
-
-        foreach( $data['add_focus'] as $add_focus )
+        foreach( $serviceLine as $value ) 
         {
-            $focus[$add_focus->subcategory_id][] = $add_focus;
-        }
-        $data['add_focus'] = $focus;
-        return view( 'home.test', $data );
+            if( $value->percent > 10 )
+            {
+                $subcat[] = $value->subcategory_id;
+            }
+        } 
+        
+        $subcat_children = SubcatChild::all();
+        $subcat_child    = array();
+        
+        foreach ( $subcat_children as $value ) 
+        {
+            $subcat_child[$value->subcategory_id][] = $value;
+        } 
+        
+
+        $addFocus = AddFocus::where( 'company_id', $company )->get();
+        $add_focus = array();
+        
+        foreach ($addFocus as $value) 
+        {
+            $add_focus[$value->subcategory_id][] = $value;
+        }  
+       
+        $industry           = Industry::all();
+        $addIndustry        = AddIndustry::where( 'company_id', $company )->get();
+        
+        $clientSize         = ClientSize::all();
+        $addClientSize      = AddClientSize::where( 'company_id', $company )->get();
+        
+        $specialization     = Specialization::all();
+        $addSpecialization  = AddSpecialization::where( 'company_id', $company )->get();
+        return view( 'home.user.focus', [
+                                            'category'          => $category,
+                                            'company'           => $comp,
+                                            'addFocus'          => $addFocus,
+                                            'industry'          => $industry,
+                                            'addIndustry'       => $addIndustry,
+                                            'clientSize'        => $clientSize,
+                                            'addClientSize'     => $addClientSize,
+                                            'specialization'    => $specialization,
+                                            'addSpecialization' => $addSpecialization,
+                                            'serviceLine'       => $serviceLine,
+                                            'add_focus'         => $add_focus,
+                                            'subcat_child'      => $subcat_child
+                                        ] );
+        return view( 'home.test',  );
     }
 
     public function get_searched_city_select2( Request $request )
