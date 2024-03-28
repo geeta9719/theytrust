@@ -28,6 +28,10 @@
         .selected-label {
             background-color: lightblue;
         }
+
+        .selected-label-sub {
+            background-color: lightblue;
+        }
     </style>
 
     @if (session('message'))
@@ -39,6 +43,8 @@
 
     <section class="container-fluid mt-5 mb-5 list-box">
         <form id="categoryForm">
+            <input type="hidden" id="companyIdInput" name="companyId" value="<?php echo $company->id; ?>">
+
             <div id="primarySkillSection" class="row justify-content-center">
                 <div class="col-md-6 text-center">
                     <h4 class="font-weight-bold">Primary Skill</h4>
@@ -107,7 +113,7 @@
 
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-primary submit">Submit</button>
+                        <button type="button" id="submitFormButton" class="btn btn-primary submit">Submit</button>
                     </div>
                 </div>
         </form>
@@ -118,6 +124,7 @@
 @section('script')
     <script>
         $(document).ready(function() {
+            // validateSubcategoryInputValues(); // Call the function when the document is ready
             // $('.primary-service').change(function() {
             $('#categoryFieldset').on('change', '.primary-service', function() {
                 debugger;
@@ -237,7 +244,10 @@
             });
 
             $('#subCategoryFieldset').on('change', 'input.subcategory-checkbox', function(event) {
-                debugger;
+                $('.selected-label-sub').removeClass('selected-label-sub');
+                var selectedLabel = $('label[for="' + $(this).attr('id') + '"]');
+                selectedLabel.addClass('selected-label-sub');
+                console.log("after input withoy  labael  box  hit api  ")
                 var categoryname = $(this).data('name');
                 var subCategoryName = $(this).val();
                 const subcategoryslug = generateSlug(subCategoryName);
@@ -262,8 +272,10 @@
                 }
             });
 
-            $('#subCategoryFieldset').on('click', 'input.subcategory-checkbox + label', function(event) {
+            $('#subCategoryFieldset').on('click', 'input.subcategory-checkbox + label', async function(event) {
                 debugger;
+                $('.selected-label-sub').removeClass('selected-label-sub');
+                $(this).toggleClass('selected-label-sub');
                 var categoryname = $(this).prev('.subcategory-checkbox').data('name');
                 var subCategoryName = $(this).prev('.subcategory-checkbox').val();
                 const subcategoryslug = generateSlug(subCategoryName);
@@ -271,19 +283,19 @@
                 var primaryCategory = $('.primary-service[data-category-name="' + categoryname + '"]');
                 var isChecked = primaryCategory.is(':checked');
 
-
                 if (isChecked) {
+                    debugger;
+                    console.log("after input  box  hit api  ")
                     // if ($(this).is(':checked')) {
                     $(this).prop('checked', false);
                     var categoryslug = generateSlug(categoryname);
-                    hitAPIAndCreateCheckbox(subCategoryName, subcategoryslug, subcategoryslug,
+                    await hitAPIAndCreateCheckbox(subCategoryName, subcategoryslug, subcategoryslug,
                         categoryslug);
                     const skillappenddiv = "subCategoryName_" + subcategoryslug;
                     var getsoftskills = $('#' + skillappenddiv).find('.getsoftskill');
 
                     // Initialize an array to store IDs of getsoftskill elements
                     var softSkillIDs = [];
-
 
                     getsoftskills.each(function() {
                         // Get the ID of the current getsoftskill element
@@ -292,52 +304,22 @@
                         // Push the ID to the softSkillIDs array
                         softSkillIDs.push(softSkillID);
                     });
-                    console.log(softSkillIDs,"softSkillIDssoftSkillIDssoftSkillIDs");
-                    // Get all checkboxes with class 'skillsCheckbox'
-                    // var checkboxes = document.('.skillsCheckbox');
-                        console.log($("#Skills").find(".Skills"));
-                        debugger;
+                    console.log(softSkillIDs, "softSkillIDssoftSkillIDssoftSkillIDs");
+
+                    // Get all checkboxes with class 'skillsCheckbox' within '#Skills'
+                    var checkboxes = $('#Skills').find('.skillsCheckbox');
 
                     // Iterate through each checkbox
-                    checkboxes.forEach(function(checkbox) {
+                    checkboxes.each(function() {
                         // Get the ID of the current checkbox
-                        var checkboxID = checkbox.id;
+                        var checkboxID = this.id;
 
                         // Check if the checkboxID exists in the softSkillIDs array
                         if (softSkillIDs.includes(checkboxID)) {
                             // Check the checkbox
-                            checkbox.checked = true;
+                            this.checked = true;
                         }
                     });
-
-
-
-
-
-
-
-
-
-
-                    // $('#Skills .Skills').each(function() {
-                    //     // Get the ID of the current element
-                    //     var currentID = $(this).find('input.skillsCheckbox').attr('id');
-
-                    //     // Check if the current ID matches the desired ID
-                    //     if (currentID === desiredID) {
-                    //         // Do something if the ID matches
-                    //         console.log("The desired ID is present.");
-                    //     } else {
-                    //         // Do something else if the ID does not match
-                    //         console.log("The desired ID is not present.");
-                    //     }
-                    // });
-
-                    // generateSubCategoryNameTextbox($(this).data('name'), categoryslug, subcategoryslug,
-                    //     subCategoryName);
-                    // } else {
-                    // removeElementAndParentIfSingleChild(subcategoryslug);
-                    // }
                 } else {
                     alert("Select the Primary Category");
                     $(this).prop('checked', false);
@@ -393,9 +375,6 @@
                 }
             });
 
-
-
-
             // Generate input field for category name
             function generateCategoryNameTextbox(categoryid, categoryName) {
                 var categoryContainer = $('<div class="row category-container" id="' + categoryid +
@@ -427,14 +406,25 @@
                     .replace(/-+$/, ''); // Remove trailing hyphens
             }
 
-
-            function generateSubCategoryNameText(slug, subCategoryName) {
+            // function generateSubCategoryNameText(slug, subCategoryName ) {
+            //     var subCategoryNameTextbox =
+            //         '<div class="card-body p-3 mb-3  SubCategoryNameText" id="subCategoryName_' + slug +
+            //         '" data-subcategoryname="' + subCategoryName + '">' +
+            //         '<label for="subCategoryName_input' + slug + '">' + subCategoryName + ':</label>' +
+            //         '<div><input type="text" name="subCategoryName" id="subCategoryName_input' + slug +
+            //         '" class="form-control form-control-sm" placeholder="Enter ' + subCategoryName +
+            //         ' name"></div>' +
+            //         '</div>';
+            //     return subCategoryNameTextbox;
+            // }
+            function generateSubCategoryNameText(slug, subCategoryName, categoryclass) {
                 var subCategoryNameTextbox =
-                    '<div class="card-body p-3 mb-3  SubCategoryNameText" id="subCategoryName_' + slug +
+                    '<div class="card-body p-3 mb-3 SubCategoryNameText" id="subCategoryName_' + slug +
                     '" data-subcategoryname="' + subCategoryName + '">' +
                     '<label for="subCategoryName_input' + slug + '">' + subCategoryName + ':</label>' +
                     '<div><input type="text" name="subCategoryName" id="subCategoryName_input' + slug +
-                    '" class="form-control form-control-sm" placeholder="Enter ' + subCategoryName +
+                    '" class="form-control form-control-sm ' + categoryclass + '" placeholder="Enter ' +
+                    subCategoryName +
                     ' name"></div>' +
                     '</div>';
                 return subCategoryNameTextbox;
@@ -442,8 +432,12 @@
 
 
 
+
+
             function generateSubCategoryNameTextbox(categoryname, categoryslug, subcategoryslug, subCategoryName) {
                 console.log(categoryslug, "slug");
+                var categoryClass = categoryslug + '_subCategorydiv'
+
                 var subCategoryDivExists = checkSubCategoryDivExistence(categoryslug);
                 console.log(subCategoryDivExists);
 
@@ -461,8 +455,9 @@
                     $('#sessionSubcategory').append(subCategoryContainer);
                 }
 
+                console.log(categoryClass, "asdfasdfasdfasdfasdf");
                 $('#' + categoryslug + '_subCategorydiv').append(generateSubCategoryNameText(subcategoryslug,
-                    subCategoryName));
+                    subCategoryName, categoryClass));
             }
 
             // Check if subcategory div exists
@@ -489,7 +484,52 @@
             }
 
 
+            async function hitAPIAndCreateCheckbox(subCategoryName, subcategoryslug, categoryslug) {
+                debugger;
 
+                var skills = $('#Skills');
+                skills.empty();
+
+                try {
+                    const response = await $.ajax({
+                        url: '/api/skill',
+                        type: 'get',
+                        data: {
+                            id: subcategoryslug
+                        }
+                    });
+
+                    response.forEach(function(skill) {
+                        const skilId = generateSlug(skill.name);
+                        var checkbox = $('<div class="form-check Skills ' +
+                            subcategoryslug +
+                            '">' +
+                            '<input class="form-check-input skillsCheckbox" type="checkbox" name="softSkills[]" id="' +
+                            skilId + '" value="' + skill.name +
+                            '" data-subcategory="' +
+                            subcategoryslug + '" data-name="' + categoryslug + '">' +
+                            '<label class="form-check-label" for="softSkill_' + skill
+                            .id + '">' + skill.name + '</label>' +
+                            '</div>');
+
+                        skills.append(checkbox);
+                    });
+                } catch (error) {
+                    // Handle error
+                    console.error(error);
+                }
+            }
+
+
+            function checkIfSubCategoryExists(selectedCategory) {
+                var foundId = false;
+                $('#sessionSubcategory > div[data-categoryname="' + selectedCategory + '"]').each(function() {
+                    foundId = $(this).attr('id');
+                    return false;
+                });
+
+                return foundId;
+            }
 
             function validateInputValues() {
                 var totalValue = 0;
@@ -498,14 +538,29 @@
                 $('.error-message').remove();
                 $textboxes.css('border-color', '');
 
-                // Calculate total value and highlight textbox if total exceeds 100
+                var allValuesValid = true;
+
+                // Check each textbox value
                 $textboxes.each(function() {
                     var value = parseFloat($(this).val());
-                    if (!isNaN(value)) {
+
+                    // Check if value is valid
+                    if (isNaN(value) || value < 1) {
+                        allValuesValid = false;
+                        $(this).css('border-color', 'red');
+                    } else {
                         totalValue += value;
                     }
                 });
 
+                // If any value is invalid, show error message
+                if (!allValuesValid) {
+                    $errorMessage.text('Please enter values of 1 or greater for all textboxes.');
+                    $('#sessionMessage').append($errorMessage);
+                    return false;
+                }
+
+                // If total value exceeds 100, show error message
                 if (totalValue > 100) {
                     var excessValue = totalValue - 100;
                     $errorMessage.text('Total value cannot exceed 100. Excess: ' + excessValue.toFixed(2));
@@ -524,57 +579,127 @@
                     });
 
                     $('#sessionMessage').append($errorMessage); // Append the error message below the textboxes
+                    return false;
                 }
+
+                return true; // Validation passed
             }
-            $('.submit').click(function() {
-                validateInputValues();
+
+            // Event listener for mouse leave on sessionMessage
+            $('#sessionMessage').on('mouseleave', function() {
+                var inputValuesValid = validateInputValues();
+                if (!inputValuesValid) {
+                    $('#submitFormButton').prop('disabled',
+                        true); // Disable submit button if validation fails
+                } else {
+                    $('#submitFormButton').prop('disabled',
+                        false); // Enable submit button if validation passes
+                }
             });
 
-            function hitAPIAndCreateCheckbox(subCategoryName, subcategoryslug, subcategoryslug, categoryslug) {
+            // $('#sessionSubcategory').on('mouseleave', function() {
+            //     validateSubcategoryInputs();
+            // });
 
-                var skills = $('#Skills');
-                skills.empty();
+            // function validateSubcategoryInputs() {
+            //     var isValid = true;
+
+            //     // Iterate through each subcategory container
+            //     $('.card-body.SubCategoryNameText').each(function() {
+            //         var totalValue = 0;
+            //         var subcategoryName = $(this).data('subcategoryname');
+
+            //         // Find all input elements within the current subcategory container
+            //         $(this).find('input[type="text"]').each(function() {
+            //             var inputValue = parseFloat($(this).val()); // Parse input value as float
+            //             if (!isNaN(inputValue)) {
+            //                 totalValue += inputValue; // Add input value to totalValue
+            //             }
+            //         });
+
+            //         // Check if the total value exceeds 100 or is less than 100
+            //         if (totalValue !== 100) {
+            //             // alert('Total value for subcategory "' + subcategoryName +
+            //             // '" must be equal to 100.');
+            //             isValid = false;
+            //             return false; // Exit the loop if validation fails for any subcategory
+            //         }
+            //     });
+
+            //     return isValid; // Return validation result
+            // }
+
+           
+
+
+            $('#submitFormButton').click(function() {
+                var companyId = $('#companyIdInput').val(); // Retrieve the company ID
+
+                var categoryDataArray = []; // Array to store category data
+
+                // Iterate through each category container
+                $('#sessionMessage .category-container').each(function() {
+                    var categoryId = $(this).attr('id'); // Get category ID
+                    var categoryName = $(this).find('.category-label').text();
+                    var categoryslug = generateSlug(categoryName);
+                    var categoryNameInput = $(this).find('input[type="text"]').val()
+                        .trim(); // Get category input value
+
+                    // Array to store subcategory data for the current category
+                    var subcategories = [];
+
+                    // Iterate through each subcategory container within the current category
+                    $('#' + categoryslug + '_subCategorydiv .SubCategoryNameText').each(function() {
+                        var subcategoryId = $(this).attr('id'); // Get subcategory ID
+                        var subcategoryName = $(this).data(
+                            'subcategoryname'); // Get subcategory name
+                        var subcategoryNameInput = $(this).find('input[type="text"]').val()
+                            .trim(); // Get subcategory input value
+
+                        // Construct subcategory data object
+                        var subcategoryData = {
+                            id: subcategoryId,
+                            name: subcategoryName,
+                            inputValue: subcategoryNameInput
+                        };
+
+                        subcategories.push(
+                            subcategoryData); // Push subcategory data to the array
+                    });
+
+                    // Construct category data object including subcategories
+                    var categoryData = {
+                        companyId: companyId,
+                        id: categoryId,
+                        name: categoryName,
+                        inputValue: categoryNameInput,
+                        subcategories: subcategories // Include subcategories array
+                    };
+
+                    categoryDataArray.push(categoryData); // Push category data to the array
+                });
+                console.log('Category Data Array:', categoryDataArray);
                 $.ajax({
-                    url: '/api/skill',
-                    type: 'get',
-                    data: {
-                        id: subcategoryslug
+                    url: '/admin/company/save-Service',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
+                    data: JSON.stringify(categoryDataArray),
                     success: function(response) {
-                        response.forEach(function(skill) {
-                            const skilId = generateSlug(skill.name)
-                            var checkbox = $('<div class="form-check Skills ' +
-                                subcategoryslug +
-                                '">' +
-                                '<input class="form-check-input skillsCheckbox" type="checkbox" name="softSkills[]" id="' +
-                                skilId + '" value="' + skill.name +
-                                '" data-subcategory="' +
-                                subcategoryslug + '" data-name="' + categoryslug + '">' +
-                                '<label class="form-check-label" for="softSkill_' + skill
-                                .id + '">' + skill.name + '</label>' +
-                                '</div>');
-
-                            skills.append(checkbox);
-                        });
+                        console.log('Data saved successfully:', response);
                     },
-
                     error: function(xhr, status, error) {
-                        // Handle error
-                        console.error(error);
+                        console.error('Error saving data:', error);
                     }
                 });
-            }
-
-        });
-
-        function checkIfSubCategoryExists(selectedCategory) {
-            var foundId = false;
-            $('#sessionSubcategory > div[data-categoryname="' + selectedCategory + '"]').each(function() {
-                foundId = $(this).attr('id');
-                return false;
             });
 
-            return foundId;
-        }
+
+
+
+
+        });
     </script>
 @endsection
