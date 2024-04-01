@@ -41,7 +41,6 @@ use App\Http\Controllers\PaymentContorller;
 */
 
 Auth::routes();
-// Route::get('swap',[swapcontroller::class,'swap']);
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/terms', [HomeController::class, 'terms'])->name('terms');
@@ -200,7 +199,9 @@ Route::middleware('auth')->group(function(){
         Route::post( '/admin/company/save-location', [ AddCompany::class, 'save_company_location'] )->name( 'admin.company.save-location' );
         
         Route::get( '/admin/company/{company_id}/focus', [ AddCompany::class, 'add_company_focus'] )->name( 'admin.company.focus' );
+        Route::get( '/company/{company_id}/industry', [ AddCompany::class, 'getdataIndustry'] )->name( 'admin.company.industry' );
         Route::post('/admin/company/save-focus', [AddCompany::class, 'save_company_focus'])->name('admin.company.savefocus');
+        // Route::post('/admin/company/save-Service', [AddCompany::class, 'save_company_service'])->name('admin.company.savefocus');
 
         Route::get('/admin/company/{company_id}/admin-info', [AddCompany::class, 'add_admin_info'] )->name('admin.company.admininfo');
         Route::post('/admin/company/save-admin-info', [AddCompany::class, 'save_company_admin_info'] )->name('admin.company.save-admininfo');
@@ -306,3 +307,6 @@ Route::middleware('auth')->group(function(){
 });
 
 Route::get('/subscribe/{plan}/{user}', [PaymentContorller::class, 'subscribeToPlan']);
+Route::post('/admin/company/save-Service/', [AddCompany::class, 'save_company_service'])->name('admin.company.savefocus');
+Route::post('/admin/company/save-industry/', [AddCompany::class, 'save_company_industry'])->name('admin.company.industry');
+Route::get('/companydata/{id}/', [AddCompany::class, 'getdata']);
