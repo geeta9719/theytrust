@@ -355,7 +355,9 @@
                     },
                     data: JSON.stringify(data),
                     success: function(response) {
-                        
+                        var redirectURL = '/company/' + companyId + '/marketing';
+                        window.location.href = redirectURL;
+                        console.log("Asdfasdfasdfasdf");
                     },
                     error: function(xhr, status, error) {
                         console.error('Error saving data:', error);
