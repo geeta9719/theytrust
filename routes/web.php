@@ -139,6 +139,7 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/user/personal', [UserController::class, 'personal'])->name('user.personal');
     Route::post('/user/{user}/savePersonal', [UserController::class, 'savePersonal'])->name('user.savePersonal');
+    Route::get( '/company/{company_id}/industry', [ AddCompany::class, 'getdataIndustry'] )->name( 'company.industry' );
 
     Route::get('/user/{user}/basicInfo', [UserController::class, 'basicInfo'])->name('user.basicInfo');
 
@@ -199,7 +200,7 @@ Route::middleware('auth')->group(function(){
         Route::post( '/admin/company/save-location', [ AddCompany::class, 'save_company_location'] )->name( 'admin.company.save-location' );
         
         Route::get( '/admin/company/{company_id}/focus', [ AddCompany::class, 'add_company_focus'] )->name( 'admin.company.focus' );
-        Route::get( '/company/{company_id}/industry', [ AddCompany::class, 'getdataIndustry'] )->name( 'admin.company.industry' );
+
         Route::post('/admin/company/save-focus', [AddCompany::class, 'save_company_focus'])->name('admin.company.savefocus');
         // Route::post('/admin/company/save-Service', [AddCompany::class, 'save_company_service'])->name('admin.company.savefocus');
 
