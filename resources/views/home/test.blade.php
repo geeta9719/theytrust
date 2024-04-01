@@ -681,11 +681,15 @@
                     },
                     data: JSON.stringify(categoryDataArray),
                     success: function(response) {
+                        debugger;
                         var redirectURL = '/company/' + companyId + '/industry';
                         window.location.href = redirectURL;
+                        console.log("Asdfasdfasdfasdf");
+                        debugger;
                         console.log('Data saved successfully:', response);
                     },
                     error: function(xhr, status, error) {
+                        console.log("Dkkkkkkkkkkkkkkkkkkkkkk")
                         console.error('Error saving data:', error);
                     }
                 });
