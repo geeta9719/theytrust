@@ -631,8 +631,10 @@ class AddCompany extends Controller
                 ServiceLine::create($sub);
             }
              ServiceLine::create($inputs);
-        }
+          }
          }
+         return redirect()->route( 'company.marketing', $categoryId );
+
     }
 
 
