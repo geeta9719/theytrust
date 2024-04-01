@@ -629,15 +629,11 @@
             //     return isValid; // Return validation result
             // }
 
-           
-
-
             $('#submitFormButton').click(function() {
                 var companyId = $('#companyIdInput').val(); // Retrieve the company ID
 
                 var categoryDataArray = []; // Array to store category data
 
-                // Iterate through each category container
                 $('#sessionMessage .category-container').each(function() {
                     var categoryId = $(this).attr('id'); // Get category ID
                     var categoryName = $(this).find('.category-label').text();
@@ -666,19 +662,16 @@
                         subcategories.push(
                             subcategoryData); // Push subcategory data to the array
                     });
-
-                    // Construct category data object including subcategories
                     var categoryData = {
                         companyId: companyId,
                         id: categoryId,
                         name: categoryName,
                         inputValue: categoryNameInput,
-                        subcategories: subcategories // Include subcategories array
+                        subcategories: subcategories
                     };
 
                     categoryDataArray.push(categoryData); // Push category data to the array
                 });
-                console.log('Category Data Array:', categoryDataArray);
                 $.ajax({
                     url: '/admin/company/save-Service',
                     method: 'POST',
@@ -688,6 +681,8 @@
                     },
                     data: JSON.stringify(categoryDataArray),
                     success: function(response) {
+                        var redirectURL = '/company/' + companyId + '/industry';
+                        window.location.href = redirectURL;
                         console.log('Data saved successfully:', response);
                     },
                     error: function(xhr, status, error) {
@@ -695,11 +690,6 @@
                     }
                 });
             });
-
-
-
-
-
         });
     </script>
 @endsection

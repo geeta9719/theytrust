@@ -587,6 +587,78 @@ class AddCompany extends Controller
         return redirect()->route( 'admin.company.focus', $request->company_id )->with( 'message', 'Focus added successfully.' );
     }
 
+    
+
+    public function getdata( $id )
+    {
+        $serviceLines = ServiceLine::with('category','subcategory')->where('company_id', $id)->get();
+
+        return response()->json($serviceLines);
+    }
+
+    public function getdataIndustry( $id )
+    {
+        $industry = Industry::get();
+        $company   = Company::find( $id );
+        $clientSize  = ClientSize::all();
+        return view( 'home.Industry', [ 
+            'industry' => $industry,
+            'company' => $company,
+            'clientSize' => $clientSize
+          ]);
+    }
+
+    public function save_company_service( Request $request )
+    {
+        $data = $request->all();
+
+        foreach ($data as $item) {
+        $categoryId = $item['id'];
+        $inputs = [
+            'company_id' => $item['companyId'],
+            'category_id' => $item['id'],
+            'percent' => $item['inputValue']
+        ];
+        foreach ($item['subcategories'] as $subcategory) {
+            $subcategory = Subcategory::where('subcategory', $subcategory['name'])->first();
+            if ($subcategory['inputValue']) {
+                $sub = [
+                    'company_id' => $item['id'],
+                    'category_id' => $item['companyId'],
+                    'subcategory_id' => $subcategory->id,
+                    'percent' => $subcategory['inputValue']
+                ];
+                ServiceLine::create($sub);
+            }
+             ServiceLine::create($inputs);
+        }
+         }
+    }
+
+
+    public function save_company_industry( Request $request )
+    {
+        $data = $request->all();
+        foreach ($data['categoryDataArray'] as $item) {
+        $categoryId = $item['id'];
+        $inputs = [
+            'company_id' => $item['companyId'],
+            'industry_id' => $item['id'],
+            'percent' => $item['inputValue']
+        ];
+        AddIndustry::create($inputs);
+        }
+        foreach ($data['sizeDataArray'] as $item) {
+            $categoryId = $item['id'];
+            $inputs = [
+                'company_id' => $item['companyId'],
+                'client_size_id' => $item['id'],
+                'percent' => $item['inputValue']
+            ];
+            AddClientSize::create($inputs);
+            }
+    }
+
 
     public function add_admin_info( Request $request, $company_id )
     {
