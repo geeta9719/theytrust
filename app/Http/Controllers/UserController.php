@@ -334,12 +334,11 @@ class UserController extends Controller
         
         $clientSize         = ClientSize::all();
         $addClientSize      = AddClientSize::where( 'company_id', $company )->get();
-        
         $specialization     = Specialization::all();
         $addSpecialization  = AddSpecialization::where( 'company_id', $company )->get();
         
-        return view( 'home.user.focus', [
-                                            'category'          => $category,
+        return view( 'home.test', [
+                                            'categories'          => $category,
                                             'company'           => $comp,
                                             'addFocus'          => $addFocus,
                                             'industry'          => $industry,
@@ -420,14 +419,8 @@ class UserController extends Controller
 
     public function skill( Request $request )
     {
-
         $selectedCategories = $request->input('categories');
-
-
         $subcategories = SubcatChild::with('subcategory')->get();
-
-    
-        // Return subcategories and their corresponding category names as JSON response
         return response()->json($subcategories);
     }
 
@@ -1026,7 +1019,6 @@ class UserController extends Controller
             return redirect()->back();
         }
     }
-
 
 }
    
