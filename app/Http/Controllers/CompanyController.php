@@ -129,7 +129,6 @@ class CompanyController extends Controller
         $data['budget'] = $budget;
 
         $data['attribution'] = Attribution::All();
-
         $data['countries']     = Country::All();
 
       $data['review'] = CompanyReview::find($viewreview);

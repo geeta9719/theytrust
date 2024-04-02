@@ -320,7 +320,10 @@
                             <h2 class="industries my-heading">Target Industries</h2>
                             <hr class="mt-2 mb-4">
                             @foreach ($service_lines as $service_line)
-                                <a href="#" class="btn-target">{{ $service_line->subcategory->subcategory }}</a>
+                           {{-- {{ dd($service_lines)}} --}}
+                                <a href="#" class="btn-target">
+                                    {{-- {{ $service_line->id }}</a> --}}
+                                {{ App\Models\Category::find($service_line->category_id)->category ?? '' }}
                             @endforeach
                         </div>
                     </div>

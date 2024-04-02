@@ -591,7 +591,10 @@ class AddCompany extends Controller
 
     public function getdata( $id )
     {
-        $serviceLines = ServiceLine::with('category','subcategory')->where('company_id', $id)->get();
+        $serviceLines = ServiceLine::with('category', 'subcategory', 'subcategory.add_focus')
+    ->where('company_id', $id)
+    // ->where('subcategory_id', 0)
+    ->get();
 
         return response()->json($serviceLines);
     }
@@ -620,18 +623,20 @@ class AddCompany extends Controller
             'percent' => $item['inputValue']
         ];
         foreach ($item['subcategories'] as $subcategory) {
-            $subcategory = Subcategory::where('subcategory', $subcategory['name'])->first();
+            $sub = Subcategory::where('subcategory', $subcategory['name'])->first();
             if ($subcategory['inputValue']) {
-                $sub = [
-                    'company_id' => $item['id'],
-                    'category_id' => $item['companyId'],
-                    'subcategory_id' => $subcategory->id,
-                    'percent' => $subcategory['inputValue']
+                $s = [
+                    'company_id' => $item['companyId'],
+                    // 'category_id' => $item['companyId'],
+                    'subcategory_id' => $sub->id,
+                    'percent' => $subcategory['inputValue'],
+                    'subcat_child_id' =>0
                 ];
-                ServiceLine::create($sub);
+                AddFocus::create($s);
             }
-             ServiceLine::create($inputs);
+           
           }
+          ServiceLine::create($inputs);
          }
          return redirect()->route( 'company.marketing', $categoryId );
 

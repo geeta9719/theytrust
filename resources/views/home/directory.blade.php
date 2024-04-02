@@ -607,10 +607,8 @@
                                             <h2 class="industries my-heading"> Target Industries</h2>
                                             @foreach ($service_lines[$cmp->id] as $service_line)
                                                
-                                                    {{-- {{dd($service_lines)}} --}}
-                                                    {{-- {{ App\Models\Subcategory::find($service_line->subcategory_id)->subcategory }} --}}
                                                     @if($service_line->subcategory_id)
-                                                    <a href="#" class="btn-target">
+                   <a href="#" class="btn-target">
                                                         {{ App\Models\Subcategory::find($service_line->subcategory_id)->subcategory ?? '' }}
                                             @endif
 
