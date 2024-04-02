@@ -709,8 +709,11 @@ class UserController extends Controller
     public function validationStep( Request $request )
     {
 
+
         $data       = array();
-        $validExt   = array( 'jpg','jpeg','png','gif','jfif' );
+        $validExt   =
+         array( 'jpg','jpeg','png','gif','jfif' );
+        //  dd($request->all());
         
         if( $request->form == 'personal' )
         {                
@@ -724,7 +727,7 @@ class UserController extends Controller
 
                     if( !in_array( $ext, $validExt ) )
                     {
-                        $data['avatar'] = 'This is not image file';
+                        $data['avatar'] = 'Change error This is not image file to Please upload either a jpg or png file';
                     }
                 }
                 else
@@ -814,12 +817,14 @@ class UserController extends Controller
                     
                     if( !in_array( $ext, $validExt ) )
                     {
-                        $data['logo'] = 'This is not image file';
+                        $data['logo'] = 'Change error This is not image file to Please upload either a jpg or png file';;
                     }
                 }
                 else
                 {
-                    $data['logo'] = 'Not a Valid File Type';
+                    $data['logo'] = 'Change error This is not image file to Please upload either a jpg or png file
+
+                    ';
                 }
             }
             else
@@ -857,15 +862,18 @@ class UserController extends Controller
                 $data['size'] = 'Company Size should not be empty';
             }
 
-            if( $request->tagline == '' )
-            {
-                $data['tagline'] = 'Company tagline should not be empty';
+            if ($request->tagline == '') {
+                $data['tagline'] = 'Company Title should not be empty';
+            } elseif (strlen($request->tagline) > 70) {
+                $data['tagline'] = 'Company Title should not exceed 70 characters';
             }
-
-            if( $request->short_description == '' )
-            {
+            
+            if ($request->short_description == '') {
                 $data['short_description'] = 'Company summary should not be empty';
+            } elseif (strlen($request->short_description) > 5000) {
+                $data['short_description'] = 'Company summary should not exceed 5000 characters';
             }
+            
         }
 
         if( $request->form == 'form2' )
