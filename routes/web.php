@@ -155,7 +155,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/company/{company}/focus', [UserController::class, 'focus'])->name('company.focus');
     Route::post('/company/focus', [UserController::class, 'saveFocus'])->name('company.saveFocus');
 
-    Route::get('/company/{company}/marketing', [UserController::class, 'adminInfo'])->name('company.marketing');
+
     Route::post('/company/marketing', [UserController::class, 'saveAdminInfo'])->name('company.saveAdminInfo');
 
     Route::post('get-subcat-children', [UserController::class,'getSubcatChild']);
@@ -311,3 +311,4 @@ Route::get('/subscribe/{plan}/{user}', [PaymentContorller::class, 'subscribeToPl
 Route::post('/admin/company/save-Service/', [AddCompany::class, 'save_company_service'])->name('admin.company.savefocus');
 Route::post('/admin/company/save-industry/', [AddCompany::class, 'save_company_industry'])->name('admin.company.industry');
 Route::get('/companydata/{id}/', [AddCompany::class, 'getdata']);
+Route::get('/company/{company}/marketing', [UserController::class, 'adminInfo'])->name('company.marketing');
