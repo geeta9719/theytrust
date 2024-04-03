@@ -27,14 +27,14 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         /* .graph-sec .col-xl-5:last-child {
-                                z-index: -1;
-                                position: relative;
+                                    z-index: -1;
+                                    position: relative;
 
-                            } */
+                                } */
 
         /* .graph-sec .col-xl-5:last-child {
-                                left: -66px;
-                            } */
+                                    left: -66px;
+                                } */
 
         .verified-sec .veri {
             margin: auto;
@@ -178,11 +178,11 @@
         }
 
         /* .btn-target:hover {
-                                color: #fff;
-                                text-decoration: none;
-                                background-color: #95c7ef;
+                                    color: #fff;
+                                    text-decoration: none;
+                                    background-color: #95c7ef;
 
-                            } */
+                                } */
 
         .percentbox img {
             width: 42% !important;
@@ -226,9 +226,9 @@
             padding: 5px 19px;
             border-right: 1px solid #ccc;
             color: #fff;
-            border-radius: 10px;
+            border-radius: 0;
             margin-right: 11px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             text-decoration: none;
         }
@@ -322,18 +322,10 @@
             }
 
             .porfile-sec a {
-
                 margin-right: 0;
                 margin-bottom: 4px;
                 margin-left: 15px;
             }
-
-
-
-
-
-
-
         }
 
 
@@ -520,7 +512,7 @@
 
                     @if ($company)
                         @foreach ($company as $key => $cmp)
-                            <div class="col-lg-9 col-md-7 firm-sec p-3 mt-4 mt-md-0 shadow directory-blade"
+                            <div class="col-lg-12 col-md-12 firm-sec p-3 pb-5mt-4 mt-md-0 shadow directory-blade"
                                 id="addCompanyList">
                                 <!-- Card Start -->
                                 <div class="card-start">
@@ -529,7 +521,8 @@
                                             <div class="logo-wrapper">
                                                 <div> <img src="{{ asset($cmp->logo) }}" alt="" class="img-fluid ">
                                                 </div>
-                                                <div><a href="">
+                                                <div>
+                                                    <a href="/profile/{{ $cmp->id }}">
                                                         <h2>{{ $cmp->name }}</h2>
                                                     </a>
                                                     <p>{{ $cmp->tagline }}</p>
@@ -578,9 +571,11 @@
 
                                         </div>
                                         <div class="col-md-4 pr-md-1">
-                                            <div class="d-flex"> <a href="{{ $cmp->website }}">View Porfile</a><a
+                                            <div class=""> <a href="{{ $cmp->website }}">View Porfile</a>
+                                                <a
                                                     href="">Request
-                                                    Quote</a> </div>
+                                                    Quote</a> 
+                                                </div>
                                         </div>
                                     </div>
                                     <div class="row mt-1 target-sec">
@@ -595,7 +590,7 @@
                                                         <div class="border p-3 w-100 rounded shadow-sm h-100">
                                                             <h3>{{ $items->name }}</h3>
                                                             <div
-                                                                id="piechart_{{ str_replace('-', '_', Str::slug($items->name))}}_{{$cmp->id }}">
+                                                                id="piechart_{{ str_replace('-', '_', Str::slug($items->name)) }}_{{ $cmp->id }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -606,20 +601,19 @@
 
                                             <h2 class="industries my-heading"> Target Industries</h2>
                                             @foreach ($service_lines[$cmp->id] as $service_line)
-                                               
-                                                    @if($service_line->subcategory_id)
-                   <a href="#" class="btn-target">
+                                                @if ($service_line->subcategory_id)
+                                                    <a href="#" class="btn-target">
                                                         {{ App\Models\Subcategory::find($service_line->subcategory_id)->subcategory ?? '' }}
-                                            @endif
+                                                @endif
 
                                                 </a>
                                             @endforeach
                                         </div>
                                     </div>
-                                    <div class="container mt-5 agency-sec">
+                                    {{-- <div class="container mt-5 agency-sec">
                                         <h2 class="my-heading"> Agency Profile</h2>
                                         <hr>
-                                        <p class="expandable-text">{{ $cmp->description }}
+                                        <p class="expandable-text">{{ $cmp->short_description }}
                                             <span class="hidden-text">
                                                 It was
                                                 popularised in the 1960s with the release of Letraset sheets containing
@@ -632,7 +626,17 @@
                                             </span>
                                         </p>
                                         <button class="read-more-btn" onclick="toggleReadMore()">Read More ></button>
-                                        <!-- <p><a href=""><u>Read More ></u></a></p> -->
+                                    </div> --}}
+                                    <div class="container mt-5 agency-sec">
+                                        <h2 class="my-heading">Agency Profile</h2>
+                                        <hr>
+                                        <p class="expandable-text" id="short-description">
+                                            {{ \Illuminate\Support\Str::limit($cmp->short_description, 100) }} <!-- Display only the first 100 characters -->
+                                            <span class="hidden-text" style="display: none;"> <!-- Initially hidden -->
+                                                {{ $cmp->short_description }} <!-- Full description -->
+                                            </span>
+                                        </p>
+                                        <button class="read-more-btn" onclick="toggleReadMore()">Read More ></button>
                                     </div>
                                 </div>
                                 <!-- Card End -->
@@ -733,8 +737,6 @@
 
                 </div>
             </div>
-
-
     </section>
 @endsection
 
@@ -752,6 +754,20 @@
         });
     </script>
     <script type="text/javascript">
+    function toggleReadMore() {
+        var shortDesc = document.getElementById('short-description');
+        var hiddenText = shortDesc.querySelector('.hidden-text');
+
+        if (hiddenText.style.display === 'none') {
+            hiddenText.style.display = 'inline'; // Display full description
+            shortDesc.querySelector('.read-more-btn').textContent = 'Read Less <'; // Change button text
+        } else {
+            hiddenText.style.display = 'none'; // Hide full description
+            shortDesc.querySelector('.read-more-btn').textContent = 'Read More >'; // Change button text
+        }
+    }
+// });
+
         $('.location-filter').select2({
             minimumInputLength: 3,
             placeholder: 'Location',
@@ -824,46 +840,46 @@
     </script>
 
 
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', {
-        'packages': ['corechart']
-    });
-    google.charts.setOnLoadCallback(drawCharts);
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawCharts);
 
-    function drawCharts() {
+        function drawCharts() {
 
-        @foreach ($company as $cmp)
-        @foreach ($cmp->industries as $item)
-            var containerId = "piechart_{{ str_replace('-', '_', Str::slug($item->name)) }}_{{ $cmp->id }}";
-            var containerElement = document.getElementById(containerId);
-            if (containerElement) {
-                var data = google.visualization.arrayToDataTable([
-                    ['Task', 'Percentage'],
-                    ['{{ $item->name }}', {{ 30 }}],
-                    ['', {{ 100 - 30 }}]
-                ]);
+            @foreach ($company as $cmp)
+                @foreach ($cmp->industries as $item)
+                    var containerId = "piechart_{{ str_replace('-', '_', Str::slug($item->name)) }}_{{ $cmp->id }}";
+                    var containerElement = document.getElementById(containerId);
+                    if (containerElement) {
+                        var data = google.visualization.arrayToDataTable([
+                            ['Task', 'Percentage'],
+                            ['{{ $item->name }}', {{ 30 }}],
+                            ['', {{ 100 - 30 }}]
+                        ]);
 
-                var options = {
-                    'title': '{{ $item->name }}',
-                    'width': 150,
-                    'height': 100,
-                    'slices': {
-                        0: {
-                            color: 'blue'
-                        },
-                        1: {
-                            color: 'white'
-                        }
+                        var options = {
+                            'title': '{{ $item->name }}',
+                            'width': 150,
+                            'height': 100,
+                            'slices': {
+                                0: {
+                                    color: 'blue'
+                                },
+                                1: {
+                                    color: 'white'
+                                }
+                            }
+                        };
+                        var chart = new google.visualization.PieChart(containerElement);
+                        chart.draw(data, options);
+                    } else {
+                        console.error("Container element not found: " + containerId);
                     }
-                };
-                var chart = new google.visualization.PieChart(containerElement);
-                chart.draw(data, options);
-            } else {
-                console.error("Container element not found: " + containerId);
-            }
-        @endforeach
-        @endforeach
-    }
-</script>
+                @endforeach
+            @endforeach
+        }
+    </script>
 @endsection
