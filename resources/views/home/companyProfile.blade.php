@@ -276,7 +276,12 @@
                                 <h2>{{$company->name}}</h2>
                                   <b> {{$company->tagline}}</b>
                                    <br>
-                                   {{$add_client_size[0]->client_size->name}}
+                                   @if(isset($add_client_size[0]->client_size->name))
+                                
+                                   {{ $add_client_size[0]->client_size->name }}
+                               @else
+                                  
+                               @endif
                                 
                             </div>
                         </div>
