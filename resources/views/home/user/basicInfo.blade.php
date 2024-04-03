@@ -195,13 +195,13 @@ if(isset($_GET['profile']) && !empty($_GET['profile'])){
 
                         <div class="form-group">
                             <label for="tagline">Title</label><strong style="color: red;"> *</strong>
-                            <input type="text" class="form-control rmvId" id="tagline" name="tagline" value="<?php if(!empty($company->tagline)){ echo $company->tagline;}?>">
+                            <input type="text" class="form-control rmvId"  placeholder="This will be displayed as main heading of your listing" id="tagline" name="tagline" value="<?php if(!empty($company->tagline)){ echo $company->tagline;}?>">
                             <div class="invalid-feedback tagline rmvCls"></div>
                         </div>
 
                         <div class="form-group">
                             <label for="short_description">Message</label><strong style="color: red;"> *</strong>
-                            <textarea name="short_description" id="short_description" cols="50" rows="5" class="form-control rmvId"><?php if(!empty($company->short_description)){ echo $company->short_description;}?></textarea>
+                            <textarea name="short_description" id="short_description" cols="50" placeholder="Tell us a little bit about your company" rows="5" class="form-control rmvId"><?php if(!empty($company->short_description)){ echo $company->short_description;}?></textarea>
                             <div class="invalid-feedback short_description rmvCls"></div>
                         </div>
                         
@@ -230,7 +230,7 @@ if(isset($_GET['profile']) && !empty($_GET['profile'])){
         checkValue = function(){
             var ser = new FormData($('#basicAdd')[0]);
             //var ser = $('#basicAdd').serialize();
-            //console.log(ser);
+            console.log(ser);
             jQuery.ajax({
                 url:"{{url('get-listed-validation-step')}}",
                 type: "POST",
@@ -244,7 +244,6 @@ if(isset($_GET['profile']) && !empty($_GET['profile'])){
                     $(".rmvCls").html('');
                     $(".rmvId").removeClass('is-invalid');
                     var count = Object.keys(result).length;
-                    //console.log(count);
                     if(count > 0){
                         $.each(result, function (key, value) {
                             //console.log(key);
