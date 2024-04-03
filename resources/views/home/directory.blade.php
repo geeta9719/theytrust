@@ -221,6 +221,7 @@
         }
 
         .porfile-sec a {
+<<<<<<< HEAD
             border: 0;
             background-color: #388cff;
             padding: 5px 19px;
@@ -232,7 +233,30 @@
             font-weight: bold;
             text-decoration: none;
         }
+=======
+>>>>>>> 07376252f11bc5920ee5abd5aa92427fd14ccaa7
 
+border: 0;
+
+background-color: #388cff;
+
+padding: 5px 28px;
+
+border-right: 1px solid #ccc;
+
+color: #fff;
+
+border-radius: 0;
+
+margin-right: 0px;
+
+font-size: 12px;
+
+font-weight: bold;
+
+text-decoration: none;
+
+}
 
         .logo-wrapper {
             display: flex;
@@ -265,6 +289,9 @@
             font-size: 15px;
             margin-right: 17px;
 
+        }
+        .profile{
+            margin-left: -11px;
         }
 
         .recordbox {
@@ -512,7 +539,11 @@
 
                     @if ($company)
                         @foreach ($company as $key => $cmp)
+<<<<<<< HEAD
                             <div class="col-lg-12 col-md-12 firm-sec p-3 pb-5mt-4 mt-md-0 shadow directory-blade"
+=======
+                            <div class="col-lg-12 col-md-12 firm-sec p-3 pb-5 mt-4 mt-md-0 shadow directory-blade"
+>>>>>>> 07376252f11bc5920ee5abd5aa92427fd14ccaa7
                                 id="addCompanyList">
                                 <!-- Card Start -->
                                 <div class="card-start">
@@ -570,7 +601,11 @@
                                         <div class="col-md-8 pr-md-1">
 
                                         </div>
+<<<<<<< HEAD
                                         <div class="col-md-4 pr-md-1">
+=======
+                                        <div class="col-md-4 pr-md-1 profile">
+>>>>>>> 07376252f11bc5920ee5abd5aa92427fd14ccaa7
                                             <div class=""> <a href="{{ $cmp->website }}">View Porfile</a>
                                                 <a
                                                     href="">Request
