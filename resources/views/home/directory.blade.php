@@ -583,7 +583,7 @@ text-decoration: none;
                                         <div class="col-md-8 pr-md-1">
 
                                         </div>
-                                        <div class="col-md-4 pr-md-1 profile">
+                                        <div class="col-md-4 pr-md-1 profileSec">
                                             <div class=""> <a href="{{ $cmp->website }}">View Porfile</a>
                                                 <a
                                                     href="">Request
