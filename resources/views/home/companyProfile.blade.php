@@ -267,10 +267,10 @@
             <div class="row">
                 <div class="col-lg-12 col-md-7 firm-sec p-3 mt-4 mt-md-0 shadow directory-blade" id="addCompanyList">
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-2">
                             <img src="{{ asset($company->logo) }}" alt="" class="img-fluid ">
                         </div>
-                        <div class="col-md-5 text-right">
+                        <div class="col-md-10 text-right">
                             <div class="reviews-row">
                                 <h3>{{ number_format((float) $rate_review->rating, 1) }}</h3>
                                 <div class="px-3">
