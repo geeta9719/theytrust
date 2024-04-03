@@ -221,18 +221,28 @@
         }
 
         .porfile-sec a {
-            border: 0;
-            background-color: #388cff;
-            padding: 5px 19px;
-            border-right: 1px solid #ccc;
-            color: #fff;
-            border-radius: 0;
-            margin-right: 11px;
-            font-size: 12px;
-            font-weight: bold;
-            text-decoration: none;
-        }
 
+border: 0;
+
+background-color: #388cff;
+
+padding: 5px 28px;
+
+border-right: 1px solid #ccc;
+
+color: #fff;
+
+border-radius: 0;
+
+margin-right: 0px;
+
+font-size: 12px;
+
+font-weight: bold;
+
+text-decoration: none;
+
+}
 
         .logo-wrapper {
             display: flex;
@@ -265,6 +275,9 @@
             font-size: 15px;
             margin-right: 17px;
 
+        }
+        .profile{
+            margin-left: -11px;
         }
 
         .recordbox {
@@ -512,7 +525,7 @@
 
                     @if ($company)
                         @foreach ($company as $key => $cmp)
-                            <div class="col-lg-12 col-md-12 firm-sec p-3 pb-5mt-4 mt-md-0 shadow directory-blade"
+                            <div class="col-lg-12 col-md-12 firm-sec p-3 pb-5 mt-4 mt-md-0 shadow directory-blade"
                                 id="addCompanyList">
                                 <!-- Card Start -->
                                 <div class="card-start">
@@ -570,7 +583,7 @@
                                         <div class="col-md-8 pr-md-1">
 
                                         </div>
-                                        <div class="col-md-4 pr-md-1">
+                                        <div class="col-md-4 pr-md-1 profile">
                                             <div class=""> <a href="{{ $cmp->website }}">View Porfile</a>
                                                 <a
                                                     href="">Request
