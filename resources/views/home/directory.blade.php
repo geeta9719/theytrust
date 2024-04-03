@@ -27,14 +27,14 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         /* .graph-sec .col-xl-5:last-child {
-                                    z-index: -1;
-                                    position: relative;
+                                        z-index: -1;
+                                        position: relative;
 
-                                } */
+                                    } */
 
         /* .graph-sec .col-xl-5:last-child {
-                                    left: -66px;
-                                } */
+                                        left: -66px;
+                                    } */
 
         .verified-sec .veri {
             margin: auto;
@@ -178,11 +178,11 @@
         }
 
         /* .btn-target:hover {
-                                    color: #fff;
-                                    text-decoration: none;
-                                    background-color: #95c7ef;
+                                        color: #fff;
+                                        text-decoration: none;
+                                        background-color: #95c7ef;
 
-                                } */
+                                    } */
 
         .percentbox img {
             width: 42% !important;
@@ -222,27 +222,27 @@
 
         .porfile-sec a {
 
-border: 0;
+            border: 0;
 
-background-color: #388cff;
+            background-color: #388cff;
 
-padding: 5px 28px;
+            padding: 5px 28px;
 
-border-right: 1px solid #ccc;
+            border-right: 1px solid #ccc;
 
-color: #fff;
+            color: #fff;
 
-border-radius: 0;
+            border-radius: 0;
 
-margin-right: 0px;
+            margin-right: 0px;
 
-font-size: 12px;
+            font-size: 12px;
 
-font-weight: bold;
+            font-weight: bold;
 
-text-decoration: none;
+            text-decoration: none;
 
-}
+        }
 
         .logo-wrapper {
             display: flex;
@@ -276,7 +276,8 @@ text-decoration: none;
             margin-right: 17px;
 
         }
-        .profileSec{
+
+        .profileSec {
             margin-left: -11px;
         }
 
@@ -348,6 +349,27 @@ text-decoration: none;
                 font-size: 13px;
                 width: 100% !important;
                 margin: auto auto 10px auto !important;
+            }
+
+            @media (max-width: 767px) {
+
+                .profileSec {
+                    margin-left: 0;
+
+                }
+
+                .porfile-sec a {
+
+                    margin-right: 0;
+
+                    margin-bottom: 4px;
+
+                    margin-left: 1px;
+
+                    padding: 7px 26px;
+
+                }
+
             }
 
 
@@ -585,10 +607,9 @@ text-decoration: none;
                                         </div>
                                         <div class="col-md-4 pr-md-1 profileSec">
                                             <div class=""> <a href="{{ $cmp->website }}">View Porfile</a>
-                                                <a
-                                                    href="">Request
-                                                    Quote</a> 
-                                                </div>
+                                                <a href="">Request
+                                                    Quote</a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row mt-1 target-sec">
@@ -644,7 +665,8 @@ text-decoration: none;
                                         <h2 class="my-heading">Agency Profile</h2>
                                         <hr>
                                         <p class="expandable-text" id="short-description">
-                                            {{ \Illuminate\Support\Str::limit($cmp->short_description, 100) }} <!-- Display only the first 100 characters -->
+                                            {{ \Illuminate\Support\Str::limit($cmp->short_description, 100) }}
+                                            <!-- Display only the first 100 characters -->
                                             <span class="hidden-text" style="display: none;"> <!-- Initially hidden -->
                                                 {{ $cmp->short_description }} <!-- Full description -->
                                             </span>
@@ -767,19 +789,19 @@ text-decoration: none;
         });
     </script>
     <script type="text/javascript">
-    function toggleReadMore() {
-        var shortDesc = document.getElementById('short-description');
-        var hiddenText = shortDesc.querySelector('.hidden-text');
+        function toggleReadMore() {
+            var shortDesc = document.getElementById('short-description');
+            var hiddenText = shortDesc.querySelector('.hidden-text');
 
-        if (hiddenText.style.display === 'none') {
-            hiddenText.style.display = 'inline'; // Display full description
-            shortDesc.querySelector('.read-more-btn').textContent = 'Read Less <'; // Change button text
-        } else {
-            hiddenText.style.display = 'none'; // Hide full description
-            shortDesc.querySelector('.read-more-btn').textContent = 'Read More >'; // Change button text
+            if (hiddenText.style.display === 'none') {
+                hiddenText.style.display = 'inline'; // Display full description
+                shortDesc.querySelector('.read-more-btn').textContent = 'Read Less <'; // Change button text
+            } else {
+                hiddenText.style.display = 'none'; // Hide full description
+                shortDesc.querySelector('.read-more-btn').textContent = 'Read More >'; // Change button text
+            }
         }
-    }
-// });
+        // });
 
         $('.location-filter').select2({
             minimumInputLength: 3,
