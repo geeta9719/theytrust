@@ -292,9 +292,9 @@
                                         <i class="fa fa-star-o bluestar"></i>
                                     @endfor
                                 </div>
-                                <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank">
+                                {{-- <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank">
                                     <h3>1 REVIEWS</h3>
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
 
