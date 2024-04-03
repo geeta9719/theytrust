@@ -270,7 +270,17 @@
                         <div class="col-md-2">
                             <img src="{{ asset($company->logo) }}" alt="" class="img-fluid ">
                         </div>
-                        <div class="col-md-10 text-right">
+
+                        <div class="col-md-5 ">
+                            <div class="reviews-row d-block">
+                                <h2>{{$company->name}}</h2>
+                                  <b> {{$company->tagline}}</b>
+                                   <br>
+                                   {{$add_client_size[0]->client_size->name}}
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-5 text-right">
                             <div class="reviews-row">
                                 <h3>{{ number_format((float) $rate_review->rating, 1) }}</h3>
                                 <div class="px-3">
