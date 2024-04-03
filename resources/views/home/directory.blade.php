@@ -221,20 +221,6 @@
         }
 
         .porfile-sec a {
-<<<<<<< HEAD
-            border: 0;
-            background-color: #388cff;
-            padding: 5px 19px;
-            border-right: 1px solid #ccc;
-            color: #fff;
-            border-radius: 0;
-            margin-right: 11px;
-            font-size: 12px;
-            font-weight: bold;
-            text-decoration: none;
-        }
-=======
->>>>>>> 07376252f11bc5920ee5abd5aa92427fd14ccaa7
 
 border: 0;
 
@@ -597,7 +583,7 @@ text-decoration: none;
                                         <div class="col-md-8 pr-md-1">
 
                                         </div>
-                                        <div class="col-md-4 pr-md-1 profileSec">
+                                        <div class="col-md-4 pr-md-1 profile">
                                             <div class=""> <a href="{{ $cmp->website }}">View Porfile</a>
                                                 <a
                                                     href="">Request
