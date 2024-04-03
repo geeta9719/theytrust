@@ -384,7 +384,7 @@
                                         <p>{{$rev->for_what_project }}</p>
 
                                     </div>
-                                    <div class="col-md-5 review-by">
+                                    <div class="col-md-5">
                                         <h3>Review By</h3>
                                         <p><?php echo $rev->scope_of_work  ?></p>
                                     </div>
