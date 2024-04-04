@@ -27,14 +27,14 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         /* .graph-sec .col-xl-5:last-child {
-                                        z-index: -1;
-                                        position: relative;
+                                            z-index: -1;
+                                            position: relative;
 
-                                    } */
+                                        } */
 
         /* .graph-sec .col-xl-5:last-child {
-                                        left: -66px;
-                                    } */
+                                            left: -66px;
+                                        } */
 
         .verified-sec .veri {
             margin: auto;
@@ -178,11 +178,11 @@
         }
 
         /* .btn-target:hover {
-                                        color: #fff;
-                                        text-decoration: none;
-                                        background-color: #95c7ef;
+                                            color: #fff;
+                                            text-decoration: none;
+                                            background-color: #95c7ef;
 
-                                    } */
+                                        } */
 
         .percentbox img {
             width: 42% !important;
@@ -340,6 +340,33 @@
                 margin-bottom: 4px;
                 margin-left: 15px;
             }
+        }
+
+        @media (max-width: 768px) {
+
+
+
+            .porfile-sec a {
+                border: 0;
+                background-color: #388cff;
+                padding: 5px 28px;
+                border-right: 1px solid #ccc;
+                color: #fff;
+                border-radius: 0;
+                margin-right: 0px;
+                font-size: 7px;
+                font-weight: bold;
+                text-decoration: none;
+                width: 22px;
+            }
+
+            .my-heading {
+
+                font-size: 8px;
+            }
+
+
+
         }
 
 
@@ -620,7 +647,7 @@
 
                                             <div class="row mx-0 percentbox">
                                                 @foreach ($cmp->industries ?? [] as $items)
-                                                    <div class="col-md-4 text-center mb-2 p-2">
+                                                    <div class="col-lg-4 text-center mb-2 p-2">
                                                         <div class="border p-3 w-100 rounded shadow-sm h-100">
                                                             <h3>{{ $items->name }}</h3>
                                                             <div
