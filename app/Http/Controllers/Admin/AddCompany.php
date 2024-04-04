@@ -591,10 +591,76 @@ class AddCompany extends Controller
 
     public function getdata( $id )
     {
-        $serviceLines = ServiceLine::with('category', 'subcategory', 'subcategory.add_focus')
-    ->where('company_id', $id)
-    // ->where('subcategory_id', 0)
-    ->get();
+        // $serviceLines = ServiceLine::with('category', 'category.subcategory','category.subcategory.add_focus')
+        //     ->where('company_id', $id)
+        //     ->get();
+            
+        
+        // $serviceLines = ServiceLine::with(['category.subcategory.add_focus' => function ($query) use ($id) {
+        //     $query->where('company_id', $id);
+        // }])
+        // ->where('company_id', $id)
+        // ->whereHas('category.subcategory.add_focus', function ($query) use ($id) {
+        //     $query->where('company_id', $id);
+        // })
+        // ->get();
+
+        $serviceLines = ServiceLine::with(['category.subcategory.add_focus' => function ($query) use ($id) {
+            $query->where('company_id', $id);
+        }])
+        ->where('company_id', $id)
+        ->get();
+
+
+        // foreach ($serviceLines as $serviceLine) {
+        //     $category = $serviceLine->category;
+        //     foreach ($category->subcategory as $subcategory) {
+
+        //         $type = gettype($subcategory->add_focus);
+        //         // dd($type);
+        //         dd($subcategory->add_focus);
+        //         if (is_array($subcategory->add_focus) ) {
+        //             dd("Adsfasdf");
+        //             // Check if $subcategory->addFocus is empty
+        //             if (count($subcategory->add_focus) === 0) {
+        //                 // If add_focus is empty, delete the subcategory if it doesn't meet user's selection criteria
+        //                 // if (!/* User's selection criteria */) {
+        //                     $subcategory->delete();
+        //                     dd("Asdfadsf");
+        //                 // }
+        //             }
+        //         } else {
+        //             // Handle the case where $subcategory->addFocus is not an array or an object that implements Countable
+        //             // You may need to debug or handle this differently based on your application logic
+        //             // For example, you might want to log the error or take some other action
+        //             // echo "Error: addFocus is not an array or an object that implements Countable";
+        //         }
+        //     }
+        // }
+        foreach ($serviceLines as $serviceLine) {
+            $category = $serviceLine->category;
+            foreach ($category->subcategory as $subcategory) {
+                // Check if $subcategory->add_focus is an object
+                if (is_object($subcategory->add_focus)) {
+                    $addFocusArray = json_decode(json_encode($subcategory->add_focus), true);
+                    // Check if the converted array is empty
+                    if (count($addFocusArray)===0) {
+                        // If add_focus is empty, delete the subcategory if it doesn't meet user's selection criteria
+                        // if (!/* User's selection criteria */) {
+                            $subcategory->delete();
+                        // }
+                    }
+                }
+            }
+        }
+        
+        
+        
+    
+        
+
+            
+
 
         return response()->json($serviceLines);
     }
@@ -611,36 +677,75 @@ class AddCompany extends Controller
           ]);
     }
 
-    public function save_company_service( Request $request )
+    // public function save_company_service( Request $request )
+    // {
+    //     $data = $request->all();
+
+    //     foreach ($data as $item) {
+    //     $categoryId = $item['id'];
+    //     $inputs = [
+    //         'company_id' => $item['companyId'],
+    //         'category_id' => $item['id'],
+    //         'percent' => $item['inputValue']
+    //     ];
+    //     foreach ($item['subcategories'] as $subcategory) {
+    //         $sub = Subcategory::where('subcategory', $subcategory['name'])->first();
+    //         if ($subcategory['inputValue']) {
+    //             $s = [
+    //                 'company_id' => $item['companyId'],
+    //                 'subcategory_id' => $sub->id,
+    //                 'percent' => $subcategory['inputValue'],
+    //                 'subcat_child_id' =>0
+    //             ];
+    //             AddFocus::create($s);
+    //         }
+           
+    //       }
+    //       ServiceLine::create($inputs);
+    //      }
+    //      return redirect()->route( 'company.marketing', $categoryId );
+
+    // }
+    public function save_company_service(Request $request,$id)
     {
         $data = $request->all();
-
+        ServiceLine::where('company_id', $id)->delete();
+        AddFocus::where('company_id', $id)->delete();
+        
         foreach ($data as $item) {
-        $categoryId = $item['id'];
-        $inputs = [
-            'company_id' => $item['companyId'],
-            'category_id' => $item['id'],
-            'percent' => $item['inputValue']
-        ];
-        foreach ($item['subcategories'] as $subcategory) {
-            $sub = Subcategory::where('subcategory', $subcategory['name'])->first();
-            if ($subcategory['inputValue']) {
-                $s = [
-                    'company_id' => $item['companyId'],
-                    // 'category_id' => $item['companyId'],
-                    'subcategory_id' => $sub->id,
-                    'percent' => $subcategory['inputValue'],
-                    'subcat_child_id' =>0
-                ];
-                AddFocus::create($s);
+            $categoryId = $item['id']; // Assuming the category ID key is 'category_id'
+            $companyId = $item['companyId'];
+    
+            // Delete existing records with the same company_id
+            
+    
+            // Create new ServiceLine record
+            $serviceLineInputs = [
+                'company_id' => $companyId,
+                'category_id' => $item['id'], // Assuming the category ID key is 'category_id'
+                'percent' => $item['inputValue'] // Assuming the input value key is 'percent'
+            ];
+            ServiceLine::create($serviceLineInputs);
+    
+            // Process subcategories
+            foreach ($item['subcategories'] as $subcategory) {
+                $sub = Subcategory::where('subcategory', $subcategory['name'])->first();
+                if ($subcategory['inputValue']) { // Assuming the input value key for subcategory is 'percent'
+                    $addFocusInputs = [
+                        'company_id' => $companyId,
+                        'subcategory_id' => $sub->id,
+                        'percent' => $subcategory['inputValue'], // Assuming the input value key is 'percent'
+                        'subcat_child_id' => 0
+                    ];
+                    AddFocus::create($addFocusInputs);
+                }
             }
-           
-          }
-          ServiceLine::create($inputs);
-         }
-         return redirect()->route( 'company.marketing', $categoryId );
-
+        }
+        
+        return redirect()->route('company.marketing', $categoryId);
     }
+    
+
 
 
     public function save_company_industry( Request $request )

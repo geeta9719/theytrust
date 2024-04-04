@@ -308,7 +308,7 @@ Route::middleware('auth')->group(function(){
 });
 
 Route::get('/subscribe/{plan}/{user}', [PaymentContorller::class, 'subscribeToPlan']);
-Route::post('/admin/company/save-Service/', [AddCompany::class, 'save_company_service'])->name('admin.company.savefocus');
+Route::post('/company/save-Service/{id}', [AddCompany::class, 'save_company_service'])->name('company.savefocus');
 Route::post('/admin/company/save-industry/', [AddCompany::class, 'save_company_industry'])->name('admin.company.industry');
 Route::get('/companydata/{id}/', [AddCompany::class, 'getdata']);
 Route::get('/company/{company}/marketing', [UserController::class, 'adminInfo'])->name('company.marketing');
