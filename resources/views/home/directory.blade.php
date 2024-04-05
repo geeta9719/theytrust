@@ -27,14 +27,14 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         /* .graph-sec .col-xl-5:last-child {
-                                            z-index: -1;
-                                            position: relative;
+                                                z-index: -1;
+                                                position: relative;
 
-                                        } */
+                                            } */
 
         /* .graph-sec .col-xl-5:last-child {
-                                            left: -66px;
-                                        } */
+                                                left: -66px;
+                                            } */
 
         .verified-sec .veri {
             margin: auto;
@@ -178,11 +178,11 @@
         }
 
         /* .btn-target:hover {
-                                            color: #fff;
-                                            text-decoration: none;
-                                            background-color: #95c7ef;
+                                                color: #fff;
+                                                text-decoration: none;
+                                                background-color: #95c7ef;
 
-                                        } */
+                                            } */
 
         .percentbox img {
             width: 42% !important;
@@ -661,14 +661,14 @@
                                         <div class="col-md-4 pl-md-1">
 
                                             <h2 class="industries my-heading"> Target Industries</h2>
-                                            @foreach ($service_lines[$cmp->id] as $service_line)
+                                            @foreach ($service_lines[$cmp->id] ?? [] as $service_line)
                                                 @if ($service_line->subcategory_id)
                                                     <a href="#" class="btn-target">
-                                                        {{ App\Models\Subcategory::find($service_line->subcategory_id)->subcategory ?? '' }}
+                                                        {{ App\Models\Subcategory::find($service_line->subcategory_id)->subcategory ?? "This  Subcategory  Has Been  Deleted." }}
+                                                    </a>
                                                 @endif
-
-                                                </a>
                                             @endforeach
+
                                         </div>
                                     </div>
                                     {{-- <div class="container mt-5 agency-sec">

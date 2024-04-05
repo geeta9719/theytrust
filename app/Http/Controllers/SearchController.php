@@ -115,6 +115,7 @@ class SearchController extends Controller
     public function companies( Request $request, $ser = null, $loc = null )
     {
 
+        // dd($ser);
 
         $cat_id           = $this->getIdByCatName( $ser );
 
@@ -225,19 +226,20 @@ class SearchController extends Controller
             ->get( ['categories.id', 'subcategories.id as sid', 'subcategories.subcategory' ] );
 
 
-            if( !empty( $cat ) )
+
+            if( count( $cat )  > 0)
             {
-                
                 foreach( $cat as $scat )
                 {
                     $_REQUEST['services'][] = $scat->sid;
                 }
-
                 $where[] = "WHERE service_lines.subcategory_id IN ( ".implode( ',', $_REQUEST['services'] ) . ")";
 
             }
 
         }
+
+        
         
         if( !empty( $request->location ) )
         {
@@ -1190,7 +1192,7 @@ class SearchController extends Controller
         $data['review']         = CompanyReview::where( 'company_id', $company_id )->get();
         $data['service_lines']  = ServiceLine::where( 'company_id', $company_id )->get();
         $data['add_industry']   = AddIndustry::where( 'company_id', $company_id )->get();
-        $data['add_client_size']= AddClientSize::where( 'company_id', $company_id )->get();
+        $data['add_client_size']= AddClientSize::where( 'company_id', $company_id )->with('client_size')->get();
         $data['add_focus']      = AddFocus::where( 'company_id', $company_id )->get();
         $data['addresses']      = Address::where( 'company_id', $company_id )->get();
         $data['projects']      = CompanyHasProject::where( 'company_id', $company_id )->get();
@@ -1199,6 +1201,7 @@ class SearchController extends Controller
             $focus[$add_focus->subcategory_id][] = $add_focus;
         }
         $data['add_focus'] = $focus;
+        //  dd($data);
         return view( 'home.companyProfile', $data );
     }
 
