@@ -27,14 +27,14 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         /* .graph-sec .col-xl-5:last-child {
-                                                z-index: -1;
-                                                position: relative;
+                                                    z-index: -1;
+                                                    position: relative;
 
-                                            } */
+                                                } */
 
         /* .graph-sec .col-xl-5:last-child {
-                                                left: -66px;
-                                            } */
+                                                    left: -66px;
+                                                } */
 
         .verified-sec .veri {
             margin: auto;
@@ -46,6 +46,10 @@
             width: 36% !important;
             margin: auto auto 10px 23% !important;
             text-align: center;
+        }
+
+        .firm-sec {
+            margin-bottom: 30px;
         }
 
         .select2-container--default .select2-selection--multiple {
@@ -178,11 +182,11 @@
         }
 
         /* .btn-target:hover {
-                                                color: #fff;
-                                                text-decoration: none;
-                                                background-color: #95c7ef;
+                                                    color: #fff;
+                                                    text-decoration: none;
+                                                    background-color: #95c7ef;
 
-                                            } */
+                                                } */
 
         .percentbox img {
             width: 42% !important;
@@ -321,8 +325,12 @@
 
 
         /* read0more */
-
-
+        @media (max-width: 1024px) {
+            .porfile-sec a {
+                padding: 5px 28px;
+                font-size: 7px;
+            }
+        }
 
         @media (max-width: 650px) {
             .logo-wrapper {
@@ -343,8 +351,18 @@
         }
 
         @media (max-width: 768px) {
+            .list-box a {
+                color: #000;
+                font-size: 11px;
+                text-decoration: underline;
+            }
 
+            .reviewboxes {
 
+                justify-content: start !important;
+
+                margin-left: 24px !important;
+            }
 
             .porfile-sec a {
                 border: 0;
@@ -386,17 +404,11 @@
                 }
 
                 .porfile-sec a {
-
                     margin-right: 0;
-
                     margin-bottom: 4px;
-
                     margin-left: 1px;
-
-                    padding: 7px 26px;
-
+                    padding: 7px 42px;
                 }
-
             }
 
 
@@ -579,7 +591,7 @@
                                 <!-- Card Start -->
                                 <div class="card-start">
                                     <div class="row">
-                                        <div class="col-md-7">
+                                        <div class="col-lg-7">
                                             <div class="logo-wrapper">
                                                 <div> <img src="{{ asset($cmp->logo) }}" alt="" class="img-fluid ">
                                                 </div>
@@ -594,8 +606,8 @@
                                             </div>
                                         </div>
                                         @if (isset($rate_review[$cmp->id]))
-                                            <div class="col-md-5 text-right">
-                                                <div class="reviews-row">
+                                            <div class="col-lg-5 text-right">
+                                                <div class="reviews-row reviewboxes">
                                                     <h3>{{ number_format((float) $rate_review[$cmp->id]->rating, 1, '.', '') ?? '' }}
                                                     </h3>
                                                     <div class="px">
@@ -661,13 +673,30 @@
                                         <div class="col-md-4 pl-md-1">
 
                                             <h2 class="industries my-heading"> Target Industries</h2>
-                                            @foreach ($service_lines[$cmp->id] ?? [] as $service_line)
-                                                @if ($service_line->subcategory_id)
+                                            {{-- @foreach ($service_lines[$cmp->id] as $service_line)
+                                                @if ($service_line->category_id)
                                                     <a href="#" class="btn-target">
-                                                        {{ App\Models\Subcategory::find($service_line->subcategory_id)->subcategory ?? "This  Subcategory  Has Been  Deleted." }}
-                                                    </a>
+                                                        {{ App\Models\Category::find($service_line->category_id)->category ?? '' }}
+                                                @endif
+
+                                                </a>
+                                            @endforeach --}}
+                                            {{-- {{dd($service_lines,$cmp->id)}} --}}
+                                            @foreach ($service_lines[$cmp->id] ?? [] as $service_line)
+                                                @if (isset($service_line->category_id) && $service_line->category_id)
+                                                    @php
+                                                        $category = App\Models\Category::find(
+                                                            $service_line->category_id,
+                                                        );
+                                                    @endphp
+                                                    @if ($category)
+                                                        <a href="#" class="btn-target">
+                                                            {{ $category->category ?? '' }}
+                                                        </a>
+                                                    @endif
                                                 @endif
                                             @endforeach
+
 
                                         </div>
                                     </div>

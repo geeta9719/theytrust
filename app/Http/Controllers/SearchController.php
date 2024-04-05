@@ -186,7 +186,7 @@ class SearchController extends Controller
         $data['rate_review'] = $rate;
         
 
-        $service_line   = DB::select( "SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent, subcategories.subcategory FROM service_lines   LEFT JOIN subcategories ON subcategories.id = service_lines.id");
+        $service_line   = DB::select( "SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent, service_lines.category_id,subcategories.subcategory FROM service_lines   LEFT JOIN subcategories ON subcategories.id = service_lines.id");
         
         $service_lines  = array();
 
@@ -226,14 +226,18 @@ class SearchController extends Controller
             ->get( ['categories.id', 'subcategories.id as sid', 'subcategories.subcategory' ] );
 
 
+            // dd($cat);
 
             if( count( $cat )  > 0)
             {
+
                 foreach( $cat as $scat )
                 {
                     $_REQUEST['services'][] = $scat->sid;
                 }
-                $where[] = "WHERE service_lines.subcategory_id IN ( ".implode( ',', $_REQUEST['services'] ) . ")";
+                $where[] = "WHERE add_foci.subcategory_id IN ( ".implode( ',', $_REQUEST['services'] ) . ")";
+
+                // $where[]= 'add_foci.* IN ('.implode(',',$_REQUEST['services']).')';
 
             }
 
@@ -295,6 +299,7 @@ class SearchController extends Controller
                                     "SELECT count( DISTINCT(companies.id) )  as record  ,add_industries.* FROM companies 
                                      LEFT JOIN addresses ON addresses.company_id = companies.id 
                                      LEFT JOIN service_lines ON service_lines.company_id = companies.id 
+                                     LEFT JOIN add_foci ON add_foci.company_id = companies.id 
                                      LEFT JOIN add_industries ON add_industries.company_id = companies.id 
                                      LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where 
                                   );
@@ -330,6 +335,7 @@ class SearchController extends Controller
         $company_sql = "SELECT companies.id, companies.*, add_industries.id as add_industries_id, add_industries.percent as percent, industries.name as i_name, addresses.address, addresses.city, subcategories.id as subcategory_id, subcategories.subcategory as subcategory_name  
         FROM companies 
         LEFT JOIN addresses ON addresses.company_id = companies.id 
+        LEFT JOIN add_foci ON add_foci.company_id = companies.id 
         LEFT JOIN service_lines ON service_lines.company_id = companies.id 
         LEFT JOIN add_industries ON add_industries.company_id = companies.id 
         LEFT JOIN subcategories ON subcategories.id = service_lines.subcategory_id
