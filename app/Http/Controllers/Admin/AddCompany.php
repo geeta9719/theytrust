@@ -654,16 +654,11 @@ class AddCompany extends Controller
             }
         }
         
-        
-        
-    
-        
-
-            
 
 
         return response()->json($serviceLines);
     }
+
 
     public function getdataIndustry( $id )
     {
@@ -676,6 +671,21 @@ class AddCompany extends Controller
             'clientSize' => $clientSize
           ]);
     }
+
+
+    public function industryData( $id )
+    {
+
+      $industry   =    AddIndustry::with('industry')->where( "company_id", $id)->get();
+    $client_size =  AddClientSize::with('client_size')->where( "company_id", $id)->get();
+
+    $data = array('industry' => $industry, 'client_size' => $client_size);
+
+      
+        return response()->json($data);
+
+    }
+
 
     // public function save_company_service( Request $request )
     // {
@@ -748,8 +758,11 @@ class AddCompany extends Controller
 
 
 
-    public function save_company_industry( Request $request )
+    public function save_company_industry( Request $request ,$id )
     {
+    AddIndustry::where('company_id', $id)->delete();
+
+    AddClientSize::where('company_id', $id)->delete();
         $data = $request->all();
         foreach ($data['categoryDataArray'] as $item) {
         $categoryId = $item['id'];

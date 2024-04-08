@@ -68,12 +68,11 @@
 
                         <fieldset>
                             <div id="categoryFieldset">
-                                <legend>Choose  Industry</legend>
+                                <legend>Choose Industry</legend>
                                 @foreach ($industry as $ind)
                                     <div>
                                         <input type="checkbox" id="{{ strtolower(str_replace(' ', '', $ind->id)) }}"
-                                            name="primaryService[]"
-                                            value="{{ strtolower(str_replace(' ', '', $ind->id)) }}"
+                                            name="primaryService[]" value="{{ strtolower(str_replace(' ', '', $ind->id)) }}"
                                             data-category-name="{{ $ind->name }}" class="primary-service">
                                         <label
                                             for="{{ strtolower(str_replace(' ', '', $ind->id)) }}">{{ $ind->name }}</label>
@@ -85,7 +84,7 @@
                     <div class="col-md-3">
                         <fieldset>
                             <div id="sizeFieldset">
-                                <legend>Choose  Client Size</legend>
+                                <legend>Choose Client Size</legend>
                                 @foreach ($clientSize as $size)
                                     <div>
                                         <input type="checkbox" id="{{ strtolower(str_replace(' ', '', $size->id)) }}"
@@ -115,6 +114,128 @@
 @section('script')
     <script>
         $(document).ready(function() {
+            function fetchDataAndGenerateTextboxes() {
+
+                var companyId = $('#companyIdInput').val();
+                debugger
+                $.ajax({
+
+                    url: '/industry/' + companyId,
+                    type: 'GET',
+                    success: function(response) {
+                        console.log(response);
+                        response.industry.forEach(function(industry) {
+                            var categoryId = industry.industry.id;
+                            var categoryName = industry.industry.name;
+                            var value = industry.percent;
+                            // generateSizeNameTextboxFill(categoryId, categoryName, value );
+                            generateCategoryNameTextboxFill(categoryId, categoryName, value );
+                        });
+                        response.client_size.forEach(function(industry) {
+                            debugger;
+                            var categoryId = industry.client_size.id;
+                            var categoryName = industry.client_size.name;
+                            var value = industry.percent;
+                            generateSizeNameTextboxFill(categoryId, categoryName, value );
+                            // generateCategoryNameTextboxFill(categoryId, categoryName, value );
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+            fetchDataAndGenerateTextboxes();
+
+
+
+            function generateSizeNameTextboxFill(categoryid, categoryName, value) {
+                var categoryContainer = $('<div class="row category-container" id="' + categoryid +
+                    '"></div>'); // Assign categoryid as the ID
+
+                var labelColumn = $('<div class="col-md-3"></div>'); // Label column with col-3 width
+                var inputColumn = $('<div class="col-md-9"></div>'); // Input column
+
+                var categoryNameLabel = $('<label class="category-label font-weight-bold" for="' + categoryid +
+                    '">' + categoryName + ': </label>'); // Bold label
+
+                var categoryNameInput = $('<input type="text" class="form-control form-control-sm" name="' +
+                    categoryid + '" id="' + categoryid + '" placeholder="Enter ' + categoryName +
+                    ' name" value="' + value + '">'); // Small text box with value
+
+                labelColumn.append(categoryNameLabel); // Append label to label column
+                inputColumn.append(categoryNameInput); // Append input field to input column
+
+                categoryContainer.append(labelColumn, inputColumn); // Append both columns to the row
+                $('#sessionSize').append(categoryContainer);
+
+                $('#sizeFieldset').children().each(function() {
+                    var checkbox = $(this).find('input[type="checkbox"].primary-service');
+
+                    var id = checkbox.attr('id');
+
+                    console.log(id, categoryid);
+
+                    // Check if the categoryid matches the desired categoryid
+                    if (id == categoryid) {
+                        console.log(id, "Asdfasdfasdfasdf");
+                        // Check the checkbox
+                        checkbox.prop('checked', true);
+                    }
+                });
+            }
+
+
+            function generateCategoryNameTextboxFill(categoryid, categoryName, value, category) {
+                        var categoryContainer = $('<div class="row category-container" id="' + categoryid +
+                            '"></div>'); // Assign categoryid as the ID
+
+                        var labelColumn = $('<div class="col-md-3"></div>'); // Label column with col-3 width
+                        var inputColumn = $('<div class="col-md-9"></div>'); // Input column
+
+                        var categoryNameLabel = $('<label class="category-label font-weight-bold" for="' + categoryid +
+                            '">' + categoryName + ': </label>'); // Bold label
+
+                        var categoryNameInput = $('<input type="text" class="form-control form-control-sm" name="' +
+                            categoryid + '" id="' + categoryid + '" placeholder="Enter ' + categoryName +
+                            ' name" value="' + value + '">'); // Small text box with value
+
+                        labelColumn.append(categoryNameLabel); // Append label to label column
+                        inputColumn.append(categoryNameInput); // Append input field to input column
+
+                        categoryContainer.append(labelColumn, inputColumn); // Append both columns to the row
+                        $('#sessionMessage').append(categoryContainer);
+
+                        $('#categoryFieldset').children().each(function() {
+                            // Check if the child div contains a checkbox
+                            var checkbox = $(this).find('input[type="checkbox"].primary-service');
+
+
+                            // Get the category ID from the checkbox's ID attribute
+                            var id = checkbox.attr('id');
+
+                            console.log(id, categoryid);
+
+                            // Check if the categoryid matches the desired categoryid
+                            if (id == categoryid) {
+                                console.log(id, "Asdfasdfasdfasdf");
+                                // Check the checkbox
+                                checkbox.prop('checked', true);
+                            }
+                        });
+                        // $.each(category.category.subcategory, function(index, subcategory) {
+
+                        //     generateSubCategoryNameTextboxFill(categoryName, generateSlug(categoryName),
+                        //         generateSlug(subcategory.subcategory), subcategory.subcategory, subcategory
+                        //         .add_focus[0].percent);
+                        // });
+                    }
+
+
+
+
+
+
             $('#categoryFieldset').on('change', '.primary-service', function() {
                 debugger;
                 var selectedCategory = $(this).val();
@@ -130,10 +251,10 @@
                         selectedCategories.push(selectedCategory);
                     }
                     localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
-                    console.log(selectedCategory,categoryName,"ASdfasfdasdf");
+                    console.log(selectedCategory, categoryName, "ASdfasfdasdf");
                     // generateCategoryNameTextbox(selectedCategory, categoryName);
-                    const  data  =   generateCategoryNameTextbox(selectedCategory, categoryName);
-                   $('#sessionMessage').append(data);
+                    const data = generateCategoryNameTextbox(selectedCategory, categoryName);
+                    $('#sessionMessage').append(data);
                 } else {
                     // Remove deselected category from localStorage
                     var selectedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];
@@ -147,6 +268,8 @@
                     $('#' + subCategoryDivId).remove();
                 }
             });
+
+
 
             $('#sizeFieldset').on('change', '.size', function() {
                 var selectedCategory = $(this).val();
@@ -163,9 +286,9 @@
                         selectedCategories.push(selectedCategory);
                     }
                     localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
-                    console.log(selectedCategory,categoryName,"ASdfasfdasdf");
-                   const  data  =   generateCategoryNameTextbox(selectedCategory, categoryName);
-                   $('#sessionSize').append(data);
+                    console.log(selectedCategory, categoryName, "ASdfasfdasdf");
+                    const data = generateCategoryNameTextbox(selectedCategory, categoryName);
+                    $('#sessionSize').append(data);
 
                 } else {
                     // Remove deselected category from localStorage
@@ -211,6 +334,7 @@
                     .replace(/^-+/, '') // Remove leading hyphens
                     .replace(/-+$/, ''); // Remove trailing hyphens
             }
+
             function generateSubCategoryNameTextbox(categoryname, categoryslug, subcategoryslug, subCategoryName) {
                 console.log(categoryslug, "slug");
                 var categoryClass = categoryslug + '_subCategorydiv'
@@ -236,6 +360,7 @@
                 $('#' + categoryslug + '_subCategorydiv').append(generateSubCategoryNameText(subcategoryslug,
                     subCategoryName, categoryClass));
             }
+
             function validateInputValues() {
                 var totalValue = 0;
                 var $errorMessage = $('<div class="error-message"></div>'); // Create a new error message element
@@ -305,16 +430,16 @@
                 }
             });
             $('#submitFormButton').click(function() {
-                var companyId = $('#companyIdInput').val(); 
+                var companyId = $('#companyIdInput').val();
 
-                var categoryDataArray = []; 
-                var sizeDataArray = []; 
+                var categoryDataArray = [];
+                var sizeDataArray = [];
                 $('#sessionMessage .category-container').each(function() {
                     var categoryId = $(this).attr('id'); // Get category ID
                     var categoryName = $(this).find('.category-label').text();
                     var categoryslug = generateSlug(categoryName);
                     var categoryNameInput = $(this).find('input[type="text"]').val()
-                        .trim(); 
+                        .trim();
 
                     var categoryData = {
                         companyId: companyId,
@@ -333,21 +458,21 @@
                     var categoryName = $(this).find('.category-label').text();
                     var categoryslug = generateSlug(categoryName);
                     var categoryNameInput = $(this).find('input[type="text"]').val()
-                        .trim(); 
+                        .trim();
                     var categoryData = {
                         companyId: companyId,
                         id: categoryId,
                         name: categoryName,
                         inputValue: categoryNameInput,
                     };
-                    sizeDataArray.push(categoryData); 
+                    sizeDataArray.push(categoryData);
                 });
-                var  data  =    {
+                var data = {
                     categoryDataArray: categoryDataArray,
-                    sizeDataArray:sizeDataArray
+                    sizeDataArray: sizeDataArray
                 }
                 $.ajax({
-                    url: '/admin/company/save-industry',
+                    url: '/company/save-industry/'+ companyId,
                     method: 'POST',
                     contentType: 'application/json',
                     headers: {
