@@ -419,8 +419,10 @@ class UserController extends Controller
 
     public function skill( Request $request )
     {
-        $selectedCategories = $request->input('categories');
-        $subcategories = SubcatChild::with('subcategory')->get();
+        $selectedCategories = $request->input('id');
+      $subcategories =  SubcatChild::with('subcategory')
+            ->where('subcategory_id', $selectedCategories)
+            ->get();
         return response()->json($subcategories);
     }
 

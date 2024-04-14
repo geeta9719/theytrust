@@ -6,6 +6,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CompanyHasProject;
+use App\Models\CompanySubcatChild;
+
+
+
 
 class Company extends Model
 {
@@ -58,6 +62,10 @@ class Company extends Model
     public function projects()
     {
         return $this->hasMany(CompanyHasProject::class, 'company_id');
+    }
+
+    public function CompanySubcatChild(){
+        return $this->hasMany(CompanySubcatChild::class);
     }
 
     public function getLogoAttribute($value){

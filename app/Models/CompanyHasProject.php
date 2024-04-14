@@ -8,7 +8,7 @@ class CompanyHasProject extends Model
 {
 
 
-  public  $table= 'company_has_projects';
+  public  $table= 'campany_has_project';
     protected $fillable = [
         'company_id',
         'title',
