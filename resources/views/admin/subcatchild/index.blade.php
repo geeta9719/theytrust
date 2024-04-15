@@ -38,10 +38,15 @@
                                 <tbody>
                                 @php $i = 1 @endphp
                                 @if($subcategorychild->count() > 0)
+                                   
                                     @foreach($subcategorychild as $aboutdirector)
-                                    <tr>
-                                        <td>{{$i++}}</td>
-                                        <td>{{$aboutdirector->subcategory->subcategory}}</td>
+  
+                                    <td>{{ $i++ }}</td>
+                                    <td>
+                                        {{ optional($aboutdirector->subcategory)->subcategory }}
+                                    </td>
+    
+                                    
                                         <td>{{$aboutdirector->name}}</td>
                                         <td>{{$aboutdirector->status}}</td>
                                         <td>{{$aboutdirector->created_at}}</td>
