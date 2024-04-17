@@ -107,6 +107,16 @@
                   </li>
 
                   <li class="nav-item">
+                    <a href="{{ route('admin.skills.index') }}" class="nav-link {{ request()->is('admin/skills*') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Skills</p>
+                    </a>
+                </li>
+              
+                
+                
+
+                  <li class="nav-item">
                       <a href="{{ route('admin.seo-search') }}" class="nav-link {{ request()->is('admin/seo-search') ? 'active act' : '' }}">
                         <i class="far fa-circle nav-icon"></i>
                         SEO Search</a>
