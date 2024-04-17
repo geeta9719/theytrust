@@ -18,6 +18,8 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\Admin\AddCompany;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SeosearchController;
+use App\Http\Controllers\SkillCategoryController;
+
 
 
 // use App\Http\Controllers\swapcontroller;
@@ -220,13 +222,28 @@ Route::middleware('auth')->group(function(){
         Route::post('/admin/subcategory/set-priority',[SubCategoryController::class, 'set_priority'])->name('admin.subcategory.set_priority');
         
         // by vipin
+       
+///////skill controller/////
+
+
+Route::get('admin/skills/index', [SkillCategoryController::class, 'index'])->name('admin.skills.index');
+Route::get('admin/skills/create', [SkillCategoryController::class, 'create'])->name('admin.skills.create');
+Route::get('admin/skills/{id}/edit', [SkillCategoryController::class, 'edit'])->name('admin.skills.edit');
+Route::post('/admin/skills', [SkillCategoryController::class, 'store'])->name('admin.skills.store');
+Route::put('admin/skills/{id}', [SkillCategoryController::class, 'update'])->name('admin.skills.update');
+Route::delete('/admin/skills/{skill}', [SkillCategoryController::class, 'destroy'])->name('admin.skills.destroy');
+
+
+
         Route::get('admin/subcategory-child/show', [SubcatChildController::class, 'index'])->name('admin.subcategory-child.show');
 		Route::get('admin/subcategory-child/create', [SubcatChildController::class, 'create'])->name('admin.subcategory-child.create');
 		Route::post('admin/subcategory-child/store', [SubcatChildController::class, 'store'])->name('admin.subcategory-child.store');
 		Route::get('/admin/subcategory-child/{subcategorychild}/edit', [SubcatChildController::class, 'edit'])->name('admin.subcategory-child.edit');
 		Route::put('/admin/subcategory-child/{subcategorychild}/update', [SubcatChildController::class, 'update'])->name('admin.subcategory-child.update');
 		Route::delete('/admin/subcategory-child/{subcategorychild}/destroy', [SubcatChildController::class, 'destroy'])->name('admin.subcategory-child.destroy');
-        ///////////
+        
+
+
 
         Route::get('admin/company/list', [CompanyController::class, 'company_list'])->name('admin.company.list');
         
