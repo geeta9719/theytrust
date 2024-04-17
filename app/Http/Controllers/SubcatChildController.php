@@ -8,7 +8,6 @@ use App\Models\Subcategory;
 
 class SubcatChildController extends Controller
 {
-    //
     public function index(Request $request){
         $data['subcategorychild'] = SubcatChild::paginate(10);
         return view('admin.subcatchild.index', $data);
@@ -18,7 +17,7 @@ class SubcatChildController extends Controller
 		$data['subcategory'] = Subcategory::all();
         return view('admin.subcatchild.create', $data);
     }
-	
+
 	public function store(){
         $inputs = request()->validate([
             'subcategory_id' => 'required',
@@ -27,9 +26,8 @@ class SubcatChildController extends Controller
 		
         SubcatChild::create($inputs);
         session()->flash('msg','Subcategory child inserted');
-        //return redirect()->route('admin.Category.index');
         return back();
-    }
+    }     
 	
 	public function edit(Request $request,$subcategorychild){
         $subcategorychild = SubcatChild::find($subcategorychild);
@@ -50,14 +48,14 @@ class SubcatChildController extends Controller
         
         session()->flash('msg','data is updated');
         return redirect()->route('admin.subcategory-child.show');
-        //return back();
     }
 	
 	public function destroy(SubcatChild $Subcategorychild, Request $request){ 
         $Subcategorychild->delete();
-        //Session::flash('message','Post was deleted');//use when we do not use request
-        $request->session()->flash('message','subcategory child is Deleted');//use when we use request
+        $request->session()->flash('message','subcategory child is Deleted'); //use when we use request
         return back();
     }
 	
 }
+
+
