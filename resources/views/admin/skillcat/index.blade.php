@@ -36,7 +36,8 @@
                                     @foreach($skills as $skill)
                                         <tr>
                                             <td>{{ $skill->id }}</td>
-                                            <td>{{ $skill->subcat_child_id }}</td>
+                                            {{-- <td>{{ $skill->subcat_child_id }}</td> --}}
+                                            <td>{{ $skill->subcat_child->name }}</td>
                                             <td>{{ $skill->name }}</td>
                                             <td>
                                                 <a href="{{ route('admin.skills.edit', $skill->id) }}" class="btn btn-primary">Edit</a>
