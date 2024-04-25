@@ -26,6 +26,7 @@ use App\Models\AddClientSize;
 use App\Models\Specialization;
 use App\Models\AddSpecialization;
 use App\Models\AdminInfo;
+use App\Models\Skill;
 
 use Illuminate\Http\Request;
 
@@ -297,59 +298,75 @@ class UserController extends Controller
         return redirect()->route('company.focus',$company->id);
     }
 
-    public function focus( Request $request, $company )
-    {
-        $comp           = Company::where('id', $company)->first();
-        $category       = Category::all();
-        $serviceLine    = ServiceLine::where('company_id', $company)->get();
+    // public function focus( Request $request, $company )
+    // {
 
-        foreach( $serviceLine as $value ) 
-        {
-            if( $value->percent > 10 )
-            {
-                $subcat[] = $value->subcategory_id;
-            }
-        } 
+
+    //     $comp           = Company::where('id', $company)->first();
+    //     $category       = Category::all();
+    //     $serviceLine    = ServiceLine::where('company_id', $company)->get();
+
+    //     foreach( $serviceLine as $value ) 
+    //     {
+    //         if( $value->percent > 10 )
+    //         {
+    //             $subcat[] = $value->subcategory_id;
+    //         }
+    //     } 
         
-        $subcat_children = SubcatChild::all();
-        $subcat_child    = array();
+    //     $subcat_children = SubcatChild::all();
+    //     $subcat_child    = array();
         
-        foreach ( $subcat_children as $value ) 
-        {
-            $subcat_child[$value->subcategory_id][] = $value;
-        } 
+    //     foreach ( $subcat_children as $value ) 
+    //     {
+    //         $subcat_child[$value->subcategory_id][] = $value;
+    //     } 
         
 
-        $addFocus = AddFocus::where( 'company_id', $company )->get();
-        $add_focus = array();
+    //     $addFocus = AddFocus::where( 'company_id', $company )->get();
+    //     $add_focus = array();
         
-        foreach ($addFocus as $value) 
-        {
-            $add_focus[$value->subcategory_id][] = $value;
-        }  
+    //     foreach ($addFocus as $value) 
+    //     {
+    //         $add_focus[$value->subcategory_id][] = $value;
+    //     }  
        
         
-        $industry           = Industry::all();
-        $addIndustry        = AddIndustry::where( 'company_id', $company )->get();
+    //     $industry           = Industry::all();
+    //     $addIndustry        = AddIndustry::where( 'company_id', $company )->get();
         
-        $clientSize         = ClientSize::all();
-        $addClientSize      = AddClientSize::where( 'company_id', $company )->get();
-        $specialization     = Specialization::all();
-        $addSpecialization  = AddSpecialization::where( 'company_id', $company )->get();
+    //     $clientSize         = ClientSize::all();
+    //     $addClientSize      = AddClientSize::where( 'company_id', $company )->get();
+    //     $specialization     = Specialization::all();
+    //     $addSpecialization  = AddSpecialization::where( 'company_id', $company )->get();
         
-        return view( 'home.test', [
+    //     return view( 'home.test', [
+    //                                         'categories'          => $category,
+    //                                         'company'           => $comp,
+    //                                         'addFocus'          => $addFocus,
+    //                                         'industry'          => $industry,
+    //                                         'addIndustry'       => $addIndustry,
+    //                                         'clientSize'        => $clientSize,
+    //                                         'addClientSize'     => $addClientSize,
+    //                                         'specialization'    => $specialization,
+    //                                         'addSpecialization' => $addSpecialization,
+    //                                         'serviceLine'       => $serviceLine,
+    //                                         'add_focus'         => $add_focus,
+    //                                         'subcat_child'      => $subcat_child
+    //                                     ] );
+    // }
+
+
+    public function focus( Request $request, $company )
+    {
+
+
+        $comp           = Company::where('id', $company)->first();
+        $category       = Category::all();
+
+        return view( 'home.focus', [
                                             'categories'          => $category,
-                                            'company'           => $comp,
-                                            'addFocus'          => $addFocus,
-                                            'industry'          => $industry,
-                                            'addIndustry'       => $addIndustry,
-                                            'clientSize'        => $clientSize,
-                                            'addClientSize'     => $addClientSize,
-                                            'specialization'    => $specialization,
-                                            'addSpecialization' => $addSpecialization,
-                                            'serviceLine'       => $serviceLine,
-                                            'add_focus'         => $add_focus,
-                                            'subcat_child'      => $subcat_child
+                                            'company' =>$company
                                         ] );
     }
 
@@ -399,21 +416,13 @@ class UserController extends Controller
         
         $specialization     = Specialization::all();
         $addSpecialization  = AddSpecialization::where( 'company_id', $company )->get();
+
         
         return view( 'home.test', [
                                             'categories'          => $category,
-                                            'company'           => $comp,
-                                            'addFocus'          => $addFocus,
-                                            'industry'          => $industry,
-                                            'addIndustry'       => $addIndustry,
-                                            'clientSize'        => $clientSize,
-                                            'addClientSize'     => $addClientSize,
-                                            'specialization'    => $specialization,
-                                            'addSpecialization' => $addSpecialization,
-                                            'serviceLine'       => $serviceLine,
-                                            'add_focus'         => $add_focus,
-                                            'subcat_child'      => $subcat_child
+                                         
                                         ] );
+    
     }
 
 
@@ -425,6 +434,16 @@ class UserController extends Controller
             ->get();
         return response()->json($subcategories);
     }
+
+    public function subskill( Request $request )
+    {
+        $selectedCategories = $request->input('id');
+      $subcategories =  Skill::where('subcat_child_id', $selectedCategories)
+            ->get();
+        return response()->json($subcategories);
+    }
+
+
 
     public function subcategories( Request $request )
     {
