@@ -12,13 +12,17 @@
       <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id" class="category-item">
         <template v-if="selectedCategory.subcategories.length > 0">
           <div class="sub-category-card">
-            <h2>{{ selectedCategory.category_name }}</h2>
+            <h3>{{ selectedCategory.category_name }}</h3>
             <div v-for="(selectedSubCategory, index) in selectedCategory.subcategories"
               :key="selectedCategory.subcategory_id" class="category-item">
               <label :for="'input_' + selectedSubCategory.id">{{ selectedSubCategory.subcategory_name }}:</label>
               <input type="text" :id="'input_' + selectedSubCategory.subcategory_id"
                 :name="'input_' + selectedSubCategory.subcategory_id">
+            <ul>
+              <li v-for="skill in selectedSubCategory.skills" :key="skill.id">{{ skill.skill_name }}</li>
+            </ul>
             </div>
+            
           </div>
         </template>
       </div>
@@ -59,6 +63,10 @@
                   <label :for="subcategory.id" class="checkbox-custom"></label>
                 </div>
                 <label>{{ subcategory.subcategory }}</label>
+                <button class="icon-button" @click="fetchSkillOn(subcategory.id,subcategory.category_id)">
+                  <img src="/arraw.png" alt="Right arrow">
+                </button>
+                
               </div>
             </div>
           </fieldset>
@@ -78,10 +86,29 @@
                   <label :for="skill.id" class="checkbox-custom"></label>
                 </div>
                 <label>{{ skill.name }}</label>
+                <button class="icon-button" @click="fetchSubSkillOn(skill.id,skill.subcategory.id,skill.subcategory.category_id)">
+                  <img src="/arraw.png" alt="Right arrow">
+                </button>
               </div>
             </div>
           </fieldset>
         </div>
+        <div class="col-lg-3 col-md-6" v-if="Subskills.length">
+          <fieldset>
+            <legend>Choose Deep Skill </legend>
+            <div id="SkillFieldset" :class="{ 'open': Subskills.length }">
+              <div v-for="subskill in Subskills" :key="subskill.id" class="category-item">
+                <div class="checkbox-container">
+                  <input type="checkbox" :id="subskill.id" :name="subskill.name" :value="subskill.id" class="subcategory"
+                     :checked="subskill.checked"
+                    @change="handleSubSkillChange($event)">
+                  <label :for="subskill.id" class="checkbox-custom"></label>
+                </div>
+                <label>{{ subskill.name }}</label>
+              </div>
+            </div>
+          </fieldset>
+        </div> 
 
       </div>
       <!-- Modal for Error Message -->
@@ -115,8 +142,8 @@ export default {
       showModal: false,// Flag to control modal visibility
       selectedData: [],
       hasSkill: true,
-      skills: []
-
+      skills: [],
+      Subskills:[]
     };
   },
   methods: {
@@ -205,6 +232,7 @@ export default {
           }
           console.log(responseData, "responseData")
           this.subcategories = responseData;
+          this.skills =[];
           console.log(this.subcategories, "upate datatata")
 
           // this.handleSubcategoryFetchSuccess(response.data, categoryId);
@@ -214,9 +242,71 @@ export default {
         });
     },
 
+    fetchSkillOn(subcategoryId,categoryId) {
+      this.getSkills(subcategoryId)
+        .then(skills => {
+          let responseData = skills;
+          this.skills = skills;
+          const categoryObj = this.selectedData.find(cat => cat.category_id == categoryId);
+          const subcategory = this.subcategories.find(subcat => subcat.id == subcategoryId);
+          const matchingCategory = this.selectedData.find(cat => cat.category_id == categoryId);
+          debugger;
+          if (matchingCategory) {
+            const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
+            if (index !== -1) {
+              matchingCategory?.subcategories[index].skills.forEach(skills => {
+                console.log(skills,"sllll");
+              const found = responseData.some(item => item.id == skills.skill_id);
+                if (found) {
+                  const matchingItem = responseData.find(item => item.id ==skills.skill_id );
+                  if (matchingItem) {
+                    matchingItem.checked = true;
+                  }
+                }
+              });
+
+            }
+
+          }
+        })
+    },
+
+    fetchSubSkillOn(SkillId,subcategoryId,categoryId) {
+      this.getDeepSkills(SkillId)
+        .then(Subskills => {
+          let responseData = Subskills;
+          this.Subskills = Subskills;
+          // this.subSkill
+          const categoryObj = this.selectedData.find(cat => cat.category_id == categoryId);
+          const subcategory = this.subcategories.find(subcat => subcat.id == subcategoryId);
+          const matchingCategory = this.selectedData.find(cat => cat.category_id == categoryId);
+          debugger;
+          if (matchingCategory) {
+            const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
+            const Skillindex = categoryObj.subcategories[index].skills.findIndex(sub => sub.subcategory_id == subcategoryId);
+            if (index !== -1) {
+              matchingCategory?.subcategories[index].skills.forEach(skills => {
+                console.log(skills,"sllll");
+              const found = responseData.some(item => item.id == skills.skill_id);
+                if (found) {
+                  const matchingItem = responseData.find(item => item.id ==skills.skill_id );
+                  if (matchingItem) {
+                    matchingItem.checked = true;
+                  }
+                }
+              });
+
+            }
+
+          }
+        })
+    },
+
     // Handle successful subcategory fetch
     handleSubcategoryFetchSuccess(subcategories, categoryId) {
+      debugger;
       this.subcategories = subcategories;
+      this.skills =[];
       this.selectedCategory = categoryId;
 
       const selectedCategory = this.findSelectedCategory(categoryId);
@@ -300,26 +390,25 @@ export default {
       }
       this.getSkills(subcategoryId)
         .then(skills => {
-        let  responseData= skills;
-          this.skills = skills; 
-          // let responseData = response.data;
+          let responseData = skills;
+          this.skills = skills;
           const matchingCategory = this.selectedData.find(cat => cat.category_id == categoryId);
           if (matchingCategory) {
             const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
-            if(index!==-1){
+            if (index !== -1) {
               matchingCategory?.subcategories[index].skills.forEach(skills => {
-              const found = responseData.some(item => item.id == subcategory.subcategory_id);
-              if (found) {
-                // Set isChecked to true for the corresponding item in response data
-                const matchingItem = responseData.find(item => item.id == subcategory.subcategory_id);
-                if (matchingItem) {
-                  matchingItem.checked = true;
+                const found = responseData.some(item => item.id == subcategory.subcategory_id);
+                if (found) {
+                  // Set isChecked to true for the corresponding item in response data
+                  const matchingItem = responseData.find(item => item.id == subcategory.subcategory_id);
+                  if (matchingItem) {
+                    matchingItem.checked = true;
+                  }
                 }
-              }
-            });
+              });
 
             }
-           
+
           }
         })
         .catch(error => {
@@ -328,17 +417,46 @@ export default {
     },
     handleSkillChange(event) {
 
+
       const skillId = event.target.value;
       const categoryId = event.target.dataset.categoryId;
       const subcategoryId = event.target.dataset.subcategoryId;
       const isChecked = event.target.checked;
+
+      this.getDeepSkills(skillId)
+        .then(Subskills => {
+          let responseData = Subskills;
+          this.Subskills = Subskills;
+          
+          // const matchingCategory = this.selectedData.find(cat => cat.category_id == categoryId);
+          // if (matchingCategory) {
+          //   const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
+          //   if (index !== -1) {
+          //     matchingCategory?.subcategories[index].skills.forEach(skills => {
+          //       const found = responseData.some(item => item.id == subcategory.subcategory_id);
+          //       if (found) {
+          //         // Set isChecked to true for the corresponding item in response data
+          //         const matchingItem = responseData.find(item => item.id == subcategory.subcategory_id);
+          //         if (matchingItem) {
+          //           matchingItem.checked = true;
+          //         }
+          //       }
+          //     });
+
+          //   }
+
+          // }
+        })
+        .catch(error => {
+          console.error(error); // Handle any errors
+        });
 
       // Find the category object in selectedData
       const categoryObj = this.selectedData.find(cat => cat.category_id == categoryId);
       if (!categoryObj) {
         event.target.checked = false;
         this.showModal = true;
-        this.modalErrorMessage = "Please select the Category"; 
+        this.modalErrorMessage = "Please select the Category";
         return;
       }
       const subCategoryObj = categoryObj?.subcategories.find(sub => sub.subcategory_id == subcategoryId);
@@ -352,7 +470,6 @@ export default {
       if (isChecked) {
         const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
         if (index !== -1) {
-          // If subcategory exists, push the skill to its skills array
           categoryObj.subcategories[index].skills.push({
             skill_id: skill.id,
             skill_name: skill.name
@@ -375,6 +492,20 @@ export default {
       return axios.get('/api/skill', {
         params: {
           id: subcategoryId
+        }
+      })
+        .then(response => {
+          return response.data;
+        })
+        .catch(error => {
+          throw new Error('Error fetching skills: ' + error.message);
+        });
+    },
+    getDeepSkills(skillId) {
+      console.log(skillId,"skillIdskillId")
+      return axios.get('/api/subskill', {
+        params: {
+          id: skillId
         }
       })
         .then(response => {
