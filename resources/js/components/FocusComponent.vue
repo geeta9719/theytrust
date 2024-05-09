@@ -2,30 +2,59 @@
   <div id="app">
     <div id="mainDiv">
       <div class="category-card">
-        <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id" class="category-item">
-          <label :for="'input_' + selectedCategory.id">{{ selectedCategory.category_name }}:</label>
-          <input type="text" :id="'input_' + selectedCategory.id" :name="'input_' + selectedCategory.id">
+        <input type="hidden" id="companyIdInput" name="companyId" :value="companyId">
+
+        <div v-if="Object.keys(selectedData).length > 0" class="category">
+          <h3>Select Primary Services</h3>
+          <div class="category-main">
+            <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id" class="category-item">
+              <label :for="'input_' + selectedCategory.id">{{ selectedCategory.category_name }}:</label>
+              <input type="number" :id="'input_' + selectedCategory.id" :name="'input_' + selectedCategory.id"
+                v-model.number="selectedCategory.inputValue" @input="validateCategorySum">
+            </div>
+          </div>
         </div>
+        <span v-if="categorySumError" class="error" style="color: red;">{{ categorySumError }}</span>
       </div>
       <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id" class="category-item">
         <template v-if="selectedCategory.subcategories.length > 0">
           <div class="sub-category-card">
             <h3>{{ selectedCategory.category_name }}</h3>
-            <div v-for="(selectedSubCategory, index) in selectedCategory.subcategories"
-              :key="selectedCategory.subcategory_id" class="category-item">
-              <label :for="'input_' + selectedSubCategory.id">{{ selectedSubCategory.subcategory_name }}:</label>
-              <input type="text" :id="'input_' + selectedSubCategory.subcategory_id"
-                :name="'input_' + selectedSubCategory.subcategory_id">
-            <ul>
-              <li v-for="skill in selectedSubCategory.skills" :key="skill.id">{{ skill.skill_name }}</li>
-            </ul>
+            <div class="subcategory">
+              <div v-for="(selectedSubCategory, index) in selectedCategory.subcategories" :key="selectedSubCategory.id"
+                class="category-item">
+                <label :for="'input_' + selectedSubCategory.id">{{ selectedSubCategory.subcategory_name }}:</label>
+                <input type="text" :id="'input_' + selectedSubCategory.id" :name="'input_' + selectedSubCategory.id"
+                  v-model="selectedSubCategory.value" @input="validateSubCategorySum(selectedCategory)">
+              </div>
+              <br>
+              <span v-if="subCategorySumError[selectedCategory.category_id]" class="error" style="color: red;">{{
+                subCategorySumError[selectedCategory.category_id]
+              }}</span>
             </div>
-            
+            <div class="deepSkill">
+              <template v-for="(selectedSubCategory, index) in selectedCategory.subcategories"
+                :key="selectedCategory.subcategory_id">
+                <li v-for="skill in selectedSubCategory.skills" :key="skill.id">{{ skill.skill_name }}</li>
+              </template>
+            </div>
+            <div class="deepSkill">
+              <template v-for="(selectedSubCategory, index) in selectedCategory.subcategories"
+                :key="selectedCategory.subcategory_id">
+                <li v-for="skill in selectedSubCategory.skills" :key="skill.id">
+                  <div>
+                    <template v-for="subskill in skill.subskills">
+                      <p>{{ subskill.sub_skill_name }}</p>
+                    </template>
+                  </div>
+                </li>
+              </template>
+            </div>
           </div>
         </template>
       </div>
       <div class="row catBox">
-        <div class="col-lg-3 col-md-6">
+        <div class="col-lg-3 col-md-6 primarybox">
           <fieldset>
             <legend>Choose Primary Service</legend>
             <div id="categoryFieldset" :class="{ 'active': isActive }">
@@ -43,11 +72,8 @@
             </div>
           </fieldset>
         </div>
-
-
-
         <!-- Choose Sub Skill Fieldset -->
-        <div class="col-lg-3 col-md-6" v-if="subcategories.length">
+        <div class="col-lg-3 col-md-6">
           <fieldset>
             <legend>Choose Sub Category</legend>
             <div id="subCategoryFieldset" :class="{ 'open': subcategories.length }">
@@ -61,16 +87,16 @@
                   <label :for="subcategory.id" class="checkbox-custom"></label>
                 </div>
                 <label>{{ subcategory.subcategory }}</label>
-                <button class="icon-button" @click="fetchSkillOn(subcategory.id,subcategory.category_id)">
+                <button class="icon-button" @click="fetchSkillOn(subcategory.id, subcategory.category_id)">
                   <img src="/arraw.png" alt="Right arrow">
                 </button>
-                
+
               </div>
             </div>
           </fieldset>
         </div>
         <!-- Choose Sub Category Fieldset -->
-        <div class="col-lg-3 col-md-6" v-if="skills.length">
+        <div class="col-lg-3 col-md-6">
           <fieldset>
             <legend>Choose Skill </legend>
             <div id="SkillFieldset" :class="{ 'open': skills.length }">
@@ -84,21 +110,22 @@
                   <label :for="skill.id" class="checkbox-custom"></label>
                 </div>
                 <label>{{ skill.name }}</label>
-                <button class="icon-button" @click="fetchSubSkillOn(skill.id,skill.subcategory.id,skill.subcategory.category_id)">
+                <button class="icon-button"
+                  @click="fetchSubSkillOn(skill.id, skill.subcategory.id, skill.subcategory.category_id)">
                   <img src="/arraw.png" alt="Right arrow">
                 </button>
               </div>
             </div>
           </fieldset>
         </div>
-        <div class="col-lg-3 col-md-6" v-if="Subskills.length">
+        <div class="col-lg-3 col-md-6">
           <fieldset>
             <legend>Choose Deep Skill </legend>
             <div id="SkillFieldset" :class="{ 'open': Subskills.length }">
               <div v-for="subskill in Subskills" :key="subskill.id" class="category-item">
                 <div class="checkbox-container">
-                  <input type="checkbox" :id="subskill.id" :name="subskill.name" :value="subskill.id" class="subcategory"
-                     :checked="subskill.checked"
+                  <input type="checkbox" :id="subskill.id" :name="subskill.name" :value="subskill.id"
+                    class="subcategory" :checked="subskill.checked" :data-skill-id="subskill.subcat_child_id"
                     @change="handleSubSkillChange($event)">
                   <label :for="subskill.id" class="checkbox-custom"></label>
                 </div>
@@ -106,10 +133,12 @@
               </div>
             </div>
           </fieldset>
-        </div> 
+        </div>
+
+        <button @click="submitForm">Submit</button>
+
 
       </div>
-      <!-- Modal for Error Message -->
       <Modal :isOpen="showModal" @close="showModal = false" />
     </div>
   </div>
@@ -117,7 +146,6 @@
 <script>
 import axios from 'axios';
 import Modal from './Modal.vue'; // Import your modal component
-
 export default {
   components: {
     Modal
@@ -126,10 +154,14 @@ export default {
     categories: {
       type: Array,
       required: true
+    },
+    companyId: {
+      type: Number, // Adjust the type based on the type of your company ID
+      required: true
     }
   },
   data() {
-    debugger;
+    // debugger;
     return {
       modalErrorMessage: "",
       isActive: true,
@@ -141,7 +173,9 @@ export default {
       selectedData: [],
       hasSkill: true,
       skills: [],
-      Subskills:[]
+      Subskills: [],
+      categorySumError: "",
+      subCategorySumError: []
     };
   },
   methods: {
@@ -212,7 +246,7 @@ export default {
         }
       })
         .then(response => {
-          debugger
+          // debugger
           let responseData = response.data;
           const firstItemId = responseData[0]?.category_id;
           const matchingCategory = this.selectedData.find(cat => cat.category_id == firstItemId);
@@ -230,7 +264,7 @@ export default {
           }
           console.log(responseData, "responseData")
           this.subcategories = responseData;
-          this.skills =[];
+          this.skills = [];
           console.log(this.subcategories, "upate datatata")
 
           // this.handleSubcategoryFetchSuccess(response.data, categoryId);
@@ -240,7 +274,7 @@ export default {
         });
     },
 
-    fetchSkillOn(subcategoryId,categoryId) {
+    fetchSkillOn(subcategoryId, categoryId) {
       this.getSkills(subcategoryId)
         .then(skills => {
           let responseData = skills;
@@ -248,15 +282,15 @@ export default {
           const categoryObj = this.selectedData.find(cat => cat.category_id == categoryId);
           const subcategory = this.subcategories.find(subcat => subcat.id == subcategoryId);
           const matchingCategory = this.selectedData.find(cat => cat.category_id == categoryId);
-          debugger;
+          // debugger;
           if (matchingCategory) {
             const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
             if (index !== -1) {
               matchingCategory?.subcategories[index].skills.forEach(skills => {
-                console.log(skills,"sllll");
-              const found = responseData.some(item => item.id == skills.skill_id);
+                console.log(skills, "sllll");
+                const found = responseData.some(item => item.id == skills.skill_id);
                 if (found) {
-                  const matchingItem = responseData.find(item => item.id ==skills.skill_id );
+                  const matchingItem = responseData.find(item => item.id == skills.skill_id);
                   if (matchingItem) {
                     matchingItem.checked = true;
                   }
@@ -269,25 +303,27 @@ export default {
         })
     },
 
-    fetchSubSkillOn(SkillId,subcategoryId,categoryId) {
+    fetchSubSkillOn(SkillId, subcategoryId, categoryId) {
       this.getDeepSkills(SkillId)
         .then(Subskills => {
           let responseData = Subskills;
           this.Subskills = Subskills;
+          console.log(Subskills, "SubskillsSubskillsSubskillsSubskillsSubskills")
+          console.log(Subskills, "asdfasdf")
           // this.subSkill
           const categoryObj = this.selectedData.find(cat => cat.category_id == categoryId);
           const subcategory = this.subcategories.find(subcat => subcat.id == subcategoryId);
           const matchingCategory = this.selectedData.find(cat => cat.category_id == categoryId);
-          debugger;
+          // debugger;
           if (matchingCategory) {
             const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
             const Skillindex = categoryObj.subcategories[index].skills.findIndex(sub => sub.subcategory_id == subcategoryId);
             if (index !== -1) {
               matchingCategory?.subcategories[index].skills.forEach(skills => {
-                console.log(skills,"sllll");
-              const found = responseData.some(item => item.id == skills.skill_id);
+                console.log(skills, "sllll");
+                const found = responseData.some(item => item.id == skills.skill_id);
                 if (found) {
-                  const matchingItem = responseData.find(item => item.id ==skills.skill_id );
+                  const matchingItem = responseData.find(item => item.id == skills.skill_id);
                   if (matchingItem) {
                     matchingItem.checked = true;
                   }
@@ -302,9 +338,9 @@ export default {
 
     // Handle successful subcategory fetch
     handleSubcategoryFetchSuccess(subcategories, categoryId) {
-      debugger;
+      // debugger;
       this.subcategories = subcategories;
-      this.skills =[];
+      this.skills = [];
       this.selectedCategory = categoryId;
 
       const selectedCategory = this.findSelectedCategory(categoryId);
@@ -341,11 +377,10 @@ export default {
       this.selectedData.push({
         category_id: selectedCategory.id,
         category_name: selectedCategory.category,
+        value: "",
         subcategories: []
       });
     },
-
-    // Function to toggle subcategories when their checkboxes are checked or unchecked
     handleSubcategoryChange(event) {
       const subcategoryId = event.target.value;
       const categoryId = event.target.dataset.categoryId;
@@ -376,6 +411,7 @@ export default {
           categoryObj.subcategories.push({
             subcategory_id: subcategory.id,
             subcategory_name: subcategory.subcategory,
+            value: "",
             skills: []
           });
         }
@@ -414,8 +450,6 @@ export default {
         });
     },
     handleSkillChange(event) {
-
-
       const skillId = event.target.value;
       const categoryId = event.target.dataset.categoryId;
       const subcategoryId = event.target.dataset.subcategoryId;
@@ -425,25 +459,6 @@ export default {
         .then(Subskills => {
           let responseData = Subskills;
           this.Subskills = Subskills;
-          
-          // const matchingCategory = this.selectedData.find(cat => cat.category_id == categoryId);
-          // if (matchingCategory) {
-          //   const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
-          //   if (index !== -1) {
-          //     matchingCategory?.subcategories[index].skills.forEach(skills => {
-          //       const found = responseData.some(item => item.id == subcategory.subcategory_id);
-          //       if (found) {
-          //         // Set isChecked to true for the corresponding item in response data
-          //         const matchingItem = responseData.find(item => item.id == subcategory.subcategory_id);
-          //         if (matchingItem) {
-          //           matchingItem.checked = true;
-          //         }
-          //       }
-          //     });
-
-          //   }
-
-          // }
         })
         .catch(error => {
           console.error(error); // Handle any errors
@@ -470,7 +485,9 @@ export default {
         if (index !== -1) {
           categoryObj.subcategories[index].skills.push({
             skill_id: skill.id,
-            skill_name: skill.name
+            skill_name: skill.name,
+            value: "",
+            subskills: []
           });
         }
       } else {
@@ -482,6 +499,43 @@ export default {
           }
         }
       }
+    },
+    handleSubSkillChange(event) {
+      const subSkillId = event.target.value;
+      const subSkillname = event.target.name;
+      const skillId = event.target.dataset.skillId;
+      const isChecked = event.target.checked;
+      console.log(skillId, "asdfasdfasdf");
+      const object = this.findSkillIndex(this.selectedData, skillId)
+      if (isChecked) {
+        // Push new subskill to the selected data
+        this.selectedData[object.categoryIndex].subcategories[object.subcategoryIndex].skills[object.skillIndex].subskills.push({
+          sub_skill_id: subSkillId,
+          sub_skill_name: subSkillname,
+        });
+      } else {
+        // Remove subskill from the selected data
+        const subskills = this.selectedData[object.categoryIndex].subcategories[object.subcategoryIndex].skills[object.skillIndex].subskills;
+        const indexToRemove = subskills.findIndex(subskill => subskill.sub_skill_id === subSkillId);
+        if (indexToRemove !== -1) {
+          subskills.splice(indexToRemove, 1);
+        }
+      }
+    },
+    findSkillIndex(data, skillId) {
+      for (let i = 0; i < data.length; i++) {
+        const category = data[i];
+        for (let j = 0; j < category.subcategories.length; j++) {
+          const subcategory = category.subcategories[j];
+          for (let k = 0; k < subcategory.skills.length; k++) {
+            const skill = subcategory.skills[k];
+            if (skill.skill_id == skillId) {
+              return { categoryIndex: i, subcategoryIndex: j, skillIndex: k };
+            }
+          }
+        }
+      }
+      return null; // Skill with given skillId not found
     },
     closeModal() {
       this.showModal = false;
@@ -500,7 +554,7 @@ export default {
         });
     },
     getDeepSkills(skillId) {
-      console.log(skillId,"skillIdskillId")
+      console.log(skillId, "skillIdskillId")
       return axios.get('/api/subskill', {
         params: {
           id: skillId
@@ -512,13 +566,235 @@ export default {
         .catch(error => {
           throw new Error('Error fetching skills: ' + error.message);
         });
+    },
+    validateCategorySum() {
+      let sum = 0;
+
+      // Calculate the sum of all selected category input values
+      for (let category in this.selectedData) {
+        sum += this.selectedData[category].inputValue;
+      }
+
+      // Check if the sum equals 100 for each input
+      // for (let category in this.selectedData) {
+      if (sum !== 100) {
+        // If sum is not 100, set error message for each category
+        this.categorySumError = "Sum of selected categories must equal 100!";
+      } else {
+        // If sum is 100, clear error message for each category
+        this.categorySumError = "";
+      }
+      // }
+    },
+    validateSubCategorySum(category) {
+      let sum = 0;
+      // Calculate the sum of subcategory values for the specified category
+      for (let subCategory of category.subcategories) {
+        console.log(subCategory, "asdfasdf");
+        sum += parseInt(subCategory.value);
+      }
+
+      console.log(sum, "summmmmmmmmmm");
+      if (sum !== 100) {
+        // Set error message for the specified category
+        this.subCategorySumError[category.category_id] = "Sum of subcategories must not exceed 100!";
+      } else {
+        // Clear error message if sum is valid for the specified category
+        this.subCategorySumError[category.category_id] = "";
+      }
+      console.log(this.subCategorySumError, "this.subCategorySumErrorthis.subCategorySumError");
+    },
+    submitForm() {
+      const companyId = this.companyId;
+      // Make sure selectedData is not empty
+      if (this.selectedData.length === 0) {
+        console.error('No data to submit.');
+        return;
+      }
+      
+      // Make sure companyId is defined
+      if (!companyId) {
+        console.error('Company ID is not defined.');
+        return;
+      }
+
+      // Prepare data to send
+      const requestData = {
+        companyId: companyId, // Assuming companyId is defined in the component
+        selectedData: this.selectedData
+      };
+
+      // Make the API call
+      $.ajax({
+        url: '/company/save-Service/' + companyId,
+        method: 'POST',
+        contentType: 'application/json',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: JSON.stringify(requestData),
+        success: function(response) {
+          // Handle success response
+          console.log('Data saved successfully:', response);
+        },
+        error: function(xhr, status, error) {
+          // Handle error response
+          console.error('Error saving data:', error);
+        }
+      });
     }
   }
 }
 </script>
-
-
 <style scoped>
+/* sneha */
+.deepSkill {
+  display: flex;
+}
+
+.category-card {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.category-card .category-main {
+  padding-left: 20px;
+}
+
+.sub-category-card {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.sucategory-card .category-main {
+  padding-left: 20px;
+}
+
+
+
+.deepSkill li {
+  background-color: #ccc;
+  list-style: none;
+  padding: 10px 16px 0px 16px;
+  border-radius: 18px;
+  vertical-align: middle;
+  margin-right: 24px;
+}
+
+
+#categoryFieldset .category-item {
+  margin-bottom: 27px !important;
+}
+
+#subCategoryFieldset .category-item {
+  margin: 0;
+  padding: 0;
+}
+
+#SkillFieldset .category-item {
+  margin: 0;
+  padding: 0;
+}
+
+.sub-category-card {
+  width: 100%;
+}
+
+.sub-category-card h3 {
+  /* font-size: 27px; */
+  color: #fff;
+  background-color: #388cff;
+  padding: 6px 20px;
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.subcategory .category-item {
+  margin-right: 35px;
+  vertical-align: middle;
+}
+
+.subcategory {
+  display: flex;
+  margin-top: 20px;
+}
+
+.subcategory label {
+  margin-right: 10px;
+}
+
+.category {
+  width: 100%;
+  padding: 0;
+}
+
+.category-main {
+  display: flex;
+  margin-top: 20px;
+}
+
+.category h3 {
+
+  color: #fff;
+  background-color: #388cff;
+  padding: 6px 20px;
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+#app {
+  margin-bottom: 50px;
+}
+
+.category-item {
+  width: auto;
+  padding: 0;
+}
+
+#categoryFieldset {
+  padding: 20px;
+}
+
+.catBox .col-md-6 {
+  border: 1px solid #ccc;
+
+  padding: 0;
+}
+
+.catBox .primarybox {}
+
+.category-item input {
+
+  width: 71px;
+}
+
+.category-card {
+  display: flex;
+}
+
+.category-card .category-item {
+  margin-right: 35px;
+  vertical-align: middle;
+}
+
+.category-card label {
+  vertical-align: middle;
+
+  margin-right: 14px;
+  padding-top: 1px;
+
+}
+
+legend {
+
+  background-color: #388cff;
+  color: #fff;
+  padding: 10px 20px;
+
+}
+
+/* sneha */
+
 .category-item {
   display: flex;
   align-items: center;
@@ -526,7 +802,7 @@ export default {
 
 .icon-button {
   cursor: pointer;
-  padding: 8px 12px;
+  padding: 0px 12px 8px 12px;
   border: none;
   background-color: transparent;
 }

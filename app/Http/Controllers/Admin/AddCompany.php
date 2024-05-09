@@ -600,21 +600,62 @@ public function getdata($id)
         }])
         ->where('company_id', $id)
         ->get();
-        // $companySubcatChildren = CompanySubcatChild::with('subcatChild.subcategory')->where('company_id', $id)->get();
-        // return response()->json($companySubcatChildren);
-        // dd($companySubcatChildren);
+        $companySubcatChildren = CompanySubcatChild::with('subcatChild.subcategory')->where('company_id', $id)->get();
+
+
+    // foreach ($serviceLines as $serviceLineKey => $serviceLine) {
+    //     $category = $serviceLine->category;
+    //     foreach ($category->subcategory as $subcategoryKey => $subcategory) {
+    //         if (is_object($subcategory->add_focus)) {
+    //             $addFocusArray = json_decode(json_encode($subcategory->add_focus), true);
+    //             if (count($addFocusArray) === 0) {
+    //                 unset($serviceLines[$serviceLineKey]->category->subcategory[$subcategoryKey]);
+    //             }
+    //         }
+    //     }
+    // }
 
     foreach ($serviceLines as $serviceLineKey => $serviceLine) {
         $category = $serviceLine->category;
+    
         foreach ($category->subcategory as $subcategoryKey => $subcategory) {
+            // Check if add_focus is empty
             if (is_object($subcategory->add_focus)) {
                 $addFocusArray = json_decode(json_encode($subcategory->add_focus), true);
                 if (count($addFocusArray) === 0) {
                     unset($serviceLines[$serviceLineKey]->category->subcategory[$subcategoryKey]);
                 }
             }
+    
+            // Check if the subcategory exists in $companySubcatChildren
+            $matchingSubcatChild = $companySubcatChildren
+                ->where('subcatChild.subcategory_id', $subcategory->id)
+                ->first();
+       
+    
+            // If a match is found, add the skill information to the subcategory
+            if ($matchingSubcatChild) {
+                dd($matchingSubcatChild);
+                // Initialize an array for skills if not already exists
+                if (!isset($serviceLines[$serviceLineKey]->category->subcategory[$subcategoryKey]->skills)) {
+                    $serviceLines[$serviceLineKey]->category->subcategory[$subcategoryKey]->skills = [];
+                }
+    
+                // Add skill information to the array
+                $skillName = $matchingSubcatChild->subcatChild->name;
+                $serviceLines[$serviceLineKey]->category->subcategory[$subcategoryKey]->skills[] = $skillName;
+            }
         }
     }
+    
+    // Return the modified $serviceLines
+    return response()->json($serviceLines);
+    
+
+    
+    
+
+    
 
     // serviceLines
     return response()->json($serviceLines);
@@ -653,21 +694,22 @@ public function getdata($id)
     {
         try {
             $data = $request->all();
+            // dd($data);
             ServiceLine::where('company_id', $id)->delete();
             AddFocus::where('company_id', $id)->delete();
             CompanySubcatChild::where('company_id', $id)->delete();
+            // dd($data['selectedData']);
             
-            foreach ($data as $item) {
-                $categoryId = $item['id']; 
-                $companyId = $item['companyId'];
-                // Create new ServiceLine record
+            foreach ($data['selectedData'] as $item) {
+                $categoryId = $item['category_id']; 
+                $companyId = $id;
                 $serviceLineInputs = [
                     'company_id' => $companyId,
-                    'category_id' => $item['id'], // Assuming the category ID key is 'category_id'
+                    'category_id' => $categoryId, // Assuming the category ID key is 'category_id'
                     'percent' => $item['inputValue'] // Assuming the input value key is 'percent'
                 ];
                 ServiceLine::create($serviceLineInputs);
-    
+
                 // Process subcategories
                 foreach ($item['subcategories'] as $subcategory) {
                     $sub = Subcategory::where('subcategory', $subcategory['name'])->first();
@@ -675,7 +717,7 @@ public function getdata($id)
                         $addFocusInputs = [
                             'company_id' => $companyId,
                             'subcategory_id' => $sub->id,
-                            'percent' => $subcategory['inputValue'], // Assuming the input value key is 'percent'
+                            'percent' => $subcategory['value'], // Assuming the input value key is 'percent'
                             'subcat_child_id' => 0
                         ];
                         AddFocus::create($addFocusInputs);
