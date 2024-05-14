@@ -660,7 +660,7 @@ export default {
       if (sum !== 100) {
         // If sum is not 100, set error message for each category
         this.categorySumError = "Sum of selected categories must equal 100!";
-        this.submitButtonDisabled = tur;
+        this.submitButtonDisabled = ture;
       } else {
         // If sum is 100, clear error message for each category
         this.categorySumError = "";
