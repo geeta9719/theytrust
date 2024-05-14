@@ -30,7 +30,7 @@
               <br>
               <span v-if="subCategorySumError[selectedCategory.category_id]" class="error" style="color: red;">{{
                 subCategorySumError[selectedCategory.category_id]
-              }}</span>
+                }}</span>
             </div>
             <div class="deepSkill">
               <template v-for="(selectedSubCategory, index) in selectedCategory.subcategories"
@@ -57,19 +57,20 @@
         <div class="col-lg-3 col-md-6 primarybox">
           <fieldset>
             <legend>Choose Primary Service</legend>
-            <div id="categoryFieldset" :class="{ 'active': isActive }">
-              <div v-for="category in categories" :key="category.id" class="category-item">
-                <div class="checkbox-container">
-                  <input type="checkbox" :id="category.id" :name="category.name" :value="category.id"
-                    class="primaryService" @change="toggleCategory($event, category.id)">
-                  <label :for="category.id" class="checkbox-custom"></label>
-                </div>
-                <label>{{ category.category }}</label>
-                <button class="icon-button" @click="fetchSubcategoriesOn(category.id)">
-                  <img src="/arraw.png" alt="Right arrow">
-                </button>
+            <div v-for="category in categories" :key="category.id" class="category-item"
+              :class="{ 'selected': selectedCategoryId === category.id }">
+              <div class="checkbox-container">
+                <input type="checkbox" :id="category.id" :name="category.name" :value="category.id"
+                  class="primaryService" @change="toggleCategory($event, category.id)" v-model="category.checked">
+                <label :for="category.id" class="checkbox-custom"></label>
               </div>
+              <label :for="category.id">{{
+                category.category }}</label>
+              <button class="icon-button" @click="fetchSubcategoriesOn(category.id)">
+                <img src="/arraw.png" alt="Right arrow">
+              </button>
             </div>
+
           </fieldset>
         </div>
         <!-- Choose Sub Skill Fieldset -->
@@ -77,30 +78,34 @@
           <fieldset>
             <legend>Choose Sub Category</legend>
             <div id="subCategoryFieldset" :class="{ 'open': subcategories.length }">
-              <div v-for="subcategory in subcategories" :key="subcategory.id" class="category-item">
+              <div v-for="subcategory in subcategories" :key="subcategory.id" class="category-item"
+                :class="{ 'selected': selectedSubCategoryId == subcategory.id }">
                 <div class="checkbox-container">
                   <input type="checkbox" :id="subcategory.id" :name="subcategory.subcategory" :value="subcategory.id"
                     class="subcategory" :data-category-id="subcategory.category_id"
                     :data-category-name="subcategory.category_name" :checked="subcategory.checked"
                     :data-category-slug="generateSlug(subcategory.category_name)"
                     @change="handleSubcategoryChange($event)">
-                  <label :for="subcategory.id" class="checkbox-custom"></label>
+                  <label :for="subcategory.id"
+                    :style="{ color: selectedCategoryId === subcategory.id ? 'blue' : 'initial' }">{{
+                      subcategory.subcategory
+                    }}</label>
+                  <button class="icon-button" @click="fetchSkillOn(subcategory.id, subcategory.category_id)">
+                    <img src="/arraw.png" alt="Right arrow">
+                  </button>
                 </div>
-                <label>{{ subcategory.subcategory }}</label>
-                <button class="icon-button" @click="fetchSkillOn(subcategory.id, subcategory.category_id)">
-                  <img src="/arraw.png" alt="Right arrow">
-                </button>
-
               </div>
             </div>
           </fieldset>
         </div>
+
         <!-- Choose Sub Category Fieldset -->
         <div class="col-lg-3 col-md-6">
           <fieldset>
             <legend>Choose Skill </legend>
             <div id="SkillFieldset" :class="{ 'open': skills.length }">
-              <div v-for="skill in skills" :key="skill.id" class="category-item">
+              <div v-for="skill in skills" :key="skill.id" class="category-item"
+                :class="{ 'selected': selectedSkillId == skill.id }">
                 <div class="checkbox-container">
                   <input type="checkbox" :id="skill.id" :name="skill.name" :value="skill.id" class="subcategory"
                     :data-subcategory-id="skill.subcategory_id" :data-category-id="skill.subcategory.category_id"
@@ -122,7 +127,8 @@
           <fieldset>
             <legend>Choose Deep Skill </legend>
             <div id="SkillFieldset" :class="{ 'open': Subskills.length }">
-              <div v-for="subskill in Subskills" :key="subskill.id" class="category-item">
+              <div v-for="subskill in Subskills" :key="subskill.id" class="category-item"
+                :class="{ 'selected': selectedSkillId == subskill.id }">
                 <div class="checkbox-container">
                   <input type="checkbox" :id="subskill.id" :name="subskill.name" :value="subskill.id"
                     class="subcategory" :checked="subskill.checked" :data-skill-id="subskill.subcat_child_id"
@@ -135,7 +141,10 @@
           </fieldset>
         </div>
 
-        <button @click="submitForm">Submit</button>
+        <!-- <button @click="submitForm">Submit</button>
+         -->
+        <button @click="submitForm" :disabled="submitButtonDisabled">Submit</button>
+
 
 
       </div>
@@ -160,6 +169,17 @@ export default {
       required: true
     }
   },
+  watch: {
+    // Watch for changes in selectedData or its nested properties
+    selectedData: {
+      handler: 'fistTimevalidate', // Call validateCategorySum when selectedData changes
+      deep: true // Deeply watch for changes in nested properties
+    },
+    // categorySumError() {
+    //   // Call validateForm() whenever categorySumError changes
+    //   this.validateForm();
+    // }
+  },
   data() {
     // debugger;
     return {
@@ -175,8 +195,19 @@ export default {
       skills: [],
       Subskills: [],
       categorySumError: "",
-      subCategorySumError: []
+      subCategorySumError: [],
+      selectedCategoryId: null,
+      selectedSubCategoryId: null,
+      selectedSkillId: null,
+      submitButtonDisabled: true
+
     };
+  },
+  mounted() {
+    // Call validateForm() on mount or whenever necessary
+    // this.validateForm();
+    this.fistTimevalidate();
+
   },
   methods: {
     generateSlug(name) {
@@ -184,6 +215,8 @@ export default {
     },
     toggleCategory(event, categoryId) {
       const isChecked = event.target.checked;
+      this.selectedCategoryId = categoryId;
+      this.selectedSubCategoryId = null;
 
       if (!isChecked) {
         this.removeCategoryFromSelectedData(categoryId);
@@ -240,6 +273,8 @@ export default {
         });
     },
     fetchSubcategoriesOn(categoryId) {
+      this.selectedCategoryId = categoryId;
+      this.selectedSubCategoryId = null;
       axios.get('/api/subcategories', {
         params: {
           categories: categoryId
@@ -275,6 +310,7 @@ export default {
     },
 
     fetchSkillOn(subcategoryId, categoryId) {
+      this.selectedSubCategoryId = subcategoryId;
       this.getSkills(subcategoryId)
         .then(skills => {
           let responseData = skills;
@@ -282,6 +318,7 @@ export default {
           const categoryObj = this.selectedData.find(cat => cat.category_id == categoryId);
           const subcategory = this.subcategories.find(subcat => subcat.id == subcategoryId);
           const matchingCategory = this.selectedData.find(cat => cat.category_id == categoryId);
+
           // debugger;
           if (matchingCategory) {
             const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
@@ -385,7 +422,7 @@ export default {
       const subcategoryId = event.target.value;
       const categoryId = event.target.dataset.categoryId;
       const isChecked = event.target.checked;
-
+      this.selectedSubCategoryId = subcategoryId;
       // Find the category object in selectedData
       const categoryObj = this.selectedData.find(cat => cat.category_id == categoryId);
       if (!categoryObj) {
@@ -454,6 +491,7 @@ export default {
       const categoryId = event.target.dataset.categoryId;
       const subcategoryId = event.target.dataset.subcategoryId;
       const isChecked = event.target.checked;
+      this.selectedSkillId = skillId;
 
       this.getDeepSkills(skillId)
         .then(Subskills => {
@@ -505,7 +543,7 @@ export default {
       const subSkillname = event.target.name;
       const skillId = event.target.dataset.skillId;
       const isChecked = event.target.checked;
-      console.log(skillId, "asdfasdfasdf");
+      this.selectedSkillId = skillId;
       const object = this.findSkillIndex(this.selectedData, skillId)
       if (isChecked) {
         // Push new subskill to the selected data
@@ -588,8 +626,10 @@ export default {
     },
     validateSubCategorySum(category) {
       let sum = 0;
+      let catHasError = false;
+      let subhasError = false;
       // Calculate the sum of subcategory values for the specified category
-      for (let subCategory of category.subcategories) {
+      for (let subCategory of category?.subcategories) {
         console.log(subCategory, "asdfasdf");
         sum += parseInt(subCategory.value);
       }
@@ -598,27 +638,83 @@ export default {
       if (sum !== 100) {
         // Set error message for the specified category
         this.subCategorySumError[category.category_id] = "Sum of subcategories must not exceed 100!";
+        catHasError = true;
       } else {
         // Clear error message if sum is valid for the specified category
         this.subCategorySumError[category.category_id] = "";
+        catHasError = false;
+
       }
-      console.log(this.subCategorySumError, "this.subCategorySumErrorthis.subCategorySumError");
+    },
+    fistTimevalidate() {
+      let subhasError =false;
+      let sum = 0;
+
+      // Calculate the sum of all selected category input values
+      for (let category in this.selectedData) {
+        sum += this.selectedData[category].inputValue;
+      }
+
+      // Check if the sum equals 100 for each input
+      // for (let category in this.selectedData) {
+      if (sum !== 100) {
+        // If sum is not 100, set error message for each category
+        this.categorySumError = "Sum of selected categories must equal 100!";
+        this.submitButtonDisabled = tur;
+      } else {
+        // If sum is 100, clear error message for each category
+        this.categorySumError = "";
+        this.submitButtonDisabled = false;
+      }
+      let subsum = 0;
+      // Calculate the sum of subcategory values for the specified category
+
+
+      for (let category of this.selectedData) {
+        for (let subCategory of category.subcategories) {
+          subsum += parseInt(subCategory.value);
+        }
+        console.log(category,this.subCategorySumError, "categorycategorycategory")
+        if (subsum !== 100) {
+          // Set error message for the specified category
+          this.subCategorySumError[category.category_id] = "Sum of subcategories must not exceed 100.!";
+        } else {
+          // Clear error message if sum is valid for the specified category
+          this.subCategorySumError[category.category_id] = "";
+        }
+      }
+      // subhasError = !!Object.values(this.subCategorySumError).find(message => message === "Sum of subcategories must not exceed 100.!");
+      // console.log("subhasErrorsubhasError",subhasError)
+      // subhasError = !!subhasError ? true : false;
+      // console.log(subhasError,"hhhhhhhhhhhhhhhhhhhhhhh");
+      // this.submitButtonDisabled = subhasError;
+    },
+    validateForm() {
+      // Call your validation functions here
+      this.validateCategorySum();
+      this.validateSubCategorySum();
+
+      // Update submitButtonDisabled based on categorySumError
+      this.submitButtonDisabled = this.categorySumError !== "";
     },
     submitForm() {
-      const companyId = this.companyId;
+      // Check if there are any errors after validation
+      if (this.categorySumError !== "") {
+        console.error('Validation failed. Please correct errors before submitting.');
+        return;
+      }
       // Make sure selectedData is not empty
       if (this.selectedData.length === 0) {
         console.error('No data to submit.');
         return;
       }
-      
+      const companyId = this.companyId;
+
       // Make sure companyId is defined
       if (!companyId) {
         console.error('Company ID is not defined.');
         return;
       }
-
-      // Prepare data to send
       const requestData = {
         companyId: companyId, // Assuming companyId is defined in the component
         selectedData: this.selectedData
@@ -633,16 +729,20 @@ export default {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         data: JSON.stringify(requestData),
-        success: function(response) {
-          // Handle success response
+        success: function (response) {
           console.log('Data saved successfully:', response);
+          debugger;
+          var redirectURL = '/company/' + companyId + '/industry';
+          window.location.href = redirectURL;
+
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           // Handle error response
           console.error('Error saving data:', error);
         }
       });
     }
+
   }
 }
 </script>
@@ -715,7 +815,7 @@ export default {
 }
 
 .subcategory {
-  display: flex;
+  /* display: flex; */
   margin-top: 20px;
 }
 
@@ -867,6 +967,13 @@ category-card {
 
 .category-item {
   margin-bottom: 10px;
+}
+
+.selected {
+  background-color: blue;
+  /* Change background color to blue */
+  color: white;
+  /* Change text color to white */
 }
 
 /* Adjust width and margin to align cards in rows */

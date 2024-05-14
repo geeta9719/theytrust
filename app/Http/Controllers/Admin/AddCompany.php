@@ -712,7 +712,7 @@ public function getdata($id)
 
                 // Process subcategories
                 foreach ($item['subcategories'] as $subcategory) {
-                    $sub = Subcategory::where('subcategory', $subcategory['name'])->first();
+                    $sub = Subcategory::where('subcategory', $subcategory['subcategory_name'])->first();
                     if ($subcategory['inputValue']) { // Assuming the input value key for subcategory is 'percent'
                         $addFocusInputs = [
                             'company_id' => $companyId,
@@ -721,14 +721,14 @@ public function getdata($id)
                             'subcat_child_id' => 0
                         ];
                         AddFocus::create($addFocusInputs);
-                        foreach ($subcategory['skills'] as $skill) {
-                            // Create new CompanySubcatChild record to associate skill with subcategory
-                            CompanySubcatChild::create([
-                                'company_id' => $companyId,
-                                'subcategory_id' => $sub->id, // Using $sub->id instead of $subcategoryId
-                                'subcat_child_id' => $skill['id']
-                            ]);
-                        }
+                        // foreach ($subcategory['skills'] as $skill) {
+                        //     // Create new CompanySubcatChild record to associate skill with subcategory
+                        //     CompanySubcatChild::create([
+                        //         'company_id' => $companyId,
+                        //         'subcategory_id' => $sub->id, // Using $sub->id instead of $subcategoryId
+                        //         'subcat_child_id' => $skill['id']
+                        //     ]);
+                        // }
                     }
                 }
             }
