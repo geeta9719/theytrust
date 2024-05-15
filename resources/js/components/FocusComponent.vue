@@ -29,9 +29,9 @@
                   v-model="selectedSubCategory.value" @input="validateSubCategorySum(selectedCategory)">
               </div>
               <br>
-              <span v-if="subCategorySumError[selectedCategory.category_id]" class="error" style="color: red;">{{
+              <!-- <span v-if="subCategorySumError[selectedCategory.category_id]" class="error" style="color: red;">{{
                 subCategorySumError[selectedCategory.category_id]
-              }}</span>
+              }}</span> -->
             </div>
             <div class="deepSkill">
               <template v-for="(selectedSubCategory, index) in selectedCategory.subcategories"
@@ -49,6 +49,9 @@
                 </template>
               </template>
             </div>
+            <span v-if="subCategorySumError[selectedCategory.category_id]" class="error" style="color: red;">{{
+                subCategorySumError[selectedCategory.category_id]
+              }}</span>
           </div>
         </template>
       </div>
@@ -740,6 +743,22 @@ export default {
 </script>
 <style scoped>
 /* sneha */
+.error{
+
+  padding-left: 10px;
+  display: block;
+}
+
+ 
+.deepSkill p {
+    background-color: #ccc!important;
+    list-style: none;
+    padding: 6px 16px 4px 16px!important;
+    border-radius: 18px!important;
+    vertical-align: middle;
+    margin-right: 24px!important;
+    font-size: 16px!important;
+}
 .category-card label {
   width: 156px;
 }
@@ -1040,10 +1059,20 @@ legend {
 }
 
 .selected {
-  background-color: blue;
+ 
   /* Change background color to blue */
-  color: white;
+  background-color: #0087f2;
+    color: #fff;
+    font-weight: 600;
   /* Change text color to white */
+}
+.selected label{
+ 
+ /* Change background color to blue */
+ background-color: #0087f2!important;
+   color: #fff!important;;
+   font-weight: 600;
+ /* Change text color to white */
 }
 
 /* Adjust width and margin to align cards in rows */
