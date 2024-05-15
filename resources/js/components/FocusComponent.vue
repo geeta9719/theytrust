@@ -1,13 +1,13 @@
 <template>
-  <div id="app">
+  <div id="app" class="container">
     <div id="mainDiv">
-      <div class="category-card">
+      <div class="category-card ">
         <input type="hidden" id="companyIdInput" name="companyId" :value="companyId">
 
         <div v-if="Object.keys(selectedData).length > 0" class="category">
           <h3>Select Primary Services</h3>
-          <div class="category-main">
-            <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id" class="category-item">
+          <div class="category-main row">
+            <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id" class="category-item col-md-3 col-12">
               <label :for="'input_' + selectedCategory.id">{{ selectedCategory.category_name }}:</label>
               <input type="number" :id="'input_' + selectedCategory.id" :name="'input_' + selectedCategory.id"
                 v-model.number="selectedCategory.inputValue" @input="validateCategorySum">
@@ -20,9 +20,9 @@
         <template v-if="selectedCategory.subcategories.length > 0">
           <div class="sub-category-card">
             <h3>{{ selectedCategory.category_name }}</h3>
-            <div class="subcategory">
+            <div class="subcategory row">
               <div v-for="(selectedSubCategory, index) in selectedCategory.subcategories" :key="selectedSubCategory.id"
-                class="category-item">
+                class="category-item col-md-3 col-12">
                 <label :for="'input_' + selectedSubCategory.id">{{ selectedSubCategory.subcategory_name }}:</label>
                 <input type="text" :id="'input_' + selectedSubCategory.id" :name="'input_' + selectedSubCategory.id"
                   v-model="selectedSubCategory.value" @input="validateSubCategorySum(selectedCategory)">
@@ -42,11 +42,11 @@
               <template v-for="(selectedSubCategory, index) in selectedCategory.subcategories"
                 :key="selectedCategory.subcategory_id">
                 <li v-for="skill in selectedSubCategory.skills" :key="skill.id">
-                  <div>
+                  <!-- <div> -->
                     <template v-for="subskill in skill.subskills">
-                      <p>{{ subskill.sub_skill_name }}</p>
+                      {{ subskill.sub_skill_name }}
                     </template>
-                  </div>
+                  <!-- </div> -->
                 </li>
               </template>
             </div>
@@ -56,7 +56,7 @@
       <div class="row catBox">
         <div class="col-lg-3 col-md-6 primarybox">
           <fieldset>
-            <legend>Choose Primary Service</legend>
+            <legend class="primaryBox">Choose Primary Service</legend>
             <div v-for="category in categories" :key="category.id" class="category-item"
               :class="{ 'selected': selectedCategoryId === category.id }">
               <div class="checkbox-container">
@@ -143,7 +143,7 @@
 
         <!-- <button @click="submitForm">Submit</button>
          -->
-        <button @click="submitForm" :disabled="submitButtonDisabled">Submit</button>
+        <button @click="submitForm" :disabled="submitButtonDisabled" class="bottom-sec">Submit</button>
 
 
 
@@ -748,10 +748,27 @@ export default {
 </script>
 <style scoped>
 /* sneha */
-.deepSkill {
-  display: flex;
+.category-card label{ 
+  width:156px;
+}
+.sub-category-card label{ 
+  width:156px;
 }
 
+.deepSkill {
+  display: flex;
+   margin-bottom:10px;
+   padding: 0 10px;
+}
+.bottom-sec  {
+  border-radius: 44px;
+    background-color: #388cff;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 15px 60px;
+    margin-top: 20px;
+    margin-left: 15px;
+    color: #fff;}
 .category-card {
   border: 1px solid #ccc;
   margin-bottom: 20px;
@@ -759,6 +776,7 @@ export default {
 
 .category-card .category-main {
   padding-left: 20px;
+  padding-right: 20px;
 }
 
 .sub-category-card {
@@ -775,7 +793,7 @@ export default {
 .deepSkill li {
   background-color: #ccc;
   list-style: none;
-  padding: 10px 16px 0px 16px;
+  padding: 6px 16px 4px 16px;
   border-radius: 18px;
   vertical-align: middle;
   margin-right: 24px;
@@ -797,7 +815,20 @@ export default {
 }
 
 .sub-category-card {
-  width: 100%;
+  width: 102%;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.sub-category-card .subcategory{
+  display: flex;
+  padding: 0 26px;
+}
+#SkillFieldset{margin-top: -5px;}  
+#SkillFieldset label{
+  margin-top: 9px;
+}
+.sub-category-card .subcategory .category-item{
+  display: flex;
 }
 
 .sub-category-card h3 {
@@ -850,37 +881,65 @@ export default {
   width: auto;
   padding: 0;
 }
+.category-card{
+  margin-right: -15px;
+margin-left: -15px;
+}
 
 #categoryFieldset {
   padding: 20px;
 }
+.catBox .category-item{
+  display: flex;
+}
 
+.catBox label{
+  font-size: 15px;
+}
+
+#SkillFieldset .category-item{
+    margin-bottom: 10px;
+}
+.catBox .category-item{
+    margin-bottom: 10px;
+}
 .catBox .col-md-6 {
   border: 1px solid #ccc;
 
   padding: 0;
 }
+.catBox .category-item input {
 
+width: 29px;
+}
 .catBox .primarybox {}
 
 .category-item input {
 
   width: 71px;
 }
+.catBox #subCategoryFieldset .category-item{
+  padding-bottom: 10px;
 
-.category-card {
-  display: flex;
 }
+.catBox .subcategory {
+    /* display: flex; */
+    margin-top: 2px;
+}
+/* .category-card {
+  display: flex;
+} */
 
 .category-card .category-item {
-  margin-right: 35px;
+  /* margin-right: 35px; */
   vertical-align: middle;
+
 }
 
 .category-card label {
   vertical-align: middle;
 
-  margin-right: 14px;
+  margin-right: 8px;
   padding-top: 1px;
 
 }
@@ -896,7 +955,7 @@ legend {
 /* sneha */
 
 .category-item {
-  display: flex;
+  /* display: flex; */
   align-items: center;
 }
 
@@ -914,7 +973,7 @@ legend {
 }
 
 #mainDiv {
-  width: 80%;
+  width: 100%;
   margin: 50px auto auto auto;
 }
 
@@ -954,10 +1013,10 @@ legend {
 }
 
 /* Updated CSS */
-category-card {
+.category-card {
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 10px;
+  /* padding: 10px; */
   margin-bottom: 20px;
 }
 
@@ -977,6 +1036,23 @@ category-card {
 }
 
 /* Adjust width and margin to align cards in rows */
+
+@media (max-width: 767px) {
+
+.deepSkill{
+  display: bolck;
+  
+}
+.deepSkill li{
+ margin-bottom: 10px;
+  
+}
+.bottom-sec {
+ 
+    padding: 7px 33px;
+}
+
+}
 @media (max-width: 576px) {
   .category-card {
     width: 100%;
