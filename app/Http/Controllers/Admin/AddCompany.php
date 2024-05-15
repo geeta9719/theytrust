@@ -29,6 +29,7 @@ use App\Models\Specialization;
 use App\Models\AddSpecialization;
 use App\Models\AdminInfo;
 use App\Models\CompanySubcatChild;
+use App\Models\CompanyHasSkill;
 // use Response;
 
 use Illuminate\Http\Response;
@@ -603,18 +604,6 @@ public function getdata($id)
         $companySubcatChildren = CompanySubcatChild::with('subcatChild.subcategory')->where('company_id', $id)->get();
 
 
-    // foreach ($serviceLines as $serviceLineKey => $serviceLine) {
-    //     $category = $serviceLine->category;
-    //     foreach ($category->subcategory as $subcategoryKey => $subcategory) {
-    //         if (is_object($subcategory->add_focus)) {
-    //             $addFocusArray = json_decode(json_encode($subcategory->add_focus), true);
-    //             if (count($addFocusArray) === 0) {
-    //                 unset($serviceLines[$serviceLineKey]->category->subcategory[$subcategoryKey]);
-    //             }
-    //         }
-    //     }
-    // }
-
     foreach ($serviceLines as $serviceLineKey => $serviceLine) {
         $category = $serviceLine->category;
     
@@ -626,7 +615,6 @@ public function getdata($id)
                     unset($serviceLines[$serviceLineKey]->category->subcategory[$subcategoryKey]);
                 }
             }
-    
             // Check if the subcategory exists in $companySubcatChildren
             $matchingSubcatChild = $companySubcatChildren
                 ->where('subcatChild.subcategory_id', $subcategory->id)
@@ -694,11 +682,10 @@ public function getdata($id)
     {
         try {
             $data = $request->all();
-            // dd($data);
             ServiceLine::where('company_id', $id)->delete();
             AddFocus::where('company_id', $id)->delete();
             CompanySubcatChild::where('company_id', $id)->delete();
-            // dd($data['selectedData']);
+            CompanyHasSkill::where('company_id', $id)->delete();
             
             foreach ($data['selectedData'] as $item) {
                 $categoryId = $item['category_id']; 
@@ -713,7 +700,7 @@ public function getdata($id)
                 // Process subcategories
                 foreach ($item['subcategories'] as $subcategory) {
                     $sub = Subcategory::where('subcategory', $subcategory['subcategory_name'])->first();
-                    if ($subcategory['inputValue']) { // Assuming the input value key for subcategory is 'percent'
+                    if ($subcategory['value']) { // Assuming the input value key for subcategory is 'percent'
                         $addFocusInputs = [
                             'company_id' => $companyId,
                             'subcategory_id' => $sub->id,
@@ -721,14 +708,21 @@ public function getdata($id)
                             'subcat_child_id' => 0
                         ];
                         AddFocus::create($addFocusInputs);
-                        // foreach ($subcategory['skills'] as $skill) {
-                        //     // Create new CompanySubcatChild record to associate skill with subcategory
-                        //     CompanySubcatChild::create([
-                        //         'company_id' => $companyId,
-                        //         'subcategory_id' => $sub->id, // Using $sub->id instead of $subcategoryId
-                        //         'subcat_child_id' => $skill['id']
-                        //     ]);
-                        // }
+                        foreach ($subcategory['skills'] as $skill) {
+                            CompanySubcatChild::create([
+                                'company_id' => $companyId,
+                                'subcategory_id' => $sub->id, // Using $sub->id instead of $subcategoryId
+                                'subcat_child_id' => $skill['skill_id']
+                            ]);
+                            foreach ($skill['subskills'] as $suskill) {
+                                CompanyHasSkill::create([
+                                    'company_id' => $companyId,
+                                    'skill_id' => $suskill['sub_skill_id']
+                                ]);
+                                
+                            }
+
+                        }
                     }
                 }
             }

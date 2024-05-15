@@ -17,10 +17,10 @@ class CompanySubcatChild extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function subcatChild()
-    {
-        return $this->belongsTo(SubcatChild::class);
-    }
+    // public function subcatChild()
+    // {
+    //     return $this->belongsTo(    ::class);
+    // }
 
     // public function CompanySubcatChild(){
     //     return $this->hasMany(CompanySubcatChild::class);

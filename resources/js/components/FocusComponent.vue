@@ -7,7 +7,8 @@
         <div v-if="Object.keys(selectedData).length > 0" class="category">
           <h3>Select Primary Services</h3>
           <div class="category-main row">
-            <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id" class="category-item col-md-3 col-12">
+            <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id"
+              class="category-item col-md-3 col-12">
               <label :for="'input_' + selectedCategory.id">{{ selectedCategory.category_name }}:</label>
               <input type="number" :id="'input_' + selectedCategory.id" :name="'input_' + selectedCategory.id"
                 v-model.number="selectedCategory.inputValue" @input="validateCategorySum">
@@ -30,7 +31,7 @@
               <br>
               <span v-if="subCategorySumError[selectedCategory.category_id]" class="error" style="color: red;">{{
                 subCategorySumError[selectedCategory.category_id]
-                }}</span>
+              }}</span>
             </div>
             <div class="deepSkill">
               <template v-for="(selectedSubCategory, index) in selectedCategory.subcategories"
@@ -41,13 +42,11 @@
             <div class="deepSkill">
               <template v-for="(selectedSubCategory, index) in selectedCategory.subcategories"
                 :key="selectedCategory.subcategory_id">
-                <li v-for="skill in selectedSubCategory.skills" :key="skill.id">
-                  <!-- <div> -->
-                    <template v-for="subskill in skill.subskills">
-                      {{ subskill.sub_skill_name }}
-                    </template>
-                  <!-- </div> -->
-                </li>
+                <template v-for="skill in selectedSubCategory.skills" :key="skill.id">
+                  <template v-for="subskill in skill.subskills">
+                    <p>{{ subskill.sub_skill_name }}</p>
+                  </template>
+                </template>
               </template>
             </div>
           </div>
@@ -463,6 +462,7 @@ export default {
         .then(skills => {
           let responseData = skills;
           this.skills = skills;
+          this.Subskills = []
           const matchingCategory = this.selectedData.find(cat => cat.category_id == categoryId);
           if (matchingCategory) {
             const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
@@ -647,55 +647,47 @@ export default {
       }
     },
     fistTimevalidate() {
-      let subhasError =false;
+      let subhasError = false;
       let sum = 0;
 
       // Calculate the sum of all selected category input values
       for (let category in this.selectedData) {
         sum += this.selectedData[category].inputValue;
       }
-
-      // Check if the sum equals 100 for each input
-      // for (let category in this.selectedData) {
       if (sum !== 100) {
         // If sum is not 100, set error message for each category
         this.categorySumError = "Sum of selected categories must equal 100!";
-        this.submitButtonDisabled = true;
+        // this.submitButtonDisabled = true;
+        subhasError= true;
       } else {
         // If sum is 100, clear error message for each category
         this.categorySumError = "";
-        this.submitButtonDisabled = false;
+        // this.submitButtonDisabled = false;
+        subhasError=false;
       }
       let subsum = 0;
       // Calculate the sum of subcategory values for the specified category
-
-
       for (let category of this.selectedData) {
-        for (let subCategory of category.subcategories) {
-          subsum += parseInt(subCategory.value);
-        }
-        console.log(category,this.subCategorySumError, "categorycategorycategory")
-        if (subsum !== 100) {
-          // Set error message for the specified category
-          this.subCategorySumError[category.category_id] = "Sum of subcategories must not exceed 100.!";
+
+        if (category.subcategories.length === 0) { // Check if subcategories array is empty
+          this.subCategorySumError[category.category_id] = ""; // Set subCategorySumError to empty string
         } else {
-          // Clear error message if sum is valid for the specified category
-          this.subCategorySumError[category.category_id] = "";
+          let subsum = 0;
+          for (let subCategory of category.subcategories) {
+            subsum += parseInt(subCategory.value || 0); // If value is not present, consider it as 0
+          }
+          console.log(category, this.subCategorySumError, "categorycategorycategory");
+          if (subsum !== 100) {
+            this.subCategorySumError[category.category_id] = "Sum of subcategories must not exceed 100";
+          } else {
+            this.subCategorySumError[category.category_id] = "";
+          }
         }
       }
-      // subhasError = !!Object.values(this.subCategorySumError).find(message => message === "Sum of subcategories must not exceed 100.!");
-      // console.log("subhasErrorsubhasError",subhasError)
-      // subhasError = !!subhasError ? true : false;
-      // console.log(subhasError,"hhhhhhhhhhhhhhhhhhhhhhh");
-      // this.submitButtonDisabled = subhasError;
-    },
-    validateForm() {
-      // Call your validation functions here
-      this.validateCategorySum();
-      this.validateSubCategorySum();
+      const hasErrorMessage = Object.values(this.subCategorySumError).some(message => message == "Sum of subcategories must not exceed 100" || message === null);
+      this.submitButtonDisabled = (hasErrorMessage || subhasError);
 
-      // Update submitButtonDisabled based on categorySumError
-      this.submitButtonDisabled = this.categorySumError !== "";
+      console.log(hasErrorMessage,subhasError);
     },
     submitForm() {
       // Check if there are any errors after validation
@@ -748,27 +740,31 @@ export default {
 </script>
 <style scoped>
 /* sneha */
-.category-card label{ 
-  width:156px;
+.category-card label {
+  width: 156px;
 }
-.sub-category-card label{ 
-  width:156px;
+
+.sub-category-card label {
+  width: 156px;
 }
 
 .deepSkill {
   display: flex;
-   margin-bottom:10px;
-   padding: 0 10px;
+  margin-bottom: 10px;
+  padding: 0 10px;
 }
-.bottom-sec  {
+
+.bottom-sec {
   border-radius: 44px;
-    background-color: #388cff;
-    font-weight: 600;
-    font-size: 20px;
-    padding: 15px 60px;
-    margin-top: 20px;
-    margin-left: 15px;
-    color: #fff;}
+  background-color: #388cff;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 15px 60px;
+  margin-top: 20px;
+  margin-left: 15px;
+  color: #fff;
+}
+
 .category-card {
   border: 1px solid #ccc;
   margin-bottom: 20px;
@@ -819,15 +815,21 @@ export default {
   margin-left: -15px;
   margin-right: -15px;
 }
-.sub-category-card .subcategory{
+
+.sub-category-card .subcategory {
   display: flex;
   padding: 0 26px;
 }
-#SkillFieldset{margin-top: -5px;}  
-#SkillFieldset label{
+
+#SkillFieldset {
+  margin-top: -5px;
+}
+
+#SkillFieldset label {
   margin-top: 9px;
 }
-.sub-category-card .subcategory .category-item{
+
+.sub-category-card .subcategory .category-item {
   display: flex;
 }
 
@@ -881,51 +883,60 @@ export default {
   width: auto;
   padding: 0;
 }
-.category-card{
+
+.category-card {
   margin-right: -15px;
-margin-left: -15px;
+  margin-left: -15px;
 }
 
 #categoryFieldset {
   padding: 20px;
 }
-.catBox .category-item{
+
+.catBox .category-item {
   display: flex;
 }
 
-.catBox label{
+.catBox label {
   font-size: 15px;
 }
 
-#SkillFieldset .category-item{
-    margin-bottom: 10px;
+#SkillFieldset .category-item {
+  margin-bottom: 10px;
 }
-.catBox .category-item{
-    margin-bottom: 10px;
+
+.catBox .category-item {
+  margin-bottom: 10px;
 }
+
 .catBox .col-md-6 {
   border: 1px solid #ccc;
 
   padding: 0;
 }
+
 .catBox .category-item input {
 
-width: 29px;
+  width: 29px;
 }
+
 .catBox .primarybox {}
 
 .category-item input {
 
   width: 71px;
 }
-.catBox #subCategoryFieldset .category-item{
+
+.catBox #subCategoryFieldset .category-item {
   padding-bottom: 10px;
 
 }
+
 .catBox .subcategory {
-    /* display: flex; */
-    margin-top: 2px;
+  /* display: flex; */
+  margin-top: 2px;
 }
+
 /* .category-card {
   display: flex;
 } */
@@ -1039,20 +1050,23 @@ legend {
 
 @media (max-width: 767px) {
 
-.deepSkill{
-  display: bolck;
-  
-}
-.deepSkill li{
- margin-bottom: 10px;
-  
-}
-.bottom-sec {
- 
+  .deepSkill {
+    display: bolck;
+
+  }
+
+  .deepSkill li {
+    margin-bottom: 10px;
+
+  }
+
+  .bottom-sec {
+
     padding: 7px 33px;
-}
+  }
 
 }
+
 @media (max-width: 576px) {
   .category-card {
     width: 100%;
