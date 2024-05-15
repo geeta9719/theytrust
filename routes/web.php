@@ -41,6 +41,7 @@ use App\Http\Controllers\PaymentContorller;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::view('/example', 'welcome');
 
 Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -98,6 +99,7 @@ Route::get('/profile/{company}', [SearchController::class, 'companyProfile'])->n
 Route::get('/test/{company}', [UserController::class, 'test'])->name('test');
 Route::get('/api/subcategories', [UserController::class, 'subcategories']);
 Route::get('/api/skill', [UserController::class, 'skill']);
+Route::get('/api/subskill', [UserController::class, 'subskill']);
 
 
 /*search end*/
