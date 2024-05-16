@@ -459,6 +459,8 @@ export default {
         }
       } else {
         // If unchecked, remove the subcategory from selectedData if it exists
+        this.skills =[];
+        this.Subskills=[];
         const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
         if (index !== -1) {
           categoryObj.subcategories.splice(index, 1);
