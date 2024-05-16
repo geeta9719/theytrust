@@ -221,6 +221,9 @@ export default {
       this.selectedSubCategoryId = null;
 
       if (!isChecked) {
+        this.skills =[];
+        this.Subskills=[];
+        this.subcategories=[];
         this.removeCategoryFromSelectedData(categoryId);
       } else {
         this.addCategoryToSelectedData(categoryId);

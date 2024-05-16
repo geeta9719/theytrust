@@ -2,7 +2,7 @@
   <div class="error-modal" v-if="isOpen">
     <div class="modal-content">
       <span class="close" @click="closeModal">&times;</span>
-   <p>{{ modalErrorMessage }}</p>
+   <p>Please Select the Primary  Value</p>
     </div>
   </div>
 </template>
