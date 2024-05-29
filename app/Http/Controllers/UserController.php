@@ -722,7 +722,7 @@ class UserController extends Controller
         }   
         
         session()->flash( 'msg', 'Saved Successfully' );   
-        return redirect()->route( 'company.dashboard', $request->company_id );
+        return redirect()->route( 'plans', $request->company_id );
     }
 
 

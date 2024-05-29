@@ -72,7 +72,7 @@ Route::get('/get-search', [HomeController::class, 'getSearchList'])->name('get-s
 /*****************Abandoned*******************/
 
 Route::post('/sendCompanycontactEmail', [HomeController::class, 'sendCompanycontactEmail']);
-Route::get('/membership-plans', [HomeController::class, 'getPriceListing']);
+Route::get('/membership-plans', [HomeController::class, 'getPriceListing'])->('plans');
 Route::get('/plans-compare', [HomeController::class, 'getPlancompare'])->name('plans.compare');
 Route::get('/company-contact/{company_id}', [HomeController::class, 'companyContact']);
 Route::get('get-listed', [HomeController::class, 'getListed'])->name('get-listed');
