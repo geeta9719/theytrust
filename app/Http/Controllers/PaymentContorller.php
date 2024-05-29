@@ -19,7 +19,7 @@ use Dompdf\Dompdf;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Mail;
 use PDF;
-// use App\Http\Controllers\PDF;
+
 
 class PaymentContorller extends Controller
 {
@@ -63,7 +63,7 @@ class PaymentContorller extends Controller
                 'client_reference_id' => json_encode($metadata),
                 'payment_intent_data' => $metadata,
                 'mode' => 'payment',
-                'success_url' => url('user/' . $user->id . '/basicInfo?profile=basic'),
+                'success_url' => url('company/' . $user->id . '/dashboard'),
                 'cancel_url' => url('/'),
             ]);
             return response()->json(['status' => 'success', 'sessionId' => $session->id]);
