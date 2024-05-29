@@ -125,7 +125,7 @@ class AuthController extends Controller
             if( $finduser )
             {
                 Auth::login( $finduser );
-                return redirect( str_replace( url( '/membership-plans' ), '', session( 'referer' ) ) );
+                return redirect( str_replace( url('user/' . $user->id . '/basicInfo?profile=basic'), '', session( 'referer' ) ) );
             }
             else
             {
@@ -144,7 +144,7 @@ class AuthController extends Controller
 
             
     
-                return redirect(url('/membership-plans'));
+                return redirect(url('user/' . $newUser->id . '/basicInfo?profile=basic'));
                 // return redirect( str_replace( url( '/membership-plans' ), '', session( 'referer' ) ) );
             }
             
