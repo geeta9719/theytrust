@@ -147,7 +147,7 @@ class UserController extends Controller
                 $budget[$b[0]] = $value; 
             }
 
-            ksort( $budget );
+            // ksort( $budget );
         
             $s = Size::all();
 
@@ -167,7 +167,7 @@ class UserController extends Controller
                 $rate[$b[0]] = $value; 
             }
 
-            ksort($rate);
+            // ksort($rate);
             
             
             return view( 'home.user.basicInfo', [ 
