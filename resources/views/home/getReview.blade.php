@@ -216,13 +216,7 @@
     <div class="container ">
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-8 mx-auto text-center">
-                    <!-- <h6>You are Reviewing</h6>
-                    <img src="{{asset($company->logo)}}" style="width:40px;height:40px;"> <strong> {{ucfirst($company->name)}} </strong>
-                    <h6>Please Note: We do not accept reviews from current employees, former employees, or anyone with a financial stake in the company being reviewed.</h6>
-                    <p>If your company has already left a review about this project, please email us instead of submitting a new review.</p> -->
-                    <h2>Please write a review for "{{ucfirst($company->name)}}"</h2>
-                </div>
+             
             </div>
         </div>
     </div>
@@ -249,7 +243,7 @@
                         
                         @csrf
 
-                        <input type="hidden" name="form" value="form1">
+                        {{-- <input type="hidden" name="form" value="form1"> --}}
                         
                         <h5>About Project</h5>
 
@@ -310,6 +304,7 @@
                                 <?php 
                                     $bb = explode('-',$b['budget']);
                                     $bud = '$'.$bb[0].' - $'.$bb[1];
+                                   
                                     ?>
                                 <option value="{{ $b['budget'] }}">{{ $bud }}</option>
                                 @endforeach
@@ -351,7 +346,7 @@
                         <h5>Detailed Information about the project</h5>
                         
                         <div class="form-group pt-4">
-                            <h6> Company information </h6>
+                            <h5> Company information </h5>
                             <div class="form-group ">
                                 <label for="company_position"> Please tell us about your business and what is your role</label><strong style="color: red;"> * </strong>
                                 <textarea class="form-control rmvId" id="company_position" name="company_position" required></textarea>
@@ -360,10 +355,10 @@
                         </div>
 
                         <div class="form-group ">
-                            <h6> Problem Statement </h6>
+                            <h5> Problem Statement </h5>
                             <div class="form-group">
                                 
-                                <label for="for_what_project">Challenge you were looking to solve</label>
+                                <label for="for_what_project">What specific challenges were you facing before working with {{$company->name}}                             </label>
                                 
                                 <strong style="color: red;"> *</strong>
 
@@ -373,25 +368,42 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                                
+                            <label for="area_of_improvements">What were your main concerns or pain points related to your project?
+                            </label>
+                            
+                            <strong style="color: red;"> *</strong>
+                            
+                            <textarea class="form-control rmvId" id="area_of_improvements" placeholder="" name="area_of_improvements" required></textarea>
+                            
+                            <div class="invalid-feedback area_of_improvements rmvCls"></div>
+
+                        </div>
+
                         <div class="form-group pt-4">
 
-                            <h6> Selection Process </h6>
-                            
-                            <div class="form-group ">
-                                <label for="how_select">What factors led to the selection of the vendor</label><strong style="color: red;"> *</strong>
-                                <textarea class="form-control rmvId" id="how_select" name="how_select" required></textarea>
-                                <div class="invalid-feedback how_select rmvCls"></div>
-                            </div>
+                            <h5> Engagement </h5>
 
                             <div class="form-group">
                                 <label for="scope_of_work">Tell us about the project in detail</label><strong style="color: red;"> *</strong>
                                 <textarea class="form-control rmvId" id="scope_of_work" name="scope_of_work" required></textarea>
                                 <div class="invalid-feedback scope_of_work rmvCls"></div>
                             </div>
+                            
+                            <div class="form-group ">
+                                <label for="how_select">What services did you receive from <b>{{$company->name}}? <b>  for eg. Digital Marketing, Web design, Mobile App development)
+                                </label><strong style="color: red;"> *</strong>
+                                <textarea class="form-control rmvId" id="how_select" name="how_select" required></textarea>
+                                <div class="invalid-feedback how_select rmvCls"></div>
+                            </div>
+
+                          
 
                             <div class="form-group pt-4">
                                 
-                                <label for="team_composition">Talk about the team / staff members / positions / expertise that was provided</label>
+                                <label for="team_composition">What factors led to the selection of the vendor
+                                </label>
                                 
                                 <strong style="color: red;"> *</strong>
 
@@ -404,7 +416,8 @@
 
                         <div class="form-group pt-4">
 
-                            <h6> Success Story </h6>
+                            <h5> Success Story / Solution Provided
+                            </h5>
                             
                             <div class="form-group">
                                 
@@ -419,7 +432,8 @@
                             
                             <div class="form-group pt-4">
                                 
-                                <label for="how_effective">How was the communication between you and the vendor</label>
+                                <label for="how_effective">In what ways have the services positively impacted your business? (eg. increased sales, improved brand awareness, Enhanced user engagement)
+                                </label>
 
                                 <strong style="color: red;"> *</strong>
                                 
@@ -430,8 +444,7 @@
 
                             <div class="form-group">
                                 
-                                <label for="most_impressive">What were the top 3 things that impressed you the most about the vendor</label>
-                                
+                                <label for="most_impressive">What were the top 3 things that impressed you the most about the vendor (eg. communication, expertise, creativity, process etc)Is there anything else you would like to share about your experience</label>
                                 <strong style="color: red;"> *</strong>
                                 
                                 <textarea class="form-control rmvId" id="most_impressive" placeholder="" name="most_impressive" required></textarea>
@@ -440,17 +453,6 @@
 
                             </div>
 
-                            <div class="form-group">
-                                
-                                <label for="area_of_improvements">Any areas of improvement </label>
-                                
-                                <strong style="color: red;"> *</strong>
-                                
-                                <textarea class="form-control rmvId" id="area_of_improvements" placeholder="" name="area_of_improvements" required></textarea>
-                                
-                                <div class="invalid-feedback area_of_improvements rmvCls"></div>
-
-                            </div>
 
                         </div>
 
@@ -605,7 +607,7 @@
 
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
 
                             <label for="city_country">State</label>
 
@@ -630,7 +632,7 @@
                             <div class="invalid-feedback city rmvCls"></div>
 
                         </div>
-                       
+                        --}}
                         <button type="button" class="btn btn-primary" onclick="nextStep('review','back','3','reviewer')"> < </button> 
                         <button type="button" class="btn btn-primary" onclick="nextStep('verify','next','3','reviewer')">Next Section</button>
 

@@ -27,6 +27,8 @@ use App\Models\ReviewerEmailLog;
 use Rennokki\Plans\Models\PlanModel;
 
 
+
+
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -831,20 +833,20 @@ function drawChart() {
                 $data['company_size'] = 'Company Size should not be empty';
             }
 
-            if( $request->city == '' )
-            {
-                $data['city'] = 'City should not be empty';
-            }
+            // if( $request->city == '' )
+            // {
+            //     $data['city'] = 'City should not be empty';
+            // }
 
-            if( $request->state == '' )
-            {
-                $data['state'] = 'State should not be empty';
-            }
+            // if( $request->state == '' )
+            // {
+            //     $data['state'] = 'State should not be empty';
+            // }
 
-            if( $request->country == '' )
-            {
-                $data['country'] = 'Country should not be empty';
-            }
+            // if( $request->country == '' )
+            // {
+            //     $data['country'] = 'Country should not be empty';
+            // }
         }
 
         if( $request->form == 'form4' )
@@ -913,7 +915,8 @@ function drawChart() {
             {
                 $user =  Auth::user();
                  if(!$user->hasActiveSubscription()){
-                    return redirect('membership-plans');
+                    return redirect('user/' . $userId . '/basicInfo?profile=basic');
+
                  }
                  $company = Company::where('user_id', $user->id)->first();
                  if (!$company) {
@@ -1076,6 +1079,7 @@ function drawChart() {
     public function saveReview( Request $request )
     {
 
+        // dd($request->all());
         $inputs = array();
 
         $inputs['company_id']               = $request->company_id;
@@ -1137,8 +1141,8 @@ function drawChart() {
         $inputs['company_name']             = $request->company_name;
         $inputs['company_size']             = $request->company_size;
         $inputs['country']                  = $request->country;
-        $inputs['state']                    = $request->state;
-        $inputs['city']                     = $request->city;
+        $inputs['state']                    = "null";
+        $inputs['city']                     = "null";
 
 
         $inputs['company_email']            = $request->company_email;
@@ -1226,13 +1230,14 @@ function drawChart() {
     }
 
 
-    // public function subscribeNewsletter( Request $request )
-    // {
 
-    //     $request->validate( [ 'email'  => 'required|email' ] );
 
-    //     $inputs['email']      = $request->email;
+    //     Newsletters::create( $inputs );
 
+    //     return back()->with( 'newsuccess', 'Thanks.. You have been subscribed successfully.' );
+
+    // }
+   
     //     Newsletters::create( $inputs );
 
     //     return back()->with( 'newsuccess', 'Thanks.. You have been subscribed successfully.' );
@@ -1240,14 +1245,33 @@ function drawChart() {
     // }
 
     public function subscribeNewsletter(Request $request)
-{
-    $request->validate(['email' => 'required|email']);
+    {
+            $request->validate(['email' => 'required|email']);
 
-    $inputs['email'] = $request->email;
-    Newsletters::create($inputs);
+            $inputs['email'] = $request->email;
+            Newsletters::create($inputs);
 
-    return redirect()->to(url()->previous() . '#success-msg')->with('newsuccess', 'Thanks.. You have been subscribed successfully.');
-}
+            return redirect()->to(url()->previous() . '#success-msg')->with('newsuccess', 'Thanks.. You have been subscribed successfully.');
+    }
 
 
+    // public function saveChoosenPlan( Request $request )
+    // {
+    //     $plan   = $request->plan;
+    //     $user_id= $request->user_id;
+
+    //     $user   = User::find( $user_id );
+
+    //     $user->plan = $plan;
+
+    //     if( $user->save() )
+    //     {
+    //         return response()->json( ['status'=> 'success'] );
+    //     }
+    //     else
+    //     {
+    //         return response()->json( ['status'=> 'failure'] );
+    //     }
+
+    // }
 }
