@@ -324,67 +324,57 @@
                                 </div>
                                 <div class="container my-5 faq ">
                                     <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
-                                        <p class="mb-0"> <strong>Please tell us about your business and what is your role ?</strong> <br>
-                                            dummy text of the printingdummy text of the printing text of the printing text of the
-                                            printing text of</p>
+                                        <p class="mb-0"> <strong> Please tell us about your business and what is your role
+                                        </strong> <br>
+                                          {{$rev->company_position}}  </p>
                                     </div>
                                     <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
-                                        <p class="mb-0"> <strong>What specific challenges were you facing before working with (Company name)?
+                                        <p class="mb-0"> <strong>What specific challenges were you facing before working with {{$company->name}}
                                         </strong> <br>
-                                            dummy text of the printingdummy text of the printing text of the printing text of the
-                                            printing text of</p>
+                                            {{$rev->for_what_project}}</p>
+                                    </div>
+                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
+                                        <p class="mb-0"> <strong>What were your main concerns or pain points related to your project?
+
+                                        </strong> <br>
+                                            {{$rev->area_of_improvements}}</p>
                                     </div>
                                     <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
                                         <p class="mb-0"> <strong>Tell us about the project in detail
-
                                         </strong> <br>
-                                            dummy text of the printingdummy text of the printing text of the printing text of the
-                                            printing text of</p>
+                                            {{$rev->scope_of_work}}</p>
                                     </div>
                                     <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
-                                        <p class="mb-0"> <strong>What services did you receive from (Company Name)?  for eg. Digital Marketing, Web design, Mobile App development)
+                                        <p class="mb-0"> <strong>What services did you receive from <b>{{$company->name}}? </b>  for eg. Digital Marketing, Web design, Mobile App development)
                                         </strong> <br>
-                                            dummy text of the printingdummy text of the printing text of the printing text of the
-                                            printing text of</p>
+                                          {{$rev->how_select}}</p>
                                     </div>
                                     <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
                                         <p class="mb-0"> <strong>What factors led to the selection of the vendor
+
                                         </strong> <br>
-                                            dummy text of the printingdummy text of the printing text of the printing text of the
-                                            printing text of</p>
+                                            {{$rev->team_composition}}</p>
                                     </div>
                                     <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
                                         <p class="mb-0"> <strong>Talk about how the vendor made this project a success
 
+
                                         </strong> <br>
-                                            dummy text of the printingdummy text of the printing text of the printing text of the
-                                            printing text of</p>
+                                          {{$rev->any_outcome}}</p>
                                     </div>
                                     <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
                                         <p class="mb-0"> <strong>In what ways have the services positively impacted your business? (eg. increased sales, improved brand awareness, Enhanced user engagement)
 
 
                                         </strong> <br>
-                                            dummy text of the printingdummy text of the printing text of the printing text of the
-                                            printing text of</p>
-                                    </div>
-                                    <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
-                                        <p class="mb-0"> <strong>In what ways have the services positively impacted your business? (eg. increased sales, improved brand awareness, Enhanced user engagement)
-
-
-                                        </strong> <br>
-                                            dummy text of the printingdummy text of the printing text of the printing text of the
-                                            printing text of</p>
+                                           {{$rev->how_effective}}</p>
                                     </div>
                                     <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
                                         <p class="mb-0"> <strong>What were the top 3 things that impressed you the most about the vendor (eg. communication, expertise, creativity, process etc)Is there anything else you would like to share about your experience
                                         </strong> <br>
-                                            dummy text of the printingdummy text of the printing text of the printing text of the
-                                            printing text of</p>
+                                            {{$rev->most_impressive}}</p>
                                     </div>
                                 </div>
-                            </div>
-
                             <div class="container my-5 faq">
                                 {{-- <?php foreach ($review['faq'] as $faq): ?>
                                     <div class="border p-2 px-3 mb-2 ml-md-2 ml-0">
