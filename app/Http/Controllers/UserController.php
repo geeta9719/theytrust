@@ -362,7 +362,7 @@ class UserController extends Controller
 
 
         $comp           = Company::where('id', $company)->first();
-        $category       = Category::all();
+        $category = Category::with('subcategory')->get();
 
         return view( 'home.focus', [
                                             'categories'          => $category,
@@ -431,6 +431,7 @@ class UserController extends Controller
         $selectedCategories = $request->input('id');
       $subcategories =  SubcatChild::with('subcategory')
             ->where('subcategory_id', $selectedCategories)
+            ->with('skill')
             ->get();
         return response()->json($subcategories);
     }
@@ -451,6 +452,7 @@ class UserController extends Controller
         $selectedCategories = $request->input('categories');
         $subcategories = Subcategory::select('subcategories.*', 'categories.category as category_name','categories.id as category_id')
                                     ->join('categories', 'categories.id', '=', 'subcategories.category_id')
+                                    ->with('subcat_child')
                                     ->where('category_id', $selectedCategories)
                                     ->get();
     

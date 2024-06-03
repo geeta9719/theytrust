@@ -17,4 +17,9 @@ class SubcatChild extends Model
     public function add_focus(){
         return $this->hasMany(AddFocus::class);
     }
+
+    public function skill()
+    {
+        return $this->hasMany(Skill::class);
+    }
 }
