@@ -487,7 +487,7 @@ export default {
 
         if (index === -1) {
           // Check if the subcategories array has less than 3 items
-          if (categoryObj.subcategories.length < 3) {
+          // if (categoryObj.subcategories.length < 3) {
             // If not selected and the limit is not exceeded, push it to the subcategories array of the category object
             categoryObj.subcategories.push({
               subcategory_id: subcategory.id,
@@ -495,14 +495,14 @@ export default {
               value: "",
               skills: []
             });
-          } else {
+          // } else {
 
-            event.target.checked = false;
-            this.showModal = true;
-            this.modalErrorMessage = "Please select the 3 Sub Category";
-            return;
+          //   event.target.checked = false;
+          //   this.showModal = true;
+          //   this.modalErrorMessage = "Please select the 3 Sub Category";
+          //   return;
 
-          }
+          // }
         }
       } else {
         // If unchecked, remove the subcategory from selectedData if it exists
@@ -632,12 +632,12 @@ export default {
       if (isChecked) {
         // Check if the number of selected skills is already 3
         const selectedSkillsCount = categoryObj.subcategories.reduce((count, sub) => count + sub.skills.length, 0);
-        if (selectedSkillsCount >= 3) {
-          event.target.checked = false;
-          this.showModal = true;
-          this.modalErrorMessage = "You can only select up to 3 skills";
-          return;
-        }
+        // if (selectedSkillsCount >= 3) {
+        //   event.target.checked = false;
+        //   this.showModal = true;
+        //   this.modalErrorMessage = "You can only select up to 3 skills";
+        //   return;
+        // }
 
         const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
         if (index !== -1) {
@@ -695,12 +695,12 @@ export default {
       if (isChecked) {
         // Check if the number of selected subskills is already 3
         const selectedSubskillsCount = this.selectedData[object.categoryIndex].subcategories[object.subcategoryIndex].skills[object.skillIndex].subskills.length;
-        if (selectedSubskillsCount >= 3) {
-          event.target.checked = false;
-          this.showModal = true;
-          this.modalErrorMessage = "You can only select up to 3 subskills per skill";
-          return;
-        }
+        // if (selectedSubskillsCount >= 3) {
+        //   event.target.checked = false;
+        //   this.showModal = true;
+        //   this.modalErrorMessage = "You can only select up to 3 subskills per skill";
+        //   return;
+        // }
 
         // Push new subskill to the selected data
         this.selectedData[object.categoryIndex].subcategories[object.subcategoryIndex].skills[object.skillIndex].subskills.push({

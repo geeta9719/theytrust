@@ -138,7 +138,7 @@
                                         information</strong></h4>
                             </div>
 
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="pt-4 col-md-11 mx-auto d-flex align-item-center">
                                     <div class="pt-4 col-md-8 file-field uploadbox">
 
@@ -161,7 +161,27 @@
                                     </div>
                                 </div>
 
+                            </div> --}}
+
+                            <div class="row">
+                                <div class="pt-4 col-md-11 mx-auto d-flex align-item-center">
+                                    <div class="pt-4 col-md-8 file-field uploadbox">
+                                        <h4> Upload Company Logo </h4>
+                                        <div class="upload"><strong style="color: red;"> *</strong> 
+                                            <input type="file" class="rmvId" id="logo" name="logo">
+                                            <span class="logocon d-block">(For best results upload a square logo in the ratio of 512 × 512 pixels.)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pt-4 col-md-4 file-field companylogo">
+                                        <img id="logoPreview" src="<?php if (!empty($company->logo)) {
+                                            echo $company->logo;
+                                        } else {
+                                            echo asset('front_components/images/logo1.jfif');
+                                        } ?>" width="200" height="auto" style="border-radius:25px;">
+                                    </div>
+                                </div>
                             </div>
+                            
 
 
 
@@ -327,6 +347,37 @@
             textarea.addEventListener('input', updateCharCount);
             updateCharCount(); // Initialize the count on page load
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const logoInput = document.getElementById('logo');
+    const logoMessage = document.querySelector('.logocon');
+
+    logoInput.addEventListener('change', function() {
+        // This is just an informational message, no restriction
+        logoMessage.textContent = "For best results upload a square logo in the ratio of 512 × 512 pixels.";
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const logoInput = document.getElementById('logo');
+    const logoPreview = document.getElementById('logoPreview');
+    const logoMessage = document.querySelector('.logocon');
+
+    logoInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                logoPreview.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+
+            // Update the informational message
+            logoMessage.textContent = "For best results upload a square logo in the ratio of 512 × 512 pixels.";
+        }
+    });
+});
+
 
         document.addEventListener('DOMContentLoaded', function() {
             const inputField = document.getElementById('tagline');
