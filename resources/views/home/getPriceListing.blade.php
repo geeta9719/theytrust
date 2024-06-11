@@ -201,7 +201,7 @@
                             <div class="columns">
                                 <ul class="price">
                                     <!-- <li class="header">Basic Profile.</li>
-            <li class="grey"> Free Profile</li> -->
+                                    <li class="grey"> Free Profile</li> -->
                                     <!--<li class="grey"><a href="{{ url('get-listed?price_temp=basic') }}" class="button">Select</a></li>-->
                                     <!-- <li class="grey" > -->
                                     <!-- <a href='{{ url("user/$user/basicInfo?profile=basic") }}' class="button" style="<?php echo $basic;
@@ -212,9 +212,9 @@
 
                                     </li> -->
                                     <!-- <li>Collection of unlimited online reviews</li>
-            <li></li>
-            <li>Use badges and widgets to display achievements </li>
-            <li>Market insight to guide decision-making</li> -->
+                                    <li></li>
+                                    <li>Use badges and widgets to display achievements </li>
+                                    <li>Market insight to guide decision-making</li> -->
 
 
                                     <li class="header"><b>Basic - Free</b></li>
@@ -228,14 +228,14 @@
                                     </li>
                                     <li class="grey"><b>Compare our plans</b></br>
                                         They Trust Us has plans for any size of business. Check out our full list of
-                                        features to see which is right for you.
-
-                                    </li>
+                                        features to see which is right for you. </li>
+                                    
+                                </ul>
+                                
                                     <li>
                                         <button class="button choose-plan" data-uid="{{ $user }}"
                                             data-plan_id={{ 7 }}> Get Basic Plan </button>
                                     </li>
-                                </ul>
                             </div>
 
                             <div class="columns offerbox mb-5 mb-md-0">
@@ -327,28 +327,30 @@
                 success: function(result) {
                     if (result.status == 'success') {
                         console.log(result);
-                        var sessionId = result.sessionId.original.sessionId;
-                        var stripe = Stripe(
-                            'pk_test_51OMTmgSBpRscNHwB4qiyJOy6swL8uwFI7DFbTzrmLZYaPXnKs1qVKLOdwwZz2R1UqL9SgOxc5BZaxFN9Nr9flN6U00duoOXtey'
+                        if (result.sessionId.original.is_free) {
+                            // Redirect to dashboard or another URL directly without Stripe checkout
+                            window.location.href = result.sessionId.original.redirect_url;;
+                        } else {
+                            var sessionId = result.sessionId;
+                            var stripe = Stripe(
+                                'pk_test_51OMTmgSBpRscNHwB4qiyJOy6swL8uwFI7DFbTzrmLZYaPXnKs1qVKLOdwwZz2R1UqL9SgOxc5BZaxFN9Nr9flN6U00duoOXtey'
                             );
-                        debugger;
-                        stripe.redirectToCheckout({
-                            sessionId: sessionId
-                        }).then(function(result) {
-                            if (result.error) {
-                                console.error(result.error.message);
-                            }
-                        });
+                            stripe.redirectToCheckout({
+                                sessionId: sessionId
+                            }).then(function(result) {
+                                if (result.error) {
+                                    console.error(result.error.message);
+                                }
+                            });
+                        }
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error("AJAX Error:", textStatus, errorThrown);
-                    // Log more details about the error if needed
                     console.log(jqXHR.responseText);
                 }
             });
-
         });
     </script>
-
 @endsection
+

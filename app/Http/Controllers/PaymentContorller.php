@@ -34,7 +34,14 @@ class PaymentContorller extends Controller
     {
         try {
             Stripe::setApiKey(config('services.stripe.secret'));
+            $user = auth()->user();
             $plan = PlanModel::find($request->plan);
+            $redirectUrl = url('company/' . $user->id . '/dashboard');
+            if ($plan->price == 0) {
+                $subscription = $user->subscribeTo($plan,$plan->duration,false);
+                return response()->json(['status' => 'success', 'is_free' => true, 'redirect_url' => $redirectUrl]);
+
+            }
             $lineItems = [
                 [
                     'price_data' => [
@@ -68,8 +75,10 @@ class PaymentContorller extends Controller
             ]);
             return response()->json(['status' => 'success', 'sessionId' => $session->id]);
         } catch (ApiErrorException $e) {
+            dd($e);
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         } catch (\Exception $e) {
+            dd($e);
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
