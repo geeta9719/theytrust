@@ -828,76 +828,135 @@ class UserController extends Controller
             }  
         }
 
-        if( $request->form == 'form1' )
-        {
-            if( $_FILES['logo']['name'] != '' )
-            {    
+        // if( $request->form == 'form1' )
+        // {
+        //     if( $_FILES['logo']['name'] != '' )
+        //     {    
+        //         $file = $_FILES['logo']['tmp_name'];
+                
+        //         if ( file_exists( $file ) )
+        //         {
+        //             $ext = pathinfo( $_FILES['logo']['name'], PATHINFO_EXTENSION );
+                    
+        //             if( !in_array( $ext, $validExt ) )
+        //             {
+        //                 $data['logo'] = 'Change error This is not image file to Please upload either a jpg or png file';;
+        //             }
+        //         }
+        //         else
+        //         {
+        //             $data['logo'] = 'Change error This is not image file to Please upload either a jpg or png file
+
+        //             ';
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if( $request->oldLogo == '' )
+        //         {
+        //             $data['logo'] = 'Please select a file';
+        //         }
+        //     }   
+
+        //     if( $request->name == '' )
+        //     {
+        //         $data['name'] = 'Company Name should not be empty';
+        //     }
+        //     elseif( strlen( $request->name ) < 2 )
+        //     {
+        //         $data['name'] = 'Minimum length should be two charecters';
+        //     }
+        //     elseif( is_numeric( $request->name[0] ) )
+        //     {
+        //         $data['name'] = 'CompanyName should not be start with numeric.';
+        //     }
+
+        //     if( $request->website == '' )
+        //     {
+        //         $data['website'] = 'website should not be empty';
+        //     }
+        //     elseif( filter_var( $request->website, FILTER_VALIDATE_URL ) === false ) 
+        //     {
+        //         $data['website'] = 'Url must start with https:// or http://';
+        //     }
+
+        //     if($request->size == '')
+        //     {
+        //         $data['size'] = 'Company Size should not be empty';
+        //     }
+
+        //     if ($request->tagline == '') {
+        //         $data['tagline'] = 'Company Title should not be empty';
+        //     } elseif (strlen($request->tagline) > 70) {
+        //         $data['tagline'] = 'Company Title should not exceed 70 characters';
+        //     }
+            
+        //     if ($request->short_description == '') {
+        //         $data['short_description'] = 'Company summary should not be empty';
+        //     } elseif (strlen($request->short_description) > 5000) {
+        //         $data['short_description'] = 'Company summary should not exceed 5000 characters';
+        //     }
+            
+        // }
+
+        if ($request->form == 'form1') {
+            if ($_FILES['logo']['name'] != '') {    
                 $file = $_FILES['logo']['tmp_name'];
                 
-                if ( file_exists( $file ) )
-                {
-                    $ext = pathinfo( $_FILES['logo']['name'], PATHINFO_EXTENSION );
-                    
-                    if( !in_array( $ext, $validExt ) )
-                    {
-                        $data['logo'] = 'Change error This is not image file to Please upload either a jpg or png file';;
+                if (file_exists($file)) {
+                    $ext = pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION);
+                    $fileSize = $_FILES['logo']['size'];
+                    $maxSize = 200 * 1024 * 1024; // 200MB in bytes
+        
+                    // Validate file extension
+                    if (!in_array($ext, $validExt)) {
+                        $data['logo'] = 'This is not an image file. Please upload either a jpg or png file.';
                     }
+        
+                    // Validate file size
+                    if ($fileSize > $maxSize) {
+                        $data['logo'] = 'The file size should not exceed 200MB.';
+                    }
+                } else {
+                    $data['logo'] = 'This is not an image file. Please upload either a jpg or png file.';
                 }
-                else
-                {
-                    $data['logo'] = 'Change error This is not image file to Please upload either a jpg or png file
-
-                    ';
+            } else {
+                if ($request->oldLogo == '') {
+                    $data['logo'] = 'Please select a file.';
                 }
             }
-            else
-            {
-                if( $request->oldLogo == '' )
-                {
-                    $data['logo'] = 'Please select a file';
-                }
-            }   
-
-            if( $request->name == '' )
-            {
-                $data['name'] = 'Company Name should not be empty';
+        
+            if ($request->name == '') {
+                $data['name'] = 'Company Name should not be empty.';
+            } elseif (strlen($request->name) < 2) {
+                $data['name'] = 'Minimum length should be two characters.';
+            } elseif (is_numeric($request->name[0])) {
+                $data['name'] = 'Company Name should not start with a numeric character.';
             }
-            elseif( strlen( $request->name ) < 2 )
-            {
-                $data['name'] = 'Minimum length should be two charecters';
+        
+            if ($request->website == '') {
+                $data['website'] = 'Website should not be empty.';
+            } elseif (filter_var($request->website, FILTER_VALIDATE_URL) === false) {
+                $data['website'] = 'URL must start with https:// or http://.';
             }
-            elseif( is_numeric( $request->name[0] ) )
-            {
-                $data['name'] = 'CompanyName should not be start with numeric.';
+        
+            if ($request->size == '') {
+                $data['size'] = 'Company Size should not be empty.';
             }
-
-            if( $request->website == '' )
-            {
-                $data['website'] = 'website should not be empty';
-            }
-            elseif( filter_var( $request->website, FILTER_VALIDATE_URL ) === false ) 
-            {
-                $data['website'] = 'Url must start with https:// or http://';
-            }
-
-            if($request->size == '')
-            {
-                $data['size'] = 'Company Size should not be empty';
-            }
-
+        
             if ($request->tagline == '') {
-                $data['tagline'] = 'Company Title should not be empty';
+                $data['tagline'] = 'Company Title should not be empty.';
             } elseif (strlen($request->tagline) > 70) {
-                $data['tagline'] = 'Company Title should not exceed 70 characters';
+                $data['tagline'] = 'Company Title should not exceed 70 characters.';
             }
-            
+        
             if ($request->short_description == '') {
-                $data['short_description'] = 'Company summary should not be empty';
+                $data['short_description'] = 'Company summary should not be empty.';
             } elseif (strlen($request->short_description) > 5000) {
-                $data['short_description'] = 'Company summary should not exceed 5000 characters';
+                $data['short_description'] = 'Company summary should not exceed 5000 characters.';
             }
-            
         }
+        
 
         if( $request->form == 'form2' )
         {   
