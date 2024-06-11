@@ -115,43 +115,113 @@ class AuthController extends Controller
     }
 
 
-    public function handleLinkedinCallback()
-    {  
-        try 
-        {
-            $user       = Socialite::driver( 'linkedin' )->user();    
-            $finduser   = User::where( 'linkedin_id', $user->id )->first();
+    // public function handleLinkedinCallback()
+    // {  
+    //     try 
+    //     {
+    //         $user       = Socialite::driver( 'linkedin' )->user();    
+    //         $finduser   = User::where( 'linkedin_id', $user->id )->first();
 
-            if( $finduser )
-            {
-                Auth::login( $finduser );
-                return redirect( str_replace( url('user/' . $user->id . '/basicInfo?profile=basic'), '', session( 'referer' ) ) );
-            }
-            else
-            {
-                $newUser = User::create([
-                                            'name'          => $user->name,
-                                            'email'         => $user->email,
-                                            'linkedin_id'   => $user->id,
-                                            'first_name'    => $user->first_name,
-                                            'last_name'     => $user->last_name,
-                                            'avatar'        => $user->avatar,
-                                            'role'          => 2,
-                                            'slug'          => 'User',
-                                        ]);
+    //         if( $finduser )
+    //         {
+    //             Auth::login( $finduser );
+    //             return redirect( str_replace( url('user/' . $user->id . '/basicInfo?profile=basic'), '', session( 'referer' ) ) );
+    //         }
+    //         else
+    //         {
+    //             $newUser = User::create([
+    //                                         'name'          => $user->name,
+    //                                         'email'         => $user->email,
+    //                                         'linkedin_id'   => $user->id,
+    //                                         'first_name'    => $user->first_name,
+    //                                         'last_name'     => $user->last_name,
+    //                                         'avatar'        => $user->avatar,
+    //                                         'role'          => 2,
+    //                                         'slug'          => 'User',
+    //                                     ]);
                 
-                Auth::login( $newUser );
+    //             Auth::login( $newUser );
 
             
     
-                return redirect(url('user/' . $newUser->id . '/basicInfo?profile=basic'));
-                // return redirect( str_replace( url( '/membership-plans' ), '', session( 'referer' ) ) );
-            }
+    //             return redirect(url('user/' . $newUser->id . '/basicInfo?profile=basic'));
+    //             // return redirect( str_replace( url( '/membership-plans' ), '', session( 'referer' ) ) );
+    //         }
             
-        } 
-        catch ( Exception $e ) 
-        {
-            dd( $e );
+    //     } 
+    //     catch ( Exception $e ) 
+    //     {
+    //         dd( $e );
+    //     }
+    // }
+
+    public function handleLinkedinCallback()
+{  
+    try 
+    {
+        $user = Socialite::driver('linkedin')->user();    
+        $finduser = User::where('linkedin_id', $user->id)->first();
+
+        if ($finduser) {
+            Auth::login($finduser);
+            return redirect(str_replace(url('user/' . $user->id . '/basicInfo?profile=basic'), '', session('referer')));
+        } else {
+            $newUser = User::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'linkedin_id' => $user->id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'avatar' => $user->avatar,
+                'role' => 2,
+                'slug' => 'User',
+            ]);
+
+            Auth::login($newUser);
+            return redirect(url('user/' . $newUser->id . '/basicInfo?profile=basic'));
+        }
+    } 
+    catch (\Throwable $e) 
+    {
+        Log::error('LinkedIn callback error', [
+            'exception' => $e,
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+        ]);
+
+        // Retry logic in case of temporary issues
+        sleep(2); // Wait for 2 seconds before retrying
+        try {
+            $user = Socialite::driver('linkedin')->user();    
+            $finduser = User::where('linkedin_id', $user->id)->first();
+
+            if ($finduser) {
+                Auth::login($finduser);
+                return redirect(str_replace(url('user/' . $user->id . '/basicInfo?profile=basic'), '', session('referer')));
+            } else {
+                $newUser = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'linkedin_id' => $user->id,
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'avatar' => $user->avatar,
+                    'role' => 2,
+                    'slug' => 'User',
+                ]);
+
+                Auth::login($newUser);
+                return redirect(url('user/' . $newUser->id . '/basicInfo?profile=basic'));
+            }
+        } catch (\Throwable $e) {
+            Log::error('LinkedIn callback retry error', [
+                'exception' => $e,
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return redirect('/login')->with('error', 'Unable to authenticate using LinkedIn. Please try again later.');
         }
     }
+}
+
 }
