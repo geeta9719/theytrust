@@ -52,7 +52,7 @@ class HomeController extends Controller
     {
         if( ! Auth::check() )
         {
-            dd("Asdfasdf");
+        //    dd("Asdfasdf");
             session( [ 'referer' => url('/membership-plans') ] );
         }
 
