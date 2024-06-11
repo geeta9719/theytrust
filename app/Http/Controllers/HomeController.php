@@ -916,7 +916,7 @@ function drawChart() {
             {
                 $user =  Auth::user();
                  if(!$user->hasActiveSubscription()){
-                    return redirect('user/' . $userId . '/basicInfo?profile=basic');
+                    return redirect('user/' . $user->id . '/basicInfo?profile=basic');
 
                  }
                  $company = Company::where('user_id', $user->id)->first();
