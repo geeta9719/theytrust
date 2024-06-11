@@ -50,11 +50,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if( ! Auth::check() )
-        {
-        //    dd("Asdfasdf");
-            session( [ 'referer' => url('/membership-plans') ] );
-        }
+        // if( ! Auth::check() )
+        // {
+        // //    dd("Asdfasdf");
+        //     session( [ 'referer' => url('/membership-plans') ] );
+        // }
 
         $data['subcategories']  = Subcategory::all();
         $data['category']       = Category::where('top_cat',1)->get();
