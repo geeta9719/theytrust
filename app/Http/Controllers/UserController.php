@@ -952,9 +952,7 @@ class UserController extends Controller
         
             if ($request->short_description == '') {
                 $data['short_description'] = 'Company summary should not be empty.';
-            } elseif (strlen($request->short_description) > 5000) {
-                $data['short_description'] = 'Company summary should not exceed 5000 characters.';
-            }
+            } 
         }
         
 
