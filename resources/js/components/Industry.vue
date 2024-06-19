@@ -113,7 +113,8 @@ import axios from 'axios';
 export default {
   props: {
     industries: Array,
-    clientSizes: Array
+    clientSizes: Array,
+    companyId: String
   },
   data() {
     return {
@@ -122,8 +123,7 @@ export default {
       industryPercentages: {},
       clientSizePercentages: {},
       categorySumError: '',
-      clientSizeSumError: '',
-      companyId: "1"
+      clientSizeSumError: ''
     };
   },
   computed: {

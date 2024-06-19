@@ -7,7 +7,7 @@
       <industry-client-form 
         :industries="{{ json_encode($industry) }}" 
         :client-sizes="{{ json_encode($clientSize) }}"
-        :companyId="{{ $company->id }}">
+        :company-id="{{ $company->id }}">
       </industry-client-form>
     </div>
 
