@@ -325,8 +325,9 @@ public function dashboard(Request $request, $company)
                 $b = explode('-', $value->rate);
                 $rate[$b[0]] = $value;
             }
-            $address = Address::where('company_id', $company->id)->get();
-            $address= $address->isEmpty() ?true  :false;
+            
+            // $address = Address::where('company_id', $company->id)->get();
+            // $address= $address->isEmpty() ?true  :false;
 
             return view('home.user.basicInfo', [
                 'budget'    => $budget,
