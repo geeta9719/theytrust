@@ -38,7 +38,7 @@ class PaymentContorller extends Controller
             $user = auth()->user();
             $company = Company::where('user_id', auth()->id())->first();
             $plan = PlanModel::find($request->plan);
-            $redirectUrl = url('company/' . $user->id . '/dashboard');
+            $redirectUrl = url('company/' . $company->id . '/dashboard');
             if ($plan->price == 0) {
                 $subscription = $user->subscribeTo($plan,$plan->duration,false);
                 return response()->json(['status' => 'success', 'is_free' => true, 'redirect_url' => $redirectUrl]);
