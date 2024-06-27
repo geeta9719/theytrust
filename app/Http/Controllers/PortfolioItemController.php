@@ -118,6 +118,6 @@ class PortfolioItemController extends Controller
     {
         $portfolioItem = PortfolioItem::findOrFail($id);
         $portfolioItem->delete();
-        return redirect()->route('portfolio.index', $portfolioItem->company_id)->with('success', 'Portfolio item deleted successfully.');
+        return redirect()->route('portfolio_items.tableView')->with('success', 'Portfolio item deleted successfully.');
     }
 }
