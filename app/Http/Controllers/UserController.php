@@ -28,6 +28,7 @@ use App\Models\Specialization;
 use App\Models\AddSpecialization;
 use App\Models\AdminInfo;
 use App\Models\Skill;
+use App\Models\CompanyReview;
 
 use Illuminate\Http\Request;
 
@@ -162,10 +163,10 @@ public function dashboard(Request $request, $company)
                 $formattedSkills = [];
                 foreach ($skills as $skill) {
                     $subskills = DB::table('companyhasskill')
-                        ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
-                        ->where('skills.subcat_child_id', $skill->id)
-                        ->select('skills.id', 'skills.name')
-                        ->get();
+                    ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
+                    ->where('skills.subcat_child_id', $skill->id)
+                    ->select('skills.id', 'skills.name')
+                    ->get();
 
                     $formattedSubskills = [];
                     foreach ($subskills as $subskill) {
@@ -182,7 +183,7 @@ public function dashboard(Request $request, $company)
                         'subskills' => $formattedSubskills,
                     ];
                 }
-
+                // dd($formattedSkills);
                 $formattedSubcategories[] = [
                     'subcategory_id' => $subcategory->id,
                     'subcategory_name' => $subcategory->subcategory,
@@ -215,6 +216,8 @@ public function dashboard(Request $request, $company)
         // Fetch addresses
         $addresses = Address::where('company_id', $company)->get();
         $data['addresses'] = $addresses;
+        $reviews = CompanyReview::where('company_id', $company)->with('user')->paginate(10);
+        $data['reviewCount'] = $reviews->total();
 
         return view('home.user.dashboard', $data);
     } else {
@@ -291,11 +294,11 @@ public function dashboard(Request $request, $company)
 
         if ($uid == $user || $urole == 1) {
             $company = Company::where('user_id', $request->user)->first();
-            $address = '';
+            // $address = '';
 
             if ($company) {
                 $address = Address::where('company_id', $company->id)->where('user_id', auth()->user()->id)->first();
-                $address = $address ? true : false;
+                $address_exists = $address ? true : false; // set address_exists based on the address existence
             }
 
             $country    = Country::all();
@@ -338,7 +341,8 @@ public function dashboard(Request $request, $company)
                 'address'   => $address,
                 'city'      => $city,
                 'state'     => $state,
-                'address' =>   $address
+                'address' =>   $address,
+                'address_exists'=> $address_exists
             ]);
         } else {
             abort(403);

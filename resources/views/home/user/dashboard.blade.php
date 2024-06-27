@@ -327,6 +327,77 @@
             font-size: 17px;
         }
     }
+    .service-line {
+    margin-bottom: 40px; /* Increased margin to create space between primary categories */
+}
+
+.category-group,
+.subcategory-group,
+.skills-group,
+.deep-skills-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.field-name {
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 150px; /* Adjusted for better alignment */
+}
+
+.cate-box {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.cate-box p {
+    margin: 0;
+    margin-right: 10px;
+}
+
+.percentage-input {
+    width: 60px;
+    text-align: center;
+    background-color: #e0e0e0;
+    border: none;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.skill-tags,
+.deep-skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.skill-tag,
+.deep-skill-tag {
+    display: inline-block;
+    background-color: #ddd;
+    padding: 5px 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    text-decoration: none;
+    color: #333;
+}
+
+.skill-tag:hover,
+.deep-skill-tag:hover {
+    background-color: #ccc;
+}
+
+.area a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.area a:hover {
+    text-decoration: underline;
+}
+
 </style>
 
 @if(Session::has('message'))
@@ -386,7 +457,9 @@
                         </div>
                         <div class="d-flex justify-content-between mt-3">
                             <a href="{{ route('profile', ['company' => $company->id]) }}" class="btn btn-secondary w-100 mr-1">View Profile</a>
-                           <a href="{{ route('user.basicInfo', ['user' => auth()->user()->id]) }}" class="btn btn-secondary w-100 ml-1">Edit / Update Profile</a>
+
+
+                            <a href="{{ route('user.basicInfo', ['user' => auth()->user()->id]) }}" class="btn btn-secondary w-100 ml-1">Edit / Update Profile</a>
                         </div>
                     </div>
                 </div>
@@ -409,7 +482,9 @@
                     </div>
                     <div class="container mt-5 p-0">
                         <div class="row mt-1 justify-content-between">
-                            <a href="{{ route('reviews.listView') }}" class="btn w-100 btn-primary">Manage Reviews</a>
+                            <div class="col-xl-6 mb-xl-0 mb-2">
+                                <a href="{{ route('reviews.listView') }}" class="btn w-100 btn-primary">Manage Reviews</a>
+                                <div>You have {{ $reviewCount }} reviews</div>
 
                             </div>
                             <div class="col-xl-6 text-xl-right "><button class="btn w-100">Request A Review</button>
@@ -537,74 +612,82 @@
             </div>
             <div class="text-center"> <button class="leads">Leads / Opportunities</button></div>
         </div>
-        <div class="col-md-8 p-0 m-0  service">
+        <div class="col-md-8 p-0 m-0 service">
             <!-- 1st row -->
             <div class="border border mt-5 mt-md-0 ml-3 p-3">
-
-
-
-
                 <h3 class="mb-4">Your Service Areas</h3>
-@foreach($serviceLines as $serviceLine)
-    <div class="mb-4">
-        <div class="d-lg-flex mb-1">
-            <p class="field-name"><b>Primary Category</b></p>
-            <div class="cate-box mt-2 mt-lg-0">
-                <p>{{ $serviceLine['category_name'] }}</p>
-                <input type="text" value="{{ $serviceLine['inputValue'] }}">
-            </div>
-        </div>
-        @foreach($serviceLine['subcategories'] as $subcategory)
-            <div class="d-lg-flex mt-3 mt-lg-0">
-                <p class="field-name"><b>Sub Category</b></p>
-                <div class="cate-box mb-2 mb-lg-0 mt-2 mt-lg-0">
-                    <p>{{ $subcategory['subcategory_name'] }}</p>
-                    <input type="text" value="{{ $subcategory['value'] }}">
-                </div>
-                @foreach($subcategory['skills'] as $skill)
-                    <div class="cate-box">
-                        <p>{{ $skill['skill_name'] }}</p>
-                        <input type="text" value="{{ $skill['value'] ?? '50%' }}">
+                @foreach($serviceLines as $index => $serviceLine)
+                    <div class="service-line mb-5 {{ $index > 1 ? 'd-none additional-service-line' : '' }}"> <!-- Increased margin-bottom for better separation -->
+                        <div class="category-group mb-3">
+                            <p class="field-name"><b>Primary Category</b></p>
+                            <div class="cate-box mt-2 mt-lg-0">
+                                <p>{{ $serviceLine['category_name'] }}</p>
+                                <input type="text" value="{{ $serviceLine['inputValue'] }}" class="percentage-input">
+                            </div>
+                        </div>
+                        
+                        <div class="subcategory-section">
+                            <div class="subcategory-group mb-3">
+                                <p class="field-name"><b>Sub Category</b></p>
+                                @foreach($serviceLine['subcategories'] as $subcategory)
+                                    <div class="cate-box mt-2 mt-lg-0">
+                                        <p>{{ $subcategory['subcategory_name'] }}</p>
+                                        <input type="text" value="{{ $subcategory['value'] }}" class="percentage-input">
+                                    </div>
+                                @endforeach
+                            </div>
+                            
+                            <div class="skills-group mb-3">
+                                <p class="field-name mb-2"><b>Skills</b></p>
+                                <div class="skill-tags">
+                                    @foreach($serviceLine['subcategories'] as $subcategory)
+                                        @foreach($subcategory['skills'] as $skill)
+                                            <a href="#" class="skill-tag">{{ $skill['skill_name'] }}</a>
+                                        @endforeach
+                                    @endforeach
+                                </div>
+                            </div>
+                
+                            <div class="deep-skills-group mb-3">
+                                <p class="field-name mb-2"><b>Deep Skills</b></p>
+                                <div class="deep-skill-tags">
+                                    @foreach($serviceLine['subcategories'] as $subcategory)
+                                        @foreach($subcategory['skills'] as $skill)
+                                            @foreach($skill['subskills'] as $subskill)
+                                                <a href="#" class="deep-skill-tag">{{ $subskill['subskill_name'] }}</a>
+                                            @endforeach
+                                        @endforeach
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 @endforeach
-            </div>
-            @foreach($subcategory['skills'] as $skill)
-                <div class="d-md-flex mt-3 service-btn">
-                    <p class="field-name mb-2"><b>Skills</b></p>
-                    <div>
-                        @foreach($skill['subskills'] as $subskill)
-                            <a href="#">{{ $subskill['subskill_name'] }}</a>
-                        @endforeach
+                
+                @if(count($serviceLines) > 2)
+                    <div class="row mt-4 mb-3 area">
+                        <div class="col-5 col-md-4">
+                            <a href="#" id="show-more-btn" onclick="toggleAdditionalServiceLines(event)">Show More</a>
+                        </div>
+                        <div class="col-7 col-md-8 text-right">
+                            {{-- <a href="{{ route('company.service-areas.edit', ['company_id' => $company->id]) }}">Edit Service Areas</a> --}}
+                        </div>
                     </div>
-                </div>
-            @endforeach
-        @endforeach
-    </div>
-@endforeach
-
-@if(count($serviceLines) > 3)
-    <div class="row mt-4 mb-3 area">
-        <div class="col-5 col-md-4">
-            <a href="#" id="show-more-btn" onclick="toggleAdditionalServiceLines()">Show More</a>
-        </div>
-        <div class="col-7 col-md-8 text-right">
-            {{-- <a href="{{ route('company.service-areas.edit', ['company_id' => $company->id]) }}">Edit Service Areas</a> --}}
-        </div>
-    </div>
-@endif
+                @endif
             </div>
-            <img src="/img/placeholder.png" alt="" class="img-fluid p-2 ml-2 ">
-            <div class="row  mb-3 ml-2 area mb-5">
+            <img src="/img/placeholder.png" alt="" class="img-fluid p-2 ml-2">
+            <div class="row mb-3 ml-2 area mb-5">
                 <div class="col-4">
                     <a href="#">Packages</a>
                 </div>
-                <div class="col-8 text-right  pl-5">
+                <div class="col-8 text-right pl-5">
                     <a href="#">Visibility Opportunity</a>
                 </div>
             </div>
         </div>
-
-
+        
+       
+        
     </div>
     </div>
 </section>
@@ -646,5 +729,15 @@ function toggleAdditionalIndustries() {
     });
     showMoreBtn.textContent = showMoreBtn.textContent === 'Show More' ? 'Show Less' : 'Show More';
 }
+
+            function toggleAdditionalServiceLines(event) {
+                event.preventDefault();
+                const additionalServiceLines = document.querySelectorAll('.additional-service-line');
+                additionalServiceLines.forEach(serviceLine => {
+                    serviceLine.classList.toggle('d-none');
+                });
+                const showMoreBtn = document.getElementById('show-more-btn');
+                showMoreBtn.innerText = showMoreBtn.innerText === 'Show More' ? 'Show Less' : 'Show More';
+            }
 </script>
 @endsection

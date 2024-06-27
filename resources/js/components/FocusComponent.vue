@@ -693,21 +693,24 @@ export default {
         });
     },
     validateCategorySum() {
+     
       let sum = 0;
+    
 
       // Calculate the sum of all selected category input values
       for (let category in this.selectedData) {
-        sum += this.selectedData[category].inputValue;
+        sum += parseInt(this.selectedData[category].inputValue, 10);;
       }
-
+      console.log("sumsumsumsum",sum)
       // Check if the sum equals 100 for each input
       // for (let category in this.selectedData) {
       if (sum !== 100) {
-        // If sum is not 100, set error message for each category
+        this.submitButtonDisabled  = true;
         this.categorySumError = "Total % distribution must be equal to 100%.";
       } else {
         // If sum is 100, clear error message for each category
         this.categorySumError = "";
+        this.submitButtonDisabled  = false;
       }
       // }
     },
@@ -726,10 +729,12 @@ export default {
         // Set error message for the specified category
         this.subCategorySumError[category.category_id] = "Sum of subcategories must not exceed 100!";
         catHasError = true;
+        this.submitButtonDisabled  = true;
       } else {
         // Clear error message if sum is valid for the specified category
         this.subCategorySumError[category.category_id] = "";
         catHasError = false;
+        this.submitButtonDisabled  = false;
 
       }
     },
@@ -747,12 +752,14 @@ export default {
         // this.submitButtonDisabled = true;
         subhasError = true;
       } else {
+        
         // If sum is 100, clear error message for each category
         this.categorySumError = "";
         // this.submitButtonDisabled = false;
         subhasError = false;
       }
       let subsum = 0;
+
       // Calculate the sum of subcategory values for the specified category
       for (let category of this.selectedData) {
 
@@ -771,10 +778,11 @@ export default {
           }
         }
       }
+      console.log(this.subCategorySumError,"this.subCategorySumError");
       const hasErrorMessage = Object.values(this.subCategorySumError).some(message => message == "Total % distribution must be equal to 100%" || message === null);
       this.submitButtonDisabled = (hasErrorMessage || subhasError);
 
-      console.log(hasErrorMessage, subhasError);
+      console.log(hasErrorMessage, subhasError,"Asdfasdfasdfasdfasdf");
     },
     submitForm() {
       // Check if there are any errors after validation

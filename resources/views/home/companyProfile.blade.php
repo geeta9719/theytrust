@@ -316,7 +316,7 @@
                     </div>
                     <div class="row mt-5 target-sec">
                         <div class="col-md-8 pr-md-1">
-                            <h2 class="area my-heading"> Target Services Area</h2>
+                            <h2 class="area my-heading">Target Industries  </h2>
                             <hr class="mt-2">
                             <div class="row mx-0 percentbox">
                                 @foreach ($add_industry as $item)
@@ -332,7 +332,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 pl-md-1">
-                            <h2 class="industries my-heading">Target Industries</h2>
+                            <h2 class="industries my-heading">Target Services Area</h2>
                             <hr class="mt-2 mb-4">
                             @foreach ($service_lines as $service_line)
                            {{-- {{ dd($service_lines)}} --}}

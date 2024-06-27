@@ -525,8 +525,9 @@ class AddCompany extends Controller
                 $formattedSkills = [];
                 foreach ($skills as $skill) {
                     // Fetch subskills for the current skill using companyhasskill table
+
                     $subskills = DB::table('companyhasskill')
-                        ->join('skills', 'skills.subcat_child_id', '=', 'skills.id')
+                        ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
                         ->where('skills.subcat_child_id', $skill->id)
                         ->select('skills.id', 'skills.name')
                         ->get();
@@ -535,8 +536,8 @@ class AddCompany extends Controller
                     $formattedSubskills = [];
                     foreach ($subskills as $subskill) {
                         $formattedSubskills[] = [
-                            'subskill_id' => $subskill->id,
-                            'subskill_name' => $subskill->name,
+                            'sub_skill_id' => $subskill->id,
+                            'sub_skill_name' => $subskill->name,
                         ];
                     }
     
