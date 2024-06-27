@@ -295,8 +295,7 @@ public function dashboard(Request $request, $company)
 
             if ($company) {
                 $address = Address::where('company_id', $company->id)->where('user_id', auth()->user()->id)->first();
-                $address= $address->isEmpty() ?true  :false;
-
+                $address = $address ? true : false;
             }
 
             $country    = Country::all();
