@@ -273,6 +273,7 @@ public function dashboard(Request $request, $company)
     public function allInfo(Request $request)
     {
         $uid     = auth()->user()->id;
+        
         $company = Company::where('user_id', $uid)->first();
 
         return view('home.user.allinfo', [
@@ -293,7 +294,7 @@ public function dashboard(Request $request, $company)
             $address = '';
 
             if ($company) {
-                $address = Address::where('company_id', $company->id)->where('user_id', $request->user)->first();
+                $address = Address::where('company_id', $company->id)->where('user_id', auth()->user()->id)->first();
             }
 
             $country    = Country::all();
