@@ -68,9 +68,9 @@
         }
 
         /* .catbox .col-md-3{
-                border:1px solid #ccc;
+                    border:1px solid #ccc;
 
-                 } */
+                     } */
 
         #subCategoryFieldset {
             border: 1px solid #ccc;
@@ -87,7 +87,9 @@
         }
 
         .selected-label,
-        .selected-label-sub {
+        .selected-label-sub ,
+        .selected-label-skill 
+        {
             background-color: #0087f2 !important;
             color: #fff !important;
         }
@@ -201,7 +203,7 @@
                         <fieldset>
                             <div id="categoryFieldset">
                                 <legend>Choose Primary Service</legend>
-                                @foreach ($categories as $category)
+                                {{-- @foreach ($categories as $category)
                                     <div>
                                         <input type="checkbox" id="{{ strtolower(str_replace(' ', '', $category->id)) }}"
                                             name="primaryService[]"
@@ -210,7 +212,7 @@
                                         <label
                                             for="{{ strtolower(str_replace(' ', '', $category->id)) }}">{{ $category->category }}</label>
                                     </div>
-                                @endforeach
+                                @endforeach --}}
                             </div>
 
                         </fieldset>
@@ -236,7 +238,9 @@
 
                     <div class="col-lg-3 col-md-6">
                         <fieldset>
+                         
                             <legend>Choose Deep Skill Tags</legend>
+                            <div id="SubSkills"></div>
                             <!-- Deep skill tags checkboxes will go here -->
                         </fieldset>
                     </div>
@@ -305,6 +309,7 @@
                     var subCategoryDivId = categoryNameSlug + '_subCategorydiv';
                     $('#' + selectedCategory).remove();
                     $('#' + subCategoryDivId).remove();
+                    
                 }
 
                 $.ajax({
@@ -319,19 +324,6 @@
 
                         if (response.length > 0) {
                             var html = '<div>';
-                            //     for (var i = 0; i < response.length; i++) {
-                            //         var subcategoryslug = generateSlug(response[i].subcategory);
-                            //         html += '<div><input type="checkbox" id="' + response[i].id +
-                            //             '" name="subCategory[]" value="' + response[i].subcategory +
-                            //             '" class="subcategory-checkbox" data-subcategory="' +
-                            //             subcategoryslug + '" data-name="' + response[i]
-                            //             .category_name + '">';
-                            //         html += ' <label for="' + response[i].id + '"> ' + response[i]
-                            //             .subcategory + '</label></div>';
-                            //     }
-                            //     html += '</div>';
-                            //     subCategoryFieldset.append(html);
-                            // }
                             for (var i = 0; i < response.length; i++) {
                                 var subcategoryslug = generateSlug(response[i].subcategory);
                                 html += '<div><input type="checkbox" id="' + response[i].id +
@@ -390,9 +382,6 @@
                                     '" class="subcategory-checkbox" data-subcategory="' +
                                     subcategoryslug + '" data-name="' + response[i]
                                     .category_name + '">';
-                                // html += ' <label for="' + response[i].id + '"> ' + response[i]
-                                //     .subcategory + '</label></div>';
-                                // Adding a small arrow button next to the label
                                 html += '<label for="' + response[i].id + '"> ' + response[i]
                                     .subcategory + '</label>';
 
@@ -429,7 +418,6 @@
 
             $('#subCategoryFieldset').on('change', 'input.subcategory-checkbox', function(event) {
                 debugger;
-                console.log("heheheheh");
                 $('.selected-label-sub').removeClass('selected-label-sub');
                 var selectedLabel = $('label[for="' + $(this).attr('id') + '"]');
                 selectedLabel.addClass('selected-label-sub');
@@ -513,7 +501,16 @@
             });
 
             $(document).on('click', '.skillsCheckbox', function() {
+                debugger;
+                $('.selected-label-skill').removeClass('selected-label-skill');
+                var inputID = $(this).data('id');
 
+                
+                var labelFor = 'softSkill_' + inputID;
+                var selectedLabel = $('label[for="' + labelFor + '"]');
+
+                selectedLabel.addClass('selected-label-skill');
+                
                 if ($(this).prop('checked')) {
                     var subcategory = $(this).data('subcategory');
                     var appendDive = "subCategoryName_" + $(this).data('subcategory');
@@ -521,6 +518,7 @@
                     console.log(subcategorydiv, "    asdfasdfasdf");
                     var checkboxValue = $(this).val();
                     const softSkillTag = generateSlug(checkboxValue);
+                    fetchSkillsData($(this).data('id'));
 
                     var newDiv = $('<div>');
 
@@ -549,7 +547,7 @@
                     // Append the new div to the target element
                     $('#' + appendDive).append(newDiv);
                 } else {
-                    // Get the id of the soft skill tag
+
                     var checkboxValue = $(this).val();
                     const softSkillTag = generateSlug(checkboxValue);
 
@@ -561,6 +559,16 @@
                 }
             });
 
+
+                $('#Skills').on('click', '.skillButton', async function(event) {
+                debugger;
+                $('.selected-label-skill').removeClass('selected-label-skill');
+                $(this).addClass('selected-label-skill');
+                fetchSkillsData($(this).data('id'));
+            });
+            
+
+            
             // Generate input field for category name
             function generateCategoryNameTextbox(categoryid, categoryName) {
                 var categoryContainer = $('<div class=" category-container" id="' + categoryid +
@@ -655,7 +663,7 @@
                         checkbox.prop('checked', true);
                     }
                 });
-             
+
                 $.each(category.category.subcategory, function(index, subcategory) {
                     console.log(subcategory);
                     generateSubCategoryNameTextboxFill(categoryName, generateSlug(categoryName),
@@ -669,10 +677,8 @@
 
             function generateSubCategoryNameTextboxFill(categoryname, categoryslug, subcategoryslug,
                 subCategoryName, value) {
-                console.log(value, "tttttttttttttttttttttttttttttttttttt");
                 var categoryClass = categoryslug + '_subCategorydiv'
                 var subCategoryDivExists = checkSubCategoryDivExistence(categoryslug);
-                console.log(subCategoryDivExists);
                 if (!subCategoryDivExists) {
                     var subCategoryDivId = categoryslug + '_subCategorydiv';
                     var subCategoryContainer = $(
@@ -769,7 +775,10 @@
                             .id + '">' +
                             '<label class="form-check-label" for="softSkill_' + skill.id + '">' +
                             skill.name + '</label>' +
-                            '</div>');
+                                // Add the button inside the same div
+                                '<input type="button" class="skillButton" data-id="' + skill
+                                .id + '" data-value="' + skill.name + '"value="&#8594;">' +
+                                '</div>');
 
                         skills.append(checkbox);
                     });
@@ -779,6 +788,55 @@
                     console.error(error);
                 }
             }
+
+            
+
+            function fetchSkillsData(skillId) {
+    $.ajax({
+        url: '/api/subskill',
+        type: 'GET',
+        data: {
+            id: skillId
+        },
+        success: function(response) {
+            $('#SubSkills').empty();
+            // Assuming response is an array of objects where each object has id and name properties
+            response.forEach(function(item) {
+                // Creating a checkbox element
+                var checkbox = $('<input>').attr({
+            type: 'checkbox',
+            value: item.id,
+            'data-name': item.name, // Setting data-name attribute
+            'data-id': item.id, // Setting data-id attribute
+            class: 'subskill-checkbox' // Adding class for the checkbox
+        });
+
+                var label = $('<label>').text(item.name).attr({
+            for: 'checkbox_' + item.id,
+            class: 'subskill-label' // Adding class for the label
+        });
+
+                // Appending checkbox and label to SubSkills element
+                $('#SubSkills').append(checkbox);
+                $('#SubSkills').append(label);
+
+                // Adding a line break for clarity
+                $('#SubSkills').append('<br>');
+            });
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error(xhr.responseText);
+        }
+    });
+}
+
+$('#SubSkills').on('click', 'input[type="checkbox"]', function() {
+        // Triggered when any checkbox within #SubSkills is clicked
+        console.log('Checkbox clicked');
+ });
+
+
 
             function checkIfSubCategoryExists(selectedCategory) {
                 var foundId = false;

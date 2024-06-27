@@ -149,7 +149,7 @@
                                     </span>
 
                                     <div class="form-group">
-                                        <label>Search Company Address.</label>
+                                        <label>Search Company Address 1.</label>
                                         <input type="text" name="autocomplete[]" id="autocomplete{{$i}}" class="form-control autoApi" placeholder="Choose Location" onkeyup="onk({{$i}})" value="{{$add->autocomplete}}">
                                     </div>
                                 </div> 
@@ -159,7 +159,7 @@
                                         <div class="brdbtmtext"><span class="leftinnerbox">State:</span> <span class="state{{$i}} namebox" rel="{{$add->state->name ?? ''}}">{{ $sttt ?? ''}}</span></div>
                                         <div class="brdbtmtext"><span class="leftinnerbox">City:</span> <span class="city{{$i}} namebox" rel="{{$add->city ?? ''}}">{{$add->city ?? ''}}</span></div>
                                         <div class="brdbtmtext"><span class="leftinnerbox">Zip/Postal Code:</span> <span class="zip{{$i}} namebox" rel="{{$add->zip ?? ''}}">{{$add->zip ?? ''}}</span></div>
-                                        <div class="brdbtmtext"><span class="leftinnerbox">Address:</span> <span class="address{{$i}} namebox" rel="{{$add->address ?? ''}}">{{$add->address ?? ''}}</span></div>
+                                        <div class="brdbtmtext"><span class="leftinnerbox">Full Address:</span> <span class="address{{$i}} namebox" rel="{{$add->address ?? ''}}">{{$add->address ?? ''}}</span></div>
                                     </div>
                                     <span style="cursor: pointer;" onclick="editBtn('addStatic{{$i}}','addForm{{$i}}',{{$i}})" class="submitbtn">Edit Your Address</span>
                                 </div> <br/>
@@ -337,7 +337,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>  
 <!-- <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyD5SGX1ce2No1OQ8n8dK5LukPrr0802VDg&libraries=places" ></script> -->
-<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyB9YeE5IDfcAUalQ8G26_crBmKoHYvoN5I&libraries=places"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCdnZAhg0LJkAqtM7g82yYemaMUTR0PAY4&libraries=places"></script>
 <script type="text/javascript">
     var onk;
     $(document).ready(function(){
@@ -352,6 +352,7 @@
             //autocomplete.setFields(["formatted_address", "address_components"]);
             autocomplete.addListener('place_changed', function () {
                 var place = autocomplete.getPlace();
+                console.log(place,"locationlocationlocation");
                 var data = [];
                 $.each(place.address_components , function(key,val) { 
                     data[val.types[0]] = val.long_name;
@@ -370,12 +371,13 @@
                 $(".city"+idd).html(data['locality']);
                 $(".city"+idd).attr('rel', data['locality']);
 
-                var address = '';
-                if(data['sublocality_level_3']){address+= data['sublocality_level_3'];}
-                if(data['sublocality_level_2']){address+= data['sublocality_level_2'];}
-                if(data['sublocality_level_1']){address+= data['sublocality_level_1'];}
+                var address = place.formatted_address;
+                // if(data['sublocality_level_3']){address+= data['sublocality_level_3'];}
+                // if(data['sublocality_level_2']){address+= data['sublocality_level_2'];}
+                // if(data['sublocality_level_1']){address+= data['sublocality_level_1'];}
+                // if(data['route']){address+= data['route'];}
                 $(".address"+idd).html(address);
-                $("#address"+idd).val(address);
+                $("#address"+idd).val(address1);
                 $(".address"+idd).attr('rel', address);
 
                 if(!data['sublocality_level_1'] && !data['sublocality_level_2'] && !data['sublocality_level_3'] && !data['neighbour']){

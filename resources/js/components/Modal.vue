@@ -2,7 +2,7 @@
   <div class="error-modal" v-if="isOpen">
     <div class="modal-content">
       <span class="close" @click="closeModal">&times;</span>
-   <p>Please Select the Primary  Value</p>
+      <p>{{ modalErrorMessage }}</p>
     </div>
   </div>
 </template>
@@ -12,6 +12,14 @@ export default {
   props: {
     isOpen: Boolean,
     modalErrorMessage: String
+  },
+  watch: {
+    isOpen(newVal) {
+      console.log('Modal isOpen:', newVal);
+    },
+    modalErrorMessage(newVal) {
+      console.log('Modal Message:', newVal);
+    }
   },
   methods: {
     closeModal() {
@@ -28,7 +36,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 0, 0, 0.5); /* Red color with 50% opacity */
+  background-color: rgba(150, 139, 139, 0.5); /* Red color with 50% opacity */
   display: flex;
   justify-content: center;
   align-items: center;

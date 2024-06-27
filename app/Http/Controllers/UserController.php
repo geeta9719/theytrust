@@ -34,26 +34,194 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
-    public function dashboard(Request $request, $company)
-    {
-        $user     = auth()->user();
-        $uid      = auth()->user()->id;
-        $urole    = auth()->user()->role;
-        $cid      = Company::where('user_id', $uid)->first();
-        $data['currentSubscription'] =  $user->currentSubscription;
-        // dd($data);
+//    public function dashboard(Request $request, $company)
+// {
+//     $user  = auth()->user();
+//     $uid   = auth()->user()->id;
+//     $urole = auth()->user()->role;
+//     $cid   = Company::where('user_id', $uid)->first();
+//     $data['currentSubscription'] = $user->currentSubscription;
 
+//     if ((isset($cid->id) && $cid->id == $company) || $urole == 1) {
+//         $data['company'] = DB::select("SELECT companies.*,COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive, COUNT(service_lines.id) AS service_lines,addresses.autocomplete,addresses.city,addresses.country_iso2,addresses.address FROM companies LEFT JOIN company_reviews ON company_reviews.company_id = companies.id LEFT JOIN service_lines ON service_lines.company_id = companies.id LEFT JOIN addresses ON addresses.company_id = companies.id WHERE companies.id = $company");
 
-        if ((isset($cid->id) && $cid->id == $company) || $urole == 1) {
-            $data['company'] = DB::select("SELECT companies.*,COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive, COUNT(service_lines.id) AS service_lines,addresses.autocomplete,addresses.city,addresses.country_iso2,addresses.address FROM companies LEFT JOIN company_reviews ON company_reviews.company_id = companies.id LEFT JOIN service_lines ON service_lines.company_id = companies.id LEFT JOIN addresses ON addresses.company_id = companies.id WHERE companies.id =" . $company . " ");
+//         $data['company'] = $data['company'][0];
 
-            $data['company'] = $data['company'][0];
+//         // Fetch and format service lines and related data
+//         $serviceLines = ServiceLine::with(['category'])
+//             ->where('company_id', $company)
+//             ->get();
 
-            return view('home.user.dashboard', $data);
-        } else {
-            abort(403);
+//         $formattedData = [];
+//         foreach ($serviceLines as $serviceLine) {
+//             $subcategories = DB::table('add_foci')
+//                 ->join('subcategories', 'add_foci.subcategory_id', '=', 'subcategories.id')
+//                 ->where('subcategories.category_id', $serviceLine->category->id)
+//                 ->select('subcategories.id', 'subcategories.subcategory', 'add_foci.percent as inputValue')
+//                 ->get();
+
+//             $formattedSubcategories = [];
+//             foreach ($subcategories as $subcategory) {
+//                 $skills = DB::table('company_subcat_child')
+//                     ->join('subcat_children', 'company_subcat_child.subcat_child_id', '=', 'subcat_children.id')
+//                     ->where('subcat_children.subcategory_id', $subcategory->id)
+//                     ->select('subcat_children.id', 'subcat_children.name')
+//                     ->get();
+
+//                 $formattedSkills = [];
+//                 foreach ($skills as $skill) {
+//                     $subskills = DB::table('companyhasskill')
+//                         ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
+//                         ->where('skills.subcat_child_id', $skill->id)
+//                         ->select('skills.id', 'skills.name')
+//                         ->get();
+
+//                     $formattedSubskills = [];
+//                     foreach ($subskills as $subskill) {
+//                         $formattedSubskills[] = [
+//                             'subskill_id' => $subskill->id,
+//                             'subskill_name' => $subskill->name,
+//                         ];
+//                     }
+
+//                     $formattedSkills[] = [
+//                         'skill_id' => $skill->id,
+//                         'skill_name' => $skill->name,
+//                         'subskills_count' => count($formattedSubskills),
+//                         'subskills' => $formattedSubskills,
+//                     ];
+//                 }
+
+//                 $formattedSubcategories[] = [
+//                     'subcategory_id' => $subcategory->id,
+//                     'subcategory_name' => $subcategory->subcategory,
+//                     'value' => $subcategory->inputValue,
+//                     'skills' => $formattedSkills,
+//                 ];
+//             }
+
+//             $formattedData[] = [
+//                 'category_id' => $serviceLine->category->id,
+//                 'category_name' => $serviceLine->category->category,
+//                 'inputValue' => $serviceLine->percent,
+//                 'subcategories' => $formattedSubcategories,
+//             ];
+//         }
+
+//         $data['serviceLines'] = $formattedData;
+
+//         return view('home.user.dashboard', $data);
+//     } else {
+//         abort(403);
+//     }
+// }
+public function dashboard(Request $request, $company)
+{
+    $user  = auth()->user();
+    $uid   = $user->id;
+    $urole = $user->role;
+    $cid   = Company::where('user_id', $uid)->first();
+    $data['currentSubscription'] = $user->currentSubscription;
+    // dd($data);
+
+    if ((isset($cid->id) && $cid->id == $company) || $urole == 1) {
+        $data['company'] = DB::select("
+            SELECT companies.*, COUNT(company_reviews.id) AS review, AVG(overall_rating) AS rating, 
+            position_title, most_impressive, COUNT(service_lines.id) AS service_lines, 
+            addresses.autocomplete, addresses.city, addresses.country_iso2, addresses.address 
+            FROM companies 
+            LEFT JOIN company_reviews ON company_reviews.company_id = companies.id 
+            LEFT JOIN service_lines ON service_lines.company_id = companies.id 
+            LEFT JOIN addresses ON addresses.company_id = companies.id 
+            WHERE companies.id = $company
+        ");
+
+        $data['company'] = $data['company'][0];
+
+        // Fetch and format service lines and related data
+        $serviceLines = ServiceLine::with(['category'])
+            ->where('company_id', $company)
+            ->get();
+
+        $formattedData = [];
+        foreach ($serviceLines as $serviceLine) {
+            $subcategories = DB::table('add_foci')
+                ->join('subcategories', 'add_foci.subcategory_id', '=', 'subcategories.id')
+                ->where('subcategories.category_id', $serviceLine->category->id)
+                ->select('subcategories.id', 'subcategories.subcategory', 'add_foci.percent as inputValue')
+                ->get();
+
+            $formattedSubcategories = [];
+            foreach ($subcategories as $subcategory) {
+                $skills = DB::table('company_subcat_child')
+                    ->join('subcat_children', 'company_subcat_child.subcat_child_id', '=', 'subcat_children.id')
+                    ->where('subcat_children.subcategory_id', $subcategory->id)
+                    ->select('subcat_children.id', 'subcat_children.name')
+                    ->get();
+
+                $formattedSkills = [];
+                foreach ($skills as $skill) {
+                    $subskills = DB::table('companyhasskill')
+                        ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
+                        ->where('skills.subcat_child_id', $skill->id)
+                        ->select('skills.id', 'skills.name')
+                        ->get();
+
+                    $formattedSubskills = [];
+                    foreach ($subskills as $subskill) {
+                        $formattedSubskills[] = [
+                            'subskill_id' => $subskill->id,
+                            'subskill_name' => $subskill->name,
+                        ];
+                    }
+
+                    $formattedSkills[] = [
+                        'skill_id' => $skill->id,
+                        'skill_name' => $skill->name,
+                        'subskills_count' => count($formattedSubskills),
+                        'subskills' => $formattedSubskills,
+                    ];
+                }
+
+                $formattedSubcategories[] = [
+                    'subcategory_id' => $subcategory->id,
+                    'subcategory_name' => $subcategory->subcategory,
+                    'value' => $subcategory->inputValue,
+                    'skills' => $formattedSkills,
+                ];
+            }
+
+            $formattedData[] = [
+                'category_id' => $serviceLine->category->id,
+                'category_name' => $serviceLine->category->category,
+                'inputValue' => $serviceLine->percent,
+                'subcategories' => $formattedSubcategories,
+            ];
         }
+
+        $data['serviceLines'] = $formattedData;
+        $data['serviceLineCount'] = count($formattedData);
+
+        // Fetch industries
+        $industries = AddIndustry::with('industry')->where("company_id", $company)->get();
+       
+        $data['industries'] = $industries;
+
+        // Fetch client sizes
+        $clientSizes = AddClientSize::with('client_size')->where("company_id", $company)->get();
+     
+        $data['clientSizes'] = $clientSizes;
+
+        // Fetch addresses
+        $addresses = Address::where('company_id', $company)->get();
+        $data['addresses'] = $addresses;
+
+        return view('home.user.dashboard', $data);
+    } else {
+        abort(403);
     }
+}
+
 
     public function personal()
     {
@@ -156,9 +324,8 @@ class UserController extends Controller
                 $b = explode('-', $value->rate);
                 $rate[$b[0]] = $value;
             }
-
-            // ksort($rate);
-
+            $address = Address::where('company_id', $company->id)->get();
+            $address= $address->isEmpty() ?true  :false;
 
             return view('home.user.basicInfo', [
                 'budget'    => $budget,
@@ -168,7 +335,8 @@ class UserController extends Controller
                 'company'   => $company,
                 'address'   => $address,
                 'city'      => $city,
-                'state'     => $state
+                'state'     => $state,
+                'address' =>   $address
             ]);
         } else {
             abort(403);
@@ -178,7 +346,6 @@ class UserController extends Controller
     public function saveBasicInfo(Request $request)
     {
         $company = Company::where('user_id', $request->user_id)->first();
-
         if ($company) {
             $company->profile_type      = $request->profile_type;
             $company->name              = $request->name;

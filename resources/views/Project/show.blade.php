@@ -38,7 +38,7 @@
             <div class="form-group">
                 <strong>Uploaded Image:</strong>
                 @if($Project->uploaded_image)
-                    <img src="{{    'storage/' . asset($Project->uploaded_image) }}" alt="Uploaded Image" style="max-width: 200px;">
+                    <img src="{{'storage/' . asset($Project->uploaded_image) }}" alt="Uploaded Image" style="max-width: 200px;">
                 @else
                     <p>No uploaded image</p>
                 @endif

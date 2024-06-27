@@ -48,8 +48,12 @@ else
             </div>
             <div class="col-md-10 mx-auto mt-4 d-flex align-items-center justify-content-between boxcss">
                
-                <a href="{{route('company.focus', $company_id)}}"  class="allinforow"> <p>Project Informations</p> <i class="fa fa-plus" aria-hidden="true"></i></a>  
+                <a href="{{route('company.focus', $company_id)}}"  class="allinforow"> <p> Informations</p> <i class="fa fa-plus" aria-hidden="true"></i></a>  
             </div>
+            {{-- <div class="col-md-10 mx-auto mt-4 d-flex align-items-center justify-content-between boxcss">
+               
+                <a href="{{route('company.focus', $company_id)}}"  class="allinforow"> <p>Add Project   Informations</p> <i class="fa fa-plus" aria-hidden="true"></i></a>  
+            </div> --}}
         </div>
     </div>
 </section>                    

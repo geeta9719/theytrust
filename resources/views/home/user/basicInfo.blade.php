@@ -289,15 +289,6 @@
                                             <div class="invalid-feedback tagline rmvCls"></div>
                                             <div id="taglineCharCount" class="char-count">50 characters remaining</div>
                                         </div>
-
-                                        {{-- <div class="form-group">
-                            <label for="short_description">Message</label><strong style="color: red;"> *</strong>
-                            <textarea name="short_description" id="short_description" cols="50" placeholder="Tell us a little bit about your company" rows="5" class="form-control rmvId"><?php if (!empty($company->short_description)) {
-                                echo $company->short_description;
-                            } ?></textarea>
-                            <div class="invalid-feedback short_description rmvCls"></div>
-                        </div>
-                         --}}
                                         <div class="form-group">
                                             <label for="short_description">Message</label><strong style="color: red;">
                                                 *</strong>

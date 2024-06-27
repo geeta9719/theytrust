@@ -4,7 +4,8 @@
         {{-- {{dd($company)}} --}}
              {{-- <focus-main-component :categories="{{ $categories }}"></focus-main-component>
               --}}
-              <focus-main-component :categories="{{ $categories }}" :company-id="{{ $company }}"></focus-main-component>
+              <focus-main-component :categories="{{ $categories }}" :company-id="{{ $company }}" ></focus-main-component>
+              {{-- <focus-main-component :categories="{{ $categories }}" :company-id="{{ $company }}" :selectedData ="{{$serviceLines}}"></focus-main-component> --}}
 
     </div>
     <script src="{{ mix('js/app.js') }}"></script>

@@ -654,7 +654,7 @@
                                     <div class="row mt-1 target-sec">
                                         <div class="col-md-8 pr-md-1">
 
-                                            <h2 class="area my-heading"> Target Services Area</h2>
+                                            <h2 class="area my-heading"> Target Industries </h2>
                                             <hr class="mt-2">
 
                                             <div class="row mx-0 percentbox">
@@ -672,7 +672,7 @@
                                         </div>
                                         <div class="col-md-4 pl-md-1">
 
-                                            <h2 class="industries my-heading"> Target Industries</h2>
+                                            <h2 class="industries my-heading">  Target Services Area</h2>
                                             {{-- @foreach ($service_lines[$cmp->id] as $service_line)
                                                 @if ($service_line->category_id)
                                                     <a href="#" class="btn-target">

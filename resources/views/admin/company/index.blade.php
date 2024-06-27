@@ -69,7 +69,7 @@
                                             
                                             <a href="{{url('company/'.$company->id.'/dashboard')}}" class="btn btn-sm btn-primary" >View</a>
                                             
-                                            <a href="{{route( 'admin.company.add', [ $company->user_id, $company->id] )}}" class="btn btn-sm btn-primary publishBtn">Edit</a>
+                                            <a href="{{route('admin.company.add', [ $company->user_id, $company->id] )}}" class="btn btn-sm btn-primary publishBtn">Edit</a>
                                             
                                             <a href="javascript:void(0)" data-cid="{{$company->id}}" data-flag="{{$company->is_flagged}}" class="btn btn-sm btn-danger isFlag"><span id="flag_{{$company->id}}">{{$flag_btn_text}}</span></a>
 

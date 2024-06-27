@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     @include('home.partials._header')
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
     <body>
         
         <!-- Navbar -->
@@ -8,6 +9,8 @@
         <!-- /.navbar -->
 
         @yield('content')
+
+
         
         @include('home.partials._foot')
         

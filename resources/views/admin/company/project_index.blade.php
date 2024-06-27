@@ -31,29 +31,28 @@
     <div class="row  ">
         <div class="col-lg-12">
             <div class="col-lg-12  form-size">  
-                {{-- <div class="row"> --}}
-                    <div class="row">
-                        @foreach ($projects as $project)
-                            <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <img src="{{ $project->thumbnail_image }}" class="card-img-top" alt="Thumbnail Image">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Project  Name:{{ $project->title }}</h5>
-                                        <p class="card-text">Project Size: {{ $project->project_size }}</p>
-                                        <p class="card-text">Description : {{ $project->description }}</p>
-                                        @if($project->uploaded_image)
-                                            <img src="{{ $project->uploaded_image }}" class="card-img-top" alt="Uploaded Image">
-                                        @endif
-                                        @if($project->youtube_video)
-                                            <iframe width="100%" height="200" src="{{ $project->youtube_video }}" frameborder="0" allowfullscreen></iframe>
-                                        @endif
-                                    </div>
+                <div class="row">
+                    @foreach ($projects as $project)
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <!-- Edit button -->
+                                    <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-primary">Edit</a>
+                                    
+                                    <h5 class="card-title">Project  Name:{{ $project->title }}</h5>
+                                    <p class="card-text">Project Size: {{ $project->project_size }}</p>
+                                    <p class="card-text">Description : {{ $project->description }}</p>
+                                    @if($project->uploaded_image)
+                                        <img src="{{ $project->uploaded_image }}" class="card-img-top" alt="Uploaded Image">
+                                    @endif
+                                    @if($project->youtube_video)
+                                        <iframe width="100%" height="200" src="{{ $project->youtube_video }}" frameborder="0" allowfullscreen></iframe>
+                                    @endif
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
-                    
-                {{-- </div> --}}
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
@@ -114,7 +113,7 @@
                                 
                             </div>
                             <div class="form-group">
-                                <label for="uploaded_image">Uploaded Image</label>'
+                                <label for="uploaded_image">Uploaded Image</label>
                                 <input type="file" class="form-control-file" id="uploaded_image" name="uploaded_image">
                                 @error('uploaded_image')
                                 <span class="text-danger">{{ $message }}</span>
@@ -138,6 +137,4 @@
         </div>
     </div>
 </div>
-
-
 @endsection

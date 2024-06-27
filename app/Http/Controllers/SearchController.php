@@ -291,7 +291,6 @@ class SearchController extends Controller
         
 
         $where = implode( ' AND ', $where );
-        /************** pagination *********************/
 
 
 
@@ -1202,6 +1201,7 @@ class SearchController extends Controller
         $data['add_focus']      = AddFocus::where( 'company_id', $company_id )->get();
         $data['addresses']      = Address::where( 'company_id', $company_id )->get();
         $data['projects']      = CompanyHasProject::where( 'company_id', $company_id )->get();
+        $data['projects'] =[];
         foreach( $data['add_focus'] as $add_focus )
         {
             $focus[$add_focus->subcategory_id][] = $add_focus;
@@ -1219,6 +1219,7 @@ class SearchController extends Controller
 
 
         $data['company'] = Company::where('id', $company_id)->first();
+
 
         // if (!$data['company']) {
         //     $cleaned_company_id = str_replace('-', ' ', $company_id);
@@ -1248,18 +1249,13 @@ class SearchController extends Controller
                                 ->selectRaw('avg(overall_rating) as rating')
                                 ->where('company_id',$company_id)
                                 ->first();
-
-
-       
-                                // dd($company_id);
-
         $data['review']         = CompanyReview::where( 'company_id', $company_id )->get();
         $data['service_lines']  = ServiceLine::where( 'company_id', $company_id )->get();
         $data['add_industry']   = AddIndustry::where( 'company_id', $company_id )->get();
         $data['add_client_size']= AddClientSize::where( 'company_id', $company_id )->get();
         $data['add_focus']      = AddFocus::where( 'company_id', $company_id )->get();
         $data['addresses']      = Address::where( 'company_id', $company_id )->get();
-        $data['projects']      = CompanyHasProject::where( 'company_id', $company_id )->get();
+        $data['projects']      =  CompanyHasProject::where( 'company_id', $company_id )->get();
         foreach( $data['add_focus'] as $add_focus )
         {
             $focus[$add_focus->subcategory_id][] = $add_focus;

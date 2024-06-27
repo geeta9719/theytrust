@@ -23,12 +23,6 @@ class SeosearchController extends Controller
         
     }
 
-    // public function edit($id)
-    // {
-    //     $seo = Seo::findOrFail($id);
-
-    //     return view('seo.edit', compact('seo'));
-    // }
 
     public function update(Request $request, $id)
     {
@@ -91,3 +85,4 @@ class SeosearchController extends Controller
         return Excel::download(new ExportSeo, 'seo.xlsx');
     }
 }
+

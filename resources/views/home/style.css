@@ -61,7 +61,7 @@ html {
     transition: transform .2s ease-in-out;
     position: absolute;
     right: 15px;
-    color: #fff;
+    color: #ffffff;
 }
 .contact-form-sec p {
     font-size: 22px;
@@ -536,7 +536,7 @@ width: 100% !important;
     border-right: 1px solid #ccc;
 }
 .firm-sec .input-group {
-    border: 1px solid #ccc;
+    border: 1px solid #191414;
     padding: 10px 0;
     margin-top: 42px;
 }

@@ -27,6 +27,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PlanFeatureController;
 use App\Http\Controllers\PlanSubscriptionController;
 use App\Http\Controllers\PaymentContorller;
+use App\Http\Controllers\PortfolioItemController;
 // use App\Http\Controllers\CompanyController;
 
 
@@ -332,3 +333,17 @@ Route::post('/company/save-industry/{id}', [AddCompany::class, 'save_company_ind
 Route::get('/companydata/{id}/', [AddCompany::class, 'getdata']);
 Route::get('/industry/{id}/', [AddCompany::class, 'industryData']);
 Route::get('/company/{company}/marketing', [UserController::class, 'adminInfo'])->name('company.marketing');
+
+
+Route::get('portfolio/create', [PortfolioItemController::class, 'create'])->name('portfolio.create');
+Route::post('portfolio', [PortfolioItemController::class, 'store'])->name('portfolio.store');
+Route::get('/portfolio/{company}', [PortfolioItemController::class, 'index'])->name('portfolio.index');
+Route::get('/portfolio/{company}/data', [PortfolioItemController::class, 'getData'])->name('portfolio.data');
+
+Route::get('company/portfolio_items', [PortfolioItemController::class, 'tableView'])->name('portfolio_items.tableView');
+Route::get('portfolio_items/{portfolio_item}/edit', [PortfolioItemController::class, 'edit'])->name('portfolio_items.edit');
+Route::put('portfolio_items/{portfolio_item}', [PortfolioItemController::class, 'update'])->name('portfolio_items.update');
+Route::delete('portfolio_items/{portfolio_item}', [PortfolioItemController::class, 'destroy'])->name('portfolio_items.destroy');
+
+
+

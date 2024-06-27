@@ -590,7 +590,7 @@ class AddCompany extends Controller
     public function industryData($id)
     {
 
-        $industry   =    AddIndustry::with('industry')->where("company_id", $id)->get();
+        $industry   =   AddIndustry::with('industry')->where("company_id", $id)->get();
         $client_size =  AddClientSize::with('client_size')->where("company_id", $id)->get();
 
         $data = array('industry' => $industry, 'client_size' => $client_size);

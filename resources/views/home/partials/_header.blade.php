@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{asset('front_components/images/favicon.png')}}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Theytrustus</title>
+    
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{{asset('front_components/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('front_components/css/font-awesome.min.css')}}">

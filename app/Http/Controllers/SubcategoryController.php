@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SubcategoryController extends Controller
 {
-    //
+    
     public function index(){
         $subcategory = Subcategory::paginate(10);
         //dd($contact);
@@ -15,11 +15,9 @@ class SubcategoryController extends Controller
     }
     public function create(){
         $category = Category::all();
-        //dd($category);
         return view('admin.subcategory.create' , ['category' => $category]);
     }
 
-    //public function store(Request $request){
     public function store(){
         $inputs = request()->validate([
             'category_id' => 'required',
@@ -28,7 +26,6 @@ class SubcategoryController extends Controller
         $inputs['description'] = request()->description;
         Subcategory::create($inputs);
         session()->flash('msg','Subcategory inserted');
-        //return redirect()->route('admin.Category.index');
         return back();
     }
 

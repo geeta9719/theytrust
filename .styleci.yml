@@ -12,3 +12,7 @@ js:
     not-name:
       - webpack.mix.js
 css: true
+
+
+mix.react('resources/js/app.js', 'public/js');
+

@@ -8,7 +8,6 @@ use App\Models\Rate;
 
 class RateController extends Controller
 {
-    //
     public function index(Request $request){
         $data['rate'] = Rate::all();
         return view('admin.rate.index' , $data);
@@ -17,7 +16,6 @@ class RateController extends Controller
         return view('admin.rate.create');
     }
 
-    //public function store(Request $request){
     public function store(){
         $inputs = request()->validate([
             'rate' => 'required',
@@ -25,7 +23,6 @@ class RateController extends Controller
 
         Rate::create($inputs);
         session()->flash('msg','Rate inserted');
-        //return redirect()->route('admin.rate.index');
         return back();
     }
 
@@ -41,17 +38,15 @@ class RateController extends Controller
         ]);
 
         $rate->rate = $inputs['rate'];
-        $rate->save();//save post with owner of the user
+        $rate->save();
         
         session()->flash('msg','data is updated');
         return redirect()->route('admin.rate.show');
-        //return back();
     }
 
     public function destroy(Rate $rate, Request $request){ 
         $rate->delete();
-        //Session::flash('message','Post was deleted');//use when we do not use request
-        $request->session()->flash('message','Rate is Deleted');//use when we use request
+        $request->session()->flash('message','Rate is Deleted');
         return back();
     }  
 }

@@ -18,6 +18,7 @@ use Rennokki\Plans\Traits\PlanSubscriptionModel;
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Company;
 use PDF;
 
 
@@ -35,6 +36,7 @@ class PaymentContorller extends Controller
         try {
             Stripe::setApiKey(config('services.stripe.secret'));
             $user = auth()->user();
+            $company = Company::where('user_id', auth()->id())->first();
             $plan = PlanModel::find($request->plan);
             $redirectUrl = url('company/' . $user->id . '/dashboard');
             if ($plan->price == 0) {
@@ -70,7 +72,7 @@ class PaymentContorller extends Controller
                 'client_reference_id' => json_encode($metadata),
                 'payment_intent_data' => $metadata,
                 'mode' => 'payment',
-                'success_url' => url('company/' . $user->id . '/dashboard'),
+                'success_url' => url('company/' . $company->id . '/dashboard'),
                 'cancel_url' => url('/'),
             ]);
             return response()->json(['status' => 'success', 'sessionId' => $session->id]);

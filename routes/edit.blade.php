@@ -22,9 +22,9 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">CATEGORY</h3>
+                            <h3 class="card-title"> SKILL CATEGORY</h3>
                             <span style="float:right;">
-                                <a href="{{route('admin.subcategory-child.show')}}" class="btn btn-sm btn-primary"> Show </a>
+                                <a href="{{route('admin.skillcat.show')}}" class="btn btn-sm btn-primary"> Show </a>
                             </span>
                         </div>                           
 
@@ -37,7 +37,33 @@
                                         <h3 class="card-title" >Update Category</h3>
                                     </div>
                                     <!-- form start -->
-                                    <form role="form" action="{{route('admin.subcategory-child.update',$subcategorychild)}}" method="post" enctype="multipart/form-data">
+
+                                    <form action="{{ route('admin.skill.update', $skill->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="form-group">
+                                            <label for="subcat_child_id">Subcategory Child ID:</label>
+                                            <select name="subcat_child_id" id="subcat_child_id" class="form-control">
+                                                @foreach($subcategories as $subcategory)
+                                                    <option value="{{ $subcategory->id }}" @if($subcategory->id == $skill->subcat_child_id) selected @endif>{{ $subcategory->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('subcat_child_id')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Name:</label>
+                                            <input type="text" name="name" id="name" class="form-control" value="{{ $skill->name }}">
+                                            @error('name')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+
+
+                                    {{-- <form role="form" action="{{route('admin.subcategory-child.update',$subcategorychild)}}" method="post" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
                                         <div class="card-body">
@@ -74,7 +100,7 @@
                                         <div class="card-footer">
                                             <button type="submit" name="update" class="btn btn-sm btn-primary" style="float:right;">Update</button>
                                         </div>
-                                    </form>
+                                    </form> --}}
                                 </div>
                             </div>
                         </div>

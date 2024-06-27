@@ -102,13 +102,3 @@ class PlanSubscriptionController extends Controller
     }
 }
 
-
-
-    // public function inddex()
-    // {
-    //     $users = user::all();
-    //     $plansubscription = PlansubscritionModel::With('model')->get();
-    //     // dd($planSubscriptions);
-    //     return view ('admin.Plansubscrition.index',compact('users','Plansubscriptions'));
-
-    // }
