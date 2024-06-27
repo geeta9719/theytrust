@@ -385,8 +385,8 @@
                             <p class="ml-2 m-0">Service Lines: {{ $serviceLineCount }}</p>
                         </div>
                         <div class="d-flex justify-content-between mt-3">
-                            <button class="btn btn-secondary w-100 mr-1">View Profile</button>
-                            <button class="btn btn-secondary w-100 ml-1">Edit / Update Profile</button>
+                            <a href="{{ route('profile', ['company' => $company->id]) }}" class="btn btn-secondary w-100 mr-1">View Profile</a>
+                           <a href="{{ route('user.basicInfo', ['user' => auth()->user()->id]) }}" class="btn btn-secondary w-100 ml-1">Edit / Update Profile</a>
                         </div>
                     </div>
                 </div>
