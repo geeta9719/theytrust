@@ -32,7 +32,7 @@
                 <td>{{ $item->client_name }}</td>
                 <td>{{ $item->project_title }}</td>
                 <td>{{ $item->country_location }}</td>
-                <td>{{ $item->project_duration }}</td>
+                <td>{{ $item->engagement_start_date->format('M Y') }} - {{ $item->engagement_end_date ? $item->engagement_end_date->format('M Y') : 'Ongoing' }}</td>
                 <td><i class="fas fa-bars"></i></td>
                 <td>
                     <a href="{{ route('portfolio_items.edit', $item->id) }}" class="btn btn-warning btn-sm">
