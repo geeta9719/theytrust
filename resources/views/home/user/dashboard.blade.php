@@ -409,7 +409,8 @@
                     </div>
                     <div class="container mt-5 p-0">
                         <div class="row mt-1 justify-content-between">
-                            <div class="col-xl-6 mb-xl-0 mb-2"><button class="btn w-100">Manage Reviews</button>
+                            <a href="{{ route('reviews.listView') }}" class="btn w-100 btn-primary">Manage Reviews</a>
+
                             </div>
                             <div class="col-xl-6 text-xl-right "><button class="btn w-100">Request A Review</button>
                             </div>

@@ -1363,6 +1363,13 @@ class SearchController extends Controller
             return die( json_encode( [ 'results' => array() ] ) );
         }
     }
+
+    public function listView()
+    {
+        $company = Company::where('user_id', auth()->id())->first();
+        $reviews = CompanyReview::where('company_id', $company->id)->with('user')->paginate(10);
+        return view('home.list', compact('company', 'reviews'));
+    }
 }
 
 

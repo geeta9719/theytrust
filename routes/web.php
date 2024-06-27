@@ -96,6 +96,8 @@ Route::get('/test1/{name}/{loc?}', [SearchController::class, 'test1'])->name('in
 Route::get('/get-search-list', [SearchController::class, 'getSearchList'])->name('get-search-list');
 Route::get('/get-company-list', [SearchController::class, 'getCompany'])->name('get-company-list');
 Route::get('/review/{company}', [SearchController::class, 'review'])->name('review');
+Route::get('company/reviews', [SearchController::class, 'listView'])->name('reviews.listView');
+
 Route::get('/profile/{company}', [SearchController::class, 'companyProfile'])->name('profile');
 Route::get('/test/{company}', [UserController::class, 'test'])->name('test');
 Route::get('/api/subcategories', [UserController::class, 'subcategories']);
@@ -344,6 +346,7 @@ Route::get('company/portfolio_items', [PortfolioItemController::class, 'tableVie
 Route::get('portfolio_items/{portfolio_item}/edit', [PortfolioItemController::class, 'edit'])->name('portfolio_items.edit');
 Route::put('portfolio_items/{portfolio_item}', [PortfolioItemController::class, 'update'])->name('portfolio_items.update');
 Route::delete('portfolio_items/{portfolio_item}', [PortfolioItemController::class, 'destroy'])->name('portfolio_items.destroy');
+
 
 
 
