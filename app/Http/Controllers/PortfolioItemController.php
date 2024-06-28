@@ -13,7 +13,6 @@ class PortfolioItemController extends Controller
     {
 
         $company = Company::where('user_id', auth()->id())->first();
-        // dd($company);
 
         $portfolioItems = PortfolioItem::paginate(10);
         return view('home.user.portfolio_items.tables', compact('company', 'portfolioItems'));
@@ -37,9 +36,9 @@ class PortfolioItemController extends Controller
             'engagement_start_date' => 'required|date',
             'engagement_end_date' => 'nullable|date|after_or_equal:engagement_start_date',
         ]);
-
+    
         $media = null;
-
+    
         if ($request->hasFile('media')) {
             $media = [
                 'type' => 'file',
@@ -51,14 +50,21 @@ class PortfolioItemController extends Controller
                 'url' => $request->youtube_url,
             ];
         }
-
-
+    
+        // Fetch the company associated with the authenticated user
         $company = Company::where('user_id', auth()->id())->first();
-
-        PortfolioItem::create(array_merge($validated, ['media' => $media, 'company_id' => $company->id]));
+    
+        // Ensure the company ID is added to the validated data before creating the PortfolioItem
+        $portfolioItemData = array_merge($validated, ['media' => $media, 'company_id' => $company->id]);
+    
+        // Create the PortfolioItem
+        PortfolioItem::create($portfolioItemData);
+    
+        // Redirect back to company dashboard or any other relevant page
         $redirectUrl = url('company/' . $company->id . '/dashboard');
         return redirect($redirectUrl)->with('success', 'Portfolio item added successfully.');
     }
+    
     public function index($company)
     {
         $company = Company::findOrFail($company);
@@ -118,6 +124,6 @@ class PortfolioItemController extends Controller
     {
         $portfolioItem = PortfolioItem::findOrFail($id);
         $portfolioItem->delete();
-        return redirect()->route('portfolio_items.tableView')->with('success', 'Portfolio item deleted successfully.');
+        return redirect()->route('')->with('success', 'Portfolio item deleted successfully.');
     }
 }
