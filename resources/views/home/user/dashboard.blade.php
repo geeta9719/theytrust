@@ -140,11 +140,21 @@
     .greybox p {
         font-size: 14px;
     }
-
+    .category-group, .subcategory-group, .skills-group, .deep-skills-group{
+        text-align:left;
+    }
+.subcategoybox{
+    display: flex;
+    flex-wrap: wrap;
+}
     .review p {
         margin: 0 0px 0 20px;
+        font-size: 1rem;
     }
-
+    .logo-box p {
+        
+        font-size: 1rem;
+    }
     .address a {
         text-decoration: underline;
     }
@@ -239,6 +249,7 @@
     .field-name {
         min-width: 170px;
         margin: 0;
+        font-size: 1rem;
     }
 
     .cate-box {
@@ -247,7 +258,9 @@
         justify-content: space-between;
         margin-right: 15px;
     }
-
+    .cate-box p{
+        font-size: 1rem;
+    }
     .cate-box input {
         text-align: center;
     }
@@ -274,6 +287,11 @@
         padding: 3px 8px 7px 8px;
         font-size: 13px;
         margin-left: 11px;
+    }
+    .reviewcount{
+        text-align: center;
+    color: red;
+    margin-top: 11px;
     }
 
     @media (max-width: 1199px) {
@@ -404,6 +422,10 @@
 <div class="alert alert-success" style="text-align:center;font-weight: bolder;">{{ Session::get('message') }}</div>
 @endif
 
+<section class="text-center mt-3">
+<h2>Dashboard</h2>
+</section>
+
 <section class="container  mt-3 ">
     <div class="top-box">
         <div class="row third-box mx-0">
@@ -443,7 +465,7 @@
                         </p>
                         <div class="d-flex align-items-center">
                             <p class="m-0">{{ $currentSubscription[0]->plan->name }}</p>
-                            <a href="{{ url('/membership-plans') }}" class="btn btn-primary ml-2">Upgrade Now</a>
+                            <a href="{{ url('/membership-plans') }}" class="btn btn-primary ml-2" >Upgrade Now</a>
                         </div>
                         <div class="d-flex align-items-center my-2">
                             <img src="/img/tag.png" alt="Tag Icon" class="img-fluid" style="width: 20px; height: 20px;">
@@ -477,21 +499,18 @@
                             reviews by contacting customers for the genuineness. If we are not able to get in touch
                             with your customer after reasonable attempts, the review will not be published.</p>
                         <p> Only 1st 3 reviews will be published in the free tier. To publish more reviews.
-                            <a href="{{ url('/membership-plans') }}">Upgrade your plan now</a>
+                            <a href="{{ url('/membership-plans') }}" >Upgrade your plan now</a>
                         </p>
                     </div>
                     <div class="container mt-5 p-0">
                         <div class="row mt-1 justify-content-between">
                             <div class="col-xl-6 mb-xl-0 mb-2">
                                 <a href="{{ route('reviews.listView') }}" class="btn w-100 btn-primary">Manage Reviews</a>
-                                <div>You have {{ $reviewCount }} reviews</div>
+                                <div class="reviewcount">You have {{ $reviewCount }} reviews</div>
 
                             </div>
-                            {{-- <div class="col-xl-6 text-xl-right ">
-                                <button  class="btn w-100">Request A Review</button>
-                            </div> --}}
                             <div class="col-xl-6 text-xl-right">
-                                <a href="{{ route('comapany.reviews.request.index') }}" class="btn w-100">Request A Review</a>
+                                <a href="{{ route('company.reviews.request.index') }}" class="btn w-100">Request A Review</a>
                             </div>
                             
                         </div>
@@ -566,10 +585,10 @@
                     <h3 class="mt-5 pt-2">Your Industries</h3>
                     @foreach($industries as $index => $industry)
                         <div class="row mt-3 {{ $index >= 3 ? 'additional-industry' : '' }}" style="{{ $index >= 3 ? 'display:none;' : '' }}">
-                            <div class="col-lg-4 mb-2 mb-lg-0">
+                            <div class="col-lg-6 mb-2 mb-lg-0">
                                 <p>{{ $industry->industry->name }}</p>
                             </div>
-                            <div class="col-lg-8 text-center text-lg-left">
+                            <div class="col-lg-6 text-center text-lg-left">
                                 <input type="text" value="{{ $industry->percent }}">
                             </div>
                         </div>
@@ -588,10 +607,10 @@
                     <h3 class="mt-5">Your Client Size</h3>
                     @foreach($clientSizes as $index => $clientSize)
                         <div class="row mt-3 {{ $index >= 3 ? 'additional-client-size' : '' }}" style="{{ $index >= 3 ? 'display:none;' : '' }}">
-                            <div class="col-lg-4 mb-2 mb-lg-0">
+                            <div class="col-lg-6 mb-2 mb-lg-0">
                                 <p>{{ $clientSize->client_size->name }}</p>
                             </div>
-                            <div class="col-lg-8 text-center text-lg-left">
+                            <div class="col-lg-6 text-center text-lg-left">
                                 <input type="text" value="{{ $clientSize->percent }}">
                             </div>
                         </div>
@@ -634,14 +653,18 @@
                         <div class="subcategory-section">
                             <div class="subcategory-group mb-3">
                                 <p class="field-name"><b>Sub Category</b></p>
+                                <div class="subcategoybox">
                                 @foreach($serviceLine['subcategories'] as $subcategory)
+                               
                                     <div class="cate-box mt-2 mt-lg-0">
                                         <p>{{ $subcategory['subcategory_name'] }}</p>
                                         <input type="text" value="{{ $subcategory['value'] }}" class="percentage-input">
-                                    </div>
+                                    
+                    </div>
                                 @endforeach
+                                </div>
                             </div>
-                            
+                           
                             <div class="skills-group mb-3">
                                 <p class="field-name mb-2"><b>Skills</b></p>
                                 <div class="skill-tags">
