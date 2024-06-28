@@ -40,6 +40,12 @@
 
     }
 
+    .editupdate {
+        position: absolute;
+        bottom: 24px;
+        right: 16px;
+    }
+
     .top-box {
         background-color: #45a2ef;
         padding: 6px 0px 0px 0;
@@ -86,7 +92,7 @@
         margin-top: 4px;
         padding: 20px 12px;
         border-radius: 4px;
-        min-height: 84%;
+        min-height: 86%;
         border-bottom: 5px solid #45a2ef;
     }
 
@@ -94,6 +100,7 @@
         vertical-align: middle;
         align-items: center;
     }
+
     .logo-inner p {
         margin-left: 10px;
     }
@@ -107,6 +114,7 @@
         font-size: 18px;
         display: block;
     }
+
     .bottom {
         border-radius: 44px;
         background-color: #45a2ef;
@@ -122,10 +130,21 @@
         margin: 0;
     }
 
+    .second-box .btn {
+        color: #fff;
+        background-color: #9095a0 !important;
+        border-color: #9095a0 !important;
+        /* padding: 3px 0 !important; */
+        /* margin-left: 20px; */
+        border-radius: 5px;
+        padding: 3px 8px 7px 8px;
+        font-size: 13px;
+    }
+
     .btn {
         color: #fff;
-        background-color: #00bdd6 !important;
-        border-color: #00bdd6 !important;
+        background-color: #9095a0 !important;
+        border-color: #9095a0 !important;
         /* padding: 3px 0 !important; */
         /* margin-left: 20px; */
         border-radius: 5px;
@@ -134,29 +153,42 @@
     }
 
     .greybox {
-        background-color: #ccc;
+        background-color: #f3f4f6;
     }
 
     .greybox p {
         font-size: 14px;
     }
-    .category-group, .subcategory-group, .skills-group, .deep-skills-group{
-        text-align:left;
+
+    .category-group,
+    .subcategory-group,
+    .skills-group,
+    .deep-skills-group {
+        align-items: flex-start;
+        margin-bottom: 0 !important;
     }
-.subcategoybox{
-    display: flex;
-    flex-wrap: wrap;
-}
+
+    .subcategoybox {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
     .review p {
         margin: 0 0px 0 20px;
         font-size: 1rem;
     }
+
     .logo-box p {
-        
+
         font-size: 1rem;
     }
+
     .address a {
         text-decoration: underline;
+    }
+
+    .address input {
+        text-align: center;
     }
 
     .area a {
@@ -164,18 +196,27 @@
     }
 
     .address h3 {
-        font-size: 23px;
+        font-size: 18px;
         font-weight: 700;
+        color: #323842;
+    }
+
+    .btnbox {
+        position: absolute;
+        bottom: 37px;
+        width: 94%;
     }
 
     .service h3 {
-        font-size: 23px;
+        font-size: 18px;
         font-weight: 700;
+        color: #323842;
     }
 
     .address h4 {
         font-size: 16px;
         font-weight: bold;
+        color: #4f545d;
     }
 
     .address p {
@@ -254,13 +295,16 @@
 
     .cate-box {
         display: flex;
-        width: 190px;
+        width: 233px;
         justify-content: space-between;
         margin-right: 15px;
+        margin-bottom: 10px;
     }
-    .cate-box p{
-        font-size: 1rem;
+
+    .cate-box p {
+        font-size: 14px;
     }
+
     .cate-box input {
         text-align: center;
     }
@@ -279,19 +323,19 @@
 
     .greybox a {
         color: #fff;
-        background-color: #00bdd6 !important;
-        border-color: #00bdd6 !important;
+        background-color: #9095a0 !important;
+        border-color: #9095a0 !important;
         /* padding: 3px 0 !important; */
         /* margin-left: 20px; */
         border-radius: 5px;
         padding: 3px 8px 7px 8px;
         font-size: 13px;
-        margin-left: 11px;
     }
-    .reviewcount{
+
+    .reviewcount {
         text-align: center;
-    color: red;
-    margin-top: 11px;
+        color: #8d8e91;
+        margin-top: 11px;
     }
 
     @media (max-width: 1199px) {
@@ -336,8 +380,20 @@
     }
 
     @media (max-width: 767px) {
+        .field-name {
 
+            min-width: 130px !important;
+        }
 
+        .editupdate {
+            position: static;
+        }
+
+        .btnbox {
+            position: static;
+            bottom: 37px;
+            width: 100%;
+        }
 
         .third-box .col-md-4 {}
 
@@ -345,77 +401,83 @@
             font-size: 17px;
         }
     }
+
     .service-line {
-    margin-bottom: 40px; /* Increased margin to create space between primary categories */
-}
+        margin-bottom: 40px;
+        /* Increased margin to create space between primary categories */
+    }
 
-.category-group,
-.subcategory-group,
-.skills-group,
-.deep-skills-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
+    .category-group,
+    .subcategory-group,
+    .skills-group,
+    .deep-skills-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
 
-.field-name {
-    font-weight: bold;
-    margin-right: 10px;
-    min-width: 150px; /* Adjusted for better alignment */
-}
+    .field-name {
 
-.cate-box {
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
-}
 
-.cate-box p {
-    margin: 0;
-    margin-right: 10px;
-}
 
-.percentage-input {
-    width: 60px;
-    text-align: center;
-    background-color: #e0e0e0;
-    border: none;
-    padding: 5px;
-    margin-left: 10px;
-}
+        color: #3c424c;
+        font-weight: 400;
+        margin-right: 10px;
+        min-width: 150px;
+        /* Adjusted for better alignment */
+    }
 
-.skill-tags,
-.deep-skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-}
+    .cate-box {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+    }
 
-.skill-tag,
-.deep-skill-tag {
-    display: inline-block;
-    background-color: #ddd;
-    padding: 5px 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    border-radius: 15px;
-    text-decoration: none;
-    color: #333;
-}
+    .cate-box p {
+        margin: 0;
+        margin-right: 10px;
+    }
 
-.skill-tag:hover,
-.deep-skill-tag:hover {
-    background-color: #ccc;
-}
+    .percentage-input {
+        width: 60px;
+        text-align: center;
+        background-color: #e0e0e0;
+        border: none;
+        padding: 5px;
+        margin-left: 10px;
+    }
 
-.area a {
-    text-decoration: none;
-    color: #007bff;
-}
+    .skill-tags,
+    .deep-skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
-.area a:hover {
-    text-decoration: underline;
-}
+    .skill-tag,
+    .deep-skill-tag {
+        display: inline-block;
+        background-color: #ddd;
+        padding: 5px 10px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        border-radius: 15px;
+        text-decoration: none;
+        color: #333;
+    }
 
+    .skill-tag:hover,
+    .deep-skill-tag:hover {
+        background-color: #ccc;
+    }
+
+    .area a {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .area a:hover {
+        text-decoration: underline;
+    }
 </style>
 
 @if(Session::has('message'))
@@ -423,25 +485,12 @@
 @endif
 
 <section class="text-center mt-3">
-<h2>Dashboard</h2>
+    <h2>Dashboard</h2>
 </section>
 
 <section class="container  mt-3 ">
     <div class="top-box">
         <div class="row third-box mx-0">
-            <section class="container-fluid signin-banner animatedParent hero-section">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <div class="col-md-5 mx-auto">
-                                <h2>Dashboard</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
             <div class="col-lg-4 p-0 m-0">
                 <h2>Profile</h2>
                 <div class="box second-box">
@@ -452,7 +501,7 @@
                         <div class="d-flex logo-inner logoimg align-items-center">
                             <img src='{{ url("storage/$company->logo") }}' alt="Company Logo" class="img-fluid"
                                 style="width: 50px; height: 50px;">
-                            <p class="ml-2"><strong>{{ ucfirst($company->name) }}</strong></p>
+                            <p class="ml-2" style=" color:#9e7155;"><strong>{{ ucfirst($company->name) }}</strong></p>
                         </div>
                         <p class="pt-2"> {{ ucfirst($company->tagline) }}</p>
                         <p>
@@ -465,7 +514,8 @@
                         </p>
                         <div class="d-flex align-items-center">
                             <p class="m-0">{{ $currentSubscription[0]->plan->name }}</p>
-                            <a href="{{ url('/membership-plans') }}" class="btn btn-primary ml-2" >Upgrade Now</a>
+                            <a href="{{ url('/membership-plans') }}" class="btn  ml-2"
+                                style="background-color:#00bdd6!important;">Upgrade Now</a>
                         </div>
                         <div class="d-flex align-items-center my-2">
                             <img src="/img/tag.png" alt="Tag Icon" class="img-fluid" style="width: 20px; height: 20px;">
@@ -477,11 +527,13 @@
                                 style="width: 20px; height: 20px;">
                             <p class="ml-2 m-0">Service Lines: {{ $serviceLineCount }}</p>
                         </div>
-                        <div class="d-flex justify-content-between mt-3">
-                            <a href="{{ route('profile', ['company' => $company->id]) }}" class="btn btn-secondary w-100 mr-1">View Profile</a>
+                        <div class="d-flex justify-content-between btnbox mt-3">
+                            <a href="{{ route('profile', ['company' => $company->id]) }}"
+                                class="btn btn-secondary w-100 mr-1">View Profile</a>
 
 
-                            <a href="{{ route('user.basicInfo', ['user' => auth()->user()->id]) }}" class="btn btn-secondary w-100 ml-1">Edit / Update Profile</a>
+                            <a href="{{ route('user.basicInfo', ['user' => auth()->user()->id]) }}"
+                                class="btn btn-secondary w-100 ml-1">Edit / Update Profile</a>
                         </div>
                     </div>
                 </div>
@@ -499,20 +551,23 @@
                             reviews by contacting customers for the genuineness. If we are not able to get in touch
                             with your customer after reasonable attempts, the review will not be published.</p>
                         <p> Only 1st 3 reviews will be published in the free tier. To publish more reviews.
-                            <a href="{{ url('/membership-plans') }}" >Upgrade your plan now</a>
+                            <a href="{{ url('/membership-plans') }}"
+                                style="background-color:#00bdd6!important;    font-size: 11px!important;">Upgrade your
+                                plan now</a>
                         </p>
                     </div>
                     <div class="container mt-5 p-0">
                         <div class="row mt-1 justify-content-between">
                             <div class="col-xl-6 mb-xl-0 mb-2">
-                                <a href="{{ route('reviews.listView') }}" class="btn w-100 btn-primary">Manage Reviews</a>
+                                <a href="{{ route('reviews.listView') }}" class="btn w-100">Manage Reviews</a>
                                 <div class="reviewcount">You have {{ $reviewCount }} reviews</div>
 
                             </div>
                             <div class="col-xl-6 text-xl-right">
-                                <a href="{{ route('comapany.reviews.request.index') }}" class="btn w-100">Request A Review</a>
+                                <a href="{{ route('comapany.reviews.request.index') }}" class="btn w-100">Request A
+                                    Review</a>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -532,10 +587,11 @@
                             <a href="{{ route('portfolio.create') }}" class="btn">Add Videos</a>
                             <p class="p-0">Only youtube files allowed</p>
                         </div>
-                        <div class="d-flex logo-inner tagimg">
+                        <div class="d-flex logo-inner mb-4 mb-md-0 tagimg">
                             <a href="{{ route('portfolio.create') }}" class="btn">Add White Papers</a>
                             <p class="p-0">Only pdf allowed</p>
                         </div>
+                        <a href="{{ route('portfolio_items.tableView') }}" class="btn editupdate">Edit / Update Portfolio</a>
                     </div>
                 </div>
 
@@ -584,53 +640,58 @@
                     <!-- Your Industries 1-->
                     <h3 class="mt-5 pt-2">Your Industries</h3>
                     @foreach($industries as $index => $industry)
-                        <div class="row mt-3 {{ $index >= 3 ? 'additional-industry' : '' }}" style="{{ $index >= 3 ? 'display:none;' : '' }}">
-                            <div class="col-lg-6 mb-2 mb-lg-0">
-                                <p>{{ $industry->industry->name }}</p>
-                            </div>
-                            <div class="col-lg-6 text-center text-lg-left">
-                                <input type="text" value="{{ $industry->percent }}">
-                            </div>
+                    <div class="row mt-3 {{ $index >= 3 ? 'additional-industry' : '' }}"
+                        style="{{ $index >= 3 ? 'display:none;' : '' }}">
+                        <div class="col-lg-6 mb-2 mb-lg-0">
+                            <p>{{ $industry->industry->name }}</p>
                         </div>
+                        <div class="col-lg-6 text-center text-lg-left">
+                            <input type="text" value="{{ $industry->percent }}">
+                        </div>
+                    </div>
                     @endforeach
-                    
+
                     @if(count($industries) > 3)
-                        <div class="row d-flex mt-3">
-                            <div class="col-6">
-                                <a href="#" id="show-more-btn" onclick="toggleAdditionalIndustries()">Show More</a>
-                            </div>
-                            <div class="col-6 m-0 p-0 text-right">
-                                <a href="{{ route('company.industry', ['company_id' => $company->id]) }}">Edit Industries</a>
-                            </div>
+                    <div class="row d-flex mt-3">
+                        <div class="col-6">
+                            <a href="#" id="show-more-btn" onclick="toggleAdditionalIndustries()">Show More</a>
                         </div>
+                        <div class="col-6 m-0 p-0 text-right">
+                            <a href="{{ route('company.industry', ['company_id' => $company->id]) }}">Edit
+                                Industries</a>
+                        </div>
+                    </div>
                     @endif
                     <h3 class="mt-5">Your Client Size</h3>
                     @foreach($clientSizes as $index => $clientSize)
-                        <div class="row mt-3 {{ $index >= 3 ? 'additional-client-size' : '' }}" style="{{ $index >= 3 ? 'display:none;' : '' }}">
-                            <div class="col-lg-6 mb-2 mb-lg-0">
-                                <p>{{ $clientSize->client_size->name }}</p>
-                            </div>
-                            <div class="col-lg-6 text-center text-lg-left">
-                                <input type="text" value="{{ $clientSize->percent }}">
-                            </div>
+                    <div class="row mt-3 {{ $index >= 3 ? 'additional-client-size' : '' }}"
+                        style="{{ $index >= 3 ? 'display:none;' : '' }}">
+                        <div class="col-lg-6 mb-2 mb-lg-0">
+                            <p>{{ $clientSize->client_size->name }}</p>
                         </div>
-                    @endforeach
-                    
-                    @if(count($clientSizes) > 3)
-                        <div class="row d-flex mt-3">
-                            <div class="col-md-12 text-center">
-                                <a href="#" id="show-more-client-size-btn" onclick="toggleAdditionalClientSizes()">Show More</a>
-                            </div>
-                        </div>
-                    @endif
-                    
-                    <div class="row d-flex mt-3">
-                        <div class="col-md-12 text-center">
-                            <a href="{{ route('company.industry', ['company_id' => $company->id]) }}">Edit Client Size</a>
+                        <div class="col-lg-6 text-center text-lg-left">
+                            <input type="text" value="{{ $clientSize->percent }}">
                         </div>
                     </div>
-                  
-           
+                    @endforeach
+
+                    @if(count($clientSizes) > 3)
+                    <div class="row d-flex mt-3">
+                        <div class="col-md-12 text-center">
+                            <a href="#" id="show-more-client-size-btn" onclick="toggleAdditionalClientSizes()">Show
+                                More</a>
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="row d-flex mt-3">
+                        <div class="col-md-12 text-center">
+                            <a href="{{ route('company.industry', ['company_id' => $company->id]) }}">Edit Client
+                                Size</a>
+                        </div>
+                    </div>
+
+
                     <!-- btn -->
                 </div>
             </div>
@@ -641,66 +702,68 @@
             <div class="border border mt-5 mt-md-0 ml-3 p-3">
                 <h3 class="mb-4">Your Service Areas</h3>
                 @foreach($serviceLines as $index => $serviceLine)
-                    <div class="service-line mb-5 {{ $index > 1 ? 'd-none additional-service-line' : '' }}"> <!-- Increased margin-bottom for better separation -->
-                        <div class="category-group mb-3">
-                            <p class="field-name"><b>Primary Category</b></p>
-                            <div class="cate-box mt-2 mt-lg-0">
-                                <p>{{ $serviceLine['category_name'] }}</p>
-                                <input type="text" value="{{ $serviceLine['inputValue'] }}" class="percentage-input">
-                            </div>
+                <div class="service-line mb-5 {{ $index > 1 ? 'd-none additional-service-line' : '' }}">
+                    <!-- Increased margin-bottom for better separation -->
+                    <div class="category-group ">
+                        <p class="field-name"><b>Primary Category</b></p>
+                        <div class="cate-box ">
+                            <p>{{ $serviceLine['category_name'] }}</p>
+                            <input type="text" value="{{ $serviceLine['inputValue'] }}" class="percentage-input">
                         </div>
-                        
-                        <div class="subcategory-section">
-                            <div class="subcategory-group mb-3">
-                                <p class="field-name"><b>Sub Category</b></p>
-                                <div class="subcategoybox">
+                    </div>
+
+                    <div class="subcategory-section">
+                        <div class="subcategory-group mb-3">
+                            <p class="field-name"><b>Sub Category</b></p>
+                            <div class="subcategoybox">
                                 @foreach($serviceLine['subcategories'] as $subcategory)
-                               
-                                    <div class="cate-box mt-2 mt-lg-0">
-                                        <p>{{ $subcategory['subcategory_name'] }}</p>
-                                        <input type="text" value="{{ $subcategory['value'] }}" class="percentage-input">
-                                    
-                    </div>
+
+                                <div class="cate-box mt-2 mt-lg-0">
+                                    <p>{{ $subcategory['subcategory_name'] }}</p>
+                                    <input type="text" value="{{ $subcategory['value'] }}" class="percentage-input">
+
+                                </div>
                                 @endforeach
-                                </div>
                             </div>
-                           
-                            <div class="skills-group mb-3">
-                                <p class="field-name mb-2"><b>Skills</b></p>
-                                <div class="skill-tags">
-                                    @foreach($serviceLine['subcategories'] as $subcategory)
-                                        @foreach($subcategory['skills'] as $skill)
-                                            <a href="#" class="skill-tag">{{ $skill['skill_name'] }}</a>
-                                        @endforeach
-                                    @endforeach
-                                </div>
+                        </div>
+
+                        <div class="skills-group mb-3">
+                            <p class="field-name mb-2"><b>Skills</b></p>
+                            <div class="skill-tags">
+                                @foreach($serviceLine['subcategories'] as $subcategory)
+                                @foreach($subcategory['skills'] as $skill)
+                                <a href="#" class="skill-tag">{{ $skill['skill_name'] }}</a>
+                                @endforeach
+                                @endforeach
                             </div>
-                
-                            <div class="deep-skills-group mb-3">
-                                <p class="field-name mb-2"><b>Deep Skills</b></p>
-                                <div class="deep-skill-tags">
-                                    @foreach($serviceLine['subcategories'] as $subcategory)
-                                        @foreach($subcategory['skills'] as $skill)
-                                            @foreach($skill['subskills'] as $subskill)
-                                                <a href="#" class="deep-skill-tag">{{ $subskill['subskill_name'] }}</a>
-                                            @endforeach
-                                        @endforeach
-                                    @endforeach
-                                </div>
+                        </div>
+
+                        <div class="deep-skills-group mb-3">
+                            <p class="field-name mb-2"><b>Deep Skills</b></p>
+                            <div class="deep-skill-tags">
+                                @foreach($serviceLine['subcategories'] as $subcategory)
+                                @foreach($subcategory['skills'] as $skill)
+                                @foreach($skill['subskills'] as $subskill)
+                                <a href="#" class="deep-skill-tag">{{ $subskill['subskill_name'] }}</a>
+                                @endforeach
+                                @endforeach
+                                @endforeach
                             </div>
                         </div>
                     </div>
+                </div>
                 @endforeach
-                
+
                 @if(count($serviceLines) > 2)
-                    <div class="row mt-4 mb-3 area">
-                        <div class="col-5 col-md-4">
-                            <a href="#" id="show-more-btn" onclick="toggleAdditionalServiceLines(event)">Show More</a>
-                        </div>
-                        <div class="col-7 col-md-8 text-right">
-                            {{-- <a href="{{ route('company.service-areas.edit', ['company_id' => $company->id]) }}">Edit Service Areas</a> --}}
-                        </div>
+                <div class="row mt-4 mb-3 area">
+                    <div class="col-5 col-md-4">
+                        <a href="#" id="show-more-btn" onclick="toggleAdditionalServiceLines(event)">Show More</a>
                     </div>
+                    <div class="col-7 col-md-8 text-right">
+                        {{-- <a href="{{ route('company.service-areas.edit', ['company_id' => $company->id]) }}">Edit
+                            Service Areas</a> --}}
+                    </div>
+                </div>
                 @endif
             </div>
             <img src="/img/placeholder.png" alt="" class="img-fluid p-2 ml-2">
@@ -713,9 +776,9 @@
                 </div>
             </div>
         </div>
-        
-       
-        
+
+
+
     </div>
     </div>
 </section>
