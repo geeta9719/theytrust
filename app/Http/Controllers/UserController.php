@@ -289,6 +289,7 @@ public function dashboard(Request $request, $company)
     {
         $uid    = auth()->user()->id;
         $urole  = auth()->user()->role;
+        $address ='';
 
         $cid    = Company::where('user_id', $uid)->first();
 
