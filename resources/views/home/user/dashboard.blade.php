@@ -510,7 +510,7 @@
 
                             </div>
                             <div class="col-xl-6 text-xl-right">
-                                <a href="{{ route('company.reviews.request.index') }}" class="btn w-100">Request A Review</a>
+                                <a href="{{ route('comapany.reviews.request.index') }}" class="btn w-100">Request A Review</a>
                             </div>
                             
                         </div>
