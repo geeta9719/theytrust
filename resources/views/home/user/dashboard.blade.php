@@ -487,8 +487,13 @@
                                 <div>You have {{ $reviewCount }} reviews</div>
 
                             </div>
-                            <div class="col-xl-6 text-xl-right "><button class="btn w-100">Request A Review</button>
+                            {{-- <div class="col-xl-6 text-xl-right ">
+                                <button  class="btn w-100">Request A Review</button>
+                            </div> --}}
+                            <div class="col-xl-6 text-xl-right">
+                                <a href="{{ route('comapany.reviews.request.index') }}" class="btn w-100">Request A Review</a>
                             </div>
+                            
                         </div>
                     </div>
                 </div>

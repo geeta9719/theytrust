@@ -28,6 +28,8 @@ use App\Http\Controllers\PlanFeatureController;
 use App\Http\Controllers\PlanSubscriptionController;
 use App\Http\Controllers\PaymentContorller;
 use App\Http\Controllers\PortfolioItemController;
+use App\Http\Controllers\ReviewController;
+
 // use App\Http\Controllers\CompanyController;
 
 
@@ -346,6 +348,9 @@ Route::get('company/portfolio_items', [PortfolioItemController::class, 'tableVie
 Route::get('portfolio_items/{portfolio_item}/edit', [PortfolioItemController::class, 'edit'])->name('portfolio_items.edit');
 Route::put('portfolio_items/{portfolio_item}', [PortfolioItemController::class, 'update'])->name('portfolio_items.update');
 Route::delete('portfolio_items/{portfolio_item}', [PortfolioItemController::class, 'destroy'])->name('portfolio_items.destroy');
+Route::get('company/request', [ReviewController::class, 'index'])->name('comapany.reviews.request.index');
+Route::post('company/reviews-request', [ReviewController::class, 'store'])->name('reviews.store');
+Route::post('company/reviews-request/resend/{id}', [ReviewController::class, 'resend'])->name('reviews.resend');
 
 
 
