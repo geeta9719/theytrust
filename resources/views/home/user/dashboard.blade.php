@@ -140,7 +140,6 @@
         padding: 3px 8px 7px 8px;
         font-size: 13px;
     }
-
     .btn {
         color: #fff;
         background-color: #9095a0 !important;
@@ -179,7 +178,6 @@
     }
 
     .logo-box p {
-
         font-size: 1rem;
     }
 

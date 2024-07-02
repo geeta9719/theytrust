@@ -1200,7 +1200,7 @@ class SearchController extends Controller
         $data['add_client_size']= AddClientSize::where( 'company_id', $company_id )->with('client_size')->get();
         $data['add_focus']      = AddFocus::where( 'company_id', $company_id )->get();
         $data['addresses']      = Address::where( 'company_id', $company_id )->get();
-        $data['projects']      = CompanyHasProject::where( 'company_id', $company_id )->get();
+        // $data['projects']      = CompanyHasProject::where( 'company_id', $company_id )->get();
         $data['projects'] =[];
         foreach( $data['add_focus'] as $add_focus )
         {
