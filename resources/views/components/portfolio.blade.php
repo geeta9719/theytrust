@@ -32,25 +32,39 @@ use Carbon\Carbon;
         </div>
         <div class="col-md-6 mb-3">
             <div class="p-2 mb-2">
-                @foreach($portfolio->media as $media)
-                    @if(pathinfo($media, PATHINFO_EXTENSION) === 'jpg' || pathinfo($media, PATHINFO_EXTENSION) === 'jpeg' || pathinfo($media, PATHINFO_EXTENSION) === 'png')
-                        <img src="{{ asset($media) }}" alt="" class="w-100 mb-3">
-                    @elseif(pathinfo($media, PATHINFO_EXTENSION) === 'pdf')
-                        <embed src="{{ asset($media) }}" width="100%" height="500px" type="application/pdf" class="mb-3">
-                    @elseif(strpos($media, 'youtube.com') !== false || strpos($media, 'youtu.be') !== false)
+                @if(is_array($portfolio->media) && count($portfolio->media) > 0)
+                    @foreach($portfolio->media as $media)
                         @php
-                            // Extract YouTube video ID
-                            if (strpos($media, 'youtu.be') !== false) {
-                                $videoId = substr(parse_url($media, PHP_URL_PATH), 1);
-                            } else {
-                                parse_str(parse_url($media, PHP_URL_QUERY), $queryParams);
-                                $videoId = $queryParams['v'];
-                            }
+                            $extension = pathinfo($media, PATHINFO_EXTENSION);
+                            $isImage = in_array($extension, ['jpg', 'jpeg', 'png']);
+                            $isPDF = $extension === 'pdf';
+                            $isYouTube = strpos($media, 'youtube.com') !== false || strpos($media, 'youtu.be') !== false;
                         @endphp
-                        <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="mb-3"></iframe>
-                    @endif
-                @endforeach
+        
+                        @if($isImage)
+                            <img src="{{ asset($media) }}" alt="" class="w-100 mb-3">
+                        @elseif($isPDF)
+                            <embed src="{{ asset($media) }}" width="100%" height="500px" type="application/pdf" class="mb-3">
+                        @elseif($isYouTube)
+                            @php
+                                // Extract YouTube video ID
+                                if (strpos($media, 'youtu.be') !== false) {
+                                    $videoId = substr(parse_url($media, PHP_URL_PATH), 1);
+                                } else {
+                                    parse_str(parse_url($media, PHP_URL_QUERY), $queryParams);
+                                    $videoId = $queryParams['v'] ?? null;
+                                }
+                            @endphp
+                            @if(isset($videoId))
+                                <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="mb-3"></iframe>
+                            @endif
+                        @endif
+                    @endforeach
+                @else
+                    <p>No media available.</p>
+                @endif
             </div>
         </div>
+        
     </div>
 </div>
