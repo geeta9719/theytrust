@@ -1,8 +1,8 @@
 @php
 use Carbon\Carbon;
 @endphp
-<div class="container mt-5 reviews-sec greybox">
-    <h2 class="my-heading"> Reviews </h2>
+{{-- <div class="container mt-5 reviews-sec greybox"> --}}
+    {{-- <h2 class="my-heading"> Reviews </h2> --}}
     <h4>{{ $review->project_type }}</h4>
     <div class="row reviewby">
         <div class="col-md-4 greybox">
@@ -117,9 +117,9 @@ use Carbon\Carbon;
             <div class="tabs">
                 <ul class="tabs-nav">
                     <li><a href="#tab1-{{ $review->id }}"><i style="font-size:17px" class="fa">&#xf097;</i> Company Information</a></li>
-                    <li><a href="#tab2-{{ $review->id }}"><i style="font-size:17px" class="fa">&#xf097;"></i> Problem Statement</a></li>
-                    <li><a href="#tab3-{{ $review->id }}"><i style="font-size:17px" class="fa">&#xf097;"></i> Engagement Details</a></li>
-                    <li><a href="#tab4-{{ $review->id }}"><i style="font-size:17px" class="fa">&#xf097;"></i> Success Story</a></li>
+                    <li><a href="#tab2-{{ $review->id }}"><i style="font-size:17px" class="fa">&#xf097;</i> Problem Statement</a></li>
+                    <li><a href="#tab3-{{ $review->id }}"><i style="font-size:17px" class="fa">&#xf097;</i> Engagement Details</a></li>
+                    <li><a href="#tab4-{{ $review->id }}"><i style="font-size:17px" class="fa">&#xf097;</i> Success Story</a></li>
                 </ul>
                 <div class="tabs-content">
                     <div id="tab1-{{ $review->id }}" class="tab-content">
@@ -152,4 +152,4 @@ use Carbon\Carbon;
             </div>
         </div>
     </div>
-</div>
+{{-- </div> --}}
