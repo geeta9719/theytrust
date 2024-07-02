@@ -66,10 +66,15 @@ class PortfolioItemController extends Controller
     }
     
     public function index($company)
-    {
-        $company = Company::findOrFail($company);
-        return view('home.user.portfolio_items.index', compact('company'));
-    }
+{
+    $company = Company::findOrFail($company);
+    $itemsPerPage = 3; // Display only 3 items per page
+
+    $portfolioItems = PortfolioItem::where('company_id', $company->id)
+        ->paginate($itemsPerPage);
+
+    return view('home.user.portfolio_items.index', compact('company', 'portfolioItems'));
+}
 
     public function getData(Request $request, $company)
     {

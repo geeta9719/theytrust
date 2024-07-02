@@ -26,13 +26,7 @@ use App\Models\Seo;
 use App\Models\CompanyHasProject;
 use App\Models\SubcatChild;
 use App\Models\Specialization;
-
-
-
-
-
-
-
+use App\Models\PortfolioItem;
 use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
@@ -1173,9 +1167,7 @@ class SearchController extends Controller
 
     public function companyProfile( Request $request, $company_id )
     {
-        $data  = array();
-        $focus = array();
-       
+        $data  = [];
 
 
         $data['company'] = Company::where('id', $company_id)->first();
@@ -1194,20 +1186,12 @@ class SearchController extends Controller
                                 ->where('company_id',$company_id)
                                 ->first();
 
-        $data['review']         = CompanyReview::where( 'company_id', $company_id )->get();
-        $data['service_lines']  = ServiceLine::where( 'company_id', $company_id )->get();
-        $data['add_industry']   = AddIndustry::where( 'company_id', $company_id )->get();
-        $data['add_client_size']= AddClientSize::where( 'company_id', $company_id )->with('client_size')->get();
-        $data['add_focus']      = AddFocus::where( 'company_id', $company_id )->get();
+        $data['reviews']         = CompanyReview::with('company','user')->where( 'company_id', $company_id )->get();
+        $data['service_lines']  = ServiceLine::with('category')->where( 'company_id', $company_id )->get();
+        $data['add_industry']   = AddIndustry::with('industry')->where( 'company_id', $company_id )->get();
+        $data['caseStudies']    = PortfolioItem::where( 'company_id', $company_id )->get();
         $data['addresses']      = Address::where( 'company_id', $company_id )->get();
-        // $data['projects']      = CompanyHasProject::where( 'company_id', $company_id )->get();
-        $data['projects'] =[];
-        foreach( $data['add_focus'] as $add_focus )
-        {
-            $focus[$add_focus->subcategory_id][] = $add_focus;
-        }
-        $data['add_focus'] = $focus;
-        //  dd($data);
+
         return view( 'home.companyProfile', $data );
     }
 
