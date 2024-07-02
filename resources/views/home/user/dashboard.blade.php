@@ -511,10 +511,15 @@
                             @endif
                         </p>
                         <div class="d-flex align-items-center">
-                            <p class="m-0">{{ $currentSubscription[0]->plan->name }}</p>
-                            <a href="{{ url('/membership-plans') }}" class="btn  ml-2"
-                                style="background-color:#00bdd6!important;">Upgrade Now</a>
+                            @if (isset($currentSubscription[0]))
+                                <p class="m-0">{{ $currentSubscription[0]->plan->name }}</p>
+                                <a href="{{ url('/membership-plans') }}" class="btn  ml-2" style="background-color:#00bdd6!important;">Upgrade Now</a>
+                            @else
+                                <p class="m-0">No current subscription</p>
+                                <a href="{{ url('/membership-plans') }}" class="btn  ml-2" style="background-color:#00bdd6!important;">Subscribe Now</a>
+                            @endif
                         </div>
+                        
                         <div class="d-flex align-items-center my-2">
                             <img src="/img/tag.png" alt="Tag Icon" class="img-fluid" style="width: 20px; height: 20px;">
                             <a href="{{ $company->website }}" class="ml-2">{{ $company->website }}</a>
