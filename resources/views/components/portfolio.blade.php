@@ -1,8 +1,8 @@
 @php
 use Carbon\Carbon;
 @endphp
-<div class="container mt-5 reviews-sec greybox">
-    <h2 class="my-heading"> Portfolio / Case Studies </h2>
+{{-- <div class="container mt-5 reviews-sec greybox"> --}}
+    {{-- <h2 class="my-heading"> Portfolio / Case Studies </h2> --}}
     <div class="row case">
         <div class="col-md-6 mb-3 details">
             <div class="d-md-flex p-2 mb-2 text-center text-md-left">
@@ -67,4 +67,4 @@ use Carbon\Carbon;
         </div>
         
     </div>
-</div>
+{{-- </div> --}}
