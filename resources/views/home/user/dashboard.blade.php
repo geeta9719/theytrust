@@ -293,20 +293,11 @@
 
     .cate-box {
         display: flex;
-        width: 155px;
+        width: 233px;
         justify-content: space-between;
         margin-right: 15px;
         margin-bottom: 10px;
     }
-    .category-group {
-   
-   align-items: baseline !important;
-}
-
-   .subcategory-group {
-   
-   align-items: baseline  !important;
-}
 
     .cate-box p {
         font-size: 14px;
@@ -419,7 +410,7 @@
     .skills-group,
     .deep-skills-group {
         display: flex;
-        align-items: baseline;
+        align-items: center;
         margin-bottom: 10px;
     }
 
