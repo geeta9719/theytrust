@@ -3,7 +3,7 @@
     @include('home.partials._header')
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
     <body>
-        
+        @stack('styles')
         <!-- Navbar -->
         @include('home.partials._navbar')
         <!-- /.navbar -->
