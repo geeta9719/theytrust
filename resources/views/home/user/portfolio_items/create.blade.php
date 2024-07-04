@@ -89,39 +89,39 @@
         @csrf
         <label for="media_type">Select Media Type</label>
         <select name="media_type" id="media_type" onchange="toggleMediaInput()">
-            <option value="image_pdf_video">Image, PDF, or Video File</option>
-            <option value="youtube_url">YouTube Video URL</option>
+            <option value="image_pdf_video" {{ old('media_type') == 'image_pdf_video' ? 'selected' : '' }}>Image, PDF, or Video File</option>
+            <option value="youtube_url" {{ old('media_type') == 'youtube_url' ? 'selected' : '' }}>YouTube Video URL</option>
         </select>
 
-        <div id="file_input_div">
+        <div id="file_input_div" style="{{ old('media_type') == 'youtube_url' ? 'display:none;' : '' }}">
             <label for="media">Add Image or PDF</label>
             <input type="file" name="media" id="media" onchange="showPreview(event)">
         </div>
-        <div id="url_input_div" style="display: none;">
-            <label for="youtube_url">Insert YouTube Video URL ( Ex:)</label>
-            <input type="url" name="youtube_url" id="youtube_url" onchange="showPreview(event)">
+        <div id="url_input_div" style="{{ old('media_type') == 'youtube_url' ? 'display:block;' : 'display:none;' }}">
+            <label for="youtube_url">Insert YouTube Video URL</label>
+            <input type="url" name="youtube_url" id="youtube_url" value="{{ old('youtube_url') }}" onchange="showPreview(event)">
         </div>
 
         <label for="project_title">Project Title</label>
-        <input type="text" name="project_title" id="project_title">
+        <input type="text" name="project_title" id="project_title" value="{{ old('project_title') }}">
 
         <label for="client_name">Client Name</label>
-        <input type="text" name="client_name" id="client_name">
+        <input type="text" name="client_name" id="client_name" value="{{ old('client_name') }}">
 
         <label for="country_location">Country / Location</label>
-        <input type="text" name="country_location" id="country_location">
+        <input type="text" name="country_location" id="country_location" value="{{ old('country_location') }}">
 
         <label for="services_provided">Services Provided (up to 5 comma separated keywords. 70 characters max)</label>
-        <input type="text" name="services_provided" id="services_provided">
+        <input type="text" name="services_provided" id="services_provided" value="{{ old('services_provided') }}">
 
         <label for="short_description">Short Description</label>
-        <textarea name="short_description" id="short_description"></textarea>
+        <textarea name="short_description" id="short_description">{{ old('short_description') }}</textarea>
 
         <label for="engagement_start_date">Engagement Start Date</label>
-        <input type="date" name="engagement_start_date" id="engagement_start_date">
+        <input type="date" name="engagement_start_date" id="engagement_start_date" value="{{ old('engagement_start_date') }}">
 
         <label for="engagement_end_date">Engagement End Date</label>
-        <input type="date" name="engagement_end_date" id="engagement_end_date">
+        <input type="date" name="engagement_end_date" id="engagement_end_date" value="{{ old('engagement_end_date') }}">
 
         <button type="submit">Save</button>
     </form>
@@ -197,5 +197,10 @@
 
     // Initialize CKEditor
     CKEDITOR.replace('short_description');
+
+    // Trigger media input toggle on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleMediaInput();
+    });
 </script>
 @endsection
