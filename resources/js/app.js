@@ -5,7 +5,7 @@ import IndustryClientForm from './components/Industry.vue';
 const app = createApp({});
 app.component('FocusComponent', FocusComponent);
 app.component('industry-client-form', IndustryClientForm);
-// app.component('FocusMainComponent', FocusComponent);
+app.component('FocusMainComponent', FocusComponent);
 app.mount('#app');
 
 
