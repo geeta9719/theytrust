@@ -85,6 +85,20 @@
 
 <h1 style="text-align: center;">Add Portfolio Item</h1>
 <div class="container">
+               
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        {!! implode('', $errors->all('<div>:message</div>')) !!}
+    </div>
+@endif
+
+
+@if (session()->has('newsuccess'))
+    <div class="alert alert-success">
+        {{ session()->get('newsuccess') }}
+    </div>
+@endif
     <form action="{{ route('portfolio.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <label for="media_type">Select Media Type</label>

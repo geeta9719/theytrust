@@ -14,18 +14,7 @@ if (Auth::check()) {
     <div class="container ">
         <div class="row pt-5">
             <div class="col-md-12 m-0 p-0 ">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        {!! implode('', $errors->all('<div>:message</div>')) !!}
-                    </div>
-                @endif
-
-
-                @if (session()->has('newsuccess'))
-                    <div class="alert alert-success">
-                        {{ session()->get('newsuccess') }}
-                    </div>
-                @endif
+               
                 <div id="newsletter-section">
                     <form method="post" class="d-flex" action="{{ route('subscribe') }}">
                         @csrf
