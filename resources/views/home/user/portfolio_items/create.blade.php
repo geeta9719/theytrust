@@ -84,23 +84,24 @@
 </style>
 
 <h1 style="text-align: center;">Add Portfolio Item</h1>
-<div class="container">
-    <div class="row pt-5">
-        <div class="col-md-12 m-0 p-0 ">
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                {!! implode('', $errors->all('<div>:message</div>')) !!}
-            </div>
-        @endif
-        
-        
-        @if (session()->has('newsuccess'))
-            <div class="alert alert-success">
-                {{ session()->get('newsuccess') }}
-            </div>
-        @endif
+<div class="row pt-5">
+    <div class="col-md-12 m-0 p-0 ">
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            {!! implode('', $errors->all('<div>:message</div>')) !!}
         </div>
+    @endif
+    
+    
+    @if (session()->has('newsuccess'))
+        <div class="alert alert-success">
+            {{ session()->get('newsuccess') }}
+        </div>
+    @endif
     </div>
+</div>
+<div class="container">
+  
     <form action="{{ route('portfolio.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
    
