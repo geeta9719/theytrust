@@ -102,7 +102,7 @@ class PortfolioItemController extends Controller
             'project_title' => 'required|string|max:255',
             'client_name' => 'required|string|max:255',
             'country_location' => 'required|string|max:255',
-            'services_provided' => 'required|string|max:70',
+            'services_provided' => 'required|string|max:200',
             'short_description' => 'required|string',
             'engagement_start_date' => 'required|date',
             'engagement_end_date' => 'nullable|date|after_or_equal:engagement_start_date',
