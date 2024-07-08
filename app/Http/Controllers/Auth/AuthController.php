@@ -250,8 +250,8 @@ public function signupWithEmail(Request $request)
     Auth::login($user);
 
     // Additional logic (e.g., login user, send verification email)
+    return redirect(url('user/' . $user->id . '/basicInfo?profile=basic'));
 
-    return redirect()->route('home')->with('success', 'Sign up successful!');
 }
 
 }
