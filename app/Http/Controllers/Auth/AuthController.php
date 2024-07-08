@@ -247,6 +247,8 @@ public function signupWithEmail(Request $request)
         'password' => bcrypt($request->input('password')),
     ]);
 
+    Auth::login($user);
+
     // Additional logic (e.g., login user, send verification email)
 
     return redirect()->route('home')->with('success', 'Sign up successful!');
