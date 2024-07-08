@@ -1107,6 +1107,35 @@ class SearchController extends Controller
 
         return view('home.review', $data);
     }
+    public function portfolio(Request $request, $company_id)
+    {
+        $data  = array();
+        $focus = array();
+
+
+        $data['company'] = Company::where('id', $company_id)->first();
+
+        if (!$data['company']) {
+            $cleaned_company_id = str_replace('-', ' ', $company_id);
+            $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
+
+            if ($data['company']) {
+                $company_id = $data['company']->id;
+            } else {
+
+                $company_id = 0; // or any default value
+
+            }
+        }
+
+
+
+        $data['reviews'] = CompanyReview::with('user')
+            ->where('company_id', $company_id)
+            ->paginate(3);
+
+        return view('home.portfolio', $data);
+    }
 
     public function test(Request $request, $company)
     {

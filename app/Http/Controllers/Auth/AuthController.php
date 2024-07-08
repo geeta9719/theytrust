@@ -224,4 +224,32 @@ class AuthController extends Controller
     }
 }
 
+public function signupWithEmail(Request $request)
+{
+    // Validate incoming request
+    $validator = Validator::make($request->all(), [
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email', // Ensure email is unique in users table
+        'password' => 'required|string|min:8',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput()->with('showModal', true);
+    }
+
+
+    // If validation passes, create new user
+    $user = User::create([
+        'first_name' => $request->input('first_name'),
+        'last_name' => $request->input('last_name'),
+        'email' => $request->input('email'),
+        'password' => bcrypt($request->input('password')),
+    ]);
+
+    // Additional logic (e.g., login user, send verification email)
+
+    return redirect()->route('home')->with('success', 'Sign up successful!');
+}
+
 }
