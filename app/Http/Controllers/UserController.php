@@ -809,7 +809,6 @@ public function dashboard(Request $request, $company)
             $inputs['facebook']     = $request->facebook;
             $inputs['twitter']      = $request->twitter;
             $inputs['analytics']    = $request->analytics;
-
             AdminInfo::create($inputs);
         }
 
