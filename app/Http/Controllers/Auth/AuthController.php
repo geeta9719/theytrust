@@ -226,6 +226,25 @@ class AuthController extends Controller
 
 public function signupWithEmail(Request $request)
 {
+
+
+    $publicDomains = [
+        'gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'aol.com', 'icloud.com',
+        'mail.com', 'gmx.com', 'zoho.com', 'yandex.com', 'protonmail.com', 'me.com', 'mac.com',
+        'fastmail.com', 'hushmail.com', 'msn.com', 'live.com', 'comcast.net', 'verizon.net',
+        'att.net', 'bellsouth.net', 'btinternet.com', 'cox.net', 'earthlink.net', 'optonline.net',
+        'qq.com', '163.com', '126.com', 'sina.com', 'sohu.com', 'tutanota.com', 'mail.ru',
+        'inbox.ru', 'bk.ru', 'list.ru', 'mailinator.com', 'yopmail.com', 'guerrillamail.com',
+        '10minutemail.com', 'temp-mail.org', 'throwawaymail.com', 'maildrop.cc', 'dispostable.com',
+        'sharklasers.com', 'fakeinbox.com', 'mintemail.com', 'mytemp.email', 'noip.com',
+        'jetable.org', 'trashmail.com', 'getnada.com', 'tempail.com', 'mailcatch.com',
+        'tempinbox.com', 'tempmailaddress.com', 'emailondeck.com'
+        // Add more public domains as needed
+    ];
+
+    $email = $request->input('email');
+    $domain = substr(strrchr($email, "@"), 1);
+
     // Validate incoming request
     $validator = Validator::make($request->all(), [
         'first_name' => 'required|string|max:255',
@@ -233,6 +252,13 @@ public function signupWithEmail(Request $request)
         'email' => 'required|email|unique:users,email', // Ensure email is unique in users table
         'password' => 'required|string|min:8',
     ]);
+
+    if (in_array($domain, $publicDomains)) {
+        $validator->after(function ($validator) {
+            $validator->errors()->add('email', 'Public email addresses are not allowed.');
+        });
+    }
+
 
     if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput()->with('showModal', true);
