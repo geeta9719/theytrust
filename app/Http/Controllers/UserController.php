@@ -183,7 +183,6 @@ public function dashboard(Request $request, $company)
                         'subskills' => $formattedSubskills,
                     ];
                 }
-                // dd($formattedSkills);
                 $formattedSubcategories[] = [
                     'subcategory_id' => $subcategory->id,
                     'subcategory_name' => $subcategory->subcategory,
