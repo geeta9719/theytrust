@@ -60,8 +60,12 @@ class User extends Authenticatable
         return asset('storage/' .$value);
     }
 
-    public function company(){
-        return $this->belongsTo(Company::class);
+    // public function company(){
+    //     return $this->hasMany(Company::class);
+    // }
+    public function companies()
+    {
+        return $this->hasMany(Company::class);
     }
 
     public function companyReview(){

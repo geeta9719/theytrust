@@ -355,6 +355,8 @@ Route::get('/portfolio/{company}', [SearchController::class, 'portfolio'])->name
 Route::post('/signup-email', [AuthController::class,"signupWithEmail"])->name('signup.email');
 Route::post('/login-email', [AuthController::class,"loginWithEmail"])->name('login.email');
 Route::post('/portfolio-items/reorder', [PortfolioItemController::class, 'reorder'])->name('portfolio_items.reorder');
+Route::post('/submit-response', [ReviewController::class,'submitResponse'])->name('submit.response');
+
 
 
 

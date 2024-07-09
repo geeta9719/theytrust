@@ -1225,8 +1225,12 @@ class SearchController extends Controller
 
     public function listView()
     {
-        $company = Company::where('user_id', auth()->id())->first();
-        $reviews = CompanyReview::where('company_id', $company->id)->with('user')->paginate(10);
-        return view('home.list', compact('company', 'reviews'));
+        $company = Company::where('user_id', auth()->id())->first();       
+        $data['reviews'] = CompanyReview::with('user')
+            ->where('company_id', $company->id)
+            ->paginate(3);
+            // dd($data);
+
+        return view('home.review', $data);
     }
 }

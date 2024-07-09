@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Mail\NewReviewRequest;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReviewResent;
+use App\Models\CompanyReview;
 
 
 
@@ -29,6 +30,8 @@ class ReviewController extends Controller
         }
 
         $reviews = ReviewRequest::with('company')
+        ->where('company_id', $company->id)
+        ->with('user')
             ->where('company_id', $company->id)
             ->get();
 
@@ -75,4 +78,20 @@ class ReviewController extends Controller
     
         return redirect()->route('comapany.reviews.request.index')->with('success', 'Review request resent successfully!');
     }
+
+    public function submitResponse(Request $request)
+{
+    $review = CompanyReview::where('id', $request->review_id)
+    ->first();
+
+    if ($review) {
+        $review->comment = $request->comment;
+        $review->save();
+
+        return redirect()->back()->with('success', 'Response submitted successfully.');
+    } else {
+        return redirect()->back()->with('error', 'Review not found.');
+    }
+
+}
 }

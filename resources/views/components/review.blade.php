@@ -1,9 +1,21 @@
 @php
-use Carbon\Carbon;
+    use Carbon\Carbon;
+    $user = auth()->user();
+    // dd($user);
+    $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toArray() : [];
 @endphp
+
 {{-- <div class="container mt-5 reviews-sec greybox"> --}}
     {{-- <h2 class="my-heading"> Reviews </h2> --}}
     <h4>{{ $review->project_type }}</h4>
+    @if(in_array($review->company_id, $userCompanyIds))
+    <div class="mt-2">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#respondModal">
+            Respond to Review
+        </button>
+    </div>
+@endif
+
     <div class="row reviewby">
         <div class="col-md-4 greybox">
             <h3><i style="font-size:24px" class="fa">&#xf27b;</i> All Reviewed By</h3>
@@ -153,6 +165,32 @@ use Carbon\Carbon;
         </div>
     </div>
 {{-- </div> --}}
+
+<div class="modal fade" id="respondModal" tabindex="-1" aria-labelledby="respondModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="respondModalLabel">Respond to Review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('submit.response') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="review_id" value="{{ $review->id }}">
+                  
+                    <div class="form-group">
+                        <label for="reviewComment">Your Comment</label>
+                        <textarea class="form-control" id="reviewComment" name="comment" rows="3">{{ old('comment', $review->comment) }}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @push('styles')  

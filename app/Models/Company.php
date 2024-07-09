@@ -16,11 +16,10 @@ class Company extends Model
     use HasFactory;
 
     protected $guarded;
-
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-
     public function serviceLine(){
         return $this->hasMany(ServiceLine::class);
     }
@@ -31,7 +30,7 @@ class Company extends Model
         return $this->hasMany(AddIndustry::class);
     }
     public function clientSize(){
-        return $this->hasMany(ClientSiz::class);
+        return $this->hasMany(ClientSize::class);
     }
     public function specialization(){
         return $this->hasMany(ClientSize::class);
