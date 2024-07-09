@@ -353,6 +353,9 @@ Route::post('company/reviews-request', [ReviewController::class, 'store'])->name
 Route::post('company/reviews-request/resend/{id}', [ReviewController::class, 'resend'])->name('reviews.resend');
 Route::get('/portfolio/{company}', [SearchController::class, 'portfolio'])->name('portfolio');
 Route::post('/signup-email', [AuthController::class,"signupWithEmail"])->name('signup.email');
+Route::post('/login-email', [AuthController::class,"loginWithEmail"])->name('login.email');
+Route::post('/portfolio-items/reorder', [PortfolioItemController::class, 'reorder'])->name('portfolio_items.reorder');
+
 
 
 

@@ -1,5 +1,3 @@
-<!-- resources/views/home/user/portfolio_items/tables.blade.php -->
-
 @extends('layouts.home-master')
 
 @section('content')
@@ -23,9 +21,9 @@
                 <th>Delete</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="sortable">
             @foreach($portfolioItems as $index => $item)
-            <tr>
+            <tr data-id="{{ $item->id }}">
                 <td><input type="checkbox" name="selected[]" value="{{ $item->id }}"></td>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $item->created_at->format('M d, Y') }}</td>
@@ -33,7 +31,11 @@
                 <td>{{ $item->project_title }}</td>
                 <td>{{ $item->country_location }}</td>
                 <td>{{ $item->engagement_start_date->format('M Y') }} - {{ $item->engagement_end_date ? $item->engagement_end_date->format('M Y') : 'Ongoing' }}</td>
-                <td><i class="fas fa-bars"></i></td>
+                <td>
+                    <td class="handle" style="cursor: grab;">
+                        <i class="fas fa-bars"></i> Drag here
+                    </td>
+                </td>
                 <td>
                     <a href="{{ route('portfolio_items.edit', $item->id) }}" class="btn btn-warning btn-sm">
                         <i class="fas fa-edit"></i>
@@ -55,3 +57,53 @@
     {{ $portfolioItems->links() }}
 </div>
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        $('.move-up').click(function() {
+            var row = $(this).closest('tr');
+            row.insertBefore(row.prev());
+            updateOrder();
+        });
+
+        $('.move-down').click(function() {
+            var row = $(this).closest('tr');
+            row.insertAfter(row.next());
+            updateOrder();
+        });
+
+        var sortable = new Sortable(document.getElementById('sortable'), {
+            handle: '.handle',
+            animation: 150,
+            onEnd: function(evt) {
+                updateOrder();
+            }
+        });
+
+        function updateOrder() {
+            var order = [];
+            $('#sortable tr').each(function(index, element) {
+                order.push({ id: $(element).data('id'), order: index });
+            });
+    
+
+            $.ajax({
+                url: '{{ route("portfolio_items.reorder") }}',
+                method: 'POST',
+                data: {
+                    order: order,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+        }
+    });
+</script>
+{{-- @endsection --}}

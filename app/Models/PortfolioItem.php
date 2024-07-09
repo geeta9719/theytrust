@@ -12,7 +12,8 @@ class PortfolioItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'media', 'project_title', 'client_name', 'country_location', 'services_provided', 'short_description', 'engagement_start_date', 'engagement_end_date','company_id'
+        'media', 'project_title', 'client_name', 'country_location', 'services_provided', 'short_description', 'engagement_start_date', 'engagement_end_date','company_id',
+        'position'
     ];
 
     protected $casts = [

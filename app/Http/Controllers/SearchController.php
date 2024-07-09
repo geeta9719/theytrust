@@ -1128,10 +1128,8 @@ class SearchController extends Controller
             }
         }
 
-
-
-        $data['reviews'] = CompanyReview::with('user')
-            ->where('company_id', $company_id)
+        $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
+            ->orderBy('position')
             ->paginate(3);
 
         return view('home.portfolio', $data);

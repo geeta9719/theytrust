@@ -174,4 +174,6 @@ class ProjectController extends Controller
   
         return redirect()->route('Projects.index')->with('success','Project deleted successfully');
     }
+
+    
 }

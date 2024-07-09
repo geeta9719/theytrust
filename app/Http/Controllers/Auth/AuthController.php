@@ -254,4 +254,35 @@ public function signupWithEmail(Request $request)
 
 }
 
+
+public function loginWithEmail(Request $request)
+{
+    // Validate the incoming request data
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email',
+        'password' => 'required|string|min:8',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput()->with('showModal', 'login');
+    }
+
+    // Attempt to log the user in
+    $credentials = $request->only('email', 'password');
+
+    if (Auth::attempt($credentials)) {
+        // Authentication passed...
+        return redirect()->intended('/'); // Change 'dashboard' to your intended route
+    }
+
+    // Authentication failed...
+    return redirect()->back()
+        ->withInput($request->only('email'))
+        ->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])
+        ->with('showModal', 'login');
+}
+
+
 }

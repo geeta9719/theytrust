@@ -11,12 +11,12 @@ class PortfolioItemController extends Controller
 
     public function tableView()
     {
-
         $company = Company::where('user_id', auth()->id())->first();
-
-        $portfolioItems = PortfolioItem::paginate(10);
+    
+        $portfolioItems = PortfolioItem::orderBy('position')->paginate(10);
         return view('home.user.portfolio_items.tables', compact('company', 'portfolioItems'));
     }
+    
 
     public function create()
     {
@@ -81,7 +81,7 @@ class PortfolioItemController extends Controller
         $company = Company::findOrFail($company);
         $itemsPerPage = 3; // Display only 3 items per page
 
-        $portfolioItems = PortfolioItem::where('company_id', $company->id)
+        $portfolioItems = PortfolioItem::where('company_id', $company->id)->orderBy('position')
             ->paginate($itemsPerPage);
 
         return response()->json($portfolioItems);
@@ -131,4 +131,17 @@ class PortfolioItemController extends Controller
         $portfolioItem->delete();
         return redirect()->route('')->with('success', 'Portfolio item deleted successfully.');
     }
+   
+    public function reorder(Request $request)
+{
+    $order = $request->input('order');
+
+    foreach ($order as $item) {
+        $portfolioItem = PortfolioItem::find($item['id']);
+        $portfolioItem->position = $item['order'];
+        $portfolioItem->save();
+    }
+
+    return response()->json(['status' => 'success']);
+}
 }
