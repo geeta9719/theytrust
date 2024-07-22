@@ -511,6 +511,7 @@ class AddCompany extends Controller
             $subcategories = DB::table('add_foci')
                 ->join('subcategories', 'add_foci.subcategory_id', '=', 'subcategories.id')
                 ->where('subcategories.category_id', $serviceLine->category->id)
+                ->where('add_foci.company_id', $id)
                 ->select('subcategories.id', 'subcategories.subcategory', 'add_foci.percent as inputValue')
                 ->get();
     
@@ -519,6 +520,7 @@ class AddCompany extends Controller
                 $skills = DB::table('company_subcat_child')
                     ->join('subcat_children', 'company_subcat_child.subcat_child_id', '=', 'subcat_children.id')
                     ->where('subcat_children.subcategory_id', $subcategory->id)
+                    ->where('company_subcat_child.company_id', $id)
                     ->select('subcat_children.id', 'subcat_children.name')
                     ->get();
     
@@ -529,6 +531,7 @@ class AddCompany extends Controller
                     $subskills = DB::table('companyhasskill')
                         ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
                         ->where('skills.subcat_child_id', $skill->id)
+                        ->where('companyhasskill.company_id', $id)
                         ->select('skills.id', 'skills.name')
                         ->get();
     
@@ -602,13 +605,17 @@ class AddCompany extends Controller
 
     public function save_company_service(Request $request, $id)
     {
+        DB::beginTransaction();
+    
         try {
             $data = $request->all();
+    
+            // Delete existing entries for the company
             ServiceLine::where('company_id', $id)->delete();
             AddFocus::where('company_id', $id)->delete();
             CompanySubcatChild::where('company_id', $id)->delete();
             CompanyHasSkill::where('company_id', $id)->delete();
-
+    
             foreach ($data['selectedData'] as $item) {
                 $categoryId = $item['category_id'];
                 $companyId = $id;
@@ -618,7 +625,7 @@ class AddCompany extends Controller
                     'percent' => $item['inputValue'] // Assuming the input value key is 'percent'
                 ];
                 ServiceLine::create($serviceLineInputs);
-
+    
                 // Process subcategories
                 foreach ($item['subcategories'] as $subcategory) {
                     $sub = Subcategory::where('subcategory', $subcategory['subcategory_name'])->first();
@@ -646,12 +653,18 @@ class AddCompany extends Controller
                     }
                 }
             }
-
-            return response()->json(['message' => 'Data saved successfully'], Response::HTTP_OK);
+    
+            DB::commit();
+    
+            // Reset or empty the fields here (depends on frontend implementation)
+            // Example response with data cleared
+            return response()->json(['message' => 'Data saved successfully', 'data' => []], Response::HTTP_OK);
         } catch (Exception $e) {
+            DB::rollBack();
             return response()->json(['error' => 'An error occurred while saving data: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    
 
 
 
