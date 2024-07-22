@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="{{ asset('portfolioimage/js/jquery.js') }}"></script>
     <script src="{{ asset('portfolioimage/js/tab.js') }}"></script>
+    
+
+
+
+
+    
     <style>
         .short-description {
             overflow: hidden;
@@ -85,10 +91,10 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="col-md-4 pl-md-1">
-                        <h2 class="industries my-heading indusbox"> Target Industries</h2>
+                    <div class="col-md-4 pl-md-1 mt-3">
+                        <h2 class="industries my-heading indusbox mb-3"> Target Industries</h2>
                         @foreach ($add_industry as $industry)
-                        <a href="#" class="btn-target mt-lg-4 mt-0 pt-4 pt-lg-4">{{ $industry->industry->name }}</a>
+                        <a href="#" class="btn-target ">{{ $industry->industry->name }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -123,6 +129,10 @@
                         </div>
                     </div>
                 </div>
+
+
+
+                
                 
                 
                 <div class="container mt-5 reviews-sec greybox">
