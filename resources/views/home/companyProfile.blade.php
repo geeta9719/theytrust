@@ -64,6 +64,11 @@
                                 <h3>{{ $rate_review->review }} REVIEWS</h3>
                             </a>
                         </div>
+                        <div class="write-review mt-3">
+                            <a href="{{ url('company/' . $company->id.'/getReview' ) }}" class="btn btn-primary" target="_blank">
+                              Write a Review
+                            </a>
+                          </div>  
                     </div>
                 </div>
                 <div class="row mt-5 target-sec">
