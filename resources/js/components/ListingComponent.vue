@@ -67,7 +67,7 @@
           </p>
           <p v-else>No reviews yet</p>
           <div class="buttons">
-            <button class="view-profile-btn">View Profile</button>
+            <a :href="`/profile/${company.id}`" class="view-profile-btn">View Profile</a>
             <button class="request-quote-btn">Request Quote</button>
           </div>
           <p class="company-description">{{ company.short_description }}</p>
