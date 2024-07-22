@@ -147,16 +147,22 @@ public function dashboard(Request $request, $company)
         $formattedData = [];
         foreach ($serviceLines as $serviceLine) {
             $subcategories = DB::table('add_foci')
-                ->join('subcategories', 'add_foci.subcategory_id', '=', 'subcategories.id')
-                ->where('subcategories.category_id', $serviceLine->category->id)
-                ->select('subcategories.id', 'subcategories.subcategory', 'add_foci.percent as inputValue')
-                ->get();
+            ->join('subcategories', 'add_foci.subcategory_id', '=', 'subcategories.id')
+            // ->join('companies', 'add_foci.company_id', '=', 'companies.id')
+            ->where('subcategories.category_id', $serviceLine->category->id)
+            ->where('add_foci.company_id', $company)
+            ->select('subcategories.id', 'subcategories.subcategory', 'add_foci.percent as inputValue')
+
+            ->get();
+
+
 
             $formattedSubcategories = [];
             foreach ($subcategories as $subcategory) {
                 $skills = DB::table('company_subcat_child')
                     ->join('subcat_children', 'company_subcat_child.subcat_child_id', '=', 'subcat_children.id')
                     ->where('subcat_children.subcategory_id', $subcategory->id)
+                    ->where('company_subcat_child.company_id', $company)
                     ->select('subcat_children.id', 'subcat_children.name')
                     ->get();
 
@@ -165,6 +171,7 @@ public function dashboard(Request $request, $company)
                     $subskills = DB::table('companyhasskill')
                     ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
                     ->where('skills.subcat_child_id', $skill->id)
+                    ->where('companyhasskill.company_id', $company)
                     ->select('skills.id', 'skills.name')
                     ->get();
 
@@ -200,6 +207,8 @@ public function dashboard(Request $request, $company)
         }
 
         $data['serviceLines'] = $formattedData;
+
+        // dd($data['serviceLines']);
         $data['serviceLineCount'] = count($formattedData);
 
         // Fetch industries
