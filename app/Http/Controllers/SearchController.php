@@ -1366,12 +1366,11 @@ class SearchController extends Controller
         // Query to get the cities based on the country and optional search term
         $query = DB::table('addresses')
             ->select('*')
-            // ->where('city', $search)
             ->groupBy('city');
 
         // If a search term is provided, add a where clause for the search term
         if ($search) {
-            $query->where('city', 'like', '%' . $search . '%');
+            $query->where('city', 'like', $search . '%');
         }
 
         $locations = $query->get();
