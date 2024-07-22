@@ -21,4 +21,15 @@ class Category extends Model
     public function service_line(){
         return $this->hasMany(Serviceline::class);
     }
+
+    // New
+    public function serviceLines()
+    {
+        return $this->hasMany(ServiceLine::class);
+    }
+
+    public function subcategories()
+    {
+        return $this->hasMany(Subcategory::class);
+    }
 }

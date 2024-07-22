@@ -10,14 +10,18 @@ class AddFocus extends Model
     use HasFactory;
     protected $guarded;
 
-    public function company(){
+    public function subcat_child(){
+        return $this->belongsTo(SubcatChild::class);
+    }
+
+    //New
+    public function company()
+    {
         return $this->belongsTo(Company::class);
     }
 
-    public function subcategory(){
+    public function subcategory()
+    {
         return $this->belongsTo(Subcategory::class);
-    }
-    public function subcat_child(){
-        return $this->belongsTo(SubcatChild::class);
     }
 }

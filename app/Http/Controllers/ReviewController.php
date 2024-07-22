@@ -31,7 +31,6 @@ class ReviewController extends Controller
 
         $reviews = ReviewRequest::with('company')
         ->where('company_id', $company->id)
-        ->with('user')
             ->where('company_id', $company->id)
             ->get();
 

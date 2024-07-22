@@ -12,29 +12,28 @@ if(Auth::check())
 ?>
 <style>
     .accordion {
-    margin: 0 auto;
-}
+        margin: 0 auto;
+    }
 
-.accordion-item {
-    margin-bottom: 5px;
-}
+    .accordion-item {
+        margin-bottom: 5px;
+    }
 
-.accordion-header {
-    cursor: pointer;
-}
+    .accordion-header {
+        cursor: pointer;
+    }
 
-.accordion-content {
-    display: none;
-}
+    .accordion-content {
+        display: none;
+    }
 
-.accordion-toggle{
-    font-size: 20px !important;
-    border: none !important;
-    background: none !important;
-    color: #fff !important;
+    .accordion-toggle {
+        font-size: 20px !important;
+        border: none !important;
+        background: none !important;
+        color: #fff !important;
 
-}
-
+    }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> -->
@@ -44,22 +43,23 @@ if(Auth::check())
             <a class="navbar-brand" href="/">
                 <img src="{{asset('front_components/images/logo.png')}}" alt="" class="logo">
             </a>
-            <div class="right-section d-lg-flex d-xl-none d-none" >
+            <div class="right-section d-lg-flex d-xl-none d-none">
                 <div class="input-group ">
-                    <input type="text" class="form-control search" name="search" id="search"  placeholder="Search" onkeyup="search()">
+                    <input type="text" class="form-control search" name="search" id="search" placeholder="Search"
+                        onkeyup="search()">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
                 </div>
             </div>
             <div class="d-block d-xl-none">
-            @if(!Auth::check())
-            <a class="nav-link brdnone modal-signin px-0" href="#"  data-toggle="modal" data-target="#singin-modal">
-            <img src="https://theytrust-us.developmentserver.info/front_components/images/user1.png" alt="">
-            </a>
-                    @else
-                    <li class="nav-item dropdown">
-                        <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                @if(!Auth::check())
+                <a class="nav-link brdnone modal-signin px-0" href="#" data-toggle="modal" data-target="#singin-modal">
+                    <img src="https://theytrust-us.developmentserver.info/front_components/images/user1.png" alt="">
+                </a>
+                @else
+                <li class="nav-item dropdown">
+                    <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="
                             {{-- @if(auth()->user()->avatar) {{auth()->user()->avatar}} @else --}}
                             {{asset('front_components/images/user1.png')}}
@@ -83,22 +83,25 @@ if(Auth::check())
 
 
 
-                        <div class="dropdown">
-  <button type="button" class=" " data-toggle="dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="
+                    <div class="dropdown">
+                        <button type="button" class=" " data-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="
                             {{-- @if(auth()->user()->avatar) {{auth()->user()->avatar}} @else --}}
                             {{asset('front_components/images/user1.png')}}
                              {{-- @endif --}}
                               " class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
-                        </a>
-  </button>
-  <div class="dropdown-menu shadow-sm mobiledrp">
-  <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
+                            </a>
+                        </button>
+                        <div class="dropdown-menu shadow-sm mobiledrp">
+                            <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
                             @if($cd)
-                            <a class="dropdown-item" href="{{ route('company.dashboard',$cd->id) }}">Company Dashboard</a>
+                            <a class="dropdown-item" href="{{ route('company.dashboard',$cd->id) }}">Company
+                                Dashboard</a>
                             <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
-                            <a class="dropdown-item" href="{{ route('user.allinfo',auth()->user()->id) }}">Update Company Profile</a>
+                            <a class="dropdown-item" href="{{ route('user.allinfo',auth()->user()->id) }}">Update
+                                Company Profile</a>
                             @else
                             <a class="dropdown-item" href="{{url('get-listed')}}">Update Company Profile 1</a>
                             @endif
@@ -106,71 +109,76 @@ if(Auth::check())
                                 @csrf
                                 <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
                             </form>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-                      </li>
-                    @endif
+                        </div>
                     </div>
+
+
+
+
+
+
+
+
+
+
+                </li>
+                @endif
+            </div>
             {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button> --}}
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-              </button>
+            </button>
             @if(Auth::check())
-                @php $cls = 'afterLogin' @endphp
+            @php $cls = 'afterLogin' @endphp
             @else
-                @php $cls = '' @endphp
+            @php $cls = '' @endphp
             @endif
             {{-- <div class="collapse navbar-collapse {{$cls}}" id="collapsibleNavbar"> --}}
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav topheader align-items-center">
-                    <li class="nav-item  ">
-                    <a class="nav-link services-tab" href="javascript:void(0)">Services <span class="drop-arrow down"></span></a>
-                        <div class="accordion" id="myAccordion">
-                        <?php $i = 1; ?>
-                        @foreach($categoriese as $category)
+                    <ul class="navbar-nav topheader align-items-center">
+                        <li class="nav-item  ">
+                            <a class="nav-link services-tab" href="javascript:void(0)">Services <span
+                                    class="drop-arrow down"></span></a>
+                            <div class="accordion" id="myAccordion">
+                                <?php $i = 1; ?>
+                                @foreach($categoriese as $category)
 
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <div class="d-flex align-items-center justify-content-between pr-2">
-                                        {{$category->category}}
-                                        <button class="accordion-toggle">+</button>
-                                    </div>
-                                </h2>
-                                <div class="accordion-content">
-                                    <div class="card-body">
-                                        @foreach($category->subcategory as $sub_cat)
-                                            <a href="{{ url('directory/'.strtolower($sub_cat->subcategory)) }}">{{$sub_cat->subcategory}}</a>
-                                        @endforeach
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <div class="d-flex align-items-center justify-content-between pr-2">
+                                            {{$category->category}}
+                                            <button class="accordion-toggle">+</button>
+                                        </div>
+                                    </h2>
+                                    <div class="accordion-content">
+                                        <div class="card-body">
+                                            @foreach($category->subcategory as $sub_cat)
+                                            <a
+                                                href="{{ url('directory/'.strtolower($sub_cat->subcategory)) }}">{{$sub_cat->subcategory}}</a>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
+                                <?php $i++; ?>
+                                @endforeach
                             </div>
-                        <?php $i++; ?>
-                        @endforeach
-                        </div>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link " href="#">Blog</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link " href="{{url('contact')}}"> Contact Us </a>
-                    </li>
-                    @if(!Auth::check())
-                        <li class="nav-item  ">
-                            <a class="nav-link brdnone modal-signin" href="#"  data-toggle="modal" data-target="#singin-modal"> Sign in</a>
                         </li>
-                    @else
+                        <li class="nav-item ">
+                            <a class="nav-link " href="#">Blog</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link " href="{{url('contact')}}"> Contact Us </a>
+                        </li>
+                        @if(!Auth::check())
+                        <li class="nav-item  ">
+                            <a class="nav-link brdnone modal-signin" href="#" data-toggle="modal"
+                                data-target="#singin-modal"> Sign in</a>
+                        </li>
+                        @else
 
                         <li class="nav-item ">
                             <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -198,61 +206,66 @@ if(Auth::check())
 
 
                             <div class="dropdown mymobile">
-  <button type="button" class="" data-toggle="dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="
+                                <button type="button" class="" data-toggle="dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="
                                 {{-- @if(auth()->user()->avatar) {{auth()->user()->avatar}} @else --}}
                                 {{asset('front_components/images/user1.png')}}
                                  {{-- @endif --}}
                                   " class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
-                            </a>
-  </button>
-  <div class="dropdown-menu shadow-sm ">
-  <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
-                                @if($cd)
-                                <a class="dropdown-item" href="{{ route('company.dashboard',$cd->id) }}">Company Dashboard</a>
-                                <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
-                                <a class="dropdown-item" href="{{ route('user.allinfo',auth()->user()->id) }}">Update Company Profile </a>
-                                <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
+                                    </a>
+                                </button>
+                                <div class="dropdown-menu shadow-sm ">
+                                    <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
+                                    @if($cd)
+                                    <a class="dropdown-item" href="{{ route('company.dashboard',$cd->id) }}">Company
+                                        Dashboard</a>
+                                    <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
+                                    <a class="dropdown-item"
+                                        href="{{ route('user.allinfo',auth()->user()->id) }}">Update Company Profile
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
 
-                                @else
-                                <a class="dropdown-item" href="{{url('get-listed')}}">Update Company Profile</a>
-                                @endif
-                                <form method="post" action="/logout">
-                                    @csrf
-                                    <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
-                                </form>
-  </div>
-</div>
-
-
-
-
-
-
+                                    @else
+                                    <a class="dropdown-item" href="{{url('get-listed')}}">Update Company Profile</a>
+                                    @endif
+                                    <form method="post" action="/logout">
+                                        @csrf
+                                        <button class="btn btn-sm btn-primary btnLogout logoutbtn"
+                                            type="submit">Logout</button>
+                                    </form>
+                                </div>
+                            </div>
 
 
 
 
 
 
-                          </li>
-                    @endif
-                </ul>
 
-              
 
-            </div>
-            <div class="right-section d-lg-none d-xl-flex">
-            <div class="input-group">
-            <input type="text" class="form-control search" name="search" id="search1" placeholder="Search">
-            <div class="srcbxc"></div>
 
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+
+
+
+                        </li>
+                        @endif
+                    </ul>
+
+
+
                 </div>
-            </div>
-            </div>
+                <div class="right-section d-lg-none d-xl-flex">
+                    <div class="input-group">
+                        <input type="text" class="form-control search" name="search" id="search1" placeholder="Search">
+                        <div class="srcbxc"></div>
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
         </nav>
 
 
@@ -264,17 +277,19 @@ if(Auth::check())
             </div> -->
             <ul class="  mb-0">
                 @foreach($categoriese as $cat)
-                    @if($cat->top_cat == 1)
-                        <li><a style="text-decoration: none;color: #fff;" href="{{url('directory/'.strtolower(str_replace(' ','-',$cat->category)))}}">{{$cat->category}}</a></li>
-                    @endif
+                @if($cat->top_cat == 1)
+                <li><a style="text-decoration: none;color: #fff;"
+                        href="{{url('directory/'.strtolower(str_replace(' ','-',$cat->category)))}}">{{$cat->category}}</a>
+                </li>
+                @endif
                 @endforeach
             </ul>
         </div>
     </section>
 </div>
-    <!-- Include jQuery library -->
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- JavaScript to make the header sticky -->
+
 <script>
     $(document).ready(function () {
         var header = $(".header-container");

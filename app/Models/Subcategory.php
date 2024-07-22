@@ -11,9 +11,6 @@ class Subcategory extends Model
 
     protected $guarded;
 
-    public function category(){
-        return $this->belongsTo(Category::class);
-    }
 
     public function service_line(){
         return $this->hasMany(Serviceline::class);
@@ -30,4 +27,21 @@ class Subcategory extends Model
     public function company_review(){
         return $this->belongsTo(CompanyReview::class,'project_type');
     }
+
+    //New
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function addFocus()
+    {
+        return $this->hasMany(AddFocus::class);
+    }
+
+public function companySubcatChild()
+{
+    return $this->hasMany(CompanySubcatChild::class, 'subcategory_id', 'id');
+}
 }

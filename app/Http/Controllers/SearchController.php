@@ -28,6 +28,7 @@ use App\Models\CompanyHasProject;
 use App\Models\SubcatChild;
 use App\Models\Specialization;
 use App\Models\PortfolioItem;
+use App\Models\Skill;
 use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
@@ -1225,12 +1226,157 @@ class SearchController extends Controller
 
     public function listView()
     {
-        $company = Company::where('user_id', auth()->id())->first();       
+        $company = Company::where('user_id', auth()->id())->first();
         $data['reviews'] = CompanyReview::with('user')
             ->where('company_id', $company->id)
             ->paginate(3);
-            // dd($data);
+        // dd($data);
 
         return view('home.review', $data);
     }
+
+
+
+
+    public function listing($category = null, $subcategory = null, $skill = null, $subskill = null, Request $request)
+    {
+        $categories = Category::all(); 
+        $budgets = Budget::all(); 
+        $rates = Rate::all(); 
+        $industries = Industry::all(); 
+        return view('home1', compact('categories', 'budgets', 'rates', 'industries'));
+    }
+
+
+
+    public function getSubcategories($id)
+    {
+        $subcategories = Subcategory::where('category_id', $id)->get();
+
+        return response()->json([
+            'subcategories' => $subcategories,
+        ]);
+    }
+
+    public function getSkills($id)
+    {
+        $deepSkills = SubcatChild::where('subcategory_id', $id)->get();
+
+        return response()->json([
+            'skills' => $deepSkills,
+        ]);
+    }
+    public function getDeepSkills($id)
+    {
+        $deepSkills = Skill::where('subcat_child_id', $id)->get();
+
+        return response()->json([
+            'deepSkills' => $deepSkills,
+        ]);
+    }
+
+
+
+
+    public function index(Request $request)
+    {
+        $query = Company::with(['serviceLines.category','companyReview']);
+
+        if ($request->filled('categoryId')) {
+            $query->whereHas('serviceLines', function ($query) use ($request) {
+                $query->where('category_id', $request->categoryId);
+            });
+        }
+
+        if ($request->filled('subcategoryId')) {
+            $query->whereHas('addFocus', function ($query) use ($request) {
+                $query->where('subcategory_id', $request->subcategoryId);
+            });
+        }
+
+        if ($request->filled('skillId')) {
+            $query->whereHas('CompanySubcatChild', function ($query) use ($request) {
+                $query->where('subcat_child_id', $request->skillId);
+            });
+        }
+        if ($request->filled('deepSkillId')) {
+            $query->whereHas('deepskill', function ($query) use ($request) {
+                $query->where('skill_id', $request->deepSkillId);
+            });
+        }
+
+        if ($request->filled('location')) {
+            $query->whereHas('address', function ($query) use ($request) {
+                $query->where('city', $request->location);
+            });
+        }
+
+        if ($request->filled('industry')) {
+            $query->whereHas('addIndustry', function ($query) use ($request) {
+                $query->where('industry_id', $request->industry);
+            });
+        }
+
+        if ($request->filled('industry')) {
+            $query->whereHas('addIndustry', function ($query) use ($request) {
+                $query->where('industry_id', $request->industry);
+            });
+        }
+
+        if ($request->filled('industry')) {
+            $query->whereHas('addIndustry', function ($query) use ($request) {
+                $query->where('industry_id', $request->industry);
+            });
+        }
+        if ($request->filled('rating')) {
+            $query->whereHas('companyReview', function ($query) use ($request) {
+                $query->where('overall_rating', $request->rating);
+            });
+        }
+
+        if ($request->filled('budget')) {
+            $budget = $request->input('budget');
+            $query->where('budget', $budget); // Adjust the column name and condition as needed
+        }
+
+
+        if ($request->filled('rate')) {
+            $rate = $request->input('rate');
+            $query->where('rate', $rate); // Adjust the column name and condition as needed
+        }
+    
+        $companies = $query->distinct()->get();
+
+
+
+
+        return response()->json(['companies' => $companies]);
+    }
+
+    public function getLocation(Request $request)
+    {
+        $search = $request->input('search');
+        $country = $request->input('country');
+
+        // Validate the country parameter
+        // if (!$country) {
+        //     return response()->json(['error' => 'Country parameter is required'], 400);
+        // }
+
+        // Query to get the cities based on the country and optional search term
+        $query = DB::table('addresses')
+            ->select('*')
+            // ->where('city', $search)
+            ->groupBy('city');
+
+        // If a search term is provided, add a where clause for the search term
+        if ($search) {
+            $query->where('city', 'like', '%' . $search . '%');
+        }
+
+        $locations = $query->get();
+
+        return response()->json(['locations' => $locations]);
+    }
+
 }

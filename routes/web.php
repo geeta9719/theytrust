@@ -358,6 +358,25 @@ Route::post('/portfolio-items/reorder', [PortfolioItemController::class, 'reorde
 Route::post('/submit-response', [ReviewController::class,'submitResponse'])->name('submit.response');
 
 
+Route::get('/categories', [SearchController::class, 'getCategories']);
+// Route::get('/listing', [SearchController::class, 'listing'])->name('listing');
+// routes/web.php
+Route::get('/listing/{category?}/{subcategory?}/{skill?}/{subskill?}', [SearchController::class, 'listing'])->name('listing');
+
+Route::get('/api/categories/{id}/subcategories', [SearchController::class, 'getSubcategories']);
+Route::get('/api/subcategories/{id}/skills', [SearchController::class, 'getSkills']);
+Route::get('/api/skills/{id}/deepskills', [SearchController::class, 'getDeepSkills']);
+Route::get('/api/companies', [SearchController::class, 'index']);
+Route::get('/api/location', [SearchController::class, 'getLocation']);
+
+
+
+
+
+
+
+
+
 
 
 

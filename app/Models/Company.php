@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CompanyHasProject;
 use App\Models\CompanySubcatChild;
+use App\Models\CompanyHasSkill;
+
 
 
 
@@ -22,9 +24,6 @@ class Company extends Model
     }
     public function serviceLine(){
         return $this->hasMany(ServiceLine::class);
-    }
-    public function addFocus(){
-        return $this->hasMany(AddFocus::class);
     }
     public function addIndustry(){
         return $this->hasMany(AddIndustry::class);
@@ -78,4 +77,22 @@ class Company extends Model
         }
 
     }
+
+   // New
+    public function serviceLines()
+    {
+        return $this->hasMany(ServiceLine::class);
+    }
+
+    public function addFocus()
+    {
+        return $this->hasMany(AddFocus::class);
+    }
+
+    public function deepskill()
+    {
+        return $this->hasMany(CompanyHasSkill::class);
+    }
+
+
 }
