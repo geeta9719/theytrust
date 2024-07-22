@@ -62,10 +62,14 @@
           <h3>{{ company.name }}</h3>
           <p>{{ company.tagline }}</p>
           <p v-if="company.avg_review_score">
-            <span class="rating">{{ company.avg_review_score.toFixed(1) }}</span> ★
-            <span>{{ company.reviews_count }} Reviews</span>
-          </p>
-          <p v-else>No reviews yet</p>
+        <span class="rating">{{ company.avg_review_score.toFixed(1) }}</span> ★
+        <span>{{ company.reviews_count }} Reviews</span>
+        <a :href="`/company/${company.id}/getReview`" class="write-review-link">Write a Review</a>
+      </p>
+      <p v-else>
+        No reviews yet
+        <a :href="`/company/${company.id}/getReview`" class="write-review-link">Write a Review</a>
+      </p>
           <div class="buttons">
             <a :href="`/profile/${company.id}`" class="view-profile-btn">View Profile</a>
             <button class="request-quote-btn">Request Quote</button>
