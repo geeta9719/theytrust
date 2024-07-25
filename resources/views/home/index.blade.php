@@ -1,343 +1,507 @@
 @extends('layouts.home-master')
 @section('content')
 <link rel="stylesheet" href="{{asset('front_components/css/select2.min.css')}}" />
+<style>
+    /* Updated CSS styles */
+    .hero-section {
+        padding: 50px 0;
+        background-color: #f5f5f5;
+    }
 
+    .hero-section .whitebox {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
+    .hero-section h3 {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
 
+    .hero-section h3 span {
+        color: #007bff;
+    }
 
-<!-- contact section start -->
+    .hero-section h4 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
 
-<!-- banner section start -->
+    .hero-section p {
+        font-size: 18px;
+    }
 
+    .hero-section img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Styles for the Provider Search Section */
+    .provider-sec {
+        background-color: #ffffff;
+        padding: 50px 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .provider-sec .inner {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+    }
+
+    .provider-sec p {
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .provider-sec select {
+        flex: 1;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .provider-sec .location {
+        display: flex;
+        align-items: center;
+    }
+
+    .provider-sec .location img {
+        margin-right: 10px;
+    }
+
+    .provider-sec .btn-secondary {
+        background-color: #007bff;
+        border: none;
+        padding: 10px 20px;
+        color: #fff;
+        border-radius: 5px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    /* Styles for the Recent Reviews Section */
+    .recent-reviews {
+        padding: 50px 0;
+        background-color: #f9f9f9;
+    }
+
+    .recent-reviews h3 {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .recent-reviews p {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+
+    .reviewby {
+        margin-bottom: 30px;
+    }
+
+    .reviewby .greybox {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+    }
+
+    .reviewby h3 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .reviewby .userbox {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .reviewby .userbox img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+    }
+
+    .reviewby .user-name {
+        flex: 1;
+    }
+
+    .reviewby .user-name h2 {
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .reviewby .user-name p {
+        margin: 0;
+        color: #666;
+    }
+
+    .reviewby .qualitybox {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .reviewby .qualityreview {
+        flex: 1;
+        text-align: center;
+    }
+
+    .reviewby .qualityreview button {
+        display: block;
+        background: none;
+        border: none;
+        color: #007bff;
+        font-size: 18px;
+        cursor: pointer;
+        margin-bottom: 5px;
+    }
+
+    .reviewby .qualityreview .star {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .reviewby .qualityreview .star i {
+        color: #ffc107;
+    }
+
+    .reviewby .dotted {
+        border-top: 1px dashed #ddd;
+        margin: 20px 0;
+    }
+
+    .recent-reviews .reviewby .greybox {
+        margin-bottom: 20px;
+    }
+
+    .recent-reviews .reviewby .reviewby button {
+        background: none;
+        border: none;
+        color: #333;
+        font-weight: bold;
+    }
+
+    /* Utility Classes */
+    .text-center {
+        text-align: center;
+    }
+
+    .text-md-left {
+        text-align: left;
+    }
+
+    @media (max-width: 767px) {
+        .reviewby .userbox {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .reviewby .user-name {
+            text-align: center;
+        }
+    }
+
+    .categories-section {
+        padding: 50px 0;
+    }
+
+    .categories-section h3 {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .categories-section p {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+
+    .categories-section h4 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .categories-section ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .categories-section ul li {
+        margin-bottom: 10px;
+    }
+
+    .categories-section ul li a {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .categories-section ul li a:hover {
+        text-decoration: underline;
+    }
+
+    .text-right a {
+        color: #007bff;
+    }
+
+    .text-right a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<!-- Hero Section -->
 <section class="container-fluid banner animatedParent hero-section">
-        <div class="container">
-            <div class="row   ">
-                <div class="col-lg-7 pr-lg-5 animated fast go fadeInLeft  pt-md-5">
-                    <div class="whitebox">
-
-                        <h3>Enabling Reviews <span>and Ratings for Top</span> </h3>
-                        <h4><span>B2B companies</span></h4>
-                        <p>They Trust Us is instrumental in helping millions of <span>B2B</span> firms establish their
-                            trust and visibility for the prospective customers</p>
-                        <a href="{{url('about')}}" class="btn btn-primary">They Trust Us</a>
-                    </div>
-                </div>
-                <div
-                    class="col-lg-5  text-center pl-lg-5  d-flex justify-content-end pt-5 pt-lg-0 animated fadeInRight fast go">
-                    <img src="{{asset('front_components/images/hero-1.png')}}" alt="" class="img-fluid desktop-sec">
-
-
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7  animated fast go fadeInLeft ">
+                {{-- <div class="whitebox"> --}}
+                    <h3>Enabling Decision Making for <span>B2B Customers</span></h3>
+                    <h4><span>Discover Real Businesses with Real Reviews</span> to Choose Your Next Service Provider</h4>
+                    <p>They Trust Us is instrumental in helping millions of <span>B2B</span> firms establish their trust and visibility for prospective customers</p>
+                {{-- </div> --}}
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-
-   <section class="container-fluid">
-    <div  class="provider-sec container">
-
+<!-- Provider Search Section -->
+<section class="container-fluid">
+    <div class="provider-sec container">
         <form action="{{ url('companies') }}" method="POST" id="searchForm">
             @csrf
             <div class="inner">
                 <p>I am looking for</p>
-
                 <select class="form-control dropdown1 address" id="subcategories" name="services[]">
                     @foreach($subcategories as $subcategory)
-                    <option value="{{$subcategory->id}}" data-name="{{strtolower(str_replace(' ','-',$subcategory->subcategory))}}">
-                        {{$subcategory->subcategory}}</option>
+                        <option value="{{$subcategory->id}}" data-name="{{strtolower(str_replace(' ','-',$subcategory->subcategory))}}">{{$subcategory->subcategory}}</option>
                     @endforeach
                 </select>
-
-               <div class="d-flex align-items-center location">
-                <img src="{{asset('front_components/images/map1.png')}}" alt="" class="img-fluid mapcss">
-                <!-- <i class="fa fa-map-marker mr-md-5" aria-hidden="true"></i> -->
-                <select class="form-control address location dropdown2" id="locations" name="location"></select>
-               </div>
+                <div class="d-flex align-items-center location">
+                    <img src="{{asset('front_components/images/map1.png')}}" alt="" class="img-fluid mapcss">
+                    <select class="form-control address location dropdown2" id="locations" name="location"></select>
+                </div>
                 <button class="btn btn-secondary" onclick="setAction()">Find Provider</button>
             </div>
         </form>
     </div>
-   </section>
+</section>
 
-
-
-
+<!-- Recent Reviews Section -->
+<section class="container-fluid recent-reviews">
+    <div class="container">
+        <h3 class="text-center">Recent Reviews</h3>
+        <p class="text-center">They Cared to Share their Experiences.</p>
+        <div class="row">
+            @foreach($reviews as $review)
+            <div class="col-md-4 reviewby">
+                <div class="greybox">
+                    <div class="d-lg-flex userbox">
+                        <div class="d-lg-flex user-img">
+                            <img src="{{ $review['user_image'] ?? asset('img/black-image.png') }}" alt=""
+                                class="img-fluid d-md-inline d-table mx-auto">
+                            <div class="user-name text-center text-md-left">
+                                <h2>{{ $review->fullname }}</h2>
+                                <p>{{ $review->position_title }} | {{ $review->company_name }} | {{ $review->country }}</p>
+                            </div>
+                        </div>
+                        <div class="text-center text-md-left">
+                            <br> {!! generateStarRating($review['overall_rating']) !!}
+                        </div>
+                    </div>
+                    <div class="user-col">
+                        <div class="d-lg-flex reviewby pt-2">
+                            <div class="ptitle mb-2 mb-lg-0"><button>Project Type</button></div>
+                            <div>
+                                <p>{{ $review['project_type'] }}</p>
+                            </div>
+                        </div>
+                        <div class="d-lg-flex reviewby pt-1">
+                            <div class="ptitle mb-2 mb-lg-0"><button>Services Provided</button></div>
+                            <div>
+                                <p>{{  $review->how_effective }}</p>
+                            </div>
+                        </div>
+                        <div class="d-lg-flex reviewby pt-1">
+                            <div class="ptitle mb-2 mb-lg-0"><button>Project Value</button></div>
+                            <div>
+                                <p>{{ $review['cost_range'] }}</p>
+                            </div>
+                        </div>
+                        <div class="d-lg-flex reviewby pt-1">
+                            <div class="ptitle mb-2 mb-lg-0"><button>Client Size</button></div>
+                            <div>
+                                <p>{{ $review['company_size'] }}</p>
+                            </div>
+                        </div>
+                        <div class="d-lg-flex reviewby pt-1">
+                            <div class="ptitle mb-2 mb-lg-0"><button>Client Industry</button></div>
+                            <div>
+                                <p>{{ $review['client_industry'] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="dotted"></p>
+                    <div class="d-flex reviewby">
+                        <div class="ptitle"><button>Detailed Rating</button></div>
+                    </div>
+                    <div class="qualitybox row">
+                        <div class="pt-4 qualityreview">
+                            <button>Quality</button>
+                            <div class="star d-flex">
+                                {!! generateStarChecked($review['quality']) !!}
+                            </div>
+                            <button>{{ $review['quality'] }}</button>
+                        </div>
+                        <div class="pt-4 qualityreview">
+                            <button>Timeliness</button>
+                            <div class="star d-flex">
+                                {!! generateStarChecked($review['timeliness']) !!}
+                            </div>
+                            <button>{{ $review['timeliness'] }}</button>
+                        </div>
+                        <div class="pt-4 qualityreview">
+                            <button>Cost</button>
+                            <div class="star d-flex">
+                                {!! generateStarChecked($review['cost']) !!}
+                            </div>
+                            <button>{{ $review['cost'] }}</button>
+                        </div>
+                        <div class="pt-4 qualityreview">
+                            <button>Expertise</button>
+                            <div class="star d-flex">
+                                {!! generateStarChecked($review['expertise']) !!}
+                            </div>
+                            <button>{{ $review['expertise'] }}</button>
+                        </div>
+                        <div class="pt-4 qualityreview">
+                            <button>Communication</button>
+                            <div class="star d-flex">
+                                {!! generateStarChecked($review['communication']) !!}
+                            </div>
+                            <button>{{ $review['communication'] }}</button>
+                        </div>
+                        <div class="pt-4 qualityreview">
+                            <button>Ease of Working</button>
+                            <div class="star d-flex">
+                                {!! generateStarChecked($review['ease_of_working']) !!}
+                            </div>
+                            <button>{{ $review['ease_of_working'] }}</button>
+                        </div>
+                        <div class="pt-4 qualityreview">
+                            <button>Referability</button>
+                            <div class="star d-flex">
+                                {!! generateStarChecked($review['refer_ability']) !!}
+                            </div>
+                            <button>{{ $review['refer_ability'] }}</button>
+                        </div>
+                    </div>
+                    <p class="text-right"><a href="#">Read Full Review</a></p>
+                </div>
+            </div>
+            @endforeach
+        </div>
     </div>
+</section>
+
+<section class="container-fluid categories-section">
+    <div class="container">
+        <h3 class="text-center">Browse Providers by Category</h3>
+        <p class="text-center">Explore service providers in just a click</p>
+        <div class="row">
+            @foreach($categories as $category)
+                @if($category->subcategory->isNotEmpty())
+                <div class="col-md-3">
+                    <h4>{{ $category->category }}</h4>
+                    <ul>
+                        @foreach($category->subcategory->take(5) as $subcategory)
+                        <li><a href="{{ url('listing/'.$category->slug.'/'.$subcategory->slug) }}">{{ $subcategory->subcategory }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+            @endforeach
+        </div>
+        <p class="text-right"><a href="{{ url('categories') }}">Browse All Providers</a></p>
     </div>
-    </div>
 
-<!-- banner section end -->
-
-
-
-
-    <section class="container-fluid agencies text-center animatedParent">
-        <div class="container animated fadeInUp slowest">
+    <section class="container-fluid skills-section">
+        <div class="container">
+            <h3 class="text-center">Browse Providers by Skills</h3>
+            <p class="text-center">Explore service providers with specific skills in a click</p>
             <div class="row">
-                <div class="col-12 ">
-                    <h3>150,000+ Agencies in 500+ Categories</h3>
-                    <p>Explore top services and solutions across industries to find the</br>
-                        right resource for your business.</p>
-                </div>
+                @foreach($subcategories as $subcategory)
+                    @if($subcategory->subcat_child->isNotEmpty())
+                    <div class="col-md-3">
+                        <h4>{{ $subcategory->subcategory }}</h4>
+                        <ul>
+                            @foreach($subcategory->subcat_child->take(5) as $child)
+                            <li><a href="{{ url('listing/'.$subcategory->category->slug.'/'.$subcategory->slug.'/'.$child->slug) }}">{{ $child->name }}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                @endforeach
             </div>
-            <div class="row pt-4 equal">
-                <div class="col-md-10 d-md-flex d-block mx-auto">
-                    <div class="col-lg-6 col-md-6 px-md-1 px-0">
-                        <div class="agenciesbox">
-                            <img src="{{asset('front_components/images/speaker.png')}}" alt="" class="img-fluid iconimg">
-                            <h3><a href="/directory/advertising-&-marketing">Advertising &
-                                Marketing Advertising</a></h3>
-                            <hr>
-                            <h4><a href="/directory/advertising">Advertising</a></h4>
-                            <p>Drive business growth and increase brand visibility through targeted advertising
-                                strategies and campaigns.</p>
-                            <hr>
-                            <h4><a href="/directory/branding">Branding</a></h4>
-                            <p>Establish a unique and memorable brand identity that reflects your values and resonates
-                                with your target audience.
-                            </p>
-                            <hr>
-                            <h4><a href="/directory/content%20marketing">Content Marketing</a></h4>
-                            <p>Create and distribute relevant, engaging content to attract, educate, and convert
-                                potential customers.</p>
-                            <a href="/directory/advertising-&-marketing"><img src="{{asset('front_components/images/btn.png')}}" alt="" class="img-fluid iconbtn"></a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6 px-md-1 px-0">
-                        <div class="agenciesbox">
-                            <img src="{{asset('front_components/images/icon2.png')}}" alt="" class="img-fluid iconimg">
-                            <h3><a href="/directory/development">Development</a></h3>
-                            <hr>
-                            <h4><a href="/directory/ar-&-vr-development">AR and VR Development</a></h4>
-                            <p>Unlock the potential of Augmented Reality (AR) and Virtual Reality (VR) with our expert
-                                AR/VR development services.
-                            </p>
-                            <hr>
-                            <h4><a href="/directory/android-app-development">Android App Development</a></h4>
-                            <p>Establish a unique and memorable brand identity that reflects your values and resonates
-                                with your target audience.</p>
-                            <hr>
-                            <h4><a href="/directory/artificial-intelligence">Artificial Intelligence</a></h4>
-                            <p>Harness the power of AI to revolutionise your business and drive innovation.
-                            </p>
-                            <a href="/directory/development"><img src="{{asset('front_components/images/btn.png')}}" alt="" class="img-fluid iconbtn mt-0"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row pt-2 mt-0 equal">
-                <div class="col-md-10 d-md-flex d-block mx-auto">
-                    <div class="col-lg-6 col-md-6 px-md-1 px-0">
-                        <div class="agenciesbox">
-                            <img src="{{asset('front_components/images/icon3.png')}}" alt="" class="img-fluid iconimg">
-                            <h3><a href="/directory/supply-chain-&-logistics">Supply Chain and
-                                Logistics</a></h3>
-                            <hr>
-                            <h4><a href="/directory/air-freight">Air Freight</a></h4>
-                            <p>Fast and reliable transportation of goods by air to meet urgent delivery requirements and
-                                optimise supply chain efficiency.
-                            </p>
-                            <hr>
-                            <h4><a href="/directory/container-shipping">Container Shipping</a></h4>
-                            <p>Secure and efficient shipping of goods in standardised containers, providing
-                                cost-effective and scalable logistics solutions.
-                            </p>
-                            <hr>
-                            <h4><a href="/directory/custom-brokerage">Custom Brokerage</a></h4>
-                            <p>Expert assistance navigating complex customs regulations and procedures, ensuring smooth
-                                clearance and compliance for international trade transactions.</p>
-                            <a href="/directory/supply-chain-&-logistics"><img src="{{asset('front_components/images/btn.png')}}" alt="" class="img-fluid iconbtn"></a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6 px-md-1 px-0">
-                        <div class="agenciesbox">
-                            <img src="{{asset('front_components/images/icon4.png')}}" alt="" class="img-fluid iconimg">
-                            <h3> <a href="/directory/accounting-&-finance">Accounting and
-                                Finance</a></h3>
-                            <hr>
-                            <h4> <a href="/directory/accounting">Accounting</a></h4>
-                            <p>Comprehensive financial management and reporting solutions for businesses of all sizes.
-
-                            </p>
-                            <hr>
-                            <h4> <a href="/directory/bookkeeping">Bookkeeping</a></h4>
-                            <p>Accurate and efficient tracking of financial transactions to ensure precise financial
-                                records.</p>
-                            <hr>
-                            <h4> <a href="/directory/forensic-accounting">Forensic Accounting</a></h4>
-                            <p>Expert analysis and investigation to uncover financial fraud and provide litigation
-                                support.
-                            </p>
-                            <a href="/directory/accounting-&-finance"><img src="{{asset('front_components/images/btn.png')}}" alt="" class="img-fluid iconbtn mt-0 mt-md-0"></a>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </section>
-    <section class="container-fluid  trust-row animatedParent">
-        <div class="container trust-row animatedParent">
-            <div class="row">
-                <div class="col-lg-6 pr-md-5 animated fadeInLeft slower">
-                    <div class=" col-md-9 mx-auto">
-                        <img src="{{asset('front_components/images/storymen.png')}}" alt="" class="img-fluid">
-                    </div>
-                </div>
-                <div class="col-lg-6   text-left pt-lg-5 mt-5 animated fadeInRight slower">
-                    <div class="storybox col-md-9 mx-auto">
-                        <h3 class="mb-4">They Trust.us Story So Far...</h3>
-                        <p class="mb-lg-5">Hear the idea that got us started, the experiences that shape our path, and
-                            the
-                            values that
-                            influence our approach.</p>
-                            <a href="/about/"> <button class="btn btn-primary">They Trust.us</button></a>
-                    </div>
-                </div>
-            </div>
+            <p class="text-right"><a href="{{ url('skills') }}">Browse All Skills</a></p>
         </div>
     </section>
-    <section class="container-fluid testimonial pb-5 animatedParent">
-        <div class="container animated fadeInUp slower">
-            <h3 class="text-center">Why Top Firms & Decision Makers  <span>Trust They Trust.us </span></h3>
-            <p class="text-center"> Hear what companies have to say about their experience using They Trust.us
-            </p>
-            <div class="row pt-5">
-                <div class="col-md-12 mb-5 mb-md-0">
-                    <div class="testimonialbox">
-
-                        <img src="{{asset('front_components/images/testi-icon.png')}}" alt="" class="img-fluid">
-
-                    <div class="col-md-8 mx-auto">
-                        <div class="testimonials-slider">
-
-                        <div>
-    <h4>Samuel L. <span>TechSolutions</span></h4>
-    <p>"They Trust Us" transformed our brand's presence in the B2B landscape, making us a beacon of trust and excellence for our target audience."</p>
-</div>
-
-<div>
-    <h4>Nina V. <span>Greenfield Corp.</span></h4>
-    <p>In today's cluttered market, "They Trust Us" has been pivotal in cementing our reputation and increasing our brand visibility.</p>
-</div>
-
-<div>
-    <h4>Jordan R. <span>Elite Manufacturers</span></h4>
-    <p>From day one, the impact of "They Trust Us" was evident in our leads, engagements, and conversions. It's truly a game-changer!</p>
-</div>
-
-<div>
-    <h4>Tasha Y. <span>InnovateDesign</span></h4>
-    <p>Our growth trajectory took off once we started with "They Trust Us". The platform's trust and recognition in the B2B world is unmatched.</p>
-</div>
-
-<div>
-    <h4>Harvey K. <span>BuildConstruct Ltd.</span></h4>
-    <p>Making a mark in the B2B sector is tough, but "They Trust Us" made it achievable by showcasing our credibility to the right audience.</p>
-</div>
-
-<div>
-    <h4>Elena M. <span>DataSync Corp.</span></h4>
-    <p>Of all the B2B platforms we've been on, "They Trust Us" is unparalleled in terms of reach, engagement quality, and trust-building.</p>
-</div>
-
-<div>
-    <h4>Vincent P. <span>SecureNet Technologies</span></h4>
-    <p>I had reservations initially, but the overwhelming positive feedback post-onboarding with "They Trust Us" made me a believer.</p>
-</div>
-
-<div>
-    <h4>Lydia J. <span>WebSoft Services</span></h4>
-    <p>In B2B, trust is everything. With "They Trust Us", our brand found its most valuable asset: widespread trust and recognition.</p>
-</div>
-
-                    </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="container-fluid profile pt-5  animatedParent" id="success-msg">
-        <div class=" text-center container">
-            <h3 class="animated fadeInLeft slower">Create a Company Profile</h3>
-            <p class="text-white my-4 animated fadeInLeft slower">Get your company in front of
-                 <span>500,000+ buyers in <br class="d-inline d-md-none">
-                    20 minutes or less.</span></p>
-            <div class="d-md-flex d-block align-items-center" style="justify-content: center;">
-            <button class="btn btn-primary animated fadeInRight slower"><a href="{{url('about')}}" class="text-dark"> They Trust us </a></button>
-            <button class="btnb btnb-primary animated fadeInRight slower"><a href="{{url('about')}}" class="text-light"> Learn More </a> </button></div>
-
-
-        </div>
-    </section>
-    <!-- contact section -->
-
-
-
-    <!-- contact section end-->
-
-
-
-
-
-
-
-
 
 @endsection
+
 @section('script')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{{asset('front_components/js/select2.min.js')}}"></script>
 <script>
     var setAction;
     jQuery(document).ready(function () {
-    jQuery.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        }
-    });
-
-    jQuery('#subcategories').on('change', function () {
-        var subcategory_id = jQuery(this).val();
-        //alert(subcategory_id)
-        jQuery.ajax({
-            url: "{{ url('get-location') }}",
-            method: "POST",
-            data: {
-                subcategory_id: subcategory_id
-            },
-            success: function (res) {
-                jQuery('#locations').empty();
-                jQuery('#locations').append(res);
-                //console.log(res);
+        jQuery.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
             }
         });
+
+        jQuery('#subcategories').on('change', function () {
+            var subcategory_id = jQuery(this).val();
+            jQuery.ajax({
+                url: "{{ url('get-location') }}",
+                method: "POST",
+                data: { subcategory_id: subcategory_id },
+                success: function (res) {
+                    jQuery('#locations').empty().append(res);
+                }
+            });
+        });
+
+        jQuery('#subcategories').trigger('change');
+
+        setAction = function () {
+            var service = $("#subcategories").find(':selected').data('name');
+            var location = $("#locations").find(':selected').attr('data-name');
+            if (location == undefined || location == '') {
+                $('#searchForm').attr("action", "{{url('directory')}}/" + service);
+            } else {
+                $('#searchForm').attr("action", "{{url('directory')}}/" + service + '/' + location);
+            }
+            $('#searchForm').submit();
+        }
     });
 
-    // Trigger the change event on page load
-    jQuery('#subcategories').trigger('change');
-
-    setAction = function () {
-        var service = $("#subcategories").find(':selected').data('name')
-        var location = $("#locations").find(':selected').attr('data-name')
-        if (location == undefined || location == '') {
-            $('#searchForm').attr("action", "{{url('directory')}}/" + service);
-        } else {
-            $('#searchForm').attr("action", "{{url('directory')}}/" + service + '/' + location);
-        }
-        $('#searchForm').submit();
-    }
-});
-
-</script>
-<script type="text/javascript">
     $(document).ready(function () {
         $('#subcategories').select2();
     });

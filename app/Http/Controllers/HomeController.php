@@ -50,15 +50,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // if( ! Auth::check() )
-        // {
-        // //    dd("Asdfasdf");
-        //     session( [ 'referer' => url('/membership-plans') ] );
-        // }
 
-        $data['subcategories']  = Subcategory::all();
         $data['category']       = Category::where('top_cat',1)->get();
+        $data['categories'] = Category::with('subcategory')->get();
+        $data['reviews'] = CompanyReview::latest()->take(3)->get();
+        $data['subcategories'] = Subcategory::with(['subcat_child', 'category'])->get();
 
+
+        // dd("asdfasdf");
         return view('home.index', $data);
     }
 
