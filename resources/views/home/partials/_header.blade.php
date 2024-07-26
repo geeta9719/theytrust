@@ -18,5 +18,5 @@
      <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> -->
     <link rel="stylesheet" type="text/css" href="{{asset('front_components/css/slick.css')}} " />
     <link rel="stylesheet" type="text/css" href="{{asset('front_components/css/slick-theme.css')}} " />
-    
+    <link rel="stylesheet" href="https://theytrust-us.developmentserver.info/front_components/css/custom.css">
 </head>
