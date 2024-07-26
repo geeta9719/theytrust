@@ -13,7 +13,9 @@ class PortfolioItemController extends Controller
     {
         $company = Company::where('user_id', auth()->id())->first();
     
-        $portfolioItems = PortfolioItem::orderBy('position')->paginate(10);
+        $portfolioItems = PortfolioItem::where('company_id', $company_id)
+        ->orderBy('position')
+        ->paginate(10);
         return view('home.user.portfolio_items.tables', compact('company', 'portfolioItems'));
     }
     
