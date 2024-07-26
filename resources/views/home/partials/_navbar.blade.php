@@ -36,8 +36,8 @@ if(Auth::check())
     }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> -->
-<div class="header-container">
+
+<!-- <div class="header-container">
     <section class="container header position-relative py-md-4 mb-3 mb-md-0 ">
         <nav class="navbar navbar-expand-xl  navbar-dark px-0 d-flex align-items-center">
             <a class="navbar-brand" href="/">
@@ -59,27 +59,7 @@ if(Auth::check())
                 </a>
                 @else
                 <li class="nav-item dropdown">
-                    <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="
-                            {{-- @if(auth()->user()->avatar) {{auth()->user()->avatar}} @else --}}
-                            {{asset('front_components/images/user1.png')}}
-                             {{-- @endif --}}
-                              " class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
-                            @if($cd)
-                            <a class="dropdown-item" href="{{ route('company.dashboard',$cd->id) }}">Company Dashboard</a>
-                            <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
-                            <a class="dropdown-item" href="{{ route('user.allinfo',auth()->user()->id) }}">Update Company Profile</a>
-                            @else
-                            <a class="dropdown-item" href="{{url('get-listed')}}">Update Company Profile</a>
-                            @endif
-                            <form method="post" action="/logout">
-                                @csrf
-                                <button class="btn btn-sm btn-primary btnLogout" type="submit">Logout</button>
-                            </form>
-                        </ul> -->
+                 
 
 
 
@@ -181,28 +161,7 @@ if(Auth::check())
                         @else
 
                         <li class="nav-item ">
-                            <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="
-                                {{-- @if(auth()->user()->avatar) {{auth()->user()->avatar}} @else --}}
-                                {{asset('front_components/images/user1.png')}}
-                                 {{-- @endif --}}
-                                  " class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
-                                @if($cd)
-                                <a class="dropdown-item" href="{{ route('company.dashboard',$cd->id) }}">Company Dashboard</a>
-                                <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
-                                <a class="dropdown-item" href="{{ route('user.allinfo',auth()->user()->id) }}">Update Company Profile</a>
-                                @else
-                                <a class="dropdown-item" href="{{url('get-listed')}}">Update Company Profile</a>
-                                @endif
-                                <form method="post" action="/logout">
-                                    @csrf
-                                    <button class="btn btn-sm btn-primary btnLogout" type="submit">Logout</button>
-                                </form>
-                            </ul> -->
-
+                           
 
 
                             <div class="dropdown mymobile">
@@ -272,9 +231,7 @@ if(Auth::check())
     </section>
     <section class="container-fluid category-service ">
         <div class="container">
-            <!-- <div class="d-flex align-items-center">
-                <img src="{{asset('front_components/images/categoy.png')}}" alt="" class="img-fluid mr-3"><span class="alltxt">All Category</span>
-            </div> -->
+          
             <ul class="  mb-0">
                 @foreach($categoriese as $cat)
                 @if($cat->top_cat == 1)
@@ -286,7 +243,292 @@ if(Auth::check())
             </ul>
         </div>
     </section>
+</div> -->
+
+
+
+
+
+
+<section class="my-header container-fluid py-3 px-lg-5">
+
+<div class="row align-items-center">
+    <div class="col-lg-7 mb-lg-0 mb-3">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0 logobox">
+                <img src="https://theytrust-us.developmentserver.info/front_components/images/logo.png" alt=""
+                    class="img-fluid">
+            </div>
+            <div class="col-md-5">
+                <div class="input-group border rounded align-items-center justify-content-center">
+                    <div class="input-group-prepend pl-2">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Username">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5 right-col">
+        <div class="inner">
+            <a href="#">Get Listed</a>
+            <a href="#">Post a Project</a>
+            <a href="#" class="review-btn">Review a Business</a>
+        </div>
+        <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i>Sign In</a>
+    </div>
 </div>
+<hr class="mb-0">
+
+<div class="row align-items-center menu-row">
+    <div class="col-xl-8">
+        <nav class="navbar navbar-expand-lg navbar-light px-0">
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com"
+                            id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Dropdown link
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">SubmenuSubmenuSubmenu</a>
+                                <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">Submenu</a>
+                                    <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">Submenu</a>
+                                    <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com"
+                            id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Dropdown link
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">SubmenuSubmenuSubmenu</a>
+                                <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">Submenu</a>
+                                    <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">Submenu</a>
+                                    <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com"
+                            id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Dropdown link
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">SubmenuSubmenuSubmenu</a>
+                                <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">Submenu</a>
+                                    <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">Submenu</a>
+                                    <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com"
+                            id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Dropdown link
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">SubmenuSubmenuSubmenu</a>
+                                <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">Submenu</a>
+                                    <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">Submenu</a>
+                                    <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com"
+                            id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Dropdown link
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">SubmenuSubmenuSubmenu</a>
+                                <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">Submenu</a>
+                                    <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle"
+                                    href="#">Submenu</a>
+                                    <ul class="dropdown-menu last-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another submenu action</a></li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+
+    <div class="col-xl-4 text-right right-menu mt-3">
+        <a href="#">Get Listed</a>
+        <a href="#">Post a Project</a>
+    </div>
+</div>
+
+
+</section>
+
+
+
+<script>
+        $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
+            if (!$(this).next().hasClass('show')) {
+                $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+            }
+            var $subMenu = $(this).next(".dropdown-menu");
+            $subMenu.toggleClass('show');
+
+
+            $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+                $('.dropdown-submenu .show').removeClass("show");
+            });
+
+
+            return false;
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
