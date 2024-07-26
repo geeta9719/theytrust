@@ -279,17 +279,17 @@ if (Auth::check()) {
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         @foreach ($categories as $category)
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="listing/{{ $category->slug }}" id="navbarDropdownMenuLink{{ $category->id }}"
+                            <a class="nav-link dropdown-toggle" href="/listing/{{ $category->slug }}" id="navbarDropdownMenuLink{{ $category->id }}"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ $category->category }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink{{ $category->id }}">
                                 @foreach ($category->subcategories as $subcategory)
                                 <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{ $subcategory->subcategory }}</a>
-                                    <ul class="dropdown-menu last-menu">
+                                    <a class="dropdown-item dropdown-toggle" href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{ $subcategory->subcategory }}</a>
+                                    {{-- <ul class="dropdown-menu last-menu">
                                         <li><a class="dropdown-item" href="listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{ $subcategory->subcategory }}</a></li>
-                                    </ul>
+                                    </ul> --}}
                                 </li>
                                 @endforeach
                             </ul>
