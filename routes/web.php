@@ -59,6 +59,8 @@ Route::get('/auth/linkedin/callback', [ AuthController::class, 'handleLinkedinCa
 
 Route::get('/auth/linkedin/claim/{user_id}', [ AuthController::class, 'redirectToLinkedinClaimProfile' ] )->name( 'claim-your-profile' );
 Route::get('/linkedin/callback_claim_profile', [ AuthController::class, 'handleLinkedinCalimYourProfile'] );
+Route::get('verify-email/{token}', [AuthController::class,'verifyEmail'])->name('verify.email');
+
 
 
 /*****************Abandoned*******************/

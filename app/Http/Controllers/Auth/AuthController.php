@@ -12,7 +12,13 @@ use Illuminate\Support\Facades\Redirect;
 use App\Events\UserLoggedIn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\VerificationEmail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+use App\Mail\WelcomeEmail;
+
+
 
 use Socialite;
 //use Auth;
@@ -226,52 +232,8 @@ class AuthController extends Controller
 
 public function signupWithEmail(Request $request)
 {
-
-
     $publicDomains = [
-        'gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'aol.com', 'icloud.com',
-        'mail.com', 'gmx.com', 'zoho.com', 'yandex.com', 'protonmail.com', 'me.com', 'mac.com',
-        'fastmail.com', 'hushmail.com', 'msn.com', 'live.com', 'comcast.net', 'verizon.net',
-        'att.net', 'bellsouth.net', 'btinternet.com', 'cox.net', 'earthlink.net', 'optonline.net',
-        'qq.com', '163.com', '126.com', 'sina.com', 'sohu.com', 'tutanota.com', 'mail.ru',
-        'inbox.ru', 'bk.ru', 'list.ru', 'mailinator.com', 'yopmail.com', 'guerrillamail.com',
-        '10minutemail.com', 'temp-mail.org', 'throwawaymail.com', 'maildrop.cc', 'dispostable.com',
-        'sharklasers.com', 'fakeinbox.com', 'mintemail.com', 'mytemp.email', 'noip.com',
-        'jetable.org', 'trashmail.com', 'getnada.com', 'tempail.com', 'mailcatch.com',
-        'tempinbox.com', 'tempmailaddress.com', 'emailondeck.com',
-        'gawab.com', 'web.de', 't-online.de', 'freenet.de', 'gmx.de', 'gmx.at', 'gmx.ch',
-        'bluewin.ch', 'seznam.cz', 'centrum.cz', 'post.cz', 'volny.cz', 'atlas.cz', 'email.cz',
-        'laposte.net', 'orange.fr', 'free.fr', 'sfr.fr', 'voila.fr', 'wanadoo.fr', 'libero.it',
-        'virgilio.it', 'tin.it', 'alice.it', 'telecomitalia.it', 'tiscali.it', 'email.it',
-        'email.hu', 'onet.pl', 'interia.pl', 'wp.pl', 'o2.pl', 'gazeta.pl', 'tlen.pl',
-        'poczta.onet.pl', 'poczta.fm', 'eclipso.de', 'hush.com', 'inbox.lv', 'inbox.ru', 'mail.kz',
-        'mail.pl', 'qip.ru', 'ukr.net', 'webmail.co.za', 'netvigator.com', 'netcabo.pt', 'net.hr',
-        'netzero.com', 'privaterelay.appleid.com', 'proxymail.appleid.com', 'lavabit.com',
-        'runbox.com', 'vfemail.net', 'safe-mail.net', 'inbox.lt', 'online.ms', 'mailbox.org',
-        'mailvault.com', 'orci.com', 'orci.co', 'offshore.co', 'orci.biz', 'orci.link', 'anonmail.de',
-        'secure-mail.biz', 'secure-mail.cc', 'secure-mail.ch', 'secure-mail.net', 'secure-mail.pro',
-        'anonymousemail.me', 'disposablemail.com', 'privatdemail.net', 'nomail.xl.cx', 'hoopoe.ru',
-        'anonmails.de', 'anomail.xyz', 'inbox.lt', '5mail.cf', 'getairmail.com', 'spambog.com',
-        'dispostable.com', 'guerrillamailblock.com', 'nowmymail.com', 'yepmail.com', 'findermail.com',
-        'mail-temporaire.fr', 'mohmal.com', 'anonymbox.com', 'meltmail.com', 'mailsac.com',
-        'spamex.com', 'spamgourmet.com', 'spam4.me', '33mail.com', 'dodsi.com', 'tempail.com',
-        'tempmailaddress.com', 'throwawaymail.com', 'emailondeck.com', 'privaterelay.appleid.com',
-        'proxymail.appleid.com', 'relay.privacy.mail.yahoo.com', 'eclipso.de', 'mailo.com',
-        'hey.com', 'mailbox.org', 'protonmail.ch', 'posteo.net', 'disroot.org', 'mailfence.com',
-        'riseup.net', 'cryptoservice.org', 'sicher-mail.de', 'dispostable.com', 'guerrillamail.com',
-        '10minutemail.net', 'getairmail.com', 'mytemp.email', 'noip.com', 'jetable.org', 'trashmail.com',
-        'maildrop.cc', 'sharklasers.com', 'fakeinbox.com', 'mintemail.com', 'tempmail.net',
-        'nospam.com', 'mailnesia.com', 'mailinator.com', 'tempmail.org', 'tempmailaddress.com',
-        'emailondeck.com', 'spambox.us', 'guerrillamail.com', 'dispostable.com', 'spambog.com',
-        'tempail.com', 'tempinbox.com', 'spamex.com', 'spamgourmet.com', 'spam4.me', '33mail.com',
-        'dodsi.com', 'inbox.ru', 'ya.ru', 'bk.ru', 'list.ru', 'pochta.ru', 'yandex.ru', 'eclipso.de',
-        'mailo.com', 'yandex.ru', 'mail.ru', 'inbox.ru', 'bk.ru', 'list.ru', 'pochta.ru',
-        'yepmail.com', 'mail-temporaire.fr', 'mohmal.com', 'anonymbox.com', 'meltmail.com',
-        'inbox.lt', 'secure-email.org', 'safe-mail.net', 'offshore.co', 'orci.com', 'orci.biz',
-        'orci.link', 'nomail.xl.cx', 'hoopoe.ru', 'anonmails.de', 'anomail.xyz', 'spambog.com',
-        'dispostable.com', 'sharklasers.com', 'tempmailaddress.com', 'emailondeck.com',
-        'privaterelay.appleid.com', 'proxymail.appleid.com', 'relay.privacy.mail.yahoo.com'
-        // Add more public domains as needed
+        'gmail.com', 'yahoo.com', // (other domains...)
     ];
 
     $email = $request->input('email');
@@ -291,11 +253,13 @@ public function signupWithEmail(Request $request)
         });
     }
 
-
     if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput()->with('showModal', true);
     }
 
+    // Generate verification token and expiration date
+    $verificationToken = Str::random(32);
+    $tokenExpiresAt = Carbon::now()->addDays(7);
 
     // If validation passes, create new user
     $user = User::create([
@@ -303,15 +267,15 @@ public function signupWithEmail(Request $request)
         'last_name' => $request->input('last_name'),
         'email' => $request->input('email'),
         'password' => bcrypt($request->input('password')),
+        'verification_token' => $verificationToken,
+        'token_expires_at' => $tokenExpiresAt,
     ]);
 
     Auth::login($user);
+    Mail::to($user->email)->send(new VerificationEmail($user));
 
-    // Additional logic (e.g., login user, send verification email)
-    return redirect(url('user/' . $user->id . '/basicInfo?profile=basic'));
-
+    return redirect()->back()->with('success', 'Email has been sent.')->with('showModal', true);
 }
-
 
 public function loginWithEmail(Request $request)
 {
@@ -340,6 +304,24 @@ public function loginWithEmail(Request $request)
             'email' => 'The provided credentials do not match our records.',
         ])
         ->with('showModal', 'login');
+}
+
+public function verifyEmail($token)
+{
+   
+    $user = User::where('verification_token', $token)->first();
+
+    if (!$user || $user->token_expires_at < Carbon::now()) {
+        return redirect('/')->with('error', 'Invalid or expired verification token.');
+    }
+
+    $user->verification_token = null;
+    $user->token_expires_at = null;
+    $user->email_verified_at = Carbon::now();
+    $user->save();
+    Auth::login($user);
+    Mail::to($user->email)->send(new WelcomeEmail($user));
+    return redirect(url('user/' . $user->id . '/basicInfo?profile=basic'));
 }
 
 

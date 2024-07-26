@@ -16,3 +16,17 @@ mix.sass('resources/sass/app.scss', 'public/css')
  mix.js('resources/js/app.js', 'public/js')
     .vue();
  
+
+//     mix.webpackConfig({
+//       resolve: {
+//           alias: {
+//               'jquery': 'jquery/src/jquery'
+//           }
+//       },
+//       plugins: [
+//           new webpack.ProvidePlugin({
+//               $: 'jquery',
+//               jQuery: 'jquery'
+//           })
+//       ]
+//   });

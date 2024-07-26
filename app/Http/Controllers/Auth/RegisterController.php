@@ -87,10 +87,7 @@ class RegisterController extends Controller
         try {
             $user = Socialite::driver('linkedin')->user();
             $finduser = User::where('linkedin_id', $user->id)->first();
-      
-            //dd($user);
-            //dd($user->name);
-            //dd($user->first_name);
+    
             if($finduser){
                 Auth::login($finduser);
                 return redirect('/admin');
