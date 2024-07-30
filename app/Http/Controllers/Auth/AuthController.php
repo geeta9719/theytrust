@@ -289,6 +289,18 @@ public function loginWithEmail(Request $request)
         return redirect()->back()->withErrors($validator)->withInput()->with('showModal', 'login');
     }
 
+
+    $user = User::where('email', $request->input('email'))->first();
+
+    if ($user && !$user->hasVerifiedEmail()) { // Assuming hasVerifiedEmail() method is defined
+        return redirect()->back()
+            ->withInput($request->only('email'))
+            ->withErrors([
+                'email' => 'Your email is not verified. Please check your inbox for the verification link.',
+            ])
+            ->with('showModal', 'login');
+    }
+
     // Attempt to log the user in
     $credentials = $request->only('email', 'password');
 
@@ -296,6 +308,8 @@ public function loginWithEmail(Request $request)
         // Authentication passed...
         return redirect()->intended('/'); // Change 'dashboard' to your intended route
     }
+
+    
 
     // Authentication failed...
     return redirect()->back()
