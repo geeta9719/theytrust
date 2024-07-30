@@ -311,157 +311,163 @@ if (Auth::check()) {
             </div>
             <!-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i>Sign In</a>  -->
 
-            {{-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i><button type="button" class="
+            {{-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i><button type="button"
+                    class="
             " data-toggle="modal" data-target="#firstModal">
                     Sign in
                 </button></a> --}}
-                
+
             <!-- First Modal -->
 
             @if (!Auth::check())
-    <li class="nav-item">
-        <a class="nav-link brdnone modal-signin" href="#" data-toggle="modal" data-target="#firstModal">Sign in</a>
-    </li>
-@else
-    <li class="nav-item">
-        <div class="dropdown mymobile">
-            <button type="button" class="" data-toggle="dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}" class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
-                </a>
-            </button>
-            <div class="dropdown-menu shadow-sm">
-                <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
-                @if ($cd)
-                    <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company Dashboard</a>
-                    <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
-                    <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">Update Company Profile</a>
-                    <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
-                @else
-                    <a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile</a>
-                @endif
-                <form method="post" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
-                </form>
+            <li class="nav-item">
+                <a class="nav-link brdnone modal-signin" href="#" data-toggle="modal" data-target="#login-modal">Sign in</a>
+            </li>
+        @else
+            <li class="nav-item">
+                <div class="dropdown mymobile">
+                    <button type="button" class="" data-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}" class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
+                        </a>
+                    </button>
+                    <div class="dropdown-menu shadow-sm">
+                        <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
+                        @if ($cd)
+                            <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company Dashboard</a>
+                            <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
+                            <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">Update Company Profile</a>
+                            <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
+                        @else
+                            <a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile</a>
+                        @endif
+                        <form method="post" action="{{ route('logout') }}">
+                            @csrf
+                            <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        @endif
+        
+        <!-- Login Modal -->
+        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="firstModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                        <h5 class="modal-title" id="firstModalLabel">Login Form</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                        <div class="d-flex justify-content-center mb-3">
+                            <a href="{{ route('auth.linkedin') }}" class="btnlink">
+                                <i class="fab fa-linkedin mr-2"></i> Sign up with LinkedIn
+                            </a>
+                        </div>
+                        <form id="login-form" method="POST" action="{{ route('login.email') }}">
+                            <!-- Email Input -->
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                            </div>
+                            <!-- Password Input -->
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                            </div>
+                            <!-- Remember Me Checkbox -->
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
+                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                            </div>
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                        </form>
+                        <a href="#" data-toggle="modal" class="mt-5" id="signup-link" data-target="#signup-modal" data-dismiss="modal">Sign Up</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </li>
-@endif
-            <div class="modal fade" id="firstModal" tabindex="-1" role="dialog" aria-labelledby="firstModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="firstModalLabel">Login Form</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            @if (session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                            @endif
-                            <div class="d-flex justify-content-center mb-3">
-                                <a href="{{ route('auth.linkedin') }}" class="btnlink">
-                                    <i class="fab fa-linkedin mr-2"></i> Sign up with LinkedIn
-                                </a>
-                            </div>
-                            <form id="login-form" method="POST" action="{{ route('login.email') }}">
-                                <!-- Email Input -->
-                                <div class="form-group">
-                                    <label for="email">Email address</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Enter email">
-                                </div>
-                                <!-- Password Input -->
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Password">
-                                </div>
-                                <!-- Remember Me Checkbox -->
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="rememberMe">
-                                    <label class="form-check-label" for="rememberMe">Remember me</label>
-                                </div>
-                                <!-- Submit Button -->
-                                <button type="submit" class=" btn-block">Login</button>
-                            </form>
-                            <a href="#" data-toggle="modal" class="mt-5"  id="singin-modal" data-target="#secondModal"
-                                data-dismiss="modal">Sign Up</a>
-                        </div>
-                     
+        
+        <!-- Sign Up Modal -->
+        <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="secondModalLabel">Sign Up Form</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </div>
-            </div>
-
-            <!-- Second Modal -->
-            <div class="modal fade" id="secondModal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="secondModalLabel">Sign Up Form</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <a href="{{ route('auth.linkedin') }}" class="btnlink">
+                                <i class="fab fa-linkedin mr-2"></i> Sign up with LinkedIn
+                            </a>
                         </div>
-                        <div class="modal-body">
-                            <div class="d-flex justify-content-center mb-3">
-                                <a href="{{ route('auth.linkedin') }}" class="btnlink">
-                                    <i class="fab fa-linkedin mr-2"></i> Sign up with LinkedIn
-                                </a>
+                        <form id="signup-form" method="POST" action="{{ route('signup.email') }}">
+                            @csrf
+                            <!-- First Name Input -->
+                            <div class="form-group">
+                                <label for="first_name">First Name</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required value="{{ old('first_name') }}">
                             </div>
-                            <form id="signup-form" method="POST" action="{{ route('signup.email') }}">
-                                <!-- Username Input -->
-                                <div class="form-group">
-                                    <label for="username">First Name</label>
-                                    <input type="text" class="form-control" id="first_name" name="first_name" required
-                                        value="{{ old('first_name') }}">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="last_name">Last Name</label>
-                                    <input type="text" class="form-control" id="last_name" name="last_name" required
-                                        value="{{ old('last_name') }}">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required
-                                        value="{{ old('email') }}">
-                                    @error('email')
+                            <!-- Last Name Input -->
+                            <div class="form-group mb-3">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required value="{{ old('last_name') }}">
+                            </div>
+                            <!-- Email Input -->
+                            <div class="form-group mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required value="{{ old('email') }}">
+                                @error('email')
                                     <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <!-- Password Input -->
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password"
-                                        placeholder="Enter password">
-                                </div>
-                                <!-- Confirm Password Input -->
-                                <!-- <div class="form-group">
-                    <label for="confirm-password">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirm-password" placeholder="Confirm password">
-                </div> -->
-                                <!-- Terms and Conditions Checkbox -->
-
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="terms">
-                                    <label class="form-check-label" for="terms">I agree to the terms and
-                                        conditions</label>
-                                </div>
-                                <!-- Submit Button -->
-                                <button type="submit" class=" btn-block">Sign Up</button>
-                            </form>
-                        </div>
-                           <div class="text-center mt-3">
-                            Already have an account? <a href="#" id="login-link" data-bs-toggle="modal" data-bs-target="#login-modal" data-bs-dismiss="modal">Sign in</a>
-                        </div>
+                                @enderror
+                            </div>
+                            <!-- Password Input -->
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+                            </div>
+                            <!-- Terms and Conditions Checkbox -->
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="terms" name="terms">
+                                <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
+                            </div>
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                        </form>
+                    </div>
+                    <div class="text-center mt-3">
+                        Already have an account? <a href="#" id="login-link" data-toggle="modal" data-target="#login-modal" data-dismiss="modal">Sign in</a>
                     </div>
                 </div>
             </div>
+        </div>
+        
+        
         </div>
     </div>
     </div>
@@ -637,7 +643,7 @@ if (Auth::check()) {
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const signUpModal = new bootstrap.Modal(document.getElementById('firstModal'));
+        const signUpModal = new bootstrap.Modal(document.getElementById('signup-modal'));
         const loginModal = new bootstrap.Modal(document.getElementById('login-modal'));
 
         // Show Log In modal on Sign Up modal "Log In" button click
@@ -646,14 +652,22 @@ if (Auth::check()) {
             loginModal.show();
         });
 
+        // Show Sign Up modal on Log In modal "Sign Up" button click
+        document.getElementById('signup-link').addEventListener('click', function() {
+            loginModal.hide();
+            signUpModal.show();
+        });
+
         // Check if showModal is set in session (Laravel blade example)
         @if (session('showModal') == 'signup')
             signUpModal.show();
         @elseif (session('showModal') == 'login')
+            debugger;
             loginModal.show();
         @endif
     });
 </script>
+
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> -->
 
