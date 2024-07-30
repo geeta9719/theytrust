@@ -103,7 +103,7 @@ if (Auth::check()) {
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
                 </div>
-            </div>
+            </div> 
 
 
             <div class="d-block d-xl-none">
@@ -285,6 +285,8 @@ if (Auth::check()) {
     </section>
 </div> -->
 
+
+
 <section class="my-header container-fluid py-3 px-lg-5">
     <div class="row align-items-center">
         <div class="col-lg-7 mb-lg-0 mb-3">
@@ -293,13 +295,17 @@ if (Auth::check()) {
                     <img src="https://theytrust-us.developmentserver.info/front_components/images/logo.png" alt=""
                         class="img-fluid">
                 </div>
-                <div class="col-md-5">
-                    <div class="input-group border rounded align-items-center justify-content-center">
-                        <div class="input-group-prepend pl-2">
-                            <i class="fa fa-search" aria-hidden="true"></i>
+                <div class="">
+                    <div class="">
+                        <div class="">
+                            <input type="text" class="search" name="search" id="search" placeholder="Search"
+                                onkeyup="search()">
+                                <div class="srcbxc"></div>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                </div>
                         </div>
-                        <input type="text" class="form-control" placeholder="Username">
-                    </div>
+                    </div> 
                 </div>
             </div>
         </div>
@@ -309,49 +315,49 @@ if (Auth::check()) {
                 <a href="#">Post a Project</a>
                 <a href="#" class="review-btn">Review a Business</a>
             </div>
-            <!-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i>Sign In</a>  -->
 
-            {{-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i><button type="button"
-                    class="
-            " data-toggle="modal" data-target="#firstModal">
-                    Sign in
-                </button></a> --}}
 
-            <!-- First Modal -->
+        <!-- First Modal -->
 
-            @if (!Auth::check())
-            <li class="nav-item">
-                <a class="nav-link brdnone modal-signin" href="#" data-toggle="modal" data-target="#login-modal">Sign in</a>
-            </li>
+        <!-- First Modal -->
+
+        @if (!Auth::check())
+        <li class="nav-item">
+            <a class="nav-link brdnone modal-signin" href="#" data-toggle="modal" data-target="#login-modal">Sign in</a>
+        </li>
         @else
-            <li class="nav-item">
-                <div class="dropdown mymobile">
-                    <button type="button" class="" data-toggle="dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}" class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
-                        </a>
-                    </button>
-                    <div class="dropdown-menu shadow-sm">
-                        <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
-                        @if ($cd)
-                            <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company Dashboard</a>
-                            <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
-                            <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">Update Company Profile</a>
-                            <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
-                        @else
-                            <a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile</a>
-                        @endif
-                        <form method="post" action="{{ route('logout') }}">
-                            @csrf
-                            <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
-                        </form>
-                    </div>
+        <li class="nav-item">
+            <div class="dropdown mymobile">
+                <button type="button" class="" data-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}"
+                            class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
+                    </a>
+                </button>
+                <div class="dropdown-menu shadow-sm">
+                    <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
+                    @if ($cd)
+                    <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company Dashboard</a>
+                    <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
+                    <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">Update Company
+                        Profile</a>
+                    <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
+                    @else
+                    <a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile</a>
+                    @endif
+                    <form method="post" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
+                    </form>
                 </div>
-            </li>
+            </div>
+        </li>
         @endif
-        
+
         <!-- Login Modal -->
-        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="firstModalLabel" aria-hidden="true">
+        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="firstModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -359,7 +365,7 @@ if (Auth::check()) {
                         <div class="alert alert-danger">
                             {{ session('error') }}
                         </div>
-                    @endif
+                        @endif
                         <h5 class="modal-title" id="firstModalLabel">Login Form</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -370,16 +376,16 @@ if (Auth::check()) {
                         <div class="alert alert-danger">
                             {{ session('error') }}
                         </div>
-                    @endif
-                    @if ($errors->any())
+                        @endif
+                        @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
                                 @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
+                                <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
                         </div>
-                    @endif
+                        @endif
                         <div class="d-flex justify-content-center mb-3">
                             <a href="{{ route('auth.linkedin') }}" class="btnlink">
                                 <i class="fab fa-linkedin mr-2"></i> Sign up with LinkedIn
@@ -389,12 +395,14 @@ if (Auth::check()) {
                             <!-- Email Input -->
                             <div class="form-group">
                                 <label for="email">Email address</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Enter email">
                             </div>
                             <!-- Password Input -->
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Password">
                             </div>
                             <!-- Remember Me Checkbox -->
                             <div class="form-group form-check">
@@ -404,14 +412,16 @@ if (Auth::check()) {
                             <!-- Submit Button -->
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </form>
-                        <a href="#" data-toggle="modal" class="mt-5" id="signup-link" data-target="#signup-modal" data-dismiss="modal">Sign Up</a>
+                        <a href="#" data-toggle="modal" class="mt-5" id="signup-link" data-target="#signup-modal"
+                            data-dismiss="modal">Sign Up</a>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- Sign Up Modal -->
-        <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel" aria-hidden="true">
+        <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -431,25 +441,29 @@ if (Auth::check()) {
                             <!-- First Name Input -->
                             <div class="form-group">
                                 <label for="first_name">First Name</label>
-                                <input type="text" class="form-control" id="first_name" name="first_name" required value="{{ old('first_name') }}">
+                                <input type="text" class="form-control" id="first_name" name="first_name" required
+                                    value="{{ old('first_name') }}">
                             </div>
                             <!-- Last Name Input -->
                             <div class="form-group mb-3">
                                 <label for="last_name">Last Name</label>
-                                <input type="text" class="form-control" id="last_name" name="last_name" required value="{{ old('last_name') }}">
+                                <input type="text" class="form-control" id="last_name" name="last_name" required
+                                    value="{{ old('last_name') }}">
                             </div>
                             <!-- Email Input -->
                             <div class="form-group mb-3">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required value="{{ old('email') }}">
+                                <input type="email" class="form-control" id="email" name="email" required
+                                    value="{{ old('email') }}">
                                 @error('email')
-                                    <span class="text-danger">{{ $message }}</span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <!-- Password Input -->
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Enter password">
                             </div>
                             <!-- Terms and Conditions Checkbox -->
                             <div class="form-group form-check">
@@ -461,14 +475,15 @@ if (Auth::check()) {
                         </form>
                     </div>
                     <div class="text-center mt-3">
-                        Already have an account? <a href="#" id="login-link" data-toggle="modal" data-target="#login-modal" data-dismiss="modal">Sign in</a>
+                        Already have an account? <a href="#" id="login-link" data-toggle="modal"
+                            data-target="#login-modal" data-dismiss="modal">Sign in</a>
                     </div>
                 </div>
             </div>
         </div>
-        
-        
-        </div>
+
+
+    </div>
     </div>
     </div>
     <hr class="mb-0">
@@ -568,7 +583,7 @@ if (Auth::check()) {
 
         // Bind the input event for the search field
         $("#search1").on('input', function() {
-            // debugger;
+            debugger;
             search1();
         });
 
@@ -584,7 +599,8 @@ if (Auth::check()) {
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(result) {
-                        console.log(result);
+
+                        // console.log(result);
                         $(".srcbxc").html(result);
                         $(".srcbxc").show();
                         $(".input-group-prepend").hide();
