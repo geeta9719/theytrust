@@ -12,51 +12,56 @@ if (Auth::check()) {
 }
 ?>
 <style>
-    .modal-body{
-        padding:40px;
+    .modal-body {
+        padding: 40px;
     }
-    .sign-in-btn button{
-background:#ffff!important;
-color: #aaa;
-    font-size: 16px;
-    font-weight: 500;
 
-    text-align: center;
-    line-height: 19px;
-    border: 0;
+    .sign-in-btn button {
+        background: #ffff !important;
+        color: #aaa;
+        font-size: 16px;
+        font-weight: 500;
+
+        text-align: center;
+        line-height: 19px;
+        border: 0;
 
     }
+
     .modal-dialog {
         max-width: 441px;
         margin: 1.75rem auto;
     }
-    .modal-title {
-    margin-bottom: 0;
-    line-height: 1.5;
-    font-weight: bold;
-    color: #00bbd3!important;
-    font-size: 17px;
-}
-    .my-header .modal-body a {
-    color: #0079fa!important;
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0 7px!important;
-    text-align: center;
-    line-height: 19px;
-    text-decoration: underline;
-}
-.modal-body button{
-    background: #00bdd6;
-    border: 0;
-    padding: 5px;
-    border-radius: 22px;
-    width: 31%;
-    margin-bottom: 23px;
-    color: #fff;
-}
 
- 
+    .modal-title {
+        margin-bottom: 0;
+        line-height: 1.5;
+        font-weight: bold;
+        color: #00bbd3 !important;
+        font-size: 17px;
+    }
+
+    .my-header .modal-body a {
+        color: #0079fa !important;
+        font-size: 16px;
+        font-weight: 500;
+        margin: 0 7px !important;
+        text-align: center;
+        line-height: 19px;
+        text-decoration: underline;
+    }
+
+    .modal-body button {
+        background: #00bdd6;
+        border: 0;
+        padding: 5px;
+        border-radius: 22px;
+        width: 31%;
+        margin-bottom: 23px;
+        color: #fff;
+    }
+
+
 
     .accordion {
         margin: 0 auto;
@@ -99,17 +104,15 @@ color: #aaa;
                     </div>
                 </div>
             </div>
+
+
             <div class="d-block d-xl-none">
                 @if (!Auth::check())
                 <a class="nav-link brdnone modal-signin px-0" href="#" data-toggle="modal" data-target="#singin-modal">
                     <img src="https://theytrust-us.developmentserver.info/front_components/images/user1.png" alt="">
                 </a>
-@else
-<li class="nav-item dropdown">
-                 
-
-
-
+               @else
+                    <li class="nav-item dropdown">
                     <div class="dropdown">
                         <button type="button" class=" " data-toggle="dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -124,14 +127,14 @@ color: #aaa;
                         <div class="dropdown-menu shadow-sm mobiledrp">
                             <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
                             @if ($cd)
-<a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company
+                                <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company
                                 Dashboard</a>
                             <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
                             <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">Update
                                 Company Profile</a>
-@else
-<a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile 1</a>
-@endif
+                            @else
+                            <a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile 1</a>
+                            @endif
                             <form method="post" action="/logout">
                                 @csrf
                                 <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
@@ -199,16 +202,15 @@ color: #aaa;
                         <li class="nav-item ">
                             <a class="nav-link " href="{{ url('contact') }}"> Contact Us </a>
                         </li>
+
+
                         @if (!Auth::check())
                         <li class="nav-item  ">
                             <a class="nav-link brdnone modal-signin" href="#" data-toggle="modal"
                                 data-target="#singin-modal"> Sign in</a>
                         </li>
-@else
-<li class="nav-item ">
-                           
-
-
+                        @else
+                        <li class="nav-item ">
                             <div class="dropdown mymobile">
                                 <button type="button" class="" data-toggle="dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -223,7 +225,7 @@ color: #aaa;
                                 <div class="dropdown-menu shadow-sm ">
                                     <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
                                     @if ($cd)
-<a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company
+<                                      a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company
                                         Dashboard</a>
                                     <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
                                     <a class="dropdown-item"
@@ -288,8 +290,8 @@ color: #aaa;
         <div class="col-lg-7 mb-lg-0 mb-3">
             <div class="row align-items-center">
                 <div class="col-md-6 mb-4 mb-md-0 logobox">
-                    <img src="https://theytrust-us.developmentserver.info/front_components/images/logo.png"
-                        alt="" class="img-fluid">
+                    <img src="https://theytrust-us.developmentserver.info/front_components/images/logo.png" alt=""
+                        class="img-fluid">
                 </div>
                 <div class="col-md-5">
                     <div class="input-group border rounded align-items-center justify-content-center">
@@ -307,176 +309,207 @@ color: #aaa;
                 <a href="#">Post a Project</a>
                 <a href="#" class="review-btn">Review a Business</a>
             </div>
-           <!-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i>Sign In</a>  -->
-       
-            <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i><button type="button" class="
+            <!-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i>Sign In</a>  -->
+
+            {{-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i><button type="button" class="
             " data-toggle="modal" data-target="#firstModal">
-    Sign in
-    </button></a>
+                    Sign in
+                </button></a> --}}
+                
+            <!-- First Modal -->
 
-
-
-
-
-
-
- <!-- First Modal -->
- <div class="modal fade" id="firstModal" tabindex="-1" role="dialog" aria-labelledby="firstModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="firstModalLabel">Login Form</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                <form>
-                <!-- Email Input -->
-                <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter email">
-                </div>
-                <!-- Password Input -->
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Password">
-                </div>
-                <!-- Remember Me Checkbox -->
-                <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="rememberMe">
-                    <label class="form-check-label" for="rememberMe">Remember me</label>
-                </div>
-                <!-- Submit Button -->
-                <button type="submit" class=" btn-block">Login</button>
-            </form>
-                    <a href="#" data-toggle="modal" class="mt-5" data-target="#secondModal" data-dismiss="modal">Sign Up</a>
-                </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div> -->
+            @if (!Auth::check())
+    <li class="nav-item">
+        <a class="nav-link brdnone modal-signin" href="#" data-toggle="modal" data-target="#firstModal">Sign in</a>
+    </li>
+@else
+    <li class="nav-item">
+        <div class="dropdown mymobile">
+            <button type="button" class="" data-toggle="dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}" class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
+                </a>
+            </button>
+            <div class="dropdown-menu shadow-sm">
+                <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
+                @if ($cd)
+                    <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company Dashboard</a>
+                    <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
+                    <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">Update Company Profile</a>
+                    <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
+                @else
+                    <a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile</a>
+                @endif
+                <form method="post" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
+                </form>
             </div>
         </div>
-    </div>
+    </li>
+@endif
+            <div class="modal fade" id="firstModal" tabindex="-1" role="dialog" aria-labelledby="firstModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
 
-    <!-- Second Modal -->
-    <div class="modal fade" id="secondModal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="secondModalLabel">Sign Up Form</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="firstModalLabel">Login Form</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                            @endif
+                            <div class="d-flex justify-content-center mb-3">
+                                <a href="{{ route('auth.linkedin') }}" class="btnlink">
+                                    <i class="fab fa-linkedin mr-2"></i> Sign up with LinkedIn
+                                </a>
+                            </div>
+                            <form id="login-form" method="POST" action="{{ route('login.email') }}">
+                                <!-- Email Input -->
+                                <div class="form-group">
+                                    <label for="email">Email address</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter email">
+                                </div>
+                                <!-- Password Input -->
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" placeholder="Password">
+                                </div>
+                                <!-- Remember Me Checkbox -->
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                                </div>
+                                <!-- Submit Button -->
+                                <button type="submit" class=" btn-block">Login</button>
+                            </form>
+                            <a href="#" data-toggle="modal" class="mt-5"  id="singin-modal" data-target="#secondModal"
+                                data-dismiss="modal">Sign Up</a>
+                        </div>
+                     
+                    </div>
                 </div>
-                <div class="modal-body">
-                <form>
-                <!-- Username Input -->
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" placeholder="Enter username">
-                </div>
-                <!-- Email Input -->
-                <!-- <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter email">
-                </div> -->
-                <!-- Password Input -->
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter password">
-                </div>
-                <!-- Confirm Password Input -->
-                <!-- <div class="form-group">
+            </div>
+
+            <!-- Second Modal -->
+            <div class="modal fade" id="secondModal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="secondModalLabel">Sign Up Form</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex justify-content-center mb-3">
+                                <a href="{{ route('auth.linkedin') }}" class="btnlink">
+                                    <i class="fab fa-linkedin mr-2"></i> Sign up with LinkedIn
+                                </a>
+                            </div>
+                            <form id="signup-form" method="POST" action="{{ route('signup.email') }}">
+                                <!-- Username Input -->
+                                <div class="form-group">
+                                    <label for="username">First Name</label>
+                                    <input type="text" class="form-control" id="first_name" name="first_name" required
+                                        value="{{ old('first_name') }}">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="last_name">Last Name</label>
+                                    <input type="text" class="form-control" id="last_name" name="last_name" required
+                                        value="{{ old('last_name') }}">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" required
+                                        value="{{ old('email') }}">
+                                    @error('email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <!-- Password Input -->
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password"
+                                        placeholder="Enter password">
+                                </div>
+                                <!-- Confirm Password Input -->
+                                <!-- <div class="form-group">
                     <label for="confirm-password">Confirm Password</label>
                     <input type="password" class="form-control" id="confirm-password" placeholder="Confirm password">
                 </div> -->
-                <!-- Terms and Conditions Checkbox -->
-                <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="terms">
-                    <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
+                                <!-- Terms and Conditions Checkbox -->
+
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="terms">
+                                    <label class="form-check-label" for="terms">I agree to the terms and
+                                        conditions</label>
+                                </div>
+                                <!-- Submit Button -->
+                                <button type="submit" class=" btn-block">Sign Up</button>
+                            </form>
+                        </div>
+                           <div class="text-center mt-3">
+                            Already have an account? <a href="#" id="login-link" data-bs-toggle="modal" data-bs-target="#login-modal" data-bs-dismiss="modal">Sign in</a>
+                        </div>
+                    </div>
                 </div>
-                <!-- Submit Button -->
-                <button type="submit" class=" btn-block">Sign Up</button>
-            </form>
-                </div>
-                <!-- <div class="modal-footer">
-                    <button type="button" class=" btn-secondary" data-dismiss="modal">Close</button>
-                </div> -->
             </div>
         </div>
     </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
-        </div>
     </div>
     <hr class="mb-0">
 
     <div class="row align-items-center menu-row">
-     
+
         <div class="col-xl-8">
             <nav class="navbar navbar-expand-lg navbar-light px-0">
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         @foreach ($categories as $category)
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="/listing/{{ $category->slug }}" id="navbarDropdownMenuLink{{ $category->id }}"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="/listing/{{ $category->slug }}"
+                                id="navbarDropdownMenuLink{{ $category->id }}" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
                                 {{ $category->category }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink{{ $category->id }}">
                                 @foreach ($category->subcategories as $subcategory)
                                 <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{ $subcategory->subcategory }}</a>
+                                    <a class="dropdown-item dropdown-toggle"
+                                        href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{
+                                        $subcategory->subcategory }}</a>
                                     {{-- <ul class="dropdown-menu last-menu">
-                                        <li><a class="dropdown-item" href="listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{ $subcategory->subcategory }}</a></li>
+                                        <li><a class="dropdown-item"
+                                                href="listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{
+                                                $subcategory->subcategory }}</a></li>
                                     </ul> --}}
                                 </li>
                                 @endforeach
                             </ul>
                         </li>
                         @endforeach
-                        
+
                     </ul>
                 </div>
             </nav>
         </div>
-        
-        
-            
-   
-        
+
+
+
+
+
 
         <div class="col-xl-4 text-right right-menu mt-3">
             <a href="#">Projects</a>
@@ -598,6 +631,27 @@ color: #aaa;
                 toggleButton.textContent = '+';
             }
         });
+    });
+
+    
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const signUpModal = new bootstrap.Modal(document.getElementById('firstModal'));
+        const loginModal = new bootstrap.Modal(document.getElementById('login-modal'));
+
+        // Show Log In modal on Sign Up modal "Log In" button click
+        document.getElementById('login-link').addEventListener('click', function() {
+            signUpModal.hide();
+            loginModal.show();
+        });
+
+        // Check if showModal is set in session (Laravel blade example)
+        @if (session('showModal') == 'signup')
+            signUpModal.show();
+        @elseif (session('showModal') == 'login')
+            loginModal.show();
+        @endif
     });
 </script>
 
