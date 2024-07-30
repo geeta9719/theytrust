@@ -12,6 +12,52 @@ if (Auth::check()) {
 }
 ?>
 <style>
+    .modal-body{
+        padding:40px;
+    }
+    .sign-in-btn button{
+background:#ffff!important;
+color: #aaa;
+    font-size: 16px;
+    font-weight: 500;
+
+    text-align: center;
+    line-height: 19px;
+    border: 0;
+
+    }
+    .modal-dialog {
+        max-width: 441px;
+        margin: 1.75rem auto;
+    }
+    .modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    font-weight: bold;
+    color: #00bbd3!important;
+    font-size: 17px;
+}
+    .my-header .modal-body a {
+    color: #0079fa!important;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 7px!important;
+    text-align: center;
+    line-height: 19px;
+    text-decoration: underline;
+}
+.modal-body button{
+    background: #00bdd6;
+    border: 0;
+    padding: 5px;
+    border-radius: 22px;
+    width: 31%;
+    margin-bottom: 23px;
+    color: #fff;
+}
+
+ 
+
     .accordion {
         margin: 0 auto;
     }
@@ -261,7 +307,133 @@ if (Auth::check()) {
                 <a href="#">Post a Project</a>
                 <a href="#" class="review-btn">Review a Business</a>
             </div>
-            <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i>Sign In</a>
+           <!-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i>Sign In</a>  -->
+       
+            <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i><button type="button" class="
+            " data-toggle="modal" data-target="#firstModal">
+    Sign in
+    </button></a>
+
+
+
+
+
+
+
+ <!-- First Modal -->
+ <div class="modal fade" id="firstModal" tabindex="-1" role="dialog" aria-labelledby="firstModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="firstModalLabel">Login Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <form>
+                <!-- Email Input -->
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter email">
+                </div>
+                <!-- Password Input -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Password">
+                </div>
+                <!-- Remember Me Checkbox -->
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <!-- Submit Button -->
+                <button type="submit" class=" btn-block">Login</button>
+            </form>
+                    <a href="#" data-toggle="modal" class="mt-5" data-target="#secondModal" data-dismiss="modal">Sign Up</a>
+                </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Modal -->
+    <div class="modal fade" id="secondModal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="secondModalLabel">Sign Up Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <form>
+                <!-- Username Input -->
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" placeholder="Enter username">
+                </div>
+                <!-- Email Input -->
+                <!-- <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter email">
+                </div> -->
+                <!-- Password Input -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter password">
+                </div>
+                <!-- Confirm Password Input -->
+                <!-- <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirm-password" placeholder="Confirm password">
+                </div> -->
+                <!-- Terms and Conditions Checkbox -->
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="terms">
+                    <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
+                </div>
+                <!-- Submit Button -->
+                <button type="submit" class=" btn-block">Sign Up</button>
+            </form>
+                </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" class=" btn-secondary" data-dismiss="modal">Close</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
         </div>
     </div>
     <hr class="mb-0">
@@ -295,6 +467,7 @@ if (Auth::check()) {
                             </ul>
                         </li>
                         @endforeach
+                        
                     </ul>
                 </div>
             </nav>
@@ -306,8 +479,8 @@ if (Auth::check()) {
         
 
         <div class="col-xl-4 text-right right-menu mt-3">
-            <a href="#">Get Listed</a>
-            <a href="#">Post a Project</a>
+            <a href="#">Projects</a>
+            <a href="#">Bundles</a>
         </div>
     </div>
 </section>
@@ -427,6 +600,8 @@ if (Auth::check()) {
         });
     });
 </script>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> -->
 
 
 <!-- menu section End -->
