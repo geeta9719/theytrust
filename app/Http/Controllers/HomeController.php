@@ -25,6 +25,8 @@ use App\Models\Contact;
 use App\Models\Newsletters;
 use App\Models\ReviewerEmailLog;
 use Rennokki\Plans\Models\PlanModel;
+use App\Models\ModelReference;
+use App\Models\Skill;
 
 
 
@@ -50,16 +52,20 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $categories = Category::with('subcategory')->get();
+        $reviews = CompanyReview::latest()->take(3)->get();
+        $subcategories = Subcategory::with(['subcat_child', 'category'])->get();
+        $skills = Skill::all();
+        
+        $modelReferences = ModelReference::groupBy('foreign_key_name')
+            ->select('foreign_key_name')
+            ->withCount('company')
+            ->get();
 
-        $data['category']       = Category::where('top_cat',1)->get();
-        $data['categories'] = Category::with('subcategory')->get();
-        $data['reviews'] = CompanyReview::latest()->take(3)->get();
-        $data['subcategories'] = Subcategory::with(['subcat_child', 'category'])->get();
-
-
-        // dd("asdfasdf");
-        return view('home.index', $data);
+        return view('home.index', compact('categories', 'reviews', 'subcategories', 'skills', 'modelReferences'));
     }
+
+   
 
     public function about()
     {

@@ -22,4 +22,9 @@ class SubcatChild extends Model
     {
         return $this->hasMany(Skill::class);
     }
+
+    public function modelReferences()
+    {
+        return $this->hasMany(ModelReference::class, 'foreign_key_id');
+    }
 }

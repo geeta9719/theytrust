@@ -19,6 +19,8 @@ use App\Http\Controllers\Admin\AddCompany;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SeosearchController;
 use App\Http\Controllers\SkillCategoryController;
+use App\Http\Controllers\ModelReferenceController;
+
 
 
 
@@ -371,6 +373,9 @@ Route::get('/api/skills/{id}/deepskills', [SearchController::class, 'getDeepSkil
 Route::get('/api/companies', [SearchController::class, 'index']);
 Route::get('/api/location', [SearchController::class, 'getLocation']);
 
+Route::get('/admin/model-references/create', [ModelReferenceController::class, 'create'])->name('model-references.create');
+Route::post('/model-references', [ModelReferenceController::class, 'store'])->name('model-references.store');
+Route::get('/get-companies', [ModelReferenceController::class, 'getCompaniesByForeignKey'])->name('get.companies.by.foreignkey');
 
 
 
@@ -379,8 +384,7 @@ Route::get('/api/location', [SearchController::class, 'getLocation']);
 
 
 
-
-
+    
 
 
 

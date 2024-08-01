@@ -44,4 +44,11 @@ public function companySubcatChild()
 {
     return $this->hasMany(CompanySubcatChild::class, 'subcategory_id', 'id');
 }
+
+public function modelReferences()
+{
+    return $this->hasMany(ModelReference::class, 'foreign_key_id');
+}
+
+
 }
