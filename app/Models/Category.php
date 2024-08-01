@@ -32,4 +32,9 @@ class Category extends Model
     {
         return $this->hasMany(Subcategory::class);
     }
+
+    public function modelReferences()
+    {
+        return $this->hasMany(ModelReference::class, 'foreign_key_id');
+    }
 }

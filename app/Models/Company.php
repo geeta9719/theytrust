@@ -94,5 +94,10 @@ class Company extends Model
         return $this->hasMany(CompanyHasSkill::class);
     }
 
+    public function modelReferences()
+    {
+        return $this->hasMany(ModelReference::class);
+    }
+    
 
 }
