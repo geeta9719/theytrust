@@ -70,6 +70,7 @@ class ModelReferenceController extends Controller
         
         return [
             'name' => $company->name,
+            "logo" => $company->logo,
             'image' => $company->image,
             'reviews' => $averageRating ?? 0,
             'reviewsCount' => $reviewsCount ?? 0

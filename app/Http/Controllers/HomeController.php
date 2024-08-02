@@ -53,7 +53,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::with('subcategory')->get();
-        $reviews = CompanyReview::latest()->take(3)->get();
+        $reviews = CompanyReview::with("user",'company')->latest()->take(3)->get();
         $subcategories = Subcategory::with(['subcat_child', 'category'])->get();
         $skills = Skill::all();
         
