@@ -13,7 +13,7 @@ class PortfolioItemController extends Controller
     {
         $company = Company::where('user_id', auth()->id())->first();
     
-        $portfolioItems = PortfolioItem::where('company_id', $company_id)
+        $portfolioItems = PortfolioItem::where('company_id', $company->id)
         ->orderBy('position')
         ->paginate(10);
         return view('home.user.portfolio_items.tables', compact('company', 'portfolioItems'));
@@ -125,7 +125,7 @@ class PortfolioItemController extends Controller
         }
 
         $portfolioItem->update(array_merge($validated, ['media' => $media]));
-        return redirect()->route('portfolio.index', $portfolioItem->company_id)->with('success', 'Portfolio item updated successfully.');
+        return redirect()->route('portfolio_items.tableView', $portfolioItem->company_id)->with('success', 'Portfolio item updated successfully.');
     }
     public function destroy($id)
     {
