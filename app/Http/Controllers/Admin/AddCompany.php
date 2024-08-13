@@ -738,4 +738,11 @@ class AddCompany extends Controller
 
         return redirect()->route('admin.company.admininfo', $request->company_id);
     }
+
+    public function browseByCategory()
+    {
+        $categories = Category::with('subcategories.subcat_child.skill')->get();
+        return view('home.browseByCategory', compact('categories'));
+
+    }
 }

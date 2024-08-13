@@ -35,9 +35,16 @@
         width: 100%;
         padding: 10px;
         margin-top: 5px;
-        margin-bottom: 20px;
+        margin-bottom: 5px;
         border: 1px solid #ccc;
         border-radius: 5px;
+    }
+    .char-count {
+        font-size: 12px;
+        color: #999;
+        margin-bottom: 20px;
+        display: block;
+        text-align: right;
     }
     button {
         display: inline-block;
@@ -91,33 +98,36 @@
         
         <label for="media_type">Select Media Type</label>
         <select name="media_type" id="media_type" onchange="toggleMediaInput()">
-            <option value="image_pdf_video" {{ $portfolioItem->media['type'] == 'file' ? 'selected' : '' }}>Image, PDF, or Video File</option>
+            <option value="image_pdf" {{ $portfolioItem->media['type'] == 'file' ? 'selected' : '' }}>Image or PDF File</option>
             <option value="youtube_url" {{ $portfolioItem->media['type'] == 'youtube' ? 'selected' : '' }}>YouTube Video URL</option>
         </select>
 
         <div id="file_input_div" {{ $portfolioItem->media['type'] == 'youtube' ? 'style=display:none;' : '' }}>
             <label for="media">Add Image or PDF</label>
-            <input type="file" name="media" id="media" onchange="showPreview(event)">
+            <input type="file" name="media" id="media" accept="image/*,.pdf" onchange="showPreview(event)">
             @if($portfolioItem->media && $portfolioItem->media['type'] == 'file')
                 <div>Current file: <a href="{{ asset('storage/'.$portfolioItem->media['path']) }}" target="_blank">{{ $portfolioItem->media['path'] }}</a></div>
             @endif
         </div>
         <div id="url_input_div" {{ $portfolioItem->media['type'] == 'file' ? 'style=display:none;' : '' }}>
-            <label for="youtube_url">Insert YouTube Video URL ( Ex:)</label>
+            <label for="youtube_url">Insert YouTube Video URL</label>
             <input type="url" name="youtube_url" id="youtube_url" value="{{ $portfolioItem->media['type'] == 'youtube' ? $portfolioItem->media['url'] : '' }}" onchange="showPreview(event)">
         </div>
 
         <label for="project_title">Project Title</label>
-        <input type="text" name="project_title" id="project_title" value="{{ $portfolioItem->project_title }}">
+        <input type="text" name="project_title" id="project_title" value="{{ $portfolioItem->project_title }}" maxlength="70" oninput="updateCharCount('project_title', 70)">
+        <span class="char-count" id="project_title-char-count">0/70</span>
 
         <label for="client_name">Client Name</label>
-        <input type="text" name="client_name" id="client_name" value="{{ $portfolioItem->client_name }}">
+        <input type="text" name="client_name" id="client_name" value="{{ $portfolioItem->client_name }}" maxlength="35" oninput="updateCharCount('client_name', 35)">
+        <span class="char-count" id="client_name-char-count">0/35</span>
 
         <label for="country_location">Country / Location</label>
         <input type="text" name="country_location" id="country_location" value="{{ $portfolioItem->country_location }}">
 
-        <label for="services_provided">Services Provided (up to 5 comma separated keywords. 70 characters max)</label>
-        <input type="text" name="services_provided" id="services_provided" value="{{ $portfolioItem->services_provided }}">
+        <label for="services_provided">Services Provided (up to 5 comma-separated keywords, 140 characters max)</label>
+        <input type="text" name="services_provided" id="services_provided" value="{{ $portfolioItem->services_provided }}" maxlength="140" oninput="updateCharCount('services_provided', 140)">
+        <span class="char-count" id="services_provided-char-count">0/140</span>
 
         <label for="short_description">Short Description</label>
         <textarea name="short_description" id="short_description">{{ $portfolioItem->short_description }}</textarea>
@@ -140,8 +150,6 @@
                     <object data="{{ asset('storage/'.$portfolioItem->media['path']) }}" type="application/pdf" width="100%" height="500px">
                         <p>Your browser does not support PDFs. <a href="{{ asset('storage/'.$portfolioItem->media['path']) }}">Download the PDF</a>.</p>
                     </object>
-                @elseif(Str::endsWith($portfolioItem->media['path'], ['.mp4', '.avi']))
-                    <video src="{{ asset('storage/'.$portfolioItem->media['path']) }}" controls width="100%"></video>
                 @endif
             @elseif($portfolioItem->media['type'] == 'youtube')
                 <iframe src="https://www.youtube.com/embed/{{ explode('v=', $portfolioItem->media['url'])[1] }}" width="100%" height="500px" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -159,7 +167,7 @@
         var previewDiv = document.getElementById('preview');
         previewDiv.innerHTML = '';
 
-        if (mediaType === 'image_pdf_video') {
+        if (mediaType === 'image_pdf') {
             fileInputDiv.style.display = 'block';
             urlInputDiv.style.display = 'none';
         } else {
@@ -189,11 +197,6 @@
                     object.width = '100%';
                     object.height = '500px';
                     previewDiv.appendChild(object);
-                } else if (fileType.startsWith('video/')) {
-                    var video = document.createElement('video');
-                    video.src = e.target.result;
-                    video.controls = true;
-                    previewDiv.appendChild(video);
                 }
             };
 
@@ -216,7 +219,24 @@
         }
     }
 
+    function updateCharCount(fieldId, maxChars) {
+        var field = document.getElementById(fieldId);
+        var charCount = field.value.length;
+        var charCountSpan = document.getElementById(fieldId + '-char-count');
+        if (charCountSpan) {
+            charCountSpan.textContent = charCount + '/' + maxChars;
+        }
+    }
+
     // Initialize CKEditor
     CKEDITOR.replace('short_description');
+
+    // Trigger media input toggle on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleMediaInput();
+        updateCharCount('project_title', 70);
+        updateCharCount('client_name', 35);
+        updateCharCount('services_provided', 140);
+    });
 </script>
 @endsection

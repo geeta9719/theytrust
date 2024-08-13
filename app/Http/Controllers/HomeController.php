@@ -1155,6 +1155,7 @@ function drawChart() {
         $inputs['phone_number']             = $request->phone_number;
         $inputs['linkedin_url']             = $request->linkedin_url;
         $inputs['company_url']              = $request->company_url;
+        $inputs['published']   = 0;
 
         CompanyReview::create( $inputs );
 

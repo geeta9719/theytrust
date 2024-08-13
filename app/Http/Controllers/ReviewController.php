@@ -18,10 +18,8 @@ class ReviewController extends Controller
 
     public function index()
     {
-        // dd("asdfasdf");
 
         $user = Auth::user();
-        // dd($user);
         $company = Company::where('user_id', $user->id)->first();
 
 
@@ -72,7 +70,6 @@ class ReviewController extends Controller
         $user = Auth::user();
         $company = Company::where('user_id', $user->id)->first();
     
-        // Logic to resend the request (e.g., send an email)
         Mail::to($review->email)->send(new ReviewResent($review, $company));
     
         return redirect()->route('comapany.reviews.request.index')->with('success', 'Review request resent successfully!');

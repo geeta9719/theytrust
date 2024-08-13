@@ -321,6 +321,8 @@ Route::delete('/admin/skills/{skill}', [SkillCategoryController::class, 'destroy
     Route::get('/send-email/{userId}', [PaymentContorller::class, 'sendEmailWithPdf'])->name('send.email.with.pdf');
     Route::resource('planfeatures', PlanFeatureController::class);
     Route::get('/company/{company}/projects', [CompanyController::class, 'CompnayProjectIndex'])->name('projects.index');
+    Route::get('/admin/model-references/create', [ModelReferenceController::class, 'create'])->name('model-references.create');
+Route::post('admin/model-references', [ModelReferenceController::class, 'store'])->name('model-references.store');
     // Route::Post('store', [CompanyController::class, 'CompnayProjectStore'])->name('projects.store');
     // Route::get('/projects/{id}/edit', [CompanyController::class, 'CompnayProjectEdit'])->name('projects.edit');
     // Route::put('/projects/{id}', [CompanyController::class, 'update'])->name('projects.update');
@@ -340,6 +342,7 @@ Route::post('/company/save-Service/{id}', [AddCompany::class, 'save_company_serv
 Route::post('/company/save-industry/{id}', [AddCompany::class, 'save_company_industry'])->name('admin.company.industry');
 Route::get('/companydata/{id}/', [AddCompany::class, 'getdata']);
 Route::get('/industry/{id}/', [AddCompany::class, 'industryData']);
+Route::get('providers/category/', [AddCompany::class, 'browseByCategory']);
 Route::get('/company/{company}/marketing', [UserController::class, 'adminInfo'])->name('company.marketing');
 
 
@@ -373,8 +376,7 @@ Route::get('/api/skills/{id}/deepskills', [SearchController::class, 'getDeepSkil
 Route::get('/api/companies', [SearchController::class, 'index']);
 Route::get('/api/location', [SearchController::class, 'getLocation']);
 
-Route::get('/admin/model-references/create', [ModelReferenceController::class, 'create'])->name('model-references.create');
-Route::post('/model-references', [ModelReferenceController::class, 'store'])->name('model-references.store');
+
 Route::get('/get-companies', [ModelReferenceController::class, 'getCompaniesByForeignKey'])->name('get.companies.by.foreignkey');
 
 
