@@ -127,7 +127,7 @@ export default {
   },
   data() {
     return {
-      pageTitle: 'Top Category Name (Title of the page)', // Initialize page title
+      pageTitle: 'Top Category Names (Title of the page)', // Initialize page title
       selectedCategory: null,
       selectedSubcategory: null,
       selectedSkill: null,
@@ -722,4 +722,8 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+.breadcrumb a{
+color:#00bdd6!important;}
+
+
 </style> 

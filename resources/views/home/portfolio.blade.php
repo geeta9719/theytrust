@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col-lg-12 shadow bg-white py-3">
                 <div class="container mt-5 reviews-sec greybox">
-                    <h2 class="my-heading"> Portfolio / Case Studies </h2>
+                    <h2 class="my-heading"> Portfolio / Case Studies.. </h2>
                     @foreach ($caseStudies as $caseStudy)
                         <x-portfolio :portfolio="$caseStudy" />
                     @endforeach

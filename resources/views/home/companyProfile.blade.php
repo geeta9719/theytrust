@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('portfolioimage/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('portfolioimage/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('portfolioimage/css/style.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('portfolioimage/css/style1.css') }}"> -->
+    <link rel="stylesheet" type="text/css" href="https://theytrust-us.developmentserver.info/front_components/css/custom.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="{{ asset('portfolioimage/js/jquery.js') }}"></script>
     <script src="{{ asset('portfolioimage/js/tab.js') }}"></script>
@@ -38,18 +39,18 @@
 </head>
 
 <body>
-    <div class="container portfolio">
+    <div class="container shadow portfolio py-3">
         <div class="row">
-            <div class="col-lg-12 shadow bg-white py-3">
+            <div class="col-lg-12  bg-white py-3">
                 <div class="row topsec">
                     <div class="col-md-7">
                         <div class="row text-center text-md-left">
                             <div class="col-md-3 ">
                                 <img src="{{ asset($company->logo)  }}" alt="" class="img-fluid">
                             </div>
-                            <div class="col-md-8 mt-2 mt-md-0">
+                            <div class="col-md-9 mt-2 mt-md-0">
                                 <h2>{{ $company->name }}</h2>
-                                <h3>{{ $company->tagline }}</h3>
+                                <h3 class="mt-2 mt-md-0">{{ $company->tagline }}</h3>
                                 <p>
                                     <span>{{ $company->rate }}</span>
                                     <span>{{ $company->size }} Employees</span>
@@ -59,27 +60,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5 text-md-right">
-                        <div class="reviews-row text-center">
+                    <div class="col-md-5 text-md-right text-center pt-md-5 pt-2">
+                        <div class="reviews-row text-center reviewrate">
                             <h3>{{ number_format($rate_review->rating, 1) }}</h3>
-                            <div class="px-3">
+                            <div class="px-3 ">
                                 {!! generateStarRating($rate_review->rating) !!}
                             </div>
-                            <a href="{{ url('review/' . $company->id ) }}" target="_blank" class="">
+                            <a href="{{ url('review/' . $company->id ) }}" target="_blank" class="reviewstxt">
 
                                 <h3>{{ $rate_review->review }} REVIEWS</h3>
                             </a>
                         </div>
-                        <div class="write-review mt-3">
+                        <div class="write-review ">
                             <a href="{{ url('company/' . $company->id.'/getReview' ) }}" class="btn btn-primary" target="_blank">
                               Write a Review
                             </a>
                           </div>  
                     </div>
                 </div>
-                <div class="row mt-5 target-sec">
+                <div class="row mt-3 mt-md-2 target-sec">
                     <div class="col-md-8 pr-md-1">
-                        <h2 class="area my-heading greybox"> Target Services Area</h2>
+                        <h2 class="area my-heading greybox mb-3"> Target Services Area</h2>
                         <div class="row mx-0 target-service">
                             @foreach ($service_lines as $service)
                             <div class="col-md-6 pb-2 text-center mb-2 mb-lg-0">
@@ -91,24 +92,24 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="col-md-4 pl-md-1 mt-3">
-                        <h2 class="industries my-heading indusbox mb-3"> Target Industries</h2>
+                    <div class="col-md-4 pl-md-1 ">
+                        <h2 class="industries my-heading indusbox greybox mb-3"> Target Industries</h2>
                         @foreach ($add_industry as $industry)
                         <a href="#" class="btn-target ">{{ $industry->industry->name }}</a>
                         @endforeach
                     </div>
                 </div>
 
+              
 
-
-                <div class="container mt-5 greybox agency">
+                <div class="container mt-3 mt-md-2 greybox agency">
                     <h2 class="my-heading">Agency Profile</h2>
                     <p class="short-description">{{ $company->short_description }}</p>
                     <p class="text-md-right text-center mr-md-5 readmore">
                         <a href="javascript:void(0);" id="read-more-btn">READ MORE</a>
                     </p>
                 </div>
-                <div class="container mt-5 greybox locations">
+                <div class="container mt-3 mt-md-2 greybox locations">
                     <h2 class="my-heading">Locations</h2>
                     <div class="row location-sec">
                         <div class="col-md-4">
@@ -119,29 +120,32 @@
                                             <b>{{ $address->city }}</b>
                                         </p>
                                         <p>{{ $address->autocomplete }}</p>
-                                        <br>
+                                       
                                     @endforeach
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-8 mt-md-0 mt-4">
-                            <div id="map" style="height: 250px;"></div>
+                            <div id="map" >
+
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3265.698617944585!2d-80.71237452423959!3d35.064273372792705!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x885425c5285ababf%3A0x6980335b83dbd955!2s1003%20Sultana%20Ln%2C%20Matthews%2C%20NC%2028104%2C%20USA!5e0!3m2!1sen!2sin!4v1722940683978!5m2!1sen!2sin" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
 
 
-
+           
                 
                 
-                
-                <div class="container mt-5 reviews-sec greybox">
+                <div class="container  mt-3 mt-md-2 reviews-sec greybox">
                     <h2 class="my-heading"> Reviews </h2>
                     @foreach ($reviews as $review)
                         <x-review :review="$review" />
                     @endforeach
                 </div>
-                <div class="container mt-5 reviews-sec greybox">
+
+                <div class="container mt-3 mx-3 mt-md-5 reviews-sec greybox">
                     <h2 class="my-heading"> Portfolio / Case Studies </h2>
                     @foreach ($caseStudies as $caseStudy)
                         <x-portfolio :portfolio="$caseStudy" />
@@ -313,4 +317,7 @@ $(document).ready(function() {
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9YeE5IDfcAUalQ8G26_crBmKoHYvoN5I&callback=initMap"
 async defer></script>
+
+<script src="{{ asset('front_components/js/jquery.js') }}"> </script>
+<script src="{{ asset('front_components/js/tab.js') }}"> </script>
 @endsection

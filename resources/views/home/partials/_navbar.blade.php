@@ -400,7 +400,7 @@ if (Auth::check()) {
               <a href="https://theytrust-us.developmentserver.info/">     <img src="https://theytrust-us.developmentserver.info/front_components/images/logo.png" alt=""
                        class="img-fluid"></a>
                </div>
-               <div class="col-md-6 ml-3">
+               <div class="col-md-6 ml-md-3 ml-0">
                <div class="">
                    <div class="">
                        <div class="searchbox-sec">
@@ -420,7 +420,7 @@ if (Auth::check()) {
        <div class="col-lg-6 right-col">
            <div class="inner">
                <a href="#">Get Listed</a>
-               <a href="#">Post a Project</a>
+               <a href="#" class="posta">Post a Project</a>
                <a href="#" class="review-btn">Review a Business</a>
            </div>
            <!-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i>Sign In</a>  -->
@@ -478,7 +478,7 @@ if (Auth::check()) {
                            {{ session('error') }}
                        </div>
                    @endif
-                       <h5 class="modal-title" id="firstModalLabel">Sign up</h5>
+                       <h5 class="modal-title" id="firstModalLabel">Sign In</h5>
                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                            <span aria-hidden="true">&times;</span>
                        </button>
@@ -500,7 +500,7 @@ if (Auth::check()) {
                    @endif
                        <div class="d-flex justify-content-center mb-3 linkdinbox">
                            <a href="{{ route('auth.linkedin') }}" class="btnlink">
-                               <i class="fab fa-linkedin mr-2"></i> Sign up with LinkedIn
+                               <i class="fab fa-linkedin mr-2"></i> Sign In with LinkedIn
                            </a>
                        </div>
 
@@ -510,7 +510,7 @@ if (Auth::check()) {
     </div>
  
     <hr>
-    <h3>Sign up with your company email domain </h3>
+    <h3>Sign in with your company email domain </h3>
 </div>
 
 
@@ -539,37 +539,39 @@ if (Auth::check()) {
                        <form class="form-row" id="login-form" method="POST" action="{{ route('login.email') }}">
                            <!-- Email Input -->
 
-                           <div class="form-row form-group">
-      <div class=" col-md-6">
+ <div class="row form-group mx-0 p-0">
+      <!-- <div class=" col-md-6">
       <label for="firstname">First Name</label>
-        <input type="text" class="form-control" >
+        <input type="text" class="form-control" placeholder="Enter First Name">
       </div>
       <div class=" col-md-6">
       <label for="lastname">Last Name</label>
-        <input type="text" class="form-control" >
-      </div></div>
-      <div class="form-group col-md-12">
+        <input type="text" class="form-control" placeholder="Enter Last Name">
+      </div> -->
+    
+    </div>
+      <div class="form-group col-md-12 pr-4">
       <label for="email">Email address</label>
-      <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+      <input type="email" class="form-control" id="email" name="email" placeholder="example.email@gmail.com">
       </div>
  <!-- Password Input -->
- <div class="form-group col-md-12">
+ <div class="form-group col-md-12 pr-4">
       <label for="password">Password</label>
-       <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+       <input type="password" class="form-control" id="password" name="password" placeholder="Enter at least 8+ charecters">
                            </div>
 
 <!-- Remember Me Checkbox -->
-<div class="form-group form-check col-md-12">
+<div class="form-group form-check col-md-12 checkgroup ">
                                <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
                                <label class="form-check-label" for="rememberMe"><p>By signing up, I agree with the <a href="">Terms</a> of Use &  <a href="">Privacy Policy</a></p></label>
                            </div>
 
 
   <!-- Submit Button -->
-  <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+  <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                        </form>
 
-                       <div class="text-center">
+                       <div class="text-center alredy">
                       <span>Already have an account? <a href="#" data-toggle="modal" class="mt-5" id="signup-link" data-target="#signup-modal" data-dismiss="modal">Sign Up</a></span>
                       </div>
     </div>
@@ -600,8 +602,167 @@ if (Auth::check()) {
            </div>
        </div>
       
+
+
+
+   <!-- Login Up Modal -->
+   <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+               <div class="modal-content p-3">
+                   <div class="modal-header">
+                       @if (session('error'))
+                       <div class="alert alert-danger">
+                           {{ session('error') }}
+                       </div>
+                   @endif
+                       <h5 class="modal-title" id="firstModalLabel">Sign Up</h5>
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                       </button>
+                   </div>
+                   <div class="modal-body">
+                       @if (session('error'))
+                       <div class="alert alert-danger">
+                           {{ session('error') }}
+                       </div>
+                   @endif
+                   @if ($errors->any())
+                       <div class="alert alert-danger">
+                           
+                               @foreach ($errors->all() as $error)
+                                  {{ $error }}
+                               @endforeach
+                          
+                       </div>
+                   @endif
+                       <div class="d-flex justify-content-center mb-3 linkdinbox">
+                           <a href="{{ route('auth.linkedin') }}" class="btnlink">
+                               <i class="fab fa-linkedin mr-2"></i> Sign Up with LinkedIn
+                           </a>
+                       </div>
+
+<div class="afterlinkdin">
+    <div class="text-center">
+    <span>OR</span>
+    </div>
+ 
+    <hr>
+    <h3>Sign up with your company email domain </h3>
+</div>
+
+
+
+
+<form id="signup-form" method="POST" class="form-row" action="{{ route('signup.email') }}">
+                           @csrf
+                       
+
+                           <div class="row form-group mx-0 p-0">
+
+                           <div class=" col-md-6">
+      <label for="firstname">First Name</label>
+        <input type="text" class="form-control" placeholder="Enter First Name">
+      </div>
+      <div class=" col-md-6">
+      <label for="lastname">Last Name</label>
+        <input type="text" class="form-control" placeholder="Enter Last Name">
+      </div></div>
+
+
+
+                           <!-- <div class="form-group">
+                               <label for="first_name">First Name</label>
+                               <input type="text" class="form-control" id="first_name" name="first_name" required value="{{ old('first_name') }}">
+                           </div>
+                           
+                           <div class="form-group mb-3">
+                               <label for="last_name">Last Name</label>
+                               <input type="text" class="form-control" id="last_name" name="last_name" required value="{{ old('last_name') }}">
+                           </div> -->
+                    
+                           <div class="form-group col-md-12 pr-4">
+                               <label for="email">Email</label>
+                               <input type="email" class="form-control" id="email" name="email" required value="{{ old('email') }}">
+                               @error('email')
+                                   <span class="text-danger">{{ $message }}</span>
+                               @enderror
+                           </div>
+                  
+                           <div class="form-group col-md-12 pr-4">
+                               <label for="password">Password</label>
+                               <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+                           </div>
+                        
+                           <div class="form-group form-check col-md-12 checkgroup  ">
+                               <input type="checkbox" class="form-check-input" id="terms" name="terms">
+                               <label class="form-check-label" for="terms">
+                                I agree to the terms and conditions</label>
+                           </div>
+                          
+                           <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                       </form>  
+                       <!-- <form class="form-row" id="login-form" method="POST" action="{{ route('login.email') }}">
+                
+
+                           <div class="row form-group mx-0 p-0">
+      <div class=" col-md-6">
+      <label for="firstname">First Name</label>
+        <input type="text" class="form-control" placeholder="Enter First Name">
+      </div>
+      <div class=" col-md-6">
+      <label for="lastname">Last Name</label>
+        <input type="text" class="form-control" placeholder="Enter Last Name">
+      </div></div>
+      <div class="form-group col-md-12 pr-4">
+      <label for="email">Email address</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="example.email@gmail.com">
+      </div>
+
+ <div class="form-group col-md-12 pr-4">
+      <label for="password">Password</label>
+       <input type="password" class="form-control" id="password" name="password" placeholder="Enter at least 8+ charecters">
+                           </div>
+
+
+<div class="form-group form-check col-md-12 checkgroup ">
+                               <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
+                               <label class="form-check-label" for="rememberMe"><p>By signing up, I agree with the <a href="">Terms</a> of Use &  <a href="">Privacy Policy</a></p></label>
+                           </div>
+
+
+ 
+  <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                       </form> -->
+
+                       <div class="text-center alredy">
+                      <span>Already have an account? <a href="#" data-toggle="modal" class="mt-5" id="login-modal" data-target="#login-modal" data-dismiss="modal">Sign In</a></span>
+                      </div>
+    </div>
+    </div>
+
+                           
+                    </div>
+               </div>
+           </div>
+       </div>
+          <!-- Login Up Modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        <!-- Sign Up Modal -->
-       <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel" aria-hidden="true">
+       <!-- <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel" aria-hidden="true">
            <div class="modal-dialog" role="document">
                <div class="modal-content p-3">
                    <div class="modal-header">
@@ -611,24 +772,24 @@ if (Auth::check()) {
                        </button>
                    </div>
                    <div class="modal-body">
-                       <div class="d-flex justify-content-center mb-3">
+                       <div class="d-flex justify-content-center mb-3 linkdinbox">
                            <a href="{{ route('auth.linkedin') }}" class="btnlink">
                                <i class="fab fa-linkedin mr-2"></i> Sign up with LinkedIn
                            </a>
                        </div>
                        <form id="signup-form" method="POST" action="{{ route('signup.email') }}">
                            @csrf
-                           <!-- First Name Input -->
+                       
                            <div class="form-group">
                                <label for="first_name">First Name</label>
                                <input type="text" class="form-control" id="first_name" name="first_name" required value="{{ old('first_name') }}">
                            </div>
-                           <!-- Last Name Input -->
+                           
                            <div class="form-group mb-3">
                                <label for="last_name">Last Name</label>
                                <input type="text" class="form-control" id="last_name" name="last_name" required value="{{ old('last_name') }}">
                            </div>
-                           <!-- Email Input -->
+                    
                            <div class="form-group mb-3">
                                <label for="email">Email</label>
                                <input type="email" class="form-control" id="email" name="email" required value="{{ old('email') }}">
@@ -636,18 +797,18 @@ if (Auth::check()) {
                                    <span class="text-danger">{{ $message }}</span>
                                @enderror
                            </div>
-                           <!-- Password Input -->
+                  
                            <div class="form-group">
                                <label for="password">Password</label>
                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
                            </div>
-                           <!-- Terms and Conditions Checkbox -->
+                        
                            <div class="form-group form-check">
                                <input type="checkbox" class="form-check-input" id="terms" name="terms">
                                <label class="form-check-label" for="terms">
                                 I agree to the terms and conditions</label>
                            </div>
-                           <!-- Submit Button -->
+                          
                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
                        </form>
                    </div>
@@ -656,7 +817,7 @@ if (Auth::check()) {
                    </div>
                </div>
            </div>
-       </div>
+         </div> -->
       
       
        </div>
@@ -665,7 +826,7 @@ if (Auth::check()) {
    <hr class="mb-0">
 
 
-   <div class="row align-items-center menu-row">
+   <div class="row align-items-center menu-row pt-2 pt-md-0">
 
 
        <div class="col-xl-8">

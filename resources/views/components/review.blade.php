@@ -5,9 +5,9 @@ $user = auth()->user();
 $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toArray() : [];
 @endphp
 
-{{-- <div class="container mt-5 reviews-sec greybox"> --}}
+{{-- <div class="container  mt-3 mt-md-2 reviews-sec greybox"> --}}
     {{-- <h2 class="my-heading"> Reviews </h2> --}}
-    <h4>{{ $review->project_type }}</h4>
+    <h4 class="headingtxt">{{ $review->project_type }}</h4>
     @if(in_array($review->company_id, $userCompanyIds))
     <div class="mt-2">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#respondModal">
@@ -15,20 +15,20 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
         </button>
     </div>
     @endif
-
+    <link rel="stylesheet" type="text/css" href="https://theytrust-us.developmentserver.info/front_components/css/custom.css">
     <div class="row reviewby">
-        <div class="col-md-4 greybox">
-            <h3><i style="font-size:24px" class="fa">&#xf27b;</i> Reviewed By</h3>
+        <div class="col-md-4 greybox ">
+            <h4 class="sidebar"><i style="font-size:24px" class="fa">&#xf27b;</i> Reviewed By</h4>
             <div class="d-lg-flex userbox">
                 <div class="d-lg-flex user-img">
                     <img src="{{ $review['user_image'] ?? asset('img/black-image.png') }}" alt=""
                         class="img-fluid d-md-inline d-table mx-auto">
-                    <div class="user-name text-center text-md-left">
-                        <h2>{{ $review->fullname }}</h2>
-                        <p>{{ $review->position_title }} | {{ $review->company_name }} | {{ $review->country }}</p>
+                    <div class="user-name sidebarheading userboxes text-center text-md-left">
+                        <h3>{{ $review->fullname }}</h3>
+                        <h5 class="sideh4">{{ $review->position_title }} | {{ $review->company_name }} | {{ $review->country }}</h5>
                     </div>
                 </div>
-                <div class="text-center text-md-left">
+                <div class="text-center text-md-left reviewrate">
                     <br> {!! generateStarRating($review['overall_rating']) !!}
                 </div>
             </div>
@@ -64,14 +64,14 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
                         <p>{{ $review['company_size'] }}</p>
                     </div>
                 </div>
-                <div class="d-lg-flex reviewby pt-1">
+                <div class="d-lg-flex reviewby pt-1 pb-2">
                     <div class="ptitle mb-2 mb-lg-0"><button>Client Industry</button></div>
                     <div>
                         <p>{{ $review['client_industry'] }}</p>
                     </div>
                 </div>
             </div>
-            <p class="dotted"></p>
+            <!-- <p class="dotted"></p> -->
             <div class="d-flex reviewby">
                 <div class="ptitle"><button>Project Title</button></div>
             </div>
@@ -141,39 +141,39 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
                 </ul>
                 <div class="tabs-content">
                     <div id="tab1-{{ $review->id }}" class="tab-content">
-                        <p><i style="font-size:24px" class="fa">&#xf29c;"></i> <b>Please tell us about your business and
+                        <p><i style="font-size:24px" class="fa">&#xf29c;</i> <b>Please tell us about your business and
                                 what is your role</b></p>
                         <p>{{ $review->company_position }}</p>
                     </div>
                     <div id="tab2-{{ $review->id }}" class="tab-content">
-                        <p><i style="font-size:24px" class="fa">&#xf29c;"></i> <b>What specific challenges were you
+                        <p><i style="font-size:24px" class="fa">&#xf29c;</i> <b>What specific challenges were you
                                 facing before working with {{ $review->company->name }}</b></p>
                         <p>{{ $review->for_what_project }}</p>
-                        <p><i style="font-size:24px" class="fa">&#xf29c;"></i> <b>What were your main concerns or pain
+                        <p><i style="font-size:24px" class="fa">&#xf29c;</i> <b>What were your main concerns or pain
                                 points related to your project?</b></p>
                         <p>{{ $review->area_of_improvements }}</p>
                     </div>
                     <div id="tab3-{{ $review->id }}" class="tab-content">
-                        <p><i style="font-size:24px" class="fa">&#xf29c;"></i> <b>Tell us about the project in
+                        <p><i style="font-size:24px" class="fa">&#xf29c;</i> <b>Tell us about the project in
                                 detail</b></p>
                         <p>{{ $review->scope_of_work }}</p>
-                        <p><i style="font-size:24px" class="fa">&#xf29c;"></i> <b>What services did you receive from {{
+                        <p><i style="font-size:24px" class="fa">&#xf29c;</i> <b>What services did you receive from {{
                                 $review->company->name }}? For example, Digital Marketing, Web design, Mobile App
                                 development.</b></p>
                         <p>{{ $review->how_select }}</p>
-                        <p><i style="font-size:24px" class="fa">&#xf29c;"></i> <b>What factors led to the selection of
+                        <p><i style="font-size:24px" class="fa">&#xf29c;</i> <b>What factors led to the selection of
                                 the vendor</b></p>
                         <p>{{ $review->team_composition }}</p>
                     </div>
                     <div id="tab4-{{ $review->id }}" class="tab-content">
-                        <p><i style="font-size:24px" class="fa">&#xf29c;"></i> <b>Talk about how the vendor made this
+                        <p><i style="font-size:24px" class="fa">&#xf29c;</i> <b>Talk about how the vendor made this
                                 project a success</b></p>
                         <p>{{ $review->any_outcome }}</p>
-                        <p><i style="font-size:24px" class="fa">&#xf29c;"></i> <b>In what ways have the services
+                        <p><i style="font-size:24px" class="fa">&#xf29c;</i> <b>In what ways have the services
                                 positively impacted your business? (e.g., increased sales, improved brand awareness,
                                 enhanced user engagement)</b></p>
                         <p>{{ $review->how_effective }}</p>
-                        <p><i style="font-size:24px" class="fa">&#xf29c;"></i> <b>What were the top 3 things that
+                        <p><i style="font-size:24px" class="fa">&#xf29c;</i> <b>What were the top 3 things that
                                 impressed you the most about the vendor (e.g., communication, expertise, creativity,
                                 process etc)? Is there anything else you would like to share about your experience?</b>
                         </p>
@@ -233,13 +233,13 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
             font-weight: bold;
         }
 
-        .portfolio .scroll-content p b {
+        /* .portfolio .scroll-content p b {
             color: #388cff;
-        }
+        } */
 
         .portfolio .location-sec iframe {
             width: 100%;
-            height: 100%;
+            /* height: 100%; */
             border-radius: 5px;
         }
 
@@ -270,9 +270,9 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
             font-size: 20px;
         }
 
-        .portfolio .bluestar {
+        /* .portfolio .bluestar {
             color: #388cff;
-        }
+        } */
 
         .portfolio .reviews-row h3 {
             font-size: 16px;
@@ -371,17 +371,38 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
             margin-bottom: 18px;
         }
 
-        .portfolio .greybox h3 {
+        /* .portfolio .greybox h4 {
             background-color: #dde1e5;
-            padding: 7px 30px 10px 30px;
-            width: fit-content;
-            margin-bottom: 18px;
+    padding: 6px 15px 9px 15px;
+    width: fit-content;
+    margin-bottom: 18px;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-family: "Epilogue", sans-serif;
+        } */
+        .sideh4{
+            background-color:none;
+            font-size: 13px;
+    font-weight: 600;
+    margin-left: 11px;
+    margin-top: 0;
+    color: #2a2e33;
+    text-transform: capitalize;
+    font-family: "Epilogue", sans-serif;
         }
-
         .portfolio .reviews-sec h4 {
-            background-color: #00bdd6 !important;
-            padding: 5px 30px;
-            margin-top: 5px;
+             background-color: #00bdd6; 
+             padding: 6px 15px 9px 15px;
+             margin:0 0 10px 0;
+            /* margin-top: 5px;  */
+            /* padding: 6px 15px 9px 15px; */
+    /* width: fit-content; */
+    /* margin-bottom: 18px;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-family: "Epilogue", sans-serif; */
         }
 
         .portfolio .details button {
@@ -411,20 +432,20 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
             border-radius: 14px;
         }
 
-        .portfolio .reviewby {
+        /* .portfolio .reviewby {
             padding: 0 20px;
-        }
+        } */
 
         .portfolio .user-col p {
             font-size: 15px;
         }
 
-        .portfolio .reviewby .col-md-4 {
+        /* .portfolio .reviewby .col-md-4 {
 
             padding: 0 18px 0 0px;
             border-right: 1px solid #ccc;
             border-top: 1px solid #ccc;
-        }
+        } */
 
         .tab-box {
             border-right: 1px solid #ccc;
@@ -458,11 +479,11 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
 
         }
 
-        .portfolio .qualityreview {
+        /* .portfolio .qualityreview {
             display: flex;
             flex-direction: column;
             padding: 0 8px;
-        }
+        } */
 
         .portfolio .qualitybox {
             display: flex;
@@ -491,9 +512,9 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
             background-color: #565e6c !important;
         }
 
-        .portfolio .bluestar {
+        /* .portfolio .bluestar {
             color: orange !important;
-        }
+        } */
 
         .star {
             padding: 11px 0;
@@ -517,15 +538,42 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
             padding: 0px;
             overflow: auto;
             background-color: #9095a0 !important;
-            display: flex;
+            /* display: flex; */
             justify-content: space-between;
         }
+        .reviewby .qualitybox {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 39px;
+    margin-top: 20px;
+    margin-left: -2px;
+}
+
+
+
+
+
+
+.headingtxt{
+    font-size: 18px !important;
+    font-weight: 700;
+    margin-bottom: 5px;
+    margin-left: 11px;
+    color: #171a1f !important;
+    text-transform: capitalize;
+    font-family: "Epilogue", sans-serif;
+}
+
+
+
+
+
 
         .portfolio ul.tabs-nav li {
             float: left;
             font-weight: bold;
             margin-right: 2px;
-            padding: 8px 10px;
+            padding: 8px 17px;
             border-right: 1px solid #fff;
             /* border-radius: 5px 5px 5px 5px; */
             /*border: 1px solid #d5d5de;
@@ -555,7 +603,7 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
         .portfolio .tabs-nav li a {
             text-decoration: none;
             color: #FFF;
-            font-size: 15px;
+            font-size: 13px;
         }
 
         .portfolio ul.tabs-nav li:hover,
@@ -603,7 +651,7 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
         /* tab */
 
         .readmore a {
-            font-size: 18px;
+            font-size: 13px;
             font-weight: bold;
             color: #000;
             word-spacing: -2px;
@@ -677,7 +725,11 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
             .table-responsive {
                 padding: 0 0 0 11px;
             }
-
+            .portfolio .scroll-container {
+     
+        height: auto;
+        
+    }
             .casestudies h2 {
 
                 width: 96%;
@@ -719,6 +771,7 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
                 padding: 0;
                 margin: 4px 0 0 0;
             }
+
 
             .portfolio .reviews-sec h4 {
 
@@ -792,4 +845,5 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
             }
         }
     </style>
+
     @endpush

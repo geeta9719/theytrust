@@ -5,7 +5,7 @@
 <script src="{{asset('front_components/js/css3-animate-it.js')}}"></script>
 <script src="{{asset('front_components/js/slick.js')}}"></script>
 <script src="{{asset('front_components/js/custom.js')}}"></script>
-
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
 
 <script type="text/javascript">
 var search;

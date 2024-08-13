@@ -1,6 +1,6 @@
 
 
-    <!-- Sign Up Modal -->
+    {{-- <!-- Sign Up Modal -->
     <div class="modal fade" id="singin-modal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -8,6 +8,21 @@
                     <h4 class="modal-title w-100 text-center" id="signinModalLabel">Sign Up</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
                 <div class="modal-body">
                     <div class="d-flex justify-content-center mb-3">
                         <a href="{{ route('auth.linkedin') }}" class="btnlink">
@@ -76,84 +91,104 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-
-
-
-<!-- 
-footer -->
-<!-- <section class="container-fluid">
-<div class="container footer">
-        <div class="row">
-            <div class="col-md-2">
-                <div class="footer-box">
-                    <h2>Company</h2>
-                    <ul>
-                        <li>Why They Trust Us</li>
-                        <li>News & Press</li>
-                        <li>Blog</li>
-                        <li>Careers</li>
-                       
-                    </ul>
-                </div>
-            
+    </div> --}}
+<section>
+    <style>
+        .footer{
+            background-color: #00bdd6;
+            padding: 50px 50px;
+        }
+        .footer h2 {
+            font-size: 19px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    .footer ul {
+        margin: 0;
+        padding: 0;
+    }
+    .footer ul li {
+        font-size: 16px;
+        list-style: none;
+        margin-bottom: 15px;
+        font-weight: 400;
+    }
+    .footer img{
+       
+        max-width: 60%;
+        height: auto;
+        margin-bottom: 16px;
+    
+    }
+    </style>
+    
+    </head>
+    <body>
+        <section class="container-fluid footer">
+        <div class="container ">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="footer-box">
+                        <h2>Company</h2>
+                        <ul>
+                            <li>Why They Trust Us</li>
+                            <li>News & Press</li>
+                            <li>Blog</li>
+                            <li>Careers</li>
+                           
+                        </ul>
+                    </div>
                 
-
-            </div>
-            <div class="col-md-2">
-                <div class="footer-box">
-                    <h2>Customers</h2>
-                    <ul>
-                        <li>Browse Providers</li>
-                        <li>Browse Projects</li>
-                        <li>Browse Bundles</li>
-                        <li>Leave Review</li>
-                       
-                    </ul>
+                    
+    
                 </div>
-               
-            </div>
-            <div class="col-md-2">
-                <div class="footer-box">
-                    <h2>Companies</h2>
-                    <ul>
-                        <li>Get Listed</li>
-                        <li>Sponsorships</li>
-                        <li>Pricing</li>
-                        <li>Download TTU Badge</li>
-                       
-                    </ul>
+                <div class="col-md-2">
+                    <div class="footer-box">
+                        <h2>Customers</h2>
+                        <ul>
+                            <li>Browse Providers</li>
+                            <li>Browse Projects</li>
+                            <li>Browse Bundles</li>
+                            <li>Leave Review</li>
+                           
+                        </ul>
+                    </div>
+                   
                 </div>
-                
-            </div>
-            <div class="col-md-2">
-                <div class="footer-box">
-                    <h2>Support</h2>
-                    <ul>
-                        <li>Contact Us </li>
-                        <li>Chat support</li>
-                        <li>Privacy</li>
-                        <li>Terms of Service</li>
-                       <li>Site Map</li>
-                    </ul>
+                <div class="col-md-2">
+                    <div class="footer-box">
+                        <h2>Companies</h2>
+                        <ul>
+                            <li>Get Listed</li>
+                            <li>Sponsorships</li>
+                            <li>Pricing</li>
+                            <li>Download TTU Badge</li>
+                           
+                        </ul>
+                    </div>
+                    
                 </div>
-              
-            </div>
-            <div class="col-md-4">
-                <img src="https://theytrust-us.developmentserver.info/front_components/images/theylogo.png" alt="" class="img-fluid">
-                <p>  © 2024 They Trust Us, All Rights Reserved.</p>
-              
+                <div class="col-md-2">
+                    <div class="footer-box">
+                        <h2>Support</h2>
+                        <ul>
+                            <li>Contact Us </li>
+                            <li>Chat support</li>
+                            <li>Privacy</li>
+                            <li>Terms of Service</li>
+                           <li>Site Map</li>
+                        </ul>
+                    </div>
+                  
+                </div>
+                <div class="col-md-4">
+                    <img src="https://theytrust-us.developmentserver.info/front_components/images/theylogo.png" alt="" class="img-fluid">
+                    <p>  © 2024 They Trust Us, All Rights Reserved.</p>
+                  
+                </div>
             </div>
         </div>
-    </div>
-    </div> -->
-
-
-<!-- footer -->
-
-
+    </section>
 
 
 

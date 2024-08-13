@@ -12,26 +12,26 @@
         padding: 20px;
         gap: 20px;
     }
-    form {
+    .formbox-sec form {
         flex: 1;
         max-width: 600px;
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 10px;
-        background-color: #f9f9f9;
+        /* background-color: #f9f9f9; */
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-    label {
+    .formbox-sec label {
         display: block;
         margin-top: 10px;
         font-weight: bold;
     }
-    input[type="text"],
-    input[type="url"],
-    input[type="file"],
-    input[type="date"],
-    select,
-    textarea {
+    .formbox-sec input[type="text"],
+    .formbox-sec input[type="url"],
+    .formbox-sec input[type="file"],
+    .formbox-sec input[type="date"],
+    .formbox-sec select,
+    .formbox-sec textarea {
         width: 100%;
         padding: 10px;
         margin-top: 5px;
@@ -39,7 +39,7 @@
         border: 1px solid #ccc;
         border-radius: 5px;
     }
-    button {
+    .formbox-sec .create button {
         display: inline-block;
         width: 100%;
         padding: 10px 20px;
@@ -55,15 +55,15 @@
         box-shadow: 0 4px #999;
         transition: background-color 0.3s;
     }
-    button:hover {
+    .formbox-sec button:hover {
         background-color: #0056b3;
     }
-    button:active {
+    .formbox-sec button:active {
         background-color: #0056b3;
         box-shadow: 0 2px #666;
         transform: translateY(2px);
     }
-    #preview {
+    .formbox-sec #preview {
         flex: 1;
         max-width: 600px;
         padding: 20px;
@@ -81,10 +81,52 @@
         border-radius: 5px;
         margin-top: 10px;
     }
+    .formbox-sec button {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+.cke_notifications_area{
+z-index: 1!important;
+    
+}
+@media (max-width: 767px) {
+    .cke_notification {
+    width: 241px!important;}
+    .cke_notifications_area {
+    left: 24px !important;
+    width: 186px !important;
+    max-width: 46px !important;
+}
+.formbox-sec .cke_notification {
+    margin: 53px 60px 53px 79px!important;
+    width: 237px!important;
+    padding: 20px 50px!important;
+}
+.formbox-sec .cke_notification_message {
+
+    margin: 0!important;}
+
+}
+
 </style>
 
-<h1 style="text-align: center;">Add Portfolio Item</h1>
-<div class="row pt-5">
+
+
+
+<h1 style="text-align: center; " class="mt-5">Add Portfolio Item</h1>
+<div class="row pt-5 create">
     <div class="col-md-12 m-0 p-0 ">
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -100,13 +142,13 @@
     @endif
     </div>
 </div>
-<div class="container">
-  
+<div class="container formbox-sec">
+  <div class="col-md-6 col-12">
     <form action="{{ route('portfolio.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
    
         <label for="media_type">Select Media Type</label>
-        <select name="media_type" id="media_type" onchange="toggleMediaInput()">
+        <select name="media_type"  id="media_type" onchange="toggleMediaInput()">
             <option value="image_pdf_video" {{ old('media_type') == 'image_pdf_video' ? 'selected' : '' }}>Image, PDF, or Video File</option>
             <option value="youtube_url" {{ old('media_type') == 'youtube_url' ? 'selected' : '' }}>YouTube Video URL</option>
         </select>
@@ -116,8 +158,8 @@
             <input type="file" name="media" id="media" onchange="showPreview(event)">
         </div>
         <div id="url_input_div" style="{{ old('media_type') == 'youtube_url' ? 'display:block;' : 'display:none;' }}">
-            <label for="youtube_url">Insert YouTube Video URL</label>
-            <input type="url" name="youtube_url" id="youtube_url" value="{{ old('youtube_url') }}" onchange="showPreview(event)">
+     <label for="youtube_url">Insert YouTube Video URL</label> 
+            <input type="url" name="youtube_url" id="youtube_url"  value="{{ old('youtube_url') }}" onchange="showPreview(event)">
         </div>
 
         <label for="project_title">Project Title</label>
@@ -143,8 +185,10 @@
 
         <button type="submit">Save</button>
     </form>
-
+    </div>
+    <div class="col-md-6 col-12">
     <div id="preview"></div>
+    </div>
 </div>
 
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>

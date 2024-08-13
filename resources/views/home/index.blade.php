@@ -42,6 +42,7 @@
                 <!-- <p>I am looking for</p> -->
                 <select class="form-control dropdown1 address" id="subcategories" name="services[]">
                     <span>I am looking for</span>
+               
                     @foreach($subcategories as $subcategory)
                     <option value="{{$subcategory->id}}"
                         data-name="{{strtolower(str_replace(' ','-',$subcategory->subcategory))}}">
@@ -70,7 +71,7 @@
                 <div class="greybox">
                     <div class="d-lg-flex userbox ">
                         <div class="d-lg-flex user-img">
-                            <img src="{{ $review['user_image'] ?? asset('img/black-image.png') }}" alt=""
+                            <img src="{{ asset($review->company->logo) ?? asset('img/black-image.png') }}" alt=""
                                 class="img-fluid d-md-inline d-table mx-auto">
                             <div class="user-name text-center text-md-left">
                                 <!-- <h2>{{ $review->fullname }}</h2> -->
@@ -81,7 +82,7 @@
                             <br> {!! generateStarRating($review['overall_rating']) !!}
                         </div> -->
                     </div>
-                    <p class="dotted"></p>
+                    <!-- <p class="dotted"></p> -->
                     <div class="d-lg-flex reviewedbybox">
                         <p class="dotted"></p>
                         <div class="d-lg-flex user-img ">
@@ -90,9 +91,17 @@
                     </div>
                     <div class="d-lg-flex userbox">
                         <div class="d-lg-flex user-img ">
-                            <img src="{{ $review['user_image'] ?? asset('img/black-image.png') }}" alt=""
+                @php
+                       $avatarUrl = $review->user->avatar ??
+                       "https://theytrust-us.developmentserver.info/front_components/images/logo.png";
+                       if (!Str::startsWith($avatarUrl, ['http://', 'https://'])) {
+                       $avatarUrl = url($avatarUrl);
+                    }
+    
+                @endphp
+                            <img src="{{ $avatarUrl }}" alt=""
                                 class="img-fluid d-md-inline d-table mx-auto">
-                            <div class="user-name text-center text-md-left">
+                            <div class="user-name userboxes text-center text-md-left">
                                 <h2>{{ $review->fullname }}</h2>
                                 <h3>{{ $review->company_name }} | {{ $review->country }}</h3>
                                 <h4>{{ $review->position_title }} </h4>
@@ -134,7 +143,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="dotted"></p>
+                     <p class="dotted "></p>
                     <div class="d-flex reviewby">
                         <div class="ptitle"><button>Detailed Rating</button></div>
                     </div>
@@ -189,7 +198,7 @@
                             <button>{{ $review['refer_ability'] }}</button>
                         </div>
                     </div>
-                    <p class="text-right"><a href="{{ url('/review/' . $review->company_id) }}">Read Full Review</a></p>
+                    <p class="text-md-right text-center"><a href="{{ url('/review/' . $review->company_id) }}">Read Full Review</a></p>
                     <!-- <p class="text-right"><a href="#">Read Full Review</a></p> -->
                 </div>
             </div>
@@ -219,8 +228,8 @@
             @endif
             @endforeach
         </div>
-        <p class="text-right"><a href="{{ url('categories') }}">Browse All Providers</a></p>
-    </div>
+        <p class="text-md-right text-center browse my-4"><a href="{{ url('categories') }}">Browse All Providers ></a></p>
+       </section>
     <section class="container-fluid skills-section">
         <div class="container">
             <h3 class="text-center">Browse Providers by Skills</h3>
@@ -243,11 +252,40 @@
                 @endif
                 @endforeach
             </div>
-            <p class="text-right"><a href="{{ url('skills') }}">Browse All Skills</a></p>
+            <p class="text-md-right text-center browse my-4"><a href="{{ url('skills') }}">Browse All Skills ></a></p>
         </div>
     </section>
+    <section class="container-fluid movers-section">
+       <div class="container">
+           <h3 class="text-center">Movers & Shakers - Popular Skills</h3>
+           <p class="text-center">Explore businesses from some of the most popular service categories</p>
+           <div class="row mt-5">
+               <div class="col-lg-3 col-md-6">
+                   <div class="moversbox">
+                       <div class="col-md-12 moverscol1">
+                           @foreach($modelReferences as $reference)
+                           <div class="ptitle mb-2 mb-lg-0">
+                               <button class="foreign-key-btn" data-key="{{ $reference['foreign_key_name'] }}">{{ $reference['foreign_key_name'] }}</button>
+                           </div>
+                           @endforeach
+                       </div>
+                   </div>
+               </div>
+               <div class="col-lg-9 col-md-6 ">
+                   {{-- <h3>List of Digital Marketing Agencies</h3> --}}
+                   <div class="row" id="companies-list">
+                       <!-- Companies will be loaded here via AJAX -->
+                   </div>
+               </div>
+           </div>
+       </div>
+   </section>
+
     @endsection
+
+
     @section('script')
+<!--     
     <section class="container-fluid movers-section">
         <div class="container">
             <h3 class="text-center">Movers & Shakers - Popular Skills</h3>
@@ -261,7 +299,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-6">
+                <div class="col-lg-9 col-md-6 marketingagencies">
                     <h3> List of Digital Marketing Agencies </h3>
                     <div class="row">
                         <div class="col-lg-6">
@@ -276,15 +314,15 @@
                                                         alt="" class="img-fluid">
                                                 </div>
                                             </div>
-                                            <div class="col-7 listbox">
-                                                <div>
+                                            <div class="col-7 listbox ">
+                                                <div class="companybox">
                                                     <h2>Company Name</h2>
                                                     <div>
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star"></span>
-                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star unchecked"></span>
+                                                        <span class="fa fa-star unchecked"></span>
                                                     </div>
                                                     <a href="">9999 review</a>
                                                 </div>
@@ -302,14 +340,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-7 listbox">
-                                                <div>
+                                                <div  class="companybox">
                                                     <h2>Company Name</h2>
                                                     <div>
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star"></span>
-                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star unchecked"></span>
+                                                        <span class="fa fa-star unchecked"></span>
                                                     </div>
                                                     <a href="">9999 review</a>
                                                 </div>
@@ -321,20 +359,20 @@
                                         </div>
                                         <div class="row ">
                                             <div class="col-3 p-0">
-                                                <div> <img
+                                                <div > <img
                                                         src="https://theytrust-us.developmentserver.info/front_components/images/car.png"
                                                         alt="" class="img-fluid">
                                                 </div>
                                             </div>
                                             <div class="col-7 listbox">
-                                                <div>
+                                                <div  class="companybox">
                                                     <h2>Company Name</h2>
                                                     <div>
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star"></span>
-                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star unchecked"></span>
+                                                        <span class="fa fa-star unchecked"></span>
                                                     </div>
                                                     <a href="">9999 review</a>
                                                 </div>
@@ -368,8 +406,8 @@
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star"></span>
-                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star unchecked"></span>
+                                                        <span class="fa fa-star unchecked"></span>
                                                     </div>
                                                     <a href="">9999 review</a>
                                                 </div>
@@ -387,14 +425,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-7 listbox">
-                                                <div>
+                                                <div  class="companybox">
                                                     <h2>Company Name</h2>
                                                     <div>
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star"></span>
-                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star unchecked"></span>
+                                                        <span class="fa fa-star unchecked"></span>
                                                     </div>
                                                     <a href="">9999 review</a>
                                                 </div>
@@ -412,14 +450,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-7 listbox">
-                                                <div>
+                                                <div  class="companybox">
                                                     <h2>Company Name</h2>
                                                     <div>
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
                                                         <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star"></span>
-                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star unchecked"></span>
+                                                        <span class="fa fa-star unchecked"></span>
                                                     </div>
                                                     <a href="">9999 review</a>
                                                 </div>
@@ -438,7 +476,21 @@
 
             </div>
         </div>
-    </section>
+    </section>  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{asset('front_components/js/select2.min.js')}}"></script>
     <script>
@@ -477,5 +529,84 @@
         $(document).ready(function () {
             $('#subcategories').select2();
         });
+
+
+        $(document).ready(function() {
+   function loadCompanies(foreignKey) {
+       $.ajax({
+           url: '{{ route('get.companies.by.foreignkey') }}',
+           type: 'GET',
+           data: { foreign_key_name: foreignKey },
+           success: function(response) {
+               var companiesList = $('#companies-list');
+               companiesList.empty(); // Clear previous companies
+              
+               if (response.length > 0) {
+                   response.forEach(function(company) {
+                       // Generate star ratings based on the company rating
+                       var starRating = '';
+                       var rating = company.reviews; // Assume reviews is the rating value
+                      
+                       for (var i = 1; i <= 5; i++) {
+                           if (i <= rating) {
+                               starRating += '<span class="fa fa-star checked"></span>';
+                           } else if (i - rating < 1) {
+                               starRating += '<span class="fa fa-star-half-alt checked"></span>';
+                           } else {
+                               starRating += '<span class="fa fa-star"></span>';
+                           }
+                       }
+
+
+                       var companyHtml = '<div class="col-lg-6">' +
+                           '<div class="col2box">' +
+                               '<div class="col-md-12 ">' +
+                                   '<div class="listboxinner">' +
+                                       '<div class="row py-2">' +
+                                           '<div class="col-3 p-0">' +
+                                               '<div class="logoimage"><img src="' + company.logo + '" alt="" class="img-fluid"></div>' +
+                                           '</div>' +
+                                           '<div class="col-7 listbox">' +
+                                               '<div>' +
+                                                   '<h2>' + company.name + '</h2>' +
+                                                   '<div>' + starRating + '</div>' +
+                                                   '<a href="" class="reviewcount">' + company.reviewsCount + ' review</a>' +
+                                               '</div>' +
+                                           '</div>' +
+                                           '<div class="col-2">' +
+                                               '<img src="https://theytrust-us.developmentserver.info/front_components/images/heart.png" alt="" class="img-fluid">' +
+                                           '</div>' +
+                                       '</div>' +
+                                   '</div>' +
+                               '</div>' +
+                           '</div>' +
+                       '</div>';
+                      
+                       companiesList.append(companyHtml);
+                   });
+               } else {
+                   companiesList.append('<p>No companies found for this category.</p>');
+               }
+           },
+           error: function(xhr) {
+               console.log('Error:', xhr.responseText);
+           }
+       });
+   }
+
+
+   $('.foreign-key-btn').click(function() {
+       var foreignKey = $(this).data('key');
+       loadCompanies(foreignKey);
+   });
+
+
+   // Automatically trigger the first foreign_key button on page load
+   if ($('.foreign-key-btn').length > 0) {
+       $('.foreign-key-btn').first().trigger('click');
+   }
+});
+
     </script>
+
     @endsection
