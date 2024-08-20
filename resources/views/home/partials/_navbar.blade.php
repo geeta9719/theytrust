@@ -602,6 +602,11 @@ if (Auth::check()) {
                             {{ session('error') }}
                         </div>
                         @endif
+                        @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
                         <h5 class="modal-title" id="firstModalLabel">Sign Up</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
