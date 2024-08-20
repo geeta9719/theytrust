@@ -661,11 +661,11 @@ if (Auth::check()) {
 
                            <div class=" col-md-6">
       <label for="firstname">First Name</label>
-        <input type="text" class="form-control" placeholder="Enter First Name">
+        <input type="text" class="form-control" placeholder="Enter First Name" name="first_name" required value="{{ old('first_name') }}"> 
       </div>
       <div class=" col-md-6">
       <label for="lastname">Last Name</label>
-        <input type="text" class="form-control" placeholder="Enter Last Name">
+        <input type="text" class="form-control" placeholder="Enter Last Name"  name="last_name" required value="{{ old('last_name') }}">
       </div></div>
 
 

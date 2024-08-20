@@ -271,7 +271,7 @@ public function signupWithEmail(Request $request)
         'token_expires_at' => $tokenExpiresAt,
     ]);
 
-    Auth::login($user);
+    // Auth::login($user);
     Mail::to($user->email)->send(new VerificationEmail($user));
 
     return redirect()->back()->with('success', 'Email has been sent.')->with('showModal', true);
@@ -305,6 +305,7 @@ public function loginWithEmail(Request $request)
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
+        Auth::login($user);
         // Authentication passed...
         return redirect()->intended('/'); // Change 'dashboard' to your intended route
     }
