@@ -1,7 +1,8 @@
 @php
     $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
 @endphp
-@extends($company ? 'layouts.home-master' : 'layouts.home')
+{{-- @extends($company ? 'layouts.home-master' : 'layouts.home') --}}
+@extends('layouts.home-master' )
 @section('content')
     <?php
     if (isset($_GET['profile']) && !empty($_GET['profile'])) {

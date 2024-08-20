@@ -2,7 +2,8 @@
     $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
     $addresses = $company ? \App\Models\Address::where('company_id', $company->id)->first() : null;
 @endphp
-@extends($addresses ? 'layouts.home-master' : 'layouts.home')
+{{-- @extends($addresses ? 'layouts.home-master' : 'layouts.home') --}}
+@extends('layouts.home-master' )
 
 @section('content')
 
