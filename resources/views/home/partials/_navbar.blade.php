@@ -161,8 +161,6 @@ if (Auth::check()) {
     href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
 
 <!-- <div class="header-container">
    <section class="container header position-relative py-md-4 mb-3 mb-md-0 ">
@@ -603,10 +601,10 @@ if (Auth::check()) {
                         </div>
                         @endif
                         @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                        @endif
                         <h5 class="modal-title" id="firstModalLabel">Sign Up</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -756,7 +754,7 @@ if (Auth::check()) {
         </div>
     </div>
 </section>
-<script>
+{{-- <script>
     $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
        if (!$(this).next().hasClass('show')) {
            $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
@@ -770,7 +768,7 @@ if (Auth::check()) {
 
        return false;
    });
-</script>
+</script> --}}
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 <script>
     $(document).ready(function() {
