@@ -274,7 +274,7 @@ public function signupWithEmail(Request $request)
     // Auth::login($user);
     Mail::to($user->email)->send(new VerificationEmail($user));
 
-    return redirect()->back()->with('success', 'Email has been sent.')->with('showModal', true);
+    return redirect()->back()->with('success', 'Email has been sent.')->with('showModal', 'signup');
 }
 
 public function loginWithEmail(Request $request)
