@@ -496,6 +496,9 @@ if (Auth::check()) {
                             <div class="alert alert-danger">
                                 {{ session('error') }}
                             </div>
+                            <div class="alert alert-danger">
+                                {{ session('success') }}
+                            </div>
                             @endif
                             @if ($errors->any())
                             <div class="alert alert-danger">
@@ -608,6 +611,9 @@ if (Auth::check()) {
                         @if (session('error'))
                         <div class="alert alert-danger">
                             {{ session('error') }}
+                        </div>
+                        <div class="alert alert-danger">
+                            {{ session('success') }}
                         </div>
                         @endif
                         @if ($errors->any())
