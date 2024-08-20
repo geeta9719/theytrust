@@ -157,7 +157,9 @@ if (Auth::check()) {
     font-weight: 600;
 }
 </style> -->
-<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link
+    href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -393,521 +395,374 @@ if (Auth::check()) {
 
 
 <section class="my-header container-fluid py-3 px-lg-5">
-   <div class="row align-items-center">
-       <div class="col-lg-6 mb-lg-0 mb-3">
-           <div class="row align-items-center">
-               <div class="col-md-5 mb-4 mb-md-0 logobox">
-              <a href="https://theytrust-us.developmentserver.info/">     <img src="https://theytrust-us.developmentserver.info/front_components/images/logo.png" alt=""
-                       class="img-fluid"></a>
-               </div>
-               <div class="col-md-6 ml-md-3 ml-0">
-               <div class="">
-                   <div class="">
-                       <div class="searchbox-sec">
-                       <div class="input-group-prepend">
-                                   <span class="input-group-text"><i class="fa fa-search"></i></span>
-                               </div>
-                           <input type="text" class="search" name="search" id="search" placeholder="Search"
-                               onkeyup="search()">
-                               <div class="srcbxc"></div>
-                               
-                       </div>
-                   </div>
-               </div>
-               </div>
-           </div>
-       </div>
-       <div class="col-lg-6 right-col">
-           <div class="inner">
-               <a href="#">Get Listed</a>
-               <a href="#" class="posta">Post a Project</a>
-               <a href="#" class="review-btn">Review a Business</a>
-           </div>
-           <!-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i>Sign In</a>  -->
+    <div class="row align-items-center">
+        <div class="col-lg-6 mb-lg-0 mb-3">
+            <div class="row align-items-center">
+                <div class="col-md-5 mb-4 mb-md-0 logobox">
+                    <a href="https://theytrust-us.developmentserver.info/"> <img
+                            src="https://theytrust-us.developmentserver.info/front_components/images/logo.png" alt=""
+                            class="img-fluid"></a>
+                </div>
+                <div class="col-md-6 ml-md-3 ml-0">
+                    <div class="">
+                        <div class="">
+                            <div class="searchbox-sec">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                </div>
+                                <input type="text" class="search" name="search" id="search" placeholder="Search"
+                                    onkeyup="search()">
+                                <div class="srcbxc"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 right-col">
+            <div class="inner">
+                <a href="#">Get Listed</a>
+                <a href="#" class="posta">Post a Project</a>
+                <a href="#" class="review-btn">Review a Business</a>
+            </div>
+            <!-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i>Sign In</a>  -->
 
 
-           {{-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i><button type="button"
-                   class="
+            {{-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i><button type="button"
+                    class="
            " data-toggle="modal" data-target="#firstModal">
-                 <span>  Sign in</span>
-               </button></a> --}}
+                    <span> Sign in</span>
+                </button></a> --}}
 
 
-           <!-- First Modal -->
+            <!-- First Modal -->
 
 
-           @if (!Auth::check())
-           <!-- <li class="nav-item"> -->
-               <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal" data-target="#login-modal"><i class="far fa-user-circle
+            @if (!Auth::check())
+            <!-- <li class="nav-item"> -->
+            <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal"
+                data-target="#login-modal"><i class="far fa-user-circle
                " aria-hidden="true"></i><span> Sign in</span></a>
-           <!-- </li> -->
-       @else
-           <div class="nav-item">
-               <div class="dropdown mymobile">
-                   <button type="button" class="" data-toggle="dropdown">
-                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                           <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}" class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
-                       </a>
-                   </button>
-                   <div class="dropdown-menu shadow-sm accountbox">
-                       <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
-                       @if ($cd)
-                           <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company Dashboard</a>
-                           <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
-                           <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">Update Company Profile</a>
-                           <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
-                       @else
-                           <a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile</a>
-                       @endif
-                       <form method="post" action="{{ route('logout') }}">
-                           @csrf
-                           <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
-                       </form>
-                   </div>
-               </div>
-           </div>
-       @endif
-      
-       <!-- Login Modal -->
-       <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="firstModalLabel" aria-hidden="true">
-           <div class="modal-dialog" role="document">
-               <div class="modal-content p-3">
-                   <div class="modal-header">
-                       @if (session('error'))
-                       <div class="alert alert-danger">
-                           {{ session('error') }}
-                       </div>
-                   @endif
-                       <h5 class="modal-title" id="firstModalLabel">Sign In</h5>
-                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                           <span aria-hidden="true">&times;</span>
-                       </button>
-                   </div>
-                   <div class="modal-body">
-                       @if (session('error'))
-                       <div class="alert alert-danger">
-                           {{ session('error') }}
-                       </div>
-                   @endif
-                   @if ($errors->any())
-                       <div class="alert alert-danger">
-                           
-                               @foreach ($errors->all() as $error)
-                                  {{ $error }}
-                               @endforeach
-                          
-                       </div>
-                   @endif
-                       <div class="d-flex justify-content-center mb-3 linkdinbox">
-                           <a href="{{ route('auth.linkedin') }}" class="btnlink">
-                               <i class="fab fa-linkedin mr-2"></i> Sign In with LinkedIn
-                           </a>
-                       </div>
+            <!-- </li> -->
+            @else
+            <div class="nav-item">
+                <div class="dropdown mymobile">
+                    <button type="button" class="" data-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}"
+                                class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
+                        </a>
+                    </button>
+                    <div class="dropdown-menu shadow-sm accountbox">
+                        <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
+                        @if ($cd)
+                        <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company Dashboard</a>
+                        <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
+                        <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">Update Company
+                            Profile</a>
+                        <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
+                        @else
+                        <a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile</a>
+                        @endif
+                        <form method="post" action="{{ route('logout') }}">
+                            @csrf
+                            <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @endif
 
-<div class="afterlinkdin">
-    <div class="text-center">
-    <span>OR</span>
-    </div>
- 
-    <hr>
-    <h3>Sign in with your company email domain </h3>
-</div>
+            <!-- Login Modal -->
+            <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="firstModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content p-3">
+                        <div class="modal-header">
+                            @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                            @endif
+                            <h5 class="modal-title" id="firstModalLabel">Sign In</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                            @endif
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
 
+                                @foreach ($errors->all() as $error)
+                                {{ $error }}
+                                @endforeach
 
+                            </div>
+                            @endif
+                            <div class="d-flex justify-content-center mb-3 linkdinbox">
+                                <a href="{{ route('auth.linkedin') }}" class="btnlink">
+                                    <i class="fab fa-linkedin mr-2"></i> Sign In with LinkedIn
+                                </a>
+                            </div>
 
-<!-- 
-<form>
-    <div class="form-row">
-      <div class="col">
-        <input type="text" class="form-control" placeholder="First input">
-      </div>
-      <div class="col">
-        <input type="text" class="form-control" placeholder="Second input">
-      </div>
-    </div>
-  </form> -->
+                            <div class="afterlinkdin">
+                                <div class="text-center">
+                                    <span>OR</span>
+                                </div>
 
+                                <hr>
+                                <h3>Sign in with your company email domain </h3>
+                            </div>
+                            <form class="form-row" id="login-form" method="POST" action="{{ route('login.email') }}">
+                                <!-- Email Input -->
 
+                                <div class="row form-group mx-0 p-0">
 
+                                </div>
+                                <div class="form-group col-md-12 pr-4">
+                                    <label for="email">Email address</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="example.email@gmail.com">
+                                </div>
+                                <!-- Password Input -->
+                                <div class="form-group col-md-12 pr-4">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Enter at least 8+ charecters">
+                                </div>
 
-
-
-
-
-
-
-                       <form class="form-row" id="login-form" method="POST" action="{{ route('login.email') }}">
-                           <!-- Email Input -->
-
- <div class="row form-group mx-0 p-0">
-      <!-- <div class=" col-md-6">
-      <label for="firstname">First Name</label>
-        <input type="text" class="form-control" placeholder="Enter First Name">
-      </div>
-      <div class=" col-md-6">
-      <label for="lastname">Last Name</label>
-        <input type="text" class="form-control" placeholder="Enter Last Name">
-      </div> -->
-    
-    </div>
-      <div class="form-group col-md-12 pr-4">
-      <label for="email">Email address</label>
-      <input type="email" class="form-control" id="email" name="email" placeholder="example.email@gmail.com">
-      </div>
- <!-- Password Input -->
- <div class="form-group col-md-12 pr-4">
-      <label for="password">Password</label>
-       <input type="password" class="form-control" id="password" name="password" placeholder="Enter at least 8+ charecters">
-                           </div>
-
-<!-- Remember Me Checkbox -->
-<div class="form-group form-check col-md-12 checkgroup ">
-                               <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
-                               <label class="form-check-label" for="rememberMe"><p>By signing up, I agree with the <a href="">Terms</a> of Use &  <a href="">Privacy Policy</a></p></label>
-                           </div>
+                                <!-- Remember Me Checkbox -->
+                                <div class="form-group form-check col-md-12 checkgroup ">
+                                    <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
+                                    <label class="form-check-label" for="rememberMe">
+                                        <p>By signing up, I agree with the <a href="">Terms</a> of Use & <a
+                                                href="">Privacy Policy</a></p>
+                                    </label>
+                                </div>
 
 
-  <!-- Submit Button -->
-  <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                       </form>
+                                <!-- Submit Button -->
+                                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            </form>
 
-                       <div class="text-center alredy">
-                      <span>Already have an account? <a href="#" data-toggle="modal" class="mt-5" id="signup-link" data-target="#signup-modal" data-dismiss="modal">Sign Up</a></span>
-                      </div>
-    </div>
+                            <div class="text-center alredy">
+                                <span>Already have an account? <a href="#" data-toggle="modal" class="mt-5"
+                                        id="signup-link" data-target="#signup-modal" data-dismiss="modal">Sign
+                                        Up</a></span>
+                            </div>
+                        </div>
 
 
-                           <!-- <div class="form-group">
+                        <!-- <div class="form-group">
                                <label for="email">Email address</label>
                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
                            </div> -->
-                           <!-- Password Input -->
-                           <!-- <div class="form-group">
+                        <!-- Password Input -->
+                        <!-- <div class="form-group">
                                <label for="password">Password</label>
                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                            </div> -->
-                           <!-- Remember Me Checkbox -->
-                           <!-- <div class="form-group form-check">
+                        <!-- Remember Me Checkbox -->
+                        <!-- <div class="form-group form-check">
                                <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
                                <label class="form-check-label" for="rememberMe"><p>By signing up, I agree with the <a href="">Terms</a> of Use &  <a href="">Privacy Policy</a></p></label>
                            </div> -->
-                           <!-- Submit Button -->
-                           <!-- <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                        <!-- Submit Button -->
+                        <!-- <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
                        </form>
                        <div class="text-center">
                       <span>Already have an account? <a href="#" data-toggle="modal" class="mt-5" id="signup-link" data-target="#signup-modal" data-dismiss="modal">Sign Up</a></span>
                       </div> -->
                     </div>
-               </div>
-           </div>
-       </div>
-      
-
-
-
-   <!-- Login Up Modal -->
-   <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel" aria-hidden="true">
-     <div class="modal-dialog" role="document">
-               <div class="modal-content p-3">
-                   <div class="modal-header">
-                       @if (session('error'))
-                       <div class="alert alert-danger">
-                           {{ session('error') }}
-                       </div>
-                   @endif
-                       <h5 class="modal-title" id="firstModalLabel">Sign Up</h5>
-                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                           <span aria-hidden="true">&times;</span>
-                       </button>
-                   </div>
-                   <div class="modal-body">
-                       @if (session('error'))
-                       <div class="alert alert-danger">
-                           {{ session('error') }}
-                       </div>
-                   @endif
-                   @if ($errors->any())
-                       <div class="alert alert-danger">
-                           
-                               @foreach ($errors->all() as $error)
-                                  {{ $error }}
-                               @endforeach
-                          
-                       </div>
-                   @endif
-                       <div class="d-flex justify-content-center mb-3 linkdinbox">
-                           <a href="{{ route('auth.linkedin') }}" class="btnlink">
-                               <i class="fab fa-linkedin mr-2"></i> Sign Up with LinkedIn
-                           </a>
-                       </div>
-
-<div class="afterlinkdin">
-    <div class="text-center">
-    <span>OR</span>
-    </div>
- 
-    <hr>
-    <h3>Sign up with your company email domain </h3>
-</div>
+                </div>
+            </div>
+        </div>
 
 
 
 
-<form id="signup-form" method="POST" class="form-row" action="{{ route('signup.email') }}">
-                           @csrf
-                       
-
-                           <div class="row form-group mx-0 p-0">
-
-                           <div class=" col-md-6">
-      <label for="firstname">First Name</label>
-        <input type="text" class="form-control" placeholder="Enter First Name" name="first_name" required value="{{ old('first_name') }}"> 
-      </div>
-      <div class=" col-md-6">
-      <label for="lastname">Last Name</label>
-        <input type="text" class="form-control" placeholder="Enter Last Name"  name="last_name" required value="{{ old('last_name') }}">
-      </div></div>
-
-
-
-                           <!-- <div class="form-group">
-                               <label for="first_name">First Name</label>
-                               <input type="text" class="form-control" id="first_name" name="first_name" required value="{{ old('first_name') }}">
-                           </div>
-                           
-                           <div class="form-group mb-3">
-                               <label for="last_name">Last Name</label>
-                               <input type="text" class="form-control" id="last_name" name="last_name" required value="{{ old('last_name') }}">
-                           </div> -->
-                    
-                           <div class="form-group col-md-12 pr-4">
-                               <label for="email">Email</label>
-                               <input type="email" class="form-control" id="email" name="email" required value="{{ old('email') }}">
-                               @error('email')
-                                   <span class="text-danger">{{ $message }}</span>
-                               @enderror
-                           </div>
-                  
-                           <div class="form-group col-md-12 pr-4">
-                               <label for="password">Password</label>
-                               <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
-                           </div>
-                        
-                           <div class="form-group form-check col-md-12 checkgroup  ">
-                               <input type="checkbox" class="form-check-input" id="terms" name="terms">
-                               <label class="form-check-label" for="terms">
-                                I agree to the terms and conditions</label>
-                           </div>
-                          
-                           <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-                       </form>  
-                       <!-- <form class="form-row" id="login-form" method="POST" action="{{ route('login.email') }}">
-                
-
-                           <div class="row form-group mx-0 p-0">
-      <div class=" col-md-6">
-      <label for="firstname">First Name</label>
-        <input type="text" class="form-control" placeholder="Enter First Name">
-      </div>
-      <div class=" col-md-6">
-      <label for="lastname">Last Name</label>
-        <input type="text" class="form-control" placeholder="Enter Last Name">
-      </div></div>
-      <div class="form-group col-md-12 pr-4">
-      <label for="email">Email address</label>
-      <input type="email" class="form-control" id="email" name="email" placeholder="example.email@gmail.com">
-      </div>
-
- <div class="form-group col-md-12 pr-4">
-      <label for="password">Password</label>
-       <input type="password" class="form-control" id="password" name="password" placeholder="Enter at least 8+ charecters">
-                           </div>
-
-
-<div class="form-group form-check col-md-12 checkgroup ">
-                               <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
-                               <label class="form-check-label" for="rememberMe"><p>By signing up, I agree with the <a href="">Terms</a> of Use &  <a href="">Privacy Policy</a></p></label>
-                           </div>
-
-
- 
-  <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                       </form> -->
-
-                       <div class="text-center alredy">
-                      <span>Already have an account? <a href="#" data-toggle="modal" class="mt-5" id="login-modal" data-target="#login-modal" data-dismiss="modal">Sign In</a></span>
-                      </div>
-    </div>
-    </div>
-
-                           
+        <!-- Login Up Modal -->
+        <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content p-3">
+                    <div class="modal-header">
+                        @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                        @endif
+                        <h5 class="modal-title" id="firstModalLabel">Sign Up</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-               </div>
-           </div>
-       </div>
-          <!-- Login Up Modal -->
+                    <div class="modal-body">
+                        @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                        @endif
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+
+                            @foreach ($errors->all() as $error)
+                            {{ $error }}
+                            @endforeach
+
+                        </div>
+                        @endif
+                        <div class="d-flex justify-content-center mb-3 linkdinbox">
+                            <a href="{{ route('auth.linkedin') }}" class="btnlink">
+                                <i class="fab fa-linkedin mr-2"></i> Sign Up with LinkedIn
+                            </a>
+                        </div>
+
+                        <div class="afterlinkdin">
+                            <div class="text-center">
+                                <span>OR</span>
+                            </div>
+
+                            <hr>
+                            <h3>Sign up with your company email domain </h3>
+                        </div>
 
 
 
 
+                        <form id="signup-form" method="POST" class="form-row" action="{{ route('signup.email') }}">
+                            @csrf
 
 
+                            <div class="row form-group mx-0 p-0">
+
+                                <div class=" col-md-6">
+                                    <label for="firstname">First Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter First Name"
+                                        name="first_name" required value="{{ old('first_name') }}">
+                                </div>
+                                <div class=" col-md-6">
+                                    <label for="lastname">Last Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter Last Name"
+                                        name="last_name" required value="{{ old('last_name') }}">
+                                </div>
+                            </div>
 
 
+                            <div class="form-group col-md-12 pr-4">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required
+                                    value="{{ old('email') }}">
+                                @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group col-md-12 pr-4">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Enter password">
+                            </div>
+
+                            <div class="form-group form-check col-md-12 checkgroup  ">
+                                <input type="checkbox" class="form-check-input" id="terms" name="terms">
+                                <label class="form-check-label" for="terms">
+                                    I agree to the terms and conditions</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                        </form>
+
+                        <div class="text-center alredy">
+                            <span>Already have an account? <a href="#" data-toggle="modal" class="mt-5" id="login-modal"
+                                    data-target="#login-modal" data-dismiss="modal">Sign In</a></span>
+                        </div>
+                    </div>
+                </div>
 
 
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <hr class="mb-0">
 
 
+    <div class="row align-items-center menu-row pt-2 pt-md-0">
 
 
-
-       <!-- Sign Up Modal -->
-       <!-- <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel" aria-hidden="true">
-           <div class="modal-dialog" role="document">
-               <div class="modal-content p-3">
-                   <div class="modal-header">
-                       <h5 class="modal-title" id="secondModalLabel">Sign Up Form</h5>
-                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                           <span aria-hidden="true">&times;</span>
-                       </button>
-                   </div>
-                   <div class="modal-body">
-                       <div class="d-flex justify-content-center mb-3 linkdinbox">
-                           <a href="{{ route('auth.linkedin') }}" class="btnlink">
-                               <i class="fab fa-linkedin mr-2"></i> Sign up with LinkedIn
-                           </a>
-                       </div>
-                       <form id="signup-form" method="POST" action="{{ route('signup.email') }}">
-                           @csrf
-                       
-                           <div class="form-group">
-                               <label for="first_name">First Name</label>
-                               <input type="text" class="form-control" id="first_name" name="first_name" required value="{{ old('first_name') }}">
-                           </div>
-                           
-                           <div class="form-group mb-3">
-                               <label for="last_name">Last Name</label>
-                               <input type="text" class="form-control" id="last_name" name="last_name" required value="{{ old('last_name') }}">
-                           </div>
-                    
-                           <div class="form-group mb-3">
-                               <label for="email">Email</label>
-                               <input type="email" class="form-control" id="email" name="email" required value="{{ old('email') }}">
-                               @error('email')
-                                   <span class="text-danger">{{ $message }}</span>
-                               @enderror
-                           </div>
-                  
-                           <div class="form-group">
-                               <label for="password">Password</label>
-                               <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
-                           </div>
-                        
-                           <div class="form-group form-check">
-                               <input type="checkbox" class="form-check-input" id="terms" name="terms">
-                               <label class="form-check-label" for="terms">
-                                I agree to the terms and conditions</label>
-                           </div>
-                          
-                           <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-                       </form>
-                   </div>
-                   <div class="text-center  pb-4 already">
-                       <p>Already have an account? <a href="#" id="login-link" data-toggle="modal" data-target="#login-modal" data-dismiss="modal">Sign in</a></p>
-                   </div>
-               </div>
-           </div>
-         </div> -->
-      
-      
-       </div>
-   </div>
-   </div>
-   <hr class="mb-0">
+        <div class="col-xl-8">
+            <nav class="navbar navbar-expand-lg navbar-light px-0">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        @foreach ($categories as $category)
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="/listing/{{ $category->slug }}"
+                                id="navbarDropdownMenuLink{{ $category->id }}" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                {{ $category->category }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink{{ $category->id }}">
+                                @foreach ($category->subcategories as $subcategory)
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle"
+                                        href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{
+                                        $subcategory->subcategory }}</a>
+                                    {{-- <ul class="dropdown-menu last-menu">
+                                        <li><a class="dropdown-item"
+                                                href="listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{
+                                                $subcategory->subcategory }}</a></li>
+                                    </ul> --}}
+                                </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                        @endforeach
 
 
-   <div class="row align-items-center menu-row pt-2 pt-md-0">
+                    </ul>
+                </div>
+            </nav>
+        </div>
 
-
-       <div class="col-xl-8">
-           <nav class="navbar navbar-expand-lg navbar-light px-0">
-               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
-                   aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                   <span class="navbar-toggler-icon"></span>
-               </button>
-               <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                   <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                       @foreach ($categories as $category)
-                       <li class="nav-item dropdown">
-                           <a class="nav-link dropdown-toggle" href="/listing/{{ $category->slug }}"
-                               id="navbarDropdownMenuLink{{ $category->id }}" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">
-                               {{ $category->category }}
-                           </a>
-                           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink{{ $category->id }}">
-                               @foreach ($category->subcategories as $subcategory)
-                               <li class="dropdown-submenu">
-                                   <a class="dropdown-item dropdown-toggle"
-                                       href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{
-                                       $subcategory->subcategory }}</a>
-                                   {{-- <ul class="dropdown-menu last-menu">
-                                       <li><a class="dropdown-item"
-                                               href="listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{
-                                               $subcategory->subcategory }}</a></li>
-                                   </ul> --}}
-                               </li>
-                               @endforeach
-                           </ul>
-                       </li>
-                       @endforeach
-
-
-                   </ul>
-               </div>
-           </nav>
-       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-       <div class="col-xl-4 text-right right-menu mt-2">
-           <a href="#" class="project">Projects</a>
-           <a href="#" class="bundles">Bundles</a>
-       </div>
-   </div>
+        <div class="col-xl-4 text-right right-menu mt-2">
+            <a href="#" class="project">Projects</a>
+            <a href="#" class="bundles">Bundles</a>
+        </div>
+    </div>
 </section>
 <script>
-   $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
+    $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
        if (!$(this).next().hasClass('show')) {
            $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
        }
        var $subMenu = $(this).next(".dropdown-menu");
        $subMenu.toggleClass('show');
-
-
-
-
        $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
            $('.dropdown-submenu .show').removeClass("show");
        });
 
 
-
-
        return false;
    });
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 <script>
-   $(document).ready(function() {
+    $(document).ready(function() {
        var header = $(".header-container");
        var offset = header.offset().top;
 
@@ -975,25 +830,7 @@ if (Auth::check()) {
    });
 </script>
 <script>
-   // $(document).ready(function () {
-   //     $(".accordion-button").click(function () {
-   //         // Find the parent accordion item
-   //         var parent = $(this).closest(".accordion-item");
-
-
-   //         // Check if it's already collapsed
-   //         if (parent.hasClass("collapsed")) {
-   //             // Collapse all accordion items
-   //             $(".accordion-item").addClass("collapsed");
-   //             // Expand the clicked item
-   //             parent.removeClass("collapsed");
-   //         } else {
-   //             // Toggle the collapse state of the clicked item
-   //             parent.toggleClass("collapsed");
-   //         }
-   //     });
-   // });
-   const accordionItems = document.querySelectorAll('.accordion-item');
+    const accordionItems = document.querySelectorAll('.accordion-item');
 
 
    accordionItems.forEach((item) => {
@@ -1017,13 +854,16 @@ if (Auth::check()) {
   
 </script>
 <script>
-   document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        debugger;
        const signUpModal = new bootstrap.Modal(document.getElementById('signup-modal'));
        const loginModal = new bootstrap.Modal(document.getElementById('login-modal'));
 
+       console.log(signUpModal,)
+
 
        // Show Log In modal on Sign Up modal "Log In" button click
-       document.getElementById('login-link').addEventListener('click', function() {
+       document.getElementById('login-modal').addEventListener('click', function() {
            signUpModal.hide();
            loginModal.show();
        });
@@ -1045,14 +885,3 @@ if (Auth::check()) {
        @endif
    });
 </script>
-
-
-
-
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> -->
-
-
-
-
-<!-- menu section End -->
-
