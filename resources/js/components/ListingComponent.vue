@@ -61,9 +61,10 @@
         <div class="company-details">
           <h3>{{ company.name }}</h3>
           <p>{{ company.tagline }}</p>
-          <p v-if="company.avg_review_score">
-        <span class="rating">{{ company.avg_review_score.toFixed(1) }}</span> ★
-        <span>{{ company.reviews_count }} Reviews</span>
+          <p v-if="company.company_review">
+       
+         ★
+        <span>{{ company.company_review.length }} Reviews</span>
         <a :href="`/company/${company.id}/getReview`" class="write-review-link">Write a Review</a>
       </p>
       <p v-else>
