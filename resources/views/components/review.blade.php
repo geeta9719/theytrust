@@ -21,7 +21,15 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
             <h4 class="sidebar"><i style="font-size:24px" class="fa">&#xf27b;</i> Reviewed By</h4>
             <div class="d-lg-flex userbox">
                 <div class="d-lg-flex user-img">
-                    <img src="{{ $review['user_image'] ?? asset('img/black-image.png') }}" alt=""
+                    @php
+                    $avatarUrl = $review->user->avatar ??
+                    "https://theytrust-us.developmentserver.info/front_components/images/logo.png";
+                    if (!Str::startsWith($avatarUrl, ['http://', 'https://'])) {
+                    $avatarUrl = url($avatarUrl);
+                 }
+ 
+             @endphp
+                       <img src={{ $avatarUrl }} alt=""
                         class="img-fluid d-md-inline d-table mx-auto">
                     <div class="user-name sidebarheading userboxes text-center text-md-left">
                         <h3>{{ $review->fullname }}</h3>

@@ -75,7 +75,13 @@
                                 class="img-fluid d-md-inline d-table mx-auto">
                             <div class="user-name text-center text-md-left">
                                 <!-- <h2>{{ $review->fullname }}</h2> -->
-                                <h3 class="companyname"> {{ $review->company_name }} </h3>
+                            
+                                 <h2>
+                                 <a href="{{ url('profile/' . $review->company_id) }}">
+                                    {{ ucfirst(strtolower($review->company_name)) }}
+
+                                </a>
+                            </h2>
                             </div>
                         </div>
                         <!-- <div class="text-center text-md-left reviewrate">
