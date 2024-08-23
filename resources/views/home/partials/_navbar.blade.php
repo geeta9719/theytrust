@@ -12,151 +12,6 @@ if (Auth::check()) {
    $cd = Company::select('*')->where('user_id', '=', $uid)->first();
 }
 ?>
-<!-- <style>
-   .modal-body {
-       padding: 40px;
-   }
-.linkdinbox{
-    background-color:#2a7aed;
-    padding:10px;
-    color:#fff;
-}
-.form-group {
-    margin: 0 10px 1rem 10px;
-   
-}
-   .sign-in-btn button {
-       background: #ffff !important;
-       color: #aaa;
-       font-size: 16px;
-       font-weight: 500;
-
-
-       text-align: center;
-       line-height: 19px;
-       border: 0;
-
-
-   }
-   .modal-header{
-    border:0;
-   }
-
-   .modal-dialog {
-       max-width: 516px;
-       margin: 1.75rem auto;
-   }
-
-
-   .modal-title {
-    margin-bottom: 0;
-    line-height: 1.5;
-    font-weight: bold;
-    color: #000000 !important;
-    font-size: 21px;
-   }
-.form-check-label a{
-    color:#399be6!important;
-    font-size:16px!important;
-}
-.form-check-label p{
-    color:#000!important;
-    font-size:16px!important;
-}
-
-   .my-header .modal-body a {
-       color: #fff;
-       font-size: 16px;
-       font-weight: 500;
-       margin: 0 7px !important;
-       text-align: center;
-       line-height: 19px;
-       text-decoration: underline;
-   }
-
-
-   .modal-body button {
-       background: #00bdd6;
-       border: 0;
-       padding: 5px;
-       border-radius: 22px;
-       width: 31%;
-       margin-bottom: 23px;
-       color: #fff;
-       font-size:17px!important;
-   }
-
-   .my-header .modal-body {
-    padding: 12px;
-}
-
-.input-group-text {
-   
-    background-color: #ffffff;
-    border: 0;
- 
-}
-
-
-   .accordion {
-       margin: 0 auto;
-   }
-
-
-   .accordion-item {
-       margin-bottom: 5px;
-   }
-
-
-   .accordion-header {
-       cursor: pointer;
-   }
-
-
-   .accordion-content {
-       display: none;
-   }
-
-
-   .accordion-toggle {
-       font-size: 20px !important;
-       border: none !important;
-       background: none !important;
-       color: #fff !important;
-
-
-   }
-   .linkdinbox a{
-    color:#fff!important;
-   }
-   .afterlinkdin h3{
-     
-     font-size: 17px;
-    font-weight: 600;
-    margin: 32px 0 24px 0;
-    padding: 0;
-    text-align: left;
-}
-.afterlinkdin hr{
-    color: #828893;
-    margin-top: -12px;
-   }
-   .afterlinkdin span{
-    margin-top: -12px;
-    background-color: #fff;
-    padding: 0 14px;
-   }
-   #login-form button{
-    width: 100%;
-    border-radius: inherit;
-   }
-   .my-header label {
-    display: inline-block;
-    margin-bottom: .5rem;
-    color: #000;
-    font-weight: 600;
-}
-</style> -->
 <link
     href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
@@ -356,12 +211,6 @@ if (Auth::check()) {
                        </li>
                        @endif
                    </ul>
-
-
-
-
-
-
                </div>
                <div class="right-section d-lg-none d-xl-flex">
                    <div class="input-group">
@@ -424,17 +273,6 @@ if (Auth::check()) {
                 <a href="#" class="posta">Post a Project</a>
                 <a href="#" class="review-btn">Review a Business</a>
             </div>
-            <!-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i>Sign In</a>  -->
-
-
-            {{-- <a href="#" class="sign-in-btn"><i class="fa fa-user" aria-hidden="true"></i><button type="button"
-                    class="
-           " data-toggle="modal" data-target="#firstModal">
-                    <span> Sign in</span>
-                </button></a> --}}
-
-
-            <!-- First Modal -->
 
 
             @if (!Auth::check())
@@ -559,28 +397,6 @@ if (Auth::check()) {
                                         Up</a></span>
                             </div>
                         </div>
-
-
-                        <!-- <div class="form-group">
-                               <label for="email">Email address</label>
-                               <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
-                           </div> -->
-                        <!-- Password Input -->
-                        <!-- <div class="form-group">
-                               <label for="password">Password</label>
-                               <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                           </div> -->
-                        <!-- Remember Me Checkbox -->
-                        <!-- <div class="form-group form-check">
-                               <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
-                               <label class="form-check-label" for="rememberMe"><p>By signing up, I agree with the <a href="">Terms</a> of Use &  <a href="">Privacy Policy</a></p></label>
-                           </div> -->
-                        <!-- Submit Button -->
-                        <!-- <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-                       </form>
-                       <div class="text-center">
-                      <span>Already have an account? <a href="#" data-toggle="modal" class="mt-5" id="signup-link" data-target="#signup-modal" data-dismiss="modal">Sign Up</a></span>
-                      </div> -->
                     </div>
                 </div>
             </div>
@@ -706,10 +522,7 @@ if (Auth::check()) {
     </div>
     <hr class="mb-0">
 
-
     <div class="row align-items-center menu-row pt-2 pt-md-0">
-
-
         <div class="col-xl-8">
             <nav class="navbar navbar-expand-lg navbar-light px-0">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
@@ -720,50 +533,38 @@ if (Auth::check()) {
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         @foreach ($categories as $category)
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="/listing/{{ $category->slug }}"
-                                id="navbarDropdownMenuLink{{ $category->id }}" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $category->id }}"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ $category->category }}
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink{{ $category->id }}">
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
                                 @foreach ($category->subcategories as $subcategory)
-                                <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle"
-                                        href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{
-                                        $subcategory->subcategory }}</a>
-                                    {{-- <ul class="dropdown-menu last-menu">
-                                        <li><a class="dropdown-item"
-                                                href="listing/{{ $category->slug }}/{{ $subcategory->slug }}">{{
-                                                $subcategory->subcategory }}</a></li>
-                                    </ul> --}}
-                                </li>
+                                <a class="dropdown-item" href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}">
+                                    {{ $subcategory->subcategory }}
+                                </a>
                                 @endforeach
-                            </ul>
+                            </div>
                         </li>
                         @endforeach
-
-
                     </ul>
                 </div>
             </nav>
         </div>
-
         <div class="col-xl-4 text-right right-menu mt-2">
             <a href="#" class="project">Projects</a>
             <a href="#" class="bundles">Bundles</a>
         </div>
     </div>
+
+
+
+
+
+    </ul>
+    </div>
+    </nav>
+    </div>
 </section>
-<!-- Bootstrap CSS -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
-{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 <script>
     $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
        if (!$(this).next().hasClass('show')) {
@@ -779,7 +580,15 @@ if (Auth::check()) {
        return false;
    });
 </script>
+
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+<!-- jQuery CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Plugin that adds the force_appear method (Example: jQuery Appear Plugin) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.appear/0.4.1/jquery.appear.min.js"></script>
+
+
 <script>
     $(document).ready(function() {
        var header = $(".header-container");
