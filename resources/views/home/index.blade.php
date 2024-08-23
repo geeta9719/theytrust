@@ -74,11 +74,11 @@
                             <img src="{{ asset($review->company->logo) ?? asset('img/black-image.png') }}" alt=""
                                 class="img-fluid d-md-inline d-table mx-auto">
                             <div class="user-name text-center text-md-left">
-                                <!-- <h2>{{ $review->fullname }}</h2> -->
+                            
                             
                                  <h2>
-                                 <a href="{{ url('profile/' . $review->company_id) }}">
-                                    {{ ucfirst(strtolower($review->company_name)) }}
+                                 <a href="{{ url('profile/' . $review->company->id) }}">
+                                    {{ ucwords(strtolower($review->company->name)) }}
 
                                 </a>
                             </h2>
