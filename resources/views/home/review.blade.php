@@ -60,7 +60,7 @@
                                 <img src="https://theytrust-us.developmentserver.info/storage/images/logo/JPs1fNEQ5UCGh1xu2NqD54a4QIlN4BIErWAy9NF0.png" alt="" class="img-fluid">
                             </div>
                             <div class="col-md-8 mt-2 mt-md-0">
-                                <h2>Reviews for Agency Name</h2>
+                                <h2>{{ $reviews[0]->company->name }}</h2>
                                 <div class="d-flex mt-3 writereview">
                             <h3>3.5 </h3>
                             <div class="px-3 starbox"><i class="fa fa-star bluestar"></i>
@@ -70,15 +70,14 @@
                                 <i class="fa fa-star-o bluestar"></i>
                             </div>
                             <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank" class="mr-2 reviewuppercase">
-                                1 REVIEWS
+                                {{  $reviews->count() }} REVIEWS
                             </a>
-                            <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank" class="write">
+                            <a href="/company/{{ $reviews[0]->company->id }}/getReview" target="_blank" class="write">
                                 Write a Review
                             </a>
+                            
                         </div>
-                                <!-- <h3>Agency Tag Line</h3>
-                                <p> <span> $50-100/hr</span> <span>50-200 Employees</span>
-                                    <span>$1000</span></p> -->
+        
                             </div>
                         </div>
                     </div>
