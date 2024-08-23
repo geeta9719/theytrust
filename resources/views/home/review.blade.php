@@ -12,6 +12,12 @@
     <script src="{{ asset('portfolioimage/js/jquery.js') }}"></script>
     <script src="{{ asset('portfolioimage/js/tab.js') }}"></script>
     <style>
+        .starbox{
+            margin-top:-8px;
+        }
+        .topsec h3{
+            margin-top:-2px;
+        }
         .short-description {
             overflow: hidden;
             display: -webkit-box;
@@ -29,15 +35,70 @@
             -webkit-line-clamp: unset;
             max-height: none;
         }
+        .reviewuppercase{
+            color:#000;
+        }
+        .writereview{
+            align-items: baseline;
+        }
+        .write{
+            text-decoration:underline;
+        }
+        
     </style>
 </head>
 
 <body>
     <div class="container portfolio">
         <div class="row">
+            
             <div class="col-lg-12 shadow bg-white py-3">
-                
-                <div class="container mt-5 reviews-sec greybox">
+            <div class="row topsec">
+                    <div class="col-md-7">
+                        <div class="row text-center text-md-left">
+                            <div class="col-md-3 ">
+                                <img src="https://theytrust-us.developmentserver.info/storage/images/logo/JPs1fNEQ5UCGh1xu2NqD54a4QIlN4BIErWAy9NF0.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-8 mt-2 mt-md-0">
+                                <h2>Reviews for Agency Name</h2>
+                                <div class="d-flex mt-3 writereview">
+                            <h3>3.5 </h3>
+                            <div class="px-3 starbox"><i class="fa fa-star bluestar"></i>
+                                <i class="fa fa-star bluestar"></i>
+                                <i class="fa fa-star bluestar"></i>
+                                <i class="fa fa-star-half-o bluestar"></i>
+                                <i class="fa fa-star-o bluestar"></i>
+                            </div>
+                            <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank" class="mr-2 reviewuppercase">
+                                1 REVIEWS
+                            </a>
+                            <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank" class="write">
+                                Write a Review
+                            </a>
+                        </div>
+                                <!-- <h3>Agency Tag Line</h3>
+                                <p> <span> $50-100/hr</span> <span>50-200 Employees</span>
+                                    <span>$1000</span></p> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 text-md-right">
+                        <div class="reviews-row text-center ">
+                            <!-- <h3>3.5 </h3>
+                            <div class="px-3"><i class="fa fa-star bluestar"></i>
+                                <i class="fa fa-star bluestar"></i>
+                                <i class="fa fa-star bluestar"></i>
+                                <i class="fa fa-star-half-o bluestar"></i>
+                                <i class="fa fa-star-o bluestar"></i>
+                            </div>
+                            <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank" class="">
+                                <h3>1 REVIEWS</h3>
+                            </a> -->
+                            <img src="https://theytrust-us.developmentserver.info/front_components/images/score.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+                <div class="container mt-1 reviews-sec greybox">
                     <h2 class="my-heading"> Reviews </h2>
                     @foreach ($reviews as $review)
                         <x-review :review="$review" />
