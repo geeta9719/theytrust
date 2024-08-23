@@ -401,7 +401,13 @@ public function dashboard(Request $request, $company)
         }
 
         $company = Company::where('user_id', $request->user_id)->first();
-        return redirect()->route('company.location', $company->id);
+        if ($request->has('save_and_back')) {
+            return redirect()->route('company.dashboard', $company->id); // Redirect to the company dashboard
+
+        } else {
+            return redirect()->route('company.location', $company->id);
+        }
+    
     }
 
     public function location(Request $request, $company)
@@ -456,7 +462,14 @@ public function dashboard(Request $request, $company)
             }
         }
 
-        return redirect()->route('company.focus', $company->id);
+
+        if ($request->has('save_and_back')) {
+            return redirect()->route('company.dashboard', $company->id); // Redirect to the company dashboard
+
+        } else {
+            return redirect()->route('company.focus', $company->id);
+        }
+    
     }
 
     // public function focus( Request $request, $company )
@@ -821,7 +834,13 @@ public function dashboard(Request $request, $company)
         }
 
         session()->flash('msg', 'Saved Successfully');
-        return redirect()->route('plans', $request->company_id);
+
+        if ($request->has('save_and_back')) {
+            return redirect()->route('company.dashboard', $request->company_id); // Redirect to the company dashboard
+
+        } else {
+            return redirect()->route('plans', $request->company_id);
+        }
     }
 
 

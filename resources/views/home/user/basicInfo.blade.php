@@ -306,8 +306,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 text-center btnbasic"> <button type="button"
-                                    class="btn btn-sm btn-primary" onclick="checkValue()">Next</button></div>
+                            <div class="col-md-12 text-center btnbasic">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="checkValue()">Next</button>
+                                <button type="button" class="btn btn-sm btn-secondary" onclick="saveAndBack()">Save and Back</button>
+                            </div>
+                            
+                                    
                     </form>
 
                 </div>
@@ -440,5 +444,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
+ document.addEventListener('DOMContentLoaded', function() {
+    // Existing code...
+
+    window.saveAndBack = function() {
+        // Add a hidden input to indicate "save and back" action
+        const form = document.getElementById('basicAdd');
+        const saveBackInput = document.createElement('input');
+        saveBackInput.type = 'hidden';
+        saveBackInput.name = 'save_and_back';
+        saveBackInput.value = '1';
+        form.appendChild(saveBackInput);
+
+        // Submit the form
+        checkValue();
+    }
+})
     </script>
 @endsection

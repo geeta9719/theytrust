@@ -73,7 +73,11 @@ $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
                         </div>
                     </div>
                     <a href="{{route('company.focus',$company->id)}}" class="btn btn-sm btn-primary"> < </a>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="checkValue()">Save</button>
+                    <div class="col-md-12 text-center btnbasic">
+                        <button type="button" class="btn btn-sm btn-primary" onclick="checkValue()">Next</button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="saveAndBack()">Save and Back</button>
+                    </div>
+                    
                 </form>
             </div>
         </div>
@@ -114,7 +118,24 @@ $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
                 }
             });
         }
-    });    
+    });   
+
+     document.addEventListener('DOMContentLoaded', function() {
+    // Existing code...
+
+    window.saveAndBack = function() {
+        // Add a hidden input to indicate "save and back" action
+        const form = document.getElementById('marketing');
+        const saveBackInput = document.createElement('input');
+        saveBackInput.type = 'hidden';
+        saveBackInput.name = 'save_and_back';
+        saveBackInput.value = '1';
+        form.appendChild(saveBackInput);
+
+        // Submit the form
+        checkValue();
+    }
+}); 
 
 </script>
 @endsection    
