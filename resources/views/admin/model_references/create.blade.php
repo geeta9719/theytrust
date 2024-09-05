@@ -67,7 +67,6 @@
             @foreach($modelReferences as $reference)
                 <tr>
                     <td class="py-2 px-4 border-b">{{ ucfirst($reference->model_name) }}</td>
-                    {{-- <td class="py-2 px-4 border-b">{{ $reference->foreign_key_id }}</td> --}}
                     <td class="py-2 px-4 border-b">{{ $reference->foreign_key_name }}</td>
                     <td class="py-2 px-4 border-b">{{ $reference->company->name }}</td>
                 </tr>

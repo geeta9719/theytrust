@@ -27,6 +27,8 @@ use App\Models\ReviewerEmailLog;
 use Rennokki\Plans\Models\PlanModel;
 use App\Models\ModelReference;
 use App\Models\Skill;
+use App\Models\ServiceProvider;
+
 
 
 
@@ -731,6 +733,7 @@ function drawChart() {
 
         if( $request->form == 'form2' )
         {
+            // dd($request->form);
             if($request->company_position == '')
             {
                 $data['company_position'] = 'It should not be empty';
@@ -1047,6 +1050,7 @@ function drawChart() {
 
         $data['company'] = Company::find($company);
         $data['category'] = Category::All();
+        $data['serviceproviders'] = ServiceProvider::All();
 
         //$data['size'] = Size::pluck('size','id')->all();
 
@@ -1106,7 +1110,7 @@ function drawChart() {
 
         $inputs['company_position']         = $request->company_position;
         $inputs['for_what_project']         = $request->for_what_project;
-        $inputs['how_select']               = $request->how_select;
+        // $inputs['how_select']               = $request->how_select;
         $inputs['scope_of_work']            = $request->scope_of_work;
         $inputs['team_composition']         = $request->team_composition;
         $inputs['any_outcomes']             = $request->any_outcome;
@@ -1156,6 +1160,14 @@ function drawChart() {
         $inputs['linkedin_url']             = $request->linkedin_url;
         $inputs['company_url']              = $request->company_url;
         $inputs['published']   = 0;
+
+         $howSelectIds = $request->input('how_select', []);  // how_select[] should be an array
+
+    // Retrieve service provider names by their IDs
+    $serviceProviders = ServiceProvider::whereIn('id', $howSelectIds)->pluck('name');
+
+    // Convert service names to a comma-separated string (you can store them as you need)
+    $inputs['how_select'] = $serviceProviders->implode(', '); 
 
         CompanyReview::create( $inputs );
 

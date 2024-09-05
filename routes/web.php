@@ -31,6 +31,8 @@ use App\Http\Controllers\PlanSubscriptionController;
 use App\Http\Controllers\PaymentContorller;
 use App\Http\Controllers\PortfolioItemController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ServiceProviderController;
+
 
 // use App\Http\Controllers\CompanyController;
 
@@ -215,7 +217,6 @@ Route::middleware('auth')->group(function(){
         Route::get( '/admin/company/{company_id}/focus', [ AddCompany::class, 'add_company_focus'] )->name( 'admin.company.focus' );
 
         Route::post('/admin/company/save-focus', [AddCompany::class, 'save_company_focus'])->name('admin.company.savefocus');
-        // Route::post('/admin/company/save-Service', [AddCompany::class, 'save_company_service'])->name('admin.company.savefocus');
 
         Route::get('/admin/company/{company_id}/admin-info', [AddCompany::class, 'add_admin_info'] )->name('admin.company.admininfo');
         Route::post('/admin/company/save-admin-info', [AddCompany::class, 'save_company_admin_info'] )->name('admin.company.save-admininfo');
@@ -237,12 +238,15 @@ Route::middleware('auth')->group(function(){
 ///////skill controller/////
 
 
+
 Route::get('admin/skills/index', [SkillCategoryController::class, 'index'])->name('admin.skills.index');
 Route::get('admin/skills/create', [SkillCategoryController::class, 'create'])->name('admin.skills.create');
 Route::get('admin/skills/{id}/edit', [SkillCategoryController::class, 'edit'])->name('admin.skills.edit');
 Route::post('/admin/skills', [SkillCategoryController::class, 'store'])->name('admin.skills.store');
 Route::put('admin/skills/{id}', [SkillCategoryController::class, 'update'])->name('admin.skills.update');
 Route::delete('/admin/skills/{skill}', [SkillCategoryController::class, 'destroy'])->name('admin.skills.destroy');
+
+
 
 
 
@@ -336,6 +340,12 @@ Route::post('admin/model-references', [ModelReferenceController::class, 'store']
 
 
 });
+Route::get('admin/service-provider/search', [ServiceProviderController::class, 'search'])->name('admin.service-provider.search');
+Route::post('admin/service-provider', [ServiceProviderController::class, 'store1'])->name('admin.service-provider.store1');
+Route::resource('admin/service-provider', ServiceProviderController::class,[
+    'as' => 'admin'
+]);
+
 
 Route::get('/subscribe/{plan}/{user}', [PaymentContorller::class, 'subscribeToPlan']);
 Route::post('/company/save-Service/{id}', [AddCompany::class, 'save_company_service'])->name('company.savefocus');

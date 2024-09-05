@@ -211,6 +211,21 @@
     .btn:hover {
         background-color: #D32F2F !important
     }
+    .tag-label {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 2px 10px;
+    margin-right: 5px;
+    border-radius: 3px;
+    font-size: 0.875em;
+}
+
+.tag-label .remove-tag {
+    margin-left: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
 </style>
 <section class="container-fluid signin-banner animatedParent hero-section ">
     <div class="container ">
@@ -273,6 +288,7 @@
                             <div class="invalid-feedback project_title rmvCls"></div>
 
                         </div>
+
 
 
                         <div class="form-group">
@@ -394,11 +410,12 @@
                             <div class="form-group ">
                                 <label for="how_select">What services did you receive from <b>{{$company->name}}? <b>  for eg. Digital Marketing, Web design, Mobile App development)
                                 </label><strong style="color: red;"> *</strong>
-                                <textarea class="form-control rmvId" id="how_select" name="how_select" required></textarea>
-                                <div class="invalid-feedback how_select rmvCls"></div>
+                                <select id="how_select" name="how_select[]" class="form-control" multiple="multiple"></select>
+                                <span class="error-message">Please enter 2 or more characters</span>
                             </div>
 
-                          
+                            
+                            {{-- <input type="text" id="how_select" class="form-control" placeholder="Type to search or create a tag"> --}}
 
                             <div class="form-group pt-4">
                                 
@@ -735,6 +752,15 @@
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
 
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+
+
 <script type="text/javascript">
 
     $("#country").change( function () {
@@ -867,6 +893,85 @@
             $("." + name).text(sim);
         }
     });
+    $(document).ready(function() {
+    // Initialize Select2 with AJAX search and tag creation functionality
+    $("#how_select").select2({
+      tags: true, // Allow new tags to be created
+      placeholder: "Type to search or create a tag",
+      minimumInputLength: 2, // Start searching after 2 characters
+      multiple: true, // Enable multiple selections
+      ajax: {
+        url: "{{ route('admin.service-provider.search') }}", // URL for fetching existing tags
+        dataType: 'json',
+        delay: 250, // Delay to prevent too many requests
+        data: function(params) {
+          return {
+            q: params.term // Send the search term to the server
+          };
+        },
+        processResults: function(data) {
+          return {
+            results: $.map(data, function(item) {
+              return {
+                id: item.id,
+                text: item.name
+              };
+            })
+          };
+        },
+        cache: true
+      },
+      createTag: function(params) {
+        var term = $.trim(params.term);
+
+        if (term === '') {
+          return null;
+        }
+
+        return {
+          id: term, // Temporary ID before it's saved on the server
+          text: term,
+          newTag: true // Mark it as a new tag
+        };
+      }
+    }).on('select2:select', function(e) {
+      var data = e.params.data;
+
+      if (data.newTag) {
+        // If it's a new tag, send it to the server
+        $.ajax({
+          url: "{{ route('admin.service-provider.store') }}", // URL to create a new tag
+          type: 'POST',
+          data: {
+            name: data.text, // The new tag name
+            _token: '{{ csrf_token() }}' // CSRF token for security
+          },
+          success: function(response) {
+            console.log(response);
+            // Replace the temporary ID with the real ID from the server
+            var newOption = new Option(response.name, response.id, true, true);
+            $('#how_select').find('option[value="' + data.id + '"]').remove(); // Remove the temporary option
+            $('#how_select').append(newOption).trigger('change'); // Add the new option with the correct ID
+          },
+          error: function(xhr, status, error) {
+            console.error("Tag creation failed: ", error);
+          }
+        });
+      }
+    });
+
+    // Handle removing tags correctly
+    $('#how_select').on('select2:unselect', function(e) {
+        
+      var data = e.params.data;
+
+      // Remove only the selected option
+      $('#how_select option[value="' + data.id + '"]').remove();
+    });
+});
+
 </script>
+</script>
+
 
 @endsection

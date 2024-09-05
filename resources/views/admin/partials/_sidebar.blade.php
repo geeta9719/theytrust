@@ -276,6 +276,31 @@
                       </a>
                   </li>
               </ul>
+              @if(request()->is('admin/service-provider*'))
+              @php $a = 'menu-open' @endphp
+            @else
+              @php $a = '' @endphp
+            @endif
+            <li class="nav-item {{ $a }} see" id="se7" onclick="hideShow('7')">
+                <a href="#" class="nav-link active se">
+                    <i class="nav-icon fas fa-briefcase"></i>
+                    <p>Service Providers<i class="right fas fa-angle-left"></i></p>
+                </a>
+                <ul class="nav nav-treeview me" id="me7">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.service-provider.index') }}" class="nav-link {{ request()->is('admin/service-provider') ? 'active act' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Service Providers List</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.service-provider.create') }}" class="nav-link {{ request()->is('admin/service-provider/create') ? 'active act' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Add Service Provider</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
               {{-- <ul class="nav nav-treeview me" id="me7">
                 <li class="nav-item">
