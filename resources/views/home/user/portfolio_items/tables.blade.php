@@ -31,11 +31,11 @@
                 <td>{{ $item->project_title }}</td>
                 <td>{{ $item->country_location }}</td>
                 <td>{{ $item->engagement_start_date->format('M Y') }} - {{ $item->engagement_end_date ? $item->engagement_end_date->format('M Y') : 'Ongoing' }}</td>
-                <td>
+                {{-- <td> --}}
                     <td class="handle" style="cursor: grab;">
                         <i class="fas fa-bars"></i> Drag here
                     </td>
-                </td>
+                {{-- </td> --}}
                 <td>
                     <a href="{{ route('portfolio_items.edit', $item->id) }}" class="btn btn-warning btn-sm">
                         <i class="fas fa-edit"></i>
