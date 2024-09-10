@@ -1,5 +1,166 @@
+<style>
+
+.filter-section h2{
+    background-color: #ece4fa;
+    color: #000;
+     font-size: 17px;
+    font-weight: 700;
+font-family: "Epilogue", sans-serif;
+    padding: 7px 11px;
+}
+.filters select {
+   font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+       
+}
+select {
+    -webkit-appearance: auto!important;
+    -moz-appearance: auto!important;
+    text-indent: 1px;
+ 
+}
+ .company-description-box{
+ border-right:1px solid #ccc;
+ }
+.btn-wrap{
+  width:100%;
+  text-align:right
+}
+.company-details h3{
+    font-size: 24px !important;
+    font-weight: 700;
+    color: #171a1f !important;
+    text-transform: capitalize;
+    font-family: "Epilogue", sans-serif;
+}
+ .btn-wrap button:hover {
+    background-color: #dee1e6;
+    color:#000;
+}
+.rate {
+    background: url(https://theytrust-us.developmentserver.info/img/star.png) no-repeat left center;
+    
+}
+.dollar {
+    background: url(https://theytrust-us.developmentserver.info/img/dollar.png) no-repeat left center;
+    
+}
+
+
+.indust {
+    background: url(https://theytrust-us.developmentserver.info/img/zig.png) no-repeat left center;
+    
+}
+
+
+
+
+.btn-wrap button {
+    background-color: #dee1e6;
+    color: #000;
+}
+
+.smallselect {
+height: 35px;
+    width: 70px;
+    background-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0 0px 0 18px;
+    background-position-x: 3px;
+    background-color:#fff;}
+
+.bigselect {
+height: 35px;
+    width: 188px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0 0px 0 18px;
+    text-indent: 4px;
+
+}
+.logobox{
+display:block;}
+
+
+.logobox .buttons {
+
+    display: grid;
+ 
+}
+.write-box{
+    text-align: right;
+    padding-right: 41px;}
+.service-box{
+display:flex;}
+.write-review-link{
+        margin-top: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 12px;
+    color: #379ae6 !important;
+    text-decoration: underline;
+    display: block;
+}
+.company-description{
+margin-bottom:40px;}
+
+
+
+@media (max-width: 767px) {
+.company-header {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+.company-description-box{
+border:0;}
+.company-details{
+border:0!important;}
+.company-description {
+    margin-bottom: 0;
+}
+
+.smallselect {
+padding: 0;
+    width: 100%;
+   
+    margin-top: 17px;
+}
+.bigselect{
+padding: 0;
+    width: 100%;
+   
+    margin-top: 17px;
+}
+
+
+
+.logobox {
+    display: block;
+            text-align: center;
+}
+.service-box {
+    display: flex;
+    flex-direction: column;
+}
+}
+
+
+
+
+
+
+
+</style>
+
+
 <template>
-  <div class="category-page">
+
+
+  <div class="category-page ">
+  
     <nav class="breadcrumb">
       <a href="#" @click.prevent="resetFilters">Home</a>
       <span v-if="selectedCategory"> / </span>
@@ -7,61 +168,78 @@
       <span v-if="selectedSubcategory"> / </span>
       <a href="#" v-if="selectedSubcategory" @click.prevent="selectSubcategory(selectedSubcategory.id)">{{ selectedSubcategory.subcategory }}</a>
     </nav>
+    <div class="container">
     <h1>{{ pageTitle }}</h1>
     <p>
       <template v-for="category in categories" :key="category.id">
         <a href="#" @click.prevent="selectCategory(category.id)">{{ category.category }}</a><span v-if="categories.indexOf(category) < categories.length - 1"> | </span>
       </template>
     </p>
+
+
+
+
     <div class="filter-section">
       <h2>Discover the Globe's Best (Title of the page)</h2>
       <div class="filters">
-        <div class="location-search">
-          <input type="text" placeholder="Search Location" v-model="searchLocation" @input="debouncedFetchLocations" />
+        
+          <input type="text"  class="bigselect"  placeholder="Search Location" v-model="searchLocation" @input="debouncedFetchLocations" />
           <ul v-if="locations.length" class="location-suggestions">
             <li v-for="location in locations" :key="location.id" @click="selectLocation(location)">
               {{ location.city }}
             </li>
           </ul>
-        </div>
-        <select v-model="selectedSubcategoryId" @change="onSubcategoryChange">
+      
+        <select class="bigselect" v-model="selectedSubcategoryId" @change="onSubcategoryChange">
           <option value="">Select Subcategory</option>
           <option v-for="subcategory in subcategories" :key="subcategory.id" :value="subcategory.id">{{ subcategory.subcategory }}</option>
         </select>
-        <select v-model="selectedSkillId" @change="onSkillChange">
+        <select class="bigselect" v-model="selectedSkillId" @change="onSkillChange">
           <option value="">Select Skill</option>
           <option v-for="skill in skills" :key="skill.id" :value="skill.id">{{ skill.name }}</option>
         </select>
-        <select v-model="selectedDeepSkillId" @change="onDeepSkillChange">
-          <option value="">Select Deep Skill</option>
+        <select class="bigselect" v-model="selectedDeepSkillId" @change="onDeepSkillChange">
+          <option value="">Deep Skill</option>
           <option v-for="deepSkill in deepSkills" :key="deepSkill.id" :value="deepSkill.id">{{ deepSkill.name }}</option>
         </select>
-        <select v-model="selectedBudgetId" @change="updateURL">
-          <option value="">Select Budget</option>
+        <select class="smallselect dollar" v-model="selectedBudgetId" @change="updateURL">
+        
           <option v-for="budget in budgets" :key="budget.id" :value="budget.id">{{ budget.budget }}</option>
         </select>
-        <select v-model="selectedRateId" @change="updateURL">
-          <option value="">Select Rate</option>
+        <select class="smallselect dollar " v-model="selectedRateId" @change="updateURL">
+     
           <option v-for="rate in rates" :key="rate.id" :value="rate.id">{{ rate.rate }}</option>
         </select>
-        <select v-model="selectedIndustryId" @change="updateURL">
-          <option value="">Select Industry</option>
+        <select class="smallselect indust" v-model="selectedIndustryId" @change="updateURL">
+         
           <option v-for="industry in industries" :key="industry.id" :value="industry.id">{{ industry.name }}</option>
         </select>
-        <select v-model="selectedRating" @change="updateURL">
-          <option value="">Select Rating</option>
+        <select class="smallselect rate" v-model="selectedRating" @change="updateURL">
+         
           <option v-for="n in 5" :key="n" :value="n">{{ n }} stars</option>
         </select>
-        <button @click="updateURL">Sort Results</button>
+        
       </div>
+     <div class="btn-wrap"> <button @click="updateURL">Sort Results</button></div>
     </div>
     <div v-if="companies.length" class="result-card" v-for="company in companies" :key="company.id">
       <div class="company-header">
+      <div class="logobox">
         <img :src="company.logo" alt="Logo" class="company-logo">
+          <div class="buttons">
+            <a :href="`/profile/${company.id}`" class="view-profile-btn">View Profile</a>
+            <button class="request-quote-btn">Request Quote</button>
+          </div>
+            </div>
         <div class="company-details">
-          <h3>{{ company.name }}</h3>
+
+<div class="row">
+<div class="col-md-8">
+ <h3>{{ company.name }}</h3>
           <p>{{ company.tagline }}</p>
-          <p v-if="company.company_review">
+</div>
+<div class="col-md-4 write-box">
+ <p v-if="company.company_review">
        
          ★
         <span>{{ company.company_review.length }} Reviews</span>
@@ -71,23 +249,36 @@
         No reviews yet
         <a :href="`/company/${company.id}/getReview`" class="write-review-link">Write a Review</a>
       </p>
-          <div class="buttons">
-            <a :href="`/profile/${company.id}`" class="view-profile-btn">View Profile</a>
-            <button class="request-quote-btn">Request Quote</button>
-          </div>
-          <p class="company-description">{{ company.short_description }}</p>
-        </div>
-      </div>
-      <div class="company-service-lines">
-        <h4>Target Service Areas</h4>
+       
+</div>
+</div>
+
+         
+       
+         
+         
+           <h4>Target Service Areas</h4>
+           <div class="service-box">
         <div class="service-line" v-for="serviceLine in company.service_lines" :key="serviceLine.id">
           <canvas :id="'canvas-' + serviceLine.id" width="50" height="50"></canvas>
           <div class="service-line-category">
             {{ serviceLine.category?.category || 'Category has been deleted' }}
           </div>
         </div>
+        </div>
+
+        </div>
       </div>
-      <div class="company-meta">
+     <div class="company-service-lines">
+
+
+     <div class="container">
+      <div class="row">
+     <div class="col-md-8 company-description-box">
+       <p class="company-description">{{ company.short_description }}</p>
+     </div>
+     <div class="col-md-4">
+       <div class="company-meta">
         <div class="meta-item">
           <span class="meta-title">Location</span>
           <span class="meta-value">{{ company.location }}</span>
@@ -105,6 +296,25 @@
           <span class="meta-value">{{ company.budget }}</span>
         </div>
       </div>
+     </div>
+     </div>
+     </div>
+        
+       
+
+
+
+
+
+
+
+
+
+
+
+       
+      </div>
+   
       <p class="company-full-description" :class="{ expanded: expandedDescriptions[company.id] }">
         {{ company.description }}
       </p>
@@ -112,6 +322,7 @@
         {{ expandedDescriptions[company.id] ? 'Show Less' : 'Show More' }}
       </button>
     </div>
+  </div>
   </div>
 </template>
 
@@ -555,21 +766,14 @@ p a:hover {
 }
 
 .filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    /* gap: 10px; */
+    justify-content: space-between;
+    align-items: center;
 }
 
-.filters input,
-.filters select {
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: calc(33.33% - 10px);
-  box-sizing: border-box;
-}
-
+ 
 .filters button {
   padding: 10px 15px;
   font-size: 14px;
@@ -584,10 +788,6 @@ p a:hover {
   background-color: #0056b3;
 }
 
-.location-search {
-  position: relative;
-  width: calc(33.33% - 10px);
-}
 
 .location-suggestions {
   position: absolute;
@@ -628,15 +828,35 @@ p a:hover {
   height: 100px;
   object-fit: cover;
 }
+.company-details .company-description{
+  border-top: 1px solid #ccc;
+   padding-top: 18px;
+     margin-top: 20px;
+}
+.company-details p{
+padding-left: 28px;}
+.company-details h3{
+padding-left: 28px;}
+.company-details h4{
+    padding-left: 28px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: "Epilogue", sans-serif;
+    border-top: 1px solid #ccc;
+    padding-top: 34px;
 
+}
+.company-details .service-line{
+padding-left: 28px;}
 .company-details {
   flex: 1;
+  border-left: 1px solid #ccc;
+    
 }
 
 .company-description,
 .company-full-description {
-  max-height: 4em; /* Limit to 2 lines */
-  overflow: hidden;
+
   text-overflow: ellipsis;
 }
 
@@ -668,15 +888,27 @@ p a:hover {
   gap: 10px;
   margin-top: 20px;
 }
+.meta-item{
+    display: flex;
+    margin: auto;
+    width: 100%;
+}
+.meta-title {
+     color: #00bdd6;
+    background-color: #ebfdff;
+    border-color: #00bdd6 !important;
+    border-radius: 5px;
+    padding: 3px 21px 3px 14px;
+    font-size: 14px;
+    margin-right: 5px;
+    font-weight: 500 !important;
+    border: 0;
+    border-radius: 18px;
+    font-family: "Epilogue", sans-serif;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
 
-.meta-item {
-  flex: 1 1 45%;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
 }
 
 .meta-title {
@@ -684,8 +916,9 @@ p a:hover {
 }
 
 .meta-value {
-  color: #007bff;
-  font-weight: bold;
+    color: #424448;
+    font-weight: 300;
+    font-size: 14px;
 }
 
 .buttons {
@@ -693,27 +926,30 @@ p a:hover {
   display: flex;
   gap: 10px;
 }
-
+.company-details .buttons {
+    padding-left: 28px;
+}
 .view-profile-btn,
 .request-quote-btn {
-  padding: 10px 15px;
+  padding: 6px 15px;
   font-size: 14px;
   color: #fff;
-  background-color: #007bff;
+  background-color: #00bdd6;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-align: center;
 }
 
 .view-profile-btn:hover,
 .request-quote-btn:hover {
-  background-color: #0056b3;
+  background-color: #00bdd6;
 }
 
 button {
   margin-top: 10px;
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: #00bdd6;
   color: #fff;
   border: none;
   border-radius: 5px;
