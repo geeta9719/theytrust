@@ -3,7 +3,7 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\Subcategory;
 // $categories = Category::where('top_cat', 1)->get();
-$categories = Category::with("subcategory")->where('top_cat', 1)->get();
+$categories = Category::with("subcategory",'subcategory.subcat_child')->where('top_cat', 1)->get();
 
 
 $cd = '';
@@ -12,6 +12,41 @@ if (Auth::check()) {
    $cd = Company::select('*')->where('user_id', '=', $uid)->first();
 }
 ?>
+<style>
+    /* Ensures the dropdown is hidden by default */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top:0%;
+    left: 100%;
+    z-index: 1000;
+    min-width: 10rem;
+}
+
+/* When hovering over the parent dropdown, show the menu */
+.nav-item:hover > .dropdown-menu {
+    display: block;
+}
+
+/* Sub-subcategory dropdown positioning */
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%; /* Sub-subcategories appear to the right of the parent */
+    margin-top: -1px;
+    display: none;
+}
+
+/* When hovering over the subcategory, show sub-subcategory */
+.dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+}
+
+
+    </style>
 <link
     href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
@@ -521,7 +556,6 @@ if (Auth::check()) {
     </div>
     </div>
     <hr class="mb-0">
-
     <div class="row align-items-center menu-row pt-2 pt-md-0">
         <div class="col-xl-8">
             <nav class="navbar navbar-expand-lg navbar-light px-0">
@@ -533,17 +567,37 @@ if (Auth::check()) {
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         @foreach ($categories as $category)
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $category->id }}"
-                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <!-- Main Category -->
+                            <a class="nav-link dropdown-toggle" href="/listing/{{ $category->slug }}" 
+                               id="navbarDropdown{{ $category->id }}" role="button" data-toggle="dropdown" 
+                               aria-haspopup="true" aria-expanded="false">
                                 {{ $category->category }}
                             </a>
+                            
+                            @if (count($category->subcategories) > 0)
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
                                 @foreach ($category->subcategories as $subcategory)
-                                <a class="dropdown-item" href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}">
+                                <!-- Subcategory -->
+                                <a class="dropdown-item dropdown-toggle" href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}"
+                                   id="navbarDropdownSub{{ $subcategory->id }}" role="button" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
                                     {{ $subcategory->subcategory }}
                                 </a>
+                                <!-- Sub-subcategory -->
+                                @if (count($subcategory->subcat_child) > 0)
+                                <ul class="dropdown-menu">
+                                    @foreach ($subcategory->subcat_child as $subSubcategory)
+                                    <li>
+                                        <a class="dropdown-item" href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $subSubcategory->slug }}">
+                                            {{ $subSubcategory->name }}
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                                @endif
                                 @endforeach
                             </div>
+                            @endif
                         </li>
                         @endforeach
                     </ul>
@@ -555,6 +609,9 @@ if (Auth::check()) {
             <a href="#" class="bundles">Bundles</a>
         </div>
     </div>
+    
+    
+    
 
 
 
@@ -712,4 +769,31 @@ if (Auth::check()) {
            loginModal.show();
        @endif
    });
+
+   document.addEventListener('DOMContentLoaded', function() {
+    // Query for all dropdown toggles
+    const dropdownToggles = document.querySelectorAll('.nav-item > .dropdown-toggle');
+
+    dropdownToggles.forEach(function(toggle) {
+        toggle.addEventListener('click', function(event) {
+            const dropdownMenu = this.nextElementSibling;
+
+            if (dropdownMenu && dropdownMenu.classList.contains('dropdown-menu')) {
+                // Check if subcategories exist
+                event.preventDefault(); // Prevent immediate redirection
+                const targetUrl = this.getAttribute('href'); // Get the URL
+
+                // Show the dropdown
+                dropdownMenu.classList.toggle('show');
+
+                // Delay the page redirection so that dropdown shows up
+                setTimeout(() => {
+                    window.location.href = targetUrl; // Redirect after dropdown shows
+                }, 200); // Delay of 200ms to allow dropdown to appear before redirection
+            }
+        });
+    });
+});
+
+   
 </script>
