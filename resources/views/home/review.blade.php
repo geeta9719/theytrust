@@ -9,9 +9,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('portfolioimage/css/font-awesome.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('portfolioimage/css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <script src="{{ asset('portfolioimage/js/jquery.js') }}"></script>
     <script src="{{ asset('portfolioimage/js/tab.js') }}"></script>
     <style>
+       <style>
         .starbox{
             margin-top:-8px;
         }
@@ -44,16 +46,196 @@
         .write{
             text-decoration:underline;
         }
+        /* .btn-group .btng{
+            background-color: #00bdd6 !important;
+            max-width: 100%;
+            width: 100%;
+    margin: 0;
+    padding: 7px 35px;
+    text-align: center;
+    border: 1px solid #fff;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    color:#fff;
+        }
+        .btn-group .btnp{
+            background-color: #b9a8e4 !important;
+            max-width: 100%;
+            width: 100%;
+    margin: 0;
+    padding: 7px 12px;
+    text-align: center;
+    border: 1px solid #fff;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    color:#fff;
+        }
+        .btn-group .btndg{
+            background-color: #0095a9 !important;
+            max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 7px 34px;
+    text-align: center;
+    border: 1px solid #fff;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    color:#fff;
+        } */
         
+        .btn-group .btnbox{
+            /* max-width: 100%; */
+            width: 100%;
+            margin: 0;
+            /* padding: 7px 34px; */
+            text-align: center;
+            border: 1px solid #fff;
+            font-size: 13px;
+            font-family: "Inter", sans-serif;
+            font-weight: 400;
+            color:#fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-group .btng{
+            background-color: #00bdd6 !important;
+        
+  
+  
+    
+        }
+        .btn-group .btnp{
+            background-color: #b9a8e4 !important;
+
+    padding: 7px 12px;
+
+        }
+        .btn-group .btndg{
+            background-color: #0095a9 !important;
+          
+
+    
+        }
+
+
+
+
+
+
+
+
+
+        .btn-group{
+            /* width: 100%; */
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn-group .fa{
+            font-size:15px;
+            color:#fff;
+            margin-right: 5px;
+        }
+       
+/* sneha */
+.review-portfolio-sec .topsec h2 {
+    font-size: 24px !important;
+    
+}
+
+.review-portfolio-sec .bluestar {
+    color: #3ed1f2;
+}
+.review-portfolio-sec .writereview h3
+{
+    background-color: #006d7c;
+    padding: 11px;
+    border-radius: 63%;
+    color: #fff !important;
+}
+
+.review-portfolio-sec .write{
+    color: #3ed1f2 !important;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+
+}
+.writereview a{
+    font-size: 17px;
+    font-weight: 700;
+font-family: "Epilogue", sans-serif;
+
+}
+@media (max-width: 767px) {
+    .writereview a{
+      
+            font-size: 14px;
+    }
+    .portfolio .reviewrate {
+    display: block!important;
+    font-size: 15px;
+   
+    margin-top: -17px!important;}
+    .sidebar-review-box .userbox{
+        display:block;
+    }
+    .review-portfolio-sec .write{
+        font-size: 12px; 
+    }
+.btn-group{
+    display:block;
+}
+
+.btn-group .btnbox {
+    padding:7px 12px;
+}
+
+}
+
+
     </style>
+    
 </head>
 
 <body>
-    <div class="container portfolio">
+
+<div class="col-md-12">
+<div class="container mb-5">
+        <div class=" btn-group">
+            <!-- <div class=" text-center d-md-flex d-block"> -->
+            <!-- <div class="col-1 m-0 p-0">  <button type="button" class="btng "><i class="fa fa-user-o" aria-hidden="true"></i> PROFILE</button></div> -->
+          <a href=""  class="btng btnbox"><i class="fa fa-user-o" aria-hidden="true"></i> PROFILE</a>
+            <a href="" class="btndg btnbox"><i class="fa fa-star-o" aria-hidden="true"></i> REVIEWS</a>
+            <a href="" class="btng btnbox"><i class="fa fa-briefcase" aria-hidden="true"></i> PORTFOLIO</a>
+            <a href="" class="btng btnbox"><i class="fa fa-gift" aria-hidden="true"></i>BUNDLES</a>
+            <a href=""class="btng btnbox"><i class="fa fa-laptop" aria-hidden="true"></i> PROJECTS</a>
+            <a href="" class="btnp btnbox"><i class="fa fa-usd" aria-hidden="true"></i> REQUEST A QUOTE</a>
+            <a href="" class="btnp btnbox"><i class="fa fa-globe" aria-hidden="true"></i> WWW</a>
+             
+            <!-- </div> -->
+            <!-- <div class="col text-center">
+                <button type="button" class="btn btn-primary">Button 7</button>
+            </div> -->
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+    <div class="container portfolio review-portfolio-sec">
         <div class="row">
             
             <div class="col-lg-12 shadow bg-white py-3">
-            <div class="row topsec">
+            <div class="row topsec mb-3">
+
+
+
                     <div class="col-md-7">
                         <div class="row text-center text-md-left">
                             <div class="col-md-3 ">
@@ -62,7 +244,7 @@
                             <div class="col-md-8 mt-2 mt-md-0">
                                 <h2>{{ $reviews[0]->company->name }}</h2>
                                 <div class="d-flex mt-3 writereview">
-                            <h3>3.5 </h3>
+                            <h3 style="color:#fff;!important">3.5 </h3>
                             <div class="px-3 starbox"><i class="fa fa-star bluestar"></i>
                                 <i class="fa fa-star bluestar"></i>
                                 <i class="fa fa-star bluestar"></i>
@@ -70,12 +252,13 @@
                                 <i class="fa fa-star-o bluestar"></i>
                             </div>
                             <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank" class="mr-2 reviewuppercase">
-                                {{  $reviews->count() }} REVIEWS
+                                {{  $reviews->count() }} Reviews 
                             </a>
                             <a href="/company/{{ $reviews[0]->company->id }}/getReview" target="_blank" class="write">
                                 Write a Review
                             </a>
-                            
+                            <!-- <img src="https://theytrust-us.developmentserver.info/front_components/images/filter.png" class="img-fluid" alt="">
+                        -->
                         </div>
         
                             </div>
@@ -98,7 +281,7 @@
                     </div>
                 </div>
                 <div class="container mt-1 reviews-sec greybox">
-                    <h2 class="my-heading"> Reviews </h2>
+                    <!-- <h2 class="my-heading"> Reviews </h2> -->
                     @foreach ($reviews as $review)
                         <x-review :review="$review" />
                     @endforeach

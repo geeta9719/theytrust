@@ -18,6 +18,27 @@
 
     
     <style>
+        .portfolio .topsec h3 {
+    font-size: 14px !important;
+    font-weight: 500!important;
+    color: #000000!important;}
+    .portfolio .reviewrate {
+    
+    align-items: center!important;}
+    .blue-write-review 
+        {
+width: auto!important;}
+    
+        .blue-write-review a
+        {
+
+            color: #379ae6 !important;
+    text-decoration: underline;
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+        }
         .short-description {
             overflow: hidden;
             display: -webkit-box;
@@ -35,6 +56,24 @@
             -webkit-line-clamp: unset;
             max-height: none;
         }
+        .readmore a {
+   
+    color: #00bdd6 !important;
+   
+}
+
+
+        @media (max-width: 767px) {
+
+.write-review{
+    float:none!important;
+}
+
+
+        }
+
+
+
     </style>
 </head>
 
@@ -71,7 +110,7 @@
                                 <h3>{{ $rate_review->review }} REVIEWS</h3>
                             </a>
                         </div>
-                        <div class="write-review ">
+                        <div class="write-review blue-write-review">
                             <a href="{{ url('company/' . $company->id.'/getReview' ) }}" class="btn btn-primary" target="_blank">
                               Write a Review
                             </a>

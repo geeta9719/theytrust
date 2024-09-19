@@ -3,7 +3,7 @@
 .filter-section h2{
     background-color: #ece4fa;
     color: #000;
-     font-size: 17px;
+     font-size: 18px;
     font-weight: 700;
 font-family: "Epilogue", sans-serif;
     padding: 7px 11px;
@@ -12,6 +12,7 @@ font-family: "Epilogue", sans-serif;
    font-size: 14px;
     font-weight: 400;
     font-family: "Inter", sans-serif;
+    colo:#23262a;
        
 }
 select {
@@ -78,7 +79,14 @@ height: 35px;
     border-radius: 3px;
     padding: 0 0px 0 18px;
     text-indent: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+    color:#23262a;
 
+}
+.bigselect::placeholder{
+color:#23262a;
 }
 .logobox{
 display:block;}
@@ -104,11 +112,38 @@ display:flex;}
     display: block;
 }
 .company-description{
-margin-bottom:40px;}
+margin-bottom:40px;
+font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+}
+.location-suggestions{
+position:relative;}
+.searchlocation{
+position:relative;
+}
+
+.searchlocation ul {
+margin:0;
+padding:0;
+}
+.searchlocation ul li{
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+    color: #23262a;
+
+}
 
 
 
 @media (max-width: 767px) {
+.searchlocation {
+    position: absolute;
+    width: 65%;
+    border: 0;
+}
 .company-header {
     display: flex;
     gap: 20px;
@@ -182,14 +217,14 @@ padding: 0;
     <div class="filter-section">
       <h2>Discover the Globe's Best (Title of the page)</h2>
       <div class="filters">
-        
+        <div class="searchlocation">
           <input type="text"  class="bigselect"  placeholder="Search Location" v-model="searchLocation" @input="debouncedFetchLocations" />
           <ul v-if="locations.length" class="location-suggestions">
             <li v-for="location in locations" :key="location.id" @click="selectLocation(location)">
               {{ location.city }}
             </li>
           </ul>
-      
+      </div>
         <select class="bigselect" v-model="selectedSubcategoryId" @change="onSubcategoryChange">
           <option value="">Select Subcategory</option>
           <option v-for="subcategory in subcategories" :key="subcategory.id" :value="subcategory.id">{{ subcategory.subcategory }}</option>
@@ -834,6 +869,9 @@ p a:hover {
      margin-top: 20px;
 }
 .company-details p{
+font-size: 12px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
 padding-left: 28px;}
 .company-details h3{
 padding-left: 28px;}
@@ -901,10 +939,10 @@ padding-left: 28px;}
     padding: 3px 21px 3px 14px;
     font-size: 14px;
     margin-right: 5px;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
     border: 0;
     border-radius: 18px;
-    font-family: "Epilogue", sans-serif;
+     font-family: "Inter", sans-serif;
     vertical-align: middle;
     display: flex;
     align-items: center;
@@ -917,8 +955,9 @@ padding-left: 28px;}
 
 .meta-value {
     color: #424448;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 14px;
+     font-family: "Inter", sans-serif;
 }
 
 .buttons {
@@ -929,10 +968,22 @@ padding-left: 28px;}
 .company-details .buttons {
     padding-left: 28px;
 }
+.write-box p span{
+ font-size: 14px;
+    font-weight: 700;
+font-family: "Epilogue", sans-serif;
+}
+.write-box p a{
+font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+}
 .view-profile-btn,
 .request-quote-btn {
   padding: 6px 15px;
-  font-size: 14px;
+font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
   color: #fff;
   background-color: #00bdd6;
   border: none;

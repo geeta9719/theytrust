@@ -20,14 +20,14 @@
                     <form action="{{ route('reviews.store') }}" method="POST">
                         @csrf
                         <div class="form-row row">
-                        <div class="form-group col-md-5">
+                        <div class="form-group col-md-6 mx-0 mb-3">
                             <label for="name">Name</label>
                             <input type="text" name="name" placeholder="Enter Name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required>
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-5">
+                        <div class="form-group col-md-6 mx-0 mb-3">
                             <label for="email">Email</label>
                             <input type="email" name="email"  placeholder="Enter Email Id" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required>
                             @error('email')
@@ -35,7 +35,7 @@
                             @enderror
                         </div>
                         
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12 mx-0">
                             <label for="note">Personalized Note</label>
                             <textarea name="note"  placeholder="Enter Note" class="form-control @error('note') is-invalid @enderror">{{ old('note') }}</textarea>
                             @error('note')
