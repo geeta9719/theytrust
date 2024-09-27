@@ -371,6 +371,10 @@ Route::post('company/reviews-request/resend/{id}', [ReviewController::class, 're
 Route::get('/portfolio/{company}', [SearchController::class, 'portfolio'])->name('portfolio');
 Route::post('/signup-email', [AuthController::class,"signupWithEmail"])->name('signup.email');
 Route::post('/login-email', [AuthController::class,"loginWithEmail"])->name('login.email');
+// web.php
+Route::post('/password/email', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+
+
 Route::post('/portfolio-items/reorder', [PortfolioItemController::class, 'reorder'])->name('portfolio_items.reorder');
 Route::post('/submit-response', [ReviewController::class,'submitResponse'])->name('submit.response');
 
@@ -388,6 +392,11 @@ Route::get('/api/location', [SearchController::class, 'getLocation']);
 
 
 Route::get('/get-companies', [ModelReferenceController::class, 'getCompaniesByForeignKey'])->name('get.companies.by.foreignkey');
+Route::get('/resend-verification/{email}', [AuthController::class, 'resendVerificationEmail'])->name('resend.verification');
+Route::get('password/reset/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [AuthController::class, 'reset'])->name('password.update');
+
+
 
 
 

@@ -26,31 +26,14 @@ if (Auth::check()) {
                         {{ session()->get('newsuccess') }}
                     </div>
                 @endif
-                <!-- <div id="newsletter-section">
-                    <form method="post" class="d-flex" action="{{ route('subscribe') }}">
-                        @csrf
-
-                        <input type="email" class="form-control email emailbrd" id="email" name="email"
-                            placeholder="Email Address">
-                        <button type="submit" class="submit" name="submit_news"
-                            value="submit-newsletter">Subscribe</button>
-
-                    </form>
-                </div> -->
                 </br>
                 <span>To Recieve Our Updates Via E-mail</span>
-                <!-- <form action="/action_page.php" class="emailbox">
-                        <input type="email" id="email" name="email" placeholder="Enter Address">
-                        <input type="submit" class="submit">
-                    </form> -->
 
                 <span class="social mobilesec">
                     <img src="{{ asset('front_components/images/s1.png') }}" alt="" class="img-fluid">
                     <img src="{{ asset('front_components/images/s2.png') }}" alt="" class="img-fluid">
                     <img src="{{ asset('front_components/images/s3.png') }}" alt="" class="img-fluid">
                     <img src="{{ asset('front_components/images/s4.png') }}" alt="" class="img-fluid">
-
-
 
 
                 </span>
@@ -119,50 +102,6 @@ if (Auth::check()) {
 </section>
 <section class="container-fluid footer ">
     <div class="container  text-center">
-        <!-- <ul>
-            <li><a href="https://theytrust-us.developmentserver.info/"> Home</a></li>
-            <li><a href="{{ url('about') }}"> About</a></li>
-            <li><a href="{{ url('/sponsorship') }}">Sponsorship</a> </li>
-            <li><a href="{{ url('contact') }}">Contact</a></li>
-            <li><a href="{{ url('privacy') }}"> Privacy Policy</a> </li>
-        </ul>
-        <ul class="mt-0 mt-md-4 terms">
-            <li><a href="{{ url('terms') }}">Terms & Conditions</a></li>
-            <li class="brdnone"><a href="{{ url('faq') }}">FAQ</a></li>
-        </ul> -->
     </div>
 </section>
 
-<!-- Sign in Modal -->
-<div class="modal fade" id="singin-modal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title text-center">Sign In </br><span class="text-center"> to continue with
-                        Theytrustus</span></h4>
-                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body  ">
-                <div class="singinbox d-flex row">
-                    <div class="signin col-md-2 col-2"><i class="fa fa-linkedin" aria-hidden="true"></i></div>
-                    <div class="signintxt col-md-10 col-10 text-center">
-                        <a href="{{ url('auth/linkedin') }}" class="btnlink" data-dismiss="">Sign in with
-                            LinkedIn</a>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-<!-- footer end -->

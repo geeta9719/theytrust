@@ -3,277 +3,14 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\Subcategory;
 // $categories = Category::where('top_cat', 1)->get();
-$categories = Category::with("subcategory",'subcategory.subcat_child')->where('top_cat', 1)->get();
-
+$categories = Category::with('subcategory', 'subcategory.subcat_child')->where('top_cat', 1)->get();
 
 $cd = '';
 if (Auth::check()) {
-   $uid = auth()->user()->id;
-   $cd = Company::select('*')->where('user_id', '=', $uid)->first();
+    $uid = auth()->user()->id;
+    $cd = Company::select('*')->where('user_id', '=', $uid)->first();
 }
 ?>
-<style>
-    /* Ensures the dropdown is hidden by default */
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top:0%;
-    left: 100%;
-    z-index: 1000;
-    min-width: 10rem;
-}
-
-/* When hovering over the parent dropdown, show the menu */
-.nav-item:hover > .dropdown-menu {
-    display: block;
-}
-
-/* Sub-subcategory dropdown positioning */
-.dropdown-submenu {
-    position: relative;
-}
-
-.dropdown-submenu .dropdown-menu {
-    top: 0;
-    left: 100%; /* Sub-subcategories appear to the right of the parent */
-    margin-top: -1px;
-    display: none;
-}
-
-/* When hovering over the subcategory, show sub-subcategory */
-.dropdown-submenu:hover > .dropdown-menu {
-    display: block;
-}
-
-
-    </style>
-<link
-    href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet">
-
-
-<!-- <div class="header-container">
-   <section class="container header position-relative py-md-4 mb-3 mb-md-0 ">
-       <nav class="navbar navbar-expand-xl  navbar-dark px-0 d-flex align-items-center">
-           <a class="navbar-brand" href="/">
-               <img src="{{ asset('front_components/images/logo.png') }}" alt="" class="logo">
-           </a>
-           <div class="right-section d-lg-flex d-xl-none d-none">
-               <div class="input-group ">
-                   <input type="text" class="form-control search" name="search" id="search" placeholder="Search"
-                       onkeyup="search()">
-                   <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-search"></i></span>
-                   </div>
-               </div>
-           </div>
-
-
-
-
-           <div class="d-block d-xl-none">
-               @if (!Auth::check())
-               <a class="nav-link brdnone modal-signin px-0" href="#" data-toggle="modal" data-target="#singin-modal">
-                   <img src="https://theytrust-us.developmentserver.info/front_components/images/user1.png" alt="">
-               </a>
-              @else
-                   <li class="nav-item dropdown">
-                   <div class="dropdown">
-                       <button type="button" class=" " data-toggle="dropdown">
-                           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                               <img src="
-                           {{-- @if (auth()->user()->avatar) {{auth()->user()->avatar}} @else --}}
-                           {{ asset('front_components/images/user1.png') }}
-                            {{-- @endif --}}
-                             " class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
-                           </a>
-                       </button>
-                       <div class="dropdown-menu shadow-sm mobiledrp">
-                           <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
-                           @if ($cd)
-                               <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company
-                               Dashboard</a>
-                           <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
-                           <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">Update
-                               Company Profile</a>
-                           @else
-                           <a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile 1</a>
-                           @endif
-                           <form method="post" action="/logout">
-                               @csrf
-                               <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
-                           </form>
-                       </div>
-                   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-               </li>
-               @endif
-           </div>
-           {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-               <span class="navbar-toggler-icon"></span>
-           </button> --}}
-           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-               aria-label="Toggle navigation">
-               <span class="navbar-toggler-icon"></span>
-           </button>
-           @if (Auth::check())
-@php $cls = 'afterLogin' @endphp
-@else
-@php $cls = '' @endphp
-@endif
-           {{-- <div class="collapse navbar-collapse {{$cls}}" id="collapsibleNavbar"> --}}
-               <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                   <ul class="navbar-nav topheader align-items-center">
-                       <li class="nav-item  ">
-                           <a class="nav-link services-tab" href="javascript:void(0)">Services <span
-                                   class="drop-arrow down"></span></a>
-                           <div class="accordion" id="myAccordion">
-                               <?php $i = 1; ?>
-                               {{-- @foreach ($categoriese as $category) --}}
-<div class="accordion-item">
-                                   <h2 class="accordion-header">
-                                       <div class="d-flex align-items-center justify-content-between pr-2">
-                                           {{-- {{ $category->category }} --}}
-                                           <button class="accordion-toggle">+</button>
-                                       </div>
-                                   </h2>
-                                   <div class="accordion-content">
-                                       <div class="card-body">
-                                           {{-- @foreach ($category->subcategory as $sub_cat)
-<a
-                                               href="{{ url('directory/' . strtolower($sub_cat->subcategory)) }}">{{ $sub_cat->subcategory }}</a>
-@endforeach --}}
-                                       </div>
-                                   </div>
-                               </div>
-                               {{-- <?php $i++; ?> --}}
-{{-- @endforeach --}}
-                           </div>
-                       </li>
-                       <li class="nav-item ">
-                           <a class="nav-link " href="#">Blog</a>
-                       </li>
-                       <li class="nav-item ">
-                           <a class="nav-link " href="{{ url('contact') }}"> Contact Us </a>
-                       </li>
-
-
-
-
-                       @if (!Auth::check())
-                       <li class="nav-item  ">
-                           <a class="nav-link brdnone modal-signin" href="#" data-toggle="modal"
-                               data-target="#singin-modal"> Sign in</a>
-                       </li>
-                       @else
-                       <li class="nav-item ">
-                           <div class="dropdown mymobile">
-                               <button type="button" class="" data-toggle="dropdown">
-                                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                       data-bs-toggle="dropdown" aria-expanded="false">
-                                       <img src="
-                               {{-- @if (auth()->user()->avatar) {{auth()->user()->avatar}} @else --}}
-                               {{ asset('front_components/images/user1.png') }}
-                                {{-- @endif --}}
-                                 " class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
-                                   </a>
-                               </button>
-                               <div class="dropdown-menu shadow-sm ">
-                                   <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
-                                   @if ($cd)
-<                                      a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company
-                                       Dashboard</a>
-                                   <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
-                                   <a class="dropdown-item"
-                                       href="{{ route('user.allinfo', auth()->user()->id) }}">Update Company Profile
-                                   </a>
-                                   <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
-@else
-<a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile</a>
-@endif
-                                   <form method="post" action="/logout">
-                                       @csrf
-                                       <button class="btn btn-sm btn-primary btnLogout logoutbtn"
-                                           type="submit">Logout</button>
-                                   </form>
-                               </div>
-                           </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                       </li>
-                       @endif
-                   </ul>
-               </div>
-               <div class="right-section d-lg-none d-xl-flex">
-                   <div class="input-group">
-                       <input type="text" class="form-control search" name="search" id="search1" placeholder="Search">
-                       <div class="srcbxc"></div>
-
-
-                       <div class="input-group-prepend">
-                           <span class="input-group-text"><i class="fa fa-search"></i></span>
-                       </div>
-                   </div>
-               </div>
-       </nav>
-
-
-
-
-   </section>
-   <section class="container-fluid category-service ">
-       <div class="container">
-        
-           <ul class="  mb-0">
-
-
-           </ul>
-       </div>
-   </section>
-</div> -->
 
 
 <section class="my-header container-fluid py-3 px-lg-5">
@@ -315,246 +52,107 @@ if (Auth::check()) {
             <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal"
                 data-target="#login-modal"><i class="far fa-user-circle
                " aria-hidden="true"></i><span> Sign in</span></a>
-            <!-- </li> -->
+            <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal"
+                data-target="#signup-modal"><i class="far fa-user-circle
+              " aria-hidden="true"></i><span> Sign Up</span></a>
+{{-- 
+            <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal"
+                data-target="#forgotPasswordModal"><i class="far fa-user-circle
+            " aria-hidden="true"></i><span> Forget Password</span></a> --}}
+            <a class="nav-link brdnone modal-signin sign-in-btn" href="#" id="open-forgot-password" onclick="event.preventDefault(); Livewire.emit('openForgotPasswordModal')">
+                <i class="far fa-user-circle" aria-hidden="true"></i><span> Forget Password</span>
+            </a>
+            
+            
+</a>
+
+            
+            
+            
             @else
             <div class="nav-item">
                 <div class="dropdown mymobile">
-                    <button type="button" class="" data-toggle="dropdown">
+                    <button type="button" class="btn" data-toggle="dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}"
-                                class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> Me
+                                class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> {{
+                            auth()->user()->name }}
                         </a>
                     </button>
                     <div class="dropdown-menu shadow-sm accountbox">
-                        <a class="dropdown-item" href="{{ route('user.personal') }}">My User Account</a>
+                        <div class="dropdown-header">
+                            <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}"
+                                width="40px" class="rounded-circle">
+                            <span>{{ auth()->user()->company_name ?? 'Company Name' }}</span>
+                            <small>{{ auth()->user()->email ?? 'example@gmail.com' }}</small>
+                        </div>
+                        <a class="dropdown-item" href="{{ route('user.personal') }}">
+                            <i class="fas fa-user"></i> Edit Profile
+                        </a>
                         @if ($cd)
-                        <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">Company Dashboard</a>
-                        <a class="dropdown-item" href="{{ url('/sponsorship') }}">Change Your Plan</a>
-                        <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">Update Company
-                            Profile</a>
-                        <a class="dropdown-item" href="{{ route('Projects.index') }}">List Projects</a>
+                        <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">
+                            <i class="fas fa-chart-bar"></i> Dashboard
+                        </a>
+                        <a class="dropdown-item" href="{{ url('/sponsorship') }}">
+                            <i class="fas fa-star"></i> Upgrade Plan
+                        </a>
+                        <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">
+                            <i class="fas fa-building"></i> Update Company Profile
+                        </a>
+                        <a class="dropdown-item" href="{{ route('Projects.index') }}">
+                            <i class="fas fa-project-diagram"></i> List Projects
+                        </a>
                         @else
-                        <a class="dropdown-item" href="{{ url('get-listed') }}">Update Company Profile</a>
+                        <a class="dropdown-item" href="{{ url('get-listed') }}">
+                            <i class="fas fa-building"></i> Update Company Profile
+                        </a>
                         @endif
+                        <a class="dropdown-item" href="{{ url('/help') }}">
+                            <i class="fas fa-question-circle"></i> Help Center
+                        </a>
                         <form method="post" action="{{ route('logout') }}">
                             @csrf
-                            <button class="btn btn-sm btn-primary btnLogout logoutbtn" type="submit">Logout</button>
+                            <button class="dropdown-item btnLogout" type="submit">
+                                <i class="fas fa-sign-out-alt"></i> Sign Out
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
             @endif
 
-            <!-- Login Modal -->
-            <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="firstModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content p-3">
-                        <div class="modal-header">
-                            @if (session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
-                            @endif
-                            <h5 class="modal-title" id="firstModalLabel">Sign In</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            @if (session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
-                            <div class="alert alert-danger">
-                                {{ session('success') }}
-                            </div>
-                            @endif
-                            @if ($errors->any())
-                            <div class="alert alert-danger">
-
-                                @foreach ($errors->all() as $error)
-                                {{ $error }}
-                                @endforeach
-
-                            </div>
-                            @endif
-                            <div class="d-flex justify-content-center mb-3 linkdinbox">
-                                <a href="{{ route('auth.linkedin') }}" class="btnlink">
-                                    <i class="fab fa-linkedin mr-2"></i> Sign In with LinkedIn
-                                </a>
-                            </div>
-
-                            <div class="afterlinkdin">
-                                <div class="text-center">
-                                    <span>OR</span>
-                                </div>
-
-                                <hr>
-                                <h3>Sign in with your company email domain </h3>
-                            </div>
-                            <form class="form-row" id="login-form" method="POST" action="{{ route('login.email') }}">
-                                <!-- Email Input -->
-
-                                <div class="row form-group mx-0 p-0">
-
-                                </div>
-                                <div class="form-group col-md-12 pr-4">
-                                    <label for="email">Email address</label>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="example.email@gmail.com">
-                                </div>
-                                <!-- Password Input -->
-                                <div class="form-group col-md-12 pr-4">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Enter at least 8+ charecters">
-                                </div>
-
-                                <!-- Remember Me Checkbox -->
-                                <div class="form-group form-check col-md-12 checkgroup ">
-                                    <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
-                                    <label class="form-check-label" for="rememberMe">
-                                        <p>By signing up, I agree with the <a href="">Terms</a> of Use & <a
-                                                href="">Privacy Policy</a></p>
-                                    </label>
-                                </div>
-
-
-                                <!-- Submit Button -->
-                                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                            </form>
-
-                            <div class="text-center alredy">
-                                <span>Already have an account? <a href="#" data-toggle="modal" class="mt-5"
-                                        id="signup-link" data-target="#signup-modal" data-dismiss="modal">Sign
-                                        Up</a></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          
         </div>
+        @include('modals.login')
+        @include('modals.signup')
+        <livewire:forgot-password />
+
+        {{-- <livewire:verify-email /> --}}
 
 
-
-
-        <!-- Login Up Modal -->
-        <div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="secondModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content p-3">
-                    <div class="modal-header">
-                        @if (session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                        @endif
-                        @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                        @endif
-                        <h5 class="modal-title" id="firstModalLabel">Sign Up</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        @if (session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                        <div class="alert alert-danger">
-                            {{ session('success') }}
-                        </div>
-                        @endif
-                        @if ($errors->any())
-                        <div class="alert alert-danger">
-
-                            @foreach ($errors->all() as $error)
-                            {{ $error }}
-                            @endforeach
-
-                        </div>
-                        @endif
-                        <div class="d-flex justify-content-center mb-3 linkdinbox">
-                            <a href="{{ route('auth.linkedin') }}" class="btnlink">
-                                <i class="fab fa-linkedin mr-2"></i> Sign Up with LinkedIn
-                            </a>
-                        </div>
-
-                        <div class="afterlinkdin">
-                            <div class="text-center">
-                                <span>OR</span>
-                            </div>
-
-                            <hr>
-                            <h3>Sign up with your company email domain </h3>
-                        </div>
-
-
-
-
-                        <form id="signup-form" method="POST" class="form-row" action="{{ route('signup.email') }}">
-                            @csrf
-
-
-                            <div class="row form-group mx-0 p-0">
-
-                                <div class=" col-md-6">
-                                    <label for="firstname">First Name</label>
-                                    <input type="text" class="form-control" placeholder="Enter First Name"
-                                        name="first_name" required value="{{ old('first_name') }}">
-                                </div>
-                                <div class=" col-md-6">
-                                    <label for="lastname">Last Name</label>
-                                    <input type="text" class="form-control" placeholder="Enter Last Name"
-                                        name="last_name" required value="{{ old('last_name') }}">
-                                </div>
-                            </div>
-
-
-                            <div class="form-group col-md-12 pr-4">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required
-                                    value="{{ old('email') }}">
-                                @error('email')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group col-md-12 pr-4">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Enter password">
-                            </div>
-
-                            <div class="form-group form-check col-md-12 checkgroup  ">
-                                <input type="checkbox" class="form-check-input" id="terms" name="terms">
-                                <label class="form-check-label" for="terms">
-                                    I agree to the terms and conditions</label>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-                        </form>
-
-                        <div class="text-center alredy">
-                            <span>Already have an account? <a href="#" data-toggle="modal" class="mt-5" id="login-modal"
-                                    data-target="#login-modal" data-dismiss="modal">Sign In</a></span>
-                        </div>
-                    </div>
-                </div>
-
-
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog"
+    aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resetPasswordModalLabel">Set New Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @livewire('reset-password-form', ['token' => session('token'), 'email' => session('email')])
             </div>
         </div>
     </div>
+</div>
+
     </div>
-    </div>
-    </div>
-    </div>
+
+
+
+
     <hr class="mb-0">
     <div class="row align-items-center menu-row pt-2 pt-md-0">
         <div class="col-xl-8">
@@ -568,19 +166,20 @@ if (Auth::check()) {
                         @foreach ($categories as $category)
                         <li class="nav-item dropdown">
                             <!-- Main Category -->
-                            <a class="nav-link dropdown-toggle" href="/listing/{{ $category->slug }}" 
-                               id="navbarDropdown{{ $category->id }}" role="button" data-toggle="dropdown" 
-                               aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="/listing/{{ $category->slug }}"
+                                id="navbarDropdown{{ $category->id }}" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
                                 {{ $category->category }}
                             </a>
-                            
+
                             @if (count($category->subcategories) > 0)
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
                                 @foreach ($category->subcategories as $subcategory)
                                 <!-- Subcategory -->
-                                <a class="dropdown-item dropdown-toggle" href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}"
-                                   id="navbarDropdownSub{{ $subcategory->id }}" role="button" data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false">
+                                <a class="dropdown-item dropdown-toggle"
+                                    href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}"
+                                    id="navbarDropdownSub{{ $subcategory->id }}" role="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
                                     {{ $subcategory->subcategory }}
                                 </a>
                                 <!-- Sub-subcategory -->
@@ -588,7 +187,8 @@ if (Auth::check()) {
                                 <ul class="dropdown-menu">
                                     @foreach ($subcategory->subcat_child as $subSubcategory)
                                     <li>
-                                        <a class="dropdown-item" href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $subSubcategory->slug }}">
+                                        <a class="dropdown-item"
+                                            href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $subSubcategory->slug }}">
                                             {{ $subSubcategory->name }}
                                         </a>
                                     </li>
@@ -609,14 +209,6 @@ if (Auth::check()) {
             <a href="#" class="bundles">Bundles</a>
         </div>
     </div>
-    
-    
-    
-
-
-
-
-
     </ul>
     </div>
     </nav>
@@ -624,18 +216,18 @@ if (Auth::check()) {
 </section>
 <script>
     $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
-       if (!$(this).next().hasClass('show')) {
-           $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
-       }
-       var $subMenu = $(this).next(".dropdown-menu");
-       $subMenu.toggleClass('show');
-       $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
-           $('.dropdown-submenu .show').removeClass("show");
-       });
+        if (!$(this).next().hasClass('show')) {
+            $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+        }
+        var $subMenu = $(this).next(".dropdown-menu");
+        $subMenu.toggleClass('show');
+        $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+            $('.dropdown-submenu .show').removeClass("show");
+        });
 
 
-       return false;
-   });
+        return false;
+    });
 </script>
 
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
@@ -644,156 +236,161 @@ if (Auth::check()) {
 
 <!-- Plugin that adds the force_appear method (Example: jQuery Appear Plugin) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.appear/0.4.1/jquery.appear.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 
 
 <script>
     $(document).ready(function() {
-       var header = $(".header-container");
-       var offset = header.offset().top;
+        var header = $(".header-container");
+        var offset = header.offset().top;
 
 
-       $(window).scroll(function() {
-           if ($(window).scrollTop() > offset) {
-               header.addClass("fixed-header");
-           } else {
-               header.removeClass("fixed-header");
-           }
-       });
-   });
-   $(document).ready(function() {
-       var header = $(".header-container");
-       var offset = header.offset().top;
-
-
-       $(window).scroll(function() {
-           if ($(window).scrollTop() > offset) {
-               header.addClass("fixed-header");
-           } else {
-               header.removeClass("fixed-header");
-           }
-       });
-
-
-       // Bind the input event for the search field
-       $("#search1").on('input', function() {
-           // debugger;
-           search1();
-       });
-
-
-       function search1() {
-           console.log("asdfsdf");
-           var term = $("#search1").val();
-           if (term.length >= 3) {
-               $.ajax({
-                   url: "{{ route('get-search-list') }}", // Update with the correct route
-                   type: "GET",
-                   data: {
-                       term: term,
-                       _token: $('meta[name="csrf-token"]').attr('content')
-                   },
-                   success: function(result) {
-                       console.log(result);
-                       $(".srcbxc").html(result);
-                       $(".srcbxc").show();
-                       $(".input-group-prepend").hide();
-
-
-                   }
-               });
-           } else {
-               $(".srcbxc").hide();
-           }
-       }
-
-
-       $("body").click(function(e) {
-           if (!$(e.target).hasClass('srcbxc')) {
-               $(".srcbxc").hide();
-           }
-       });
-   });
-</script>
-<script>
-    const accordionItems = document.querySelectorAll('.accordion-item');
-
-
-   accordionItems.forEach((item) => {
-       const header = item.querySelector('.accordion-header');
-       const content = item.querySelector('.accordion-content');
-       const toggleButton = header.querySelector('.accordion-toggle');
-
-
-       header.addEventListener('click', () => {
-           if (content.style.display === 'none' || content.style.display === '') {
-               content.style.display = 'block';
-               toggleButton.textContent = '-';
-           } else {
-               content.style.display = 'none';
-               toggleButton.textContent = '+';
-           }
-       });
-   });
-
-
-  
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        debugger;
-       const signUpModal = new bootstrap.Modal(document.getElementById('signup-modal'));
-       const loginModal = new bootstrap.Modal(document.getElementById('login-modal'));
-
-       console.log(signUpModal,)
-
-
-       // Show Log In modal on Sign Up modal "Log In" button click
-       document.getElementById('login-modal').addEventListener('click', function() {
-           signUpModal.hide();
-           loginModal.show();
-       });
-
-
-       // Show Sign Up modal on Log In modal "Sign Up" button click
-       document.getElementById('signup-link').addEventListener('click', function() {
-           loginModal.hide();
-           signUpModal.show();
-       });
-
-
-       // Check if showModal is set in session (Laravel blade example)
-       @if (session('showModal') == 'signup')
-           signUpModal.show();
-       @elseif (session('showModal') == 'login')
-           debugger;
-           loginModal.show();
-       @endif
-   });
-
-   document.addEventListener('DOMContentLoaded', function() {
-    // Query for all dropdown toggles
-    const dropdownToggles = document.querySelectorAll('.nav-item > .dropdown-toggle');
-
-    dropdownToggles.forEach(function(toggle) {
-        toggle.addEventListener('click', function(event) {
-            const dropdownMenu = this.nextElementSibling;
-
-            if (dropdownMenu && dropdownMenu.classList.contains('dropdown-menu')) {
-                // Check if subcategories exist
-                event.preventDefault(); // Prevent immediate redirection
-                const targetUrl = this.getAttribute('href'); // Get the URL
-
-                // Show the dropdown
-                dropdownMenu.classList.toggle('show');
-
-                // Delay the page redirection so that dropdown shows up
-                setTimeout(() => {
-                    window.location.href = targetUrl; // Redirect after dropdown shows
-                }, 200); // Delay of 200ms to allow dropdown to appear before redirection
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > offset) {
+                header.addClass("fixed-header");
+            } else {
+                header.removeClass("fixed-header");
             }
         });
     });
+    $(document).ready(function() {
+        var header = $(".header-container");
+        var offset = header.offset().top;
+
+
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > offset) {
+                header.addClass("fixed-header");
+            } else {
+                header.removeClass("fixed-header");
+            }
+        });
+
+
+        // Bind the input event for the search field
+        $("#search1").on('input', function() {
+            // debugger;
+            search1();
+        });
+
+
+        function search1() {
+            console.log("asdfsdf");
+            var term = $("#search1").val();
+            if (term.length >= 3) {
+                $.ajax({
+                    url: "{{ route('get-search-list') }}", // Update with the correct route
+                    type: "GET",
+                    data: {
+                        term: term,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(result) {
+                        console.log(result);
+                        $(".srcbxc").html(result);
+                        $(".srcbxc").show();
+                        $(".input-group-prepend").hide();
+
+
+                    }
+                });
+            } else {
+                $(".srcbxc").hide();
+            }
+        }
+
+
+        $("body").click(function(e) {
+            if (!$(e.target).hasClass('srcbxc')) {
+                $(".srcbxc").hide();
+            }
+        });
+    });
+</script>
+<script>
+    const accordionItems = document.querySelectorAll('.accordion-item');
+    accordionItems.forEach((item) => {
+        const header = item.querySelector('.accordion-header');
+        const content = item.querySelector('.accordion-content');
+        const toggleButton = header.querySelector('.accordion-toggle');
+
+
+        header.addEventListener('click', () => {
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                toggleButton.textContent = '-';
+            } else {
+                content.style.display = 'none';
+                toggleButton.textContent = '+';
+            }
+        });
+    });
+
+</script>
+<script>
+$(document).ready(function() {
+    // Open the Sign-Up modal when Sign-In modal's "Sign Up" link is clicked
+    $('#signup-link').on('click', function() {
+        $('#login-modal').modal('hide'); // Hide the Sign-In modal
+        setTimeout(function() {
+            $('#signup-modal').modal('show'); // Show the Sign-Up modal
+        }, 500); // Delay to ensure smooth transition
+    });
+
+    // Open the Sign-In modal when Sign-Up modal's "Sign In" link is clicked
+    $('#open-login-modal').on('click', function() {
+        $('#signup-modal').modal('hide'); // Hide the Sign-Up modal
+        setTimeout(function() {
+            $('#login-modal').modal('show'); // Show the Sign-In modal
+        }, 500); // Delay to ensure smooth transition
+    });
+
+    // Listen for Livewire event to open the Verify Email modal
+    Livewire.on('openVerifyEmailModal', function(email) {
+        $('#signup-modal').modal('hide'); // Hide the Sign-Up modal
+        setTimeout(function() {
+            $('#verifyEmailModal').modal('show'); // Show the Verify Email modal
+            $('#verifyEmailModal .email-placeholder').text(email); // Fill email in the modal
+        }, 500); // Delay for smooth transition
+    });
+    // Resend verification email with Livewire
+    $('#resend-verification-btn').on('click', function() {
+        Livewire.emit('resendVerificationEmail');
+    });
+
+    // Reset modals on close to prevent data persistence on reopening
+    $('#signup-modal').on('hidden.bs.modal', function () {
+        $(this).find('input').val(''); // Reset form inputs
+        $(this).find('.alert').remove(); // Remove any alert messages
+    });
+
+    // Reset the Verify Email Modal on close
+    $('#verifyEmailModal').on('hidden.bs.modal', function () {
+        $(this).find('.email-placeholder').text(''); // Clear the email placeholder
+    });
+
+    // Check if the session has 'showModal' and if it's set to 'resetPasswordModal'
+    var showModal = "{{ session('showModal') }}";
+    if (showModal === 'resetPasswordModal') {
+        $('#resetPasswordModal').modal('show');
+    }
+
+    
 });
 
-   
+document.addEventListener('livewire:load', function () {
+    // Listen for the password reset success event from Livewire
+    Livewire.on('passwordResetSuccess', () => {
+        // Hide the reset password modal
+        $('#resetPasswordModal').modal('hide');
+        
+        // Show the login modal
+        $('#login-modal').modal('show');
+    });
+});
+
+
+
 </script>
