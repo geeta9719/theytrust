@@ -1,0 +1,76 @@
+ /* Ensures the dropdown is hidden by default */
+ .dropdown-menu {
+     display: none;
+     position: absolute;
+     top: 0%;
+     left: 100%;
+     z-index: 1000;
+     min-width: 10rem;
+ }
+
+ /* When hovering over the parent dropdown, show the menu */
+ .nav-item:hover>.dropdown-menu {
+     display: block;
+ }
+
+ /* Sub-subcategory dropdown positioning */
+ .dropdown-submenu {
+     position: relative;
+ }
+
+ .dropdown-submenu .dropdown-menu {
+     top: 0;
+     left: 100%;
+     /* Sub-subcategories appear to the right of the parent */
+     margin-top: -1px;
+     display: none;
+ }
+
+ /* When hovering over the subcategory, show sub-subcategory */
+ .dropdown-submenu:hover>.dropdown-menu {
+     display: block;
+ }
+
+ /* Optional: Custom styling if you're not using Bootstrap or need more control */
+ .is-invalid {
+     border-color: red;
+ }
+
+ .invalid-feedback {
+     color: red;
+     font-size: 0.875em;
+     /* Slightly smaller text */
+ }
+
+ .footer {
+     background-color: #00bdd6;
+     padding: 50px 50px;
+ }
+
+ .footer h2 {
+     font-size: 19px;
+     font-weight: bold;
+     margin-bottom: 15px;
+ }
+
+ .footer ul {
+     margin: 0;
+     padding: 0;
+ }
+
+ .footer ul li {
+     font-size: 16px;
+     list-style: none;
+     margin-bottom: 15px;
+     font-weight: 400;
+ }
+
+ .footer img {
+
+     max-width: 60%;
+     height: auto;
+     margin-bottom: 16px;
+
+ }
+
+ 
