@@ -15,6 +15,7 @@
         "laravel/socialite": "^5.2",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "livewire/livewire": "^2.12",
         "maatwebsite/excel": "^3.1",
         "stripe/stripe-php": "^13.7"
     },
@@ -69,5 +70,3 @@
     "minimum-stability": "dev",
     "prefer-stable": true
 }
-
-
