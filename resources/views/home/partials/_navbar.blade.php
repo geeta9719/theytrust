@@ -55,10 +55,7 @@ if (Auth::check()) {
             <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal"
                 data-target="#signup-modal"><i class="far fa-user-circle
               " aria-hidden="true"></i><span> Sign Up</span></a>
-{{-- 
-            <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal"
-                data-target="#forgotPasswordModal"><i class="far fa-user-circle
-            " aria-hidden="true"></i><span> Forget Password</span></a> --}}
+
             <a class="nav-link brdnone modal-signin sign-in-btn" href="#" id="open-forgot-password" onclick="event.preventDefault(); Livewire.emit('openForgotPasswordModal')">
                 <i class="far fa-user-circle" aria-hidden="true"></i><span> Forget Password</span>
             </a>
@@ -76,50 +73,45 @@ if (Auth::check()) {
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}"
-                                class="img-circle elevation-2" width="50px" style="border-radius: 25px;"> {{
+                                class="img-circle elevation-2" width="40px" style="border-radius: 25px;"> {{
                             auth()->user()->name }}
                         </a>
                     </button>
-                    <div class="dropdown-menu shadow-sm accountbox">
-                        <div class="dropdown-header">
+                    <div class="dropdown-menu shadow-sm accountbox" style="min-width: 250px;">
+                        <div class="dropdown-header d-flex align-items-center">
                             <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}"
-                                width="40px" class="rounded-circle">
-                            <span>{{ auth()->user()->company_name ?? 'Company Name' }}</span>
-                            <small>{{ auth()->user()->email ?? 'example@gmail.com' }}</small>
+                                width="40px" class="rounded-circle me-2">
+                            <div>
+                                <span class="fw-bold">{{ auth()->user()->company_name ?? 'Company Name' }}</span><br>
+                                <small class="text-muted">{{ auth()->user()->email ?? 'example@gmail.com' }}</small>
+                            </div>
                         </div>
+                        <hr>
                         <a class="dropdown-item" href="{{ route('user.personal') }}">
-                            <i class="fas fa-user"></i> Edit Profile
+                            <i class="fas fa-user me-2"></i> Edit Profile
                         </a>
                         @if ($cd)
                         <a class="dropdown-item" href="{{ route('company.dashboard', $cd->id) }}">
-                            <i class="fas fa-chart-bar"></i> Dashboard
+                            <i class="fas fa-chart-bar me-2"></i> Dashboard
                         </a>
                         <a class="dropdown-item" href="{{ url('/sponsorship') }}">
-                            <i class="fas fa-star"></i> Upgrade Plan
+                            <i class="fas fa-star me-2"></i> Upgrade Plan
                         </a>
-                        <a class="dropdown-item" href="{{ route('user.allinfo', auth()->user()->id) }}">
-                            <i class="fas fa-building"></i> Update Company Profile
-                        </a>
-                        <a class="dropdown-item" href="{{ route('Projects.index') }}">
-                            <i class="fas fa-project-diagram"></i> List Projects
-                        </a>
-                        @else
-                        <a class="dropdown-item" href="{{ url('get-listed') }}">
-                            <i class="fas fa-building"></i> Update Company Profile
-                        </a>
+                        
                         @endif
                         <a class="dropdown-item" href="{{ url('/help') }}">
-                            <i class="fas fa-question-circle"></i> Help Center
+                            <i class="fas fa-question-circle me-2"></i> Help Center
                         </a>
                         <form method="post" action="{{ route('logout') }}">
                             @csrf
                             <button class="dropdown-item btnLogout" type="submit">
-                                <i class="fas fa-sign-out-alt"></i> Sign Out
+                                <i class="fas fa-sign-out-alt me-2"></i> Sign Out
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
+            
             @endif
 
           
@@ -232,12 +224,12 @@ if (Auth::check()) {
 
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 <!-- jQuery CDN -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 
 <!-- Plugin that adds the force_appear method (Example: jQuery Appear Plugin) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.appear/0.4.1/jquery.appear.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.appear/0.4.1/jquery.appear.min.js"></script> --}}
+{{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> --}}
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></scripte> --}}
 
 
 

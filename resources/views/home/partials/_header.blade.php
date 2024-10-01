@@ -8,11 +8,8 @@
     <link rel="shortcut icon" href="{{ asset('front_components/images/favicon.png') }}" alt="Favicon">
 
     <title>Theytrustus</title>
-
-    <!-- Google Fonts (Online URL) -->
     <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <!-- Remote Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <!-- External Stylesheets -->
@@ -21,8 +18,7 @@
     <link rel="stylesheet" href="https://theytrust-us.developmentserver.info/front_components/css/custom.css">
     <link rel="stylesheet" href="{{ asset('front_components/css/select2.min.css') }}">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCdnZAhg0LJkAqtM7g82yYemaMUTR0PAY4&libraries=places"></script>
 
     <!-- Custom Style -->
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">

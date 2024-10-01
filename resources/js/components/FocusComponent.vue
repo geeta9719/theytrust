@@ -94,8 +94,7 @@
                     :data-category-name="subcategory.category_name" :checked="subcategory.checked"
                     :data-category-slug="generateSlug(subcategory.category_name)"
                     @change="handleSubcategoryChange($event)">
-                  <label :for="subcategory.id"
-                 @click.prevent= "fetchSkillOn(subcategory.id, subcategory.category_id)"
+                  <label :for="subcategory.id" @click.prevent="fetchSkillOn(subcategory.id, subcategory.category_id)"
                     :style="{ color: selectedCategoryId === subcategory.id ? 'blue' : 'initial' }">{{
                       subcategory.subcategory
                     }} <b v-if="subcategory.subcat_child.length > 0">Choose
@@ -118,12 +117,14 @@
               <div v-for="skill in skills" :key="skill.id" class="category-item"
                 :class="{ 'selected': selectedSkillId == skill.id }">
                 <!-- <div class="checkbox-container"> -->
-                  <input type="checkbox" :id="skill.id" :name="skill.name" :value="skill.id" class="subcategory"
-                    :data-subcategory-id="skill.subcategory_id" :data-category-id="skill.subcategory.category_id"
-                    :data-subcategory-name="skill.name" :checked="skill.checked"
-                    :data-sub-category-slug="generateSlug(skill.subcategory.subcategory)"
-                    @change="handleSkillChange($event)">
-                  <label :for="skill.id" class="checkbox-custom"  @click.prevent="fetchSubSkillOn(skill.id, skill.subcategory.id, skill.subcategory.category_id)" :style="{ color: selectedSkillId == skill.id ? 'blue' : 'initial' }">{{ skill.name }}</label>
+                <input type="checkbox" :id="skill.id" :name="skill.name" :value="skill.id" class="subcategory"
+                  :data-subcategory-id="skill.subcategory_id" :data-category-id="skill.subcategory.category_id"
+                  :data-subcategory-name="skill.name" :checked="skill.checked"
+                  :data-sub-category-slug="generateSlug(skill.subcategory.subcategory)"
+                  @change="handleSkillChange($event)">
+                <label :for="skill.id" class="checkbox-custom"
+                  @click.prevent="fetchSubSkillOn(skill.id, skill.subcategory.id, skill.subcategory.category_id)"
+                  :style="{ color: selectedSkillId == skill.id ? 'blue' : 'initial' }">{{ skill.name }}</label>
                 <button class="icon-button" v-if="skill.skill.length > 0"
                   @click="fetchSubSkillOn(skill.id, skill.subcategory.id, skill.subcategory.category_id)">
                   <img src="/arraw.png" alt="Right arrow">
@@ -149,7 +150,19 @@
             </div>
           </fieldset>
         </div>
-        <button @click="submitForm" :disabled="submitButtonDisabled" class="bottom-sec">Submit</button>
+        <div class="row button-section">
+          <div class="col-lg-12 d-flex justify-content-between">
+            <!-- Previous button -->
+            <button @click="goToPreviousPage" class="btn btn-secondary">Previous</button>
+
+            <!-- Next button -->
+            <button @click="submitForm('next')" :disabled="submitButtonDisabled" class="btn btn-primary">Next</button>
+
+            <!-- Save & Exit button -->
+            <button @click="submitForm('saveAndExit')" class="btn btn-warning">Save & Exit</button>
+          </div>
+        </div>
+
       </div>
       <Modal :isOpen="showModal" :modalErrorMessage="modalErrorMessage" @close="showModal = false" />
     </div>
@@ -353,7 +366,7 @@ export default {
       this.selectedSkillId = SkillId;
       this.getDeepSkills(SkillId)
         .then(Subskills => {
-       
+
           let responseData = Subskills;
           this.Subskills = Subskills;
           console.log(Subskills, "SubskillsSubskillsSubskillsSubskillsSubskills")
@@ -451,29 +464,6 @@ export default {
         console.error('Selected subcategory not found');
         return;
       }
-
-      // If checkbox is checked, add the subcategory to selectedData, else remove it
-      // if (isChecked) {
-      //   // Check if the subcategory is already selected
-      //   const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
-      //   if (index === -1) {
-      //     // If not selected, push it to the subcategories array of the category object
-      //     categoryObj.subcategories.push({
-      //       subcategory_id: subcategory.id,
-      //       subcategory_name: subcategory.subcategory,
-      //       value: "",
-      //       skills: []
-      //     });
-      //   }
-      // } else {
-      //   // If unchecked, remove the subcategory from selectedData if it exists
-      //   this.skills = [];
-      //   this.Subskills = [];
-      //   const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
-      //   if (index !== -1) {
-      //     categoryObj.subcategories.splice(index, 1);
-      //   }
-      // }
       if (isChecked) {
         // Check if the subcategory is already selected
         const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
@@ -485,10 +475,9 @@ export default {
             value: "",
             skills: []
           });
-  
+
         }
       } else {
-        // If unchecked, remove the subcategory from selectedData if it exists
         this.skills = [];
         this.Subskills = [];
         const index = categoryObj.subcategories.findIndex(sub => sub.subcategory_id == subcategoryId);
@@ -589,28 +578,6 @@ export default {
     }
     ,
 
-    // handleSubSkillChange(event) {
-    //   const subSkillId = event.target.value;
-    //   const subSkillname = event.target.name;
-    //   const skillId = event.target.dataset.skillId;
-    //   const isChecked = event.target.checked;
-    //   this.selectedSkillId = skillId;
-    //   const object = this.findSkillIndex(this.selectedData, skillId)
-    //   if (isChecked) {
-    //     // Push new subskill to the selected data
-    //     this.selectedData[object.categoryIndex].subcategories[object.subcategoryIndex].skills[object.skillIndex].subskills.push({
-    //       sub_skill_id: subSkillId,
-    //       sub_skill_name: subSkillname,
-    //     });
-    //   } else {
-    //     // Remove subskill from the selected data
-    //     const subskills = this.selectedData[object.categoryIndex].subcategories[object.subcategoryIndex].skills[object.skillIndex].subskills;
-    //     const indexToRemove = subskills.findIndex(subskill => subskill.sub_skill_id === subSkillId);
-    //     if (indexToRemove !== -1) {
-    //       subskills.splice(indexToRemove, 1);
-    //     }
-    //   }
-    // },
 
     handleSubSkillChange(event) {
       const subSkillId = event.target.value;
@@ -624,14 +591,6 @@ export default {
       if (isChecked) {
         // Check if the number of selected subskills is already 3
         const selectedSubskillsCount = this.selectedData[object.categoryIndex].subcategories[object.subcategoryIndex].skills[object.skillIndex].subskills.length;
-        // if (selectedSubskillsCount >= 3) {
-        //   event.target.checked = false;
-        //   this.showModal = true;
-        //   this.modalErrorMessage = "You can only select up to 3 subskills per skill";
-        //   return;
-        // }
-
-        // Push new subskill to the selected data
         this.selectedData[object.categoryIndex].subcategories[object.subcategoryIndex].skills[object.skillIndex].subskills.push({
           sub_skill_id: subSkillId,
           sub_skill_name: subSkillname,
@@ -693,24 +652,24 @@ export default {
         });
     },
     validateCategorySum() {
-     
+
       let sum = 0;
-    
+
 
       // Calculate the sum of all selected category input values
       for (let category in this.selectedData) {
         sum += parseInt(this.selectedData[category].inputValue, 10);;
       }
-      console.log("sumsumsumsum",sum)
+      console.log("sumsumsumsum", sum)
       // Check if the sum equals 100 for each input
       // for (let category in this.selectedData) {
       if (sum !== 100) {
-        this.submitButtonDisabled  = true;
+        this.submitButtonDisabled = true;
         this.categorySumError = "Total % distribution must be equal to 100%.";
       } else {
         // If sum is 100, clear error message for each category
         this.categorySumError = "";
-        this.submitButtonDisabled  = false;
+        this.submitButtonDisabled = false;
       }
       // }
     },
@@ -729,12 +688,12 @@ export default {
         // Set error message for the specified category
         this.subCategorySumError[category.category_id] = "Sum of subcategories must not exceed 100!";
         catHasError = true;
-        this.submitButtonDisabled  = true;
+        this.submitButtonDisabled = true;
       } else {
         // Clear error message if sum is valid for the specified category
         this.subCategorySumError[category.category_id] = "";
         catHasError = false;
-        this.submitButtonDisabled  = false;
+        this.submitButtonDisabled = false;
 
       }
     },
@@ -752,7 +711,7 @@ export default {
         // this.submitButtonDisabled = true;
         subhasError = true;
       } else {
-        
+
         // If sum is 100, clear error message for each category
         this.categorySumError = "";
         // this.submitButtonDisabled = false;
@@ -778,78 +737,68 @@ export default {
           }
         }
       }
-      console.log(this.subCategorySumError,"this.subCategorySumError");
+      console.log(this.subCategorySumError, "this.subCategorySumError");
       const hasErrorMessage = Object.values(this.subCategorySumError).some(message => message == "Total % distribution must be equal to 100%" || message === null);
       this.submitButtonDisabled = (hasErrorMessage || subhasError);
 
-      console.log(hasErrorMessage, subhasError,"Asdfasdfasdfasdfasdf");
+      console.log(hasErrorMessage, subhasError, "Asdfasdfasdfasdfasdf");
     },
-    submitForm() {
-      // Check if there are any errors after validation
-      if (this.categorySumError !== "") {
-        console.error('Validation failed. Please correct errors before submitting.');
-        return;
-      }
-      // Make sure selectedData is not empty
-      if (this.selectedData.length === 0) {
-        console.error('No data to submit.');
-        return;
-      }
+    goToPreviousPage() {
+      window.location.href = `/company/${this.companyId}/location`;
+    },
+    submitForm(action) {
+      debugger;
       const companyId = this.companyId;
-
-      // Make sure companyId is defined
-      if (!companyId) {
-        console.error('Company ID is not defined.');
-        return;
-      }
       const requestData = {
-        companyId: companyId, // Assuming companyId is defined in the component
-        selectedData: this.selectedData
+        companyId: companyId,
+        selectedData: this.selectedData,
       };
 
-      // Make the API call
+      // Make the API call to save the data
       $.ajax({
-        url: '/company/save-Service/' + companyId,
+        url: `/company/save-Service/${companyId}`,
         method: 'POST',
         contentType: 'application/json',
         headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
         },
         data: JSON.stringify(requestData),
-        success: function (response) {
+        success: (response) => {
           console.log('Data saved successfully:', response);
-          debugger;
-          var redirectURL = '/company/' + companyId + '/industry';
-          window.location.href = redirectURL;
-
+          // Based on the action, redirect to the appropriate page
+          if (action === 'next') {
+            debugger;
+            window.location.href = `/company/${companyId}/industry`;
+          } else if (action === 'saveAndExit') {
+            window.location.href = `/company/${companyId}/dashboard`;
+          }
         },
-        error: function (xhr, status, error) {
-          // Handle error response
+        error: (xhr, status, error) => {
           console.error('Error saving data:', error);
-        }
+        },
       });
     },
     fetchCategoryData() {
-    axios.get(`/companydata/${this.companyId}`)
-      .then(response => {
-        this.selectedData =  response.data;
-        this.updateCategoriesAndSubcategories(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  },
+      axios.get(`/companydata/${this.companyId}`)
+        .then(response => {
+          this.selectedData = response.data;
+          this.updateCategoriesAndSubcategories(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    },
 
-  updateCategoriesAndSubcategories(data) {
-    this.categories.forEach(category => {
-      // Find the matching category data
-      const matchedCategory = data.find(item => item.category_id === category.id);
-      if (matchedCategory) {
-        // Update the main category checked status based on some condition, like input value
-        category.checked = !!matchedCategory.inputValue;
-      }
-    });
-  }
+    updateCategoriesAndSubcategories(data) {
+      this.categories.forEach(category => {
+        // Find the matching category data
+        const matchedCategory = data.find(item => item.category_id === category.id);
+        if (matchedCategory) {
+          // Update the main category checked status based on some condition, like input value
+          category.checked = !!matchedCategory.inputValue;
+        }
+      });
+    }
 
   },
   computed: {
@@ -1241,7 +1190,6 @@ legend {
     margin-bottom: 10px;
 
   }
-
   .bottom-sec {
 
     padding: 7px 33px;

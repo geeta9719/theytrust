@@ -97,11 +97,14 @@
           </div>
         </div>
 
-        <div class="row mt-4">
-          <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </div>
+  <div class="row mt-4">
+  <div class="col-md-12 text-center">
+    <button type="button" class="btn btn-secondary mr-2" @click="goPrevious">Previous</button>
+    <button type="button" class="btn btn-warning mr-2" @click="saveAndExit">Save & Exit</button>
+    <button type="button" class="btn btn-primary" @click="goNext">Next</button>
+  </div>
+</div>
+
       </div>
     </form>
   </section>
@@ -198,7 +201,37 @@ export default {
     getClientSizeName(id) {
       const size = this.clientSizes.find(size => size.id === id);
       return size ? size.name : '';
-    }
+    },
+    goPrevious() {
+    // Navigate to the previous page
+    window.location.href = `http://127.0.0.1:8000/company/${this.companyId}/focus`;
+  },
+  saveAndExit() {
+    // Save the data and exit to the dashboard
+    const data = {
+      industries: this.selectedIndustries.map(id => ({
+        id,
+        percentage: this.industryPercentages[id] || 0
+      })),
+      clientSizes: this.selectedClientSizes.map(id => ({
+        id,
+        percentage: this.clientSizePercentages[id] || 0
+      })),
+      companyId: this.companyId
+    };
+
+    axios.post(`/company/save-industry/${this.companyId}`, data)
+      .then(response => {
+        window.location.href = `/company/${this.companyId}/dashboard`;
+      })
+      .catch(error => {
+        console.error('Error saving data:', error);
+      });
+  },
+  goNext() {
+    // Submit the form and navigate to the next page
+    this.handleSubmit();  // Calling handleSubmit to ensure data is validated and saved
+  }
   },
   created() {
     this.fetchDataAndGenerateTextboxes();

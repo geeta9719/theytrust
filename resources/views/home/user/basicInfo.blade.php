@@ -1,8 +1,7 @@
 @php
     $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
 @endphp
-{{-- @extends($company ? 'layouts.home-master' : 'layouts.home') --}}
-@extends('layouts.home-master' )
+@extends('layouts.home-master')
 @section('content')
     <?php
     if (isset($_GET['profile']) && !empty($_GET['profile'])) {
@@ -12,86 +11,6 @@
     }
     ?>
     <style>
-        .logocon {
-            font-size: 10px;
-            color: red;
-            /* margin-left: -95px; */
-            margin-left: 20px;
-            margin-top: 10px;
-            font-size: 15px;
-        }
-
-        .basicinfo h4 {
-            text-align: center;
-        }
-
-        .uploadbox h4 {
-            color: #0087f2;
-            ;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .uploadbox .upload {
-            display: inline-block;
-            margin: 20px 0;
-        }
-
-        .companylogo {
-            text-align: right;
-        }
-
-        .company-form-box {
-
-            display: flex;
-            /* align-items: center; */
-            justify-items: center;
-            width: 89%;
-            margin: auto;
-            padding-bottom: 30px;
-        }
-
-        .company-form-box select {
-            background-image: url(../../front_components/images/barrow.jpg);
-            background-repeat: no-repeat;
-            background-position: right;
-            background-size: 26px;
-        }
-
-        .char-count {
-            font-size: 12px;
-            color: grey;
-            margin-top: 5px;
-        }
-
-        .invalid-feedback {
-            display: none;
-            color: red;
-            font-size: 12px;
-        }
-
-        .invalid-feedback.show {
-            display: block;
-        }
-
-        .btnbasic .btn {
-            background: rgb(1, 104, 236);
-            background: linear-gradient(0deg, rgba(1, 104, 236, 1) 21%, rgba(0, 180, 248, 1) 79%);
-            border: 0;
-            font-weight: 300;
-            font-size: 19px;
-            padding: 8px 85px;
-            border-radius: 3rem;
-            transition: all .3s;
-        }
-
-
-
-        @media only screen and (max-width: 767px) {
-            .company-form-box {
-                display: block;
-            }
-        }
     </style>
     <section class="container-fluid signin-banner animatedParent hero-section ">
         <div class="container ">
@@ -139,38 +58,15 @@
                                         information</strong></h4>
                             </div>
 
-                            {{-- <div class="row">
-                                <div class="pt-4 col-md-11 mx-auto d-flex align-item-center">
-                                    <div class="pt-4 col-md-8 file-field uploadbox">
-
-                                        <h4> Upload Company Logo </h4>
-                                        <div class="upload"><strong style="color: red;"> *</strong> <input type="file"
-                                                class="rmvId" id="logo" name="logo">
-                                            <span class="logocon d-block">(Company Logo should be square jpg, png Format and
-                                                at least 512 × 512 pixels.) </span>
-                                        </div>
-                                        <div class="invalid-feedback error1 logo rmvCls">Invalid Image Format!</div>
-                                    </div>
-                                    <div class="pt-4 col-md-4 file-field companylogo">
-                                        <img src="<?php if (!empty($company->logo)) {
-                                            echo $company->logo;
-                                        } else {
-                                            echo asset('front_components/images/logo1.jfif');
-                                        } ?>" width="200" height="auto"
-                                            style="border-radius:25px;">
-
-                                    </div>
-                                </div>
-
-                            </div> --}}
 
                             <div class="row">
                                 <div class="pt-4 col-md-11 mx-auto d-flex align-item-center">
                                     <div class="pt-4 col-md-8 file-field uploadbox">
                                         <h4> Upload Company Logo </h4>
-                                        <div class="upload"><strong style="color: red;"> *</strong> 
+                                        <div class="upload"><strong style="color: red;"> *</strong>
                                             <input type="file" class="rmvId" id="logo" name="logo">
-                                            <span class="logocon d-block">(For best results upload a square logo in the ratio of 512 × 512 pixels.)</span>
+                                            <span class="logocon d-block">(For best results upload a square logo in the
+                                                ratio of 512 × 512 pixels.)</span>
                                         </div>
                                     </div>
                                     <div class="pt-4 col-md-4 file-field companylogo">
@@ -178,11 +74,12 @@
                                             echo $company->logo;
                                         } else {
                                             echo asset('front_components/images/logo1.jfif');
-                                        } ?>" width="200" height="auto" style="border-radius:25px;">
+                                        } ?>" width="200" height="auto"
+                                            style="border-radius:25px;">
                                     </div>
                                 </div>
                             </div>
-                            
+
 
 
 
@@ -307,11 +204,14 @@
                                 </div>
                             </div>
                             <div class="col-md-12 text-center btnbasic">
-                                <button type="button" class="btn btn-sm btn-primary" onclick="checkValue()">Next</button>
-                                <button type="button" class="btn btn-sm btn-secondary" onclick="saveAndBack()">Save and Back</button>
+                                <button type="button" class="btn btn-sm btn-primary"
+                                    onclick="checkValue()">Next</button>
+                                    @if($company)
+                                    <button type="button" class="btn btn-sm btn-secondary" onclick="saveAndBack()">Save & Exit</button>
+                                @endif
                             </div>
-                            
-                                    
+
+
                     </form>
 
                 </div>
@@ -322,7 +222,9 @@
 @endsection
 
 @section('script')
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
             const textarea = document.getElementById('short_description');
@@ -345,34 +247,36 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-    const logoInput = document.getElementById('logo');
-    const logoMessage = document.querySelector('.logocon');
+            const logoInput = document.getElementById('logo');
+            const logoMessage = document.querySelector('.logocon');
 
-    logoInput.addEventListener('change', function() {
-        // This is just an informational message, no restriction
-        logoMessage.textContent = "For best results upload a square logo in the ratio of 512 × 512 pixels.";
-    });
-});
+            logoInput.addEventListener('change', function() {
+                // This is just an informational message, no restriction
+                logoMessage.textContent =
+                    "For best results upload a square logo in the ratio of 512 × 512 pixels.";
+            });
+        });
 
-document.addEventListener('DOMContentLoaded', function() {
-    const logoInput = document.getElementById('logo');
-    const logoPreview = document.getElementById('logoPreview');
-    const logoMessage = document.querySelector('.logocon');
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoInput = document.getElementById('logo');
+            const logoPreview = document.getElementById('logoPreview');
+            const logoMessage = document.querySelector('.logocon');
 
-    logoInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                logoPreview.src = e.target.result;
-            }
-            reader.readAsDataURL(file);
+            logoInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        logoPreview.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
 
-            // Update the informational message
-            logoMessage.textContent = "For best results upload a square logo in the ratio of 512 × 512 pixels.";
-        }
-    });
-});
+                    // Update the informational message
+                    logoMessage.textContent =
+                        "For best results upload a square logo in the ratio of 512 × 512 pixels.";
+                }
+            });
+        });
 
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -444,21 +348,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
- document.addEventListener('DOMContentLoaded', function() {
-    // Existing code...
+        document.addEventListener('DOMContentLoaded', function() {
+            // Existing code...
 
-    window.saveAndBack = function() {
-        // Add a hidden input to indicate "save and back" action
-        const form = document.getElementById('basicAdd');
-        const saveBackInput = document.createElement('input');
-        saveBackInput.type = 'hidden';
-        saveBackInput.name = 'save_and_back';
-        saveBackInput.value = '1';
-        form.appendChild(saveBackInput);
+            window.saveAndBack = function() {
+                // Add a hidden input to indicate "save and back" action
+                const form = document.getElementById('basicAdd');
+                const saveBackInput = document.createElement('input');
+                saveBackInput.type = 'hidden';
+                saveBackInput.name = 'save_and_back';
+                saveBackInput.value = '1';
+                form.appendChild(saveBackInput);
 
-        // Submit the form
-        checkValue();
-    }
-})
+                // Submit the form
+                checkValue();
+            }
+        })
     </script>
 @endsection
