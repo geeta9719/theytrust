@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset('front_components/css/select2.min.css') }}">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCdnZAhg0LJkAqtM7g82yYemaMUTR0PAY4&libraries=places"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom Style -->
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
