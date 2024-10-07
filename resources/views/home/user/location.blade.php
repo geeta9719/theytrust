@@ -121,6 +121,8 @@
                 <!--<form action="/action_page.php" class="was-validated">-->
                 <form role="form" name="addLoc" id="addLoc" action="{{route('company.savelocation')}}" method="post" enctype="multipart/form-data">
                     @csrf 
+                    <input type="hidden" name="save_and_back" id="save_and_back" value="0">
+                    <input type="hidden" name="next" id="next" value="0">
                     <div class="card-body sheet" id="sheet2"> 
                         <!--<h4><strong class="card-title" >Where is your company Located</strong></h4>-->
                         <?php $i=0; ?>
@@ -315,15 +317,27 @@
                             <div class="col-md-3"></div>
                             <div class="col-md-6"><a href="javascript:void(0)" rel="{{$i+1}}" id="addNewAdd" onclick="addNewAdd('addAddress')" class="submitbtn">Add Another Location</a></div>
                         </div>
-                        <div class="row mt-5">
+                        {{-- <div class="row mt-5">
                             <div class="col-md-3"></div>
                             <div class="col-md-6">
                                 <?php if(!empty($company->user_id)){ $uid = $company->user_id;}else{ $uid = auth()->user()->id;}?>
                                 <a href="{{route('user.basicInfo', $uid)}}" class="submitbtn"> < </a>
-                                <!--<button type="submit" class="btn btn-sm btn-primary" >Next</button>-->
-                                <button type="button" class="submitbtn" onclick="checkValue()">Next</button>
+                             
                             </div>
-                        </div>    
+                        </div>     --}}
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6">
+                                    <?php if(!empty($company->user_id)){ $uid = $company->user_id;}else{ $uid = auth()->user()->id;}?>
+                                    <a href="{{route('user.basicInfo', $uid)}}" class="submitbtn"> < </a>
+                                    <button type="button" class="submitbtn" onclick="checkValue('next')">Next</button>
+                                    <button type="button" class="submitbtn" onclick="checkValue('save_and_back')">Save and Exit</button>
+                                </div>
+                            </div>    
+                        </div>
+                        
+                        
                     </div>
                 </form>
             </div>
@@ -557,7 +571,7 @@
     var checkValue;
     $(document).ready(function()
     {
-        checkValue = function()
+        checkValue = function(action)
         {
             var ser = $('#addLoc').serialize();
             jQuery.ajax({
@@ -588,7 +602,8 @@
                     }
                     else
                     {
-                        $("#addLoc").submit();
+                        debugger;
+                        submitForm(action);
                     }    
                 },
                 error: function(result){
@@ -597,6 +612,18 @@
                 }
             });
         }
+        submitForm = function(action) {
+        if (action === 'save_and_back') {
+            $('#save_and_back').val(1);  // Set the value for save_and_back
+            $('#next').val(0);           // Reset the value for next
+        } else if (action === 'next') {
+            $('#save_and_back').val(0);  // Reset the value for save_and_back
+            $('#next').val(1);           // Set the value for next
+        }
+
+        // No need to append new hidden inputs, just submit the form
+        $("#addLoc").submit(); // Submit the form
+    }
     });    
 </script>
 <script type="text/javascript">

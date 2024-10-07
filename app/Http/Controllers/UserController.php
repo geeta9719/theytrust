@@ -463,10 +463,23 @@ public function dashboard(Request $request, $company)
         }
 
 
-        if ($request->has('save_and_back')) {
-            return redirect()->route('company.dashboard', $company->id); // Redirect to the company dashboard
+        // dd($request->has('save_and_back'));
+        // if ($request->has('save_and_back')) {
+        //     return redirect()->route('company.dashboard', $company->id); // Redirect to the company dashboard
 
+        // } else {
+        //     return redirect()->route('company.focus', $company->id);
+        // }
+        // dd()
+
+        // dd($request->input('save_and_back'),$request->input('next'));
+        if ($request->input('save_and_back') == 1) {
+            // dd("Sdfsdf");
+            // Redirect to company dashboard
+            
+            return redirect()->route('company.dashboard', $company->id); 
         } else {
+            // Redirect to the next page
             return redirect()->route('company.focus', $company->id);
         }
     
