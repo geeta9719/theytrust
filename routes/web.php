@@ -51,7 +51,7 @@ use App\Http\Controllers\ServiceProviderController;
 Route::view('/example', 'welcome');
 
 Auth::routes();
-Route::get('/', [HomeController::class, 'index'])->name('home');
+// Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/terms', [HomeController::class, 'terms'])->name('terms');
 Route::get('/privacy', [HomeController::class, 'privacy'])->name('privacy');
@@ -327,15 +327,8 @@ Route::delete('/admin/skills/{skill}', [SkillCategoryController::class, 'destroy
     Route::get('/company/{company}/projects', [CompanyController::class, 'CompnayProjectIndex'])->name('projects.index');
     Route::get('/admin/model-references/create', [ModelReferenceController::class, 'create'])->name('model-references.create');
 Route::post('admin/model-references', [ModelReferenceController::class, 'store'])->name('model-references.store');
-    // Route::Post('store', [CompanyController::class, 'CompnayProjectStore'])->name('projects.store');
-    // Route::get('/projects/{id}/edit', [CompanyController::class, 'CompnayProjectEdit'])->name('projects.edit');
-    // Route::put('/projects/{id}', [CompanyController::class, 'update'])->name('projects.update');
     Route::resource('Projects','App\Http\Controllers\ProjectController');
     
-    // Route::resource('planfeatures', PlanFeatureController::class)->except([
-    //     'update' 
-    // ]);
-   // Route::put('planfeatures/{planfeature}', [PlanFeatureController::class,'update'])->name('planfeatures.update');
 
 
 
@@ -382,7 +375,7 @@ Route::post('/submit-response', [ReviewController::class,'submitResponse'])->nam
 Route::get('/categories', [SearchController::class, 'getCategories']);
 // Route::get('/listing', [SearchController::class, 'listing'])->name('listing');
 // routes/web.php
-Route::get('/listing/{category?}/{subcategory?}/{skill?}/{subskill?}', [SearchController::class, 'listing'])->name('listing');
+// Route::get('/listing/{category?}/{subcategory?}/{skill?}/{subskill?}', [SearchController::class, 'listing'])->name('listing');
 
 Route::get('/api/categories/{id}/subcategories', [SearchController::class, 'getSubcategories']);
 Route::get('/api/subcategories/{id}/skills', [SearchController::class, 'getSkills']);
@@ -399,7 +392,23 @@ Route::post('password/reset', [AuthController::class, 'reset'])->name('password.
 
 
 
+//Simple User LOg in 
 
+Route::middleware([ 'check.company'])->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/listing/{category?}/{subcategory?}/{skill?}/{subskill?}', [SearchController::class, 'listing'])->name('listing');
+    Route::get('/user/{user}/basicInfo', [UserController::class, 'basicInfo'])->name('user.basicInfo');
+    Route::get('/user/{user}/allinfo', [UserController::class, 'allInfo'])->name('user.allinfo');
+    Route::post('/user/saveBasicInfo', [UserController::class, 'saveBasicInfo'])->name('user.saveBasicInfo');
+
+    Route::post('/company/location', [UserController::class, 'savelocation'])->name('company.savelocation');
+    Route::get('/company/{company}/location', [UserController::class, 'location'])->name('company.location');
+   
+    Route::get('/company/{company}/focus', [UserController::class, 'focus'])->name('company.focus');
+    Route::post('/company/focus', [UserController::class, 'saveFocus'])->name('company.saveFocus');
+
+
+});
 
 
 

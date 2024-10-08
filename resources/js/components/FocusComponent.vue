@@ -159,7 +159,7 @@
             <button @click="submitForm('next')" :disabled="submitButtonDisabled" class="btn btn-primary">Next</button>
 
             <!-- Save & Exit button -->
-            <button @click="submitForm('saveAndExit')" class="btn btn-warning">Save & Exit</button>
+            <button @click="submitForm('saveAndExit')"    v-if="buttondisable || buttondisable.length > 0"  :disabled="submitButtonDisabled" class="btn btn-warning">Save & Exit</button>
           </div>
         </div>
 
@@ -219,7 +219,8 @@ export default {
       selectedSubCategoryId: null,
       selectedSkillId: null,
       submitButtonDisabled: true,
-      modalErrorMessage: ""
+      modalErrorMessage: "",
+      buttondisable:[]
 
     };
   },
@@ -782,6 +783,8 @@ export default {
       axios.get(`/companydata/${this.companyId}`)
         .then(response => {
           this.selectedData = response.data;
+          this.buttondisable = response.data;
+
           this.updateCategoriesAndSubcategories(response.data);
         })
         .catch(error => {
