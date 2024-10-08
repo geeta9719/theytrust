@@ -156,10 +156,10 @@
             <!-- <button @click="goToPreviousPage" class="btn btn-secondary">Previous</button> -->
 
             <!-- Next button -->
-            <button @click="submitForm('next')" :disabled="submitButtonDisabled" class="btn btn-primary">Next</button>
+            <button @click="submitForm('next')" :disabled="submitButtonDisabled" class="next-btn">Next</button>
 
             <!-- Save & Exit button -->
-            <button @click="submitForm('saveAndExit')"    v-if="buttondisable || buttondisable.length > 0"  :disabled="submitButtonDisabled" class="btn btn-warning">Save & Exit</button>
+            <button @click="submitForm('saveAndExit')"    v-if="buttondisable || buttondisable.length > 0"  :disabled="submitButtonDisabled" class="save-btn">Save & Exit</button>
           </div>
         </div>
 
@@ -220,7 +220,7 @@ export default {
       selectedSkillId: null,
       submitButtonDisabled: true,
       modalErrorMessage: "",
-      buttondisable:[]
+      buttondisable:false
 
     };
   },
@@ -784,7 +784,7 @@ export default {
         .then(response => {
           this.selectedData = response.data;
           this.buttondisable = response.data;
-
+          console.log(this.buttondisable,"buttondisablebuttondisablebuttondisable");
           this.updateCategoriesAndSubcategories(response.data);
         })
         .catch(error => {
