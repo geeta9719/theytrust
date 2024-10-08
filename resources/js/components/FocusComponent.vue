@@ -153,7 +153,7 @@
         <div class="row button-section">
           <div class="col-lg-12 d-flex justify-content-between">
             <!-- Previous button -->
-            <button @click="goToPreviousPage" class="btn btn-secondary">Previous</button>
+            <!-- <button @click="goToPreviousPage" class="btn btn-secondary">Previous</button> -->
 
             <!-- Next button -->
             <button @click="submitForm('next')" :disabled="submitButtonDisabled" class="btn btn-primary">Next</button>
