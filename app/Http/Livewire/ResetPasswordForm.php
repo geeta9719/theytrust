@@ -36,6 +36,9 @@ class ResetPasswordForm extends Component
         if ($user) {
             // Update the user's password
             $user->password = Hash::make($this->password);
+            $user->verification_token = null;
+            $user->token_expires_at = null;
+            $user->email_verified_at = Carbon::now();
             $user->save();
             $this->emit('passwordResetSuccess');
             $this->status = 'Password updated successfully.';
