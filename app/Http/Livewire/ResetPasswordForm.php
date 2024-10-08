@@ -6,7 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
-use Carbon;
+use Carbon\Carbon;
 
 class ResetPasswordForm extends Component
 {
