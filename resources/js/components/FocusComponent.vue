@@ -220,7 +220,7 @@ export default {
       selectedSkillId: null,
       submitButtonDisabled: true,
       modalErrorMessage: "",
-      buttondisable:[]
+      buttondisable:false
 
     };
   },
@@ -784,7 +784,7 @@ export default {
         .then(response => {
           this.selectedData = response.data;
           this.buttondisable = response.data;
-
+          console.log(this.buttondisable,"buttondisablebuttondisablebuttondisable");
           this.updateCategoriesAndSubcategories(response.data);
         })
         .catch(error => {
