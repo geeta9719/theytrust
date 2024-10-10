@@ -75,7 +75,7 @@ $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
                     <a href="{{route('company.focus',$company->id)}}" class="btn btn-sm btn-primary"> < </a>
                     <div class="col-md-12 text-center btnbasic">
                         <button type="button" class="btn btn-sm btn-primary" onclick="checkValue()">Next</button>
-                        <button type="button" class="btn btn-sm btn-primary" onclick="saveAndBack()">Save and Back</button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="saveAndBack()">Save and Exit</button>
                     </div>
                     
                 </form>

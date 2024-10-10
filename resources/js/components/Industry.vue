@@ -99,8 +99,8 @@
 
   <div class="row mt-4">
   <div class="col-md-12 text-center">
-    <button type="button" class="btn btn-secondary mr-2" @click="goPrevious">Previous</button>
-    <button type="button" class="btn btn-warning mr-2" @click="saveAndExit">Save & Exit</button>
+    <!-- <button type="button" class="btn btn-secondary mr-2" @click="goPrevious">Previous</button> -->
+    <button type="button" v-if="buttondisable || buttondisable.length > 0" class="btn btn-warning mr-2" @click="saveAndExit">Save & Exit</button>
     <button type="button" class="btn btn-primary" @click="goNext">Next</button>
   </div>
 </div>
@@ -126,7 +126,8 @@ export default {
       industryPercentages: {},
       clientSizePercentages: {},
       categorySumError: '',
-      clientSizeSumError: ''
+      clientSizeSumError: '',
+      buttondisable:[]
     };
   },
   computed: {
@@ -147,6 +148,7 @@ export default {
     fetchDataAndGenerateTextboxes() {
     axios.get(`/industry/${this.companyId}`)
       .then(response => {
+        this.buttondisable =response.data.industry;
         response.data.industry.forEach(industry => {
           this.selectedIndustries.push(industry.industry.id);
           this.industryPercentages[industry.industry.id] = industry.percent;
