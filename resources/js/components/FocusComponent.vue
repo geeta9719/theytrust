@@ -156,10 +156,10 @@
             <!-- <button @click="goToPreviousPage" class="btn btn-secondary">Previous</button> -->
 
             <!-- Next button -->
-            <button @click="submitForm('next')" :disabled="submitButtonDisabled" class="btn btn-primary">Next</button>
+            <button @click="submitForm('next')" :disabled="submitButtonDisabled" class="next-btn">Next</button>
 
             <!-- Save & Exit button -->
-            <button @click="submitForm('saveAndExit')"    v-if="buttondisable || buttondisable.length > 0"  :disabled="submitButtonDisabled" class="btn btn-warning">Save & Exit</button>
+            <button @click="submitForm('saveAndExit')"    v-if="buttondisable || buttondisable.length > 0"  :disabled="submitButtonDisabled" class="save-btn">Save & Exit</button>
           </div>
         </div>
 
@@ -876,7 +876,7 @@ export default {
 
 .bottom-sec {
   border-radius: 44px;
-  background-color: #388cff;
+  background-color: #00bdd6;
   font-weight: 600;
   font-size: 20px;
   padding: 15px 60px;
@@ -957,10 +957,12 @@ export default {
 
 .sub-category-card h3 {
   /* font-size: 27px; */
-  color: #fff;
-  background-color: #388cff;
+  color: #000;
+  background-color: #ece4fa;
   padding: 6px 20px;
-  font-size: 1.5rem;
+   font-weight: 700;
+    font-family: "Epilogue", sans-serif;
+font-size: 18px;
   width: 100%;
 }
 
@@ -990,11 +992,12 @@ export default {
 
 .category h3 {
 
-  color: #fff;
-  background-color: #388cff;
+  color: #000;
+  background-color: #00bdd6;
   padding: 6px 20px;
-  font-size: 1.5rem;
+  font-size: 18px;
   width: 100%;
+   font-family: "Epilogue", sans-serif;
 }
 
 #app {
@@ -1079,9 +1082,12 @@ export default {
 
 legend {
 
-  background-color: #388cff;
-  color: #fff;
-  padding: 10px 20px;
+      background-color: #00bdd6;
+    color: #000;
+    padding: 4px 20px;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: "Epilogue", sans-serif;
 
 }
 

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Mail\WelcomeEmail;
-
+use Log;
 use Illuminate\Support\Facades\Password;
 
 

@@ -10,7 +10,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form wire:submit.prevent="submit">
+                <form wire:submit.prevent="submit" class="forgot-gap">
                     <div class="modal-body">
                         <!-- Success Message -->
                         @if (session()->has('status'))
@@ -27,17 +27,17 @@
                         @endif
 
                         <!-- Email Input -->
-                        <p>Please enter your email address to receive password reset instructions.</p>
-                        <div class="form-group">
+                        <p class="ml-2 enter-txt">Please enter your email address to receive password reset instructions.</p>
+                        <div class="form-group forgot-box">
                             <label for="email">Email Address</label>
                             <input type="email" wire:model="email" id="email" class="form-control" required>
                             @error('email') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Send Reset Link</button>
-                        <button type="button" class="btn btn-secondary" id="closeForgotPasswordBtn">Close</button>
+                    <div class="modal-footer forgot-box">
+                        <button type="submit" class="btn btn-primary reset-link">Send Reset Link</button>
+                        <button type="button" class="btn btn-secondary reset-close-link" id="closeForgotPasswordBtn">Close</button>
                     </div>
                 </form>
             </div>

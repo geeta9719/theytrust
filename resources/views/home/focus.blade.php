@@ -1,6 +1,6 @@
 @extends('layouts.home-master')
 @section('content')
-    <div id="app">
+    <div id="app" class="focus-sec">
         {{-- {{dd($company)}} --}}
              {{-- <focus-main-component :categories="{{ $categories }}"></focus-main-component>
               --}}

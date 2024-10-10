@@ -978,6 +978,10 @@ font-size: 14px;
     font-weight: 400;
     font-family: "Inter", sans-serif;
 }
+.view-profile-btn:hover,
+.request-quote-btn:hover {
+color:#000!important;
+text-decoration:none!important;}
 .view-profile-btn,
 .request-quote-btn {
   padding: 6px 15px;

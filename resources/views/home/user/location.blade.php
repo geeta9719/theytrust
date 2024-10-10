@@ -15,27 +15,97 @@
     margin-bottom: 30px;
     width:600px;
    }
+   .company-location h3 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #323842;
+    font-family: "Epilogue", sans-serif;
+}
    .brdbtmtext{
        border-bottom:1px solid #f1f1f1;
        padding: 2px 0;
        display:flex;
    }
-
+   .exit-btn {
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+}
+.card-footer{
+    background-color:#fff;
+    border:0;
+}
+  .next-btn {
+    color: #fff;
+    background-color: #00bdd6;
+    border-color: #00bdd6;
+    border-radius: 5px;
+    padding: 5px 24px 6px 23px;
+    font-size: 13px;
+    margin-left: 12px;
+}
+.next-btn:hover{
+    color:#000;
+    margin-left: 12px;
+}
+.submitbtn:hover{
+    color:#000;
+}
+   .location-sec h3 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #323842;
+    font-family: "Epilogue", sans-serif;
+}
    .brdbtmtext .leftinnerbox{
        width:50%;
    }
    .emailinput{
        display:inline-block;
    }
-   .mobileinput{
+   .email-id {
+    background: url(https://theytrust-us.developmentserver.info/img/key.png) no-repeat left center;
+    height: auto;
+    width: 100%;
+    background-size: 18px;
+    background-position-x: 96%;
+}
+#addLoc .form-control{
+font-size:14px;
+padding-right:23px;
+}
+#addLoc label{
+    font-weight: 700!important;
+}
+.email-id::placeholder{
+    font-size:14px;
+}
+
+   h3 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #323842;
+    font-family: "Epilogue", sans-serif;
+}
+   /* .mobileinput{
     display:inline-block;
     margin-left: 76px;
-   }
-   .submitbtn{
+   } */
+   /* .submitbtn{
        color:#fff!important;
-   }
+   } */
    .namebox{
-       font-weight:bold;
+       font-weight:400!important;
        width:50%;
    }
    .crossbtn a {
@@ -91,17 +161,17 @@
 }
 .mobileinput {
    
-    margin-left: 0px; 
+    margin-left: 12px; 
 }
    }
 
 </style>
-<section class="container-fluid signin-banner animatedParent hero-section ">
+<section class="container-fluid signin-banner animatedParent hero-section location-sec ">
     <div class="container ">
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-5 mx-auto text-center">   
-                    <h3><strong>Describe your company's location</strong></h3>
+                <div class="col-md-5 mx-auto text-center company-location">   
+                    <h3>Describe your company's location</h3>
                     <!--<h3><strong class="card-title text-black" style="">Logged In With : {{auth()->user()->email}} </strong></h3>-->
                     <p> @if(Session::has('message'))
                         <div class="alert alert-danger">{{Session::get('message')}}</div>
@@ -150,28 +220,28 @@
                                         <a data-address="{{$add->autocomplete}}" href="{{route('delete-location-by-id',$add->id)}}" class="delete-location btn btn-danger">X</a>
                                     </span>
 
-                                    <div class="form-group">
+                                    <div class="form-group headquarters">
                                         <label>Search Company Address.</label>
                                         <input type="text" name="autocomplete[]" id="autocomplete{{$i}}" class="form-control autoApi" placeholder="Choose Location" onkeyup="onk({{$i}})" value="{{$add->autocomplete}}">
                                     </div>
                                 </div> 
                                 <div class="addForm text-black" id="addStatic{{$i}}">
-                                    <div class="form-group">
+                                    <div class="form-group headquarters">
                                         <div class="brdbtmtext"><span class="leftinnerbox">Country:</span> <span class="country{{$i}} namebox" rel="{{$add->country->iso2 ?? ''}}">{{$add->country->name  ?? ''}}</span></div>
                                         <div class="brdbtmtext"><span class="leftinnerbox">State:</span> <span class="state{{$i}} namebox" rel="{{$add->state->name ?? ''}}">{{ $sttt ?? ''}}</span></div>
                                         <div class="brdbtmtext"><span class="leftinnerbox">City:</span> <span class="city{{$i}} namebox" rel="{{$add->city ?? ''}}">{{$add->city ?? ''}}</span></div>
                                         <div class="brdbtmtext"><span class="leftinnerbox">Zip/Postal Code:</span> <span class="zip{{$i}} namebox" rel="{{$add->zip ?? ''}}">{{$add->zip ?? ''}}</span></div>
                                         <div class="brdbtmtext"><span class="leftinnerbox">Address:</span> <span class="address{{$i}} namebox" rel="{{$add->address ?? ''}}">{{$add->address ?? ''}}</span></div>
                                     </div>
-                                    <span style="cursor: pointer;" onclick="editBtn('addStatic{{$i}}','addForm{{$i}}',{{$i}})" class="submitbtn">Edit Your Address</span>
-                                </div> <br/>
+                                    <span style="cursor: pointer;" class="next-btn" onclick="editBtn('addStatic{{$i}}','addForm{{$i}}',{{$i}})" class="submitbtn">Edit Your Address</span>
+                                </div> 
 
                                 <div class="addForm text-black" id="addForm{{$i}}" style="display:none;">
                                     <input type="hidden" name="id[]" value="{{$add->id}}"> 
                                     <input type="hidden" name="autocomplete_1[]" id="autocomplete-1{{$i}}" value="{{$add->autocomplete}}"> 
                                     <input type="hidden" name="type[]" value="1">
                                     <input type="hidden" name="addref[]" value="{{$i}}"/>
-                                    <div class="form-group">
+                                    <div class="form-group headquarters">
                                         <label for="country">Country</label><strong style="color: red;"> *</strong>
                                         <select class="form-control rmvId" id="country{{$i}}" name="country_iso2[]" onchange="selectCountry({{$i}})">
                                             <option value="">Select Country</option>
@@ -212,12 +282,12 @@
                                         <input type="text" class="form-control rmvId" id="address{{$i}}" name="address[]" value="<?php if(!empty($add->address)){ echo $add->address;}?>">
                                         <div class="invalid-feedback address{{$i}} rmvCls"></div>
                                     </div>
-                                    <span style="cursor: pointer;" onclick="cancelBtn('addForm{{$i}}','addStatic{{$i}}',{{$i}})" class="submitbtn">Cancel and Use Location Search</span>
+                                    <span style="cursor: pointer;" class="next-btn" onclick="cancelBtn('addForm{{$i}}','addStatic{{$i}}',{{$i}})" class="submitbtn">Cancel and Use Location Search</span>
                                 </div><br/>
                                 <div class="addForm text-black" id="addEmail{{$i}}">
                                     <div class="form-group emailinput">
                                         <label for="email">Email</label><strong style="color: red;"> *</strong>
-                                        <input type="text" class="form-control rmvId" id="email{{$i}}" name="email[]" value="<?php if(!empty($add->email)){ echo $add->email;}?>">
+                                        <input type="text" class="form-control rmvId email-id" id="email{{$i}}" name="email[]" value="<?php if(!empty($add->email)){ echo $add->email;}?>">
                                         <div class="invalid-feedback email{{$i}} rmvCls"></div>
                                     </div>
                                     <div class="form-group mobileinput">
@@ -313,9 +383,9 @@
                         <!-----------------------Address Form2 End------------------------>
                     </div>
                     <div class="card-footer">
-                        <div class="row">
+                        <div class="row text-center">
                             <div class="col-md-3"></div>
-                            <div class="col-md-6"><a href="javascript:void(0)" rel="{{$i+1}}" id="addNewAdd" onclick="addNewAdd('addAddress')" class="submitbtn">Add Another Location</a></div>
+                            <div class="col-md-6 mb-3"><a href="javascript:void(0)" rel="{{$i+1}}" id="addNewAdd" onclick="addNewAdd('addAddress')" class="submitbtn next-btn">Add Another Location</a></div>
                         </div>
                         {{-- <div class="row mt-5">
                             <div class="col-md-3"></div>
@@ -325,14 +395,14 @@
                              
                             </div>
                         </div>     --}}
-                        <div class="card-footer">
-                            <div class="row">
+                        <div class="card-footer text-center">
+                            <div class="row mb-5">
                                 <div class="col-md-3"></div>
                                 <div class="col-md-6">
                                     <?php if(!empty($company->user_id)){ $uid = $company->user_id;}else{ $uid = auth()->user()->id;}?>
                                     <a href="{{route('user.basicInfo', $uid)}}" class="submitbtn"> < </a>
-                                    <button type="button" class="submitbtn" onclick="checkValue('next')">Next</button>
-                                    <button type="button" class="submitbtn" onclick="checkValue('save_and_back')">Save and Exit</button>
+                                    <button type="button" class="submitbtn next-btn" onclick="checkValue('next')">Next</button>
+                                    <button type="button" class="submitbtn exit-btn" onclick="checkValue('save_and_back')">Save and Exit</button>
                                 </div>
                             </div>    
                         </div>

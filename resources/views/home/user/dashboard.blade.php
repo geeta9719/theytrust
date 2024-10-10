@@ -275,16 +275,32 @@
 
     .leads {
         color: #fff;
-        background-color: #00bdd6 !important;
-        border-color: #00bdd6 !important;
-        border-radius: 12px;
-        padding: 3px 52px 4px 52px;
-        font-size: 17px;
-        margin-top: 20px;
-        text-align: center;
-        width: 100%;
+    background-color: #00bdd6 !important;
+    border-color: #00bdd6 !important;
+    border-radius: 6px;
+    padding: 3px 52px 4px 52px;
+    font-size: 17px;
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+    border: 0;
     }
-
+    .leads:hover {
+        border: 0;
+        outline:none;
+        color:#000;
+    }
+    .btnbox a:hover{
+        color:#000;
+    }
+    .greybox a:hover{
+color:#000;
+text-decoration:none;
+    }
+    .leads:focus {
+        border: 0;
+        outline:none;
+    }
     .field-name {
         min-width: 170px;
         margin: 0;

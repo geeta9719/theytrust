@@ -5,7 +5,7 @@
       <div class="row catBox">
         <div class="col-lg-3 col-md-6">
           <fieldset>
-            <legend>Choose Primary Service</legend>
+            <legend class="primaryBox">Choose Primary Service</legend>
             <div id="categoryFieldset" :class="{ 'active': isActive }">
               <CategoryItem v-for="category in categories" :key="category.id"
                 :category="category" :selectedCategory="selectedCategory"
@@ -18,7 +18,7 @@
         <!-- Choose Sub Category Fieldset -->
         <div class="col-lg-3 col-md-6" v-if="hasSubCategory && subcategories.length">
           <fieldset>
-            <legend>Choose Sub Category</legend>
+            <legend class="primaryBox">Choose Sub Category</legend>
             <div id="subCategoryFieldset" :class="{ 'open': subcategories.length }">
               <SubcategoryItem v-for="subcategory in subcategories" :key="subcategory.id"
                 :subcategory="subcategory" @toggle-subcategory="toggleSubcategory">

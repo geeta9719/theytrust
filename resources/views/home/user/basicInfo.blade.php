@@ -26,6 +26,7 @@
                                 <div class="alert alert-success">{{ session('msg') }}</div>
                             @endif
                         </p>
+                        <!-- <h3>Thank you for signup up and confirming your email</h3> -->
                     </div>
                 </div>
             </div>
@@ -52,7 +53,7 @@
                         } ?>">
                         <input type="hidden" id="oldLogo" name="oldLogo" value="{{ $company->logo ?? '' }}">
 
-                        <div class="card-body sheet" id="sheet1">
+                        <div class="card-body sheet mb-5" id="sheet1">
                             <div class="basicinfo">
                                 <h4 class="text-align-center"><strong class="card-title">Let's get some basic
                                         information</strong></h4>
@@ -204,10 +205,10 @@
                                 </div>
                             </div>
                             <div class="col-md-12 text-center btnbasic">
-                                <button type="button" class="btn btn-sm btn-primary"
+                                <button type="button" class=" btn-sm basicbtn "
                                     onclick="checkValue()">Next</button>
                                     @if($company)
-                                    <button type="button" class="btn btn-sm btn-secondary" onclick="saveAndBack()">Save & Exit</button>
+                                    <button type="button" class=" btn-sm btn-secondary" onclick="saveAndBack()">Save & Exit</button>
                                 @endif
                             </div>
 
