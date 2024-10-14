@@ -25,8 +25,8 @@ class SignupForm extends Component
         'first_name' => 'required|string|max:255',
         'last_name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:8', // Added password confirmation validation
-        'confirm_password' => 'required|same:password', 
+        // 'password' => 'required|min:8', // Added password confirmation validation
+        // 'confirm_password' => 'required|same:password', 
         'remember'=>'accepted' 
     ];
 
