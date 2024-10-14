@@ -63,7 +63,10 @@ class SignupForm extends Component
             'verification_token' => $verificationToken,   // Store the token
             'token_expires_at' => $tokenExpiresAt,        // Store token expiration
         ]);
-        Mail::to($user->email)->send(new VerificationEmail($user));
+         Mail::to($user->email)->send(new VerificationEmail($user));
+
+        $this->emit('closeSignupModal');
+
         // Auth::login($user);
 
            // Open the verification email modal
