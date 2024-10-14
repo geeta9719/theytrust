@@ -42,12 +42,12 @@ class CheckUserCompany
                 return redirect()->route('company.location', ['company' => $company->id]);
             }
 
-            $addresses = AddFocus::where('company_id', $company->id)->first();
+            // $addresses = AddFocus::where('company_id', $company->id)->first();
 
-            // If no address is found, redirect to company location page
-            if (!$addresses) {
-                return redirect()->route('company.focus', ['company' => $company->id]);
-            }
+            // // If no address is found, redirect to company location page
+            // if (!$addresses) {
+            //     return redirect()->route('company.focus', ['company' => $company->id]);
+            // }
 
         }
 
