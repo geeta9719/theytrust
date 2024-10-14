@@ -74,7 +74,7 @@
                                         <img id="logoPreview" src="<?php if (!empty($company->logo)) {
                                             echo $company->logo;
                                         } else {
-                                            echo asset('front_components/images/logo1.jfif');
+                                            echo asset('front_components/download.jpeg');
                                         } ?>" width="200" height="auto"
                                             style="border-radius:25px;">
                                     </div>
