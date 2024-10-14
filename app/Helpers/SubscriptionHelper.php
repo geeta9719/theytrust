@@ -26,7 +26,6 @@ class SubscriptionHelper
         // Fetch the active subscription and plan
         $activeSubscription = $user->CurrentSubscription->first();
 
-    dd($activeSubscription);
         if ($activeSubscription) {
             // Get the plan and its features
             $plan = $activeSubscription->plan;
@@ -34,6 +33,7 @@ class SubscriptionHelper
 
             // Check if the plan has a review limit (based on features)
             $reviewLimitFeature = $features->where('name', 'reviews_count')->first();
+            dd($reviewLimitFeature);
             $review_limit = $reviewLimitFeature ? (int) $reviewLimitFeature->limit : 0;
 
             // Return true if the user has not exceeded the review limit
