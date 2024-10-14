@@ -30,6 +30,8 @@ use App\Models\Specialization;
 use App\Models\PortfolioItem;
 use App\Models\Skill;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\SubscriptionHelper;
+
 
 class SearchController extends Controller
 {
@@ -1063,11 +1065,14 @@ class SearchController extends Controller
             ->latest()
             ->take(2)
             ->get();
+            $data['reviews_count'] = CompanyReview::where('company_id', $company_id)->count();
+
 
         $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
             ->latest()
             ->take(2)
             ->get();
+            $data['can_write_review'] = SubscriptionHelper::canWriteReview($data['reviews_count']);
 
         return view('home.companyProfile', $data);
     }

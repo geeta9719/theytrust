@@ -14,7 +14,6 @@ class LoginForm extends Component
     protected $rules = [
         'email' => 'required|email',
         'password' => 'required|min:8',
-        'remember' => 'accepted',
     ];
 
     public function updated($propertyName)

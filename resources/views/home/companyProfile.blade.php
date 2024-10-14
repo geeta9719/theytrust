@@ -110,11 +110,24 @@ width: auto!important;}
                                 <h3>{{ $rate_review->review }} REVIEWS</h3>
                             </a>
                         </div>
+                        {{-- <div class="write-review blue-write-review">
+                            @if ($user && $plan && $review_limit > $reviews_count)
+                                <a href="{{ url('company/' . $company->id . '/getReview') }}" class="btn btn-primary" target="_blank">
+                                    Write a Review
+                                </a>
+                            @else
+                                <p>You have reached the maximum number of reviews allowed by your plan.</p>
+                            @endif
+                        </div> --}}
                         <div class="write-review blue-write-review">
-                            <a href="{{ url('company/' . $company->id.'/getReview' ) }}" class="btn btn-primary" target="_blank">
-                              Write a Review
-                            </a>
-                          </div>  
+                            @if ($can_write_review)
+                                <a href="{{ url('company/' . $company->id . '/getReview') }}" class="btn btn-primary" target="_blank">
+                                    Write a Review
+                                </a>
+                            @else
+                                <p>You have reached the maximum number of reviews allowed by your plan.</p>
+                            @endif
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-3 mt-md-2 target-sec">

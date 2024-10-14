@@ -32,6 +32,7 @@ use App\Http\Controllers\PaymentContorller;
 use App\Http\Controllers\PortfolioItemController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceProviderController;
+use App\Http\Controllers\PageController;
 
 
 // use App\Http\Controllers\CompanyController;
@@ -410,8 +411,10 @@ Route::middleware([ 'check.company'])->group(function () {
 
 });
 
+// Public Page
 
-
+Route::get('/terms-of-use', [PageController::class, 'termsOfUse'])->name('terms-of-use');
+Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
 
 
     

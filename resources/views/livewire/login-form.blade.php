@@ -15,9 +15,14 @@
         </div>
 
         <!-- Remember Me Checkbox -->
-        <div class="form-check ml-3 mb-2">
-            <input type="checkbox" id="rememberMe" class="form-check-input " wire:model="remember">
-            <label for="rememberMe" class="form-check-label by-up">By signing up, I agree with the <a href="">Terms</a> of Use & <a href="">Privacy Policy</a>.</label>
+        {{-- <div class="form-check ml-3 mb-2"> --}}
+            {{-- <input type="checkbox" id="rememberMe" class="form-check-input " wire:model="remember"> --}}
+            <div class="form-check">
+                <input type="checkbox" id="rememberMe" name="rememberMe" class="form-check-input">
+                <label for="rememberMe" class="form-check-label by-up">
+                    Remember Me
+                </label>
+            {{-- </div> --}}
             @error('remember') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
