@@ -26,8 +26,8 @@ class SignupForm extends Component
         'last_name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|min:8', // Added password confirmation validation
-        'confirm_password' => 'required|min:1|same:password', 
-        'remember'=>'accepted' // Add this to validate confirmation field
+        'confirm_password' => 'required|same:password', 
+        'remember'=>'accepted' 
     ];
 
     // List of public domains not allowed for registration
