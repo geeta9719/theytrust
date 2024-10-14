@@ -1048,6 +1048,17 @@ function drawChart() {
     public function getReview( Request $request, $company )
     {
 
+
+        $user = Auth::user();
+
+        // Check the review count for the company
+        $reviews_count = CompanyReview::where('company_id', $company)->count();
+    
+        // Check if the user can write a review using the SubscriptionHelper
+        if (!SubscriptionHelper::canWriteReview($reviews_count)) {
+            return redirect()->route('company.getPriceListing');
+        }
+
         $data['company'] = Company::find($company);
         $data['category'] = Category::All();
         $data['serviceproviders'] = ServiceProvider::All();

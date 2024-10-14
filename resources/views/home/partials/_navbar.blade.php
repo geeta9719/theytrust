@@ -205,6 +205,31 @@ if (Auth::check()) {
     </div>
     </nav>
     </div>
+
+    <div class="modal fade" id="emailVerificationModal" tabindex="-1" aria-labelledby="emailVerificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="emailVerificationModalLabel">Verify your email address</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="verification-box">
+                    <div class="modal-body">
+                        <div class="verification-box">
+                            <p>Almost there! An email containing verification instructions was sent to <strong id="verification-email"></strong></p>
+                            <p>Didn't receive the email? <a href="#" id="resend-email-link">Resend Email</a></p>
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p>Already have an account? <a href="/login">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <script>
     $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
@@ -321,6 +346,7 @@ if (Auth::check()) {
     });
 
 </script>
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 <script>
 $(document).ready(function() {
     // Open the Sign-Up modal when Sign-In modal's "Sign Up" link is clicked
@@ -368,6 +394,24 @@ $(document).ready(function() {
     if (showModal === 'resetPasswordModal') {
         $('#resetPasswordModal').modal('show');
     }
+    Livewire.on('closeSignupModal', function () {
+        console.log('closeSignupModal event received');
+        $('#signup-modal').modal('hide'); 
+        $('#signup-modal').css('display', 'none');
+        $('.modal-backdrop').remove(); 
+    });
+
+    // Listen for the event to open the verification modal
+    Livewire.on('openVerifyEmailModal', function (email) {
+    console.log('openVerifyEmailModal event received', email);
+    $('#signup-modal').modal('hide');  // Close the signup modal
+    $('#emailVerificationModal').modal('show');  // Show the verification modal
+
+    // Update the email in the modal content dynamically
+    // $('#emailVerificationModal').find('strong').text(email);
+    $('#verification-email').text(email);  // Update the email in the modal
+    $('#resend-email-link').attr('href', '/resend-verification/' + email); 
+})
 
     
 });
