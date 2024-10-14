@@ -22,10 +22,11 @@ class SubscriptionHelper
             return false; // No user, cannot write review
         }
 
+
         // Fetch the active subscription and plan
         $activeSubscription = $user->CurrentSubscription->first();
 
-    
+    dd($activeSubscription);
         if ($activeSubscription) {
             // Get the plan and its features
             $plan = $activeSubscription->plan;
