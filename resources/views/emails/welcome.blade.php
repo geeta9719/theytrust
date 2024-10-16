@@ -7,7 +7,7 @@
     <div style="background-color: #f4f4f4; padding: 20px;">
         <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 20px; border-radius: 8px;">
             <div style="text-align: center;">
-                <img src="http://127.0.0.1:8000/front_components/images/logo.png" alt="They Trust Us" style="max-width: 100px;">
+                <img src="https://theytrust-us.developmentserver.info/front_components/images/logo.png" alt="They Trust Us" style="max-width: 100px;">
             </div>
             <h2 style="text-align: center;">Trust starts here - Welcome to They Trust Us</h2>
             <p>Hi {{ $name }},</p>
