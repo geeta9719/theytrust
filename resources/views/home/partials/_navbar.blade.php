@@ -56,9 +56,9 @@ if (Auth::check()) {
                 data-target="#signup-modal"><i class="far fa-user-circle
               " aria-hidden="true"></i><span> Sign Up</span></a>
 
-            <a class="nav-link brdnone modal-signin sign-in-btn" href="#" id="open-forgot-password" onclick="event.preventDefault(); Livewire.emit('openForgotPasswordModal')">
+            <!-- <a class="nav-link brdnone modal-signin sign-in-btn" href="#" id="open-forgot-password" onclick="event.preventDefault(); Livewire.emit('openForgotPasswordModal')">
                 <i class="far fa-user-circle" aria-hidden="true"></i><span> Forget Password</span>
-            </a>
+            </a> -->
             
             
 </a>
@@ -208,23 +208,29 @@ if (Auth::check()) {
 
     <div class="modal fade" id="emailVerificationModal" tabindex="-1" aria-labelledby="emailVerificationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+            <div class="modal-content verify-bx">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="emailVerificationModalLabel">Verify your email address</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="emailVerificationModalLabel">Sign up</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class=" verifybox">
+                   
+                    <h2 class="text-center" >Verify your email address</h2>
+                   
                 </div>
                 <div class="modal-body">
-                    <div class="verification-box">
+                    <div class="">
                     <div class="modal-body">
                         <div class="verification-box">
-                            <p>Almost there! An email containing verification instructions was sent to <strong id="verification-email"></strong></p>
+                            <p>Almost there! An email containing verification instructions was sent to <span id="verification-email"></span></p>
                             <p>Didn't receive the email? <a href="#" id="resend-email-link">Resend Email</a></p>
                         </div>
                     </div>
                     
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer text-center already-txt">
                     <p>Already have an account? <a href="/login">Sign in</a></p>
                 </div>
             </div>
