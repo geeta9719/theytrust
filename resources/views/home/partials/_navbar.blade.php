@@ -48,26 +48,6 @@ if (Auth::check()) {
 
 
             @if (!Auth::check())
-<<<<<<< HEAD
-            <!-- <li class="nav-item"> -->
-            <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal"
-                data-target="#login-modal"><i class="far fa-user-circle
-               " aria-hidden="true"></i><span> Sign in</span></a>
-            <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal"
-                data-target="#signup-modal"><i class="far fa-user-circle
-              " aria-hidden="true"></i><span> Sign Up</span></a>
-
-            <!-- <a class="nav-link brdnone modal-signin sign-in-btn" href="#" id="open-forgot-password" onclick="event.preventDefault(); Livewire.emit('openForgotPasswordModal')">
-                <i class="far fa-user-circle" aria-hidden="true"></i><span> Forget Password</span>
-            </a> -->
-            
-            
-</a>
-
-            
-            
-            
-=======
                 <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal"
                     data-target="#login-modal"><i class="far fa-user-circle
                "
@@ -81,7 +61,6 @@ if (Auth::check()) {
                     <i class="far fa-user-circle" aria-hidden="true"></i><span> Forget Password</span>
                 </a>
                 </a>
->>>>>>> fc64e480d9a2e03a89e4d53a46027452b49b7087
             @else
                 <div class="nav-item">
                     <div class="dropdown mymobile">
@@ -296,13 +275,6 @@ if (Auth::check()) {
                    
                 </div>
                 <div class="modal-body">
-<<<<<<< HEAD
-                    <div class="">
-                    <div class="modal-body">
-                        <div class="verification-box">
-                            <p>Almost there! An email containing verification instructions was sent to <span id="verification-email"></span></p>
-                            <p>Didn't receive the email? <a href="#" id="resend-email-link">Resend Email</a></p>
-=======
                     <div class="verification-box">
                         <div class="modal-body">
                             <div class="verification-box">
@@ -311,7 +283,6 @@ if (Auth::check()) {
                                 <p>Didn't receive the email? <a href="#" id="resend-email-link">Resend Email</a>
                                 </p>
                             </div>
->>>>>>> fc64e480d9a2e03a89e4d53a46027452b49b7087
                         </div>
 
                     </div>
