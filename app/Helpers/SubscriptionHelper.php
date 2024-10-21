@@ -78,5 +78,65 @@ class SubscriptionHelper
         // No active subscription or plan, return the default review limit
         return 3;
     }
+
+
+    public static function canAddPortfolio($portfolio_count)
+{
+    // Get the authenticated user
+    $user = Auth::user();
+
+    if (!$user) {
+        return false; // No user, cannot add portfolio
+    }
+
+    // Fetch the active subscription and plan
+    $activeSubscription = $user->CurrentSubscription->first();
+
+    if ($activeSubscription) {
+        // Get the plan and its features
+        $plan = $activeSubscription->plan;
+        $features = $plan->features;
+
+        // Check if the plan has a portfolio limit (based on features)
+        $portfolioLimitFeature = $features->where('name', 'portfolio_limit')->first();
+        $portfolio_limit = $portfolioLimitFeature ? (int) $portfolioLimitFeature->limit : 0;
+
+        // Return true if the user has not exceeded the portfolio limit
+        return $portfolio_count < $portfolio_limit;
+    }
+
+    // No active subscription or plan, default portfolio limit is 5
+    return $portfolio_count < 3;
+}
+
+
+public static function getPortfolioLimit($companyId)
+{
+    // Fetch the company along with the associated user
+    $company = Company::with('user')->where('id', $companyId)->first();
+
+    $user = $company ? $company->user : null;
+
+    if (!$user) {
+        return 3; // Default portfolio limit if no user is associated
+    }
+
+    // Fetch the active subscription and plan
+    $activeSubscription = $user->CurrentSubscription->first();
+
+    if ($activeSubscription) {
+        // Get the plan and its features
+        $plan = $activeSubscription->plan;
+        $features = $plan->features;
+
+        // Check if the plan has a portfolio limit (based on features)
+        $portfolioLimitFeature = $features->where('name', 'portfolio_limit')->first();
+        return $portfolioLimitFeature ? (int) $portfolioLimitFeature->limit : 5;
+    }
+
+    // No active subscription or plan, return the default portfolio limit
+    return 3;
+}
+
     
 }

@@ -252,8 +252,8 @@ font-family: "Epilogue", sans-serif;
                                 <i class="fa fa-star-o bluestar"></i>
                             </div>
                             <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank" class="mr-2 reviewuppercase">
-                                {{  $reviews->count() }} Reviews 
-                            </a>
+                                {{  $reviews->count() }} Reviews  With Limit
+                            </a> 
                             <a href="/company/{{ $reviews[0]->company->id }}/getReview" target="_blank" class="write">
                                 Write a Review
                             </a>
@@ -288,7 +288,7 @@ font-family: "Epilogue", sans-serif;
                     
                     <!-- Pagination links -->
                     <div class="d-flex justify-content-center">
-                        {{ $reviews->links() }}
+                        {{-- {{ $reviews->links() }} --}}
                     </div>
                 </div>
             

@@ -1042,11 +1042,11 @@ class SearchController extends Controller
 
         $data['company'] = Company::where('id', $company_id)->first();
 
-        if (!$data['company']) {
-            $cleaned_company_id = str_replace('-', ' ', $company_id);
-            $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
-            $company_id =   $data['company']->id;
-        }
+        // if (!$data['company']) {
+        //     $cleaned_company_id = str_replace('-', ' ', $company_id);
+        //     $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
+        //     $company_id =   $data['company']->id;
+        // }
 
 
         $data['rate_review'] = DB::table('company_reviews')
@@ -1065,7 +1065,7 @@ class SearchController extends Controller
             ->latest()
             ->take(2)
             ->get();
-            $data['reviews_count'] = CompanyReview::where('company_id', $company_id)->count();
+        $data['reviews_count'] = CompanyReview::where('company_id', $company_id)->count();
 
 
         $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
@@ -1085,33 +1085,16 @@ class SearchController extends Controller
 
 
         $data['company'] = Company::where('id', $company_id)->first();
+        $company = Company::with('user')->where('id', $company_id)->first();
+        $review_limit = SubscriptionHelper::getReviewLimit($company_id);
 
 
-        // if (!$data['company']) {
-        //     $cleaned_company_id = str_replace('-', ' ', $company_id);
-        //     $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
-        //     $company_id =   $data['company']->id;
-        // }
-        if (!$data['company']) {
-            $cleaned_company_id = str_replace('-', ' ', $company_id);
-            $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
-
-            if ($data['company']) {
-                $company_id = $data['company']->id;
-            } else {
-
-                $company_id = 0; // or any default value
-
-            }
-        }
-
-
-
+        // Fetch reviews for the company, limited by the user's review limit
         $data['reviews'] = CompanyReview::with('user')
             ->where('company_id', $company_id)
-            ->paginate(3);
-
+            ->take($review_limit) ->get(); 
         return view('home.review', $data);
+
     }
     public function portfolio(Request $request, $company_id)
     {
@@ -1134,10 +1117,13 @@ class SearchController extends Controller
             }
         }
 
+        $portfolio_limit = SubscriptionHelper::getPortfolioLimit($company_id);
+
         $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
             ->orderBy('position')
-            ->paginate(3);
-
+            ->take($portfolio_limit) 
+            ->get(); 
+        
         return view('home.portfolio', $data);
     }
 

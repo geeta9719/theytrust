@@ -43,7 +43,7 @@
                     @endforeach
                 </div>
                 <div class="d-flex justify-content-center">
-                    {{ $caseStudies->links() }}
+                    {{-- {{ $caseStudies->links() }} --}}
                 </div>
         </div>
     </div>

@@ -107,7 +107,7 @@ width: auto!important;}
                             </div>
                             <a href="{{ url('review/' . $company->id ) }}" target="_blank" class="reviewstxt">
 
-                                <h3>{{ $rate_review->review }} REVIEWS</h3>
+                                <h3>{{ $reviews_count }} REVIEWS</h3>
                             </a>
                         </div>
                         {{-- <div class="write-review blue-write-review">
@@ -120,13 +120,13 @@ width: auto!important;}
                             @endif
                         </div> --}}
                         <div class="write-review blue-write-review">
-                            @if ($can_write_review)
+                            {{-- @if ($can_write_review) --}}
                                 <a href="{{ url('company/' . $company->id . '/getReview') }}" class="btn btn-primary" target="_blank">
                                     Write a Review
                                 </a>
-                            @else
-                                <p>You have reached the maximum number of reviews allowed by your plan.</p>
-                            @endif
+                            {{-- @else --}}
+                                {{-- <p>You have reached the maximum number of reviews allowed by your plan.</p> --}}
+                            {{-- @endif --}}
                         </div>
                     </div>
                 </div>
@@ -203,7 +203,9 @@ width: auto!important;}
                         <x-portfolio :portfolio="$caseStudy" />
                     @endforeach
                 </div>
-            
+                <div class="mt-4 text-center">
+                    <a href="{{ route('portfolio', ['company' => $company->id]) }}" class="btn btn-primary">View All</a>
+                </div>
         </div>
     </div>
     </div>

@@ -325,26 +325,27 @@
                     _token: "{{ csrf_token() }}"
                 },
                 success: function(result) {
-                    if (result.status == 'success') {
-                        console.log(result);
-                        if (result.sessionId.original.is_free) {
-                            // Redirect to dashboard or another URL directly without Stripe checkout
-                            window.location.href = result.sessionId.original.redirect_url;;
-                        } else {
-                            var sessionId = result.sessionId;
-                            var stripe = Stripe(
-                                'pk_test_51OMTmgSBpRscNHwB4qiyJOy6swL8uwFI7DFbTzrmLZYaPXnKs1qVKLOdwwZz2R1UqL9SgOxc5BZaxFN9Nr9flN6U00duoOXtey'
-                            );
-                            stripe.redirectToCheckout({
-                                sessionId: sessionId
-                            }).then(function(result) {
-                                if (result.error) {
-                                    console.error(result.error.message);
-                                }
-                            });
-                        }
-                    }
-                },
+    if (result.status === 'success') {
+        console.log(result);
+        if (result.sessionId.original.is_free) {
+            // Redirect to dashboard or another URL directly without Stripe checkout
+            window.location.href = result.sessionId.original.redirect_url;
+        } else {
+            var sessionId = result.sessionId.original.sessionId; // Correctly extract the session ID string
+            var stripe = Stripe(
+                'pk_test_51OMTmgSBpRscNHwB4qiyJOy6swL8uwFI7DFbTzrmLZYaPXnKs1qVKLOdwwZz2R1UqL9SgOxc5BZaxFN9Nr9flN6U00duoOXtey'
+            );
+            stripe.redirectToCheckout({
+                sessionId: sessionId // Pass the string, not the entire object
+            }).then(function(result) {
+                if (result.error) {
+                    console.error(result.error.message);
+                }
+            });
+        }
+    }
+},
+
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error("AJAX Error:", textStatus, errorThrown);
                     console.log(jqXHR.responseText);

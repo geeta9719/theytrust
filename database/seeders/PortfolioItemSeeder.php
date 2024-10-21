@@ -23,7 +23,7 @@ class PortfolioItemSeeder extends Seeder
 
         // Step 2: Loop through each company and create 10 portfolio items
         foreach ($companies as $companyId) {
-            foreach (range(1, 4) as $index) {
+            foreach (range(1, 10) as $index) {
                 
                          // Generate and download a dummy image using Laravel's Http client
                         // //  'logo' => 'https://via.placeholder.com/200x200.png?text=Company+' 
@@ -41,7 +41,7 @@ class PortfolioItemSeeder extends Seeder
                          }
          
                          // Use a locally stored dummy PDF file
-                         $pdfPath = Storage::putFileAs('media', new File(public_path('ChatGPT.pdf.pdf')), 'document_' . $index . '.pdf');
+                         $pdfPath ='portfolio_items';
          
                          // Random services provided (web, mobile, AI, etc.)
                          $services = ['Web Development', 'Mobile Development', 'AI Solutions', 'Blockchain', 'Cloud Computing'];
@@ -50,23 +50,23 @@ class PortfolioItemSeeder extends Seeder
                          $fakeYouTubeUrl = 'https://www.youtube.com/watch?v=' . $faker->regexify('[A-Za-z0-9]{11}');
 
                 // Insert YouTube media
-                DB::table('portfolio_items')->insert([
-                    'company_id' => $companyId,
-                    'media' => json_encode([
-                        'url' => $fakeYouTubeUrl, // Faker-generated YouTube URL
-                        'type' => 'youtube'
-                    ]),
-                    'project_title' => 'Project ' . $index . ' for Company ' . $companyId,
-                    'client_name' => $faker->company, // Use Faker to generate a realistic company name
-                    'country_location' => $faker->country, // Use Faker to generate a real country
-                    'services_provided' => $faker->randomElement($services), // Randomly pick a service
-                    'short_description' => 'This is a short description for project ' . $index,
-                    'engagement_start_date' => now()->subDays(rand(1, 365)),
-                    'engagement_end_date' => rand(0, 1) ? now() : null,
-                    'position' => $index,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+                // DB::table('portfolio_items')->insert([
+                //     'company_id' => $companyId,
+                //     'media' => json_encode([
+                //         'url' => $fakeYouTubeUrl, // Faker-generated YouTube URL
+                //         'type' => 'youtube'
+                //     ]),
+                //     'project_title' => 'Project ' . $index . ' for Company ' . $companyId,
+                //     'client_name' => $faker->company, // Use Faker to generate a realistic company name
+                //     'country_location' => $faker->country, // Use Faker to generate a real country
+                //     'services_provided' => $faker->randomElement($services), // Randomly pick a service
+                //     'short_description' => 'This is a short description for project ' . $index,
+                //     'engagement_start_date' => now()->subDays(rand(1, 365)),
+                //     'engagement_end_date' => rand(0, 1) ? now() : null,
+                //     'position' => $index,
+                //     'created_at' => now(),
+                //     'updated_at' => now(),
+                // ]);
 
                 // Insert File type media (Image)
                 DB::table('portfolio_items')->insert([
