@@ -31,6 +31,7 @@ use App\Models\Skill;
 use App\Models\CompanyReview;
 
 use Illuminate\Http\Request;
+use Rennokki\Plans\Models\PlanModel;
 
 class UserController extends Controller
 {
@@ -824,6 +825,7 @@ public function dashboard(Request $request, $company)
 
         $id     = $request->id;
         $find   = AdminInfo::where('id', $id)->where('company_id', $request->company_id)->first();
+        $user= Auth::user();
 
         if ($find) {
             $find->company_id   = $request->company_id;
@@ -845,15 +847,19 @@ public function dashboard(Request $request, $company)
             $inputs['analytics']    = $request->analytics;
             AdminInfo::create($inputs);
         }
+        $plan = PlanModel::find(7);
 
+        // $subscription = $user->subscribeTo($plan,$plan->duration,false);
         session()->flash('msg', 'Saved Successfully');
+        return redirect()->route('company.dashboard', $request->company_id); 
 
-        if ($request->has('save_and_back')) {
-            return redirect()->route('company.dashboard', $request->company_id); // Redirect to the company dashboard
+        // if ($request->has('save_and_back')) {
+        //     return redirect()->route('company.dashboard', $request->company_id); // Redirect to the company dashboard
+        //     $subscription = $user->subscribeTo($plan,$plan->duration,false);
 
-        } else {
-            return redirect()->route('plans', $request->company_id);
-        }
+        // } else {
+        //     return redirect()->route('plans', $request->company_id);
+        // }
     }
 
 
