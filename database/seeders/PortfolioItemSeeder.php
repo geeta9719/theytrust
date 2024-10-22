@@ -36,7 +36,7 @@ class PortfolioItemSeeder extends Seeder
                     'project_title' => 'Project ' . $index . ' for Company ' . $companyId,
                     'client_name' => $faker->company, // Use Faker to generate a realistic company name
                     'country_location' => $faker->country, // Use Faker to generate a real country
-                    'services_provided' => $faker->randomElement($services), // Randomly pick a service
+                    'services_provided' => 'Mobile', // Randomly pick a service
                     'short_description' => 'This is a short description for project ' . $index,
                     'engagement_start_date' => now()->subDays(rand(1, 365)),
                     'engagement_end_date' => rand(0, 1) ? now() : null,
