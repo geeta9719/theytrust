@@ -1088,21 +1088,24 @@ class SearchController extends Controller
         $company = Company::with('user')->where('id', $company_id)->first();
         $review_limit = SubscriptionHelper::getReviewLimit($company_id);
 
-        // Set the maximum review limit to 3
+        $review_limit = SubscriptionHelper::getReviewLimit($company_id);
+
+        // Set the maximum review limit for displaying reviews before pagination is required
         $max_limit = 3;
         
-        // If the review limit exceeds 3, limit it to 3
+        // If the review limit exceeds 3, enable pagination, otherwise fetch only the reviews within the limit
         if ($review_limit > $max_limit) {
-            $review_limit = $max_limit;
+            $data['reviews'] = CompanyReview::with('user')
+                ->where('company_id', $company_id)
+                ->paginate($review_limit); // Pagination enabled if limit > 3
+        } else {
+            $data['reviews'] = CompanyReview::with('user')
+                ->where('company_id', $company_id)
+                ->take($review_limit)
+                ->get();
         }
         
-        // Fetch reviews for the company, limited by the adjusted review limit
-        $data['reviews'] = CompanyReview::with('user')
-            ->where('company_id', $company_id)
-            ->take($review_limit)
-            ->get();
-
-            return view('home.review', $data);
+        return view('home.review', $data);
 
 
     }

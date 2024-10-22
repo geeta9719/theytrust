@@ -287,9 +287,11 @@ font-family: "Epilogue", sans-serif;
                     @endforeach
                     
                     <!-- Pagination links -->
+                    @if ($reviews instanceof \Illuminate\Pagination\LengthAwarePaginator)
                     <div class="d-flex justify-content-center">
                         {{ $reviews->links() }}
                     </div>
+                @endif
                 </div>
             
         </div>
