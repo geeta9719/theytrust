@@ -220,7 +220,7 @@ if (Auth::check()) {
                                 </a>
     
                                 @if (count($category->subcategories) > 0)
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
                                         @foreach ($category->subcategories as $subcategory)
                                             <!-- Subcategory -->
                                             <a class="dropdown-item dropdown-toggle"
@@ -243,7 +243,7 @@ if (Auth::check()) {
                                                 </ul>
                                             @endif
                                         @endforeach
-                                    </div>
+                                            </ul>
                                 @endif
                             </li>
                         @endforeach
