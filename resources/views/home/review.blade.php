@@ -288,7 +288,7 @@ font-family: "Epilogue", sans-serif;
                     
                     <!-- Pagination links -->
                     <div class="d-flex justify-content-center">
-                        {{-- {{ $reviews->links() }} --}}
+                        {{ $reviews->links() }}
                     </div>
                 </div>
             
