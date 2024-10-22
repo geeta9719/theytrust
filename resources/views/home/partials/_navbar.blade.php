@@ -223,6 +223,8 @@ if (Auth::check()) {
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
                                         @foreach ($category->subcategories as $subcategory)
                                             <!-- Subcategory -->
+                                            
+                                        <li class="dropdown-submenu">
                                             <a class="dropdown-item dropdown-toggle"
                                                 href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}"
                                                 id="navbarDropdownSub{{ $subcategory->id }}" role="button"
@@ -242,8 +244,9 @@ if (Auth::check()) {
                                                     @endforeach
                                                 </ul>
                                             @endif
+                                        </li>
                                         @endforeach
-                                            </ul>
+                                     </ul>
                                 @endif
                             </li>
                         @endforeach
