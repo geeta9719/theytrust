@@ -5,7 +5,7 @@
         <input type="hidden" id="companyIdInput" name="companyId" :value="companyId">
 
         <div v-if="Object.keys(selectedData).length > 0" class="category">
-          <h3>Select Primary Services : {{ categorySum }}</h3>
+          <h3>Select Primary Services :<span> {{ categorySum }}</span></h3>
           <div class="category-main row">
             <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id"
               class="category-item col-md-3 col-12">
@@ -813,6 +813,24 @@ export default {
 </script>
 <style scoped>
 /* sneha */
+
+.selected b{
+display:block;}
+.category-item b{
+display:block;} 
+.checkbox-container label b{
+display:block;} 
+
+.checkbox-container{}
+
+.category h3 span{
+  font-family: Inter; /* Body */
+  font-size: 18px; 
+  line-height: 28px; 
+  font-weight: 700; 
+  color: #1BA18DFF; /* tertiary1-600 */
+  margin-left:10px;
+}
 .error {
 
   padding-left: 10px;
@@ -993,7 +1011,7 @@ font-size: 18px;
 .category h3 {
 
   color: #000;
-  background-color: #00bdd6;
+  background-color: #A6F5FFFF;
   padding: 6px 20px;
   font-size: 18px;
   width: 100%;
@@ -1082,7 +1100,7 @@ font-size: 18px;
 
 legend {
 
-      background-color: #00bdd6;
+      background-color: #A6F5FFFF;
     color: #000;
     padding: 4px 20px;
     font-size: 18px;
@@ -1170,7 +1188,7 @@ legend {
 .selected {
 
   /* Change background color to blue */
-  background-color: #0087f2;
+  background-color: #00bdd6;
   color: #fff;
   font-weight: 600;
   /* Change text color to white */
@@ -1179,7 +1197,7 @@ legend {
 .selected label {
 
   /* Change background color to blue */
-  background-color: #0087f2 !important;
+  background-color: #00bdd6 !important;
   color: #fff !important;
   ;
   font-weight: 600;
