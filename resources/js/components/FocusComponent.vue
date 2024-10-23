@@ -21,9 +21,9 @@
           }}</span>
       </div>
       <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id" class="category-item">
-        <template v-if="selectedCategory.subcategories.length > 0">
+        <template v-if="selectedCategory.subcategories.length > 0"> 
           <div class="sub-category-card">
-            <h3>{{ selectedCategory.category_name }}</h3>
+            <h3>{{ selectedCategory.category_name }} :{{ subCategorySum(selectedCategory) }}</h3>
             <div class="subcategory row">
               <div v-for="(selectedSubCategory, index) in selectedCategory.subcategories" :key="selectedSubCategory.id"
                 class="category-item col-md-3 col-12">
@@ -32,9 +32,6 @@
                   v-model="selectedSubCategory.value" @input="validateSubCategorySum(selectedCategory)">
               </div>
               <br>
-              <!-- <span v-if="subCategorySumError[selectedCategory.category_id]" class="error" style="color: red;">{{
-                subCategorySumError[selectedCategory.category_id]
-              }}</span> -->
             </div>
             <div class="deepSkill">
               <template v-for="(selectedSubCategory, index) in selectedCategory.subcategories"
@@ -184,21 +181,13 @@ export default {
       type: Number, // Adjust the type based on the type of your company ID
       required: true
     },
-    // selectedData :{
-    //   type:Array,
-    //   required: true
-    // }
   },
   watch: {
     // Watch for changes in selectedData or its nested properties
     selectedData: {
-      handler: 'fistTimevalidate', // Call validateCategorySum when selectedData changes
-      deep: true // Deeply watch for changes in nested properties
+      handler: 'fistTimevalidate', 
+      deep: true 
     },
-    // categorySumError() {
-    //   // Call validateForm() whenever categorySumError changes
-    //   this.validateForm();
-    // }
   },
   data() {
     // debugger;
@@ -791,7 +780,6 @@ export default {
           console.error('Error fetching data:', error);
         });
     },
-
     updateCategoriesAndSubcategories(data) {
       this.categories.forEach(category => {
         // Find the matching category data
@@ -801,7 +789,12 @@ export default {
           category.checked = !!matchedCategory.inputValue;
         }
       });
-    }
+    },
+    subCategorySum(category) {
+  // Find the specific category and sum its subcategories' values
+  if (!category || !category.subcategories) return 0; // Handle cases with no subcategories
+  return category.subcategories.reduce((sum, subcategory) => sum + parseInt(subcategory.value || 0), 0);
+}
 
   },
   computed: {
