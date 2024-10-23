@@ -17,6 +17,7 @@
           </div>
         </div>
 
+        
         <span v-if="categorySumError && selectedData.length > 0" class="error" style="color: red;">{{ categorySumError
           }}</span>
       </div>
