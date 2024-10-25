@@ -15,6 +15,7 @@
                             <th>Name</th>
                             <th>Description</th>
                             <th>Plan</th>
+                            <th>limit</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -32,6 +33,7 @@
                                         No Plan Available
                                     @endif
                                 </td>
+                                <td>{{ $planFeature->limit }}</td>
                                 <td>
                                     <div class="btn-group" role="group">
                                         <a href="{{ route('planfeatures.edit', $planFeature->id) }}" class="btn btn-primary btn-sm">Edit</a>

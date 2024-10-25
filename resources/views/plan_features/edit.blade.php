@@ -19,23 +19,12 @@
             <label for="description">Description:</label>
             <input type="text" name="description" class="form-control" value="{{ $planFeature->description }}" required>
         </div>
-    
-    {{-- 
+
         <div class="form-group">
             <label for="limit">Limit:</label>
             <input type="text" name="limit" class="form-control" value="{{ $planFeature->limit }}" required>
         </div>
-        <div class="form-group">
-            <label for="code">Code:</label>
-            <input type="text" name="code" class="form-control" value="{{ $planFeature->code }}" required>
-        </div> 
     
-        <div class="form-group">
-            <label for="type">Type:</label>
-            <input type="text" name="type" class="form-control" value="{{ $planFeature->type }}" required>
-        </div> 
-        
-    --}}
     
         <div class="form-group">
             <label for="plan_id">Plan:</label>

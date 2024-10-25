@@ -14,7 +14,10 @@
                 <label for="name">Description:</label>
                 <input type="text" name="description" class="form-control" required>
             </div>
-
+            <div class="form-group">
+                <label for="name">Limit:</label>
+                <input type="text" name="limit" class="form-control" required>
+            </div>
             <div class="form-group">
                 <label for="plan_id">Plan:</label>
                 <select name="plan_id" class="form-control" required>
