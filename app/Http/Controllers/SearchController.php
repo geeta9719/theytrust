@@ -1137,8 +1137,7 @@ class SearchController extends Controller
                 $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
                     ->paginate($max_limit); 
             } else {
-                $data['caseStudies'] = PortfolioItem::with('user')
-                    ->where('company_id', $company_id)
+                $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
                     ->take($max_limit)
                     ->get();
             }

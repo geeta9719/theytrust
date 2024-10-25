@@ -46,17 +46,9 @@ class SubscriptionHelper
 
     public static function getReviewLimit($compnayId)
     {
-        // Get the authenticated user
 
+        $user = Auth::user();
 
-        // dd($compnayId);
-
-        $company = Company::with('user')->where('id', $compnayId)->first();
-        
-
-            $user= $company->user;
-
-        // $user = Auth::user();
 
         if (!$user) {
             return 3; // Default review limit if no user is authenticated
@@ -69,6 +61,8 @@ class SubscriptionHelper
             // Get the plan and its features
             $plan = $activeSubscription->plan;
             $features = $plan->features;
+
+            // dd($features);
 
             // Check if the plan has a review limit (based on features)
             $reviewLimitFeature = $features->where('name', 'reviews_count')->first();
@@ -112,30 +106,30 @@ class SubscriptionHelper
 
 public static function getPortfolioLimit($companyId)
 {
-    // Fetch the company along with the associated user
-    $company = Company::with('user')->where('id', $companyId)->first();
+    $user = Auth::user();
 
-    $user = $company ? $company->user : null;
 
-    if (!$user) {
-        return 3; // Default portfolio limit if no user is associated
-    }
+        if (!$user) {
+            return 3; // Default review limit if no user is authenticated
+        }
 
-    // Fetch the active subscription and plan
-    $activeSubscription = $user->CurrentSubscription->first();
+        // Fetch the active subscription and plan
+        $activeSubscription = $user->CurrentSubscription->first();
 
-    if ($activeSubscription) {
-        // Get the plan and its features
-        $plan = $activeSubscription->plan;
-        $features = $plan->features;
+        if ($activeSubscription) {
+            // Get the plan and its features
+            $plan = $activeSubscription->plan;
+            $features = $plan->features;
 
-        // Check if the plan has a portfolio limit (based on features)
-        $portfolioLimitFeature = $features->where('name', 'portfolio_limit')->first();
-        return $portfolioLimitFeature ? (int) $portfolioLimitFeature->limit : 5;
-    }
+            // dd($features);
 
-    // No active subscription or plan, return the default portfolio limit
-    return 3;
+            // Check if the plan has a review limit (based on features)
+            $reviewLimitFeature = $features->where('name', 'reviews_count')->first();
+            return $reviewLimitFeature ? (int) $reviewLimitFeature->limit : 3;
+        }
+
+        // No active subscription or plan, return the default review limit
+        return 3;
 }
 
     
