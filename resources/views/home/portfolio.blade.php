@@ -46,6 +46,7 @@
                 <div class="d-flex justify-content-center">
                     {{ $caseStudies->links() }}
                 </div>
+                @endif
         </div>
     </div>
     </div>
