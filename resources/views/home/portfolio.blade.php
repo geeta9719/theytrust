@@ -42,8 +42,9 @@
                         <x-portfolio :portfolio="$caseStudy" />
                     @endforeach
                 </div>
+                @if ($reviews instanceof \Illuminate\Pagination\LengthAwarePaginator)
                 <div class="d-flex justify-content-center">
-                    {{-- {{ $caseStudies->links() }} --}}
+                    {{ $caseStudies->links() }}
                 </div>
         </div>
     </div>

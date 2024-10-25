@@ -1088,20 +1088,15 @@ class SearchController extends Controller
         $company = Company::with('user')->where('id', $company_id)->first();
         $review_limit = SubscriptionHelper::getReviewLimit($company_id);
 
-        $review_limit = SubscriptionHelper::getReviewLimit($company_id);
-
-        // Set the maximum review limit for displaying reviews before pagination is required
         $max_limit = 3;
-        
-        // If the review limit exceeds 3, enable pagination, otherwise fetch only the reviews within the limit
         if ($review_limit > $max_limit) {
             $data['reviews'] = CompanyReview::with('user')
                 ->where('company_id', $company_id)
-                ->paginate($review_limit); // Pagination enabled if limit > 3
+                ->paginate($max_limit); 
         } else {
             $data['reviews'] = CompanyReview::with('user')
                 ->where('company_id', $company_id)
-                ->take($review_limit)
+                ->take($max_limit)
                 ->get();
         }
         
@@ -1132,10 +1127,22 @@ class SearchController extends Controller
 
         $portfolio_limit = SubscriptionHelper::getPortfolioLimit($company_id);
 
-        $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
-            ->orderBy('position')
-            ->take($portfolio_limit) 
-            ->get(); 
+        // $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
+        //     ->orderBy('position')
+        //     ->take($portfolio_limit) 
+        //     ->get(); 
+
+            $max_limit = 3;
+            if ($portfolio_limit > $max_limit) {
+                $data['caseStudies'] = PortfolioItem::with('user')
+                    ->where('company_id', $company_id)
+                    ->paginate($max_limit); 
+            } else {
+                $data['caseStudies'] = PortfolioItem::with('user')
+                    ->where('company_id', $company_id)
+                    ->take($max_limit)
+                    ->get();
+            }
         
         return view('home.portfolio', $data);
     }
