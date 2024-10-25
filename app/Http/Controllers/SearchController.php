@@ -1134,8 +1134,7 @@ class SearchController extends Controller
 
             $max_limit = 3;
             if ($portfolio_limit > $max_limit) {
-                $data['caseStudies'] = PortfolioItem::with('user')
-                    ->where('company_id', $company_id)
+                $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
                     ->paginate($max_limit); 
             } else {
                 $data['caseStudies'] = PortfolioItem::with('user')
