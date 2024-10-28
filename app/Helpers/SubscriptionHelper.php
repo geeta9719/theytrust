@@ -107,7 +107,8 @@ class SubscriptionHelper
 
 public static function getPortfolioLimit($companyId)
 {
-       $company = Company::with('user')->where('id', $compnayId)->first();
+    // dd($companyId);
+       $company = Company::with('user')->where('id', $companyId)->first();
         $user= $company->user;
 
         if (!$user) {
