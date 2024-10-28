@@ -47,7 +47,8 @@ class SubscriptionHelper
     public static function getReviewLimit($compnayId)
     {
 
-        $user = Auth::user();
+        $company = Company::with('user')->where('id', $compnayId)->first();
+        $user= $company->user;
 
 
         if (!$user) {
@@ -106,8 +107,8 @@ class SubscriptionHelper
 
 public static function getPortfolioLimit($companyId)
 {
-    $user = Auth::user();
-
+       $company = Company::with('user')->where('id', $compnayId)->first();
+        $user= $company->user;
 
         if (!$user) {
             return 3; // Default review limit if no user is authenticated
