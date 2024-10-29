@@ -1099,7 +1099,8 @@ public function dashboard(Request $request, $company)
 
     public function getCity(Request $request)
     {
-        $data['cities'] = City::where("state_code", $request->state_code)->where('country_code', $request->country_code)->get(["name", "id"]);
+        // dd($request->state_code);
+        $data['cities'] = City::where("state_code", $request->state_code)->get(["name", "id"]);
         return response()->json($data);
     }
 
