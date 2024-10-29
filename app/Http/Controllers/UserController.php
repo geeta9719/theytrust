@@ -1093,7 +1093,7 @@ public function dashboard(Request $request, $company)
 
     public function getstate(Request $request)
     {
-        $data['states'] = State::where("country_code", $request->country_code)->get(["name", "iso2"]);
+        $data['states'] = State::where("country_code", $request->country_code)->orderBy("name", 'asc')->get(["name", "iso2"]);
         return response()->json($data);
     }
 
