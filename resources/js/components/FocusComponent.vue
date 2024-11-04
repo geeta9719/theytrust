@@ -158,12 +158,13 @@
 
             <!-- Save & Exit button -->
             <button @click="submitForm('saveAndExit')"    v-if="buttondisable || buttondisable.length > 0"  :disabled="submitButtonDisabled" class="save-btn">Save & Exit</button>
-          </div>
+          
         </div>
 
       </div>
       <Modal :isOpen="showModal" :modalErrorMessage="modalErrorMessage" @close="showModal = false" />
     </div>
+  </div>
   </div>
 </template>
 <script>
@@ -807,7 +808,13 @@ export default {
 </script>
 <style scoped>
 /* sneha */
-
+.category h3{
+display:flex;
+}
+.button-section{
+  
+    margin: auto!important;
+}
 .selected b{
 display:block;}
 .category-item b{
@@ -826,9 +833,12 @@ display:block;}
   margin-left:10px;
 }
 .error {
-
+    font-size: 14px;
+    margin-bottom: 20px;
   padding-left: 10px;
   display: block;
+      font-size: 14px;
+    font-weight: 500;
 }
 
 .checkbox-container {
@@ -970,13 +980,24 @@ display:block;}
 .sub-category-card h3 {
   /* font-size: 27px; */
   color: #000;
-  background-color: #ece4fa;
+  background-color: #A6F5FFFF;
   padding: 6px 20px;
    font-weight: 700;
-    font-family: "Epilogue", sans-serif;
+    font-family: "Inter", sans-serif;
 font-size: 18px;
   width: 100%;
 }
+.sub-category-card h3 span {
+    font-family: Inter;
+    font-size: 18px;
+    line-height: 28px;
+    font-weight: 700;
+    color: #1BA18DFF;
+    margin-left: 10px;
+}
+
+
+
 
 .subcategory .category-item {
   margin-right: 35px;
@@ -1009,7 +1030,8 @@ font-size: 18px;
   padding: 6px 20px;
   font-size: 18px;
   width: 100%;
-   font-family: "Epilogue", sans-serif;
+   font-family: "Inter", sans-serif;
+   font-weight:700;
 }
 
 #app {
@@ -1199,9 +1221,25 @@ legend {
 }
 
 /* Adjust width and margin to align cards in rows */
-
+.sub-category-card{
+  
+    border-radius: 8px;
+}
 @media (max-width: 767px) {
-
+.sub-category-card {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+.category-item {
+     margin-bottom: 0;
+}
+.error {
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    display: block;
+}
   .deepSkill {
     display: bolck;
 
