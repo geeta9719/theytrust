@@ -61,7 +61,7 @@
         </span>
       </div>
 
-      <div class="row justify-content-center mb-4">
+      <div class="row justify-content-center mt-5">
         <div class="col-md-6 text-center">
           <h4 class="font-weight-bold">Choose Size and Industries</h4>
         </div>
@@ -104,8 +104,8 @@
   <div class="row mt-4">
   <div class="col-md-12 text-center">
     <!-- <button type="button" class="btn btn-secondary mr-2" @click="goPrevious">Previous</button> -->
-    <button type="button" v-if="buttondisable || buttondisable.length > 0" class="btn btn-warning mr-2" @click="saveAndExit">Save & Exit</button>
-    <button type="button" class="btn btn-primary" @click="goNext">Next</button>
+    <button type="button" v-if="buttondisable || buttondisable.length > 0" class="save-btn mr-2" @click="saveAndExit">Save & Exit</button>
+    <button type="button" class="next-btn" @click="goNext">Next</button>
   </div>
 </div>
 
@@ -260,26 +260,44 @@ export default {
 .container {
   padding: 20px;
 }
+ .next-btn:hover {
+    color: #000;
+    background-color: #00bdd6;
+    border-color: #00bdd6;
+}
 .category-card {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #ccc;
   margin-bottom: 20px;
 }
+ .save-btn {
+    color: #fff;
+    padding: 5px 24px 6px 23px;
+    font-size: 13px;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    margin-left: 20px;
+}
 .category-card h3 {
-  color: #fff;
-  background-color: #388cff!important;
-  padding: 6px 20px;
-  font-size: 1.5rem;
-  width: 100%;
-  margin-bottom: 20px;
+    color: #000;
+    background-color: #A6F5FFFF!important;
+    padding: 6px 20px;
+    font-size: 18px;
+    width: 100%;
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+margin-bottom: 20px;
+
+
+ 
 }
 .category-main {
   padding: 0 20px;
   display: flex;
 }
 .category-item input {
-  width: auto;
+  width: 71px;
   padding: 5px 0px 0 9px;
   margin: 0;
   text-align: center;
@@ -289,6 +307,15 @@ export default {
   margin-right: 8px;
   padding-top: 1px;
   width: auto;
+  
+}
+.category h3 span {
+    font-family: Inter;
+    font-size: 18px;
+    line-height: 28px;
+    font-weight: 700;
+    color: #1BA18DFF;
+    margin-left: 10px;
 }
 .category-item {
   display: flex;
@@ -309,10 +336,24 @@ export default {
 .catBox .form-check {
   padding: 0 37px;
 }
+.category-item input{
+    width: 71px;
+}
+.selected {
+    background-color: #00bdd6;
+    color: #fff;
+    font-weight: 600;
+}
 legend {
-  background-color: #388cff;
-  color: #fff;
-  padding: 10px 20px;
+   color: #000;
+    background-color: #A6F5FFFF!important;
+    padding: 6px 20px;
+
+    width: 100%;
+      font-size: 18px;
+    font-weight: 500;
+    font-family: "Epilogue", sans-serif;
+margin-bottom: 20px;
 }
 .category-item {
   margin-bottom: 10px;
