@@ -5,8 +5,8 @@
         <input type="hidden" id="companyIdInput" name="companyId" :value="companyId">
 
         <div v-if="Object.keys(selectedData).length > 0" class="category">
-          <h3>Select Primary Services :<span> {{ categorySum }}</span></h3>
           <div class="category-main row">
+            <h3>Select Primary Services :<span> {{ categorySum }}</span></h3>
             <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id"
               class="category-item col-md-3 col-12">
               <label :for="'input_' + selectedCategory.id">{{ selectedCategory.category_name }}:</label>
