@@ -6,7 +6,7 @@
 
         <div v-if="Object.keys(selectedData).length > 0" class="category">
           <div class="category-main row">
-            <h3>Select Primary Services :<span> {{ categorySum }}</span></h3>
+            <h3 :class="categoryClass">Select Primary Services :<span> {{ categorySum }}</span></h3>
             <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id"
               class="category-item col-md-3 col-12">
               <label :for="'input_' + selectedCategory.id">{{ selectedCategory.category_name }}:</label>
@@ -24,7 +24,7 @@
       <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id" class="category-item">
         <template v-if="selectedCategory.subcategories.length > 0"> 
           <div class="sub-category-card">
-            <h3>{{ selectedCategory.category_name }} :{{ subCategorySum(selectedCategory) }}</h3>
+            <h3 :class="subCategorySum(selectedCategory) === 100 ? 'green' : 'red'">{{ selectedCategory.category_name }} :{{ subCategorySum(selectedCategory) }}</h3>
             <div class="subcategory row">
               <div v-for="(selectedSubCategory, index) in selectedCategory.subcategories" :key="selectedSubCategory.id"
                 class="category-item col-md-3 col-12">
@@ -802,6 +802,10 @@ export default {
   computed: {
     categorySum() {
       return this.selectedData.reduce((sum, category) => sum + parseInt(category.inputValue || 0), 0);
+    },
+    categoryClass() {
+      // Return 'green' if categorySum is 100, otherwise 'red'
+      return this.categorySum === 100 ? 'green' : 'red';
     }
   }
 }
@@ -1260,5 +1264,11 @@ legend {
   .category-card {
     width: 100%;
   }
+}
+.green {
+  color: green;
+}
+.red {
+  color: red;
 }
 </style>

@@ -5,7 +5,9 @@
         <input type="hidden" id="companyIdInput" name="companyId" :value="companyId">
 
         <div v-if="selectedIndustries.length > 0" class="category mb-4">
-          <h3>Select Industry Percentages: <span> {{ categorySum }}%</span></h3>
+          <h3 :class="categorySum === 100 ? 'green' : 'red'">
+      Select Industry Percentages: {{ categorySum }}%
+    </h3>
           <div class="category-main row">
             <div v-for="industry in selectedIndustriesData" :key="industry.id" class="category-item col-md-3 col-12 mb-2">
               <label :for="'input_' + industry.id">{{ industry.name }}:</label>
@@ -32,7 +34,9 @@
 
       <div class="category-card">
         <div v-if="selectedClientSizes.length > 0" class="category mb-4">
-          <h3>Select Client Size Percentages: <span>{{ clientSizeSum }}% </span></h3>
+          <h3 :class="clientSizeSum === 100 ? 'green' : 'red'">
+      Select Client Size Percentages: {{ clientSizeSum }}%
+    </h3>
           <div class="category-main row">
             <div v-for="size in selectedClientSizesData" :key="size.id" class="category-item col-md-3 col-12 mb-2">
               <label :for="'client_input_' + size.id">{{ getClientSizeName(size.id) }}:</label>
