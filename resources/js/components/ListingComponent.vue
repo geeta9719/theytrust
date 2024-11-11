@@ -1,193 +1,215 @@
 <style>
+.filter-section h2 {
+  background-color: #ece4fa;
+  color: #000;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: "Epilogue", sans-serif;
+  padding: 7px 11px;
+}
 
-.filter-section h2{
-    background-color: #ece4fa;
-    color: #000;
-     font-size: 18px;
-    font-weight: 700;
-font-family: "Epilogue", sans-serif;
-    padding: 7px 11px;
-}
 .filters select {
-   font-size: 14px;
-    font-weight: 400;
-    font-family: "Inter", sans-serif;
-    colo:#23262a;
-       
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  colo: #23262a;
+
 }
+
 select {
-    -webkit-appearance: auto!important;
-    -moz-appearance: auto!important;
-    text-indent: 1px;
- 
+  -webkit-appearance: auto !important;
+  -moz-appearance: auto !important;
+  text-indent: 1px;
+
 }
- .company-description-box{
- border-right:1px solid #ccc;
- }
-.btn-wrap{
-  width:100%;
-  text-align:right
+
+.company-description-box {
+  border-right: 1px solid #ccc;
 }
-.company-details h3{
-    font-size: 24px !important;
-    font-weight: 700;
-    color: #171a1f !important;
-    text-transform: capitalize;
-    font-family: "Epilogue", sans-serif;
+
+.btn-wrap {
+  width: 100%;
+  text-align: right
 }
- .btn-wrap button:hover {
-    background-color: #dee1e6;
-    color:#000;
+
+.company-details h3 {
+  font-size: 24px !important;
+  font-weight: 700;
+  color: #171a1f !important;
+  text-transform: capitalize;
+  font-family: "Epilogue", sans-serif;
 }
+
+.btn-wrap button:hover {
+  background-color: #dee1e6;
+  color: #000;
+}
+
 .rate {
-    background: url(https://theytrust-us.developmentserver.info/img/star.png) no-repeat left center;
-    
+  background: url(https://theytrust-us.developmentserver.info/img/star.png) no-repeat left center;
+
 }
+
 .dollar {
-    background: url(https://theytrust-us.developmentserver.info/img/dollar.png) no-repeat left center;
-    
+  background: url(https://theytrust-us.developmentserver.info/img/dollar.png) no-repeat left center;
+
 }
 
 
 .indust {
-    background: url(https://theytrust-us.developmentserver.info/img/zig.png) no-repeat left center;
-    
+  background: url(https://theytrust-us.developmentserver.info/img/zig.png) no-repeat left center;
+
 }
 
 
 
 
 .btn-wrap button {
-    background-color: #dee1e6;
-    color: #000;
+  background-color: #dee1e6;
+  color: #000;
 }
 
 .smallselect {
-height: 35px;
-    width: 70px;
-    background-size: 18px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    padding: 0 0px 0 18px;
-    background-position-x: 3px;
-    background-color:#fff;}
+  height: 35px;
+  width: 70px;
+  background-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 0 0px 0 18px;
+  background-position-x: 3px;
+  background-color: #fff;
+}
 
 .bigselect {
-height: 35px;
-    width: 188px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    padding: 0 0px 0 18px;
-    text-indent: 4px;
-    font-size: 14px;
-    font-weight: 400;
-    font-family: "Inter", sans-serif;
-    color:#23262a;
+  height: 35px;
+  width: 188px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 0 0px 0 18px;
+  text-indent: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  color: #23262a;
 
 }
-.bigselect::placeholder{
-color:#23262a;
+
+.bigselect::placeholder {
+  color: #23262a;
 }
-.logobox{
-display:block;}
+
+.logobox {
+  display: block;
+}
 
 
 .logobox .buttons {
 
-    display: grid;
- 
+  display: grid;
+
 }
-.write-box{
-    text-align: right;
-    padding-right: 41px;}
-.service-box{
-display:flex;}
-.write-review-link{
-        margin-top: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    margin-left: 12px;
-    color: #379ae6 !important;
-    text-decoration: underline;
-    display: block;
+
+.write-box {
+  text-align: right;
+  padding-right: 41px;
 }
-.company-description{
-margin-bottom:40px;
-font-size: 14px;
-    font-weight: 400;
-    font-family: "Inter", sans-serif;
+
+.service-box {
+  display: flex;
 }
-.location-suggestions{
-position:relative;}
-.searchlocation{
-position:relative;
+
+.write-review-link {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 12px;
+  color: #379ae6 !important;
+  text-decoration: underline;
+  display: block;
+}
+
+.company-description {
+  margin-bottom: 40px;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+}
+
+.location-suggestions {
+  position: relative;
+}
+
+.searchlocation {
+  position: relative;
 }
 
 .searchlocation ul {
-margin:0;
-padding:0;
+  margin: 0;
+  padding: 0;
 }
-.searchlocation ul li{
-    padding: 10px;
-    font-size: 14px;
-    font-weight: 400;
-    font-family: "Inter", sans-serif;
-    color: #23262a;
+
+.searchlocation ul li {
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  color: #23262a;
 
 }
 
 
 
 @media (max-width: 767px) {
-.searchlocation {
+  .searchlocation {
     position: absolute;
     width: 65%;
     border: 0;
-}
-.company-header {
+  }
+
+  .company-header {
     display: flex;
     gap: 20px;
     flex-direction: column;
-}
-.company-description-box{
-border:0;}
-.company-details{
-border:0!important;}
-.company-description {
+  }
+
+  .company-description-box {
+    border: 0;
+  }
+
+  .company-details {
+    border: 0 !important;
+  }
+
+  .company-description {
     margin-bottom: 0;
-}
+  }
 
-.smallselect {
-padding: 0;
+  .smallselect {
+    padding: 0;
     width: 100%;
-   
+
     margin-top: 17px;
-}
-.bigselect{
-padding: 0;
+  }
+
+  .bigselect {
+    padding: 0;
     width: 100%;
-   
+
     margin-top: 17px;
-}
+  }
 
 
 
-.logobox {
+  .logobox {
     display: block;
-            text-align: center;
-}
-.service-box {
+    text-align: center;
+  }
+
+  .service-box {
     display: flex;
     flex-direction: column;
+  }
 }
-}
-
-
-
-
-
-
-
 </style>
 
 
@@ -195,169 +217,182 @@ padding: 0;
 
 
   <div class="category-page ">
-  
+
     <nav class="breadcrumb">
       <a href="#" @click.prevent="resetFilters">Home</a>
       <span v-if="selectedCategory"> / </span>
-      <a href="#" v-if="selectedCategory" @click.prevent="selectCategory(selectedCategory.id)">{{ selectedCategory.category }}</a>
+      <a href="#" v-if="selectedCategory" @click.prevent="selectCategory(selectedCategory.id)">{{
+        selectedCategory.category }}</a>
       <span v-if="selectedSubcategory"> / </span>
-      <a href="#" v-if="selectedSubcategory" @click.prevent="selectSubcategory(selectedSubcategory.id)">{{ selectedSubcategory.subcategory }}</a>
+      <a href="#" v-if="selectedSubcategory" @click.prevent="selectSubcategory(selectedSubcategory.id)">{{
+        selectedSubcategory.subcategory }}</a>
     </nav>
     <div class="container">
-    <h1>{{ pageTitle }}</h1>
-    <p>
-      <template v-for="category in categories" :key="category.id">
-        <a href="#" @click.prevent="selectCategory(category.id)">{{ category.category }}</a><span v-if="categories.indexOf(category) < categories.length - 1"> | </span>
-      </template>
-    </p>
+      <h1>{{ pageTitle }}</h1>
+      <p>
+        <template v-for="category in categories" :key="category.id">
+          <a href="#" @click.prevent="selectCategory(category.id)">{{ category.category }}</a><span
+            v-if="categories.indexOf(category) < categories.length - 1"> | </span>
+        </template>
+      </p>
 
 
 
 
-    <div class="filter-section">
-      <h2>Discover the Globe's Best (Title of the page)</h2>
-      <div class="filters">
-        <div class="searchlocation">
-          <input type="text"  class="bigselect"  placeholder="Search Location" v-model="searchLocation" @input="debouncedFetchLocations" />
-          <ul v-if="locations.length" class="location-suggestions">
-            <li v-for="location in locations" :key="location.id" @click="selectLocation(location)">
-              {{ location.city }}
-            </li>
-          </ul>
-      </div>
-        <select class="bigselect" v-model="selectedSubcategoryId" @change="onSubcategoryChange">
-          <option value="">Select Subcategory</option>
-          <option v-for="subcategory in subcategories" :key="subcategory.id" :value="subcategory.id">{{ subcategory.subcategory }}</option>
-        </select>
-        <select class="bigselect" v-model="selectedSkillId" @change="onSkillChange">
-          <option value="">Select Skill</option>
-          <option v-for="skill in skills" :key="skill.id" :value="skill.id">{{ skill.name }}</option>
-        </select>
-        <select class="bigselect" v-model="selectedDeepSkillId" @change="onDeepSkillChange">
-          <option value="">Deep Skill</option>
-          <option v-for="deepSkill in deepSkills" :key="deepSkill.id" :value="deepSkill.id">{{ deepSkill.name }}</option>
-        </select>
-        <select class="smallselect dollar" v-model="selectedBudgetId" @change="updateURL">
-        
-          <option v-for="budget in budgets" :key="budget.id" :value="budget.id">{{ budget.budget }}</option>
-        </select>
-        <select class="smallselect dollar " v-model="selectedRateId" @change="updateURL">
-     
-          <option v-for="rate in rates" :key="rate.id" :value="rate.id">{{ rate.rate }}</option>
-        </select>
-        <select class="smallselect indust" v-model="selectedIndustryId" @change="updateURL">
-         
-          <option v-for="industry in industries" :key="industry.id" :value="industry.id">{{ industry.name }}</option>
-        </select>
-        <select class="smallselect rate" v-model="selectedRating" @change="updateURL">
-         
-          <option v-for="n in 5" :key="n" :value="n">{{ n }} stars</option>
-        </select>
-        
-      </div>
-     <div class="btn-wrap"> <button @click="updateURL">Sort Results</button></div>
-    </div>
-    <div v-if="companies.length" class="result-card" v-for="company in companies" :key="company.id">
-      <div class="company-header">
-      <div class="logobox">
-        <img :src="company.logo" alt="Logo" class="company-logo">
-          <div class="buttons">
-            <a :href="`/profile/${company.id}`" class="view-profile-btn">View Profile</a>
-            <button class="request-quote-btn">Request Quote</button>
+      <div class="filter-section">
+        <h2>Discover the Globe's Best (Title of the page)</h2>
+        <div class="filters">
+          <div class="searchlocation">
+            <input type="text" class="bigselect" placeholder="Search Location" v-model="searchLocation"
+              @input="debouncedFetchLocations" />
+            <ul v-if="locations.length" class="location-suggestions">
+              <li v-for="location in locations" :key="location.id" @click="selectLocation(location)">
+                {{ location.city }}
+              </li>
+            </ul>
           </div>
+          <select class="bigselect" v-model="selectedSubcategoryId" @change="onSubcategoryChange">
+            <option value="">Select Subcategory</option>
+            <option v-for="subcategory in subcategories" :key="subcategory.id" :value="subcategory.id">{{
+              subcategory.subcategory }}</option>
+          </select>
+          <select class="bigselect" v-model="selectedSkillId" @change="onSkillChange">
+            <option value="">Select Skill</option>
+            <option v-for="skill in skills" :key="skill.id" :value="skill.id">{{ skill.name }}</option>
+          </select>
+          <select class="bigselect" v-model="selectedDeepSkillId" @change="onDeepSkillChange">
+            <option value="">Deep Skill</option>
+            <option v-for="deepSkill in deepSkills" :key="deepSkill.id" :value="deepSkill.id">{{ deepSkill.name }}
+            </option>
+          </select>
+          <select class="smallselect dollar" v-model="selectedBudgetId" @change="updateURL">
+
+            <option v-for="budget in budgets" :key="budget.id" :value="budget.id">{{ budget.budget }}</option>
+          </select>
+          <select class="smallselect dollar " v-model="selectedRateId" @change="updateURL">
+
+            <option v-for="rate in rates" :key="rate.id" :value="rate.id">{{ rate.rate }}</option>
+          </select>
+          <select class="smallselect indust" v-model="selectedIndustryId" @change="updateURL">
+
+            <option v-for="industry in industries" :key="industry.id" :value="industry.id">{{ industry.name }}</option>
+          </select>
+          <select class="smallselect rate" v-model="selectedRating" @change="updateURL">
+
+            <option v-for="n in 5" :key="n" :value="n">{{ n }} stars</option>
+          </select>
+
+        </div>
+        <div class="btn-wrap">
+          <label for="sortOrder">Sort by:</label>
+          <select id="sortOrder" @change="setSortOrder($event.target.value)">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
+      </div>
+      <div v-if="companies.length" class="result-card" v-for="company in companies" :key="company.id">
+        <div class="company-header">
+          <div class="logobox">
+            <img :src="company.logo" alt="Logo" class="company-logo">
+            <div class="buttons">
+              <a :href="`/profile/${company.id}`" class="view-profile-btn">View Profile</a>
+              <button class="request-quote-btn">Request Quote</button>
             </div>
-        <div class="company-details">
+          </div>
+          <div class="company-details">
 
-<div class="row">
-<div class="col-md-8">
- <h3>{{ company.name }}</h3>
-          <p>{{ company.tagline }}</p>
-</div>
-<div class="col-md-4 write-box">
- <p v-if="company.company_review">
-       
-         ★
-        <span>{{ company.company_review.length }} Reviews</span>
-        <a :href="`/company/${company.id}/getReview`" class="write-review-link">Write a Review</a>
-      </p>
-      <p v-else>
-        No reviews yet
-        <a :href="`/company/${company.id}/getReview`" class="write-review-link">Write a Review</a>
-      </p>
-       
-</div>
-</div>
+            <div class="row">
+              <div class="col-md-8">
+                <h3>{{ company.name }}</h3>
+                <p>{{ company.tagline }}</p>
+                <p>{{ company?.user?.current_subscription[0].plan.name ??'Free' }}</p>
+                  <p> ttu_score  {{ company?.ttu_score }}</p>
+              </div>
+              <div class="col-md-4 write-box">
+                <p v-if="company.company_review_count">
+                  ★
+                  <span>{{ company.company_review_count }} Reviews</span>
+                  <a :href="`/company/${company.id}/getReview`" class="write-review-link">Write a Review</a>
+                </p>
+                <p v-else>
+                  No reviews yet
+                  <a :href="`/company/${company.id}/getReview`" class="write-review-link">Write a Review</a>
+                </p>
 
-         
-       
-         
-         
-           <h4>Target Service Areas</h4>
-           <div class="service-box">
-        <div class="service-line" v-for="serviceLine in company.service_lines" :key="serviceLine.id">
-          <canvas :id="'canvas-' + serviceLine.id" width="50" height="50"></canvas>
-          <div class="service-line-category">
-            {{ serviceLine.category?.category || 'Category has been deleted' }}
+              </div>
+            </div>
+
+
+
+
+
+            <h4>Target Service Areas</h4>
+            <div class="service-box">
+              <div class="service-line" v-for="serviceLine in company.service_lines" :key="serviceLine.id">
+                <canvas :id="'canvas-' + serviceLine.id" width="50" height="50"></canvas>
+                <div class="service-line-category">
+                  {{ serviceLine.category?.category || 'Category has been deleted' }}
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
-        </div>
+        <div class="company-service-lines">
+
+
+          <div class="container">
+            <div class="row">
+              <div class="col-md-8 company-description-box">
+                <p class="company-description">{{ company.short_description }}</p>
+              </div>
+              <div class="col-md-4">
+                <div class="company-meta">
+                  <div class="meta-item">
+                    <span class="meta-title">Location</span>
+                    <span class="meta-value">{{ company.address[0].address }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-title">Employees</span>
+                    <span class="meta-value">{{ company.size }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-title">Hourly Rate</span>
+                    <span class="meta-value">{{ company.rate }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-title">Minimum Project Size</span>
+                    <span class="meta-value">{{ company.budget }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         </div>
+
+        <p class="company-full-description" :class="{ expanded: expandedDescriptions[company.id] }">
+          {{ company.description }}
+        </p>
+        <button v-if="company.description && company.description.length > 200" @click="toggleDescription(company.id)">
+          {{ expandedDescriptions[company.id] ? 'Show Less' : 'Show More' }}
+        </button>
       </div>
-     <div class="company-service-lines">
-
-
-     <div class="container">
-      <div class="row">
-     <div class="col-md-8 company-description-box">
-       <p class="company-description">{{ company.short_description }}</p>
-     </div>
-     <div class="col-md-4">
-       <div class="company-meta">
-        <div class="meta-item">
-          <span class="meta-title">Location</span>
-          <span class="meta-value">{{ company.location }}</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-title">Employees</span>
-          <span class="meta-value">{{ company.size }}</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-title">Hourly Rate</span>
-          <span class="meta-value">{{ company.rate }}</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-title">Minimum Project Size</span>
-          <span class="meta-value">{{ company.budget }}</span>
-        </div>
-      </div>
-     </div>
-     </div>
-     </div>
-        
-       
-
-
-
-
-
-
-
-
-
-
-
-       
-      </div>
-   
-      <p class="company-full-description" :class="{ expanded: expandedDescriptions[company.id] }">
-        {{ company.description }}
-      </p>
-      <button v-if="company.description && company.description.length > 200" @click="toggleDescription(company.id)">
-        {{ expandedDescriptions[company.id] ? 'Show Less' : 'Show More' }}
-      </button>
     </div>
-  </div>
   </div>
 </template>
 
@@ -398,10 +433,15 @@ export default {
         deepSkills: {}
       },
       companies: [], // To store fetched companies data
-      expandedDescriptions: {}
+      expandedDescriptions: {},
+      sortOrder: 'asc'
     };
   },
   methods: {
+    setSortOrder(order) {
+      this.sortOrder = order; // Update sort order
+      this.updateURL(); // Call updateURL to refresh the URL and fetch data
+    },
     async selectCategory(categoryId) {
       this.clearSelection();
       this.selectedCategoryId = categoryId;
@@ -506,6 +546,7 @@ export default {
     },
     async fetchCompanies() {
       try {
+        console.log(encodeURIComponent(this.selectedBudgetId));
         const response = await axios.get('/api/companies', {
           params: {
             categoryId: this.selectedCategoryId,
@@ -516,7 +557,8 @@ export default {
             rate: this.selectedRateId,
             industry: this.selectedIndustryId,
             rating: this.selectedRating,
-            location: this.searchLocation
+            location: this.searchLocation,
+            order: this.sortOrder
           }
         });
         this.companies = response.data.companies;
@@ -597,8 +639,10 @@ export default {
         }
       }
 
+
       const query = new URLSearchParams();
 
+      if (this.sortOrder) query.set('order', this.sortOrder);
       if (this.selectedBudgetId) query.set('budget', this.selectedBudgetId);
       if (this.selectedRateId) query.set('rate', this.selectedRateId);
       if (this.selectedIndustryId) query.set('industry', this.selectedIndustryId);
@@ -801,14 +845,14 @@ p a:hover {
 }
 
 .filters {
-    display: flex;
-    flex-wrap: wrap;
-    /* gap: 10px; */
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  /* gap: 10px; */
+  justify-content: space-between;
+  align-items: center;
 }
 
- 
+
 .filters button {
   padding: 10px 15px;
   font-size: 14px;
@@ -863,33 +907,42 @@ p a:hover {
   height: 100px;
   object-fit: cover;
 }
-.company-details .company-description{
+
+.company-details .company-description {
   border-top: 1px solid #ccc;
-   padding-top: 18px;
-     margin-top: 20px;
+  padding-top: 18px;
+  margin-top: 20px;
 }
-.company-details p{
-font-size: 12px;
-    font-weight: 400;
-    font-family: "Inter", sans-serif;
-padding-left: 28px;}
-.company-details h3{
-padding-left: 28px;}
-.company-details h4{
-    padding-left: 28px;
-    font-size: 16px;
-    font-weight: 700;
-    font-family: "Epilogue", sans-serif;
-    border-top: 1px solid #ccc;
-    padding-top: 34px;
+
+.company-details p {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  padding-left: 28px;
+}
+
+.company-details h3 {
+  padding-left: 28px;
+}
+
+.company-details h4 {
+  padding-left: 28px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Epilogue", sans-serif;
+  border-top: 1px solid #ccc;
+  padding-top: 34px;
 
 }
-.company-details .service-line{
-padding-left: 28px;}
+
+.company-details .service-line {
+  padding-left: 28px;
+}
+
 .company-details {
   flex: 1;
   border-left: 1px solid #ccc;
-    
+
 }
 
 .company-description,
@@ -926,26 +979,28 @@ padding-left: 28px;}
   gap: 10px;
   margin-top: 20px;
 }
-.meta-item{
-    display: flex;
-    margin: auto;
-    width: 100%;
+
+.meta-item {
+  display: flex;
+  margin: auto;
+  width: 100%;
 }
+
 .meta-title {
-     color: #00bdd6;
-    background-color: #ebfdff;
-    border-color: #00bdd6 !important;
-    border-radius: 5px;
-    padding: 3px 21px 3px 14px;
-    font-size: 14px;
-    margin-right: 5px;
-    font-weight: 400 !important;
-    border: 0;
-    border-radius: 18px;
-     font-family: "Inter", sans-serif;
-    vertical-align: middle;
-    display: flex;
-    align-items: center;
+  color: #00bdd6;
+  background-color: #ebfdff;
+  border-color: #00bdd6 !important;
+  border-radius: 5px;
+  padding: 3px 21px 3px 14px;
+  font-size: 14px;
+  margin-right: 5px;
+  font-weight: 400 !important;
+  border: 0;
+  border-radius: 18px;
+  font-family: "Inter", sans-serif;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
 
 }
 
@@ -954,10 +1009,10 @@ padding-left: 28px;}
 }
 
 .meta-value {
-    color: #424448;
-    font-weight: 400;
-    font-size: 14px;
-     font-family: "Inter", sans-serif;
+  color: #424448;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
 }
 
 .buttons {
@@ -965,29 +1020,35 @@ padding-left: 28px;}
   display: flex;
   gap: 10px;
 }
+
 .company-details .buttons {
-    padding-left: 28px;
+  padding-left: 28px;
 }
-.write-box p span{
- font-size: 14px;
-    font-weight: 700;
-font-family: "Epilogue", sans-serif;
+
+.write-box p span {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Epilogue", sans-serif;
 }
-.write-box p a{
-font-size: 14px;
-    font-weight: 400;
-    font-family: "Inter", sans-serif;
+
+.write-box p a {
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
 }
+
 .view-profile-btn:hover,
 .request-quote-btn:hover {
-color:#000!important;
-text-decoration:none!important;}
+  color: #000 !important;
+  text-decoration: none !important;
+}
+
 .view-profile-btn,
 .request-quote-btn {
   padding: 6px 15px;
-font-size: 14px;
-    font-weight: 400;
-    font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
   color: #fff;
   background-color: #00bdd6;
   border: none;
@@ -1014,8 +1075,8 @@ button {
 button:hover {
   background-color: #0056b3;
 }
-.breadcrumb a{
-color:#00bdd6!important;}
 
-
-</style> 
+.breadcrumb a {
+  color: #00bdd6 !important;
+}
+</style>
