@@ -61,7 +61,7 @@
 
 
                             <div class="row">
-                                <div class="pt-4 col-md-11 mx-auto d-flex align-item-center">
+                                <div class="pt-4 col-md-11  d-flex ml-md-2 p-0 align-item-center">
                                     <div class="pt-4 col-md-8 file-field uploadbox">
                                         <h4> Upload Company Logo </h4>
                                         <div class="upload"><strong style="color: red;"> *</strong>
