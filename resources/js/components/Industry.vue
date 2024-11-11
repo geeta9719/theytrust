@@ -104,8 +104,8 @@
   <div class="row mt-4">
   <div class="col-md-12 text-center">
     <!-- <button type="button" class="btn btn-secondary mr-2" @click="goPrevious">Previous</button> -->
-    <button type="button" v-if="buttondisable || buttondisable.length > 0" class="save-btn mr-2" @click="saveAndExit">Save & Exit</button>
     <button type="button" class="next-btn" @click="goNext">Next</button>
+    <button type="button" v-if="buttondisable || buttondisable.length > 0" class="save-btn mr-2" @click="saveAndExit">Save & Exit</button>
   </div>
 </div>
 
