@@ -49,17 +49,19 @@ if (Auth::check()) {
 
             @if (!Auth::check())
                 <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal"
-                    data-target="#login-modal"><i class="far fa-user-circle
-               "
-                        aria-hidden="true"></i><span> Sign in</span></a>
+                    data-target="#login-modal">
+                    <!-- <i class="far fa-user-circle" aria-hidden="true"></i> -->
+                    <img src="https://theytrust-us.developmentserver.info/front_components/images/users-icon.png" alt="" class="img-fluid">
+                    <span> Sign in</span></a>
                 <a class="nav-link brdnone modal-signin sign-in-btn" href="#" data-toggle="modal"
-                    data-target="#signup-modal"><i class="far fa-user-circle
-              "
-                        aria-hidden="true"></i><span> Sign Up</span></a>
-                <a class="nav-link brdnone modal-signin sign-in-btn" href="#" id="open-forgot-password"
+                    data-target="#signup-modal">
+                    <!-- <i class="far fa-user-circle" aria-hidden="true"></i> -->
+                    <img src="https://theytrust-us.developmentserver.info/front_components/images/keyy-icon.png" alt="" class="img-fluid">
+                    <span class="sign-uptxt"> Sign Up</span></a>
+                <!-- <a class="nav-link brdnone modal-signin sign-in-btn" href="#" id="open-forgot-password"
                     onclick="event.preventDefault(); Livewire.emit('openForgotPasswordModal')">
                     <i class="far fa-user-circle" aria-hidden="true"></i><span> Forget Password</span>
-                </a>
+                </a> --> 
                 </a>
             @else
                 <div class="nav-item">
@@ -69,7 +71,7 @@ if (Auth::check()) {
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="{{ auth()->user()->avatar ?? asset('front_components/images/user1.png') }}"
                                     class="img-circle elevation-2" width="40px" style="border-radius: 25px;">
-                                {{ auth()->user()->name }}
+                             <span class="profile-user-name">   {{ auth()->user()->name }} <span>
                             </a>
                         </button>
                         <div class="dropdown-menu shadow-sm accountbox" style="min-width: 250px;">
@@ -142,7 +144,7 @@ if (Auth::check()) {
 
     <hr class="mb-0">
     <div class="row align-items-center menu-row pt-2 pt-md-0">
-        <div class="col-xl-8">
+        <div class="col-xl-12">
             {{-- <nav class="navbar navbar-expand-lg navbar-light px-0">
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
@@ -280,7 +282,7 @@ if (Auth::check()) {
                 <div class="modal-body">
                     <div class="verification-box">
                         <div class="modal-body">
-                            <div class="verification-box">
+                            <div class="">
                                 <p>Almost there! An email containing verification instructions was sent to <strong
                                         id="verification-email"></strong></p>
                                 <p>Didn't receive the email? <a href="#" id="resend-email-link">Resend Email</a>

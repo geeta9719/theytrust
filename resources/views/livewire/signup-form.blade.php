@@ -41,9 +41,7 @@
         <div class="form-group form-check col-md-12 checkgroup ml-3">
             <input type="checkbox" id="rememberMe" class="form-check-input" wire:model="remember">
             <label class="form-check-label" for="terms">
-                I agree to the 
-                <a href="{{ route('terms-of-use') }}" target="_blank">terms of use</a> and 
-                <a href="{{ route('privacy-policy') }}" target="_blank">privacy policy</a>
+                I agree to the<a href="{{ route('terms-of-use') }}" target="_blank">terms of use</a> and <a href="{{ route('privacy-policy') }}" target="_blank">privacy policy</a>
             </label>
             @error('remember') <span class="text-danger">{{ $message }}</span> @enderror
         </div>

@@ -6,7 +6,7 @@
 
         <div v-if="selectedIndustries.length > 0" class="category mb-4">
           <h3 :class="categorySum === 100 ? 'green' : 'red'">
-      Select Industry Percentages: {{ categorySum }}%
+      Select Industry Percentages: <span>{{ categorySum }}%</span>
     </h3>
           <div class="category-main row">
             <div v-for="industry in selectedIndustriesData" :key="industry.id" class="category-item col-md-3 col-12 mb-2">
@@ -35,7 +35,7 @@
       <div class="category-card">
         <div v-if="selectedClientSizes.length > 0" class="category mb-4">
           <h3 :class="clientSizeSum === 100 ? 'green' : 'red'">
-      Select Client Size Percentages: {{ clientSizeSum }}%
+      Select Client Size Percentages: <span>{{ clientSizeSum }}%</span>
     </h3>
           <div class="category-main row">
             <div v-for="size in selectedClientSizesData" :key="size.id" class="category-item col-md-3 col-12 mb-2">
@@ -246,6 +246,23 @@ export default {
 </script>
 
 <style scoped>
+.green span{
+  color: #1BA18DFF!important;
+}
+
+.list-box .input-group {
+   font-size: 13px;
+    width: 99px;
+    color: #000 !important;
+}
+.list-box .input-group::placeholder {
+   font-size:13px;
+    width: 71px;
+    color: #000 !important;
+}
+.red span{
+  color:red!important;
+}
 /* Add your styles here */
 .container {
   width: 1280px;
@@ -296,16 +313,29 @@ margin-bottom: 20px;
   padding: 0 20px;
   display: flex;
 }
+.catBox label{
+font-size:15px;}
 .category-item input {
-  width: 71px;
-  padding: 5px 0px 0 9px;
-  margin: 0;
-  text-align: center;
+      padding: 0px 0px 0 5px;
+    margin: 0;
+    text-align: center;
+    color: #000!important;
+    font-size: 13px;
 }
+.selected {
+    background-color: #00bdd6;
+    color: #fff;
+    font-weight: 600;
+}
+.category-item input::placeholder {
+color: #000!important;
+font-weight:400;
+    font-size: 14px!important;}
 .category-card label {
   vertical-align: middle;
   margin-right: 8px;
   padding-top: 1px;
+  font-size:15px;
   width: auto;
   
 }
@@ -338,11 +368,15 @@ margin-bottom: 20px;
 }
 .category-item input{
     width: 71px;
+    border:1px solid #000;
 }
 .selected {
     background-color: #00bdd6;
     color: #fff;
     font-weight: 600;
+    border: 1px solid blue;
+    border-radius: 5px;
+    padding: 5px 10px;
 }
 legend {
    color: #000;

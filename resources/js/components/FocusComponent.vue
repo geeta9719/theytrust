@@ -1079,7 +1079,7 @@ font-size: 18px;
 }
 
 .catBox .category-item input {
-
+border:1px solid #000;
   width: 29px;
 }
 
@@ -1112,7 +1112,7 @@ font-size: 18px;
 
 .category-card label {
   vertical-align: middle;
-
+font-size:15px;
   margin-right: 8px;
   padding-top: 1px;
 
@@ -1155,6 +1155,9 @@ legend {
 }
 
 .selected {
+border: 1px solid blue;
+    border-radius: 5px;
+    padding: 5px 10px;
   background-color: #eaf2f8;
   /* Change background color as needed */
   border: 1px solid blue;
@@ -1229,6 +1232,12 @@ legend {
   
     border-radius: 8px;
 }
+.green span{
+  color: #1BA18DFF!important;
+}
+.red span{
+  color:red!important;
+}
 @media (max-width: 767px) {
 .sub-category-card {
     width: 100%;
@@ -1266,7 +1275,7 @@ legend {
   }
 }
 .green {
-  color: green;
+  color: #1BA18DFF;
 }
 .red {
   color: red;

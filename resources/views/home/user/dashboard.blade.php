@@ -11,7 +11,29 @@
         background-color: #45a2ef;
         border-radius: 4px 4px 0 0;
     }
+    .ppack{
+        justify-content: left;
+        align-items: center;
+    }
 
+    .ppack img{
+        padding: 0 !important;
+        margin: 0;
+    }
+    .pack{
+        justify-content: right;
+        align-items: center;
+    }
+
+    .pack img{
+        padding: 0 !important;
+        margin: 0;
+        width: 18px;
+    }
+.website-txt{
+    color:#171A1FFF;
+    word-break: break-all;
+}
     .first-sec h2 {
         color: #fff;
         margin: 0;
@@ -84,7 +106,7 @@
         text-align: center;
         font-size: 12px;
         margin: 0;
-        padding: 9px;
+        padding: 9px 0;
     }
 
     .logo-box {
@@ -137,7 +159,7 @@
         /* padding: 3px 0 !important; */
         /* margin-left: 20px; */
         border-radius: 5px;
-        padding: 3px 8px 7px 8px;
+        padding: 5px 8px 5px 8px;
         font-size: 13px;
     }
     .btn {
@@ -147,7 +169,7 @@
         /* padding: 3px 0 !important; */
         /* margin-left: 20px; */
         border-radius: 5px;
-        padding: 3px 8px 7px 8px;
+        padding: 5px 8px 5px 8px;
         font-size: 13px;
     }
 
@@ -156,7 +178,7 @@
     }
 
     .greybox p {
-        font-size: 14px;
+        font-size: 14px!important;
     }
 
     .category-group,
@@ -178,7 +200,8 @@
     }
 
     .logo-box p {
-        font-size: 1rem;
+        font-size: 14px;
+        font-family: "Inter", sans-serif !important;
     }
 
     .address a {
@@ -191,6 +214,7 @@
 
     .area a {
         text-decoration: underline;
+        color: #00bdd6;
     }
 
     .address h3 {
@@ -239,8 +263,8 @@
         padding: 0;
         margin: 0;
         height: 27px;
-        background-color: #ccc;
-        border: 1px solid #b0aaaa;
+        background-color: #dee1e6;
+        border: 1px solid #dee1e6;
     }
 
     .service-btn {
@@ -279,7 +303,7 @@
     border-color: #00bdd6 !important;
     border-radius: 6px;
     padding: 3px 52px 4px 52px;
-    font-size: 17px;
+    font-size: 14px;
     margin-top: 20px;
     text-align: center;
     width: 100%;
@@ -350,6 +374,7 @@ text-decoration:none;
         text-align: center;
         color: #8d8e91;
         margin-top: 11px;
+        font-size:14px;
     }
 
     @media (max-width: 1199px) {
@@ -486,11 +511,14 @@ text-decoration:none;
 
     .area a {
         text-decoration: none;
-        color: #007bff;
+        color: #00bdd6;
+        font-size:14px;
     }
 
     .area a:hover {
         text-decoration: underline;
+        color: #00bdd6;
+        font-size:14px;
     }
 </style>
 
@@ -538,9 +566,9 @@ text-decoration:none;
                         
                         <div class="d-flex align-items-center my-2">
                             <img src="/img/tag.png" alt="Tag Icon" class="img-fluid" style="width: 20px; height: 20px;">
-                            <a href="{{ $company->website }}" class="ml-2">{{ $company->website }}</a>
+                            <a href="{{ $company->website }}" class="ml-2 website-txt">{{ $company->website }}</a>
                         </div>
-                        <p><a href="mailto:{{ $company->email }}">{{ $company->email }}</a></p>
+                        <p><a href="mailto:{{ $company->email }}" class="website-txt">{{ $company->email }}</a></p>
                         <div class="d-flex align-items-center">
                             <img src="/img/user.png" alt="User Icon" class="img-fluid"
                                 style="width: 20px; height: 20px;">
@@ -571,7 +599,7 @@ text-decoration:none;
                             with your customer after reasonable attempts, the review will not be published.</p>
                         <p> Only 1st 3 reviews will be published in the free tier. To publish more reviews.
                             <a href="{{ url('/membership-plans') }}"
-                                style="background-color:#00bdd6!important;    font-size: 11px!important;">Upgrade your
+                                style="background-color:#00bdd6!important;    font-size: 13px!important;">Upgrade your
                                 plan now</a>
                         </p>
                     </div>
@@ -787,11 +815,15 @@ text-decoration:none;
             </div>
             <img src="/img/placeholder.png" alt="" class="img-fluid p-2 ml-2">
             <div class="row mb-3 ml-2 area mb-5">
-                <div class="col-4">
-                    <a href="#">Packages</a>
+                <div class="col-4 ">
+                <div class="d-flex ppack">
+                 <img src="/img/package.png" alt="" class="img-fluid p-2 ml-2 ">   <a href="#">Packages</a>
                 </div>
-                <div class="col-8 text-right pl-5">
-                    <a href="#">Visibility Opportunity</a>
+                </div>
+                <div class="col-8 text-right pl-5 ">
+                    <div class="d-flex pack">
+                  <a href="#">Visibility Opportunity</a><img src="/img/arrowss.png" alt="" class="img-fluid p-2 ml-2 ">
+                  </div>
                 </div>
             </div>
         </div>

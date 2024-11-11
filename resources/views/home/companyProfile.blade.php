@@ -18,6 +18,28 @@
 
     
     <style>
+        .row.button-section{
+            margin:auto!important;
+        }
+         .next-btn:hover {
+            color:#000;
+
+         }
+         .sidebar-review-box .qualitybox {
+    display: none;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-top: 20px;
+}
+        .next-btn {
+    color: #fff;
+    background-color: #00bdd6;
+    border-color: #00bdd6;
+    border-radius: 5px;
+    padding: 5px 24px 6px 23px;
+    font-size: 13px;
+    margin-left: 12px;
+}
         .portfolio .topsec h3 {
     font-size: 14px !important;
     font-weight: 500!important;
@@ -78,7 +100,7 @@ width: auto!important;}
 </head>
 
 <body>
-    <div class="container shadow portfolio py-3">
+    <div class="container shadow portfolio py-3 mb-5">
         <div class="row">
             <div class="col-lg-12  bg-white py-3">
                 <div class="row topsec">
@@ -204,7 +226,7 @@ width: auto!important;}
                     @endforeach
                 </div>
                 <div class="mt-4 text-center">
-                    <a href="{{ route('portfolio', ['company' => $company->id]) }}" class="btn btn-primary">View All</a>
+                    <a href="{{ route('portfolio', ['company' => $company->id]) }}" class="submitbtn next-btn">View All</a>
                 </div>
         </div>
     </div>

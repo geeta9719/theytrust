@@ -1,14 +1,21 @@
 @extends('layouts.home-master')
 
 @section('content')
-
+<style>
+    .company-form-box form{
+        width: 100%!important;
+    }
+</style>
 <section class="container-fluid signin-banner animatedParent hero-section ">
     <div class="container ">
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-8 mx-auto text-center">
-                    <h2>EDIT PROFILE</h2>
-                    <h3><strong class="card-title text-black" style="">Logged In With : {{auth()->user()->email ?? ''}} </strong></h3>
+                <div class="col-md-8 mx-auto text-center company-location">
+                    <h3>EDIT PROFILE</h3>
+                    <!-- <h3><strong class="card-title text-black" style="">Logged In With : {{auth()->user()->email ?? ''}} </strong></h3>
+                   -->
+                    <h3>Logged In With : {{auth()->user()->email ?? ''}} </h3>
+                  
                     <p class="flashmsg"> @if(Session::has('message'))
                         <div class="alert alert-danger">{{Session::get('message')}}</div>
                         @elseif(session('msg'))
@@ -23,7 +30,7 @@
 <section class="formbox container mt-3">
     <div class="row  ">
         <div class="col-lg-12">
-            <div class="col-lg-12  form-size">
+            <div class="col-lg-12  form-size company-form-box">
                 <!--<form action="/action_page.php" class="was-validated">-->
                 <form role="form" name="addPer" id="addPer" class="" action="{{route('user.savePersonal',auth()->user()->id)}}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -78,9 +85,9 @@
                         <textarea name="bio" id="bio-dd" cols="50" rows="5" class="form-control rmvId">{{auth()->user()->bio ?? '' }}</textarea>
                         <div class="invalid-feedback bio rmvCls"></div>
                     </div>
-                    <div class="card-footer">
+                    <div class=" btnbasic ml-3 mb-5">
                         <!--<button type="submit" class="btn btn-sm btn-primary">Save Changes</button>-->
-                        <button type="button" class="btn btn-sm btn-primary" onclick="checkValue()">Save Changes</button>
+                        <button type="button" class="btn-sm basicbtn" onclick="checkValue()">Save Changes</button>
                     </div>
                 </form>
             </div>
