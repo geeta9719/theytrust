@@ -30,7 +30,7 @@ class AddressSeeder extends Seeder
                     'type' => $faker->randomElement(['Headquarters', 'Branch', 'Office']),
                     'email' => $faker->companyEmail,
                     'mobile' => $faker->phoneNumber,
-                    'autocomplete' => 'true',
+                    'autocomplete' => $faker->address,
                     'status' => 1, // Active address
                     'is_head_office' => ($index == 1) ? 1 : 0, // Set the first address as head office
                     'created_at' => now(),

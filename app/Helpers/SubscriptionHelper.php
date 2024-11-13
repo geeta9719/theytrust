@@ -134,5 +134,43 @@ public static function getPortfolioLimit($companyId)
         return 3;
 }
 
+public function determineModelsByRequest($data)
+{
+    // dd($data);
+    $modelMapping = [
+        'categoryId' => 'App\Models\Category',
+        'subcategoryId' => 'App\Models\Subcategory',
+        'skillId' => 'App\Models\Skill',
+        'deepSkillId' => 'App\Models\DeepSkill',
+        'location_city' => 'App\Models\City',
+        'location_state' => 'App\Models\State',
+    ];
+
+    $result = [
+        'location_type_model' => null,
+        'category_type_model' => null,
+    ];
+
+    // Determine the `category_type_model`
+    if ($data['categoryId']) {
+        $data['category_type_model'] = $modelMapping['categoryId'];
+    } elseif ($data['subcategoryId']) {
+        $data['category_type_model'] = $modelMapping['subcategoryId'];
+    } elseif ($data['skillId']) {
+        $data['category_type_model'] = $modelMapping['skillId'];
+    } elseif ($data-['deepSkillId']) {
+        $result['category_type_model'] = $modelMapping['deepSkillId'];
+    }
+    // Determine the `location_type_model`
+    if ($data['location'] && $data['location_type'] === 'city') {
+        $result['location_type_model'] = $modelMapping['location_city'];
+    } elseif ($data['location'] && $request['location_type'] === 'state') {
+        $result['location_type_model'] = $modelMapping['location_state'];
+    }
+
+    return $data;
+}
+
+
     
 }

@@ -4,6 +4,18 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use DB;
+use App\Models\User;
+use App\Models\Plan;
+use Illuminate\Http\Request;
+use Rennokki\Plans\Models\PlanModel;
+use Stripe\Checkout\Session;
+use Illuminate\Support\Facades\Auth;
+use Stripe\Stripe;
+use Stripe\Event;
+use Illuminate\Support\Facades\Log;
+use App\Models\Transaction;
+use Rennokki\Plans\Traits\HasPlans;
+use Rennokki\Plans\Events\NewSubscription;
 
 class CompanySeeder extends Seeder
 {
@@ -11,16 +23,15 @@ class CompanySeeder extends Seeder
     {
         $faker = Faker::create();
 
-        foreach (range(1, 10) as $index) {
+        foreach (range(1, 100) as $index) {
             // Step 1: Create a user with all fields filled
-            $userId = DB::table('users')->insertGetId([
+            $user = User::create([
                 'linkedin_id' => $faker->uuid,
                 'name' => $faker->name,
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
                 'email' => $faker->unique()->safeEmail,
                 'mobile' => $faker->phoneNumber,
-                // Use ui-avatars for a user avatar based on their name
                 'avatar' => 'https://ui-avatars.com/api/?name=' . urlencode($faker->name) . '&size=200',
                 'plan' => $faker->randomElement(['Free', 'Pro', 'Enterprise']),
                 'role' => 2,
@@ -35,18 +46,13 @@ class CompanySeeder extends Seeder
                 'remember_token' => 'password',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'stripe_id' => null,
-                'pm_type' => null,
-                'pm_last_four' => null,
-                'trial_ends_at' => null,
                 'verification_token' => 'passwordpasswordpassword',
                 'token_expires_at' => now()->addDays(7),
             ]);
 
             // Step 2: Create the company for the user
             $companyId = DB::table('companies')->insertGetId([
-                'user_id' => $userId,
-                // You can use a placeholder service for the company logo
+                'user_id' => $user->id,
                 'logo' => 'https://via.placeholder.com/200x200.png?text=Company+' . urlencode($faker->company),
                 'name' => $faker->company,
                 'website' => $faker->url,
@@ -60,18 +66,19 @@ class CompanySeeder extends Seeder
                 'email' => $faker->companyEmail,
                 'status' => $faker->randomElement([0, 1]),
                 'founded_at' => $faker->year,
-                'created_at' => now(),
-                'updated_at' => now(),
                 'profile_type' => $faker->randomElement(['Basic', 'Premium']),
                 'avg_review_score' => $faker->randomFloat(2, 1, 5),
                 'is_publish' => $faker->boolean,
                 'is_flagged' => $faker->boolean,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
-            // Step 3: Update the user's company_id in the users table
-            DB::table('users')->where('id', $userId)->update([
-                'company' => $companyId,
-            ]);
+            // Step 3: Subscribe the user to a random plan
+            $plan = PlanModel::inRandomOrder()->first();
+            // if ($plan) {
+                $subscription = $user->subscribeTo($plan, $plan->duration, false);
+            // }
         }
     }
 }

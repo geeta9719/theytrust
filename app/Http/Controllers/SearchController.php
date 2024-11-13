@@ -1357,80 +1357,192 @@ class SearchController extends Controller
     // }
 
 
-public function index(Request $request)
-{
-    $query = Company::with(['serviceLines.category','address', 'user','user.CurrentSubscription'])->withCount('companyReview'); 
+    public function index(Request $request)
+    {
+        try {
+            $query = Company::with(['serviceLines.category','address', 'user','user.CurrentSubscription'])->withCount('companyReview'); 
+    
+            if ($request->filled('categoryId')) {
+                $query->whereHas('serviceLines', function ($query) use ($request) {
+                    $query->where('category_id', $request->categoryId);
+                });
+            }
+    
+            if ($request->filled('subcategoryId')) {
+                $query->whereHas('addFocus', function ($query) use ($request) {
+                    $query->where('subcategory_id', $request->subcategoryId);
+                });
+            }
+    
+            if ($request->filled('skillId')) {
+                $query->whereHas('CompanySubcatChild', function ($query) use ($request) {
+                    $query->where('subcat_child_id', $request->skillId);
+                });
+            }
+    
+            if ($request->filled('deepSkillId')) {
+                $query->whereHas('deepskill', function ($query) use ($request) {
+                    $query->where('skill_id', $request->deepSkillId);
+                });
+            }
+    
+            if ($request->filled('location')) {
+                $query->whereHas('address', function ($query) use ($request) {
+                    $query->where('city', $request->location);
+                });
+            }
+    
+            if ($request->filled('industry')) {
+                $query->whereHas('addIndustry', function ($query) use ($request) {
+                    $query->where('industry_id', $request->industry);
+                });
+            }
+    
+            if ($request->filled('rating')) {
+                $query->whereHas('companyReview', function ($query) use ($request) {
+                    $query->where('overall_rating', $request->rating);
+                });
+            }
+    
+            if ($request->filled('budget')) {
+                $budget = Budget::where('id', $request->input('budget'))->first();
+                $query->where('budget', $budget->budget);
+            }
+    
+            if ($request->filled('rate')) {
+                $rate = Budget::where('id', $request->input('rate'))->first();
+                $query->where('budget', $rate->rate); 
+            }
+    
+            $data = SubscriptionHelper::determineModelsByRequest($request->all());
 
-    if ($request->filled('categoryId')) {
-        $query->whereHas('serviceLines', function ($query) use ($request) {
-            $query->where('category_id', $request->categoryId);
-        });
-    }
 
-    if ($request->filled('subcategoryId')) {
-        $query->whereHas('addFocus', function ($query) use ($request) {
-            $query->where('subcategory_id', $request->subcategoryId);
-        });
-    }
+            $locationTypeModel = $data['category_type_model'];
+            $categoryTypeModel = $data['category_type_model'];
+            $categoryId = $data['categoryId'];
 
-    if ($request->filled('skillId')) {
-        $query->whereHas('CompanySubcatChild', function ($query) use ($request) {
-            $query->where('subcat_child_id', $request->skillId);
-        });
-    }
 
-    if ($request->filled('deepSkillId')) {
-        $query->whereHas('deepskill', function ($query) use ($request) {
-            $query->where('skill_id', $request->deepSkillId);
-        });
-    }
+            $sponcescompanies = Company::whereHas('sponces', function ($query) use ($categoryTypeModel, $categoryId) {
+                $query->where('category_type_model', $categoryTypeModel)
+                      ->where('category_id', $categoryId);
+            })
+            ->with(['serviceLines.category','address', 'user','user.CurrentSubscription','sponces.planSubscription' => function ($query) {
+                $query->select('id', 'priority');
+            }])
+            ->get()
+            ->sortBy([
+                fn($a, $b) => $a->sponces->first()->planSubscription->priority <=> $b->sponces->first()->planSubscription->priority,
+                fn($a, $b) => $a->tt_score <=> $b->tt_score
+            ]);
+    
+            $companies = $query->get()->sort(function ($a, $b) {
+                $priorityA = $a->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
+                $priorityB = $b->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
+    
+                // First, compare by priority (ascending)
+                if ($priorityA !== $priorityB) {
+                    return $priorityA <=> $priorityB;
+                }
+    
+                // If priority is the same, compare by ttu_score (descending)
+                return ($b->ttu_score ?? 0) <=> ($a->ttu_score ?? 0);
+            });
 
-    if ($request->filled('location')) {
-        $query->whereHas('address', function ($query) use ($request) {
-            $query->where('city', $request->location);
-        });
-    }
-
-    if ($request->filled('industry')) {
-        $query->whereHas('addIndustry', function ($query) use ($request) {
-            $query->where('industry_id', $request->industry);
-        });
-    }
-
-    if ($request->filled('rating')) {
-        $query->whereHas('companyReview', function ($query) use ($request) {
-            $query->where('overall_rating', $request->rating);
-        });
-    }
-
-    if ($request->filled('budget')) {
-        $budget = Budget::where('id', $request->input('budget'))->first();
-        $query->where('budget', $budget->budget);
-    }
-
-    if ($request->filled('rate')) {
-        $rate = Budget::where('id', $request->input('rate'))->first();
-        $query->where('budget', $rate->rate); 
-    }
-
-    $companies = $query->get()->sort(function ($a, $b) {
-        $priorityA = $a->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
-        $priorityB = $b->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
-
-        // First, compare by priority (ascending)
-        if ($priorityA !== $priorityB) {
-            return $priorityA <=> $priorityB;
+            $filteredCompanies = $companies->reject(function ($company) use ($sponcescompanies) {
+                return $sponcescompanies->contains('id', $company->id);
+            });
+            
+            // Step 4: Merge the two collections with $sponcescompanies on top, followed by $filteredCompanies
+            $finalCompanies = $sponcescompanies->merge($filteredCompanies);
+    
+            return response()->json(['companies' => $finalCompanies->values()]);
+        } catch (\Exception $err) {
+            dd($err);
         }
-
-        // If priority is the same, compare by ttu_score (descending)
-        return ($b->ttu_score ?? 0) <=> ($a->ttu_score ?? 0);
-    });
+    }
 
 
-    return response()->json(['companies' => $companies->values()]);
-}
-
-
+    // public function index(Request $request)
+    // {
+    //     try {
+    //         $query = Company::with(['serviceLines.category','address', 'user','user.CurrentSubscription'])->withCount('companyReview'); 
+    
+    //         if ($request->filled('categoryId')) {
+    //             $query->whereHas('serviceLines', function ($query) use ($request) {
+    //                 $query->where('category_id', $request->categoryId);
+    //             });
+    //         }
+    
+    //         if ($request->filled('subcategoryId')) {
+    //             $query->whereHas('addFocus', function ($query) use ($request) {
+    //                 $query->where('subcategory_id', $request->subcategoryId);
+    //             });
+    //         }
+    
+    //         if ($request->filled('skillId')) {
+    //             $query->whereHas('CompanySubcatChild', function ($query) use ($request) {
+    //                 $query->where('subcat_child_id', $request->skillId);
+    //             });
+    //         }
+    
+    //         if ($request->filled('deepSkillId')) {
+    //             $query->whereHas('deepskill', function ($query) use ($request) {
+    //                 $query->where('skill_id', $request->deepSkillId);
+    //             });
+    //         }
+    
+    //         if ($request->filled('location')) {
+    //             $query->whereHas('address', function ($query) use ($request) {
+    //                 $query->where('city', $request->location);
+    //             });
+    //         }
+    
+    //         if ($request->filled('industry')) {
+    //             $query->whereHas('addIndustry', function ($query) use ($request) {
+    //                 $query->where('industry_id', $request->industry);
+    //             });
+    //         }
+    
+    //         if ($request->filled('rating')) {
+    //             $query->whereHas('companyReview', function ($query) use ($request) {
+    //                 $query->where('overall_rating', $request->rating);
+    //             });
+    //         }
+    
+    //         if ($request->filled('budget')) {
+    //             $budget = Budget::where('id', $request->input('budget'))->first();
+    //             $query->where('budget', $budget->budget);
+    //         }
+    
+    //         if ($request->filled('rate')) {
+    //             $rate = Budget::where('id', $request->input('rate'))->first();
+    //             $query->where('budget', $rate->rate); 
+    //         }
+    
+    //         $data = SubscriptionHelper::determineModelsByRequest($request->all());
+    
+    //         // Debug output to see the $data content
+    //         dd($data);
+    
+    //         $companies = $query->get()->sort(function ($a, $b) {
+    //             $priorityA = $a->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
+    //             $priorityB = $b->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
+    
+    //             // First, compare by priority (ascending)
+    //             if ($priorityA !== $priorityB) {
+    //                 return $priorityA <=> $priorityB;
+    //             }
+    
+    //             // If priority is the same, compare by ttu_score (descending)
+    //             return ($b->ttu_score ?? 0) <=> ($a->ttu_score ?? 0);
+    //         });
+    
+    //         return response()->json(['companies' => $companies->values()]);
+    //     } catch (\Exception $err) {
+    //         dd($err);
+    //     }
+    // }
+    
 
     public function getLocation(Request $request)
     {

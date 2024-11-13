@@ -20,6 +20,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SeosearchController;
 use App\Http\Controllers\SkillCategoryController;
 use App\Http\Controllers\ModelReferenceController;
+use App\Http\Controllers\SponceController;
 
 
 
@@ -137,7 +138,6 @@ Route::middleware('auth')->group(function(){
     
     //user
     Route::get('/user', [HomeController::class, 'index'])->name('home');
-    // Route::get('/sponsorship', [HomeController::class, 'getPriceListing']);
     Route::get('/company/{company}/dashboard', [UserController::class, 'dashboard'])->name('company.dashboard');
 
     Route::post('/get-listed-validation-step', [UserController::class, 'validationStep'])->name('get-listed-validation-step');
@@ -329,6 +329,19 @@ Route::delete('/admin/skills/{skill}', [SkillCategoryController::class, 'destroy
     Route::get('/admin/model-references/create', [ModelReferenceController::class, 'create'])->name('model-references.create');
 Route::post('admin/model-references', [ModelReferenceController::class, 'store'])->name('model-references.store');
     Route::resource('Projects','App\Http\Controllers\ProjectController');
+
+    Route::get('admin/sponce/create', [SponceController::class, 'create'])->name('sponce.create');
+    Route::get('admin/sponce', [SponceController::class, 'index'])->name('sponce.index');
+    Route::post('admin/sponce/store', [SponceController::class, 'store'])->name('sponce.store');
+
+    Route::post('/sponce/get-companies', [SponceController::class, 'getCompaniesByUser'])->name('sponce.getCompanies');
+    Route::post('/sponce/get-locations', [SponceController::class, 'getLocationsByCompany'])->name('sponce.getLocations');
+    Route::get('/sponce/get-cities', [SponceController::class, 'getCities'])->name('sponce.getCities');
+Route::get('/sponce/get-states', [SponceController::class, 'getStates'])->name('sponce.getStates');
+Route::post('/sponce/search-location', [SponceController::class, 'searchLocation'])->name('sponce.searchLocation');
+Route::post('/sponce/get-data-by-type', [SponceController::class, 'getDataByType'])->name('sponce.getDataByType');
+
+
     
 
 

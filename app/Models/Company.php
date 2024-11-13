@@ -99,5 +99,8 @@ class Company extends Model
         return $this->hasMany(ModelReference::class);
     }
     
-
+    public function sponces()
+    {
+        return $this->hasMany(Sponce::class, 'company_id');
+    }
 }
