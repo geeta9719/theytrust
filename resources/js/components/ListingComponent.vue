@@ -235,10 +235,6 @@ select {
             v-if="categories.indexOf(category) < categories.length - 1"> | </span>
         </template>
       </p>
-
-
-
-
       <div class="filter-section">
         <h2>Discover the Globe's Best (Title of the page)</h2>
         <div class="filters">
@@ -301,12 +297,11 @@ select {
             </div>
           </div>
           <div class="company-details">
-
             <div class="row">
               <div class="col-md-8">
                 <h3>{{ company.name }}</h3>
                 <p>{{ company.tagline }}</p>
-                <p>{{ company?.user?.current_subscription[0].plan.name ??'Free' }}</p>
+                <p>{{ company?.user?.current_subscription[0]?.plan?.name ??'Free' }}</p>
                   <p> ttu_score  {{ company?.ttu_score }}</p>
               </div>
               <div class="col-md-4 write-box">
@@ -322,11 +317,6 @@ select {
 
               </div>
             </div>
-
-
-
-
-
             <h4>Target Service Areas</h4>
             <div class="service-box">
               <div class="service-line" v-for="serviceLine in company.service_lines" :key="serviceLine.id">
@@ -369,22 +359,7 @@ select {
               </div>
             </div>
           </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
-
         <p class="company-full-description" :class="{ expanded: expandedDescriptions[company.id] }">
           {{ company.description }}
         </p>
