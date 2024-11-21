@@ -132,23 +132,17 @@ width: auto!important;}
                                 <h3>{{ $reviews_count }} REVIEWS</h3>
                             </a>
                         </div>
-                        {{-- <div class="write-review blue-write-review">
-                            @if ($user && $plan && $review_limit > $reviews_count)
-                                <a href="{{ url('company/' . $company->id . '/getReview') }}" class="btn btn-primary" target="_blank">
-                                    Write a Review
-                                </a>
-                            @else
-                                <p>You have reached the maximum number of reviews allowed by your plan.</p>
-                            @endif
-                        </div> --}}
                         <div class="write-review blue-write-review">
-                            {{-- @if ($can_write_review) --}}
-                                <a href="{{ url('company/' . $company->id . '/getReview') }}" class="btn btn-primary" target="_blank">
-                                    Write a Review
-                                </a>
-                            {{-- @else --}}
-                                {{-- <p>You have reached the maximum number of reviews allowed by your plan.</p> --}}
-                            {{-- @endif --}}
+                    
+                                                            @if(auth()->check() && auth()->user()->id === $company->user_id)
+                                                            <a href="{{ route('comapany.reviews.request.index') }}" class="btn btn-primary">
+                                                                Reqest  a Review
+                                                            </a>
+                            @else
+                            <a href="{{ url('company/' . $company->id . '/getReview') }}" class="btn btn-primary" target="_blank">
+                                Write a Review
+                            </a> 
+                            @endif
                         </div>
                     </div>
                 </div>
