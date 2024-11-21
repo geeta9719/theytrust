@@ -1416,15 +1416,21 @@ class SearchController extends Controller
     
             $data = SubscriptionHelper::determineModelsByRequest($request->all());
 
+            // dd($data);
 
-            $locationTypeModel = $data['category_type_model'];
+
+            // $locationTypeModel = $data['location_type_model'];
             $categoryTypeModel = $data['category_type_model'];
             $categoryId = $data['categoryId'];
 
 
+            if($request->filled('categoryId')&& $request->filled('location') ){
+
             $sponcescompanies = Company::whereHas('sponces', function ($query) use ($categoryTypeModel, $categoryId) {
                 $query->where('category_type_model', $categoryTypeModel)
-                      ->where('category_id', $categoryId);
+                      ->where('category_id', $categoryId)
+                    //   ->where('category_id', $categoryId)
+                      ->where('location_type_model', 'App\Models\City'); 
             })
             ->with(['serviceLines.category','address', 'user','user.CurrentSubscription','sponces.planSubscription' => function ($query) {
                 $query->select('id', 'priority');
@@ -1435,6 +1441,7 @@ class SearchController extends Controller
                 fn($a, $b) => $a->tt_score <=> $b->tt_score
             ]);
     
+        }
             $companies = $query->get()->sort(function ($a, $b) {
                 $priorityA = $a->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
                 $priorityB = $b->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
@@ -1448,14 +1455,13 @@ class SearchController extends Controller
                 return ($b->ttu_score ?? 0) <=> ($a->ttu_score ?? 0);
             });
 
-            $filteredCompanies = $companies->reject(function ($company) use ($sponcescompanies) {
-                return $sponcescompanies->contains('id', $company->id);
-            });
+
+            if (isset($sponcescompanies)) {
+                $companies = $companies->merge($sponcescompanies);
+            }
             
-            // Step 4: Merge the two collections with $sponcescompanies on top, followed by $filteredCompanies
-            $finalCompanies = $sponcescompanies->merge($filteredCompanies);
     
-            return response()->json(['companies' => $finalCompanies->values()]);
+            return response()->json(['companies' => $companies->values()]);
         } catch (\Exception $err) {
             dd($err);
         }
