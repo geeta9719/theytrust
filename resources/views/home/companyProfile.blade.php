@@ -127,10 +127,13 @@ width: auto!important;}
                             <div class="px-3 ">
                                 {!! generateStarRating($rate_review->rating) !!}
                             </div>
+                            @if($reviews_count > 0)
                             <a href="{{ url('review/' . $company->id ) }}" target="_blank" class="reviewstxt">
-
                                 <h3>{{ $reviews_count }} REVIEWS</h3>
                             </a>
+                        @else
+                            <p class="text-muted">You don't have any reviews yet.</p>
+                        @endif
                         </div>
                         <div class="write-review blue-write-review">
                     
