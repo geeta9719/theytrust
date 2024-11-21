@@ -162,7 +162,7 @@ public function determineModelsByRequest($data)
         $result['category_type_model'] = $modelMapping['deepSkillId'];
     }
     // Determine the `location_type_model`
-    if ($data['location'] && $data['location_type'] === 'city') {
+    if ($data['location'] ) {
         $result['location_type_model'] = $modelMapping['location_city'];
     } elseif ($data['location'] && $request['location_type'] === 'state') {
         $result['location_type_model'] = $modelMapping['location_state'];
