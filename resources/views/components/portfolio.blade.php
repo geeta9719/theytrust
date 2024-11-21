@@ -41,6 +41,7 @@ use Carbon\Carbon;
         <div class="col-md-6 mb-3">
             <div class="p-2 mb-2">
                 @if(is_array($portfolio->media) && count($portfolio->media) > 0)
+                {{-- {{ dd($portfolio->media) }} --}}
                     @foreach($portfolio->media as $media)
                         @php
                             $extension = pathinfo($media, PATHINFO_EXTENSION);
@@ -50,10 +51,10 @@ use Carbon\Carbon;
                         @endphp
         
                         @if($isImage)
-                            <img src="{{ asset($media) }}" alt="" class="w-100 mb-3">
+                            <img src="{{ asset('storage/'.$media) }}" alt="" class="w-100 mb-3">
                         @elseif($isPDF)
-                            <embed src="{{ asset($media) }}" width="100%" height="500px" type="application/pdf" class="mb-3">
-                        @elseif($isYouTube)
+                        <embed src="{{ asset('storage/' . $media) }}" width="100%" height="500px" type="application/pdf" class="mb-3">
+                            @elseif($isYouTube)
                             @php
                                 // Extract YouTube video ID
                                 if (strpos($media, 'youtu.be') !== false) {
