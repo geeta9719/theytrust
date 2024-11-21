@@ -132,7 +132,7 @@ width: auto!important;}
                                 <h3>{{ $reviews_count }} REVIEWS</h3>
                             </a>
                         @else
-                            <p class="text-muted">You don't have any reviews yet.</p>
+                            <p class="text-muted">No Reviews</p>
                         @endif
                         </div>
                         <div class="write-review blue-write-review">
