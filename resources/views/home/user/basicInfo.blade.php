@@ -68,6 +68,7 @@
                                             <input type="file" class="rmvId" id="logo" name="logo">
                                             <span class="logocon d-block">(For best results upload a square logo in the
                                                 ratio of 512 × 512 pixels.)</span>
+                                                <div class="invalid-feedback logo rmvCls"></div>
                                         </div>
                                     </div>
                                     <div class="pt-4 col-md-4 file-field companylogo">
@@ -254,7 +255,7 @@
             logoInput.addEventListener('change', function() {
                 // This is just an informational message, no restriction
                 logoMessage.textContent =
-                    "For best results upload a square logo in the ratio of 512 × 512 pixels.";
+                    "This Image is Reqired For best results upload a square logo in the ratio of 512 × 512 pixels.";
             });
         });
 
