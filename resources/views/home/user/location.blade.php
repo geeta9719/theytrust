@@ -391,7 +391,7 @@ padding-right:23px;
                             <div class="col-md-3"></div>
                             <div class="col-md-6">
                                 <?php if(!empty($company->user_id)){ $uid = $company->user_id;}else{ $uid = auth()->user()->id;}?>
-                                <a href="{{route('user.basicInfo', $uid)}}" class="submitbtn"> < </a>
+                                <!-- <a href="{{route('user.basicInfo', $uid)}}" class="submitbtn"> < </a> -->
                              
                             </div>
                         </div>     --}}
@@ -400,7 +400,7 @@ padding-right:23px;
                                 <div class="col-md-3"></div>
                                 <div class="col-md-6">
                                     <?php if(!empty($company->user_id)){ $uid = $company->user_id;}else{ $uid = auth()->user()->id;}?>
-                                    <a href="{{route('user.basicInfo', $uid)}}" class="submitbtn"> < </a>
+                                    <!-- <a href="{{route('user.basicInfo', $uid)}}" class="submitbtn"> < </a> -->
                                     <button type="button" class="submitbtn next-btn" onclick="checkValue('next')">Next</button>
                                     <button type="button" class="submitbtn exit-btn" onclick="checkValue('save_and_back')">Save and Exit</button>
                                 </div>

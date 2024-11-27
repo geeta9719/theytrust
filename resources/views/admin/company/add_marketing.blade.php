@@ -31,7 +31,7 @@
                     <input type="hidden" name="id" value="<?php if(!empty($adminInfo->id)){ echo $adminInfo->id;}else{echo '0';}?>">
                     <input type="hidden" name="company_id" value="<?php if(!empty($adminInfo->company_id)){ echo $adminInfo->company_id;}else{echo $company->id;}?>">
                     <div class="card-body sheet text-black" id="sheet1">
-                        <div class="card-header" >
+                        <div class="card-header text-center" >
                             <h4><strong class="card-title font-weight-bold" style="font-size:1.5rem;    margin-left: -23px;" >Please fill in admin information</strong></h4>
                         </div> 
 
@@ -63,13 +63,13 @@
                             <div class="invalid-feedback twitter rmvCls"></div>
                         </div>
                         <div class="form-group">
-                            <label for="analytics">Google Analytics Tracking ID</label>
+                            <label for="analytics">Google Analytics Tracking ID ID</label>
                             <input type="text" class="form-control rmvId" id="analytics" name="analytics" value="<?php if(!empty($adminInfo->analytics)){ echo $adminInfo->analytics;}?>">
                             <div class="invalid-feedback analytics rmvCls"></div>
                         </div>
                     </div>
-                    <a href="{{ route( 'admin.company.focus', $company->id )}}" class="btn btn-sm btn-primary"> < </a>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="checkValue()">Save</button>
+                    <!-- <a href="{{ route( 'admin.company.focus', $company->id )}}" class="btn btn-sm btn-primary"> < </a> -->
+                    <button type="button" class="btn btn-sm save-btn btn-primary" onclick="checkValue()">Save</button>
                 </form>
             </div>
         </div>

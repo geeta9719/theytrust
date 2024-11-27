@@ -1,12 +1,12 @@
 <template>
   <div id="app" class="container">
     <div id="mainDiv">
-      <div class="category-card ">
+      <div v-if="Object.keys(selectedData).length > 0" class="category-card d-card">
         <input type="hidden" id="companyIdInput" name="companyId" :value="companyId">
 
         <div v-if="Object.keys(selectedData).length > 0" class="category">
           <div class="category-main row">
-            <h3 :class="categoryClass">Select Primary Services :<span> {{ categorySum }}</span></h3>
+            <h3 :class="categoryClass">Select Primary Services :<span> {{ categorySum }} %</span></h3>
             <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id"
               class="category-item col-md-3 col-12">
               <label :for="'input_' + selectedCategory.id">{{ selectedCategory.category_name }}:</label>
@@ -24,7 +24,7 @@
       <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id" class="category-item">
         <template v-if="selectedCategory.subcategories.length > 0"> 
           <div class="sub-category-card">
-            <h3 :class="subCategorySum(selectedCategory) === 100 ? 'green' : 'red'">{{ selectedCategory.category_name }} :{{ subCategorySum(selectedCategory) }}</h3>
+            <h3 :class="subCategorySum(selectedCategory) === 100 ? 'green' : 'red'">{{ selectedCategory.category_name }} :{{ subCategorySum(selectedCategory) }} %</h3>
             <div class="subcategory row">
               <div v-for="(selectedSubCategory, index) in selectedCategory.subcategories" :key="selectedSubCategory.id"
                 class="category-item col-md-3 col-12">
@@ -912,13 +912,13 @@ display:block;}
 }
 
 .category-card {
-  border: 1px solid #ccc;
+  
   margin-bottom: 20px;
 }
 
 .category-card .category-main {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .sub-category-card {
@@ -1024,7 +1024,7 @@ font-size: 18px;
 
 .category-main {
   display: flex;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 .category h3 {
@@ -1050,6 +1050,9 @@ font-size: 18px;
 .category-card {
   margin-right: -15px;
   margin-left: -15px;
+      border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;   
 }
 
 #categoryFieldset {
@@ -1194,7 +1197,7 @@ border: 1px solid blue;
 
 /* Updated CSS */
 .category-card {
-  border: 1px solid #ccc;
+ 
   border-radius: 8px;
   /* padding: 10px; */
   margin-bottom: 20px;

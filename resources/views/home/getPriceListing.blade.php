@@ -7,351 +7,1152 @@
 @section('content')
     <script src="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/js/bootstrap-multiselect.js"></script>
     <link href="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/css/bootstrap-multiselect.css" rel="stylesheet" />
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        .formbox {
-            background-color: #f5f8fd;
-        }
-
-        .columns {
-            float: left;
-            width: 33.3%;
-            padding: 8px;
-        }
-
-        .pricebox h1 {
-            font-size: 26px;
-            font-weight: bold;
-        }
-
-        .pricebox h2 {
-            font-size: 22px;
-
-        }
-
-        .pricebox a {
-            font-size: 21px;
-            font-weight: bold;
-            color: #ff3d2e;
-        }
-
-        .price {
-            background-color: #388cff;
-            list-style-type: none;
-            border: 1px solid #eee;
-            margin: 0;
-            padding: 0;
-            -webkit-transition: 0.3s;
-            transition: 0.3s;
-        }
-
-        .price:hover {
-            box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2)
-        }
-
-        .price .header {
-            /* background-color: white; */
-            color: #111;
-            font-size: 25px;
-            color: #000;
-        }
-
-        .price li {
-            border-bottom: 1px solid #eee;
-            padding: 20px;
-            text-align: left;
-            color: #fff;
-        }
-
-        .price .grey {
-            /* background-color: #fff; */
-            font-size: 20px;
-            color: #fff;
-        }
-
-        .button {
-            background-color: #fff;
-            border: 2px solid red;
-            color: #08537e;
-            padding: 10px 25px;
-            text-align: center;
-            text-decoration: none !important;
-            font-size: 18px;
-            border-radius: 31px;
-            border-color: #ff3d2e;
-        }
-
-        .button:hover {
-            background-color: #ff3d2e;
-            border: 2px solid red;
-            color: #fff;
-            padding: 10px 25px;
-            text-align: center;
-            text-decoration: none !important;
-            font-size: 18px;
-            border-color: #ff3d2e;
-            border-radius: 31px;
-        }
-
-        .offerbox {
-            position: relative;
-        }
-
-        .offer {
-            position: absolute;
-            top: -29px;
-            right: -6px;
-            width: 27%;
-        }
-
-        @media only screen and (max-width: 600px) {
-            .columns {
-                width: 100%;
-            }
-        }
-
-        @media only screen and (max-width: 767px) {
-            .offer {
-
-                width: 31%;
-            }
-
-            .offerbox {
-
-                top: 62px;
-            }
-        }
-    </style>
-
-    <?php
+    <link href="https://theytrust-us.developmentserver.info/front_components/css/subscription-style.css" rel="stylesheet" />
+    <link href="https://theytrust-us.developmentserver.info/front_components/css/subscription.css" rel="stylesheet" />
     
-    use App\Models\Company;
-    
-    $cd = '';
-    
-    if (Auth::check()) {
-        $user = auth()->user()->id;
-        $cd = Company::select('profile_type')
-            ->where('user_id', '=', $user)
-            ->first();
-    }
-    
-    ?>
-    <section class="container-fluid signin-banner animatedParent hero-section ">
+    <section class="container-fluid agencies   " style="background: #fff;  ">
+        <div class="container  ">
+            <div class="row upgrade">
+                <div class="col-lg-6 ">
+                    <h2 class="sec-heading mb-3 mb-lg-0">Upgrade your plan</h2>
+                </div>
+                <div class="col-lg-6 text-center  ">
+                    <div class="btn-box">
+                        <div class="d-sm-flex justify-content-center">
+                            <!-- <button class="monthly btn">Monthly</button>
+                            <button class="annual btn">Annual Commitment</button>
+                            <button class="yearly btn">Yearly</button> -->
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item active">
+                                    <a class="nav-link  annual btn" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Monthly</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link annual btn" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Annual Commitment</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link annual btn" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Yearly</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <h2 class="mt-1">Billed monthly with annual commitment</h2>
+                    </div>
+
+                </div>
+                <div class="col-lg-12 currently mt-4">
+
+                    <p>You are currently subscribed to the basic plan which is a FREE FOREVER plan and includes the
+                        following</p>
+                    <div class="row">
+
+                        <div class="col-lg-4 p-reviews">
+                            <h2 class="image-before points">Collect upto 3 reviews</h2>
+                            <h2 class="image-before points"> Post projects</h2>
+                        </div>
+
+                        <div class="col-lg-4 p-reviews">
+                            <h2 class="image-before points">Add upto 3 portfolio items</h2>
+                            <h2 class="image-before points">Manage and respond to reviews</h2>
+                        </div>
+
+                        <div class="col-lg-4 p-reviews">
+                            <h2 class="image-before">Create upto 3 Bundles</h2>
+                            <h2 class="image-before">Unlimited business locations</h2>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+ <!-- Tabs Navigation start-->
+ <!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+    </li>
+</ul> -->
+
+ <!-- Tabs Navigation end-->
+       <!-- Tab Content -->
+       <div class="tab-content" id="myTabContent">
+<!-- Monthly start -->
+<div class="row pt-5 mt-4 equal tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="col-lg-4 col-md-6 px-3 mb-5 mb-lg-0 ">
+                    <div class="agenciesbox">
+                        <!-- <img src="images/icons.png" alt=""> -->
+                        <div class="heading-box">
+                            <h3>Premium Local</h3>
+                            <span>Everything in Basic plus...</span>
+                        </div>
+
+                        <div class="dollertxt container mt-5 text-center position-relative">
+
+                            <h2>$99 <span>$199</span> </h2>
+
+                            <div class="small-text text-left">
+                                <h3>per Month </h3>
+                                <span>* billed monthly
+                                    with annual commitment</span>
+                            </div>
+
+                        </div>
+                        <div class="text-center mt-3">
+                            <button class="text-center purple-btn btn">Get Premium Local</button></div>
+                        <div class="features"></div>
+                        <div class="features px-2 mt-3">
+                            <h4>Features</h4>
+                            <ul>
+                                <li>Collect unlimited reviews</li>
+                                <li>Add unlimited Portfolio items</li>
+                                <li>Create upto 10 bundles</li>
+                                <li>Receive direct leads and website visits</li>
+                                <li>Get listed above "Basic / Free" profiles in
+                                    your city</li>
+                                <li>Ability to bid on leads. Access to leads
+                                    panel includes 99 credits</li>
+                                <li>Reach analytics and statistics</li>
+                                <li>24 x 7 general email support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 px-3   mb-5 mb-lg-0 regional">
+                    <div href="#" class="recommended-btn">Recommended</div>
+                    <div class="agenciesbox">
+                        <!-- <img src="images/icons.png" alt=""> -->
+                        <div class="heading-box">
+                            <h3>Premium Local</h3>
+                            <span>Everything in Basic plus...</span>
+                        </div>
+
+                        <div class="dollertxt container mt-5 text-center position-relative">
+
+                            <h2>$99 <span>$199</span> </h2>
+
+                            <div class="small-text text-left">
+                                <h3>per Month </h3>
+                                <span>* billed monthly
+                                    with annual commitment</span>
+                            </div>
+
+                        </div>
+                        <div class="text-center mt-3">
+                            <button class="text-center purple-btn btn">Get Premium Local</button></div>
+                        <div class="features"></div>
+                        <div class="features px-2 mt-3">
+                            <h4>Features</h4>
+                            <ul>
+                                <li>Collect unlimited reviews</li>
+                                <li>Add unlimited Portfolio items</li>
+                                <li>Create upto 10 bundles</li>
+                                <li>Receive direct leads and website visits</li>
+                                <li>Get listed above "Basic / Free" profiles in
+                                    your city</li>
+                                <li>Ability to bid on leads. Access to leads
+                                    panel includes 99 credits</li>
+                                <li>Reach analytics and statistics</li>
+                                <li>24 x 7 general email support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 px-3  mb-5 mb-lg-0 ">
+                    <div class="agenciesbox">
+                        <!-- <img src="images/icons.png" alt=""> -->
+                        <div class="heading-box">
+                            <h3>Premium Local</h3>
+                            <span>Everything in Basic plus...</span>
+                        </div>
+
+                        <div class="dollertxt container mt-5 text-center position-relative">
+
+                            <h2 style="transform: translateX(00px);">Contact Us</h2>
+
+                        </div>
+                        <div class="text-center mt-3">
+                            <button class="text-center purple-btn btn">Get Premium Local</button></div>
+                        <div class="features"></div>
+                        <div class="features px-2 mt-3">
+                            <h4>Features</h4>
+                            <ul>
+                                <li>Collect unlimited reviews</li>
+                                <li>Add unlimited Portfolio items</li>
+                                <li>Create upto 10 bundles</li>
+                                <li>Receive direct leads and website visits</li>
+                                <li>Get listed above "Basic / Free" profiles in
+                                    your city</li>
+                                <li>Ability to bid on leads. Access to leads
+                                    panel includes 99 credits</li>
+                                <li>Reach analytics and statistics</li>
+                                <li>24 x 7 general email support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+</div>
+<!-- Monthly end -->
+ <!-- Annual start -->
+ <div class="row pt-5 mt-4 equal tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="col-lg-4 col-md-6 px-3 mb-5 mb-lg-0 ">
+        <div class="agenciesbox">
+            <!-- <img src="images/icons.png" alt=""> -->
+            <div class="heading-box">
+                <h3>Premium Local</h3>
+                <span>Everything in Basic plus...</span>
+            </div>
+
+            <div class="dollertxt container mt-5 text-center position-relative">
+
+                <h2>$199 <span>$199</span> </h2>
+
+                <div class="small-text text-left">
+                    <h3>per Month </h3>
+                    <span>* billed monthly
+                        with annual commitment</span>
+                </div>
+
+            </div>
+            <div class="text-center mt-3">
+                <button class="text-center purple-btn btn">Get Premium Local</button></div>
+            <div class="features"></div>
+            <div class="features px-2 mt-3">
+                <h4>Features</h4>
+                <ul>
+                    <li>Collect unlimited reviews</li>
+                    <li>Add unlimited Portfolio items</li>
+                    <li>Create upto 10 bundles</li>
+                    <li>Receive direct leads and website visits</li>
+                    <li>Get listed above "Basic / Free" profiles in
+                        your city</li>
+                    <li>Ability to bid on leads. Access to leads
+                        panel includes 99 credits</li>
+                    <li>Reach analytics and statistics</li>
+                    <li>24 x 7 general email support</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 px-3   mb-5 mb-lg-0 regional">
+        <div href="#" class="recommended-btn">Recommended</div>
+        <div class="agenciesbox">
+            <!-- <img src="images/icons.png" alt=""> -->
+            <div class="heading-box">
+                <h3>Premium Local</h3>
+                <span>Everything in Basic plus...</span>
+            </div>
+
+            <div class="dollertxt container mt-5 text-center position-relative">
+
+                <h2>$99 <span>$199</span> </h2>
+
+                <div class="small-text text-left">
+                    <h3>per Month </h3>
+                    <span>* billed monthly
+                        with annual commitment</span>
+                </div>
+
+            </div>
+            <div class="text-center mt-3">
+                <button class="text-center purple-btn btn">Get Premium Local</button></div>
+            <div class="features"></div>
+            <div class="features px-2 mt-3">
+                <h4>Features</h4>
+                <ul>
+                    <li>Collect unlimited reviews</li>
+                    <li>Add unlimited Portfolio items</li>
+                    <li>Create upto 10 bundles</li>
+                    <li>Receive direct leads and website visits</li>
+                    <li>Get listed above "Basic / Free" profiles in
+                        your city</li>
+                    <li>Ability to bid on leads. Access to leads
+                        panel includes 99 credits</li>
+                    <li>Reach analytics and statistics</li>
+                    <li>24 x 7 general email support</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 px-3  mb-5 mb-lg-0 ">
+        <div class="agenciesbox">
+            <!-- <img src="images/icons.png" alt=""> -->
+            <div class="heading-box">
+                <h3>Premium Local</h3>
+                <span>Everything in Basic plus...</span>
+            </div>
+
+            <div class="dollertxt container mt-5 text-center position-relative">
+
+                <h2 style="transform: translateX(00px);">Contact Us</h2>
+
+            </div>
+            <div class="text-center mt-3">
+                <button class="text-center purple-btn btn">Get Premium Local</button></div>
+            <div class="features"></div>
+            <div class="features px-2 mt-3">
+                <h4>Features</h4>
+                <ul>
+                    <li>Collect unlimited reviews</li>
+                    <li>Add unlimited Portfolio items</li>
+                    <li>Create upto 10 bundles</li>
+                    <li>Receive direct leads and website visits</li>
+                    <li>Get listed above "Basic / Free" profiles in
+                        your city</li>
+                    <li>Ability to bid on leads. Access to leads
+                        panel includes 99 credits</li>
+                    <li>Reach analytics and statistics</li>
+                    <li>24 x 7 general email support</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Annual end -->
+ <!-- Yearly start -->
+ <div class="row pt-5 mt-4 equal tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+    <div class="col-lg-4 col-md-6 px-3 mb-5 mb-lg-0 ">
+        <div class="agenciesbox">
+            <!-- <img src="images/icons.png" alt=""> -->
+            <div class="heading-box">
+                <h3>Premium Local</h3>
+                <span>Everything in Basic plus...</span>
+            </div>
+
+            <div class="dollertxt container mt-5 text-center position-relative">
+
+                <h2>$299 <span>$199</span> </h2>
+
+                <div class="small-text text-left">
+                    <h3>per Month </h3>
+                    <span>* billed monthly
+                        with annual commitment</span>
+                </div>
+
+            </div>
+            <div class="text-center mt-3">
+                <button class="text-center purple-btn btn">Get Premium Local</button></div>
+            <div class="features"></div>
+            <div class="features px-2 mt-3">
+                <h4>Features</h4>
+                <ul>
+                    <li>Collect unlimited reviews</li>
+                    <li>Add unlimited Portfolio items</li>
+                    <li>Create upto 10 bundles</li>
+                    <li>Receive direct leads and website visits</li>
+                    <li>Get listed above "Basic / Free" profiles in
+                        your city</li>
+                    <li>Ability to bid on leads. Access to leads
+                        panel includes 99 credits</li>
+                    <li>Reach analytics and statistics</li>
+                    <li>24 x 7 general email support</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 px-3   mb-5 mb-lg-0 regional">
+        <div href="#" class="recommended-btn">Recommended</div>
+        <div class="agenciesbox">
+            <!-- <img src="images/icons.png" alt=""> -->
+            <div class="heading-box">
+                <h3>Premium Local</h3>
+                <span>Everything in Basic plus...</span>
+            </div>
+
+            <div class="dollertxt container mt-5 text-center position-relative">
+
+                <h2>$99 <span>$199</span> </h2>
+
+                <div class="small-text text-left">
+                    <h3>per Month </h3>
+                    <span>* billed monthly
+                        with annual commitment</span>
+                </div>
+
+            </div>
+            <div class="text-center mt-3">
+                <button class="text-center purple-btn btn">Get Premium Local</button></div>
+            <div class="features"></div>
+            <div class="features px-2 mt-3">
+                <h4>Features</h4>
+                <ul>
+                    <li>Collect unlimited reviews</li>
+                    <li>Add unlimited Portfolio items</li>
+                    <li>Create upto 10 bundles</li>
+                    <li>Receive direct leads and website visits</li>
+                    <li>Get listed above "Basic / Free" profiles in
+                        your city</li>
+                    <li>Ability to bid on leads. Access to leads
+                        panel includes 99 credits</li>
+                    <li>Reach analytics and statistics</li>
+                    <li>24 x 7 general email support</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 px-3  mb-5 mb-lg-0 ">
+        <div class="agenciesbox">
+            <!-- <img src="images/icons.png" alt=""> -->
+            <div class="heading-box">
+                <h3>Premium Local</h3>
+                <span>Everything in Basic plus...</span>
+            </div>
+
+            <div class="dollertxt container mt-5 text-center position-relative">
+
+                <h2 style="transform: translateX(00px);">Contact Us</h2>
+
+            </div>
+            <div class="text-center mt-3">
+                <button class="text-center purple-btn btn">Get Premium Local</button></div>
+            <div class="features"></div>
+            <div class="features px-2 mt-3">
+                <h4>Features</h4>
+                <ul>
+                    <li>Collect unlimited reviews</li>
+                    <li>Add unlimited Portfolio items</li>
+                    <li>Create upto 10 bundles</li>
+                    <li>Receive direct leads and website visits</li>
+                    <li>Get listed above "Basic / Free" profiles in
+                        your city</li>
+                    <li>Ability to bid on leads. Access to leads
+                        panel includes 99 credits</li>
+                    <li>Reach analytics and statistics</li>
+                    <li>24 x 7 general email support</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Yearly end -->
+       <!-- Tab Content -->
+</div>
+</div>
+     
+    </section>
+
+    <!-- 2nd row -->
+    <section class="container-fluid  sponsor  animatedParent">
         <div class="container ">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-5 mx-auto text-center">
+            <div class="row upgrade">
+                <div class="col-md-8 ">
+                    <h2 class="sec-heading">Become A Sponsor</h2>
+                </div>
+                <div class="col-md-4 text-center ">
+                    <a class=" sales btn">Contact Sales</a>
+
+                </div>
+                <div class="col-md-12 currently">
+
+                    <p>You can get higher visibility by taking a sponsorship. Sponsored listings are ranked higher than
+                        regular listings. Sponsorship can be purchased for any combination of keyword and location.
+                        Choose from below options:</p>
+
+                </div>
+
+
+                <div class="w-100">
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
+
+
+
+
             </div>
         </div>
     </section>
-    <section class="formbox container mt-1">
-        <div class="row">
-            <div class="text-center mx-auto pb-0 pb-md-0 pt-5 pt-md-0 pl-5 pr-5 pricebox pl-md-0 pr-md-0">
-                <h1 class="mt-md-5 mt-2">Show your credibility, leadership in your industry </br>and geographies you cater
-                    for FREE</h1>
-                <h2>
-                    Reach the b2b customers that are looking for genuine providers like you and</br> get the tools you need
-                    to create a profile that stands out.
+        <div class="container  ">
+            <div class="row upgrade">
+                <div class="col-lg-6 ">
+                    <h2 class="sec-heading mb-3 mb-lg-0">Upgrade your plan</h2>
+                </div>
+                <div class="col-lg-6 text-center  ">
+                    <div class="btn-box">
+                        <div class="d-sm-flex justify-content-between">
+                            <button class="monthly btn">Monthly</button>
+                            <button class="annual btn">Annual Commitment</button>
+                            <button class="yearly btn">Yearly</button>
+                        </div>
+                        <h2 class="mt-1">Billed monthly with annual commitment</h2>
+                    </div>
 
+                </div>
+                <div class="col-lg-12 currently mt-4">
 
-                </h2>
-                <button class="button choose-plan" data-uid="{{ $user }}"
-                    data-url='{{ url("user/$user/basicInfo?profile=basic") }}' name="basic" value="basic"> Get Started
-                </button>
-                <!-- <a href="">Get started today</a> -->
+                    <p>You are currently subscribed to the basic plan which is a FREE FOREVER plan and includes the
+                        following</p>
+                    <div class="row">
 
+                        <div class="col-lg-4 p-reviews">
+                            <h2 class="image-before points">Collect upto 3 reviews</h2>
+                            <h2 class="image-before points"> Post projects</h2>
+                        </div>
 
+                        <div class="col-lg-4 p-reviews">
+                            <h2 class="image-before points">Add upto 3 portfolio items</h2>
+                            <h2 class="image-before points">Manage and respond to reviews</h2>
+                        </div>
+
+                        <div class="col-lg-4 p-reviews">
+                            <h2 class="image-before">Create upto 3 Bundles</h2>
+                            <h2 class="image-before">Unlimited business locations</h2>
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
+            <div class="row pt-5 mt-4 equal">
+                <div class="col-lg-4 col-md-6 px-3 mb-5 mb-lg-0 ">
+                    <div class="agenciesbox">
+                        <!-- <img src="images/icons.png" alt=""> -->
+                        <div class="heading-box">
+                            <h3>Premium Local</h3>
+                            <span>Everything in Basic plus...</span>
+                        </div>
 
+                        <div class="dollertxt container mt-5 text-center position-relative">
 
+                            <h2>$99 <span>$199</span> </h2>
 
-
-
-            <div class="col-lg-12 mb-5">
-                <div class="col-lg-12  form-size">
-                    <div class="region region-content">
-                        <div class="register-wrapper">
-                            <?php
-                            $basic = '';
-                            $premium = '';
-                            $sponsorship = '';
-                            
-                            $clr1 = '';
-                            $clr2 = '';
-                            $clr3 = '';
-                            
-                            if (!empty($cd) && $cd->profile_type == 'basic') {
-                                $basic = 'background-color:#ff3d2e;';
-                                $clr1 = 'color:#fff;';
-                            } elseif (!empty($cd) && $cd->profile_type == 'premium') {
-                                $premium = 'background-color:red;';
-                                $clr2 = 'color:#fff;';
-                            } elseif (!empty($cd) && $cd->profile_type == 'sponsorship') {
-                                $sponsorship = 'background-color:red;';
-                                $clr3 = 'color:#fff;';
-                            }
-                            ?>
-                            <div class="columns">
-                                <ul class="price">
-                                    <!-- <li class="header">Basic Profile.</li>
-                                    <li class="grey"> Free Profile</li> -->
-                                    <!--<li class="grey"><a href="{{ url('get-listed?price_temp=basic') }}" class="button">Select</a></li>-->
-                                    <!-- <li class="grey" > -->
-                                    <!-- <a href='{{ url("user/$user/basicInfo?profile=basic") }}' class="button" style="<?php echo $basic;
-                                    echo $clr1; ?>"> Get Started </a> -->
-
-                                    <!-- <button class="button choose-plan" data-uid="{{ $user }}" data-url='{{ url("user/$user/basicInfo?profile=basic") }}' name="basic" value="basic" style="<?php echo $basic;
-                                    echo $clr1; ?>">  Get Started  </button>
-
-                                    </li> -->
-                                    <!-- <li>Collection of unlimited online reviews</li>
-                                    <li></li>
-                                    <li>Use badges and widgets to display achievements </li>
-                                    <li>Market insight to guide decision-making</li> -->
-
-
-                                    <li class="header"><b>Basic - Free</b></li>
-                                    <li class="grey"><b>Premium Local</b> </br> Change Premium pricing to be $299 p.m or
-                                        $99pm billed annually</li>
-
-                                    <li class="grey"><b>Featured Regional</b> </br> Starts at $499 p.m. (minimum 3 months
-                                        commitment)</li>
-                                    <li class="grey">Below the plans write <b style="color:#ff3d2e;">“Compare our
-                                            plans”</b> hyperlink it below with a plan comparison like this
-                                    </li>
-                                    <li class="grey"><b>Compare our plans</b></br>
-                                        They Trust Us has plans for any size of business. Check out our full list of
-                                        features to see which is right for you. </li>
-                                    
-                                </ul>
-                                
-                                    <li>
-                                        <button class="button choose-plan" data-uid="{{ $user }}"
-                                            data-plan_id={{ 7 }}> Get Basic Plan </button>
-                                    </li>
+                            <div class="small-text text-left">
+                                <h3>per Month </h3>
+                                <span>* billed monthly
+                                    with annual commitment</span>
                             </div>
 
-                            <div class="columns offerbox mb-5 mb-md-0">
-                                <img src="https://theytrust-us.developmentserver.info/front_components/images/most.png"
-                                    alt="" class="img-fluid offer">
-                                <ul class="price ">
+                        </div>
+                        <div class="text-center mt-3">
+                            <button class="text-center purple-btn btn">Get Premium Local</button></div>
+                        <div class="features"></div>
+                        <div class="features px-2 mt-3">
+                            <h4>Features</h4>
+                            <ul>
+                                <li>Collect unlimited reviews</li>
+                                <li>Add unlimited Portfolio items</li>
+                                <li>Create upto 10 bundles</li>
+                                <li>Receive direct leads and website visits</li>
+                                <li>Get listed above "Basic / Free" profiles in
+                                    your city</li>
+                                <li>Ability to bid on leads. Access to leads
+                                    panel includes 99 credits</li>
+                                <li>Reach analytics and statistics</li>
+                                <li>24 x 7 general email support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-                                    <li class="header"> <b> Premium </b></li>
+                <div class="col-lg-4 col-md-6 px-3   mb-5 mb-lg-0 regional">
+                    <div href="#" class="recommended-btn">Recommended</div>
+                    <div class="agenciesbox">
+                        <!-- <img src="images/icons.png" alt=""> -->
+                        <div class="heading-box">
+                            <h3>Premium Local</h3>
+                            <span>Everything in Basic plus...</span>
+                        </div>
 
-                                    <li class="grey">$200/month Or $100/month billed annually</li>
+                        <div class="dollertxt container mt-5 text-center position-relative">
 
-                                    <!--<li class="grey"><a href="{{ url('get-listed?price_temp=premium') }}" class="button">Buy</a></li>-->
+                            <h2>$99 <span>$199</span> </h2>
 
-                                    <li class="grey">
-                                        <!-- <a href='{{ url("user/$user/basicInfo?profile=premium") }}' class="button" style="<?php echo $premium;
-                                        echo $clr2; ?>">Get Started</a> -->
-                                        <!-- <button class="button choose-plan" data-uid="{{ $user }}" data-url='{{ url("user/$user/basicInfo?profile=premium") }}' name="premium" value="premium" style="<?php echo $premium;
-                                        echo $clr2; ?>" disabled>  Coming Soon  </button> -->
-                                        <a href="{{ route('plans.compare') }}" class="btn btn-primary">Coming Soon </a>
-                                    </li>
-
-                                    <li><strong>Includes benefits of Basic Profile, and more</strong></li>
-                                    <li>Collect unlimited reviews by phone and online</li>
-                                    <li>Priority publishing of reviews</li>
-
-                                    <li>Priority support for Profile, and Verification eligibility
-                                    </li>
-                                    <li>Priority support for Profile
-                                    </li>
-                                    <li> <button class="button choose-plan" data-uid="{{ $user }}" data-plan_id=8>
-                                            Get Premium Plan </button></li>
-                                </ul>
+                            <div class="small-text text-left">
+                                <h3>per Month </h3>
+                                <span>* billed monthly
+                                    with annual commitment</span>
                             </div>
 
-                            <div class="columns mt-5-0 pt-md-0 mt-md-0 pt-md-0 mt-5 pt-4">
-                                <ul class="price">
-                                    <li class="header"> <b>Reviews </b></li>
-                                    <!-- <li class="header"> <b>Reviews  </b>Feature Sponsorship</li> -->
-                                    <li class="grey">Starts from $300/month</li>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button class="text-center purple-btn btn">Get Premium Local</button></div>
+                        <div class="features"></div>
+                        <div class="features px-2 mt-3">
+                            <h4>Features</h4>
+                            <ul>
+                                <li>Collect unlimited reviews</li>
+                                <li>Add unlimited Portfolio items</li>
+                                <li>Create upto 10 bundles</li>
+                                <li>Receive direct leads and website visits</li>
+                                <li>Get listed above "Basic / Free" profiles in
+                                    your city</li>
+                                <li>Ability to bid on leads. Access to leads
+                                    panel includes 99 credits</li>
+                                <li>Reach analytics and statistics</li>
+                                <li>24 x 7 general email support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 px-3  mb-5 mb-lg-0 ">
+                    <div class="agenciesbox">
+                        <!-- <img src="images/icons.png" alt=""> -->
+                        <div class="heading-box">
+                            <h3>Premium Local</h3>
+                            <span>Everything in Basic plus...</span>
+                        </div>
 
-                                    <!--<li class="grey"><a href="{{ url('get-listed?price_temp=sponsorship') }}" class="button">Learn More</a></li>-->
+                        <div class="dollertxt container mt-5 text-center position-relative">
 
-                                    <li class="grey">
+                            <h2 style="transform: translateX(00px);">Contact Us</h2>
 
-                                        <!-- <button class="button choose-plan" data-uid="{{ $user }}" data-url='{{ url("user/$user/basicInfo?profile=sponsorship") }}' name="sponsorship" value="sponsorship" style="<?php echo $sponsorship;
-                                        echo $clr3; ?>" disabled>  Coming Soon  </button> -->
-                                        <a href="{{ route('plans.compare') }}" class="btn btn-primary">Coming Soon </a>
-                                    </li>
-
-                                    <li><strong>Includes benefits of Premium Profile, and more</strong></li>
-                                    <li>Listing shown above Free and Premium </li>
-                                    <li>Enhanced level of visibility on all pages </li>
-                                    <li>Enhanced level of visibility on all pages with Profile Verification</li>
-                                    <li>Customer Success Analyst with additional analytics tracking</li>
-                                    <li>
-                                    <li> <button class="button choose-plan" data-uid="{{ $user }}" data-plan_id=9>
-                                            Get Premium Plan </button></li>
-                                    </li>
-                                    <li></li>
-                                </ul>
-                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button class="text-center purple-btn btn">Get Premium Local</button></div>
+                        <div class="features"></div>
+                        <div class="features px-2 mt-3">
+                            <h4>Features</h4>
+                            <ul>
+                                <li>Collect unlimited reviews</li>
+                                <li>Add unlimited Portfolio items</li>
+                                <li>Create upto 10 bundles</li>
+                                <li>Receive direct leads and website visits</li>
+                                <li>Get listed above "Basic / Free" profiles in
+                                    your city</li>
+                                <li>Ability to bid on leads. Access to leads
+                                    panel includes 99 credits</li>
+                                <li>Reach analytics and statistics</li>
+                                <li>24 x 7 general email support</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- <div class="container trust-row animatedParent">
+            <div class="row">
+                <div class="col-lg-6 pr-md-5 animated fadeInLeft slower">
+                    <img src="images/imgleft.png" alt="" class="img-fluid">
+                </div>
+                <div class="col-lg-6   text-left pt-lg-5 mt-5 animated fadeInRight slower">
+                    <h3 class="mb-4">They Trust.us Story So Far...</h3>
+                    <p class="mb-lg-5">Hear the idea that got us started, the experiences that shape our path, and the
+                        values that
+                        influence our approach.</p>
+                    <button class="btn btn-primary">They Trust.us <span style="margin-left: 3px; font-weight: 900;">></span></button>
+                </div>
+            </div>
+        </div> -->
     </section>
 
+    <!-- 2nd row -->
+    <section class="container-fluid  sponsor mb-5  animatedParent">
+        <div class="container ">
+            <div class="row upgrade">
+                <div class="col-md-8 ">
+                    <h2 class="sec-heading">Become A Sponsor</h2>
+                </div>
+                <div class="col-md-4 text-center ">
+                    <a class=" sales btn">Contact Sales</a>
 
+                </div>
+                <div class="col-md-12 currently">
+
+                    <p>You can get higher visibility by taking a sponsorship. Sponsored listings are ranked higher than
+                        regular listings. Sponsorship can be purchased for any combination of keyword and location.
+                        Choose from below options:</p>
+
+                </div>
+
+
+                <div class="w-100">
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 price-row">
+
+                        <div class="row mx-0 py-3">
+                            <div class="col-md-2 col-lg-1">
+                                <img src="images/bird.png" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-10 col-lg-11">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h3>The Hummingbird</h3>
+                                    </div>
+                                    <div class="col-lg-6 text-lg-right pr-lg-5">
+                                        <h4><span>Starts at</span> $250 per Month</h4>
+                                    </div>
+                                </div>
+                                <p>Tiny but with a big impact, perfect for small businesses just starting out. They're
+                                    known
+                                    for their energy and ability to hover - great for small companies focusing on
+                                    specific
+                                    niches.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </section>
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
 @endsection
 
-@section('script')
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
-        $('.choose-plan').click(function() {
-            var plan = $(this).data('plan_id');
-            var url = $(this).data('url');
-            var user_id = $(this).data('uid');
 
-            $.ajax({
-                url: "{{ url('/user/choose-plan') }}",
-                type: "POST",
-                data: {
-                    plan: plan,
-                    user_id: user_id,
-                    url: url,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(result) {
-    if (result.status === 'success') {
-        console.log(result);
-        if (result.sessionId.original.is_free) {
-            // Redirect to dashboard or another URL directly without Stripe checkout
-            window.location.href = result.sessionId.original.redirect_url;
-        } else {
-            var sessionId = result.sessionId.original.sessionId; // Correctly extract the session ID string
-            var stripe = Stripe(
-                'pk_test_51OMTmgSBpRscNHwB4qiyJOy6swL8uwFI7DFbTzrmLZYaPXnKs1qVKLOdwwZz2R1UqL9SgOxc5BZaxFN9Nr9flN6U00duoOXtey'
-            );
-            stripe.redirectToCheckout({
-                sessionId: sessionId // Pass the string, not the entire object
-            }).then(function(result) {
-                if (result.error) {
-                    console.error(result.error.message);
-                }
-            });
-        }
-    }
-},
-
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error("AJAX Error:", textStatus, errorThrown);
-                    console.log(jqXHR.responseText);
-                }
-            });
-        });
-    </script>
-@endsection
 

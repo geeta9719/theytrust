@@ -13,14 +13,12 @@
               <label :for="'input_' + industry.id">{{ industry.name }}:</label>
               <div class="input-group">
                 <input
-                  type="number"
+                  type="text"
                   :id="'input_' + industry.id"
                   :name="'input_' + industry.id"
                   v-model.number="industryPercentages[industry.id]"
-                  @input="validateCategorySum"
-                  min="0"
-                  max="100"
-                  placeholder="Percentage"
+                  @input="validateCategorySum"            
+                  placeholder=""
                   class="form-control"
                 >
               </div>
@@ -42,14 +40,12 @@
               <label :for="'client_input_' + size.id">{{ getClientSizeName(size.id) }}:</label>
               <div class="input-group">
                 <input
-                  type="number"
+                  type="text"
                   :id="'client_input_' + size.id"
                   :name="'client_input_' + size.id"
                   v-model.number="clientSizePercentages[size.id]"
-                  @input="validateClientSizeSum"
-                  min="0"
-                  max="100"
-                  placeholder="Percentage"
+                  @input="validateClientSizeSum"                 
+                  placeholder=""
                   class="form-control"
                 >
               </div>
@@ -285,7 +281,7 @@ export default {
 .category-card {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ccc;
+
   margin-bottom: 20px;
 }
  .save-btn {
