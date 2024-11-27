@@ -8,16 +8,16 @@
             <div class="row">
                 <div class="col-12 mt-4">
                     <div class="col-md-4 mx-auto">
-                        @if(Session::has('message'))
+                        @if (Session::has('message'))
                             <div class="alert alert-danger text-center">{{ Session::get('message') }}</div>
-                        @elseif(session('msg'))
+                        @elseif (session('msg'))
                             <div class="alert alert-success text-center">{{ session('msg') }}</div>
                         @endif
                     </div>
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">SKILL</h3>
-                        </div>                           
+                        </div>
 
                         <div class="card-body table-responsive p-0">
                             <h1 class="text-center mb-3">SKILLS</h1>
@@ -33,18 +33,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($skills as $skill)
+                                    @foreach ($skills as $skill)
                                         <tr>
                                             <td>{{ $skill->id }}</td>
                                             {{-- <td>{{ $skill->subcat_child_id }}</td> --}}
                                             <td>{{ $skill->subcat_child->name }}</td>
                                             <td>{{ $skill->name }}</td>
                                             <td>
-                                                <a href="{{ route('admin.skills.edit', $skill->id) }}" class="btn btn-primary">Edit</a>
-                                                <form action="{{ route('admin.skills.destroy', $skill->id) }}" method="POST" class="d-inline">
+                                                <a
+                                                    href="{{ route('admin.skills.edit', $skill->id) }}"
+                                                    class="btn btn-primary"
+                                                >
+                                                    Edit
+                                                </a>
+                                                <form
+                                                    action="{{ route('admin.skills.destroy', $skill->id) }}"
+                                                    method="POST"
+                                                    class="d-inline"
+                                                >
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-danger"
+                                                        onclick="return confirm('Are you sure?')"
+                                                    >
+                                                        Delete
+                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -57,15 +72,16 @@
                     <!-- /.card -->
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-@endsection 
+@endsection
 
 @section('script')
-<script>
-    function editRec(id){
-        $("#"+id).toggle();
-    }
-</script>
+    <script>
+        function editRec(id) {
+            $('#' + id).toggle()
+        }
+    </script>
 @endsection

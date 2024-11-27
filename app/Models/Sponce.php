@@ -6,10 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Rennokki\Plans\Models\PlanModel;
 
-
 class Sponce extends Model
 {
-
     use HasFactory;
 
     protected $fillable = [
@@ -21,7 +19,6 @@ class Sponce extends Model
         'user_id',
         'company_id',
     ];
-
 
     public function location()
     {

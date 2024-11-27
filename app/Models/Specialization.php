@@ -10,7 +10,8 @@ class Specialization extends Model
     use HasFactory;
     protected $guarded;
 
-    public function add_specialization(){
+    public function add_specialization()
+    {
         return $this->hasMany(AddSpecialization::class);
     }
 }

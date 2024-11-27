@@ -6,12 +6,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 mt-4">
-                    <div class="col-md-4" id="msg" style="margin:0 auto;text-align:center">
-                        @if(Session::has('message'))
+                    <div class="col-md-4" id="msg" style="margin: 0 auto; text-align: center">
+                        @if (Session::has('message'))
                             <div class="alert alert-danger">{{ Session::get('message') }}</div>
-                        @elseif(session('msg'))
+                        @elseif (session('msg'))
                             <div class="alert alert-success">{{ session('msg') }}</div>
-                        @endif   
+                        @endif
                     </div>
 
                     <div class="card">
@@ -24,7 +24,7 @@
                             <input type="text" id="searchInput" placeholder="Search by User or Company..." />
                             <button id="searchButton" class="btn btn-sm btn-primary">Search</button>
                         </div>
-                        
+
                         <div class="card-body table-responsive p-0">
                             <table id="example3" class="table table-bordered table-hover">
                                 <thead>
@@ -40,16 +40,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($sponces as $sponce)
+                                    @foreach ($sponces as $sponce)
                                         <tr>
                                             <td>{{ $sponce->id }}</td>
                                             <td>{{ $sponce->user->name ?? 'N/A' }}</td>
                                             <td>{{ $sponce->company->name ?? 'N/A' }}</td>
-                                            <td>{{ $sponce->location->name ?? 'N/A' }} ({{ class_basename($sponce->location_type_model) }})</td>
-                                            <td>{{ $sponce->category->name ?? 'N/A' }} ({{ class_basename($sponce->category_type_model) }})</td>
+                                            <td>
+                                                {{ $sponce->location->name ?? 'N/A' }}
+                                                ({{ class_basename($sponce->location_type_model) }})
+                                            </td>
+                                            <td>
+                                                {{ $sponce->category->name ?? 'N/A' }}
+                                                ({{ class_basename($sponce->category_type_model) }})
+                                            </td>
                                             <td>{{ $sponce->planSubscription->name ?? 'N/A' }}</td>
                                             <td>{{ $sponce->created_at->format('Y-m-d') }}</td>
-
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -70,38 +75,38 @@
 @endsection
 
 @section('script')
-<script>
-    // document.getElementById('searchButton').addEventListener('click', function() {
-    //     performSearch();
-    // });
+    <script>
+        // document.getElementById('searchButton').addEventListener('click', function() {
+        //     performSearch();
+        // });
 
-    // // Add event listener for changes in the search input
-    // document.getElementById('searchInput').addEventListener('input', function() {
-    //     performSearch();
-    // });
+        // // Add event listener for changes in the search input
+        // document.getElementById('searchInput').addEventListener('input', function() {
+        //     performSearch();
+        // });
 
-    // function performSearch() {
-    //     var searchTerm = document.getElementById('searchInput').value.trim();
+        // function performSearch() {
+        //     var searchTerm = document.getElementById('searchInput').value.trim();
 
-    //     if (searchTerm !== '') {
-    //         fetch(`/admin/sponce/list?search=${searchTerm}`, {
-    //             headers: {
-    //                 'X-Requested-With': 'XMLHttpRequest'
-    //             }
-    //         })
-    //         .then(response => {
-    //             if (response.headers.get("content-type")?.indexOf("text/html") !== -1) {
-    //                 return response.text();
-    //             }
-    //             throw new TypeError("Oops, we haven't got text/html!");
-    //         })
-    //         .then(data => {
-    //             document.querySelector('#example3 tbody').innerHTML = data;
-    //         })
-    //         .catch(error => console.error('Error:', error));
-    //     } else {
-    //         window.location.reload();
-    //     }
-    // }
-</script>
+        //     if (searchTerm !== '') {
+        //         fetch(`/admin/sponce/list?search=${searchTerm}`, {
+        //             headers: {
+        //                 'X-Requested-With': 'XMLHttpRequest'
+        //             }
+        //         })
+        //         .then(response => {
+        //             if (response.headers.get("content-type")?.indexOf("text/html") !== -1) {
+        //                 return response.text();
+        //             }
+        //             throw new TypeError("Oops, we haven't got text/html!");
+        //         })
+        //         .then(data => {
+        //             document.querySelector('#example3 tbody').innerHTML = data;
+        //         })
+        //         .catch(error => console.error('Error:', error));
+        //     } else {
+        //         window.location.reload();
+        //     }
+        // }
+    </script>
 @endsection

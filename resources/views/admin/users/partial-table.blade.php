@@ -1,11 +1,17 @@
-@foreach($users as $user)
+@foreach ($users as $user)
     <tr>
         <td>{{ $loop->iteration }}</td>
         <th><a href="{{ route('admin.users.edit', ['user' => $user->id]) }}">{{ $user->name }}</a></th>
 
         <td>{{ $user->email }}</td>
         <td>{{ $user->mobile }}</td>
-        <td><img src="{{ asset('path-to-your-images-directory/' . $user->image) }}" alt="{{ $user->name }}" width="50"></td>
+        <td>
+            <img
+                src="{{ asset('path-to-your-images-directory/' . $user->image) }}"
+                alt="{{ $user->name }}"
+                width="50"
+            />
+        </td>
         <td>{{ $user->company }}</td>
         <td>{{ $user->bio }}</td>
         <td>{{ $user->twitter }}</td>
@@ -13,10 +19,11 @@
         <td>{{ $user->slug }}</td>
         <td>{{ $user->created_at }}</td>
         <td>
-            @if($user->currentSubscription)
-                @if($user->currentSubscription->isNotEmpty())
-                    @foreach($user->currentSubscription as $subscription)
-                        {{ $subscription->plan->name }}<br>
+            @if ($user->currentSubscription)
+                @if ($user->currentSubscription->isNotEmpty())
+                    @foreach ($user->currentSubscription as $subscription)
+                        {{ $subscription->plan->name }}
+                        <br />
                     @endforeach
                 @else
                     No current subscriptions
@@ -25,29 +32,31 @@
                 Current subscriptions not loaded
             @endif
         </td>
-        
-        
 
         <td nowrap>
-            <a href="{{route('admin.users.edit', $user)}}" class="btn btn-sm btn-primary">Edit</a>
+            <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-primary">Edit</a>
 
-            <form method="post" action="{{route('admin.user.destroy', $user)}}" style="display: inline-block;">
+            <form method="post" action="{{ route('admin.user.destroy', $user) }}" style="display: inline-block">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                <button
+                    type="submit"
+                    class="btn btn-sm btn-danger"
+                    onclick="return confirm('Are you sure you want to delete this user?')"
+                >
+                    Delete
+                </button>
             </form>
         </td>
     </tr>
 @endforeach
 
 <!-- Pagination links -->
-<tr><td colspan="12" style="text-align:center">{!! $users->links() !!}</td></tr>
+<tr><td colspan="12" style="text-align: center">{!! $users->links() !!}</td></tr>
 
 <!-- Check if there's no user data -->
-@if(!$users->count())
-    <tr>
-        <td colspan="12" style="text-align:center">No Record Found</td>
-    </tr>    
+@if (! $users->count())
+        <tr>
+            <td colspan="12" style="text-align: center">No Record Found</td>
+        </tr>
 @endif
-
-

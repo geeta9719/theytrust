@@ -33,7 +33,7 @@ class ServiceLineSeeder extends Seeder
             if ($remainingPercent > 0) {
                 // Divide remaining percentage across 3 new service lines
                 $percentages = $this->getPercentages($remainingPercent);
-                
+
                 // Insert 3 new service lines for the company
                 for ($i = 1; $i <= 3; $i++) {
                     DB::table('service_lines')->insert([
@@ -55,7 +55,7 @@ class ServiceLineSeeder extends Seeder
         $percent1 = rand(10, min(50, $remainingPercent));
         $percent2 = rand(10, min(50, $remainingPercent - $percent1));
         $percent3 = $remainingPercent - ($percent1 + $percent2);
-        
+
         return [$percent1, $percent2, $percent3];
     }
 }

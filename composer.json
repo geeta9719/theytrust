@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^2.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "intervention/image": "^2.7",
         "ipop/plans": "^2.1",
         "laravel/framework": "^8.65",
         "laravel/sanctum": "^2.11",
@@ -17,11 +18,12 @@
         "laravel/ui": "^3.4",
         "livewire/livewire": "^2.12",
         "maatwebsite/excel": "^3.1",
-        "stripe/stripe-php": "^13.7"
+        "stripe/stripe-php": "^16.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
+        "friendsofphp/php-cs-fixer": "^3.65",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",

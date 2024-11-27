@@ -8,12 +8,12 @@
 
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" name="name" class="form-control" required>
+                <input type="text" name="name" class="form-control" required />
             </div>
 
             <div class="form-group">
                 <label for="code">Code:</label>
-                <input type="text" name="code" class="form-control" required>
+                <input type="text" name="code" class="form-control" required />
             </div>
 
             <div class="form-group">
@@ -23,12 +23,12 @@
 
             <div class="form-group">
                 <label for="limit">Limit:</label>
-                <input type="number" name="limit" class="form-control">
+                <input type="number" name="limit" class="form-control" />
             </div>
 
             <div class="form-group">
                 <label for="type">Type:</label>
-                <input type="text" name="type" class="form-control" required>
+                <input type="text" name="type" class="form-control" required />
             </div>
 
             <div class="form-group">
@@ -44,6 +44,3 @@
         </form>
     </div>
 @endsection
-
-
-

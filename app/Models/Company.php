@@ -2,16 +2,8 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\CompanyHasProject;
-use App\Models\CompanySubcatChild;
-use App\Models\CompanyHasSkill;
-
-
-
-
 
 class Company extends Model
 {
@@ -22,39 +14,49 @@ class Company extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function serviceLine(){
+    public function serviceLine()
+    {
         return $this->hasMany(ServiceLine::class);
     }
-    public function addIndustry(){
+    public function addIndustry()
+    {
         return $this->hasMany(AddIndustry::class);
     }
-    public function clientSize(){
+    public function clientSize()
+    {
         return $this->hasMany(ClientSize::class);
     }
-    public function specialization(){
+    public function specialization()
+    {
         return $this->hasMany(ClientSize::class);
     }
 
-    public function address(){
+    public function address()
+    {
         return $this->hasMany(Address::class);
     }
 
-    public function admin_info(){
+    public function admin_info()
+    {
         return $this->belongsTo(AdminInfo::class);
     }
 
-    public function companyReview(){
+    public function companyReview()
+    {
         return $this->hasMany(CompanyReview::class);
     }
 
-    public function rate(){
-        return $this->hasOne(Rate::class,'rate');
+    public function rate()
+    {
+        return $this->hasOne(Rate::class, 'rate');
     }
-    public function size(){
-        return $this->hasOne(Size::class,'size');
+    public function size()
+    {
+        return $this->hasOne(Size::class, 'size');
     }
-    public function budget(){
-        return $this->hasOne(Budget::class,'budget');
+    public function budget()
+    {
+        return $this->hasOne(Budget::class, 'budget');
     }
 
     public function projects()
@@ -62,23 +64,26 @@ class Company extends Model
         return $this->hasMany(CompanyHasProject::class, 'company_id');
     }
 
-    public function CompanySubcatChild(){
+    public function CompanySubcatChild()
+    {
         return $this->hasMany(CompanySubcatChild::class);
     }
 
-    public function getLogoAttribute($value){
-        if(!empty($value)){
-            if(strpos($value, 'https://') !== FALSE || strpos($value, 'http://') !== FALSE){
+    public function getLogoAttribute($value)
+    {
+        if (!empty($value)) {
+            if (strpos($value, 'https://') !== false || strpos($value, 'http://') !== false) {
                 return $value;
             }
-            return asset('storage/' .$value); 
-        }else{
+            return asset('storage/' .$value);
+        }
+        else {
             return $value;
         }
 
     }
 
-   // New
+    // New
     public function serviceLines()
     {
         return $this->hasMany(ServiceLine::class);
@@ -98,7 +103,7 @@ class Company extends Model
     {
         return $this->hasMany(ModelReference::class);
     }
-    
+
     public function sponces()
     {
         return $this->hasMany(Sponce::class, 'company_id');

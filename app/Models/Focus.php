@@ -10,11 +10,13 @@ class Focus extends Model
     use HasFactory;
     protected $guarded;
 
-    public function focus_child(){
+    public function focus_child()
+    {
         return $this->hasMany(FocusChild::class);
     }
 
-    public function add_focus(){
+    public function add_focus()
+    {
         return $this->hasMany(AddFocus::class);
     }
 }

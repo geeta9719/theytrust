@@ -11,21 +11,21 @@
                             <div class="alert alert-danger">{{Session::get('message')}}</div>
                         @elseif(session('msg'))
                             <div class="alert alert-success">{{session('msg')}}</div>
-                        @endif   
+                        @endif
                     </div>
 
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">USERS</h3>
-                           
-                        </div>   
+
+                        </div>
 
                         <!-- Search functionality -->
                         <div class="card-body">
                             <input type="text" id="searchInput" placeholder="Search users..." />
                             <button id="searchButton" class="btn btn-sm btn-primary">Search</button>
                         </div>
-                        
+
                         <div class="card-body table-responsive p-0">
                             <table id="example3" class="table table-bordered table-hover">
                                 <thead>

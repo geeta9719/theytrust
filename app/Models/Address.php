@@ -13,17 +13,17 @@ class Address extends Model
 
     public function company()
     {
-        return $this->belongsTo( Company::class );
+        return $this->belongsTo(Company::class);
     }
 
     public function country()
     {
-        return $this->belongsTo( Country::class,'country_iso2', 'iso2' );
+        return $this->belongsTo(Country::class, 'country_iso2', 'iso2');
     }
 
     public function state()
     {
-        return $this->belongsTo( State::class,'state_iso2', 'iso2' );
+        return $this->belongsTo(State::class, 'state_iso2', 'iso2');
     }
 
 }

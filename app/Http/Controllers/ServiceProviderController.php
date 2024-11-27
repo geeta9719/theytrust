@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ServiceProvider;
 use Illuminate\Http\Request;
+
 class ServiceProviderController extends Controller
 {
     /**
@@ -32,10 +33,10 @@ class ServiceProviderController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-      $serviceProvider=  ServiceProvider::create([
-            'name' => $request->name,
-            'top_service' => $request->has('top_service') ? true : false,
-        ]);
+        $serviceProvider = ServiceProvider::create([
+              'name' => $request->name,
+              'top_service' => $request->has('top_service') ? true : false,
+          ]);
         return response()->json([
             'id' => $serviceProvider->id,  // Return the ID of the newly created record
             'name' => $serviceProvider->name,  // Return the name of the newly created record
@@ -77,24 +78,20 @@ class ServiceProviderController extends Controller
         return redirect()->route('admin.service-provider.index')->with('msg', 'Service Provider deleted successfully.');
     }
 
-
-
     public function search(Request $request)
     {
         $term = $request->input('q');
         $serviceProviders = ServiceProvider::where('name', 'LIKE', '%' . $term . '%')->get();
-    
+
         return response()->json($serviceProviders);
     }
 
     public function store1(Request $request)
-{
-    $serviceProvider = ServiceProvider::create([
-        'name' => $request->input('name')
-    ]);
+    {
+        $serviceProvider = ServiceProvider::create([
+            'name' => $request->input('name'),
+        ]);
 
-    return response()->json($serviceProvider);
+        return response()->json($serviceProvider);
+    }
 }
-}
-
-

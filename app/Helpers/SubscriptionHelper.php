@@ -2,10 +2,8 @@
 
 namespace App\Helpers;
 
-use Rennokki\Plans\Models\PlanModel;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Company;
-
 
 class SubscriptionHelper
 {
@@ -19,27 +17,27 @@ class SubscriptionHelper
     {
         // Get the authenticated user
         $user = Auth::user();
-    
+
         if (!$user) {
             return false; // No user, cannot write review
         }
-    
+
         // Fetch the active subscription and plan
         $activeSubscription = $user->CurrentSubscription->first();
-    
+
         if ($activeSubscription) {
             // Get the plan and its features
             $plan = $activeSubscription->plan;
             $features = $plan->features;
-    
+
             // Check if the plan has a review limit (based on features)
             $reviewLimitFeature = $features->where('name', 'reviews_count')->first();
             $review_limit = $reviewLimitFeature ? (int) $reviewLimitFeature->limit : 0;
-    
+
             // Return true if the user has not exceeded the review limit
             return $reviews_count < $review_limit;
         }
-    
+
         // No active subscription or plan, default review limit is 3
         return $reviews_count < 3;
     }
@@ -48,8 +46,7 @@ class SubscriptionHelper
     {
 
         $company = Company::with('user')->where('id', $compnayId)->first();
-        $user= $company->user;
-
+        $user = $company->user;
 
         if (!$user) {
             return 3; // Default review limit if no user is authenticated
@@ -73,43 +70,41 @@ class SubscriptionHelper
         // No active subscription or plan, return the default review limit
         return 3;
     }
-
 
     public static function canAddPortfolio($portfolio_count)
-{
-    // Get the authenticated user
-    $user = Auth::user();
+    {
+        // Get the authenticated user
+        $user = Auth::user();
 
-    if (!$user) {
-        return false; // No user, cannot add portfolio
+        if (!$user) {
+            return false; // No user, cannot add portfolio
+        }
+
+        // Fetch the active subscription and plan
+        $activeSubscription = $user->CurrentSubscription->first();
+
+        if ($activeSubscription) {
+            // Get the plan and its features
+            $plan = $activeSubscription->plan;
+            $features = $plan->features;
+
+            // Check if the plan has a portfolio limit (based on features)
+            $portfolioLimitFeature = $features->where('name', 'portfolio_limit')->first();
+            $portfolio_limit = $portfolioLimitFeature ? (int) $portfolioLimitFeature->limit : 0;
+
+            // Return true if the user has not exceeded the portfolio limit
+            return $portfolio_count < $portfolio_limit;
+        }
+
+        // No active subscription or plan, default portfolio limit is 5
+        return $portfolio_count < 3;
     }
 
-    // Fetch the active subscription and plan
-    $activeSubscription = $user->CurrentSubscription->first();
-
-    if ($activeSubscription) {
-        // Get the plan and its features
-        $plan = $activeSubscription->plan;
-        $features = $plan->features;
-
-        // Check if the plan has a portfolio limit (based on features)
-        $portfolioLimitFeature = $features->where('name', 'portfolio_limit')->first();
-        $portfolio_limit = $portfolioLimitFeature ? (int) $portfolioLimitFeature->limit : 0;
-
-        // Return true if the user has not exceeded the portfolio limit
-        return $portfolio_count < $portfolio_limit;
-    }
-
-    // No active subscription or plan, default portfolio limit is 5
-    return $portfolio_count < 3;
-}
-
-
-public static function getPortfolioLimit($companyId)
-{
-    // dd($companyId);
-       $company = Company::with('user')->where('id', $companyId)->first();
-        $user= $company->user;
+    public static function getPortfolioLimit($companyId)
+    {
+        // dd($companyId);
+        $company = Company::with('user')->where('id', $companyId)->first();
+        $user = $company->user;
 
         if (!$user) {
             return 3; // Default review limit if no user is authenticated
@@ -132,45 +127,47 @@ public static function getPortfolioLimit($companyId)
 
         // No active subscription or plan, return the default review limit
         return 3;
-}
-
-public function determineModelsByRequest($data)
-{
-    // dd($data);
-    $modelMapping = [
-        'categoryId' => 'App\Models\Category',
-        'subcategoryId' => 'App\Models\Subcategory',
-        'skillId' => 'App\Models\Skill',
-        'deepSkillId' => 'App\Models\DeepSkill',
-        'location_city' => 'App\Models\City',
-        'location_state' => 'App\Models\State',
-    ];
-
-    $result = [
-        'location_type_model' => null,
-        'category_type_model' => null,
-    ];
-
-    // Determine the `category_type_model`
-    if ($data['categoryId']) {
-        $data['category_type_model'] = $modelMapping['categoryId'];
-    } elseif ($data['subcategoryId']) {
-        $data['category_type_model'] = $modelMapping['subcategoryId'];
-    } elseif ($data['skillId']) {
-        $data['category_type_model'] = $modelMapping['skillId'];
-    } elseif ($data-['deepSkillId']) {
-        $result['category_type_model'] = $modelMapping['deepSkillId'];
-    }
-    // Determine the `location_type_model`
-    if ($data['location'] ) {
-        $result['location_type_model'] = $modelMapping['location_city'];
-    } elseif ($data['location'] && $request['location_type'] === 'state') {
-        $result['location_type_model'] = $modelMapping['location_state'];
     }
 
-    return $data;
-}
+    public function determineModelsByRequest($data)
+    {
+        // dd($data);
+        $modelMapping = [
+            'categoryId' => 'App\Models\Category',
+            'subcategoryId' => 'App\Models\Subcategory',
+            'skillId' => 'App\Models\Skill',
+            'deepSkillId' => 'App\Models\DeepSkill',
+            'location_city' => 'App\Models\City',
+            'location_state' => 'App\Models\State',
+        ];
 
+        $result = [
+            'location_type_model' => null,
+            'category_type_model' => null,
+        ];
 
-    
+        // Determine the `category_type_model`
+        if ($data['categoryId']) {
+            $data['category_type_model'] = $modelMapping['categoryId'];
+        }
+        elseif ($data['subcategoryId']) {
+            $data['category_type_model'] = $modelMapping['subcategoryId'];
+        }
+        elseif ($data['skillId']) {
+            $data['category_type_model'] = $modelMapping['skillId'];
+        }
+        elseif ($data - ['deepSkillId']) {
+            $result['category_type_model'] = $modelMapping['deepSkillId'];
+        }
+        // Determine the `location_type_model`
+        if ($data['location']) {
+            $result['location_type_model'] = $modelMapping['location_city'];
+        }
+        elseif ($data['location'] && $request['location_type'] === 'state') {
+            $result['location_type_model'] = $modelMapping['location_state'];
+        }
+
+        return $data;
+    }
+
 }

@@ -19,15 +19,15 @@ class SignupForm extends Component
     public $password;
     public $confirm_password; // Added confirm_password property
     public $remember;
-    public  $showVerifyEmailModal ;
+    public $showVerifyEmailModal ;
 
     protected $rules = [
         'first_name' => 'required|string|max:255',
         'last_name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email',
         // 'password' => 'required|min:8', // Added password confirmation validation
-        // 'confirm_password' => 'required|same:password', 
-        'remember'=>'accepted' 
+        // 'confirm_password' => 'required|same:password',
+        'remember' => 'accepted',
     ];
 
     // List of public domains not allowed for registration
@@ -63,24 +63,23 @@ class SignupForm extends Component
             'verification_token' => $verificationToken,   // Store the token
             'token_expires_at' => $tokenExpiresAt,        // Store token expiration
         ]);
-         Mail::to($user->email)->send(new VerificationEmail($user));
+        Mail::to($user->email)->send(new VerificationEmail($user));
 
         $this->emit('closeSignupModal');
 
         // Auth::login($user);
 
-           // Open the verification email modal
+        // Open the verification email modal
         $this->showVerifyEmailModal = true;
 
-       // Emit an event to open the modal via JavaScript
+        // Emit an event to open the modal via JavaScript
         $this->emit('openVerifyEmailModal', $this->email);
 
-           // Flash success message
+        // Flash success message
         session()->flash('success', 'Signup successful! Please verify your email.');
         $this->reset();
 
     }
-
 
     public function render()
     {

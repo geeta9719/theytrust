@@ -6,14 +6,16 @@
     if (isset($_REQUEST['location']) && !empty($_REQUEST['location'])) {
         $loc = $_REQUEST['location'];
         $place = strtolower($loc);
-    } else {
+    }
+    else {
         $loc = '';
         $place = '';
     }
     if (isset($_REQUEST['services']) && is_array($_REQUEST['services']) && !($_REQUEST['services'][0] === '')) {
         $subcat = $_REQUEST['services'];
         $slug = strtolower(str_replace(' ', '-', $subcategories[$subcat[0]]));
-    } else {
+    }
+    else {
         $subcat = [];
         $slug = '';
     }
@@ -489,8 +491,8 @@
                                             @foreach ($budget as $b)
                                                 <?php
                                                 $bb = explode('-', $b['budget']);
-                                                $budd = $bb[0] . ' - ' . $bb[1];
-                                                ?>
+    $budd = $bb[0] . ' - ' . $bb[1];
+    ?>
                                                 <option <?php if (isset($bud) && $bud == $b['budget']) {
                                                     echo 'selected';
                                                 } ?> value="{{ $b['budget'] }}"> {{ $budd }}
@@ -506,8 +508,8 @@
                                             @foreach ($rate as $b)
                                                 <?php
                                                 $bb = explode('-', $b['rate']);
-                                                $rr = $bb[0] . ' - ' . $bb[1];
-                                                ?>
+    $rr = $bb[0] . ' - ' . $bb[1];
+    ?>
                                                 <option <?php if (isset($rates) && in_array($b['rate'], $rates)) {
                                                     echo 'checked';
                                                 } ?> value="{{ $b['rate'] }}"> {{ $rr }}
@@ -738,84 +740,88 @@
                             <ul class="pagination">
 
                                 <?php
-                                
+
                                 $links = '';
-                                $blankLast = '';
-                                $blankFirst = '';
-                                
-                                $request_uri = url()->current();
-                                $query_string = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : 'default_value';
-                                
-                                $query_str = '';
-                                $prev_url = url($request_uri . '?page=' . ($currentPage - 1));
-                                $next_url = url($request_uri . '?page=' . ($currentPage + 1));
-                                
-                                if (!empty($query_string)) {
-                                    $query_string = explode('&', $query_string);
-                                    $del_val = 'page=' . $currentPage . '';
-                                    $query_string = array_diff($query_string, [$del_val]);
-                                
-                                    if (!empty($query_string)) {
-                                        $query_str = '&' . implode('&', $query_string);
-                                        $prev_url = url($request_uri . '?page=' . ($currentPage - 1) . $query_str);
-                                        $next_url = url($request_uri . '?page=' . ($currentPage + 1) . $query_str);
-                                    }
-                                }
-                                
-                                if ($currentPage == 1) {
-                                    $tabindex = ' tabindex="-1" ';
-                                    $aria_disabled = ' aria-disabled="true" ';
-                                    $disabled = 'disabled';
-                                } else {
-                                    $tabindex = '';
-                                    $aria_disabled = '';
-                                    $disabled = '';
-                                }
-                                
-                                $links .= '<li class="page-item ' . $disabled . '"><a class="page-link" href="' . $prev_url . '" ' . $tabindex . ' ' . $aria_disabled . '>Previous</a></li>';
-                                ?>
+    $blankLast = '';
+    $blankFirst = '';
+
+    $request_uri = url()->current();
+    $query_string = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : 'default_value';
+
+    $query_str = '';
+    $prev_url = url($request_uri . '?page=' . ($currentPage - 1));
+    $next_url = url($request_uri . '?page=' . ($currentPage + 1));
+
+    if (!empty($query_string)) {
+        $query_string = explode('&', $query_string);
+        $del_val = 'page=' . $currentPage . '';
+        $query_string = array_diff($query_string, [$del_val]);
+
+        if (!empty($query_string)) {
+            $query_str = '&' . implode('&', $query_string);
+            $prev_url = url($request_uri . '?page=' . ($currentPage - 1) . $query_str);
+            $next_url = url($request_uri . '?page=' . ($currentPage + 1) . $query_str);
+        }
+    }
+
+    if ($currentPage == 1) {
+        $tabindex = ' tabindex="-1" ';
+        $aria_disabled = ' aria-disabled="true" ';
+        $disabled = 'disabled';
+    }
+    else {
+        $tabindex = '';
+        $aria_disabled = '';
+        $disabled = '';
+    }
+
+    $links .= '<li class="page-item ' . $disabled . '"><a class="page-link" href="' . $prev_url . '" ' . $tabindex . ' ' . $aria_disabled . '>Previous</a></li>';
+    ?>
 
                                 <?php
-                                
-                                for ($i = 1; $i <= $totalPage; $i++) {
-                                    if ($i == $currentPage) {
-                                        $active = ' active ';
-                                        $aria_current = ' aria-current="page" ';
-                                
-                                        if ($i == $lastPage) {
-                                            $tabindex = ' tabindex="-1" ';
-                                            $aria_disabled = ' aria-disabled="true" ';
-                                            $disabled = 'disabled';
-                                        }
-                                
-                                        $links .= '<li class="page-item ' . $active . '" ' . $aria_current . '><a class="page-link" href="' . url($request_uri . '?page=' . $i . $query_str) . '">' . $i . '</a></li>';
-                                    } else {
-                                        $active = '';
-                                        $aria_current = '';
-                                        $tabindex = '';
-                                        $aria_disabled = '';
-                                        $disabled = '';
-                                
-                                        if ($i >= $currentPage - $beforeOrAfterCurrentPage || $i == 1) {
-                                            if ($i <= $currentPage + $beforeOrAfterCurrentPage || $i == $lastPage) {
-                                                $links .= '<li class="page-item ' . $active . '" ' . $aria_current . '><a class="page-link" href="' . url($request_uri . '?page=' . $i . $query_str) . '">' . $i . '</a></li>';
-                                            } else {
-                                                if ($blankFirst == '') {
-                                                    $blankFirst = '...';
-                                                    $links .= '...';
-                                                }
-                                            }
-                                        } else {
-                                            if ($blankLast == '') {
-                                                $blankLast = '...';
-                                                $links .= '...';
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                                $links .= '<li class="page-item ' . $disabled . '"><a class="page-link" href="' . $next_url . '" ' . $tabindex . ' ' . $aria_disabled . '>Next</a></li>';
-                                ?>
+
+    for ($i = 1; $i <= $totalPage; $i++) {
+        if ($i == $currentPage) {
+            $active = ' active ';
+            $aria_current = ' aria-current="page" ';
+
+            if ($i == $lastPage) {
+                $tabindex = ' tabindex="-1" ';
+                $aria_disabled = ' aria-disabled="true" ';
+                $disabled = 'disabled';
+            }
+
+            $links .= '<li class="page-item ' . $active . '" ' . $aria_current . '><a class="page-link" href="' . url($request_uri . '?page=' . $i . $query_str) . '">' . $i . '</a></li>';
+        }
+        else {
+            $active = '';
+            $aria_current = '';
+            $tabindex = '';
+            $aria_disabled = '';
+            $disabled = '';
+
+            if ($i >= $currentPage - $beforeOrAfterCurrentPage || $i == 1) {
+                if ($i <= $currentPage + $beforeOrAfterCurrentPage || $i == $lastPage) {
+                    $links .= '<li class="page-item ' . $active . '" ' . $aria_current . '><a class="page-link" href="' . url($request_uri . '?page=' . $i . $query_str) . '">' . $i . '</a></li>';
+                }
+                else {
+                    if ($blankFirst == '') {
+                        $blankFirst = '...';
+                        $links .= '...';
+                    }
+                }
+            }
+            else {
+                if ($blankLast == '') {
+                    $blankLast = '...';
+                    $links .= '...';
+                }
+            }
+        }
+    }
+
+    $links .= '<li class="page-item ' . $disabled . '"><a class="page-link" href="' . $next_url . '" ' . $tabindex . ' ' . $aria_disabled . '>Next</a></li>';
+    ?>
 
                                 <?php echo $links; ?>
                             </ul>

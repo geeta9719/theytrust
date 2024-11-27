@@ -10,11 +10,13 @@ class AddIndustry extends Model
     use HasFactory;
     protected $guarded;
 
-    public function company(){
+    public function company()
+    {
         return $this->belongsTo(Company::class);
     }
-    
-    public function industry(){
+
+    public function industry()
+    {
         return $this->belongsTo(Industry::class);
     }
 }

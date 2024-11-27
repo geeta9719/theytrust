@@ -8,17 +8,15 @@ use Illuminate\Http\Request;
 
 class PortfolioItemController extends Controller
 {
-
     public function tableView()
     {
         $company = Company::where('user_id', auth()->id())->first();
-    
+
         $portfolioItems = PortfolioItem::where('company_id', $company->id)
         ->orderBy('position')
         ->paginate(10);
         return view('home.user.portfolio_items.tables', compact('company', 'portfolioItems'));
     }
-    
 
     public function create()
     {
@@ -27,56 +25,59 @@ class PortfolioItemController extends Controller
 
     public function store(Request $request)
     {
+
+        // dd($request->all());
         $validated = $request->validate([
             'media' => 'nullable|file|mimes:jpeg,png,pdf,mp4|max:10240',
             'youtube_url' => 'nullable|url',
             'project_title' => 'required|string|max:255',
             'client_name' => 'required|string|max:255',
             'country_location' => 'required|string|max:255',
-            'services_provided' => 'required|string|max:70',
+            // 'services_provided' => 'required|string|max:70',
             'short_description' => 'required|string',
             'engagement_start_date' => 'required|date',
             'engagement_end_date' => 'nullable|date|after_or_equal:engagement_start_date',
         ]);
-    
+
         $media = null;
-    
+
         if ($request->hasFile('media')) {
             $media = [
                 'type' => 'file',
                 'path' => $request->file('media')->store('media'),
             ];
-        } elseif ($request->youtube_url) {
+        }
+        elseif ($request->youtube_url) {
             $media = [
                 'type' => 'youtube',
                 'url' => $request->youtube_url,
             ];
         }
-    
+
         // Fetch the company associated with the authenticated user
         $company = Company::where('user_id', auth()->id())->first();
-    
+
         // Ensure the company ID is added to the validated data before creating the PortfolioItem
         $portfolioItemData = array_merge($validated, ['media' => $media, 'company_id' => $company->id]);
-    
+
         // Create the PortfolioItem
         PortfolioItem::create($portfolioItemData);
-    
+
         // Redirect back to company dashboard or any other relevant page
         $redirectUrl = url('company/' . $company->id . '/dashboard');
         return redirect($redirectUrl)->with('success', 'Portfolio item added successfully.');
     }
-    
+
     public function index($company)
-{
-    $company = Company::findOrFail($company);
-    $itemsPerPage = 3; // Display only 3 items per page
+    {
+        $company = Company::findOrFail($company);
+        $itemsPerPage = 3; // Display only 3 items per page
 
-    $portfolioItems = PortfolioItem::where('company_id', $company->id)
-        ->paginate($itemsPerPage);
+        $portfolioItems = PortfolioItem::where('company_id', $company->id)
+            ->paginate($itemsPerPage);
 
-    return view('home.user.portfolio_items.index', compact('company', 'portfolioItems'));
-}
+        return view('home.user.portfolio_items.index', compact('company', 'portfolioItems'));
+    }
 
     public function getData(Request $request, $company)
     {
@@ -91,6 +92,7 @@ class PortfolioItemController extends Controller
     public function edit($id)
     {
         $portfolioItem = PortfolioItem::findOrFail($id);
+        dd($portfolioItem);
         return view('home.user.portfolio_items.edit', compact('portfolioItem'));
     }
 
@@ -104,7 +106,7 @@ class PortfolioItemController extends Controller
             'project_title' => 'required|string|max:255',
             'client_name' => 'required|string|max:255',
             'country_location' => 'required|string|max:255',
-            'services_provided' => 'required|string|max:200',
+            // 'services_provided' => 'required|string|max:200',
             'short_description' => 'required|string',
             'engagement_start_date' => 'required|date',
             'engagement_end_date' => 'nullable|date|after_or_equal:engagement_start_date',
@@ -117,7 +119,8 @@ class PortfolioItemController extends Controller
                 'type' => 'file',
                 'path' => $request->file('media')->store('media'),
             ];
-        } elseif ($request->youtube_url) {
+        }
+        elseif ($request->youtube_url) {
             $media = [
                 'type' => 'youtube',
                 'url' => $request->youtube_url,
@@ -133,17 +136,17 @@ class PortfolioItemController extends Controller
         $portfolioItem->delete();
         return redirect()->route('')->with('success', 'Portfolio item deleted successfully.');
     }
-   
+
     public function reorder(Request $request)
-{
-    $order = $request->input('order');
+    {
+        $order = $request->input('order');
 
-    foreach ($order as $item) {
-        $portfolioItem = PortfolioItem::find($item['id']);
-        $portfolioItem->position = $item['order'];
-        $portfolioItem->save();
+        foreach ($order as $item) {
+            $portfolioItem = PortfolioItem::find($item['id']);
+            $portfolioItem->position = $item['order'];
+            $portfolioItem->save();
+        }
+
+        return response()->json(['status' => 'success']);
     }
-
-    return response()->json(['status' => 'success']);
-}
 }

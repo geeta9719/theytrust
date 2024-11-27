@@ -1,7 +1,7 @@
 @extends('layouts.admin-master')
 
 @section('content')
-    
+
 <!-- Main content -->
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -16,7 +16,7 @@
                         <div class="alert alert-danger">{{Session::get('message')}}</div>
                         @elseif(session('msg'))
                         <div class="alert alert-success">{{session('msg')}}</div>
-                    @endif   
+                    @endif
                     </div>
                     <div class="card">
                         <div class="card-header">
@@ -24,7 +24,7 @@
                             <!--<span style="float:right;">
                                 <a href="{{route('admin.category.create')}}" class="btn btn-sm btn-primary"> Add New</a>
                             </span>-->
-                        </div>                           
+                        </div>
 
                         <div class="card-body table-responsive p-0">
                             <table id="example2" class="table table-bordered table-hover">
@@ -47,20 +47,21 @@
                                 @php $i = 1 @endphp
                                 @if($reviews->count() > 0)
                                     @foreach($reviews as $review)
-                                    <?php 
-                                    if($review->published != 0){ 
+                                    <?php
+                                    if ($review->published != 0) {
                                         $published = 0;
                                         $checked = 'checked';
                                         $btnText = 'Unpublish';
-                                    }else{
+                                    }
+                                    else {
                                         $checked = '';
                                         $published = 1;
                                         $btnText = 'Publish';
-                                    } 
+                                    }
                                     ?>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" name="published[]" class="publishChk" data-id="{{$review->id}}" id="publishChk_{{$review->id}}" value="{{$published}}"> 
+                                            <input type="checkbox" name="published[]" class="publishChk" data-id="{{$review->id}}" id="publishChk_{{$review->id}}" value="{{$published}}">
                                         </td>
                                         <td>{{$i++}}</td>
                                         <td>{{ optional($review->company)->name ?? '' }}</td>
@@ -73,7 +74,7 @@
                                         <td>{{date('d-m-Y H:i:s',strtotime($review->created_at))}}</td>
                                         <td nowrap>
                                             <a href="{{route('admin.company.viewreview', $review->id)}}" class="btn btn-sm btn-primary" id="vuew_reviews">View</a>
-                                            
+
                                             <a href="{{ route('admin.company.editreview', $review->id) }}" class="btn btn-sm btn-warning" id="edit_review">Edit</a>
 				                            <a href="{{route('admin.review.edit',$review->id)}}" class="btn btn-sm btn-primary viewBtn" id="viewhBtn_{{$review->id}}">Update</a>
                                             <a href="javascript:void(0)" class="btn btn-sm btn-primary publishBtn" id="publishBtn_{{$review->id}}" onclick="publish({{$review->id}})">{{$btnText}}</a>
@@ -83,7 +84,7 @@
                                     @endforeach
                                     <tr>
                                         <td colspan="4">
-                                            <input type="checkbox" id="selectAll" class="selectAll" name="selectAll" onchange="selectAll()"> 
+                                            <input type="checkbox" id="selectAll" class="selectAll" name="selectAll" onchange="selectAll()">
                                             &nbsp;&nbsp;<label for="selectAll">Select All</label>
                                             | <a href="javascript:void(0)" class="publishAll" onclick="publishAll(1)">Publish</a>
                                             | <a href="javascript:void(0)" class="publishAll" onclick="publishAll(0)">UnPublish</a>
@@ -91,8 +92,8 @@
                                         <td colspan="7" style="text-align:center">{!! $reviews->links() !!}</td>
                                     </tr>
                                 @else
-                                    <tr><td colspan="11" style="text-align:center">No Record Found</td></tr>    
-                                @endif    
+                                    <tr><td colspan="11" style="text-align:center">No Record Found</td></tr>
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -115,7 +116,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              
+
               <div class="modal-body">
                     <p id="notification"></p>
                     <div class="form-group">
@@ -146,11 +147,11 @@
     $('.send-email-model').click(function(){
         var email = $(this).data('email');
         $('#email').val( email );
-        $('#send-email-model').modal('show'); 
+        $('#send-email-model').modal('show');
     });
 </script>
 
-<script>  
+<script>
     let editor;
     ClassicEditor.create( document.querySelector( '#editor' ) ).then( newEditor => {
         editor = newEditor;
@@ -159,12 +160,12 @@
 
 
 <script type="text/javascript">
-    
+
     $('#send_reviewer_email').click( function(){
-        
+
         var email           = $('#email').val();
-        var email_subject   = $('#email_subject').val(); 
-        var email_content   = editor.getData(); 
+        var email_subject   = $('#email_subject').val();
+        var email_content   = editor.getData();
 
         $('#notification').html('');
 
@@ -226,10 +227,10 @@
                     $("#msg").html('<span class="alert alert-success">'+msg+'</span>');
                     $(".publishChk").prop('checked',false);
                     $('.selectAll').prop('checked', false);
-                    $("html, body").animate({ scrollTop: "0" }); 
+                    $("html, body").animate({ scrollTop: "0" });
                 }
             });
-        }  
+        }
 
         selectAll = function(){
             var value = jQuery('#selectAll').is(':checked');
@@ -245,7 +246,7 @@
                     $(this).prop('checked',false);
                 });
             }
-        } 
+        }
         /*publishAll = function(){
             var ser = "_token={{ csrf_token() }}";
             var i = 0;
@@ -256,7 +257,7 @@
                 if(value == true){
                     var id = $(this).attr('data-id');
                     if(i == 1){
-                       ser = ser+'&published[]=1&id[]='+id; 
+                       ser = ser+'&published[]=1&id[]='+id;
                     }
                     ser = ser+'&published[]=1&id[]='+id;
                 }
@@ -272,11 +273,11 @@
                         $("#publishBtn_"+val).text('Unpublish');
                         $("#publishChk_"+val).val('0');
                     });
-                    
+
                     $(".publishChk").prop('checked',false);
                     $('.selectAll').prop('checked', false);
                     $("#msg").html('<span class="alert alert-success">'+msg+'</span>');
-                    $("html, body").animate({ scrollTop: "0" }); 
+                    $("html, body").animate({ scrollTop: "0" });
                 }
             });
         }*/
@@ -288,7 +289,7 @@
                 var msg = 'Review Published successfully';
                 var publishBtn = "Unpublish";
                 var publishChk = 0;
-                
+
             }else{
                 var msg = 'Review UnPublished successfully';
                 var publishBtn = "Publish";
@@ -301,7 +302,7 @@
                 if(value == true){
                     var id = $(this).attr('data-id');
                     if(i == 1){
-                       ser = ser+'&published[]='+idd+'&id[]='+id; 
+                       ser = ser+'&published[]='+idd+'&id[]='+id;
                     }
                     ser = ser+'&published[]='+idd+'&id[]='+id;
                 }
@@ -318,11 +319,11 @@
                         $("#publishBtn_"+val).text(publishBtn);
                         $("#publishChk_"+val).val(publishChk);
                     });
-                    
+
                     $(".publishChk").prop('checked',false);
                     $('.selectAll').prop('checked', false);
                     $("#msg").html('<span class="alert alert-success">'+msg+'</span>');
-                    $("html, body").animate({ scrollTop: "0" }); 
+                    $("html, body").animate({ scrollTop: "0" });
                 }
             });
         }

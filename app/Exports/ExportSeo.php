@@ -12,7 +12,7 @@ class ExportSeo implements FromCollection
     */
     public function collection()
     {
-        
-        return Seo::select('name','usage_count','ubcategory_id')->get(); 
+
+        return Seo::select('name', 'usage_count', 'ubcategory_id')->get();
     }
 }

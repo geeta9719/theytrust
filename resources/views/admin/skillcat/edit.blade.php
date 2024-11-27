@@ -48,8 +48,8 @@
 
 @section('content')
 
-    <?php 
-    //print_r($errors); 
+    <?php
+    //print_r($errors);
     //print_r($service);
     $errors->count();
     ?>
@@ -64,7 +64,7 @@
                         <div class="alert alert-danger">{{Session::get('message')}}</div>
                         @elseif(session('msg'))
                         <div class="alert alert-success">{{session('msg')}}</div>
-                    @endif   
+                    @endif
                     </div>
                     <div class="card">
                         <div class="card-header">
@@ -72,7 +72,7 @@
                             <span style="float:right;">
                                 <a href="{{route('admin.skills.index')}}" class="btn btn-sm btn-primary"> Show </a>
                             </span>
-                        </div>                           
+                        </div>
 
                         <div class="card-body table-responsive p-0">
                             <!-- update record here -->
@@ -89,7 +89,7 @@
                                         @method('PUT')
                                         <div class="form-group">
                                             <label for="subcat_child_id">Subcategory Child ID:</label>
-                                           
+
                                             <select name="subcat_child_id" id="subcat_child_id" class="form-control">
                                                 @foreach($subcategories as $subcategory)
                                                     <option value="{{ $subcategory->id }}" {{ $subcategory->id == $skill->subcat_child_id ? 'selected' : '' }}>
@@ -97,7 +97,7 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            
+
                                             @error('subcat_child_id')
                                                 <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -125,20 +125,21 @@
                                                     <option value="">Select Business</option>
                                                     @foreach($subcategory as $c)
                                                         <?php
-                                                        if($c->id == $subcategorychild->subcategory_id){
+                                                        if ($c->id == $subcategorychild->subcategory_id) {
                                                             $selected = 'selected';
-                                                        }else{
+                                                        }
+                                                        else {
                                                             $selected = '';
-                                                        } 
-                                                        ?> 
+                                                        }
+    ?>
                                                         <option value="{{$c->id}}"  {{$selected}}>{{$c->subcategory}}</option>
-                                                    @endforeach    
+                                                    @endforeach
                                                 </select>
                                                 @error('subcategory_id')
                                                 <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
                                             </div>
-                                            
+
                                             <div class="form-group">
                                                 <label for="name">Subcategory Child</label>
                                                 <input type="text" class="form-control {{$errors->has('name') ? 'is-invalid' : ''}}" id="name" name="name" value="{{$subcategorychild->name}}">
@@ -146,7 +147,7 @@
                                                 <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
                                             </div>
-                                        
+
                                         </div>
                                         <div class="card-footer">
                                             <button type="submit" name="update" class="btn btn-sm btn-primary" style="float:right;">Update</button>

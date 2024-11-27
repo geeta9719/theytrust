@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    public function send_email_to_reviewer( Request $request )
+    public function send_email_to_reviewer(Request $request)
     {
-    	echo '<pre>'; die( print_r( $request->all() ) ); echo '</pre>';
+        echo '<pre>';
+        die(print_r($request->all()));
+        echo '</pre>';
     }
 }

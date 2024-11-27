@@ -10,7 +10,8 @@ class ClientSize extends Model
     use HasFactory;
     protected $guarded;
 
-    public function add_client_size(){
+    public function add_client_size()
+    {
         return $this->hasMany(AddClientSize::class);
     }
 }

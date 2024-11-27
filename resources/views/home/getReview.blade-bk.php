@@ -161,7 +161,7 @@
     <div class="container ">
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-8 mx-auto text-center">   
+                <div class="col-md-8 mx-auto text-center">
                     <h6>You are Reviewing</h6>
                     <img src="{{asset($company->logo)}}" style="width:40px;height:40px;"> <strong> {{ucfirst($company->name)}} </strong>
                     <h6>Please Note: We do not accept reviews from current employees, former employees, or anyone with a financial stake in the company being reviewed.</h6>
@@ -174,17 +174,17 @@
 <section class="formbox container">
     <div class="row  ">
         <div class="col-lg-12">
-            <div class="col-lg-12  form-size">  
+            <div class="col-lg-12  form-size">
                 <form action="" method="POST" class="" id="form1"><!-- was-validated -->
                     <input type="hidden" name="company_id" value="{{$company->id}}">
                     <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
-                    
+
                     <div class="project step" id="project">
                         @csrf
                         <input type="hidden" name="form" value="form1">
                         <h5>The Project</h5>
-                        <span>Basic information on the project to give buyers a sense of topic and scale.</span> 
-                        
+                        <span>Basic information on the project to give buyers a sense of topic and scale.</span>
+
                         <div class="form-group pt-4">
                             <label for="project_type">Select the type of Project</label><strong style="color: red;"> *</strong>
                             <!--<input type="text" class="form-control" id="project_type"  name="project_type" required>-->
@@ -220,8 +220,8 @@
                             <select class="form-control rmvId" id="cost_range" name="cost_range" required>
                                 <option value="">Select a value</option>
                                 @foreach($budget as $b)
-                                    <?php 
-                                    $bb = explode('-',$b['budget']);
+                                    <?php
+                                    $bb = explode('-', $b['budget']);
                                     $bud = '$'.$bb[0].' - $'.$bb[1];
                                     ?>
                                     <option value="{{ $b['budget'] }}" >{{ $bud }}</option>
@@ -229,7 +229,7 @@
 
                                 <?php /* $i = 1;?>
                                 @foreach($budget as $k=>$v)
-                                <?php 
+                                <?php
                                 $ii = "";
                                 $b = "";
                                 if($i == 1){
@@ -242,7 +242,7 @@
                                     $vv = $v.' + ';
                                 }
                                 $i++;
-                                
+
                                 ?>
                                 <!--<option value="{{$ii}}{{$vv}}{{$b}}">{{$ii}}{{$vv}}{{$b}}</option>-->
                                 @endforeach
@@ -264,13 +264,13 @@
                         Project End <input id="txtenddate" />-->
                         <button type="button" class="btn btn-primary" onclick="nextStep('review','next','1','project')">Next Section</button>
                     </div>
-                
+
                     <div class="review step" id="review" style="display: none;">
                         @csrf
                         <input type="hidden" name="form" value="form2">
                         <h5>The Review</h5>
-                        <span>Let’s get down to it!</span> 
-                        
+                        <span>Let’s get down to it!</span>
+
                         <div class="form-group pt-4">
                             <h4> Background </h4>
                             <div class="form-group pt-4">
@@ -278,9 +278,9 @@
                                 <textarea class="form-control rmvId" id="company_position"  name="company_position" required></textarea>
                                 <div class="invalid-feedback company_position rmvCls" ></div>
                             </div>
-                        </div> 
+                        </div>
 
-                        <div class="form-group pt-4">   
+                        <div class="form-group pt-4">
                             <h4> Challenge </h4>
                             <div class="form-group">
                                 <label for="for_what_project">For what projects/services did your company hire Hyperlink InfoSystem?</label><strong style="color: red;"> *</strong>
@@ -305,9 +305,9 @@
                                 <textarea class="form-control rmvId" id="team_composition"  name="team_composition" required></textarea>
                                 <div class="invalid-feedback team_composition rmvCls" ></div>
                             </div>
-                        </div>  
-                        <div class="form-group pt-4">   
-                            <h4> Results & Feedback </h4>  
+                        </div>
+                        <div class="form-group pt-4">
+                            <h4> Results & Feedback </h4>
                             <div class="form-group">
                                 <label for="any_outcome">Can you share any outcomes from the project that demonstrate progress or success?</label><strong style="color: red;"> *</strong>
                                 <textarea class="form-control rmvId" id="any_outcome" placeholder="" name="any_outcome" required></textarea>
@@ -329,56 +329,57 @@
                                 <textarea class="form-control rmvId" id="area_of_improvements" placeholder="" name="area_of_improvements" required></textarea>
                                 <div class="invalid-feedback area_of_improvements rmvCls" ></div>
                             </div>
-                        </div> 
-                        <div class="form-group pt-4">   
-                            <h4> Rating </h4>  
+                        </div>
+                        <div class="form-group pt-4">
+                            <h4> Rating </h4>
                             <?php
-                            $arr = array('quality'=>'How was the quality of Hyperlink InfoSystem’s work?','scheduling'=>'How was scheduling with Hyperlink InfoSystem?','cost'=>'How was the cost of Hyperlink InfoSystem’s work?','refer_to_friend'=>'How likely are you to refer Hyperlink InfoSystem to a friend?','overall_rating'=>'Give Hyperlink InfoSystem an overall rating.');
-                            ?>
+                            $arr = ['quality' => 'How was the quality of Hyperlink InfoSystem’s work?','scheduling' => 'How was scheduling with Hyperlink InfoSystem?','cost' => 'How was the cost of Hyperlink InfoSystem’s work?','refer_to_friend' => 'How likely are you to refer Hyperlink InfoSystem to a friend?','overall_rating' => 'Give Hyperlink InfoSystem an overall rating.'];
+                                    ?>
                             @foreach($arr as $key => $val)
                             <div class="form-group">
                                 <div><label for="{{$key}}">{{$val}}</label><strong style="color: red;"> *</strong></div>
-                                <div class="rating" style="float:left;"> 
+                                <div class="rating" style="float:left;">
                                     <?php
-                                    for($i=5;$i>0; $i--){
-                                        if($i == 5){
-                                            ?>
+                                            for ($i = 5;$i > 0; $i--) {
+                                                if ($i == 5) {
+                                                    ?>
                                             <input type="radio" id="{{$key}}{{$i}}" name="{{$key}}" value="{{$i}}" onclick="addValue('{{$key}}{{$i}}')"/>
                                             <label class="full" for="{{$key}}{{$i}}" title="Awesome - {{$i}} stars"></label>
-                                            <?php     
-                                        }else{
-                                            $j = $i + 0.5;
-                                            ?>
+                                            <?php
+                                                }
+                                                else {
+                                                    $j = $i + 0.5;
+                                                    ?>
                                             <input type="radio" id="{{$key}}{{$i}}half" name="{{$key}}" value="{{$j}}" onclick="addValue('{{$key}}{{$i}}half')"/>
-                                            <label class="half" for="{{$key}}{{$i}}half" title="Pretty good - {{$j}} stars"></label> 
+                                            <label class="half" for="{{$key}}{{$i}}half" title="Pretty good - {{$j}} stars"></label>
                                             <input type="radio" id="{{$key}}{{$i}}" name="{{$key}}" value="{{$i}}" onclick="addValue('{{$key}}{{$i}}')"/>
                                             <label class="full" for="{{$key}}{{$i}}" title="Pretty good - {{$i}} stars"></label>
                                             <?php
-                                        }
-                                    }
+                                                }
+                                            }
                                     /*<input type="radio" id="{{$key}}half" name="{{$key}}" value="0.5" onclick="addValue('{{$key}}half')"/>
                                     <label class="full" for="{{$key}}half" title="Awesome - 0.5 stars"></label>*/
                                     ?>
                                 </div>
                                 <div class="spanRating" style="float:left;"> <span class="myratings {{$key}}" style="margin:0 auto;">0</span></div>
-                                 
+
                                 <div class="invalid-feedback {{$key}} rmvCls" ></div>
                                 <input type="text" class="form-control rmvId" id="{{$key}}_review" name="{{$key}}_review" required placeholder="Explain your rating">
                                 <div class="invalid-feedback {{$key}}_review rmvCls" ></div>
                             </div>
                             @endforeach
-                        </div>    
-                        
+                        </div>
+
                         <button type="button" class="btn btn-primary" onclick="nextStep('project','back','2','review')"> < </button>
                         <button type="button" class="btn btn-primary" onclick="nextStep('reviewer','next','2','review')">Next Section</button>
                     </div>
-                
+
                     <div class="reviewer step" id="reviewer" style="display: none;">
                         @csrf
                         <input type="hidden" name="form" value="form3">
                         <h5>The Reviewer</h5>
-                        <span>Basic information about you, the reviewer.</span> 
-                        
+                        <span>Basic information about you, the reviewer.</span>
+
                         <div class="form-group pt-4">
                             <label for="full_name">Full Name</label><strong style="color: red;"> *</strong>
                             <input type="text" class="form-control" id="full_name"  name="full_name" value="{{auth()->user()->name}}" required>
@@ -416,7 +417,7 @@
                         </div>
                         <div class="form-group">
                             <label for="country">Country</label><strong style="color: red;"> *</strong>
-                            
+
                             <select class="form-control" id="country" name="country" required>
                                 <option value="">Select a value</option>
                                 @foreach( $countries as $country )
@@ -429,17 +430,17 @@
 
                         <div class="form-group">
                             <label for="city_country">State</label><strong style="color: red;"> *</strong>
-                            
+
                             <select class="form-control" id="state" name="state" required>
                                 <option value="">Select a value</option>
                             </select>
-                            
+
                             <div class="invalid-feedback state rmvCls" ></div>
                         </div>
 
                         <div class="form-group">
                             <label for="city">City</label><strong style="color: red;"> *</strong>
-                            
+
                             <select class="form-control" id="city" name="city" required>
                                 <option value="">Select a value</option>
                                 <option value="delhi">delhi</option>
@@ -448,20 +449,20 @@
                                 <option value="varanasi">varanasi</option>
                                 <option value="Confidential">Confidential</option>
                             </select>
-                            
+
                             <div class="invalid-feedback city rmvCls" ></div>
                         </div>
-                        
+
                         <button type="button" class="btn btn-primary" onclick="nextStep('review','back','3','reviewer')"> < </button>
                         <button type="button" class="btn btn-primary" onclick="nextStep('verify','next','3','reviewer')">Next Section</button>
                     </div>
-                
+
                     <div class="verify step" id="verify" style="display: none;">
                         @csrf
                         <input type="hidden" name="form" value="form4">
                         <h5>Verify and Submit</h5>
-                        <span>Basic information on the project to give buyers a sense of topic and scale.</span> 
-                        
+                        <span>Basic information on the project to give buyers a sense of topic and scale.</span>
+
                         <div class="form-group pt-4">
                             <label for="company_email">Company Email</label><strong style="color: red;"> *</strong>
                             <input type="text" class="form-control" id="company_email" name="company_email" value="{{auth()->user()->email}}" required>
@@ -489,7 +490,7 @@
 
                 <div class="success step" id="success" style="display: none;">
                     <h5>Successfully Submitted!</h5>
-                    <span>Thank Yoy for leaving a review! Your feedback helps buyers like you, find the right service provider.</span> 
+                    <span>Thank Yoy for leaving a review! Your feedback helps buyers like you, find the right service provider.</span>
                     <a href="{{url('/')}}" class="btn btn-primary">Back to TheyTrustUs</a>
                     <button type="button" class="btn btn-primary" onclick="nextStep('verify','back','5','success')"> < </button>
                 </div>
@@ -512,17 +513,17 @@
 
 <script type="text/javascript">
     $("#country").change( function(){
-        
+
         var iso2 = $(this).val();
 
          $('#state').empty();
 
         $.ajax({
-                
+
                 url:"{{ url( 'review/company/states' ) }}",
                 type: "GET",
                 data: { iso2:iso2,  _token : "{{ csrf_token() }}"},
-                
+
                 success: function( result )
                 {
                     console.log( result );
@@ -538,17 +539,17 @@
 
 <script type="text/javascript">
     $("#state").change( function(){
-        
+
         var iso2 = $(this).val();
 
          $('#city').empty();
 
         $.ajax({
-                
+
                 url:"{{ url( 'review/company/cities' ) }}",
                 type: "GET",
                 data: { iso2:iso2,  _token : "{{ csrf_token() }}"},
-                
+
                 success: function( result )
                 {
                     console.log( result );
@@ -567,12 +568,12 @@
 
 <script type="text/javascript">
 /*
-$('.date').datepicker({  
+$('.date').datepicker({
    format: 'yyyy-mm-dd',
-   minDate: '2022-01-02',   
-   autoclose:true,            
-}); 
-*/    
+   minDate: '2022-01-02',
+   autoclose:true,
+});
+*/
 /*
 var d = '2012/3/4';
 var parts = d.split('/');
@@ -583,13 +584,13 @@ var dates = $( "#from, #to" ).datepicker({
     dateFormat: 'yy/mm/dd',
     changeMonth: true,
     minDate: result,
-    onSelect: function() { 
+    onSelect: function() {
        var d1=new Date($('#from').val());
        var d2=new Date($('#to').val());
        $('#quantity').val((Math.ceil((d2-d1)/86400000)));
     }
 });
-*/    
+*/
 $("#project_start").datepicker({
     //minDate: 0,
     dateFormat: 'yy-mm-dd',
@@ -610,7 +611,7 @@ $("#project_end").datepicker({
 </script>
 
 
-<script type="text/javascript">   
+<script type="text/javascript">
     var selectDate;
     var nextStep;
     var addValue;
@@ -637,7 +638,7 @@ $("#project_end").datepicker({
                                 $("."+key).html(value).show();
                                 $("#"+key).addClass('is-invalid');
                             });
-                            //$("html, body").animate({ scrollTop: "0" }); 
+                            //$("html, body").animate({ scrollTop: "0" });
                             //window.history.pushState('', '', 'companies?'+ser);
                         }else{
                             if(step == 4){
@@ -651,18 +652,18 @@ $("#project_end").datepicker({
                                     success: function(result){
                                         console.log(result);
                                     }
-                                });    
+                                });
                             }
                             $(".step").hide();
                             $("#"+idd).show();
-                        }    
+                        }
                     }
                 });
             }else{
                 $(".step").hide();
-                $("#"+idd).show();  
+                $("#"+idd).show();
             }
-            $("html, body").animate({ scrollTop: "0" });    
+            $("html, body").animate({ scrollTop: "0" });
         }
 
         //star rating
@@ -670,22 +671,22 @@ $("#project_end").datepicker({
             var sim = $("input[type='radio']:checked").val();
             var name = $("input[type='radio']:checked").attr('name');
             alert(name);
-            if (sim<3) { 
-                $('.myratings').css('color','white'); 
-                $(".myratings").text(sim); 
-            }else{ 
-                $('.myratings').css('color','white'); 
-                $(".myratings").text(sim); 
-            } 
+            if (sim<3) {
+                $('.myratings').css('color','white');
+                $(".myratings").text(sim);
+            }else{
+                $('.myratings').css('color','white');
+                $(".myratings").text(sim);
+            }
         });*/
 
         addValue = function(idd){
             var sim = $("#"+idd).val();
             var name = $("#"+idd).attr('name');
             //alert(name);
-            $("."+name).css('color','white'); 
-            $("."+name).text(sim); 
-        } 
+            $("."+name).css('color','white');
+            $("."+name).text(sim);
+        }
     });
 
 </script>

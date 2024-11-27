@@ -31,17 +31,17 @@
     									<option value="{{$subcategory->id}}" data-name="{{strtolower(str_replace(' ','-',$subcategory->subcategory))}}">{{$subcategory->subcategory}}</option>
     									@endforeach
     								</select>
-                                </div>    
+                                </div>
 	                        </div>
 	                        <h3> In</h3>
 	                        <div class="form-group my-3">
                                 <div class="location-bg">
 	                               <select class="form-control address location" id="locations" name="location[]"></select>
-                                </div>   
+                                </div>
 	                        </div>
                             <!--<button class="btn btn-primary">Find Provider</button>-->
 	                        <span class="btn btn-primary" onclick="setAction()">Find Provider</span>
-	                    </form>    
+	                    </form>
                     </div>
                 </div>
             </div>
@@ -234,9 +234,9 @@
             if(location == undefined || location == ''){
                 $('#searchForm').attr("action","{{url('directory')}}/"+service);
             }else{
-                $('#searchForm').attr("action","{{url('directory')}}/"+service+'/'+location); 
+                $('#searchForm').attr("action","{{url('directory')}}/"+service+'/'+location);
             }
-            
+
             $('#searchForm').submit();
         }
 

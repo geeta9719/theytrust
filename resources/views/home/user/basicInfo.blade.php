@@ -6,7 +6,8 @@
     <?php
     if (isset($_GET['profile']) && !empty($_GET['profile'])) {
         $profile_type = $_GET['profile'];
-    } else {
+    }
+    else {
         $profile_type = '';
     }
     ?>
@@ -42,13 +43,15 @@
                         @csrf
                         <input type="hidden" name="user_id" value="<?php if (!empty($company->user_id)) {
                             echo $company->user_id;
-                        } else {
+                        }
+                        else {
                             echo auth()->user()->id;
                         } ?>">
                         <input type="hidden" name="form" value="form1">
                         <input type="hidden" name="profile_type" value="<?php if (!empty($profile_type)) {
                             echo $profile_type;
-                        } elseif (!empty($company->profile_type)) {
+                        }
+                        elseif (!empty($company->profile_type)) {
                             echo $company->profile_type;
                         } ?>">
                         <input type="hidden" id="oldLogo" name="oldLogo" value="{{ $company->logo ?? '' }}">
@@ -74,7 +77,8 @@
                                     <div class="pt-4 col-md-4 file-field companylogo">
                                         <img id="logoPreview" src="<?php if (!empty($company->logo)) {
                                             echo $company->logo;
-                                        } else {
+                                        }
+                                        else {
                                             echo asset('front_components/download.jpeg');
                                         } ?>" width="200" height="auto"
                                             style="border-radius:25px;">
@@ -116,8 +120,8 @@
                                                 @foreach ($budget as $b)
                                                     <?php
                                                     $bb = explode('-', $b['budget']);
-                                                    $bud = $bb[0] . ' -' . $bb[1];
-                                                    ?>
+    $bud = $bb[0] . ' -' . $bb[1];
+    ?>
                                                     <option value="{{ $b['budget'] }}" <?php if (!empty($company->budget)) {
                                                         echo 'selected';
                                                     } ?>>
@@ -134,8 +138,8 @@
                                                 @foreach ($rate as $b)
                                                     <?php
                                                     $bb = explode('-', $b['rate']);
-                                                    $bud = $bb[0] . ' -' . $bb[1];
-                                                    ?>
+    $bud = $bb[0] . ' -' . $bb[1];
+    ?>
                                                     <option value="{{ $b['rate'] }}" <?php if (!empty($company->rate)) {
                                                         echo 'selected';
                                                     } ?>>
@@ -168,7 +172,8 @@
                                             <label for="founded_at">Company Founded</label>
                                             <select class="form-control rmvId" id="founded_at" name="founded_at">
                                                 <option value="">Select a value</option>
-                                                <?php for($i=0; $i<=49; $i++){ $y = date('Y'); ?>
+                                                <?php for ($i = 0; $i <= 49; $i++) {
+                                                    $y = date('Y'); ?>
                                                 <option value="{{ $y - $i }}" <?php if (!empty($company->founded_at)) {
                                                     echo 'selected';
                                                 } ?>>

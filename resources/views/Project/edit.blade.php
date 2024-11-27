@@ -2,7 +2,7 @@
     $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
 @endphp
 @extends($company ? 'layouts.home-master' : 'layouts.home')
-   
+
 @section('content')
 <div class="container" style="margin-top: 15px;">
     <div class="row">
@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-   
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Error!</strong> <br>
@@ -26,11 +26,11 @@
             </ul>
         </div>
     @endif
-  
+
     <form action="{{ route('Projects.update',$Project->id) }}" method="Post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-   
+
          <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
@@ -88,7 +88,7 @@
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
-   
+
     </form>
 </div>
 @endsection

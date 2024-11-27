@@ -10,15 +10,18 @@ class Category extends Model
     use HasFactory;
     protected $guarded;
 
-    public function subcategory(){
+    public function subcategory()
+    {
         return $this->hasMany(Subcategory::class);
     }
 
-    public function company_review(){
-        return $this->belongsTo(CompanyReview::class,'company_type');
+    public function company_review()
+    {
+        return $this->belongsTo(CompanyReview::class, 'company_type');
     }
 
-    public function service_line(){
+    public function service_line()
+    {
         return $this->hasMany(Serviceline::class);
     }
 

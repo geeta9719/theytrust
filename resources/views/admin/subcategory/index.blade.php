@@ -12,7 +12,7 @@
                         <div class="alert alert-danger">{{Session::get('message')}}</div>
                         @elseif(session('msg'))
                         <div class="alert alert-success">{{session('msg')}}</div>
-                    @endif   
+                    @endif
                     </div>
                     <div class="card">
                         <div class="card-header">
@@ -20,7 +20,7 @@
                             <span style="float:right;">
                                 <a href="{{route('admin.subcategory.create')}}" class="btn btn-sm btn-primary"> Add New</a>
                             </span>
-                        </div>                           
+                        </div>
 
                         <div class="card-body table-responsive p-0">
                             <table id="example2" class="table table-bordered table-hover">
@@ -41,12 +41,13 @@
                                 @php $i = 1 @endphp
                                 @if($subcategory->count() > 0)
                                     @foreach($subcategory as $subcategories)
-                                    <?php 
-                                    if($subcategories->top_subcat != 0){ 
+                                    <?php
+                                    if ($subcategories->top_subcat != 0) {
                                         $checked = 'checked';
-                                    }else{
+                                    }
+                                    else {
                                         $checked = '';
-                                    } 
+                                    }
                                     ?>
                                     <tr>
                                         <td>{{$i++}}</td>
@@ -64,7 +65,7 @@
                                             <form method="post" action="{{route('admin.subcategory.destroy',$subcategories)}}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger mt-2" onclick="return confirm('Are you sure?')">Delete</button> 
+                                                <button type="submit" class="btn btn-sm btn-danger mt-2" onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -73,10 +74,10 @@
                                 @else
                                     <tr>
                                         <td colspan="14" style="text-align:center">No Record Found</td>
-                                    </tr>    
-                                @endif    
+                                    </tr>
+                                @endif
                                 </tbody>
-                                
+
                             </table>
                         </div>
                         <!-- /.card-body -->
@@ -111,11 +112,11 @@
                 success: function(result){
                     console.log(result);
                     $("#msg").html('<span class="alert alert-success">'+msg+'</span>');
-                    $("html, body").animate({ scrollTop: "0" }); 
+                    $("html, body").animate({ scrollTop: "0" });
                 }
             });
         }
-    });      
+    });
 </script>
 
 @endsection

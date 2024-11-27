@@ -231,7 +231,7 @@
     <div class="container ">
         <div class="row">
             <div class="col-md-12">
-             
+
             </div>
         </div>
     </div>
@@ -242,7 +242,7 @@
     <div class="row  ">
 
         <div class="col-lg-12">
-        
+
             <div class="col-lg-12  form-size">
 
                 <form action="" method="POST" class="" id="form1">
@@ -253,21 +253,21 @@
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 
                     <!-- Step 1 Start -->
-                    
+
                     <div class="project step" id="project">
-                        
+
                         @csrf
 
                         {{-- <input type="hidden" name="form" value="form1"> --}}
-                        
+
                         <h5>About Project</h5>
 
                         <span>Provide some preliminary information about the project you are reviewing</span>
-                        
+
                         <div class="form-group pt-4">
 
                             <label for="project_type">Choose project type</label><strong style="color: red;"> *</strong>
-                            
+
                             <select class="form-control rmvId" id="project_type" name="project_type" required>
                                 <option value="">Select a value</option>
                                 @foreach($category as $cat)
@@ -294,11 +294,11 @@
                         <div class="form-group">
 
                             <label for="company_type">Choose your company type</label><strong style="color: red;">*</strong>
-                            
+
                             <select class="form-control rmvId" id="company_type" name="company_type" required>
 
                                 <option value="">Select a value</option>
-                                
+
                                 @foreach($category as $cat)
                                     <option value="{{$cat->category}}">{{$cat->category}}</option>
                                 @endforeach
@@ -309,29 +309,29 @@
                         </div>
 
                         <div class="form-group">
-                            
+
                             <label for="title">Project value range</label><strong style="color: red;"> *</strong>
-            
+
                             <select class="form-control rmvId" id="cost_range" name="cost_range" required>
-                                
+
                                 <option value="">Select a value</option>
-                                
+
                                 @foreach($budget as $b)
-                                <?php 
-                                    $bb = explode('-',$b['budget']);
-                                    $bud = '$'.$bb[0].' - $'.$bb[1];
-                                   
-                                    ?>
+                                <?php
+                                    $bb = explode('-', $b['budget']);
+                                $bud = '$'.$bb[0].' - $'.$bb[1];
+
+                                ?>
                                 <option value="{{ $b['budget'] }}">{{ $bud }}</option>
                                 @endforeach
-                            
+
                             </select>
 
                             <div class="invalid-feedback cost_range rmvCls"></div>
 
                         </div>
-                        
-                        
+
+
                         <div class="form-group">
                             <label for="project_start">Project start date</label><strong style="color: red;"> *</strong>
                             <input type="text" class="form-control date1 rmvId" id="project_start" placeholder="yyyy-mm-dd" name="project_start" required />
@@ -354,13 +354,13 @@
                     <!-- Step 1 Start -->
 
                     <div class="review step" id="review" style="display: none;">
-                        
+
                         @csrf
-                        
+
                         <input type="hidden" name="form" value="form2">
-                        
+
                         <h5>Detailed Information about the project</h5>
-                        
+
                         <div class="form-group pt-4">
                             <h5> Company information </h5>
                             <div class="form-group ">
@@ -373,26 +373,26 @@
                         <div class="form-group ">
                             <h5> Problem Statement </h5>
                             <div class="form-group">
-                                
+
                                 <label for="for_what_project">What specific challenges were you facing before working with {{$company->name}}                             </label>
-                                
+
                                 <strong style="color: red;"> *</strong>
 
                                 <textarea class="form-control rmvId" id="for_what_project" placeholder="" name="for_what_project" required></textarea>
-                                
+
                                 <div class="invalid-feedback for_what_project rmvCls"></div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                                
+
                             <label for="area_of_improvements">What were your main concerns or pain points related to your project?
                             </label>
-                            
+
                             <strong style="color: red;"> *</strong>
-                            
+
                             <textarea class="form-control rmvId" id="area_of_improvements" placeholder="" name="area_of_improvements" required></textarea>
-                            
+
                             <div class="invalid-feedback area_of_improvements rmvCls"></div>
 
                         </div>
@@ -406,7 +406,7 @@
                                 <textarea class="form-control rmvId" id="scope_of_work" name="scope_of_work" required></textarea>
                                 <div class="invalid-feedback scope_of_work rmvCls"></div>
                             </div>
-                            
+
                             <div class="form-group ">
                                 <label for="how_select">What services did you receive from <b>{{$company->name}}? <b>  for eg. Digital Marketing, Web design, Mobile App development)
                                 </label><strong style="color: red;"> *</strong>
@@ -414,14 +414,14 @@
                                 <span class="error-message">Please enter 2 or more characters</span>
                             </div>
 
-                            
+
                             {{-- <input type="text" id="how_select" class="form-control" placeholder="Type to search or create a tag"> --}}
 
                             <div class="form-group pt-4">
-                                
+
                                 <label for="team_composition">What factors led to the selection of the vendor
                                 </label>
-                                
+
                                 <strong style="color: red;"> *</strong>
 
                                 <textarea class="form-control rmvId" id="team_composition" name="team_composition" required/></textarea>
@@ -435,35 +435,35 @@
 
                             <h5> Success Story / Solution Provided
                             </h5>
-                            
+
                             <div class="form-group">
-                                
+
                                 <label for="any_outcome">Talk about how the vendor made this project a success</label>
-                                
+
                                 <strong style="color: red;"> *</strong>
-                                
+
                                 <textarea class="form-control rmvId" id="any_outcome" placeholder="" name="any_outcome" required></textarea>
 
                                 <div class="invalid-feedback any_outcome rmvCls"></div>
                             </div>
-                            
+
                             <div class="form-group pt-4">
-                                
+
                                 <label for="how_effective">In what ways have the services positively impacted your business? (eg. increased sales, improved brand awareness, Enhanced user engagement)
                                 </label>
 
                                 <strong style="color: red;"> *</strong>
-                                
+
                                 <textarea class="form-control rmvId" id="how_effective" name="how_effective" required></textarea>
-                                
+
                                 <div class="invalid-feedback how_effective rmvCls"></div>
                             </div>
 
                             <div class="form-group">
-                                
+
                                 <label for="most_impressive">What were the top 3 things that impressed you the most about the vendor (eg. communication, expertise, creativity, process etc)Is there anything else you would like to share about your experience</label>
                                 <strong style="color: red;"> *</strong>
-                                
+
                                 <textarea class="form-control rmvId" id="most_impressive" placeholder="" name="most_impressive" required></textarea>
 
                                 <div class="invalid-feedback most_impressive rmvCls"></div>
@@ -474,59 +474,56 @@
                         </div>
 
                         <div class="form-group pt-4">
-                            
+
                             <h4> Rate the vendor on a 5 point scale for the following parameters </h4>
-                            
+
                             <?php
-                                
-                                $arr = array(       'quality'           => 'Quality', 
-                                                    'timeliness'        => 'Timeliness',
-                                                    'cost'              => 'Cost',
-                                                    'communication'     => 'Communication',
-                                                    'expertise'         => 'Expertise', 
-                                                    'ease_of_working'   => 'Ease of working', 
-                                                    'refer_ability'     => 'Refer-ability', 
-                                                    'overall_rating'    => 'Overall rating'
-                                            );
-                            ?>
+
+                                $arr = [       'quality' => 'Quality',
+                                                'timeliness' => 'Timeliness',
+                                                'cost' => 'Cost',
+                                                'communication' => 'Communication',
+                                                'expertise' => 'Expertise',
+                                                'ease_of_working' => 'Ease of working',
+                                                'refer_ability' => 'Refer-ability',
+                                                'overall_rating' => 'Overall rating',
+                                        ];
+                                ?>
 
                             @foreach( $arr as $key => $val )
 
                             <div class="form-group">
 
                                 <div>
-                                    
+
                                     <label for="{{$key}}">{{$val}}</label>
-                                    
+
                                     <strong style="color: red;"> *</strong>
 
                                 </div>
 
                                 <div class="rating" style="float:left;">
-                                    
+
                                     <?php
 
-                                    for( $i=5; $i>0; $i-- )
-                                    {
-                                        if( $i == 5 )
-                                        {
-                                        ?>
+                                        for ($i = 5; $i > 0; $i--) {
+                                            if ($i == 5) {
+                                                ?>
                                             <input type="radio" id="{{$key}}{{$i}}" name="{{$key}}" value="{{$i}}" onclick="addValue('{{$key}}{{$i}}')" />
                                             <label class="full" for="{{$key}}{{$i}}" title="Awesome - {{$i}} stars"></label>
-                                    <?php     
-                                        }
-                                        else
-                                        {
-                                            $j = $i + 0.5;
-                                        ?>
+                                    <?php
+                                            }
+                                            else {
+                                                $j = $i + 0.5;
+                                                ?>
                                             <input type="radio" id="{{$key}}{{$i}}half" name="{{$key}}" value="{{$j}}" onclick="addValue('{{$key}}{{$i}}half')" />
                                             <label class="half" for="{{$key}}{{$i}}half" title="Pretty good - {{$j}} stars"></label>
                                             <input type="radio" id="{{$key}}{{$i}}" name="{{$key}}" value="{{$i}}" onclick="addValue('{{$key}}{{$i}}')" />
                                             <label class="full" for="{{$key}}{{$i}}" title="Pretty good - {{$i}} stars"></label>
                                     <?php
+                                            }
                                         }
-                                    }
-                                    ?>
+                                ?>
                                 </div>
 
                                 <div class="spanRating" style="float:left;"> <span class="myratings {{$key}}" style="margin:0 auto;">0</span></div>
@@ -543,7 +540,7 @@
 
                         </div>
 
-                        <button type="button" class="btn btn-primary" onclick="nextStep('project','back','2','review')"> < </button> 
+                        <button type="button" class="btn btn-primary" onclick="nextStep('project','back','2','review')"> < </button>
                         <button type="button" class="btn btn-primary" onclick="nextStep('reviewer','next','2','review')">Next Section</button>
 
                     </div>
@@ -554,21 +551,21 @@
                     <!-- Step 1 Start -->
 
                     <div class="reviewer step" id="reviewer" style="display: none;">
-                        
+
                         @csrf
-                        
+
                         <input type="hidden" name="form" value="form3">
 
                         <h5>Tell us about yourself.</h5>
-                      
+
                         <div class="form-group pt-4">
-                            
+
                             <label for="full_name">Full Name</label>
 
                             <strong style="color: red;"> *</strong>
-                            
+
                             <input type="text" class="form-control" id="full_name" name="full_name" value="{{auth()->user()->name}}" required>
-                            
+
                             <div class="invalid-feedback full_name rmvCls"></div>
                         </div>
 
@@ -588,11 +585,11 @@
 
 
                         <div class="form-group">
-                            
+
                             <label for="company_size">Company Size</label>
 
                             <strong style="color: red;"> *</strong>
-                            
+
                             <select class="form-control" id="company_size" name="company_size" required>
 
                                 <option value="">Select a value</option>
@@ -609,17 +606,17 @@
                         <div class="form-group">
 
                             <label for="country">Country</label><strong style="color: red;"> *</strong>
-                            
+
                             <select class="form-control" id="country" name="country" required >
-                                
+
                                 <option value="">Select a country.</option>
-                                
+
                                 @foreach( $countries as $country )
                                     <option value="{{$country->iso2}}">{{$country->name}}</option>
                                 @endforeach;
 
                             </select>
-                            
+
                             <div class="invalid-feedback country rmvCls"></div>
 
                         </div>
@@ -629,7 +626,7 @@
                             <label for="city_country">State</label>
 
                             <strong style="color: red;"> *</strong>
-                            
+
                             <select class="form-control" id="state" name="state" required>
                                 <option value="">Select a state.</option>
                             </select>
@@ -639,18 +636,18 @@
                         </div>
 
                         <div class="form-group">
-                            
+
                             <label for="city">City</label><strong style="color: red;"> *</strong>
-                            
+
                             <select class="form-control" id="city" name="city" required>
                                 <option value="">Select a city.</option>
                             </select>
-                            
+
                             <div class="invalid-feedback city rmvCls"></div>
 
                         </div>
                         --}}
-                        <button type="button" class="btn btn-primary" onclick="nextStep('review','back','3','reviewer')"> < </button> 
+                        <button type="button" class="btn btn-primary" onclick="nextStep('review','back','3','reviewer')"> < </button>
                         <button type="button" class="btn btn-primary" onclick="nextStep('verify','next','3','reviewer')">Next Section</button>
 
                     </div>
@@ -662,9 +659,9 @@
                     <!-- Step 4 Start -->
 
                     <div class="verify step" id="verify" style="display: none;">
-                       
+
                         @csrf
-                        
+
                         <input type="hidden" name="form" value="form4">
 
                         <h5>Contact details</h5>
@@ -673,11 +670,11 @@
                         <div class="form-group pt-4">
 
                             <label for="company_email">Company email</label><strong style="color: red;"> *</strong>
-                            
+
                             <span class="color:red;">The email must match the company URL</span>
-                            
+
                             <input type="text" class="form-control" id="company_email" name="company_email" value="{{auth()->user()->email}}" required />
-                            
+
                             <div class="invalid-feedback company_email rmvCls"></div>
 
                         </div>
@@ -686,7 +683,7 @@
                             <label for="phone_number">Mobile number</label>
 
                             <strong style="color: red;"> *</strong>
-                            
+
                             <input type="text" class="form-control" id="phone_number" name="phone_number" required />
 
                             <div class="invalid-feedback phone_number rmvCls"></div>
@@ -697,7 +694,7 @@
                             <label for="linkedin_url">Linkedin URL</label>
 
                             <strong style="color: red;"> *</strong>
-                            
+
                             <input type="text" class="form-control" id="linkedin_url" name="linkedin_url" required placeholder="https://example.com" />
 
                             <div class="invalid-feedback linkedin_url rmvCls"></div>
@@ -706,13 +703,13 @@
 
                         <div class="form-group pt-4">
                             <label for="company_url">Company URL</label>
-                            
+
                             <input type="text" class="form-control" id="company_url" name="company_url" placeholder="https://example.com" />
-                            
+
                             <div class="invalid-feedback company_url rmvCls"></div>
                         </div>
 
-                        <button type="button" class="btn btn-primary" onclick="nextStep('reviewer','back','4','verify')"> < </button> 
+                        <button type="button" class="btn btn-primary" onclick="nextStep('reviewer','back','4','verify')"> < </button>
                         <button type="button" class="btn btn-primary" onclick="nextStep('success','next','4','verify')">Submit</button>
 
                     </div>
@@ -720,27 +717,27 @@
                 </form>
 
             <div class="success step" id="success" style="display: none;">
-                    
+
                 <h5>Successfully Submitted!</h5>
-                    
+
                 <span>Thank you for submitting your review. It is under moderation right now, you will receive an email once it is approved</span>
 
                 <a href="{{url('/')}}" class="btn btn-primary">Back to TheyTrustUs</a>
-                    
-                <button type="button" class="btn btn-primary" onclick="nextStep('verify','back','5','success')"> < </button> 
 
-            </div> 
-        </div> 
-    
+                <button type="button" class="btn btn-primary" onclick="nextStep('verify','back','5','success')"> < </button>
+
+            </div>
+        </div>
+
     </div>
-    
-    </div> 
 
-</section> 
+    </div>
 
-@endsection 
+</section>
 
-@section('script') 
+@endsection
+
+@section('script')
 
 <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/css/datepicker.css" rel="stylesheet" />
 
@@ -766,9 +763,9 @@
     $("#country").change( function () {
 
         var iso2 = $(this).val();
-        
+
         $('#state').empty();
-        
+
         $.ajax({
             url: "{{ url( '/review/states' ) }}",
             type: "GET",
@@ -792,7 +789,7 @@
             url: "{{ url( '/review/cities' ) }}",
             type: "GET",
             data: { state_code: state_code, country_code : country_code, _token: "{{ csrf_token() }}" },
-            success: function (result) 
+            success: function (result)
             {
                 $.each(result, function (key, val) {
                     $('#city').append( $( "<option value='" + val +"'>" + val + "</option>" ) );
@@ -806,7 +803,7 @@
 
     $("#project_start").datepicker({
         dateFormat: 'yy-mm-dd',
-        onSelect: function (date) 
+        onSelect: function (date)
         {
             var parts = date.split('-');
             var date = new Date(+parts[0], +parts[1] - 1, +parts[2]);
@@ -822,16 +819,16 @@
 </script>
 
 <script type="text/javascript">
-    
+
     var selectDate;
     var nextStep;
     var addValue;
 
-    $(document).ready(function () 
+    $(document).ready(function ()
     {
-        nextStep = function (idd, nxt, step, iddd) 
+        nextStep = function (idd, nxt, step, iddd)
         {
-            if (nxt == 'next') 
+            if (nxt == 'next')
             {
                 var ser = $('#' + iddd + ' :input').serialize();
                 jQuery.ajax({
@@ -839,23 +836,23 @@
                     type: "post",
                     data: ser,
                     dataType: 'json',
-                    success: function (result) 
+                    success: function (result)
                     {
                         $(".rmvCls").html('');
                         $(".rmvId").removeClass('is-invalid');
                         var count = Object.keys(result).length;
-                        
-                        if (count > 0) 
+
+                        if (count > 0)
                         {
-                            $.each(result, function (key, value) 
+                            $.each(result, function (key, value)
                             {
                                 $("." + key).html(value).show();
                                 $("#" + key).addClass('is-invalid');
                             });
-                        } 
-                        else 
+                        }
+                        else
                         {
-                            if (step == 4) 
+                            if (step == 4)
                             {
                                 var ser = $("#form1").serialize();
                                 jQuery.ajax({
@@ -863,7 +860,7 @@
                                     type: "POST",
                                     data: ser,
                                     dataType: 'json',
-                                    success: function (result) 
+                                    success: function (result)
                                     {
                                         console.log(result);
                                     }
@@ -874,8 +871,8 @@
                         }
                     }
                 });
-            } 
-            else 
+            }
+            else
             {
                 $(".step").hide();
                 $("#" + idd).show();
@@ -885,7 +882,7 @@
             });
         }
 
-        addValue = function (idd) 
+        addValue = function (idd)
         {
             var sim = $("#" + idd).val();
             var name = $("#" + idd).attr('name');
@@ -962,7 +959,7 @@
 
     // Handle removing tags correctly
     $('#how_select').on('select2:unselect', function(e) {
-        
+
       var data = e.params.data;
 
       // Remove only the selected option

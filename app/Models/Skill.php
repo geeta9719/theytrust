@@ -12,11 +12,11 @@ class Skill extends Model
         'subcat_child_id',
         'skill',
         'name',
-        
+
     ];
 
-
-    public function subcat_child(){
+    public function subcat_child()
+    {
         return $this->belongsTo(SubcatChild::class, 'subcat_child_id');
     }
 

@@ -1,4 +1,4 @@
-@foreach($sponces as $sponce)
+@foreach ($sponces as $sponce)
     <tr>
         <td>{{ $sponce->id }}</td>
         <td>{{ $sponce->user->name ?? 'N/A' }}</td>
@@ -11,10 +11,10 @@
 @endforeach
 
 <!-- Pagination links for AJAX call -->
-<tr><td colspan="8" style="text-align:center">{!! $sponces->links() !!}</td></tr>
+<tr><td colspan="8" style="text-align: center">{!! $sponces->links() !!}</td></tr>
 
-@if(!$sponces->count())
+@if (! $sponces->count())
     <tr>
-        <td colspan="8" style="text-align:center">No Record Found</td>
+        <td colspan="8" style="text-align: center">No Record Found</td>
     </tr>
 @endif

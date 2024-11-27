@@ -7,19 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Seo extends Model
 {
-
-
     use HasFactory;
     protected $fillable = ['name', 'usage_count', 'subcategory_id','url'];
     protected $table = 'seo';
 
-
-
-     /**
-     * Define the relationship with the Subcategory model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+    /**
+    * Define the relationship with the Subcategory model.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
     public function subcategory()
     {
         return $this->belongsTo(Subcategory::class, 'subcategory_id');

@@ -23,7 +23,6 @@ class SponceController extends Controller
         $skills = Skill::all();
         $plans = PlanModel::where('tag', 'sponcer')->get();
 
-
         return view('admin.sponce.create', compact('users', 'categories', 'skills', 'plans'));
     }
 
@@ -45,7 +44,7 @@ class SponceController extends Controller
         $cities = City::select('id', 'name')->take(100)->get(); // Adjust limit as needed
         return response()->json($cities);
     }
-    
+
     // Limit the number of states returned
     public function getStates()
     {
@@ -53,92 +52,92 @@ class SponceController extends Controller
         return response()->json($states);
     }
 
-public function getDataByType(Request $request)
-{
-    $type = $request->input('type');
-    $data = [];
+    public function getDataByType(Request $request)
+    {
+        $type = $request->input('type');
+        $data = [];
 
-    if ($type == 'category') {
-        $data = Category::all(['id', 'category as name']);  // Rename 'category' to 'name'
-    } elseif ($type == 'subcategory') {
-        $data = Subcategory::all(['id', 'subcategory as name']);  // Rename 'subcategory' to 'name'
-    } elseif ($type == 'skill') {
-        $data = Skill::all(['id', 'name']);  // Already has 'name' field
-    } elseif ($type == 'subskill') {
-        $data = Subskill::all(['id', 'name']);  // Already has 'name' field
+        if ($type == 'category') {
+            $data = Category::all(['id', 'category as name']);  // Rename 'category' to 'name'
+        }
+        elseif ($type == 'subcategory') {
+            $data = Subcategory::all(['id', 'subcategory as name']);  // Rename 'subcategory' to 'name'
+        }
+        elseif ($type == 'skill') {
+            $data = Skill::all(['id', 'name']);  // Already has 'name' field
+        }
+        elseif ($type == 'subskill') {
+            $data = Subskill::all(['id', 'name']);  // Already has 'name' field
+        }
+
+        return response()->json($data);
     }
 
-    return response()->json($data);
-}
+    public function store(Request $request)
+    {
+        // Validate the form data
+        // $request->validate([
+        //     'user_id' => 'required|integer|exists:users,id',
+        //     'company_id' => 'required|integer|exists:companies,id',
+        //     'location_type' => 'required|string|in:city,state',
+        //     'location_id' => 'required|integer',
+        //     'type' => 'required|string|in:category,subcategory,skill,subskill',
+        //     'data_id' => 'required|integer',
+        //     'plan_id' => 'required|integer|exists:plans,id',
+        // ]);
 
-public function store(Request $request)
-{
-    // Validate the form data
-    // $request->validate([
-    //     'user_id' => 'required|integer|exists:users,id',
-    //     'company_id' => 'required|integer|exists:companies,id',
-    //     'location_type' => 'required|string|in:city,state',
-    //     'location_id' => 'required|integer',
-    //     'type' => 'required|string|in:category,subcategory,skill,subskill',
-    //     'data_id' => 'required|integer',
-    //     'plan_id' => 'required|integer|exists:plans,id',
-    // ]);
+        // dd($request->all());
 
-    // dd($request->all());
+        // Map the location and category types for polymorphic relationships
+        $locationTypeModel = $request->input('location_type') === 'city' ? 'App\Models\City' : 'App\Models\State';
+        $categoryTypeModel = $this->getCategoryTypeModel($request->input('type'));
 
-    // Map the location and category types for polymorphic relationships
-    $locationTypeModel = $request->input('location_type') === 'city' ? 'App\Models\City' : 'App\Models\State';
-    $categoryTypeModel = $this->getCategoryTypeModel($request->input('type'));
+        // Create a new Sponce record
+        Sponce::create([
+            'user_id' => $request->input('user_id'),
+            'company_id' => $request->input('company_id'),
+            'location_type_model' => $locationTypeModel,
+            'location_id' => $request->input('location_id'),
+            'category_type_model' => $categoryTypeModel,
+            'category_id' => $request->input('data_id'),
+            'plan_subscription_id' => $request->input('plan_id'),
+        ]);
 
-    // Create a new Sponce record
-    Sponce::create([
-        'user_id' => $request->input('user_id'),
-        'company_id' => $request->input('company_id'),
-        'location_type_model' => $locationTypeModel,
-        'location_id' => $request->input('location_id'),
-        'category_type_model' => $categoryTypeModel,
-        'category_id' => $request->input('data_id'),
-        'plan_subscription_id' => $request->input('plan_id'),
-    ]);
-
-    return redirect()->route('sponce.index')->with('success', 'Sponce created successfully');
-}
-
-// Helper method to map category type to model class
-protected function getCategoryTypeModel($type)
-{
-    switch ($type) {
-        case 'category':
-            return 'App\Models\Category';
-        case 'subcategory':
-            return 'App\Models\Subcategory';
-        case 'skill':
-            return 'App\Models\Skill';
-        case 'subskill':
-            return 'App\Models\Subskill';
-        default:
-            return null;
-    }
-}
-public function index(Request $request)
-{
-    $query = Sponce::with(['user', 'company' ,'planSubscription']);
-
-    if ($request->filled('search')) {
-        $searchTerm = $request->input('search');
-        $query->whereHas('user', function ($query) use ($searchTerm) {
-            $query->where('name', 'like', "%{$searchTerm}%");
-        })->orWhereHas('company', function ($query) use ($searchTerm) {
-            $query->where('name', 'like', "%{$searchTerm}%");
-        });
+        return redirect()->route('sponce.index')->with('success', 'Sponce created successfully');
     }
 
-    $sponces = $query->paginate(10);
+    // Helper method to map category type to model class
+    protected function getCategoryTypeModel($type)
+    {
+        switch ($type) {
+            case 'category':
+                return 'App\Models\Category';
+            case 'subcategory':
+                return 'App\Models\Subcategory';
+            case 'skill':
+                return 'App\Models\Skill';
+            case 'subskill':
+                return 'App\Models\Subskill';
+            default:
+                return null;
+        }
+    }
+    public function index(Request $request)
+    {
+        $query = Sponce::with(['user', 'company' ,'planSubscription']);
 
-   
+        if ($request->filled('search')) {
+            $searchTerm = $request->input('search');
+            $query->whereHas('user', function ($query) use ($searchTerm) {
+                $query->where('name', 'like', "%{$searchTerm}%");
+            })->orWhereHas('company', function ($query) use ($searchTerm) {
+                $query->where('name', 'like', "%{$searchTerm}%");
+            });
+        }
 
-    return view('admin.sponce.index', compact('sponces'));
-}
+        $sponces = $query->paginate(10);
 
+        return view('admin.sponce.index', compact('sponces'));
+    }
 
 }

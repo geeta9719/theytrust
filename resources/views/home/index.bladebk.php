@@ -68,16 +68,20 @@
                                 <hr><h4><a href="{{url('directory',$subcategories->subcategory)}}">{{$subcategories->subcategory}}</a></h4>
                                 <p>{{$subcategories->description}}</p>
                                 @endif
-                                <?php 
+                                <?php
                                 $i++;
-                                if($i == 3){break;}
-                                ?>
+                    if ($i == 3) {
+                        break;
+                    }
+                    ?>
                             @endforeach
                         </div>
                     </div>
-                    <?php 
+                    <?php
                     $j++;
-                    if($j == 4){break;}
+                    if ($j == 4) {
+                        break;
+                    }
                     ?>
                     @endforeach
 

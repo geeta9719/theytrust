@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 
 class NewReviewRequest extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $review;
     public $company;

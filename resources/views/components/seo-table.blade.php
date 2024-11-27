@@ -1,6 +1,6 @@
-@props(['seo'])
-
-
+@props([
+    'seo',
+])
 
 <div class="card">
     <div class="card-body table-responsive p-0">
@@ -17,17 +17,23 @@
             <tbody>
                 @foreach ($seo as $item)
                     <tr>
-                        <td>{{ $item->id}}</td>
-                        <td>{{ $item->name}}</td>
-                        <td>{{ $item->usage_count}}</td>
+                        <td>{{ $item->id }}</td>
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->usage_count }}</td>
                         <td>
                             <a href="{{ $item->url }}" target="_blank">{{ $item->url }}</a>
                         </td>
                         <td>
-                            <form method="post" action="{{ route('seo.destroy', $item->id) }}" style="display: inline;">
+                            <form method="post" action="{{ route('seo.destroy', $item->id) }}" style="display: inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this SEO item?')">Delete</button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-danger"
+                                    onclick="return confirm('Are you sure you want to delete this SEO item?')"
+                                >
+                                    Delete
+                                </button>
                             </form>
                         </td>
                     </tr>

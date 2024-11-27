@@ -31,7 +31,8 @@ class VerifyEmail extends Component
 
             // Success message for modal
             session()->flash('success', 'Verification email has been resent!');
-        } else {
+        }
+        else {
             // Error message if email can't be resent
             session()->flash('error', 'Unable to resend verification email.');
         }

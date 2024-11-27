@@ -1,16 +1,12 @@
 @component('mail::message')
-# Login Confirmation
+    # Login Confirmation Hello {{ $user->name }}, You have successfully logged in to {{ config('app.name') }}. Thank
+    you for using our website!
 
-Hello {{ $user->name }},
+    @component('mail::button', ['url' => ''])
+        Explore Our Website
+    @endcomponent
 
-You have successfully logged in to {{ config('app.name') }}.
-
-Thank you for using our website!
-
-@component('mail::button', ['url' => ''])
-Explore Our Website
-@endcomponent
-
-Thanks,<br>
-{{ config('app.name') }}
+    Thanks,
+    <br />
+    {{ config('app.name') }}
 @endcomponent

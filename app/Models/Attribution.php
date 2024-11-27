@@ -11,7 +11,8 @@ class Attribution extends Model
 
     protected $guarded;
 
-    public function companyReview(){
-        return $this->belongsTo(CompanyReview::class,'Attribution');
+    public function companyReview()
+    {
+        return $this->belongsTo(CompanyReview::class, 'Attribution');
     }
 }

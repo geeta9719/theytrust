@@ -1,7 +1,7 @@
 <?php
 use App\Models\Category;
 use App\Models\Company;
-use App\Models\Subcategory;
+
 // $categories = Category::where('top_cat', 1)->get();
 $categories = Category::with('subcategory', 'subcategory.subcat_child')->where('top_cat', 1)->get();
 
@@ -61,7 +61,7 @@ if (Auth::check()) {
                 <!-- <a class="nav-link brdnone modal-signin sign-in-btn" href="#" id="open-forgot-password"
                     onclick="event.preventDefault(); Livewire.emit('openForgotPasswordModal')">
                     <i class="far fa-user-circle" aria-hidden="true"></i><span> Forget Password</span>
-                </a> --> 
+                </a> -->
                 </a>
             @else
                 <div class="nav-item">
@@ -220,12 +220,12 @@ if (Auth::check()) {
                                     aria-haspopup="true" aria-expanded="false">
                                     {{ $category->category }}
                                 </a>
-    
+
                                 @if (count($category->subcategories) > 0)
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
                                         @foreach ($category->subcategories as $subcategory)
                                             <!-- Subcategory -->
-                                            
+
                                         <li class="dropdown-submenu">
                                             <a class="dropdown-item dropdown-toggle"
                                                 href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}"
@@ -256,13 +256,13 @@ if (Auth::check()) {
                 </div>
             </nav>
         </div>
-    
+
         <div class="col-xl-4 text-right right-menu mt-2">
             <a href="#" class="project">Projects</a>
             <a href="#" class="bundles">Bundles</a>
         </div>
     </div>
-    
+
     </div>
 
     <div class="modal fade" id="emailVerificationModal" tabindex="-1" aria-labelledby="emailVerificationModalLabel"
@@ -275,9 +275,9 @@ if (Auth::check()) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class=" verifybox">
-                   
+
                     <h2 class="text-center" >Verify your email address</h2>
-                   
+
                 </div>
                 <div class="modal-body">
                     <div class="verification-box">

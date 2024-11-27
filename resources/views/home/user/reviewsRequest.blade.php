@@ -10,11 +10,11 @@
 
 
 <div class="container-fluid request-sec">
-   <div class="container-fluid m-0 p-0"> 
+   <div class="container-fluid m-0 p-0">
     <div class="row ">
-    
+
         <div class="col-md-6 mx-auto">
-           
+
             <div class="card">
                 <div class="card-body">
                     <form action="{{ route('reviews.store') }}" method="POST">
@@ -34,7 +34,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <div class="form-group col-md-12 mx-0">
                             <label for="note">Personalized Note</label>
                             <textarea name="note"  placeholder="Enter Note" class="form-control @error('note') is-invalid @enderror">{{ old('note') }}</textarea>
@@ -63,8 +63,8 @@
 
 <div class="container request-sec request-history">
     <div class="row ">
-    
-       
+
+
         <div class="col-md-12 ">
             <!-- <h3>Reviews Request History</h3> -->
             <div class="card">

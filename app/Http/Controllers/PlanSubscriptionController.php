@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use Rennokki\Plans\Models\PlanSubscriptionModel;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+
 class PlanSubscriptionController extends Controller
 {
     /**
@@ -17,10 +17,10 @@ class PlanSubscriptionController extends Controller
     public function index()
     {
         $users = user::all();
-      
+
         $planSubscriptions = PlanSubscriptionModel::with('model')->get();
         // dd($planSubscriptions);
-        return view ('admin.Plansubscription.index',compact('users','planSubscriptions'));
+        return view('admin.Plansubscription.index', compact('users', 'planSubscriptions'));
     }
 
     /**
@@ -42,18 +42,18 @@ class PlanSubscriptionController extends Controller
      */
     public function store(Request $request)
     {
- 
-         $data = $request->validate([
-            
-            'plan_id' => 'required|numeric|min:0', 
-            'Expire On' => 'required|string|max:255',
-            'Start Date' => 'required|string|max:255', 
+
+        $data = $request->validate([
+
+           'plan_id' => 'required|numeric|min:0',
+           'Expire On' => 'required|string|max:255',
+           'Start Date' => 'required|string|max:255',
         ]);
 
         PlanSubscriptionModel::create($data);
 
         return redirect()->route('plansubscription.index')->with('success', 'Plan Subscription created successfully.');
-  
+
     }
 
     /**
@@ -65,7 +65,7 @@ class PlanSubscriptionController extends Controller
     public function show($id)
     {
         return view('admin.plansubscription.show', compact('plansubscription'));
- 
+
     }
 
     /**
@@ -83,10 +83,10 @@ class PlanSubscriptionController extends Controller
     public function update(Request $request, PlanSubscription $plansubscription)
     {
         $data = $request->validate([
-            
+
             'plan_id' => 'required|numeric|min:0',
             'Expire On' => 'required|string|max:255',
-            'Start Date' => 'required|string|max:255', 
+            'Start Date' => 'required|string|max:255',
         ]);
 
         $plansubscription->update($data);
@@ -101,4 +101,3 @@ class PlanSubscriptionController extends Controller
         return redirect()->route('plansubscription.index')->with('success', 'Plan Subscription deleted successfully.');
     }
 }
-

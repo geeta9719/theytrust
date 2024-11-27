@@ -10,7 +10,8 @@ class Industry extends Model
     use HasFactory;
     protected $guarded;
 
-    public function add_industry(){
+    public function add_industry()
+    {
         return $this->hasMany(AddIndustry::class);
     }
 }

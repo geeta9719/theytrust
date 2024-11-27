@@ -10,10 +10,12 @@ class Size extends Model
     use HasFactory;
     protected $guarded;
 
-    public function companyReview(){
-        return $this->belongsTo(CompanyReview::class,'company_size');
+    public function companyReview()
+    {
+        return $this->belongsTo(CompanyReview::class, 'company_size');
     }
-    public function company(){
-        return $this->belongsTo(Company::class,'size');
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'size');
     }
 }

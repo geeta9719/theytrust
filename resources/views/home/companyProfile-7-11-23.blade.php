@@ -18,17 +18,15 @@
                             <img src="{{asset('front_components/images/verified.png')}}" alt="" class="img-fluid ">
                         @endif
                         <?php
-                            $bb  = explode( '-', $company->budget );
-                            $bbb = '$'.$bb[0] . '+';
-                            if( !empty( $rr ) )
-                            {
-                                $rr  = explode('-',$company->rate);
-                                $rrr = '$'.$rr[0].'-$'.$rr[1];
-                            }
-                            else
-                            {
-                                $rrr = 'N/A ';
-                            }
+                            $bb = explode('-', $company->budget);
+                        $bbb = '$'.$bb[0] . '+';
+                        if (!empty($rr)) {
+                            $rr = explode('-', $company->rate);
+                            $rrr = '$'.$rr[0].'-$'.$rr[1];
+                        }
+                        else {
+                            $rrr = 'N/A ';
+                        }
                         ?>
                         <div class="icon-box mt-4">
                             <p class="d-flex  align-items-center">
@@ -56,28 +54,24 @@
                             <h3> {{number_format((float)$rate_review->rating, 1, '.', '') ?? ''}} </h3>
                             <div class="px-3">
                                 <?php
-                                    for($i=1;$i<=5;$i++)
-                                    {
-                                        if($i <= $rate_review->rating)
-                                        {
-                                        ?>
+                                    for ($i = 1;$i <= 5;$i++) {
+                                        if ($i <= $rate_review->rating) {
+                                            ?>
                                             <i class="fa fa-star bluestar"></i>
                                         <?php
                                         }
-                                        elseif($rate_review->rating <= $i-1)
-                                        {
-                                        ?>
+                                        elseif ($rate_review->rating <= $i - 1) {
+                                            ?>
                                             <i class="fa fa-star-o bluestar"></i>
                                         <?php
                                         }
-                                        else
-                                        {
-                                        ?>
+                                        else {
+                                            ?>
                                             <i class="fa fa-star-half-o bluestar"></i>
                                         <?php
                                         }
                                     }
-                                ?>
+                        ?>
                             </div>
                             <h3>{{$rate_review->review}} REVIEWS</h3>
                         </div>
@@ -111,19 +105,19 @@
                     <p>
                         <div class="row text-center" id="piechart1"></div>
                         <?php
-                        if(count($service_lines) > 0){
+                        if (count($service_lines) > 0) {
                             $t = 0;
-                            $data = array();
-                            $data[0] = array('Service Lines','Percent');
-                            for($i = 0;$i < count($service_lines); $i++){
-                                if($service_lines[$i]->percent > 0){
+                            $data = [];
+                            $data[0] = ['Service Lines','Percent'];
+                            for ($i = 0;$i < count($service_lines); $i++) {
+                                if ($service_lines[$i]->percent > 0) {
                                     $t = $t + $service_lines[$i]->percent;
-                                    $data[$i+1] = array($service_lines[$i]->subcategory->subcategory,(int)$service_lines[$i]->percent);
+                                    $data[$i + 1] = [$service_lines[$i]->subcategory->subcategory,(int)$service_lines[$i]->percent];
                                 }
                             }
-                            if($t < 100){
-                                $p = 100-$t;
-                                $data[$i+1] = array("None",$p);
+                            if ($t < 100) {
+                                $p = 100 - $t;
+                                $data[$i + 1] = ["None",$p];
                             }
                             $data = json_encode($data);
                             ?>
@@ -151,19 +145,19 @@
                     <p>
                         <div class="row text-center" id="piechart4"></div>
                         <?php
-                        if(count($add_client_size) > 0){
+                        if (count($add_client_size) > 0) {
                             $t = 0;
-                            $data = array();
-                            $data[0] = array('Client Focus','Percent');
-                            for($i = 0;$i < count($add_client_size); $i++){
-                                if($add_client_size[$i]->percent > 0){
+                            $data = [];
+                            $data[0] = ['Client Focus','Percent'];
+                            for ($i = 0;$i < count($add_client_size); $i++) {
+                                if ($add_client_size[$i]->percent > 0) {
                                     $t = $t + $add_client_size[$i]->percent;
-                                    $data[$i+1] = array($add_client_size[$i]->client_size->name,(int)$add_client_size[$i]->percent);
+                                    $data[$i + 1] = [$add_client_size[$i]->client_size->name,(int)$add_client_size[$i]->percent];
                                 }
                             }
-                            if($t < 100){
-                                $p = 100-$t;
-                                $data[$i+1] = array("None",$p);
+                            if ($t < 100) {
+                                $p = 100 - $t;
+                                $data[$i + 1] = ["None",$p];
                             }
                             $data = json_encode($data);
                             ?>
@@ -191,18 +185,18 @@
                     <p>
                         <div class="row text-center" id="piechart2"></div>
                         <?php $t = 0;
-                        if(count($add_industry) > 0){
-                            $data = array();
-                            $data[0] = array('Industry Focus','Percent');
-                            for($i = 0;$i < count($add_industry); $i++){
-                                if($add_industry[$i]->percent > 0){
+                        if (count($add_industry) > 0) {
+                            $data = [];
+                            $data[0] = ['Industry Focus','Percent'];
+                            for ($i = 0;$i < count($add_industry); $i++) {
+                                if ($add_industry[$i]->percent > 0) {
                                     $t = $t + $add_industry[$i]->percent;
-                                    $data[$i+1] = array($add_industry[$i]->industry->name,(int)$add_industry[$i]->percent);
+                                    $data[$i + 1] = [$add_industry[$i]->industry->name,(int)$add_industry[$i]->percent];
                                 }
                             }
-                            if($t < 100){
-                                $p = 100-$t;
-                                $data[$i+1] = array("None",$p);
+                            if ($t < 100) {
+                                $p = 100 - $t;
+                                $data[$i + 1] = ["None",$p];
                             }
                             $data = json_encode($data);
                             ?>
@@ -232,21 +226,21 @@
                             <div class="row text-center" id="piechart3{{$key}}"></div>
                             <?php
                             $t = 0;
-                            if(count($value) > 0){
-                                $data = array();
-                                $data[0] = array($add_focus[$key][0]->subcategory->subcategory.' Focus','Percent');
-                                for($i = 0;$i < count($value); $i++){
-                                    if($value[$i]->percent > 0){
-                                        $t = $t + $value[$i]->percent;
-                                        $data[$i+1] = array($value[$i]->subcat_child->name,(int)$value[$i]->percent);
-                                    }
+                        if (count($value) > 0) {
+                            $data = [];
+                            $data[0] = [$add_focus[$key][0]->subcategory->subcategory.' Focus','Percent'];
+                            for ($i = 0;$i < count($value); $i++) {
+                                if ($value[$i]->percent > 0) {
+                                    $t = $t + $value[$i]->percent;
+                                    $data[$i + 1] = [$value[$i]->subcat_child->name,(int)$value[$i]->percent];
                                 }
-                                if($t < 100){
-                                    $p = 100-$t;
-                                    $data[$i+1] = array("None",$p);
-                                }
-                                $data = json_encode($data);
-                                ?>
+                            }
+                            if ($t < 100) {
+                                $p = 100 - $t;
+                                $data[$i + 1] = ["None",$p];
+                            }
+                            $data = json_encode($data);
+                            ?>
                                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                                 <script type="text/javascript">
                                 // Load google charts
@@ -263,7 +257,7 @@
                                 }
                                 </script>
                                 <?php
-                            }?>
+                        }?>
                         </p>
                     </div>
                     @endforeach
@@ -288,28 +282,24 @@
                             <h3>{{ number_format( (float)$rate_review->rating, 1, '.', '' ) ?? '' }}</h3>
                             <div class="px-3">
                                 <?php
-                                for( $i=1; $i <= 5; $i++ )
-                                {
-                                    if($i <= $rate_review->rating)
-                                    {
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= $rate_review->rating) {
                                     ?>
                                         <i class="fa fa-star bluestar"></i>
                                     <?php
-                                    }
-                                    elseif( $rate_review->rating <= $i-1 )
-                                    {
+                                }
+                                elseif ($rate_review->rating <= $i - 1) {
                                     ?>
                                         <i class="fa fa-star-o bluestar"></i>
                                     <?php
-                                    }
-                                    else
-                                    {
+                                }
+                                else {
                                     ?>
                                         <i class="fa fa-star-half-o bluestar"></i>
                                     <?php
-                                    }
                                 }
-                                ?>
+                            }
+                        ?>
                             </div>
                             <h3>{{ $rate_review->review }} REVIEWS</h3>
                              @endif
@@ -349,28 +339,24 @@
                             <h3 class="mr-2">{{ number_format((float)$val->overall_rating, 1, '.', '') ?? '' }}</h3>
                             <div class="">
                                 <?php
-                                    for( $i=1; $i<=5; $i++ )
-                                    {
-                                        if($i <= $val->overall_rating)
-                                        {
-                                        ?>
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= $val->overall_rating) {
+                                    ?>
                                            <i class="fa fa-star bluestar"></i>
                                         <?php
-                                        }
-                                        elseif( $val->overall_rating <= $i-1 )
-                                        {
-                                        ?>
+                                }
+                                elseif ($val->overall_rating <= $i - 1) {
+                                    ?>
                                             <i class="fa fa-star-o bluestar"></i>
                                         <?php
-                                        }
-                                        else
-                                        {
-                                        ?>
+                                }
+                                else {
+                                    ?>
                                             <i class="fa fa-star-half-o bluestar"></i>
                                         <?php
-                                        }
-                                    }
-                                    ?>
+                                }
+                            }
+                        ?>
                             </div></br>
                         </div>
                         <p class="mt-2 qualitytxt">

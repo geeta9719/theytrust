@@ -302,6 +302,7 @@ select {
                 <h3>{{ company.name }}</h3>
                 <p>{{ company.tagline }}</p>
                 <p>{{ company?.user?.current_subscription[0]?.plan?.name ??'Free' }}</p>
+                
                   <p> ttu_score  {{ company?.ttu_score }}</p>
               </div>
               <div class="col-md-4 write-box">

@@ -12,12 +12,12 @@ class Portfolio extends Component
      * @return void
      */
 
-     public $portfolio;
+    public $portfolio;
 
-     public function __construct($portfolio)
-     {
-         $this->portfolio = $portfolio;
-     }
+    public function __construct($portfolio)
+    {
+        $this->portfolio = $portfolio;
+    }
 
     /**
      * Get the view / contents that represent the component.

@@ -88,7 +88,7 @@
 
         .selected-label,
         .selected-label-sub ,
-        .selected-label-skill 
+        .selected-label-skill
         {
             background-color: #0087f2 !important;
             color: #fff !important;
@@ -238,7 +238,7 @@
 
                     <div class="col-lg-3 col-md-6">
                         <fieldset>
-                         
+
                             <legend>Choose Deep Skill Tags</legend>
                             <div id="SubSkills"></div>
                             <!-- Deep skill tags checkboxes will go here -->
@@ -309,7 +309,7 @@
                     var subCategoryDivId = categoryNameSlug + '_subCategorydiv';
                     $('#' + selectedCategory).remove();
                     $('#' + subCategoryDivId).remove();
-                    
+
                 }
 
                 $.ajax({
@@ -505,12 +505,12 @@
                 $('.selected-label-skill').removeClass('selected-label-skill');
                 var inputID = $(this).data('id');
 
-                
+
                 var labelFor = 'softSkill_' + inputID;
                 var selectedLabel = $('label[for="' + labelFor + '"]');
 
                 selectedLabel.addClass('selected-label-skill');
-                
+
                 if ($(this).prop('checked')) {
                     var subcategory = $(this).data('subcategory');
                     var appendDive = "subCategoryName_" + $(this).data('subcategory');
@@ -566,9 +566,9 @@
                 $(this).addClass('selected-label-skill');
                 fetchSkillsData($(this).data('id'));
             });
-            
 
-            
+
+
             // Generate input field for category name
             function generateCategoryNameTextbox(categoryid, categoryName) {
                 var categoryContainer = $('<div class=" category-container" id="' + categoryid +
@@ -789,7 +789,7 @@
                 }
             }
 
-            
+
 
             function fetchSkillsData(skillId) {
     $.ajax({

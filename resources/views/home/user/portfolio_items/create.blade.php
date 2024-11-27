@@ -85,9 +85,9 @@
         background-color: #f9f9f9;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-    #preview img, 
-    #preview iframe, 
-    #preview object, 
+    #preview img,
+    #preview iframe,
+    #preview object,
     #preview video {
         width: 100%;
         border: 1px solid #ccc;
@@ -104,7 +104,7 @@
             {!! implode('', $errors->all('<div>:message</div>')) !!}
         </div>
     @endif
-    
+
     @if (session()->has('newsuccess'))
         <div class="alert alert-success">
             {{ session()->get('newsuccess') }}
@@ -113,10 +113,10 @@
     </div>
 </div>
 <div class="container">
-  
+
     <form action="{{ route('portfolio.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
         @csrf
-   
+
         <label for="media_type">Select Media Type</label>
         <select name="media_type" id="media_type" onchange="toggleMediaInput()">
             <option value="image_pdf" {{ old('media_type') == 'image_pdf' ? 'selected' : '' }}>Image or PDF File</option>
@@ -149,10 +149,14 @@
         <input type="text" name="country_location" id="country_location" value="{{ old('country_location') }}">
         <div class="error-message" id="country_location_error"></div>
 
-        <label for="services_provided">Services Provided (up to 5 comma-separated keywords. 140 characters max)</label>
-        <input type="text" name="services_provided" id="services_provided" value="{{ old('services_provided') }}" maxlength="140" oninput="updateCharCount('services_provided', 140)">
-        <span class="char-count" id="services_provided-char-count">0/140</span>
-        <div class="error-message" id="services_provided_error"></div>
+
+
+        <div class="form-group ">
+            <label for="services_provided">What services did you receive from <b>  for eg. Digital Marketing, Web design, Mobile App development)
+            </label><strong style="color: red;"> *</strong>
+            <select id="services_provided" name="services_provided[]" class="form-control" multiple="multiple"></select>
+            <span class="error-message">Please enter 2 or more characters</span>
+        </div>
 
         <label for="short_description">Short Description</label>
         <textarea name="short_description" id="short_description">{{ old('short_description') }}</textarea>
@@ -173,6 +177,11 @@
 </div>
 
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     function toggleMediaInput() {
         var mediaType = document.getElementById('media_type').value;
@@ -193,7 +202,7 @@
     function showPreview(event) {
         var previewDiv = document.getElementById('preview');
         previewDiv.innerHTML = '';
-        
+
         if (event.target.id === 'media') {
             var file = event.target.files[0];
             var reader = new FileReader();
@@ -338,5 +347,81 @@
     document.addEventListener('DOMContentLoaded', function() {
         toggleMediaInput();
     });
+    $(document).ready(function() {
+    // Initialize Select2 with AJAX search and tag creation functionality
+    $("#services_provided").select2({
+      tags: true, // Allow new tags to be created
+      placeholder: "Type to search or create a tag",
+      minimumInputLength: 2, // Start searching after 2 characters
+      multiple: true, // Enable multiple selections
+      ajax: {
+        url: "{{ route('admin.service-provider.search') }}", // URL for fetching existing tags
+        dataType: 'json',
+        delay: 250, // Delay to prevent too many requests
+        data: function(params) {
+          return {
+            q: params.term // Send the search term to the server
+          };
+        },
+        processResults: function(data) {
+          return {
+            results: $.map(data, function(item) {
+              return {
+                id: item.id,
+                text: item.name
+              };
+            })
+          };
+        },
+        cache: true
+      },
+      createTag: function(params) {
+        var term = $.trim(params.term);
+
+        if (term === '') {
+          return null;
+        }
+
+        return {
+          id: term, // Temporary ID before it's saved on the server
+          text: term,
+          newTag: true // Mark it as a new tag
+        };
+      }
+    }).on('select2:select', function(e) {
+      var data = e.params.data;
+
+      if (data.newTag) {
+        // If it's a new tag, send it to the server
+        $.ajax({
+          url: "{{ route('admin.service-provider.store') }}", // URL to create a new tag
+          type: 'POST',
+          data: {
+            name: data.text, // The new tag name
+            _token: '{{ csrf_token() }}' // CSRF token for security
+          },
+          success: function(response) {
+            console.log(response);
+            // Replace the temporary ID with the real ID from the server
+            var newOption = new Option(response.name, response.id, true, true);
+            $('#services_provided').find('option[value="' + data.id + '"]').remove(); // Remove the temporary option
+            $('#services_provided').append(newOption).trigger('change'); // Add the new option with the correct ID
+          },
+          error: function(xhr, status, error) {
+            console.error("Tag creation failed: ", error);
+          }
+        });
+      }
+    });
+
+    // Handle removing tags correctly
+    $('#services_provided').on('select2:unselect', function(e) {
+
+      var data = e.params.data;
+
+      // Remove only the selected option
+      $('#services_provided option[value="' + data.id + '"]').remove();
+    });
+});
 </script>
 @endsection

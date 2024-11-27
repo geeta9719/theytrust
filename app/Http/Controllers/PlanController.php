@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 
 use Rennokki\Plans\Models\PlanModel;
 
@@ -28,20 +26,18 @@ class PlanController extends Controller
             'price' => 'required|numeric',
             'description' => 'nullable',
         ]);
-    
+
         $metadataKeys = $request->input('metadata.key');
         $metadataValues = $request->input('metadata.value');
         $metadata = array_combine($metadataKeys, $metadataValues);
-    
+
         $requestData = $request->except(['metadata']);
         $requestData['metadata'] = $metadata;
-    
-    
+
         PlanModel::create($requestData);
-    
+
         return redirect()->route('plans.index')->with('success', 'Plan created successfully');
     }
-    
 
     public function edit(PlanModel $plan)
     {
@@ -69,4 +65,3 @@ class PlanController extends Controller
         return redirect()->route('plans.index')->with('success', 'Plan deleted successfully');
     }
 }
-

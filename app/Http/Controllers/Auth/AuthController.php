@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Company;
 use Illuminate\Support\Facades\Redirect;
-use App\Events\UserLoggedIn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\VerificationEmail;
@@ -21,17 +20,13 @@ use App\Mail\WelcomeEmail;
 use Log;
 use Illuminate\Support\Facades\Password;
 
-
-
 use Socialite;
 //use Auth;
 use Exception;
 use Session;
-use Cookie;
 
 class AuthController extends Controller
 {
-
     use RegistersUsers;
 
     /**
@@ -51,7 +46,6 @@ class AuthController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
 
     public function redirectToLinkedinClaimProfile($user_id)
     {
@@ -95,32 +89,31 @@ class AuthController extends Controller
                         Auth::login($user_to_be_claimed);
 
                         return redirect()->back()->with('message', 'Yay.. You have successfully claimed this profile.');
-                    } else {
+                    }
+                    else {
                         return redirect(url('/error'));
                     }
                 }
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             dd("Sdfsdf");
             dd($e, $e->getMessage());
         }
     }
 
-
     /* --------------------------------------------------------------------------------- */
-
 
     public function redirectToLinkedin()
     {
         return Socialite::driver('linkedin')->redirect();
     }
 
-
     // public function handleLinkedinCallback()
-    // {  
-    //     try 
+    // {
+    //     try
     //     {
-    //         $user       = Socialite::driver( 'linkedin' )->user();    
+    //         $user       = Socialite::driver( 'linkedin' )->user();
     //         $finduser   = User::where( 'linkedin_id', $user->id )->first();
 
     //         if( $finduser )
@@ -143,14 +136,12 @@ class AuthController extends Controller
 
     //             Auth::login( $newUser );
 
-
-
     //             return redirect(url('user/' . $newUser->id . '/basicInfo?profile=basic'));
     //             // return redirect( str_replace( url( '/membership-plans' ), '', session( 'referer' ) ) );
     //         }
 
-    //     } 
-    //     catch ( Exception $e ) 
+    //     }
+    //     catch ( Exception $e )
     //     {
     //         dd( $e );
     //     }
@@ -165,7 +156,8 @@ class AuthController extends Controller
             if ($finduser) {
                 Auth::login($finduser);
                 return redirect(str_replace(url('user/' . $user->id . '/basicInfo?profile=basic'), '', session('referer')));
-            } else {
+            }
+            else {
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
@@ -180,7 +172,8 @@ class AuthController extends Controller
                 Auth::login($newUser);
                 return redirect(url('user/' . $newUser->id . '/basicInfo?profile=basic'));
             }
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             Log::error('LinkedIn callback error', [
                 'exception' => $e,
                 'message' => $e->getMessage(),
@@ -196,7 +189,8 @@ class AuthController extends Controller
                 if ($finduser) {
                     Auth::login($finduser);
                     return redirect(str_replace(url('user/' . $user->id . '/basicInfo?profile=basic'), '', session('referer')));
-                } else {
+                }
+                else {
                     $newUser = User::create([
                         'name' => $user->name,
                         'email' => $user->email,
@@ -211,7 +205,8 @@ class AuthController extends Controller
                     Auth::login($newUser);
                     return redirect(url('user/' . $newUser->id . '/basicInfo?profile=basic'));
                 }
-            } catch (\Throwable $e) {
+            }
+            catch (\Throwable $e) {
                 Log::error('LinkedIn callback retry error', [
                     'exception' => $e,
                     'message' => $e->getMessage(),
@@ -291,7 +286,6 @@ class AuthController extends Controller
         return redirect()->back()->with('error', 'Unable to resend verification email.');
     }
 
-
     public function loginWithEmail(Request $request)
     {
 
@@ -303,7 +297,6 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('showModal', 'login');
         }
-
 
         $user = User::where('email', $request->input('email'))->first();
 
@@ -324,8 +317,6 @@ class AuthController extends Controller
             // Authentication passed...
             return redirect()->intended('/'); // Change 'dashboard' to your intended route
         }
-
-
 
         // Authentication failed...
         return redirect()->back()
@@ -404,11 +395,11 @@ class AuthController extends Controller
             'email' => 'required|email',
             'setpassword' => 'required|confirmed', // Validate setpassword as it is the custom field
         ]);
-    
+
         // Prepare the input data by adding 'password' from 'setpassword'
         $credentials = $request->only('email', 'token', 'password_confirmation');
         $credentials['password'] = $request->input('setpassword'); // Add the custom field as 'password'
-    
+
         // Attempt to reset the user's password
         $status = Password::reset(
             $credentials, // Pass the credentials with the 'password' field
@@ -419,26 +410,26 @@ class AuthController extends Controller
                 $user->token_expires_at = null;
                 $user->email_verified_at = Carbon::now();
                 $user->save();
-    
+
                 // Optionally, login the user after reset
                 Auth::login($user);
             }
         );
-    
+
         // If the password was successfully reset
         if ($status == Password::PASSWORD_RESET) {
             return redirect()->back()->with([
                 'showModal' => 'resetPasswordModal',
-                'statusset' => __('Password has been updated successfully.')
+                'statusset' => __('Password has been updated successfully.'),
             ]);
         }
-    
+
         // If there were errors, return to the modal with errors
         return redirect()->back()->withErrors(['email' => [__($status)]])
             ->withInput($request->only('email'))
             ->with([
-                'showModal' => 'resetPasswordModal'
+                'showModal' => 'resetPasswordModal',
             ]);
-    } 
-    
+    }
+
 }

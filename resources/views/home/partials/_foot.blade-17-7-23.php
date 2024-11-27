@@ -1,7 +1,8 @@
 <?php
 use App\Models\Company;
+
 $cd = '';
-if(Auth::check()){
+if (Auth::check()) {
     $uid = auth()->user()->id;
     $cd = Company::select('*')->where('user_id', '=', $uid)->first();
     //dd($cd);
@@ -15,18 +16,19 @@ if(Auth::check()){
         <p class="text-white my-4 animated fadeInLeft slower">Redefine Your Reach: Forge Meaningful Connections with more than 5,000,000 potential clients and Make Your Profile Shine with TheyTrustUs.
 
 </p>
-        <?php 
-        if($cd){
+        <?php
+        if ($cd) {
             ?>
             <a href="{{ route('company.dashboard',$cd->id) }}" class="btn btn-primary animated fadeInRight slower">Get Listed <span style="margin-left: 3px; font-weight: 900;">></span></a>
             <?php
-        }else{
+        }
+        else {
             ?>
             <a href="{{url('get-listed')}}" class="btn btn-primary animated fadeInRight slower">Get Listed <span style="margin-left: 3px; font-weight: 900;">></span></a>
             <?php
         }
-        ?>
-        
+?>
+
         <h6 class="animated fadeInRight slower">Learn More <span style="margin-left: 3px;font-weight: 900; color:#fff;">></span></h6>
     </div>
 </section>
@@ -34,18 +36,18 @@ if(Auth::check()){
 
 
 <section class="container-fluid contact ">
-    
+
 
 
     <div class="container ">
 
-         
+
             @if($errors->any())
             <div class="alert alert-danger">
                 {!! implode('', $errors->all('<div>:message</div>')) !!}
             </div>
             @endif
-        
+
 
         <!-- <div class="alert alert-success">
         </div> -->
@@ -57,13 +59,13 @@ if(Auth::check()){
         @endif
 
         <form method="post" action="{{ route('subscribe') }}">
-            
+
             @csrf
 
             <div class="form-group my-3">
 
                 <input type="email" class="form-control email emailbrd" name="email" placeholder="Email Address">
-                
+
                 <button type="submit" class="btn btn-lg btn-primary" name="submit_news" value="submit-newsletter">Subscribe</button>
 
                 <p class="recieve">To Recieve Our Updates Via E-mail</p>
@@ -84,7 +86,7 @@ if(Auth::check()){
             <div class="col-lg-4 about-box mb-md-0 mb-5">
                 <h3>latest posts</h3>
                 <div class="row latestposts latestpostsbrd mx-0">
-                    <div> 
+                    <div>
                         <!-- <img src="{{asset('front_components/images/latestnews.jpg')}}" alt="" class="img-fluid"> -->
                 </div>
                     <div class="imgright"> <span>On your mark get set and go now </br><a href="#">April 12,
@@ -101,7 +103,7 @@ if(Auth::check()){
                     </div>
                 </div>
                 <div class="row latestposts latestpostsbrd mx-0 brdnone">
-                    <div> 
+                    <div>
                         <!-- <img src="{{asset('front_components/images/latestnews.jpg')}}" alt="" class="img-fluid"> -->
                 </div>
                     <div class="imgright"> <span>This time there's no stopping us from away </br><a
@@ -170,7 +172,7 @@ if(Auth::check()){
                         <a href="{{ url('auth/linkedin') }}" class="btnlink" data-dismiss="" > Sign in with LinkedIn</a>
                     </div>
                 </div>
-            </div> 
+            </div>
             <!-- Modal footer -->
             <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-secondary closebtn" data-dismiss="modal">Close</button> -->

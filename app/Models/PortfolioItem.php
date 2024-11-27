@@ -13,13 +13,14 @@ class PortfolioItem extends Model
 
     protected $fillable = [
         'media', 'project_title', 'client_name', 'country_location', 'services_provided', 'short_description', 'engagement_start_date', 'engagement_end_date','company_id',
-        'position'
+        'position',
     ];
 
     protected $casts = [
         'media' => 'array',
         'engagement_start_date' => 'date',
         'engagement_end_date' => 'date',
+        'services_provided' => 'array',
     ];
     public function getEngagementStartDateAttribute($value)
     {

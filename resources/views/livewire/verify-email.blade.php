@@ -1,6 +1,12 @@
 <div>
-    <div class="modal fade @if($isModalOpen) show d-block @endif" id="forgotPasswordModal" tabindex="-1" role="dialog"
-        aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div
+        class="modal fade @if($isModalOpen) show d-block @endif"
+        id="forgotPasswordModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="forgotPasswordModalLabel"
+        aria-hidden="true"
+    >
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -29,8 +35,10 @@
                         <p>Please enter your email address to receive password reset instructions.</p>
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" wire:model="email" id="email" class="form-control" required>
-                            @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+                            <input type="email" wire:model="email" id="email" class="form-control" required />
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
@@ -49,9 +57,9 @@
         // Listen for the 'passwordResetLinkSent' event to ensure modal behavior is controlled properly
         Livewire.on('passwordResetLinkSent', function () {
             // Keeping the modal open by making sure it doesn't hide automatically
-            $('#forgotPasswordModal').modal('show');
-        });
-    });
+            $('#forgotPasswordModal').modal('show')
+        })
+    })
 </script>
 
 <style>

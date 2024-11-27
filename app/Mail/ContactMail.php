@@ -3,16 +3,16 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class ContactMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
-	public $details;
-    
+    public $details;
+
     public $subject;
 
     /**
@@ -20,11 +20,11 @@ class ContactMail extends Mailable
      *
      * @return void
      */
-    public function __construct( $details, $subject, $email_type )
+    public function __construct($details, $subject, $email_type)
     {
-        $this->details      = $details;
-        $this->subject      = $subject;
-        $this->email_type   = $email_type; 
+        $this->details = $details;
+        $this->subject = $subject;
+        $this->email_type = $email_type;
     }
 
     /**
@@ -34,18 +34,15 @@ class ContactMail extends Mailable
      */
     public function build()
     {
-        if( $this->email_type == 'contact' )
-        {
-            return $this->subject( $this->subject )->view( 'emails.contactEmail' );    
+        if ($this->email_type == 'contact') {
+            return $this->subject($this->subject)->view('emails.contactEmail');
         }
-        elseif( $this->email_type == 'reviewer_email' )
-        {
-            return $this->subject( $this->subject )->view( 'emails.reviewerEmail' );
+        elseif ($this->email_type == 'reviewer_email') {
+            return $this->subject($this->subject)->view('emails.reviewerEmail');
         }
-        else
-        {
-            return $this->subject( "Contact Email Example" )->view( 'emails.sendEmail' );
+        else {
+            return $this->subject("Contact Email Example")->view('emails.sendEmail');
         }
-        
+
     }
 }

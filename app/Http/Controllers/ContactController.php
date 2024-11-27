@@ -1,15 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Contact;
 
-use Illuminate\Http\Request;
+use App\Models\Contact;
 
 class ContactController extends Controller
 {
     public function index()
     {
-        $contacts = Contact::all(); 
+        $contacts = Contact::all();
         return view('admin.contacts.index', compact('contacts'));
     }
 

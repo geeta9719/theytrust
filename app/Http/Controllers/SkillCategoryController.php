@@ -13,7 +13,7 @@ class SkillCategoryController extends Controller
         $skills = Skill::paginate(10);
         return view('admin.skillcat.index', compact('skills'));
     }
-    
+
     public function create()
     {
         $subcategories = SubcatChild::all();
@@ -26,18 +26,18 @@ class SkillCategoryController extends Controller
             'subcat_child_id' => 'required|exists:subcat_children,id',
             'name' => 'required|string|max:255',
         ]);
-        
+
         Skill::create($validatedData);
         session()->flash('msg', 'Skill inserted');
         return back();
-    }     
-  
+    }
+
     public function show($id)
     {
         $skillCategory = SubcatChild::findOrFail($id);
         return view('admin.skillcat.show', compact('skillCategory'));
     }
-    
+
     public function edit($id)
     {
         $skill = Skill::findOrFail($id);
@@ -57,37 +57,11 @@ class SkillCategoryController extends Controller
 
         return redirect()->route('admin.skills.index');
     }
-  
+
     public function destroy(Skill $skill, Request $request)
-    { 
+    {
         $skill->delete();
         $request->session()->flash('message', 'Skill is Deleted');
         return back();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

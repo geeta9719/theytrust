@@ -12,7 +12,7 @@
                         <div class="alert alert-danger">{{Session::get('message')}}</div>
                         @elseif(session('msg'))
                         <div class="alert alert-success">{{session('msg')}}</div>
-                    @endif   
+                    @endif
                     </div>
                     <div class="card">
                         <div class="card-header">
@@ -20,7 +20,7 @@
                             <span style="float:right;">
                                 <a href="{{route('admin.subcategory-child.create')}}" class="btn btn-sm btn-primary"> Add New</a>
                             </span>
-                        </div>                           
+                        </div>
 
                         <div class="card-body table-responsive p-0">
                             <table id="example2" class="table table-bordered table-hover">
@@ -38,15 +38,15 @@
                                 <tbody>
                                 @php $i = 1 @endphp
                                 @if($subcategorychild->count() > 0)
-                                   
+
                                     @foreach($subcategorychild as $aboutdirector)
-  
+
                                     <td>{{ $i++ }}</td>
                                     <td>
                                         {{ optional($aboutdirector->subcategory)->subcategory }}
                                     </td>
-    
-                                    
+
+
                                         <td>{{$aboutdirector->name}}</td>
                                         <td>{{$aboutdirector->status}}</td>
                                         <td>{{$aboutdirector->created_at}}</td>
@@ -65,8 +65,8 @@
                                 @else
                                     <tr>
                                         <td colspan="11" style="text-align:center">No Record Found</td>
-                                    </tr>    
-                                @endif    
+                                    </tr>
+                                @endif
                                 </tbody>
                                 <!--<tfoot>
                                     <tr>

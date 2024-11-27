@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('portfolioimage/css/font-awesome.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('portfolioimage/css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+
     <script src="{{ asset('portfolioimage/js/jquery.js') }}"></script>
     <script src="{{ asset('portfolioimage/js/tab.js') }}"></script>
     <style>
@@ -85,7 +85,7 @@
     font-weight: 400;
     color:#fff;
         } */
-        
+
         .btn-group .btnbox{
             /* max-width: 100%; */
             width: 100%;
@@ -104,10 +104,10 @@
 
         .btn-group .btng{
             background-color: #00bdd6 !important;
-        
-  
-  
-    
+
+
+
+
         }
         .btn-group .btnp{
             background-color: #b9a8e4 !important;
@@ -117,9 +117,9 @@
         }
         .btn-group .btndg{
             background-color: #0095a9 !important;
-          
 
-    
+
+
         }
 
 
@@ -140,11 +140,11 @@
             color:#fff;
             margin-right: 5px;
         }
-       
+
 /* sneha */
 .review-portfolio-sec .topsec h2 {
     font-size: 24px !important;
-    
+
 }
 
 .review-portfolio-sec .bluestar {
@@ -173,19 +173,19 @@ font-family: "Epilogue", sans-serif;
 }
 @media (max-width: 767px) {
     .writereview a{
-      
+
             font-size: 14px;
     }
     .portfolio .reviewrate {
     display: block!important;
     font-size: 15px;
-   
+
     margin-top: -17px!important;}
     .sidebar-review-box .userbox{
         display:block;
     }
     .review-portfolio-sec .write{
-        font-size: 12px; 
+        font-size: 12px;
     }
 .btn-group{
     display:block;
@@ -199,7 +199,7 @@ font-family: "Epilogue", sans-serif;
 
 
     </style>
-    
+
 </head>
 
 <body>
@@ -216,7 +216,7 @@ font-family: "Epilogue", sans-serif;
             <a href=""class="btng btnbox"><i class="fa fa-laptop" aria-hidden="true"></i> PROJECTS</a>
             <a href="" class="btnp btnbox"><i class="fa fa-usd" aria-hidden="true"></i> REQUEST A QUOTE</a>
             <a href="" class="btnp btnbox"><i class="fa fa-globe" aria-hidden="true"></i> WWW</a>
-             
+
             <!-- </div> -->
             <!-- <div class="col text-center">
                 <button type="button" class="btn btn-primary">Button 7</button>
@@ -230,7 +230,7 @@ font-family: "Epilogue", sans-serif;
 
     <div class="container portfolio review-portfolio-sec">
         <div class="row">
-            
+
             <div class="col-lg-12 shadow bg-white py-3">
             <div class="row topsec mb-3">
 
@@ -253,14 +253,14 @@ font-family: "Epilogue", sans-serif;
                             </div>
                             <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank" class="mr-2 reviewuppercase">
                                 {{  $reviews->count() }} Reviews  With Limit
-                            </a> 
+                            </a>
                             <a href="/company/{{ $reviews[0]->company->id }}/getReview" target="_blank" class="write">
                                 Write a Review
                             </a>
                             <!-- <img src="https://theytrust-us.developmentserver.info/front_components/images/filter.png" class="img-fluid" alt="">
                         -->
                         </div>
-        
+
                             </div>
                         </div>
                     </div>
@@ -285,7 +285,7 @@ font-family: "Epilogue", sans-serif;
                     @foreach ($reviews as $review)
                         <x-review :review="$review" />
                     @endforeach
-                    
+
                     <!-- Pagination links -->
                     @if ($reviews instanceof \Illuminate\Pagination\LengthAwarePaginator)
                     <div class="d-flex justify-content-center">
@@ -293,7 +293,7 @@ font-family: "Epilogue", sans-serif;
                     </div>
                 @endif
                 </div>
-            
+
         </div>
     </div>
     </div>
@@ -393,13 +393,13 @@ font-family: "Epilogue", sans-serif;
     $(document).ready(function() {
         $('#tabs-nav li a').click(function(e) {
             e.preventDefault();
-            
+
             // Get the target tab id from href attribute
             var tabId = $(this).attr('href');
-            
+
             // Hide all tab contents
             $('.tab-content').hide();
-            
+
             // Show the clicked tab content
             $(tabId).show();
         });

@@ -24,22 +24,22 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <!--<li class="nav-item"><a class="nav-link" href="#!">Sign Up</a></li>-->
-                        @if(!Auth::check()) 
+                        @if(!Auth::check())
                         <li class="nav-item"><a class="nav-link" href="{{ url('signin') }}">Sign In</a></li>
                         @else
                         <li class="nav-item">
-                            <img src=" @if(auth()->user()->avatar){{auth()->user()->avatar}}@else 
-                                {{asset('bower_components/admin-lte/dist/img/AdminLTELogo.png')}}@endif " class="img-circle elevation-2" alt="Admin" width="30" height="30" style="border-radius: 25px;"> 
+                            <img src=" @if(auth()->user()->avatar){{auth()->user()->avatar}}@else
+                                {{asset('bower_components/admin-lte/dist/img/AdminLTELogo.png')}}@endif " class="img-circle elevation-2" alt="Admin" width="30" height="30" style="border-radius: 25px;">
                             <strong class="text-white">
                                 @if(auth()->user()->first_name) Welcome {{auth()->user()->first_name}} @else Me @endif
                             </strong>&nbsp;
-                        </li>    
+                        </li>
                         <li class="nav-item">
                             <form method="post" action="/logout">
                                 @csrf
-								
+
                                 <button class="btn btn-sm btn-danger" type="submit">Logout</button>
-                            </form> 
+                            </form>
                         </li>
                         @endif
                     </ul>
@@ -56,8 +56,8 @@
   background-position: center center;
   background-attachment: scroll;
   background-size: cover;">
-  
-  
+
+
             <div class="masthead-content">
                 <div class="container px-5">
                     @if(!Auth::check())
@@ -68,7 +68,7 @@
                       <form action="{{ url('companies') }}" method="GET">
 						@csrf
 							<div class="row">
-							
+
 								<div class="form-group col-md-4">
 								  <label for="subcategories">Services:</label>
 									<select class="form-control" id="subcategories" name="services[]">
@@ -81,11 +81,11 @@
 								<div class="form-group col-md-4">
 								  <label for="locations">locations:</label>
 									<select class="form-control" id="locations" name="location">
-										
+
 									</select>
 								</div>
 							</div>
-							
+
 							<button type="submit" class="btn btn-primary">Submit</button>
                       </form>
 
@@ -105,7 +105,7 @@
             <div class="container px-5">
                 <p class="m-0 text-center  small">
                     <a href="{{ route('user.basicInfo',auth()->user()->id) }}" class="text-white">Get Listed</a>
-                </p>    
+                </p>
             </div>
             @endif
             <div class="container px-5"><p class="m-0 text-center text-white small">Copyright &copy; Your Website 2021</p></div>

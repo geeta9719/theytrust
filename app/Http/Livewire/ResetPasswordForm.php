@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -44,7 +43,8 @@ class ResetPasswordForm extends Component
             $this->emit('passwordResetSuccess');
             $this->status = 'Password updated successfully.';
             session()->flash('status', $this->status);
-        } else {
+        }
+        else {
             session()->flash('error', 'User not found.');
         }
     }

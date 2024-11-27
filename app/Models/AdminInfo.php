@@ -10,7 +10,8 @@ class AdminInfo extends Model
     use HasFactory;
     protected $guarded;
 
-    public function company(){
+    public function company()
+    {
         return $this->belongsTo(Company::class);
     }
 }

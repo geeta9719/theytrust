@@ -4,15 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use App\Models\Category;
 use App\Models\Subcategory;
-use App\Mail\SendMail;
-use App\Mail\ContactMail;
 use App\Models\Budget;
 use App\Models\Rate;
-use App\Models\Size;
-use App\Models\Attribution;
 use App\Models\Industry;
 use App\Models\Company;
 use App\Models\CompanyReview;
@@ -24,15 +19,12 @@ use App\Models\AddIndustry;
 use App\Models\AddFocus;
 use App\Models\ServiceLine;
 use App\Models\Seo;
-use App\Models\CompanyHasProject;
 use App\Models\SubcatChild;
 use App\Models\Specialization;
 use App\Models\PortfolioItem;
 use App\Models\Skill;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\SubscriptionHelper;
-use Rennokki\Plans\Models\PlanModel;
-
 
 class SearchController extends Controller
 {
@@ -76,53 +68,48 @@ class SearchController extends Controller
         die;
     }
 
-
     public function getIdByCatName($cat_name)
     {
 
-        $cat    = Category::where('category', $cat_name)->first(['id']);
+        $cat = Category::where('category', $cat_name)->first(['id']);
 
         if (empty($cat)) {
             $cat = Subcategory::where('subcategory', $cat_name)->first(['id']);
 
             return $cat ? $cat->id : null;
-        } else {
+        }
+        else {
             return $cat->id;
         }
 
         return null;
     }
 
-
     public function getPreSelectedLocationDropdown($cat_id = null)
     {
         if ($cat_id !== null) {
-            $locations =  DB::select("SELECT  *, count(*) as city_count FROM addresses WHERE company_id 
-                                     IN( SELECT DISTINCT company_id FROM service_lines WHERE category_id = $cat_id OR subcategory_id = $cat_id ) 
+            $locations = DB::select("SELECT  *, count(*) as city_count FROM addresses WHERE company_id
+                                     IN( SELECT DISTINCT company_id FROM service_lines WHERE category_id = $cat_id OR subcategory_id = $cat_id )
                                      GROUP BY city ORDER by city_count DESC");
-            return ($locations) ? $locations : array();
-        } else {
-            return array();
+            return ($locations) ? $locations : [];
+        }
+        else {
+            return [];
         }
     }
-
 
     public function companies(Request $request, $ser = null, $loc = null)
     {
 
         // dd($ser);
 
-        $cat_id           = $this->getIdByCatName($ser);
+        $cat_id = $this->getIdByCatName($ser);
 
         $data['industry'] = Industry::pluck('name', 'id')->all();
 
         $industry = AddIndustry::with('industry')->get();
 
-
-
-
-        $bud              = Budget::all();
-
+        $bud = Budget::all();
 
         foreach ($bud as $value) {
             $b = explode('-', $value->budget);
@@ -130,11 +117,9 @@ class SearchController extends Controller
             $budget[$minValue] = $value;
         }
 
-
         ksort($budget);
         $data['budget'] = $budget;
         $r = Rate::all();
-
 
         foreach ($r as $value) {
             $b = explode('-', $value->rate);
@@ -144,52 +129,39 @@ class SearchController extends Controller
 
         ksort($rate);
 
+        $data['rate'] = $rate;
 
+        $data['loc_dropdown'] = $this->getPreSelectedLocationDropdown($cat_id);
 
+        $data['locations'] = Address::where('addresses.address', '!=', '')->groupBy('addresses.city')->get();
 
-        $data['rate']           = $rate;
+        $data['main_slug'] = $ser;
 
-        $data['loc_dropdown']   = $this->getPreSelectedLocationDropdown($cat_id);
+        $data['subcategories'] = DB::table('subcategories')->pluck('subcategory', 'id')->all();
 
-
-        $data['locations']      = Address::where('addresses.address', '!=', '')->groupBy('addresses.city')->get();
-
-
-        $data['main_slug']      = $ser;
-
-
-
-        $data['subcategories']  = DB::table('subcategories')->pluck('subcategory', 'id')->all();
-
-
-        $rate_review            = DB::select(
-            "SELECT company_reviews.company_id, 
-                                                COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive 
+        $rate_review = DB::select(
+            "SELECT company_reviews.company_id,
+                                                COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive
                                                 FROM company_reviews GROUP BY company_reviews.company_id"
         );
 
-
-        $rate = array();
+        $rate = [];
 
         foreach ($rate_review as $val) {
             $rate[$val->company_id] = $val;
         }
 
-
-
         $data['rate_review'] = $rate;
 
+        $service_line = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent, service_lines.category_id,subcategories.subcategory FROM service_lines   LEFT JOIN subcategories ON subcategories.id = service_lines.id");
 
-        $service_line   = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent, service_lines.category_id,subcategories.subcategory FROM service_lines   LEFT JOIN subcategories ON subcategories.id = service_lines.id");
-
-        $service_lines  = array();
-
+        $service_lines = [];
 
         foreach ($service_line as $val) {
             $service_lines[$val->company_id][] = $val;
         }
         $data['service_lines'] = $service_lines;
-        $where = array();
+        $where = [];
         if (!empty($request->services)) {
             $filteredServices = array_filter($request->services, function ($value) {
                 return !is_null($value);
@@ -198,17 +170,17 @@ class SearchController extends Controller
             if (!empty($filteredServices)) {
                 $where[] = 'WHERE service_lines.subcategory_id IN (' . implode(',', $filteredServices) . ')';
             }
-        } elseif (!empty($ser)) {
+        }
+        elseif (!empty($ser)) {
             $cat = DB::table('categories')
                 ->join('subcategories', 'categories.id', '=', 'subcategories.category_id')
                 ->where('categories.category', str_replace('-', ' ', $ser))
                 ->orWhere('subcategories.subcategory', str_replace('-', ' ', $ser))
                 ->get(['categories.id', 'subcategories.id as sid', 'subcategories.subcategory']);
 
-
             // dd($cat);
 
-            if (count($cat)  > 0) {
+            if (count($cat) > 0) {
 
                 foreach ($cat as $scat) {
                     $_REQUEST['services'][] = $scat->sid;
@@ -222,14 +194,14 @@ class SearchController extends Controller
         if (!empty($request->location)) {
             // dd($request->location);
             $where[] = "addresses.city='" . $request->location . "'";
-        } elseif (!empty($loc)) {
-            $_REQUEST['location']        = $loc;
+        }
+        elseif (!empty($loc)) {
+            $_REQUEST['location'] = $loc;
             $where[] = "addresses.city   = '" . $loc . "'";
         }
         if (!empty($request->budget)) {
             $where[] = 'companies.budget = "' . $request->budget . '"';
         }
-
 
         if (!empty($request->rates[0]) && count($request->rates) > 0) {
             $where[] = 'companies.rate IN ( \'' . implode('\',\'', $request->rates) . '\')';
@@ -247,70 +219,57 @@ class SearchController extends Controller
             $where[] = '( SELECT avg(company_reviews.overall_rating) AS rating GROUP BY company_reviews.company_id ) >= ' . $request->rating;
         }
 
-
-
         $where = implode(' AND ', $where);
 
-
-
         $total_record = DB::select(
-            "SELECT count( DISTINCT(companies.id) )  as record  ,add_industries.* FROM companies 
-                                     LEFT JOIN addresses ON addresses.company_id = companies.id 
-                                     LEFT JOIN service_lines ON service_lines.company_id = companies.id 
-                                     LEFT JOIN add_foci ON add_foci.company_id = companies.id 
-                                     LEFT JOIN add_industries ON add_industries.company_id = companies.id 
+            "SELECT count( DISTINCT(companies.id) )  as record  ,add_industries.* FROM companies
+                                     LEFT JOIN addresses ON addresses.company_id = companies.id
+                                     LEFT JOIN service_lines ON service_lines.company_id = companies.id
+                                     LEFT JOIN add_foci ON add_foci.company_id = companies.id
+                                     LEFT JOIN add_industries ON add_industries.company_id = companies.id
                                      LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where
         );
 
-
-        $data['totalRecord']                = $total_record[0]->record;
-        $data['perPage']                    = $per_page = 10;
-        $data['beforeOrAfterCurrentPage']   = 2;
-        $data['totalPage']                  = $total_pages   = ceil($data['totalRecord'] / $per_page);
-
+        $data['totalRecord'] = $total_record[0]->record;
+        $data['perPage'] = $per_page = 10;
+        $data['beforeOrAfterCurrentPage'] = 2;
+        $data['totalPage'] = $total_pages = ceil($data['totalRecord'] / $per_page);
 
         if (isset($_REQUEST['page']) && !empty($_REQUEST['page'])) {
-            $page   = $_REQUEST['page'];
+            $page = $_REQUEST['page'];
             $offset = ($page * $per_page) - $per_page;
-            $from   = $offset;
-            $to     = $offset + $per_page;
-        } else {
-            $page   = 1;
+            $from = $offset;
+            $to = $offset + $per_page;
+        }
+        else {
+            $page = 1;
             $offset = 0;
-            $from   = 0;
-            $to     = $per_page;
+            $from = 0;
+            $to = $per_page;
         }
 
-        $data['from']       = $from;
-        $data['to']         = $to;
+        $data['from'] = $from;
+        $data['to'] = $to;
         $data['currentPage'] = $page;
-        $data['lastPage']   = $total_pages;
+        $data['lastPage'] = $total_pages;
 
-
-        $company_sql = "SELECT companies.id, companies.*, add_industries.id as add_industries_id, add_industries.percent as percent, industries.name as i_name, addresses.address, addresses.city, subcategories.id as subcategory_id, subcategories.subcategory as subcategory_name  
-        FROM companies 
-        LEFT JOIN addresses ON addresses.company_id = companies.id 
-        LEFT JOIN add_foci ON add_foci.company_id = companies.id 
-        LEFT JOIN service_lines ON service_lines.company_id = companies.id 
-        LEFT JOIN add_industries ON add_industries.company_id = companies.id 
+        $company_sql = "SELECT companies.id, companies.*, add_industries.id as add_industries_id, add_industries.percent as percent, industries.name as i_name, addresses.address, addresses.city, subcategories.id as subcategory_id, subcategories.subcategory as subcategory_name
+        FROM companies
+        LEFT JOIN addresses ON addresses.company_id = companies.id
+        LEFT JOIN add_foci ON add_foci.company_id = companies.id
+        LEFT JOIN service_lines ON service_lines.company_id = companies.id
+        LEFT JOIN add_industries ON add_industries.company_id = companies.id
         LEFT JOIN subcategories ON subcategories.id = service_lines.subcategory_id
         LEFT JOIN industries ON industries.id = add_industries.industry_id
-        LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where . " AND companies.is_publish != 0 
-        GROUP BY companies.id 
+        LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where . " AND companies.is_publish != 0
+        GROUP BY companies.id
         LIMIT " . $per_page . " OFFSET " . $offset;
-
-
 
         $data['company'] = $company = DB::select($company_sql);
 
         $data['company'] = array_values(array_unique($data['company'], SORT_REGULAR));
 
         $industry = AddIndustry::with('industry')->get();
-
-
-
-
-
 
         foreach ($data['company'] as $company) {
             $company->industries = $industry->where('company_id', $company->id)->pluck('industry');
@@ -319,18 +278,14 @@ class SearchController extends Controller
         return view('home.directory', $data);
     }
 
-
-
     public function test1(Request $request, $ser = null, $loc = null)
     {
 
-
-        $cat_id           = $this->getIdByCatName($ser);
+        $cat_id = $this->getIdByCatName($ser);
 
         $data['industry'] = Industry::pluck('name', 'id')->all();
 
-        $bud              = Budget::all();
-
+        $bud = Budget::all();
 
         foreach ($bud as $value) {
             $b = explode('-', $value->budget);
@@ -338,11 +293,9 @@ class SearchController extends Controller
             $budget[$minValue] = $value;
         }
 
-
         ksort($budget);
         $data['budget'] = $budget;
         $r = Rate::all();
-
 
         foreach ($r as $value) {
             $b = explode('-', $value->rate);
@@ -352,63 +305,41 @@ class SearchController extends Controller
 
         ksort($rate);
 
+        $data['rate'] = $rate;
 
+        $data['loc_dropdown'] = $this->getPreSelectedLocationDropdown($cat_id);
 
+        $data['locations'] = Address::where('addresses.address', '!=', '')->groupBy('addresses.city')->get();
 
-        $data['rate']           = $rate;
+        $data['main_slug'] = $ser;
 
-        $data['loc_dropdown']   = $this->getPreSelectedLocationDropdown($cat_id);
+        $data['subcategories'] = DB::table('subcategories')->pluck('subcategory', 'id')->all();
 
-
-        $data['locations']      = Address::where('addresses.address', '!=', '')->groupBy('addresses.city')->get();
-
-
-        $data['main_slug']      = $ser;
-
-
-
-        $data['subcategories']  = DB::table('subcategories')->pluck('subcategory', 'id')->all();
-
-
-        $rate_review            = DB::select(
-            "SELECT company_reviews.company_id, 
-                                                COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive 
+        $rate_review = DB::select(
+            "SELECT company_reviews.company_id,
+                                                COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive
                                                 FROM company_reviews GROUP BY company_reviews.company_id"
         );
 
-
-        $rate = array();
+        $rate = [];
 
         foreach ($rate_review as $val) {
             $rate[$val->company_id] = $val;
         }
 
-
-
         $data['rate_review'] = $rate;
 
+        $service_line = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent , service_lines.subcategory FROM service_lines");
 
-        $service_line   = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent , service_lines.subcategory FROM service_lines");
-
-        $service_lines  = array();
-
-
-
+        $service_lines = [];
 
         foreach ($service_line as $val) {
             $service_lines[$val->company_id][] = $val;
         }
 
-
-
         $data['service_lines'] = $service_lines;
 
-
-
-
-        $where = array();
-
-
+        $where = [];
 
         if (!empty($request->services)) {
             $filteredServices = array_filter($request->services, function ($value) {
@@ -418,13 +349,13 @@ class SearchController extends Controller
             if (!empty($filteredServices)) {
                 $where[] = 'WHERE service_lines.subcategory_id IN (' . implode(',', $filteredServices) . ')';
             }
-        } elseif (!empty($ser)) {
+        }
+        elseif (!empty($ser)) {
             $cat = DB::table('categories')
                 ->join('subcategories', 'categories.id', '=', 'subcategories.category_id')
                 ->where('categories.category', str_replace('-', ' ', $ser))
                 ->orWhere('subcategories.subcategory', str_replace('-', ' ', $ser))
                 ->get(['categories.id', 'subcategories.id as sid', 'subcategories.subcategory']);
-
 
             if (!empty($cat)) {
 
@@ -439,8 +370,9 @@ class SearchController extends Controller
         if (!empty($request->location)) {
             // dd($request->location);
             $where[] = "addresses.city='" . $request->location . "'";
-        } elseif (!empty($loc)) {
-            $_REQUEST['location']        = $loc;
+        }
+        elseif (!empty($loc)) {
+            $_REQUEST['location'] = $loc;
             $where[] = "addresses.city   = '" . $loc . "'";
         }
 
@@ -450,7 +382,7 @@ class SearchController extends Controller
 
         /*if( !empty( $request->rates ) )
         {
-           $where[]= 'companies.rate IN ( \''.implode('\',\'',$request->rates).'\')'; 
+           $where[]= 'companies.rate IN ( \''.implode('\',\'',$request->rates).'\')';
         }*/
 
         if (!empty($request->rates[0]) && count($request->rates) > 0) {
@@ -469,71 +401,60 @@ class SearchController extends Controller
             $where[] = '( SELECT avg(company_reviews.overall_rating) AS rating GROUP BY company_reviews.company_id ) >= ' . $request->rating;
         }
 
-
-
         $where = implode(' AND ', $where);
         /************** pagination *********************/
 
-
-
         $total_record = DB::select(
-            "SELECT count( DISTINCT(companies.id) ) as record FROM companies 
-                                     LEFT JOIN addresses ON addresses.company_id = companies.id 
-                                     LEFT JOIN service_lines ON service_lines.company_id = companies.id 
-                                     LEFT JOIN add_industries ON add_industries.company_id = companies.id 
+            "SELECT count( DISTINCT(companies.id) ) as record FROM companies
+                                     LEFT JOIN addresses ON addresses.company_id = companies.id
+                                     LEFT JOIN service_lines ON service_lines.company_id = companies.id
+                                     LEFT JOIN add_industries ON add_industries.company_id = companies.id
                                      LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where
         );
 
-
-        $data['totalRecord']                = $total_record[0]->record;
-        $data['perPage']                    = $per_page = 10;
-        $data['beforeOrAfterCurrentPage']   = 2;
-        $data['totalPage']                  = $total_pages   = ceil($data['totalRecord'] / $per_page);
-
+        $data['totalRecord'] = $total_record[0]->record;
+        $data['perPage'] = $per_page = 10;
+        $data['beforeOrAfterCurrentPage'] = 2;
+        $data['totalPage'] = $total_pages = ceil($data['totalRecord'] / $per_page);
 
         if (isset($_REQUEST['page']) && !empty($_REQUEST['page'])) {
-            $page   = $_REQUEST['page'];
+            $page = $_REQUEST['page'];
             $offset = ($page * $per_page) - $per_page;
-            $from   = $offset;
-            $to     = $offset + $per_page;
-        } else {
-            $page   = 1;
+            $from = $offset;
+            $to = $offset + $per_page;
+        }
+        else {
+            $page = 1;
             $offset = 0;
-            $from   = 0;
-            $to     = $per_page;
+            $from = 0;
+            $to = $per_page;
         }
 
-        $data['from']       = $from;
-        $data['to']         = $to;
+        $data['from'] = $from;
+        $data['to'] = $to;
         $data['currentPage'] = $page;
-        $data['lastPage']   = $total_pages;
+        $data['lastPage'] = $total_pages;
 
-
-
-        $company_sql     = "SELECT DISTINCT(companies.id), companies.*, addresses.address, addresses.city FROM companies 
-                                                    LEFT JOIN addresses ON addresses.company_id             = companies.id 
-                                                    LEFT JOIN service_lines ON service_lines.company_id     = companies.id 
-                                                    LEFT JOIN add_industries ON add_industries.company_id   = companies.id 
-                                                    LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where . " 
+        $company_sql = "SELECT DISTINCT(companies.id), companies.*, addresses.address, addresses.city FROM companies
+                                                    LEFT JOIN addresses ON addresses.company_id             = companies.id
+                                                    LEFT JOIN service_lines ON service_lines.company_id     = companies.id
+                                                    LEFT JOIN add_industries ON add_industries.company_id   = companies.id
+                                                    LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where . "
                                                     AND  companies.is_publish !=0 LIMIT " . $per_page . " OFFSET " . $offset;
 
         $data['company'] = $company = DB::select($company_sql);
 
-
         return view('directory1', $data);
     }
-
-
 
     public function getCompany(Request $request)
     {
 
+        $data['subcategories'] = $subcategories = DB::table('subcategories')->pluck('subcategory', 'id')->all();
 
-        $data['subcategories']  = $subcategories = DB::table('subcategories')->pluck('subcategory', 'id')->all();
+        $rate_reviews = DB::select("SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive FROM company_reviews GROUP BY company_reviews.company_id");
 
-        $rate_reviews           = DB::select("SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive FROM company_reviews GROUP BY company_reviews.company_id");
-
-        $rate_review = array();
+        $rate_review = [];
 
         foreach ($rate_reviews as $val) {
             $rate_review[$val->company_id] = $val;
@@ -543,7 +464,7 @@ class SearchController extends Controller
 
         $service_line = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent FROM service_lines");
 
-        $service_lines = array();
+        $service_lines = [];
 
         foreach ($service_line as $val) {
             $service_lines[$val->company_id][] = $val;
@@ -551,7 +472,7 @@ class SearchController extends Controller
 
         $data['service_lines'] = $service_lines;
 
-        $where = array();
+        $where = [];
 
         if (!empty($request->services[0]) && count($request->services) > 0) {
             $where[] = ' service_lines.subcategory_id IN (' . implode(',', $request->services) . ')';
@@ -581,18 +502,13 @@ class SearchController extends Controller
             $where[] = '(SELECT avg(company_reviews.overall_rating) AS rating GROUP BY company_reviews.company_id) >= ' . $request->rating;
         }
 
+        $where = count($where) > 0 ? ' WHERE ' . implode(' AND ', $where) : '';
 
-        $where     = count($where) > 0 ? ' WHERE ' . implode(' AND ', $where) : '';
-
-
-
-
-        $sql_total = "SELECT count( DISTINCT( companies.id ) ) as record FROM companies 
-                      LEFT JOIN addresses ON addresses.company_id           = companies.id 
-                      LEFT JOIN service_lines ON service_lines.company_id   = companies.id 
-                      LEFT JOIN add_industries ON add_industries.company_id = companies.id 
+        $sql_total = "SELECT count( DISTINCT( companies.id ) ) as record FROM companies
+                      LEFT JOIN addresses ON addresses.company_id           = companies.id
+                      LEFT JOIN service_lines ON service_lines.company_id   = companies.id
+                      LEFT JOIN add_industries ON add_industries.company_id = companies.id
                       LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where;
-
 
         #die( print_r( [ $request->all(), $sql_total, $where ] ) );
 
@@ -602,138 +518,129 @@ class SearchController extends Controller
 
         //dd($total_record);
 
-
-
-
-
-        $data['totalRecord']                = $totalRecord              = $total_record[0]->record;
-        $data['perPage']                    = $perPage                  = $per_page     = 10;
-        $data['beforeOrAfterCurrentPage']   = $beforeOrAfterCurrentPage = 2;
-        $data['totalPage']                  = $totalPage                = $total_pages  = ceil($data['totalRecord'] / $per_page);
+        $data['totalRecord'] = $totalRecord = $total_record[0]->record;
+        $data['perPage'] = $perPage = $per_page = 10;
+        $data['beforeOrAfterCurrentPage'] = $beforeOrAfterCurrentPage = 2;
+        $data['totalPage'] = $totalPage = $total_pages = ceil($data['totalRecord'] / $per_page);
 
         if (isset($_REQUEST['page']) && !empty($_REQUEST['page'])) {
-            $page   = $_REQUEST['page'];
+            $page = $_REQUEST['page'];
             $offset = ($page * $per_page) - $per_page;
-            $from   = $offset;
-            $to     = $offset + $per_page;
-        } else {
-            $page   = 1;
+            $from = $offset;
+            $to = $offset + $per_page;
+        }
+        else {
+            $page = 1;
             $offset = 0;
-            $from   = 0;
-            $to     = $per_page;
+            $from = 0;
+            $to = $per_page;
         }
 
-        $data['from']       = $from;
-        $data['to']         = $to;
-        $data['currentPage'] = $currentPage  = $page;
-        $data['lastPage']   = $lastPage     = $total_pages;
+        $data['from'] = $from;
+        $data['to'] = $to;
+        $data['currentPage'] = $currentPage = $page;
+        $data['lastPage'] = $lastPage = $total_pages;
 
         /**************pagination*********************/
 
-
-        $sql_get_comp = "SELECT DISTINCT( companies.id ), companies.*, addresses.address, addresses.city FROM companies 
-                                 LEFT JOIN addresses ON addresses.company_id = companies.id 
-                                 LEFT JOIN service_lines ON service_lines.company_id = addresses.company_id 
-                                 LEFT JOIN add_industries ON add_industries.company_id = service_lines.company_id 
-                                 LEFT JOIN company_reviews ON company_reviews.company_id = add_industries.company_id 
+        $sql_get_comp = "SELECT DISTINCT( companies.id ), companies.*, addresses.address, addresses.city FROM companies
+                                 LEFT JOIN addresses ON addresses.company_id = companies.id
+                                 LEFT JOIN service_lines ON service_lines.company_id = addresses.company_id
+                                 LEFT JOIN add_industries ON add_industries.company_id = service_lines.company_id
+                                 LEFT JOIN company_reviews ON company_reviews.company_id = add_industries.company_id
                                 " . $where . " LIMIT " . $per_page . " OFFSET " . $offset;
-
 
         //die( $sql_get_comp );
 
-        $company        = DB::select($sql_get_comp);
+        $company = DB::select($sql_get_comp);
 
-        $html           = "";
+        $html = "";
 
-        $totalList      = $company ? $totalRecord : 0;
+        $totalList = $company ? $totalRecord : 0;
 
-        $subcatsdisplay = (!empty($request->services[0]) && count($request->services) > 0)  ? $subcategories[$request->services[0]] : '';
+        $subcatsdisplay = (!empty($request->services[0]) && count($request->services) > 0) ? $subcategories[$request->services[0]] : '';
 
-
-        $html .=  '<div class="firm-box d-lg-flex ">
+        $html .= '<div class="firm-box d-lg-flex ">
                         <p class="mr-5">' . $totalList . ' Firms</p>
                         <p>List of the Best ' . $subcatsdisplay . '  Firms</p>
                    </div>';
 
         foreach ($company as $key => $val) {
 
+            $html .= '<div class="graph-sec row border mx-0 py-4 px-3 align-items-center item' . $key . '">
 
-            $html .=  '<div class="graph-sec row border mx-0 py-4 px-3 align-items-center item' . $key . '">
-                    
                     <div class="col-xl-2 col-lg-6 border-right verified-sec pb-3 pb-md-0">
                         <img src="' . url('storage/' . $val->logo) . '" alt="" class="img-fluid ">';
 
-
             if ($val->is_publish) {
-                $html .=  '<img src="' . asset('front_components/images/verified.png') . '" alt="" class="img-fluid ">';
+                $html .= '<img src="' . asset('front_components/images/verified.png') . '" alt="" class="img-fluid ">';
             }
 
-
-            $bb   = explode('-', $val->budget);
-            $bbb  = $bb[0] . '+';
+            $bb = explode('-', $val->budget);
+            $bbb = $bb[0] . '+';
 
             if (!empty($val->rate)) {
                 $rr = explode('-', $val->rate);
                 $rrr = $rr[0] . '-' . $rr[1];
-            } else {
+            }
+            else {
                 $rrr = 'N/A ';
             }
 
-            $html .=  '<div class="icon-box mt-4">';
+            $html .= '<div class="icon-box mt-4">';
 
             if ($val->budget) {
-                $html  .=  '<p class="d-flex  align-items-center">
+                $html .= '<p class="d-flex  align-items-center">
                                 <img src="' . asset('front_components/images/verified-icon1.png') . '" alt=""> ' . $bbb . '+
                             </p>';
             }
 
             if ($val->rate) {
-                $html  .=  '<p class="d-flex  align-items-center">
+                $html .= '<p class="d-flex  align-items-center">
                                 <img src="' . asset('front_components/images/time.png') . '" alt=""> ' . $rrr . '/hr
                             </p>';
             }
 
             if ($val->size) {
-                $html  .=  '<p class="d-flex  align-items-center">
+                $html .= '<p class="d-flex  align-items-center">
                                 <img src="' . asset('front_components/images/person.png') . '" alt=""> ' . $val->size . '
                             </p>';
             }
 
-
             if ($val->city) {
-                $html  .=  '<p class="d-flex  align-items-center">
+                $html .= '<p class="d-flex  align-items-center">
                                 <img src="' . asset('front_components/images/location2.png') . '" alt="">' . $val->city . '
                             </p>';
             }
 
-            $html  .=       '</div>
+            $html .= '</div>
                     </div>';
 
-            $html  .=  '<div class="col-xl-6 col-lg-6 pl-md-4 mt-md-0 mt-4">
+            $html .= '<div class="col-xl-6 col-lg-6 pl-md-4 mt-md-0 mt-4">
                         <h3> ' . $val->name . '</h3>
                         <p>  ' . $val->tagline . '</p>';
 
-
-
             if (isset($rate_review[$val->id])) {
-                $html  .=  '<div class="reviews-row">';
-                $html  .=  '    <h3> ' . number_format((float)$rate_review[$val->id]->rating, 1, ".", "") ?? "" . '</h3>';
-                $html  .=  '        <div class="px-3">';
+                $html .= '<div class="reviews-row">';
+                $html .= '    <h3> ' . number_format((float)$rate_review[$val->id]->rating, 1, ".", "") ?? "" . '</h3>';
+                $html .= '        <div class="px-3">';
 
                 for ($i = 1; $i <= 5; $i++) {
                     if ($i <= $rate_review[$val->id]->rating) {
-                        $html .=  '<i class="fa fa-star"></i>';
-                    } elseif ($rate_review[$val->id]->rating <= $i - 1) {
-                    } else {
+                        $html .= '<i class="fa fa-star"></i>';
+                    }
+                    elseif ($rate_review[$val->id]->rating <= $i - 1) {
+                    }
+                    else {
                     }
                 }
 
-                $html  .=  '    </div>
+                $html .= '    </div>
                             <h3> ' . $rate_review[$val->id]->review . ' REVIEWS</h3>
                         </div>';
             }
 
-            $html  .=  '<div class="links">
+            $html .= '<div class="links">
                         <a href="' . url($val->website) . '" target="_blank" class="">View Website</a>
                         <a href="' . url('profile/' . $val->id) . '" target="_blank" class="">View Profile</a>
                         <a href="' . url('company-contact/' . $val->id) . '" target="_blank" class="">Contact</a>
@@ -753,7 +660,7 @@ class SearchController extends Controller
                     $t = $t + $service_lines[$val->id][$i]->percent;
                     $data[$i + 1] = [
                         $subcategories[$service_lines[$val->id][$i]->subcategory_id],
-                        (int)$service_lines[$val->id][$i]->percent
+                        (int)$service_lines[$val->id][$i]->percent,
                     ];
                 }
             }
@@ -792,74 +699,78 @@ class SearchController extends Controller
         <nav aria-label="Page navigation example">
             <ul class="pagination">';
 
-        $links       = "";
-        $blankLast   = "";
-        $blankFirst  = "";
+        $links = "";
+        $blankLast = "";
+        $blankFirst = "";
 
-        $request_uri    = explode('?', $_SERVER['HTTP_REFERER']);
-        $request_uri    = $request_uri[0];
-        $query_string   = $_SERVER['QUERY_STRING'];
+        $request_uri = explode('?', $_SERVER['HTTP_REFERER']);
+        $request_uri = $request_uri[0];
+        $query_string = $_SERVER['QUERY_STRING'];
 
-        $query_str  = "";
-        $prev_url   = url($request_uri . '?page=' . ($currentPage - 1));
-        $next_url   = url($request_uri . '?page=' . ($currentPage + 1));
+        $query_str = "";
+        $prev_url = url($request_uri . '?page=' . ($currentPage - 1));
+        $next_url = url($request_uri . '?page=' . ($currentPage + 1));
 
         if (!empty($query_string)) {
-            $query_string   = explode('&', $query_string);
-            $del_val        = "page=" . $currentPage . "";
-            $query_string   = array_diff($query_string, [$del_val]);
+            $query_string = explode('&', $query_string);
+            $del_val = "page=" . $currentPage . "";
+            $query_string = array_diff($query_string, [$del_val]);
 
             if (!empty($query_string)) {
-                $query_str  = '&' . implode('&', $query_string);
-                $prev_url   = url($request_uri . '?page=' . ($currentPage - 1) . $query_str);
-                $next_url   = url($request_uri . '?page=' . ($currentPage + 1) . $query_str);
+                $query_str = '&' . implode('&', $query_string);
+                $prev_url = url($request_uri . '?page=' . ($currentPage - 1) . $query_str);
+                $next_url = url($request_uri . '?page=' . ($currentPage + 1) . $query_str);
             }
         }
 
         if ($currentPage == 1) {
-            $tabindex       = ' tabindex="-1" ';
-            $aria_disabled  = ' aria-disabled="true" ';
-            $disabled       = ' disabled';
-        } else {
-            $tabindex       = '';
-            $aria_disabled  = '';
-            $disabled       = '';
+            $tabindex = ' tabindex="-1" ';
+            $aria_disabled = ' aria-disabled="true" ';
+            $disabled = ' disabled';
+        }
+        else {
+            $tabindex = '';
+            $aria_disabled = '';
+            $disabled = '';
         }
 
         $html .= '<li class="page-item ' . $disabled . '"><a class="page-link" href="' . $prev_url . '" ' . $tabindex . ' ' . $aria_disabled . ' >Previous</a></li>';
 
         for ($i = 1; $i <= $totalPage; $i++) {
             if ($i == $currentPage) {
-                $active         = ' active ';
-                $aria_current   = ' aria-current="page" ';
+                $active = ' active ';
+                $aria_current = ' aria-current="page" ';
 
                 if ($i == $lastPage) {
-                    $tabindex       = ' tabindex="-1" ';
-                    $aria_disabled  = ' aria-disabled="true" ';
-                    $disabled       = 'disabled';
+                    $tabindex = ' tabindex="-1" ';
+                    $aria_disabled = ' aria-disabled="true" ';
+                    $disabled = 'disabled';
                 }
 
                 $html .= '<li class="page-item ' . $active . '" ' . $aria_current . '><a class="page-link" href="' . url($request_uri . '?page=' . $i . $query_str) . '">' . $i . '</a></li>';
-            } else {
-                $active         = '';
-                $aria_current   = '';
-                $tabindex       = '';
-                $aria_disabled  = '';
-                $disabled       = '';
+            }
+            else {
+                $active = '';
+                $aria_current = '';
+                $tabindex = '';
+                $aria_disabled = '';
+                $disabled = '';
 
                 if ($i >= $currentPage - $beforeOrAfterCurrentPage || $i == 1) {
                     if ($i <= $currentPage + $beforeOrAfterCurrentPage || $i == $lastPage) {
                         $html .= '<li class="page-item ' . $active . '" ' . $aria_current . '><a class="page-link" href="' . url($request_uri . '?page=' . $i . $query_str) . '">' . $i . '</a></li>';
-                    } else {
+                    }
+                    else {
                         if ($blankFirst == '') {
                             $blankFirst = '...';
-                            $html      .= '...';
+                            $html .= '...';
                         }
                     }
-                } else {
+                }
+                else {
                     if ($blankLast == '') {
                         $blankLast = '...';
-                        $html     .= '...';
+                        $html .= '...';
                     }
                 }
             }
@@ -875,40 +786,36 @@ class SearchController extends Controller
 
     public function getSearchList(Request $request)
     {
-        $term       = explode(' ', $request->term);
-        $whereComp  = array();
-        $whereComp1 = array();
-        $whereCity  = array();
-        $whereSub   = array();
+        $term = explode(' ', $request->term);
+        $whereComp = [];
+        $whereComp1 = [];
+        $whereCity = [];
+        $whereSub = [];
 
-        $whereCat   = array();
+        $whereCat = [];
 
         foreach ($term as $t) {
             if (strlen($t) >= 3) {
-                $whereSub[]     = " subcategories.subcategory like '%" . $t . "%'";
-                $whereCat[]     = " categories.category like '%" . $t . "%'";
+                $whereSub[] = " subcategories.subcategory like '%" . $t . "%'";
+                $whereCat[] = " categories.category like '%" . $t . "%'";
 
-                $whereCity[]    = " addresses.city like '%" . $t . "%'";
-                $whereComp[]    = " companies.name like '%" . $t . "%'";
-                $whereComp1[]   = " 'name', 'like', '%" . $request->term . "%'";
+                $whereCity[] = " addresses.city like '%" . $t . "%'";
+                $whereComp[] = " companies.name like '%" . $t . "%'";
+                $whereComp1[] = " 'name', 'like', '%" . $request->term . "%'";
             }
         }
 
-        $whereC     = ' WHERE (' . implode(' OR ', $whereComp) . ' ) AND companies.is_publish != 0 ';
-        $whereC1    = ' WHERE (' . implode(' )->orWhere( ', $whereComp1) . ')';
-        $whereC2    = implode(' )->orWhere( ', $whereComp1);
+        $whereC = ' WHERE (' . implode(' OR ', $whereComp) . ' ) AND companies.is_publish != 0 ';
+        $whereC1 = ' WHERE (' . implode(' )->orWhere( ', $whereComp1) . ')';
+        $whereC2 = implode(' )->orWhere( ', $whereComp1);
 
-        $whereS     = ' WHERE ' . implode(' OR ', $whereSub) . ' OR ' . implode(' OR ', $whereCat);
-        $whereCI    = ' WHERE ' . implode(' OR ', $whereCity);
+        $whereS = ' WHERE ' . implode(' OR ', $whereSub) . ' OR ' . implode(' OR ', $whereCat);
+        $whereCI = ' WHERE ' . implode(' OR ', $whereCity);
 
-
-        $data['sub'] = DB::select("SELECT subcategories.id, subcategories.subcategory FROM subcategories 
+        $data['sub'] = DB::select("SELECT subcategories.id, subcategories.subcategory FROM subcategories
                                    LEFT JOIN categories  on categories.id = subcategories.category_id " . $whereS);
 
-
-
-
-        $subc       = array();
+        $subc = [];
 
         if (count($data['sub']) > 0) {
             foreach ($data['sub'] as $sub) {
@@ -916,13 +823,13 @@ class SearchController extends Controller
             }
 
             $subc = " WHERE subcategories.subcategory IN ( '" . implode('\',\'', $subc) . "') ";
-        } else {
+        }
+        else {
             $subc = "";
         }
 
-        $data['city']   = DB::select("SELECT addresses.company_id,addresses.city FROM addresses " . $whereCI . " GROUP BY addresses.city");
-        $city           = array();
-
+        $data['city'] = DB::select("SELECT addresses.company_id,addresses.city FROM addresses " . $whereCI . " GROUP BY addresses.city");
+        $city = [];
 
         if (count($data['city']) > 0) {
             foreach ($data['city'] as $add) {
@@ -931,24 +838,27 @@ class SearchController extends Controller
 
             if (!empty($subc)) {
                 $city = " AND addresses.city IN ('" . implode('\',\'', $city) . "') ";
-            } else {
+            }
+            else {
                 $city = " WHERE addresses.city IN ('" . implode('\',\'', $city) . "') ";
             }
-        } else {
+        }
+        else {
             $city = "";
         }
 
         if (!empty($subc) || !empty($city)) {
             $data['subcategory'] = DB::select("SELECT subcategories.id,subcategories.subcategory,addresses.city,addresses.state_iso2 FROM subcategories INNER JOIN service_lines ON service_lines.subcategory_id = subcategories.id INNER JOIN addresses ON addresses.company_id = service_lines.company_id  " . $subc . $city . " GROUP BY service_lines.subcategory_id");
-        } else {
-            $data['subcategory'] = array();
+        }
+        else {
+            $data['subcategory'] = [];
         }
 
         $data['company'] = DB::select("SELECT companies.id,companies.name,companies.logo FROM companies " . $whereC);
 
         $rate_review = DB::select("SELECT company_reviews.company_id, avg(overall_rating) as rating FROM company_reviews GROUP BY company_reviews.company_id");
 
-        $rate = array();
+        $rate = [];
 
         foreach ($rate_review as $val) {
             $rate[$val->company_id] = $val;
@@ -956,19 +866,13 @@ class SearchController extends Controller
 
         $data['rate_review'] = $rate;
 
-
         $query = Seo::query();
-
-
 
         if ($request->term) {
             $query->where('name', 'LIKE', "%$request->term%");
         }
 
         $topSeoCompanies = $query->orderBy('usage_count', 'desc')->take(2)->get();
-
-
-
 
         $html = "";
 
@@ -1002,8 +906,6 @@ class SearchController extends Controller
         }
         $html .= '</ul>';
 
-
-
         $company_loc = "";
         if (count($data['company']) > 0) {
             $html .= '
@@ -1013,7 +915,8 @@ class SearchController extends Controller
                 //if(!empty($data['city'])){$company_loc = " ".ucfirst($company->city);}
                 if (isset($data['rate_review'][$company->id])) {
                     $rt = number_format((float)$data['rate_review'][$company->id]->rating, 1, '.', '') . ' <img src="' . asset('front_components/images/red.png') . '" width="15px;">';
-                } else {
+                }
+                else {
                     $rt = '0.0  <img src="' . asset('front_components/images/red.png') . '" width="15px;">';
                 }
                 $html .= '
@@ -1038,8 +941,7 @@ class SearchController extends Controller
 
     public function companyProfile(Request $request, $company_id)
     {
-        $data  = [];
-
+        $data = [];
 
         $data['company'] = Company::where('id', $company_id)->first();
 
@@ -1049,7 +951,6 @@ class SearchController extends Controller
         //     $company_id =   $data['company']->id;
         // }
 
-
         $data['rate_review'] = DB::table('company_reviews')
             ->select('company_id', 'position_title', 'most_impressive', 'project_title')
             ->selectRaw('count(id) as review')
@@ -1057,9 +958,9 @@ class SearchController extends Controller
             ->where('company_id', $company_id)
             ->first();
 
-        $data['service_lines']  = ServiceLine::with('category')->where('company_id', $company_id)->get();
-        $data['add_industry']   = AddIndustry::with('industry')->where('company_id', $company_id)->get();
-        $data['addresses']      = Address::where('company_id', $company_id)->get();
+        $data['service_lines'] = ServiceLine::with('category')->where('company_id', $company_id)->get();
+        $data['add_industry'] = AddIndustry::with('industry')->where('company_id', $company_id)->get();
+        $data['addresses'] = Address::where('company_id', $company_id)->get();
 
         $data['reviews'] = CompanyReview::with('company', 'user')
             ->where('company_id', $company_id)
@@ -1068,22 +969,19 @@ class SearchController extends Controller
             ->get();
         $data['reviews_count'] = CompanyReview::where('company_id', $company_id)->count();
 
-
         $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
             ->latest()
             ->take(2)
             ->get();
-            $data['can_write_review'] = SubscriptionHelper::canWriteReview($data['reviews_count']);
+        $data['can_write_review'] = SubscriptionHelper::canWriteReview($data['reviews_count']);
 
         return view('home.companyProfile', $data);
     }
 
-
     public function review(Request $request, $company_id)
     {
-        $data  = array();
-        $focus = array();
-
+        $data = [];
+        $focus = [];
 
         $data['company'] = Company::where('id', $company_id)->first();
         $company = Company::with('user')->where('id', $company_id)->first();
@@ -1093,23 +991,22 @@ class SearchController extends Controller
         if ($review_limit > $max_limit) {
             $data['reviews'] = CompanyReview::with('user')
                 ->where('company_id', $company_id)
-                ->paginate($max_limit); 
-        } else {
+                ->paginate($max_limit);
+        }
+        else {
             $data['reviews'] = CompanyReview::with('user')
                 ->where('company_id', $company_id)
                 ->take($max_limit)
                 ->get();
         }
-        
-        return view('home.review', $data);
 
+        return view('home.review', $data);
 
     }
     public function portfolio(Request $request, $company_id)
     {
-        $data  = array();
-        $focus = array();
-
+        $data = [];
+        $focus = [];
 
         $data['company'] = Company::where('id', $company_id)->first();
 
@@ -1119,7 +1016,8 @@ class SearchController extends Controller
 
             if ($data['company']) {
                 $company_id = $data['company']->id;
-            } else {
+            }
+            else {
 
                 $company_id = 0; // or any default value
 
@@ -1130,19 +1028,20 @@ class SearchController extends Controller
 
         // $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
         //     ->orderBy('position')
-        //     ->take($portfolio_limit) 
-        //     ->get(); 
+        //     ->take($portfolio_limit)
+        //     ->get();
 
-            $max_limit = 3;
-            if ($portfolio_limit > $max_limit) {
-                $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
-                    ->paginate($max_limit); 
-            } else {
-                $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
-                    ->take($max_limit)
-                    ->get();
-            }
-        
+        $max_limit = 3;
+        if ($portfolio_limit > $max_limit) {
+            $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
+                ->paginate($max_limit);
+        }
+        else {
+            $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
+                ->take($max_limit)
+                ->get();
+        }
+
         return view('home.portfolio', $data);
     }
 
@@ -1150,9 +1049,9 @@ class SearchController extends Controller
     {
         // dd($company);
 
-        $comp           = Company::where('id', $company)->first();
-        $category       = Category::all();
-        $serviceLine    = ServiceLine::where('company_id', $company)->get();
+        $comp = Company::where('id', $company)->first();
+        $category = Category::all();
+        $serviceLine = ServiceLine::where('company_id', $company)->get();
         // DD($serviceLine);
 
         foreach ($serviceLine as $value) {
@@ -1162,43 +1061,42 @@ class SearchController extends Controller
         }
 
         $subcat_children = SubcatChild::all();
-        $subcat_child    = array();
+        $subcat_child = [];
 
         foreach ($subcat_children as $value) {
             $subcat_child[$value->subcategory_id][] = $value;
         }
 
-
         $addFocus = AddFocus::where('company_id', $company)->get();
-        $add_focus = array();
+        $add_focus = [];
 
         foreach ($addFocus as $value) {
             $add_focus[$value->subcategory_id][] = $value;
         }
 
-        $industry           = Industry::all();
-        $addIndustry        = AddIndustry::where('company_id', $company)->get();
+        $industry = Industry::all();
+        $addIndustry = AddIndustry::where('company_id', $company)->get();
 
-        $clientSize         = ClientSize::all();
-        $addClientSize      = AddClientSize::where('company_id', $company)->get();
+        $clientSize = ClientSize::all();
+        $addClientSize = AddClientSize::where('company_id', $company)->get();
 
-        $specialization     = Specialization::all();
-        $addSpecialization  = AddSpecialization::where('company_id', $company)->get();
+        $specialization = Specialization::all();
+        $addSpecialization = AddSpecialization::where('company_id', $company)->get();
         return view('home.user.focus', [
-            'category'          => $category,
-            'company'           => $comp,
-            'addFocus'          => $addFocus,
-            'industry'          => $industry,
-            'addIndustry'       => $addIndustry,
-            'clientSize'        => $clientSize,
-            'addClientSize'     => $addClientSize,
-            'specialization'    => $specialization,
+            'category' => $category,
+            'company' => $comp,
+            'addFocus' => $addFocus,
+            'industry' => $industry,
+            'addIndustry' => $addIndustry,
+            'clientSize' => $clientSize,
+            'addClientSize' => $addClientSize,
+            'specialization' => $specialization,
             'addSpecialization' => $addSpecialization,
-            'serviceLine'       => $serviceLine,
-            'add_focus'         => $add_focus,
-            'subcat_child'      => $subcat_child
+            'serviceLine' => $serviceLine,
+            'add_focus' => $add_focus,
+            'subcat_child' => $subcat_child,
         ]);
-        return view('home.test',);
+        return view('home.test', );
     }
 
     public function get_searched_city_select2(Request $request)
@@ -1207,37 +1105,39 @@ class SearchController extends Controller
         if (!empty($request->search)) {
             $city = filter_var($request->search, FILTER_SANITIZE_STRING);
 
-            $sql = 'SELECT ad.city as city, count(c.id) as count FROM `addresses` ad 
-                     LEFT JOIN companies c ON c.id = ad.company_id 
+            $sql = 'SELECT ad.city as city, count(c.id) as count FROM `addresses` ad
+                     LEFT JOIN companies c ON c.id = ad.company_id
                      WHERE ad.city LIKE "%{$request->search}%"" AND ad.city IS NOT NULL AND c.is_publish = 1 GROUP BY city ORDER BY count DESC';
 
-            $d_sql = 'SELECT ad.city as city, count(c.id) as count FROM `addresses` ad 
-                     LEFT JOIN companies c ON c.id = ad.company_id 
+            $d_sql = 'SELECT ad.city as city, count(c.id) as count FROM `addresses` ad
+                     LEFT JOIN companies c ON c.id = ad.company_id
                      WHERE ad.city LIKE "%' . $city . '%" AND ad.city IS NOT NULL /*AND c.is_publish = 1*/ GROUP BY city ORDER BY count DESC';
             $result = DB::select($d_sql);
 
             if (count($result) > 0) {
 
-                $json = array();
+                $json = [];
 
                 foreach ($result as $key => $city) {
-                    $json[$key]['id']       = $city->city;
-                    $json[$key]['text']     = $city->city . ' (' . $city->count . ')';
+                    $json[$key]['id'] = $city->city;
+                    $json[$key]['text'] = $city->city . ' (' . $city->count . ')';
                 }
 
                 return die(json_encode(['results' => $json]));
-            } else {
-                return die(json_encode(['results' => array()]));
             }
-        } else {
-            return die(json_encode(['results' => array()]));
+            else {
+                return die(json_encode(['results' => []]));
+            }
+        }
+        else {
+            return die(json_encode(['results' => []]));
         }
     }
 
     public function listView()
     {
         $company = Company::where('user_id', auth()->id())->first();
-        $data['reviews'] = CompanyReview::with('user','company')
+        $data['reviews'] = CompanyReview::with('user', 'company')
             ->where('company_id', $company->id)
             ->paginate(3);
         // dd($data);
@@ -1245,19 +1145,14 @@ class SearchController extends Controller
         return view('home.review', $data);
     }
 
-
-
-
     public function listing($category = null, $subcategory = null, $skill = null, $subskill = null, Request $request)
     {
-        $categories = Category::all(); 
-        $budgets = Budget::all(); 
-        $rates = Rate::all(); 
-        $industries = Industry::all(); 
+        $categories = Category::all();
+        $budgets = Budget::all();
+        $rates = Rate::all();
+        $industries = Industry::all();
         return view('home1', compact('categories', 'budgets', 'rates', 'industries'));
     }
-
-
 
     public function getSubcategories($id)
     {
@@ -1284,9 +1179,6 @@ class SearchController extends Controller
             'deepSkills' => $deepSkills,
         ]);
     }
-
-
-
 
     // public function index(Request $request)
     // {
@@ -1338,217 +1230,207 @@ class SearchController extends Controller
     //         $query->where('budget', $budget->budget); // Adjust the column name and condition as needed
     //     }
 
-
     //     if ($request->filled('rate')) {
     //         $rate = Budget::where('id', $request->input('rate'))->first();
-    //         $query->where('budget', $rate->rate); 
+    //         $query->where('budget', $rate->rate);
     //     }
 
     //     if ($request->filled('order') && in_array($request->order, ['asc', 'desc'])) {
     //         $query->orderBy('created_at', $request->order); // Adjust column to sort by as needed
     //     }
-    
+
     //     $companies = $query->distinct()->get();
-
-
-
 
     //     return response()->json(['companies' => $companies]);
     // }
 
-
     public function index(Request $request)
     {
         try {
-            $query = Company::with(['serviceLines.category','address', 'user','user.CurrentSubscription'])->withCount('companyReview'); 
-    
+            $query = Company::with(['serviceLines.category','address', 'user','user.CurrentSubscription'])->withCount('companyReview');
+
             if ($request->filled('categoryId')) {
                 $query->whereHas('serviceLines', function ($query) use ($request) {
                     $query->where('category_id', $request->categoryId);
                 });
             }
-    
+
             if ($request->filled('subcategoryId')) {
                 $query->whereHas('addFocus', function ($query) use ($request) {
                     $query->where('subcategory_id', $request->subcategoryId);
                 });
             }
-    
+
             if ($request->filled('skillId')) {
                 $query->whereHas('CompanySubcatChild', function ($query) use ($request) {
                     $query->where('subcat_child_id', $request->skillId);
                 });
             }
-    
+
             if ($request->filled('deepSkillId')) {
                 $query->whereHas('deepskill', function ($query) use ($request) {
                     $query->where('skill_id', $request->deepSkillId);
                 });
             }
-    
+
             if ($request->filled('location')) {
                 $query->whereHas('address', function ($query) use ($request) {
                     $query->where('city', $request->location);
                 });
             }
-    
+
             if ($request->filled('industry')) {
                 $query->whereHas('addIndustry', function ($query) use ($request) {
                     $query->where('industry_id', $request->industry);
                 });
             }
-    
+
             if ($request->filled('rating')) {
                 $query->whereHas('companyReview', function ($query) use ($request) {
                     $query->where('overall_rating', $request->rating);
                 });
             }
-    
+
             if ($request->filled('budget')) {
                 $budget = Budget::where('id', $request->input('budget'))->first();
                 $query->where('budget', $budget->budget);
             }
-    
+
             if ($request->filled('rate')) {
                 $rate = Budget::where('id', $request->input('rate'))->first();
-                $query->where('budget', $rate->rate); 
+                $query->where('budget', $rate->rate);
             }
-    
+
             $data = SubscriptionHelper::determineModelsByRequest($request->all());
 
             // dd($data);
-
 
             // $locationTypeModel = $data['location_type_model'];
             $categoryTypeModel = $data['category_type_model'];
             $categoryId = $data['categoryId'];
 
+            if ($request->filled('categoryId') && $request->filled('location')) {
 
-            if($request->filled('categoryId')&& $request->filled('location') ){
+                $sponcescompanies = Company::whereHas('sponces', function ($query) use ($categoryTypeModel, $categoryId) {
+                    $query->where('category_type_model', $categoryTypeModel)
+                          ->where('category_id', $categoryId)
+                        //   ->where('category_id', $categoryId)
+                          ->where('location_type_model', 'App\Models\City');
+                })
+                ->with(['serviceLines.category','address', 'user','user.CurrentSubscription','sponces.planSubscription' => function ($query) {
+                    $query->select('id', 'priority');
+                }])
+                ->get()
+                ->sortBy([
+                    fn ($a, $b) => $a->sponces->first()->planSubscription->priority <=> $b->sponces->first()->planSubscription->priority,
+                    fn ($a, $b) => $a->tt_score <=> $b->tt_score,
+                ]);
 
-            $sponcescompanies = Company::whereHas('sponces', function ($query) use ($categoryTypeModel, $categoryId) {
-                $query->where('category_type_model', $categoryTypeModel)
-                      ->where('category_id', $categoryId)
-                    //   ->where('category_id', $categoryId)
-                      ->where('location_type_model', 'App\Models\City'); 
-            })
-            ->with(['serviceLines.category','address', 'user','user.CurrentSubscription','sponces.planSubscription' => function ($query) {
-                $query->select('id', 'priority');
-            }])
-            ->get()
-            ->sortBy([
-                fn($a, $b) => $a->sponces->first()->planSubscription->priority <=> $b->sponces->first()->planSubscription->priority,
-                fn($a, $b) => $a->tt_score <=> $b->tt_score
-            ]);
-    
-        }
+            }
             $companies = $query->get()->sort(function ($a, $b) {
                 $priorityA = $a->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
                 $priorityB = $b->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
-    
+
                 // First, compare by priority (ascending)
                 if ($priorityA !== $priorityB) {
                     return $priorityA <=> $priorityB;
                 }
-    
+
                 // If priority is the same, compare by ttu_score (descending)
                 return ($b->ttu_score ?? 0) <=> ($a->ttu_score ?? 0);
             });
 
-
             if (isset($sponcescompanies)) {
                 $companies = $companies->merge($sponcescompanies);
             }
-            
-    
+
             return response()->json(['companies' => $companies->values()]);
-        } catch (\Exception $err) {
+        }
+        catch (\Exception $err) {
             dd($err);
         }
     }
 
-
     // public function index(Request $request)
     // {
     //     try {
-    //         $query = Company::with(['serviceLines.category','address', 'user','user.CurrentSubscription'])->withCount('companyReview'); 
-    
+    //         $query = Company::with(['serviceLines.category','address', 'user','user.CurrentSubscription'])->withCount('companyReview');
+
     //         if ($request->filled('categoryId')) {
     //             $query->whereHas('serviceLines', function ($query) use ($request) {
     //                 $query->where('category_id', $request->categoryId);
     //             });
     //         }
-    
+
     //         if ($request->filled('subcategoryId')) {
     //             $query->whereHas('addFocus', function ($query) use ($request) {
     //                 $query->where('subcategory_id', $request->subcategoryId);
     //             });
     //         }
-    
+
     //         if ($request->filled('skillId')) {
     //             $query->whereHas('CompanySubcatChild', function ($query) use ($request) {
     //                 $query->where('subcat_child_id', $request->skillId);
     //             });
     //         }
-    
+
     //         if ($request->filled('deepSkillId')) {
     //             $query->whereHas('deepskill', function ($query) use ($request) {
     //                 $query->where('skill_id', $request->deepSkillId);
     //             });
     //         }
-    
+
     //         if ($request->filled('location')) {
     //             $query->whereHas('address', function ($query) use ($request) {
     //                 $query->where('city', $request->location);
     //             });
     //         }
-    
+
     //         if ($request->filled('industry')) {
     //             $query->whereHas('addIndustry', function ($query) use ($request) {
     //                 $query->where('industry_id', $request->industry);
     //             });
     //         }
-    
+
     //         if ($request->filled('rating')) {
     //             $query->whereHas('companyReview', function ($query) use ($request) {
     //                 $query->where('overall_rating', $request->rating);
     //             });
     //         }
-    
+
     //         if ($request->filled('budget')) {
     //             $budget = Budget::where('id', $request->input('budget'))->first();
     //             $query->where('budget', $budget->budget);
     //         }
-    
+
     //         if ($request->filled('rate')) {
     //             $rate = Budget::where('id', $request->input('rate'))->first();
-    //             $query->where('budget', $rate->rate); 
+    //             $query->where('budget', $rate->rate);
     //         }
-    
+
     //         $data = SubscriptionHelper::determineModelsByRequest($request->all());
-    
+
     //         // Debug output to see the $data content
     //         dd($data);
-    
+
     //         $companies = $query->get()->sort(function ($a, $b) {
     //             $priorityA = $a->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
     //             $priorityB = $b->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
-    
+
     //             // First, compare by priority (ascending)
     //             if ($priorityA !== $priorityB) {
     //                 return $priorityA <=> $priorityB;
     //             }
-    
+
     //             // If priority is the same, compare by ttu_score (descending)
     //             return ($b->ttu_score ?? 0) <=> ($a->ttu_score ?? 0);
     //         });
-    
+
     //         return response()->json(['companies' => $companies->values()]);
     //     } catch (\Exception $err) {
     //         dd($err);
     //     }
     // }
-    
 
     public function getLocation(Request $request)
     {

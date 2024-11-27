@@ -8,7 +8,6 @@ use App\Models\Skill;
 use App\Models\Company;
 use App\Models\ModelReference;
 use Illuminate\Http\Request;
-use App\Models\SubcatChild;
 
 class ModelReferenceController extends Controller
 {
@@ -20,8 +19,7 @@ class ModelReferenceController extends Controller
         $companies = Company::all();
         $modelReferences = ModelReference::with('company')->get();
 
-
-        return view('admin.model_references.create', compact('categories', 'subcategories', 'skills', 'companies', 'modelReferences',));
+        return view('admin.model_references.create', compact('categories', 'subcategories', 'skills', 'companies', 'modelReferences', ));
     }
 
     public function store(Request $request)
@@ -36,9 +34,11 @@ class ModelReferenceController extends Controller
         $foreignKeyName = '';
         if ($modelName === 'category') {
             $foreignKeyName = Category::find($foreignKeyId)->category;
-        } elseif ($modelName === 'subcategory') {
+        }
+        elseif ($modelName === 'subcategory') {
             $foreignKeyName = Subcategory::find($foreignKeyId)->subcategory;
-        } elseif ($modelName === 'skill') {
+        }
+        elseif ($modelName === 'skill') {
             $foreignKeyName = Skill::find($foreignKeyId)->name;
         }
 
@@ -53,32 +53,31 @@ class ModelReferenceController extends Controller
     }
 
     public function getCompaniesByForeignKey(Request $request)
-{
-    $foreignKeyName = $request->input('foreign_key_name');
-    $modelReferences = ModelReference::with(['company', 'company.companyReview'])
-        ->where('foreign_key_name', $foreignKeyName)
-        ->get();
+    {
+        $foreignKeyName = $request->input('foreign_key_name');
+        $modelReferences = ModelReference::with(['company', 'company.companyReview'])
+            ->where('foreign_key_name', $foreignKeyName)
+            ->get();
 
-    $companies = $modelReferences->map(function($reference) {
-        $company = $reference->company;
+        $companies = $modelReferences->map(function ($reference) {
+            $company = $reference->company;
 
-        // Calculate the average rating
-        $reviews = $company->companyReview;
-        $averageRating = $reviews->avg('overall_rating');
-                $reviewsCount = $reviews->count();
+            // Calculate the average rating
+            $reviews = $company->companyReview;
+            $averageRating = $reviews->avg('overall_rating');
+            $reviewsCount = $reviews->count();
 
-        
-        return [
-            'name' => $company->name,
-            "logo" => $company->logo,
-            'image' => $company->image,
-            'reviews' => $averageRating ?? 0,
-            'reviewsCount' => $reviewsCount ?? 0
+            return [
+                'name' => $company->name,
+                "logo" => $company->logo,
+                'image' => $company->image,
+                'reviews' => $averageRating ?? 0,
+                'reviewsCount' => $reviewsCount ?? 0,
 
-        ];
-    });
+            ];
+        });
 
-    return response()->json($companies);
-}
+        return response()->json($companies);
+    }
 
 }

@@ -18,7 +18,7 @@
     <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <span class="badge badge-warning navbar-badge font-weight-bold" style="padding: 7px 17px!important; height: 30px;font-size:17px;">
-            Welcome @if(Auth::check()){{auth()->user()->name}} @endif 
+            Welcome @if(Auth::check()){{auth()->user()->name}} @endif
             <i class="right fas fa-angle-down" style="font-size: 15px;padding-left: 10px;"></i>
           </span>
         </a>
@@ -26,8 +26,8 @@
           <!--<span class="dropdown-item dropdown-header">Hi Arvind</span>-->
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-            
-              <img src=" @if(auth()->user()->avatar){{auth()->user()->avatar}}@else 
+
+              <img src=" @if(auth()->user()->avatar){{auth()->user()->avatar}}@else
                 {{asset('bower_components/admin-lte/dist/img/AdminLTELogo.png')}}@endif " class="img-circle elevation-2" alt="Admin">
             </div>
             <div class="info">
@@ -53,7 +53,7 @@
                 <!--<a href="{{ url('auth/linkedin/logout') }}" class="btn btn-sm btn-danger">Logout</a>-->
                 <!-- https://linkedin.com/m/logout -->
               <!--@endif
-            @endif-->   
+            @endif-->
           </span>
         </div>
       </li>

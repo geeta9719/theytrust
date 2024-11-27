@@ -17,11 +17,11 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()->role == 1 || strtolower(Auth::user()->slug) == 'admin'){
-            return $next($request);      
+        if (Auth::user()->role == 1 || strtolower(Auth::user()->slug) == 'admin') {
+            return $next($request);
         }
-        //abort(403);  
+        //abort(403);
         Auth::logout();
-        return redirect('login');      
+        return redirect('login');
     }
 }

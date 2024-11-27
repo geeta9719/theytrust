@@ -35,205 +35,202 @@ use Rennokki\Plans\Models\PlanModel;
 
 class UserController extends Controller
 {
+    //    public function dashboard(Request $request, $company)
+    // {
+    //     $user  = auth()->user();
+    //     $uid   = auth()->user()->id;
+    //     $urole = auth()->user()->role;
+    //     $cid   = Company::where('user_id', $uid)->first();
+    //     $data['currentSubscription'] = $user->currentSubscription;
 
-//    public function dashboard(Request $request, $company)
-// {
-//     $user  = auth()->user();
-//     $uid   = auth()->user()->id;
-//     $urole = auth()->user()->role;
-//     $cid   = Company::where('user_id', $uid)->first();
-//     $data['currentSubscription'] = $user->currentSubscription;
+    //     if ((isset($cid->id) && $cid->id == $company) || $urole == 1) {
+    //         $data['company'] = DB::select("SELECT companies.*,COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive, COUNT(service_lines.id) AS service_lines,addresses.autocomplete,addresses.city,addresses.country_iso2,addresses.address FROM companies LEFT JOIN company_reviews ON company_reviews.company_id = companies.id LEFT JOIN service_lines ON service_lines.company_id = companies.id LEFT JOIN addresses ON addresses.company_id = companies.id WHERE companies.id = $company");
 
-//     if ((isset($cid->id) && $cid->id == $company) || $urole == 1) {
-//         $data['company'] = DB::select("SELECT companies.*,COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive, COUNT(service_lines.id) AS service_lines,addresses.autocomplete,addresses.city,addresses.country_iso2,addresses.address FROM companies LEFT JOIN company_reviews ON company_reviews.company_id = companies.id LEFT JOIN service_lines ON service_lines.company_id = companies.id LEFT JOIN addresses ON addresses.company_id = companies.id WHERE companies.id = $company");
+    //         $data['company'] = $data['company'][0];
 
-//         $data['company'] = $data['company'][0];
+    //         // Fetch and format service lines and related data
+    //         $serviceLines = ServiceLine::with(['category'])
+    //             ->where('company_id', $company)
+    //             ->get();
 
-//         // Fetch and format service lines and related data
-//         $serviceLines = ServiceLine::with(['category'])
-//             ->where('company_id', $company)
-//             ->get();
+    //         $formattedData = [];
+    //         foreach ($serviceLines as $serviceLine) {
+    //             $subcategories = DB::table('add_foci')
+    //                 ->join('subcategories', 'add_foci.subcategory_id', '=', 'subcategories.id')
+    //                 ->where('subcategories.category_id', $serviceLine->category->id)
+    //                 ->select('subcategories.id', 'subcategories.subcategory', 'add_foci.percent as inputValue')
+    //                 ->get();
 
-//         $formattedData = [];
-//         foreach ($serviceLines as $serviceLine) {
-//             $subcategories = DB::table('add_foci')
-//                 ->join('subcategories', 'add_foci.subcategory_id', '=', 'subcategories.id')
-//                 ->where('subcategories.category_id', $serviceLine->category->id)
-//                 ->select('subcategories.id', 'subcategories.subcategory', 'add_foci.percent as inputValue')
-//                 ->get();
+    //             $formattedSubcategories = [];
+    //             foreach ($subcategories as $subcategory) {
+    //                 $skills = DB::table('company_subcat_child')
+    //                     ->join('subcat_children', 'company_subcat_child.subcat_child_id', '=', 'subcat_children.id')
+    //                     ->where('subcat_children.subcategory_id', $subcategory->id)
+    //                     ->select('subcat_children.id', 'subcat_children.name')
+    //                     ->get();
 
-//             $formattedSubcategories = [];
-//             foreach ($subcategories as $subcategory) {
-//                 $skills = DB::table('company_subcat_child')
-//                     ->join('subcat_children', 'company_subcat_child.subcat_child_id', '=', 'subcat_children.id')
-//                     ->where('subcat_children.subcategory_id', $subcategory->id)
-//                     ->select('subcat_children.id', 'subcat_children.name')
-//                     ->get();
+    //                 $formattedSkills = [];
+    //                 foreach ($skills as $skill) {
+    //                     $subskills = DB::table('companyhasskill')
+    //                         ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
+    //                         ->where('skills.subcat_child_id', $skill->id)
+    //                         ->select('skills.id', 'skills.name')
+    //                         ->get();
 
-//                 $formattedSkills = [];
-//                 foreach ($skills as $skill) {
-//                     $subskills = DB::table('companyhasskill')
-//                         ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
-//                         ->where('skills.subcat_child_id', $skill->id)
-//                         ->select('skills.id', 'skills.name')
-//                         ->get();
+    //                     $formattedSubskills = [];
+    //                     foreach ($subskills as $subskill) {
+    //                         $formattedSubskills[] = [
+    //                             'subskill_id' => $subskill->id,
+    //                             'subskill_name' => $subskill->name,
+    //                         ];
+    //                     }
 
-//                     $formattedSubskills = [];
-//                     foreach ($subskills as $subskill) {
-//                         $formattedSubskills[] = [
-//                             'subskill_id' => $subskill->id,
-//                             'subskill_name' => $subskill->name,
-//                         ];
-//                     }
+    //                     $formattedSkills[] = [
+    //                         'skill_id' => $skill->id,
+    //                         'skill_name' => $skill->name,
+    //                         'subskills_count' => count($formattedSubskills),
+    //                         'subskills' => $formattedSubskills,
+    //                     ];
+    //                 }
 
-//                     $formattedSkills[] = [
-//                         'skill_id' => $skill->id,
-//                         'skill_name' => $skill->name,
-//                         'subskills_count' => count($formattedSubskills),
-//                         'subskills' => $formattedSubskills,
-//                     ];
-//                 }
+    //                 $formattedSubcategories[] = [
+    //                     'subcategory_id' => $subcategory->id,
+    //                     'subcategory_name' => $subcategory->subcategory,
+    //                     'value' => $subcategory->inputValue,
+    //                     'skills' => $formattedSkills,
+    //                 ];
+    //             }
 
-//                 $formattedSubcategories[] = [
-//                     'subcategory_id' => $subcategory->id,
-//                     'subcategory_name' => $subcategory->subcategory,
-//                     'value' => $subcategory->inputValue,
-//                     'skills' => $formattedSkills,
-//                 ];
-//             }
+    //             $formattedData[] = [
+    //                 'category_id' => $serviceLine->category->id,
+    //                 'category_name' => $serviceLine->category->category,
+    //                 'inputValue' => $serviceLine->percent,
+    //                 'subcategories' => $formattedSubcategories,
+    //             ];
+    //         }
 
-//             $formattedData[] = [
-//                 'category_id' => $serviceLine->category->id,
-//                 'category_name' => $serviceLine->category->category,
-//                 'inputValue' => $serviceLine->percent,
-//                 'subcategories' => $formattedSubcategories,
-//             ];
-//         }
+    //         $data['serviceLines'] = $formattedData;
 
-//         $data['serviceLines'] = $formattedData;
+    //         return view('home.user.dashboard', $data);
+    //     } else {
+    //         abort(403);
+    //     }
+    // }
+    public function dashboard(Request $request, $company)
+    {
+        $user = auth()->user();
+        $uid = $user->id;
+        $urole = $user->role;
+        $cid = Company::where('user_id', $uid)->first();
+        $data['currentSubscription'] = $user->currentSubscription;
+        // dd($data);
 
-//         return view('home.user.dashboard', $data);
-//     } else {
-//         abort(403);
-//     }
-// }
-public function dashboard(Request $request, $company)
-{
-    $user  = auth()->user();
-    $uid   = $user->id;
-    $urole = $user->role;
-    $cid   = Company::where('user_id', $uid)->first();
-    $data['currentSubscription'] = $user->currentSubscription;
-    // dd($data);
-
-    if ((isset($cid->id) && $cid->id == $company) || $urole == 1) {
-        $data['company'] = DB::select("
-            SELECT companies.*, COUNT(company_reviews.id) AS review, AVG(overall_rating) AS rating, 
-            position_title, most_impressive, COUNT(service_lines.id) AS service_lines, 
-            addresses.autocomplete, addresses.city, addresses.country_iso2, addresses.address 
-            FROM companies 
-            LEFT JOIN company_reviews ON company_reviews.company_id = companies.id 
-            LEFT JOIN service_lines ON service_lines.company_id = companies.id 
-            LEFT JOIN addresses ON addresses.company_id = companies.id 
+        if ((isset($cid->id) && $cid->id == $company) || $urole == 1) {
+            $data['company'] = DB::select("
+            SELECT companies.*, COUNT(company_reviews.id) AS review, AVG(overall_rating) AS rating,
+            position_title, most_impressive, COUNT(service_lines.id) AS service_lines,
+            addresses.autocomplete, addresses.city, addresses.country_iso2, addresses.address
+            FROM companies
+            LEFT JOIN company_reviews ON company_reviews.company_id = companies.id
+            LEFT JOIN service_lines ON service_lines.company_id = companies.id
+            LEFT JOIN addresses ON addresses.company_id = companies.id
             WHERE companies.id = $company
         ");
 
-        $data['company'] = $data['company'][0];
+            $data['company'] = $data['company'][0];
 
-        // Fetch and format service lines and related data
-        $serviceLines = ServiceLine::with(['category'])
-            ->where('company_id', $company)
-            ->get();
+            // Fetch and format service lines and related data
+            $serviceLines = ServiceLine::with(['category'])
+                ->where('company_id', $company)
+                ->get();
 
-        $formattedData = [];
-        foreach ($serviceLines as $serviceLine) {
-            $subcategories = DB::table('add_foci')
-            ->join('subcategories', 'add_foci.subcategory_id', '=', 'subcategories.id')
-            // ->join('companies', 'add_foci.company_id', '=', 'companies.id')
-            ->where('subcategories.category_id', $serviceLine->category->id)
-            ->where('add_foci.company_id', $company)
-            ->select('subcategories.id', 'subcategories.subcategory', 'add_foci.percent as inputValue')
+            $formattedData = [];
+            foreach ($serviceLines as $serviceLine) {
+                $subcategories = DB::table('add_foci')
+                ->join('subcategories', 'add_foci.subcategory_id', '=', 'subcategories.id')
+                // ->join('companies', 'add_foci.company_id', '=', 'companies.id')
+                ->where('subcategories.category_id', $serviceLine->category->id)
+                ->where('add_foci.company_id', $company)
+                ->select('subcategories.id', 'subcategories.subcategory', 'add_foci.percent as inputValue')
 
-            ->get();
+                ->get();
 
+                $formattedSubcategories = [];
+                foreach ($subcategories as $subcategory) {
+                    $skills = DB::table('company_subcat_child')
+                        ->join('subcat_children', 'company_subcat_child.subcat_child_id', '=', 'subcat_children.id')
+                        ->where('subcat_children.subcategory_id', $subcategory->id)
+                        ->where('company_subcat_child.company_id', $company)
+                        ->select('subcat_children.id', 'subcat_children.name')
+                        ->get();
 
+                    $formattedSkills = [];
+                    foreach ($skills as $skill) {
+                        $subskills = DB::table('companyhasskill')
+                        ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
+                        ->where('skills.subcat_child_id', $skill->id)
+                        ->where('companyhasskill.company_id', $company)
+                        ->select('skills.id', 'skills.name')
+                        ->get();
 
-            $formattedSubcategories = [];
-            foreach ($subcategories as $subcategory) {
-                $skills = DB::table('company_subcat_child')
-                    ->join('subcat_children', 'company_subcat_child.subcat_child_id', '=', 'subcat_children.id')
-                    ->where('subcat_children.subcategory_id', $subcategory->id)
-                    ->where('company_subcat_child.company_id', $company)
-                    ->select('subcat_children.id', 'subcat_children.name')
-                    ->get();
+                        $formattedSubskills = [];
+                        foreach ($subskills as $subskill) {
+                            $formattedSubskills[] = [
+                                'subskill_id' => $subskill->id,
+                                'subskill_name' => $subskill->name,
+                            ];
+                        }
 
-                $formattedSkills = [];
-                foreach ($skills as $skill) {
-                    $subskills = DB::table('companyhasskill')
-                    ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
-                    ->where('skills.subcat_child_id', $skill->id)
-                    ->where('companyhasskill.company_id', $company)
-                    ->select('skills.id', 'skills.name')
-                    ->get();
-
-                    $formattedSubskills = [];
-                    foreach ($subskills as $subskill) {
-                        $formattedSubskills[] = [
-                            'subskill_id' => $subskill->id,
-                            'subskill_name' => $subskill->name,
+                        $formattedSkills[] = [
+                            'skill_id' => $skill->id,
+                            'skill_name' => $skill->name,
+                            'subskills_count' => count($formattedSubskills),
+                            'subskills' => $formattedSubskills,
                         ];
                     }
-
-                    $formattedSkills[] = [
-                        'skill_id' => $skill->id,
-                        'skill_name' => $skill->name,
-                        'subskills_count' => count($formattedSubskills),
-                        'subskills' => $formattedSubskills,
+                    $formattedSubcategories[] = [
+                        'subcategory_id' => $subcategory->id,
+                        'subcategory_name' => $subcategory->subcategory,
+                        'value' => $subcategory->inputValue,
+                        'skills' => $formattedSkills,
                     ];
                 }
-                $formattedSubcategories[] = [
-                    'subcategory_id' => $subcategory->id,
-                    'subcategory_name' => $subcategory->subcategory,
-                    'value' => $subcategory->inputValue,
-                    'skills' => $formattedSkills,
+
+                $formattedData[] = [
+                    'category_id' => $serviceLine->category->id,
+                    'category_name' => $serviceLine->category->category,
+                    'inputValue' => $serviceLine->percent,
+                    'subcategories' => $formattedSubcategories,
                 ];
             }
 
-            $formattedData[] = [
-                'category_id' => $serviceLine->category->id,
-                'category_name' => $serviceLine->category->category,
-                'inputValue' => $serviceLine->percent,
-                'subcategories' => $formattedSubcategories,
-            ];
+            $data['serviceLines'] = $formattedData;
+
+            // dd($data['serviceLines']);
+            $data['serviceLineCount'] = count($formattedData);
+
+            // Fetch industries
+            $industries = AddIndustry::with('industry')->where("company_id", $company)->get();
+
+            $data['industries'] = $industries;
+
+            // Fetch client sizes
+            $clientSizes = AddClientSize::with('client_size')->where("company_id", $company)->get();
+
+            $data['clientSizes'] = $clientSizes;
+
+            // Fetch addresses
+            $addresses = Address::where('company_id', $company)->get();
+            $data['addresses'] = $addresses;
+            $reviews = CompanyReview::where('company_id', $company)->with('user')->paginate(10);
+            $data['reviewCount'] = $reviews->total();
+
+            return view('home.user.dashboard', $data);
         }
-
-        $data['serviceLines'] = $formattedData;
-
-        // dd($data['serviceLines']);
-        $data['serviceLineCount'] = count($formattedData);
-
-        // Fetch industries
-        $industries = AddIndustry::with('industry')->where("company_id", $company)->get();
-       
-        $data['industries'] = $industries;
-
-        // Fetch client sizes
-        $clientSizes = AddClientSize::with('client_size')->where("company_id", $company)->get();
-     
-        $data['clientSizes'] = $clientSizes;
-
-        // Fetch addresses
-        $addresses = Address::where('company_id', $company)->get();
-        $data['addresses'] = $addresses;
-        $reviews = CompanyReview::where('company_id', $company)->with('user')->paginate(10);
-        $data['reviewCount'] = $reviews->total();
-
-        return view('home.user.dashboard', $data);
-    } else {
-        abort(403);
+        else {
+            abort(403);
+        }
     }
-}
-
 
     public function personal()
     {
@@ -262,18 +259,18 @@ public function dashboard(Request $request, $company)
 
         if ($request->hasFile('avatar')) {
             $request->validate(['avatar' => 'required|image|mimes:jpg,png,jpeg,gif,svg']);
-            $path         = $request->file('avatar')->store('images/profile_pic');
+            $path = $request->file('avatar')->store('images/profile_pic');
             $user->avatar = $path;
         }
 
-        $user->name       = $request->first_name . " " . $request->last_name;
+        $user->name = $request->first_name . " " . $request->last_name;
         $user->first_name = $request->first_name;
-        $user->last_name  = $request->last_name;
-        $user->company    = $request->company;
-        $user->email      = $request->email;
-        $user->twitter    = $request->twitter;
-        $user->linkedin   = $request->linkedin;
-        $user->bio        = $request->bio;
+        $user->last_name = $request->last_name;
+        $user->company = $request->company;
+        $user->email = $request->email;
+        $user->twitter = $request->twitter;
+        $user->linkedin = $request->linkedin;
+        $user->bio = $request->bio;
 
         $user->save();
 
@@ -284,24 +281,24 @@ public function dashboard(Request $request, $company)
 
     public function allInfo(Request $request)
     {
-        $uid     = auth()->user()->id;
-        
+        $uid = auth()->user()->id;
+
         $company = Company::where('user_id', $uid)->first();
 
         return view('home.user.allinfo', [
-            'uid'        => $uid,
-            'company_id' => isset($company->id) ? $company->id : null
+            'uid' => $uid,
+            'company_id' => isset($company->id) ? $company->id : null,
         ]);
     }
 
     public function basicInfo(Request $request, $user)
     {
-        $uid    = auth()->user()->id;
-        $urole  = auth()->user()->role;
-        $address ='';
+        $uid = auth()->user()->id;
+        $urole = auth()->user()->role;
+        $address = '';
         $address_exists = "";
 
-        $cid    = Company::where('user_id', $uid)->first();
+        $cid = Company::where('user_id', $uid)->first();
 
         if ($uid == $user || $urole == 1) {
             $company = Company::where('user_id', $request->user)->first();
@@ -312,11 +309,11 @@ public function dashboard(Request $request, $company)
                 $address_exists = $address ? true : false; // set address_exists based on the address existence
             }
 
-            $country    = Country::all();
-            $state      = State::all();
-            $city       = City::all();
+            $country = Country::all();
+            $state = State::all();
+            $city = City::all();
 
-            $bud        = Budget::all();
+            $bud = Budget::all();
 
             foreach ($bud as $value) {
                 $b = explode('-', $value->budget);
@@ -340,22 +337,21 @@ public function dashboard(Request $request, $company)
                 $b = explode('-', $value->rate);
                 $rate[$b[0]] = $value;
             }
-            
-           
 
             return view('home.user.basicInfo', [
-                'budget'    => $budget,
-                'size'      => $size,
-                'rate'      => $rate,
-                'country'   => $country,
-                'company'   => $company,
-                'address'   => $address,
-                'city'      => $city,
-                'state'     => $state,
-                'address' =>   $address,
-                'address_exists'=> $address_exists
+                'budget' => $budget,
+                'size' => $size,
+                'rate' => $rate,
+                'country' => $country,
+                'company' => $company,
+                'address' => $address,
+                'city' => $city,
+                'state' => $state,
+                'address' => $address,
+                'address_exists' => $address_exists,
             ]);
-        } else {
+        }
+        else {
             abort(403);
         }
     }
@@ -364,14 +360,14 @@ public function dashboard(Request $request, $company)
     {
         $company = Company::where('user_id', $request->user_id)->first();
         if ($company) {
-            $company->profile_type      = $request->profile_type;
-            $company->name              = $request->name;
-            $company->website           = $request->website;
-            $company->size              = $request->size;
-            $company->budget            = $request->budget;
-            $company->rate              = $request->rate;
-            $company->founded_at        = $request->founded_at;
-            $company->tagline           = $request->tagline;
+            $company->profile_type = $request->profile_type;
+            $company->name = $request->name;
+            $company->website = $request->website;
+            $company->size = $request->size;
+            $company->budget = $request->budget;
+            $company->rate = $request->rate;
+            $company->founded_at = $request->founded_at;
+            $company->tagline = $request->tagline;
             $company->short_description = $request->short_description;
 
             if ($request->hasFile('logo')) {
@@ -380,21 +376,22 @@ public function dashboard(Request $request, $company)
             }
 
             $company->save();
-        } else {
+        }
+        else {
 
-            $inputs['profile_type']     = $request->profile_type;
-            $inputs['name']             = $request->name;
-            $inputs['website']          = $request->website;
-            $inputs['size']             = $request->size;
-            $inputs['budget']           = $request->budget;
-            $inputs['rate']             = $request->rate;
-            $inputs['founded_at']       = $request->founded_at;
-            $inputs['tagline']          = $request->tagline;
+            $inputs['profile_type'] = $request->profile_type;
+            $inputs['name'] = $request->name;
+            $inputs['website'] = $request->website;
+            $inputs['size'] = $request->size;
+            $inputs['budget'] = $request->budget;
+            $inputs['rate'] = $request->rate;
+            $inputs['founded_at'] = $request->founded_at;
+            $inputs['tagline'] = $request->tagline;
             $inputs['short_description'] = $request->short_description;
-            $inputs['user_id']          = $request->user_id;
+            $inputs['user_id'] = $request->user_id;
 
             if ($request->hasFile('logo')) {
-                $path           = $request->file('logo')->store('images/logo');
+                $path = $request->file('logo')->store('images/logo');
                 $inputs['logo'] = $path;
             }
 
@@ -405,10 +402,11 @@ public function dashboard(Request $request, $company)
         if ($request->has('save_and_back')) {
             return redirect()->route('company.dashboard', $company->id); // Redirect to the company dashboard
 
-        } else {
+        }
+        else {
             return redirect()->route('company.location', $company->id);
         }
-    
+
     }
 
     public function location(Request $request, $company)
@@ -416,53 +414,53 @@ public function dashboard(Request $request, $company)
         $data['company'] = Company::where('id', $company)->first();
         $data['address'] = Address::where('company_id', $company)->get();
         $data['country'] = Country::pluck('name', 'iso2')->all();
-        $data['state']   = State::all();
+        $data['state'] = State::all();
 
         return view('home.user.location', $data);
     }
 
     public function saveLocation(Request $request)
     {
-        $company            = Company::find($request->company_id);
-        $company->email     = $request->email['0'];
-        $company->mobile    = $request->mobile['0'];
+        $company = Company::find($request->company_id);
+        $company->email = $request->email['0'];
+        $company->mobile = $request->mobile['0'];
         $company->save();
 
         foreach ($request->id as $k => $val) {
             if ($val == '0') {
-                $inputs['company_id']   = $request->company_id;
-                $inputs['user_id']      = $request->user_id;
-                $inputs['address']      = $request->address[$k];
-                $inputs['city']         = $request->city[$k];
-                $inputs['state_iso2']   = $request->state_iso2[$k];
+                $inputs['company_id'] = $request->company_id;
+                $inputs['user_id'] = $request->user_id;
+                $inputs['address'] = $request->address[$k];
+                $inputs['city'] = $request->city[$k];
+                $inputs['state_iso2'] = $request->state_iso2[$k];
                 $inputs['country_iso2'] = $request->country_iso2[$k];
-                $inputs['zip']          = $request->zip[$k];
-                $inputs['type']         = $request->type[$k];
-                $inputs['mobile']       = $request->mobile[$k];
-                $inputs['email']        = $request->email[$k];
+                $inputs['zip'] = $request->zip[$k];
+                $inputs['type'] = $request->type[$k];
+                $inputs['mobile'] = $request->mobile[$k];
+                $inputs['email'] = $request->email[$k];
                 $inputs['autocomplete'] = $request->autocomplete_1[$k];
 
                 Address::create($inputs);
-            } else {
+            }
+            else {
                 $address = Address::find($val);
 
                 if ($address) {
-                    $address->address       = $request->address[$k];
-                    $address->city          = $request->city[$k];
-                    $address->state_iso2    = $request->state_iso2[$k];
+                    $address->address = $request->address[$k];
+                    $address->city = $request->city[$k];
+                    $address->state_iso2 = $request->state_iso2[$k];
 
-                    $address->country_iso2  = $request->country_iso2[$k];
-                    $address->zip           = $request->zip[$k];
-                    $address->type          = $request->type[$k];
-                    $address->email         = $request->email[$k];
-                    $address->mobile        = $request->mobile[$k];
-                    $address->autocomplete  = $request->autocomplete_1[$k];
+                    $address->country_iso2 = $request->country_iso2[$k];
+                    $address->zip = $request->zip[$k];
+                    $address->type = $request->type[$k];
+                    $address->email = $request->email[$k];
+                    $address->mobile = $request->mobile[$k];
+                    $address->autocomplete = $request->autocomplete_1[$k];
 
                     $address->save();
                 }
             }
         }
-
 
         // dd($request->has('save_and_back'));
         // if ($request->has('save_and_back')) {
@@ -477,48 +475,46 @@ public function dashboard(Request $request, $company)
         if ($request->input('save_and_back') == 1) {
             // dd("Sdfsdf");
             // Redirect to company dashboard
-            
-            return redirect()->route('company.dashboard', $company->id); 
-        } else {
+
+            return redirect()->route('company.dashboard', $company->id);
+        }
+        else {
             // Redirect to the next page
             return redirect()->route('company.focus', $company->id);
         }
-    
+
     }
 
     // public function focus( Request $request, $company )
     // {
 
-
     //     $comp           = Company::where('id', $company)->first();
     //     $category       = Category::all();
     //     $serviceLine    = ServiceLine::where('company_id', $company)->get();
 
-    //     foreach( $serviceLine as $value ) 
+    //     foreach( $serviceLine as $value )
     //     {
     //         if( $value->percent > 10 )
     //         {
     //             $subcat[] = $value->subcategory_id;
     //         }
-    //     } 
+    //     }
 
     //     $subcat_children = SubcatChild::all();
     //     $subcat_child    = array();
 
-    //     foreach ( $subcat_children as $value ) 
+    //     foreach ( $subcat_children as $value )
     //     {
     //         $subcat_child[$value->subcategory_id][] = $value;
-    //     } 
-
+    //     }
 
     //     $addFocus = AddFocus::where( 'company_id', $company )->get();
     //     $add_focus = array();
 
-    //     foreach ($addFocus as $value) 
+    //     foreach ($addFocus as $value)
     //     {
     //         $add_focus[$value->subcategory_id][] = $value;
-    //     }  
-
+    //     }
 
     //     $industry           = Industry::all();
     //     $addIndustry        = AddIndustry::where( 'company_id', $company )->get();
@@ -544,19 +540,16 @@ public function dashboard(Request $request, $company)
     //                                     ] );
     // }
 
-
     public function focus(Request $request, $company)
     {
 
-
-        $comp           = Company::where('id', $company)->first();
+        $comp = Company::where('id', $company)->first();
         $category = Category::with('subcategory')->get();
         // $serviceLines = ServiceLine::with(['category.subcategory.add_focus' => function ($query) use ($company) {
         //                     $query->where('company_id', $company);
         //                 }])
         //               ->where('company_id', $company)
         //               ->get();
-
 
         return view('home.focus', [
             'categories' => $category,
@@ -565,16 +558,13 @@ public function dashboard(Request $request, $company)
         ]);
     }
 
-
     public function test(Request $request, $company)
     {
 
+        $comp = Company::where('id', $company)->first();
+        $category = Category::all();
 
-        $comp           = Company::where('id', $company)->first();
-        $category       = Category::all();
-
-        $serviceLine    = ServiceLine::where('company_id', $company)->get();
-
+        $serviceLine = ServiceLine::where('company_id', $company)->get();
 
         foreach ($serviceLine as $value) {
             if ($value->percent > 10) {
@@ -583,43 +573,39 @@ public function dashboard(Request $request, $company)
         }
 
         $subcat_children = SubcatChild::all();
-        $subcat_child    = array();
+        $subcat_child = [];
         // dd( $subcat_children);
 
         foreach ($subcat_children as $value) {
             $subcat_child[$value->subcategory_id][] = $value;
         }
 
-
         $addFocus = AddFocus::where('company_id', $company)->get();
-        $add_focus = array();
+        $add_focus = [];
 
         foreach ($addFocus as $value) {
             $add_focus[$value->subcategory_id][] = $value;
         }
 
+        $industry = Industry::all();
+        $addIndustry = AddIndustry::where('company_id', $company)->get();
 
-        $industry           = Industry::all();
-        $addIndustry        = AddIndustry::where('company_id', $company)->get();
+        $clientSize = ClientSize::all();
+        $addClientSize = AddClientSize::where('company_id', $company)->get();
 
-        $clientSize         = ClientSize::all();
-        $addClientSize      = AddClientSize::where('company_id', $company)->get();
-
-        $specialization     = Specialization::all();
-        $addSpecialization  = AddSpecialization::where('company_id', $company)->get();
-
+        $specialization = Specialization::all();
+        $addSpecialization = AddSpecialization::where('company_id', $company)->get();
 
         return view('home.test', [
-            'categories'          => $category,
+            'categories' => $category,
 
         ]);
     }
 
-
     public function skill(Request $request)
     {
         $selectedCategories = $request->input('id');
-        $subcategories =  SubcatChild::with('subcategory')
+        $subcategories = SubcatChild::with('subcategory')
             ->where('subcategory_id', $selectedCategories)
             ->with('skill')
             ->get();
@@ -629,12 +615,10 @@ public function dashboard(Request $request, $company)
     public function subskill(Request $request)
     {
         $selectedCategories = $request->input('id');
-        $subcategories =  Skill::where('subcat_child_id', $selectedCategories)
+        $subcategories = Skill::where('subcat_child_id', $selectedCategories)
             ->get();
         return response()->json($subcategories);
     }
-
-
 
     public function subcategories(Request $request)
     {
@@ -650,37 +634,37 @@ public function dashboard(Request $request, $company)
         return response()->json($subcategories);
     }
 
-
-
-
     public function saveFocus(Request $request)
     {
 
         if (!empty($request->service)) {
-            $inputs = array();
+            $inputs = [];
 
             foreach ($request->service as $key => $val) {
                 foreach ($val as $k => $v) {
-                    $id     = $v[0];
-                    $find   = ServiceLine::find($id);
+                    $id = $v[0];
+                    $find = ServiceLine::find($id);
 
                     if ($find) {
                         if (isset($v[2]) && $v[2] != 0) {
                             if (isset($v[1]) && $v[2] != 0) {
                                 $find->percent = $v[2];
                                 $find->save();
-                            } else {
+                            }
+                            else {
                                 $find->delete();
                             }
-                        } else {
+                        }
+                        else {
                             $find->delete();
                         }
-                    } else {
+                    }
+                    else {
                         if (!empty($v[1]) && $v[1] != 0) {
-                            $inputs['company_id']       = $request->company_id;
-                            $inputs['category_id']      = $key;
-                            $inputs['subcategory_id']   = $k;
-                            $inputs['percent']          = $v[1];
+                            $inputs['company_id'] = $request->company_id;
+                            $inputs['category_id'] = $key;
+                            $inputs['subcategory_id'] = $k;
+                            $inputs['percent'] = $v[1];
                             ServiceLine::create($inputs);
                         }
                     }
@@ -689,29 +673,32 @@ public function dashboard(Request $request, $company)
         }
 
         if (!empty($request->focus)) {
-            $inputs = array();
+            $inputs = [];
 
             foreach ($request->focus as $key => $val) {
                 foreach ($val as $k => $v) {
-                    $id     = $v[0];
-                    $find   = AddFocus::find($id);
+                    $id = $v[0];
+                    $find = AddFocus::find($id);
                     if ($find) {
                         if (isset($v[2]) && $v[2] != 0) {
                             if (isset($v[1]) && !empty($v[1])) {
                                 $find->percent = $v[2];
                                 $find->save();
-                            } else {
+                            }
+                            else {
                                 $find->delete();
                             }
-                        } else {
+                        }
+                        else {
                             $find->delete();
                         }
-                    } else {
+                    }
+                    else {
                         if (!empty($v[1]) && $v[1] != 0) {
-                            $inputs['company_id']       = $request->company_id;
-                            $inputs['subcategory_id']   = $key;
-                            $inputs['subcat_child_id']  = $k;
-                            $inputs['percent']          = $v[1];
+                            $inputs['company_id'] = $request->company_id;
+                            $inputs['subcategory_id'] = $key;
+                            $inputs['subcat_child_id'] = $k;
+                            $inputs['percent'] = $v[1];
                             AddFocus::create($inputs);
                         }
                     }
@@ -720,28 +707,31 @@ public function dashboard(Request $request, $company)
         }
 
         if (!empty($request->industry)) {
-            $inputs = array();
+            $inputs = [];
 
             foreach ($request->industry as $key => $val) {
-                $id     = $val[0];
-                $find   = AddIndustry::find($id);
+                $id = $val[0];
+                $find = AddIndustry::find($id);
 
                 if ($find) {
                     if (isset($val[2]) && $val[2] != 0) {
                         if (isset($val[1]) && $val[1] != 0) {
                             $find->percent = $val[2];
                             $find->save();
-                        } else {
+                        }
+                        else {
                             $find->delete();
                         }
-                    } else {
+                    }
+                    else {
                         $find->delete();
                     }
-                } else {
+                }
+                else {
                     if (isset($val[1]) && $val[1] != 0) {
-                        $inputs['company_id']   = $request->company_id;
-                        $inputs['industry_id']  = $key;
-                        $inputs['percent']      = $val[1];
+                        $inputs['company_id'] = $request->company_id;
+                        $inputs['industry_id'] = $key;
+                        $inputs['percent'] = $val[1];
 
                         AddIndustry::create($inputs);
                     }
@@ -750,28 +740,31 @@ public function dashboard(Request $request, $company)
         }
 
         if (!empty($request->clientSize)) {
-            $inputs = array();
+            $inputs = [];
             foreach ($request->clientSize as $key => $val) {
 
-                $id     = $val[0];
-                $find   = AddClientSize::find($id);
+                $id = $val[0];
+                $find = AddClientSize::find($id);
 
                 if ($find) {
                     if (isset($val[2]) && $val[2] != 0) {
                         if (isset($val[1]) && $val[1] != 0) {
                             $find->percent = $val[2];
                             $find->save();
-                        } else {
+                        }
+                        else {
                             $find->delete();
                         }
-                    } else {
+                    }
+                    else {
                         $find->delete();
                     }
-                } else {
+                }
+                else {
                     if (isset($val[1]) && $val[1] != 0) {
-                        $inputs['company_id']       = $request->company_id;
-                        $inputs['client_size_id']   = $key;
-                        $inputs['percent']          = $val[1];
+                        $inputs['company_id'] = $request->company_id;
+                        $inputs['client_size_id'] = $key;
+                        $inputs['percent'] = $val[1];
 
                         AddClientSize::create($inputs);
                     }
@@ -780,28 +773,31 @@ public function dashboard(Request $request, $company)
         }
 
         if (!empty($request->specialization)) {
-            $inputs = array();
+            $inputs = [];
 
             foreach ($request->specialization as $key => $val) {
-                $id     = $val[0];
-                $find   = AddSpecialization::find($id);
+                $id = $val[0];
+                $find = AddSpecialization::find($id);
 
                 if ($find) {
                     if (isset($val[2]) && $val[2] != 0) {
                         if (isset($val[1]) && $v[1] != 0) {
                             $find->percent = $val[2];
                             $find->save();
-                        } else {
+                        }
+                        else {
                             $find->delete();
                         }
-                    } else {
+                    }
+                    else {
                         $find->delete();
                     }
-                } else {
+                }
+                else {
                     if (isset($val[1]) && $val[1] != 0) {
-                        $inputs['company_id']        = $request->company_id;
+                        $inputs['company_id'] = $request->company_id;
                         $inputs['specialization_id'] = $key;
-                        $inputs['percent']           = $val[1];
+                        $inputs['percent'] = $val[1];
 
                         AddSpecialization::create($inputs);
                     }
@@ -814,8 +810,8 @@ public function dashboard(Request $request, $company)
 
     public function adminInfo(Request $request, $company)
     {
-        $comp       = Company::where('id', $company)->first();
-        $adminInfo  = AdminInfo::where('company_id', $company)->first();
+        $comp = Company::where('id', $company)->first();
+        $adminInfo = AdminInfo::where('company_id', $company)->first();
 
         return view('home.user.marketing', ['company' => $comp, 'adminInfo' => $adminInfo]);
     }
@@ -823,35 +819,36 @@ public function dashboard(Request $request, $company)
     public function saveAdminInfo(Request $request)
     {
 
-        $id     = $request->id;
-        $find   = AdminInfo::where('id', $id)->where('company_id', $request->company_id)->first();
-        $user= Auth::user();
+        $id = $request->id;
+        $find = AdminInfo::where('id', $id)->where('company_id', $request->company_id)->first();
+        $user = Auth::user();
 
         if ($find) {
-            $find->company_id   = $request->company_id;
-            $find->email        = $request->email;
-            $find->mobile       = $request->mobile;
-            $find->linkedin     = $request->linkedin;
-            $find->facebook     = $request->facebook;
-            $find->twitter      = $request->twitter;
-            $find->analytics    = $request->analytics;
+            $find->company_id = $request->company_id;
+            $find->email = $request->email;
+            $find->mobile = $request->mobile;
+            $find->linkedin = $request->linkedin;
+            $find->facebook = $request->facebook;
+            $find->twitter = $request->twitter;
+            $find->analytics = $request->analytics;
 
             $find->save();
-        } else {
-            $inputs['company_id']   = $request->company_id;
-            $inputs['email']        = $request->email;
-            $inputs['mobile']       = $request->mobile;
-            $inputs['linkedin']     = $request->linkedin;
-            $inputs['facebook']     = $request->facebook;
-            $inputs['twitter']      = $request->twitter;
-            $inputs['analytics']    = $request->analytics;
+        }
+        else {
+            $inputs['company_id'] = $request->company_id;
+            $inputs['email'] = $request->email;
+            $inputs['mobile'] = $request->mobile;
+            $inputs['linkedin'] = $request->linkedin;
+            $inputs['facebook'] = $request->facebook;
+            $inputs['twitter'] = $request->twitter;
+            $inputs['analytics'] = $request->analytics;
             AdminInfo::create($inputs);
         }
         $plan = PlanModel::find(7);
 
         // $subscription = $user->subscribeTo($plan,$plan->duration,false);
         session()->flash('msg', 'Saved Successfully');
-        return redirect()->route('company.dashboard', $request->company_id); 
+        return redirect()->route('company.dashboard', $request->company_id);
 
         // if ($request->has('save_and_back')) {
         //     return redirect()->route('company.dashboard', $request->company_id); // Redirect to the company dashboard
@@ -862,15 +859,12 @@ public function dashboard(Request $request, $company)
         // }
     }
 
-
-
     public function validationStep(Request $request)
     {
 
-
-        $data       = array();
-        $validExt   =
-            array('jpg', 'jpeg', 'png', 'gif', 'jfif');
+        $data = [];
+        $validExt =
+            ['jpg', 'jpeg', 'png', 'gif', 'jfif'];
         //  dd($request->all());
 
         if ($request->form == 'personal') {
@@ -883,10 +877,12 @@ public function dashboard(Request $request, $company)
                     if (!in_array($ext, $validExt)) {
                         $data['avatar'] = 'Change error This is not image file to Please upload either a jpg or png file';
                     }
-                } else {
+                }
+                else {
                     $data['avatar'] = 'Not a Valid File Type';
                 }
-            } else {
+            }
+            else {
                 if ($request->oldAvatar == '') {
                     $data['avatar'] = 'Please select an image';
                 }
@@ -894,30 +890,35 @@ public function dashboard(Request $request, $company)
 
             if ($request->first_name == '') {
                 $data['first_name'] = 'First Name should not be empty';
-            } elseif (strlen($request->first_name) < 2) {
+            }
+            elseif (strlen($request->first_name) < 2) {
                 $data['first_name'] = 'Minimum length should be two charecters';
-            } elseif (is_numeric($request->first_name[0])) {
+            }
+            elseif (is_numeric($request->first_name[0])) {
                 $data['first_name'] = ' First Name should not be start with numeric.';
             }
 
             if (!empty($request->last_name)) {
                 if (strlen($request->last_name) < 1) {
                     $data['last_name'] = 'Minimum length should be two charecters';
-                } elseif (is_numeric($request->last_name[0])) {
+                }
+                elseif (is_numeric($request->last_name[0])) {
                     $data['last_name'] = 'Last Name should not be start with numeric.';
                 }
             }
             if (!empty($request->company)) {
                 if (strlen($request->company) < 1) {
                     $data['company'] = 'Minimum length should be two charecters';
-                } elseif (is_numeric($request->company[0])) {
+                }
+                elseif (is_numeric($request->company[0])) {
                     $data['company'] = 'Company Name should not be start with numeric.';
                 }
             }
 
             if ($request->email == '') {
                 $data['email'] = 'Email should not be empty';
-            } elseif (filter_var($request->email, FILTER_VALIDATE_EMAIL) === false) {
+            }
+            elseif (filter_var($request->email, FILTER_VALIDATE_EMAIL) === false) {
                 $data['email'] = 'Email not valid';
             }
 
@@ -933,7 +934,6 @@ public function dashboard(Request $request, $company)
                 }
             }
         }
-
 
         if ($request->form == 'form1') {
             if ($_FILES['logo']['name'] != '') {
@@ -953,10 +953,12 @@ public function dashboard(Request $request, $company)
                     if ($fileSize > $maxSize) {
                         $data['logo'] = 'The file size should not exceed 200MB.';
                     }
-                } else {
+                }
+                else {
                     $data['logo'] = 'This is not an image file. Please upload either a jpg or png file.';
                 }
-            } else {
+            }
+            else {
                 if ($request->oldLogo == '') {
                     $data['logo'] = 'Please select a file.';
                 }
@@ -964,15 +966,18 @@ public function dashboard(Request $request, $company)
 
             if ($request->name == '') {
                 $data['name'] = 'Company Name should not be empty.';
-            } elseif (strlen($request->name) < 2) {
+            }
+            elseif (strlen($request->name) < 2) {
                 $data['name'] = 'Minimum length should be two characters.';
-            } elseif (is_numeric($request->name[0])) {
+            }
+            elseif (is_numeric($request->name[0])) {
                 $data['name'] = 'Company Name should not start with a numeric character.';
             }
 
             if ($request->website == '') {
                 $data['website'] = 'Website should not be empty.';
-            } elseif (filter_var($request->website, FILTER_VALIDATE_URL) === false) {
+            }
+            elseif (filter_var($request->website, FILTER_VALIDATE_URL) === false) {
                 $data['website'] = 'URL must start with https:// or http://.';
             }
 
@@ -982,7 +987,8 @@ public function dashboard(Request $request, $company)
 
             if ($request->tagline == '') {
                 $data['tagline'] = 'Company Title should not be empty.';
-            } elseif (strlen($request->tagline) > 70) {
+            }
+            elseif (strlen($request->tagline) > 70) {
                 $data['tagline'] = 'Company Title should not exceed 70 characters.';
             }
 
@@ -991,20 +997,21 @@ public function dashboard(Request $request, $company)
             }
         }
 
-
         if ($request->form == 'form2') {
 
             foreach ($request->address as $k => $v) {
-                $addref  = $request->addref[$k];
+                $addref = $request->addref[$k];
 
                 if ($request->email[$k] == '') {
                     $data['email' . $addref] = 'Email should not be empty';
-                } elseif (filter_var($request->email[$k], FILTER_VALIDATE_EMAIL) === false) {
+                }
+                elseif (filter_var($request->email[$k], FILTER_VALIDATE_EMAIL) === false) {
                     $data['email' . $addref] = 'Email not valid';
                 }
                 if ($request->mobile[$k] == '') {
                     $data['mobile' . $addref] = 'Mobile should not be empty';
-                } elseif (strlen($request->mobile[$k]) < 10) {
+                }
+                elseif (strlen($request->mobile[$k]) < 10) {
                     $data['mobile' . $addref] = 'Mobile no. not valid';
                 }
 
@@ -1033,14 +1040,14 @@ public function dashboard(Request $request, $company)
         if ($request->form == 'form4') {
             if ($request->email == '') {
                 $data['email'] = 'Email should not be empty';
-            } elseif (filter_var($request->email, FILTER_VALIDATE_EMAIL) === false) {
+            }
+            elseif (filter_var($request->email, FILTER_VALIDATE_EMAIL) === false) {
                 $data['email'] = 'Email not valid';
             }
         }
 
         return response()->json($data);
     }
-
 
     public function getSubcatChild(Request $request)
     {
@@ -1049,7 +1056,7 @@ public function dashboard(Request $request, $company)
 
         $add_focus = SubcatChild::where("subcategory_id", $request->subcategory_id)->get(["id", "subcategory_id", "name"]);
 
-        #echo '<pre>'; die( print_r( $add_focus ) ); 
+        #echo '<pre>'; die( print_r( $add_focus ) );
 
         $html = "";
 
@@ -1078,8 +1085,9 @@ public function dashboard(Request $request, $company)
             }
 
             $html .= '</div>';
-        } else {
-            $html  = '<script>alert("No children found for this category.")</script>';
+        }
+        else {
+            $html = '<script>alert("No children found for this category.")</script>';
         }
 
         echo $html;
@@ -1109,7 +1117,8 @@ public function dashboard(Request $request, $company)
         if (Address::find($location_id)->delete()) {
             session()->flash('msg', 'Yay.. Deleted successfully.');
             return redirect()->back();
-        } else {
+        }
+        else {
             session()->flash('msg', 'Something went wrong. Address could not be deleted.');
             return redirect()->back();
         }

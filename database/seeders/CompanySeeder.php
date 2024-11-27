@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -6,16 +7,7 @@ use Faker\Factory as Faker;
 use DB;
 use App\Models\User;
 use App\Models\Plan;
-use Illuminate\Http\Request;
 use Rennokki\Plans\Models\PlanModel;
-use Stripe\Checkout\Session;
-use Illuminate\Support\Facades\Auth;
-use Stripe\Stripe;
-use Stripe\Event;
-use Illuminate\Support\Facades\Log;
-use App\Models\Transaction;
-use Rennokki\Plans\Traits\HasPlans;
-use Rennokki\Plans\Events\NewSubscription;
 
 class CompanySeeder extends Seeder
 {
@@ -77,7 +69,7 @@ class CompanySeeder extends Seeder
             // Step 3: Subscribe the user to a random plan
             $plan = PlanModel::inRandomOrder()->first();
             // if ($plan) {
-                $subscription = $user->subscribeTo($plan, $plan->duration, false);
+            $subscription = $user->subscribeTo($plan, $plan->duration, false);
             // }
         }
     }

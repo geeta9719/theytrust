@@ -12,7 +12,7 @@
                         <div class="alert alert-danger">{{Session::get('message')}}</div>
                         @elseif(session('msg'))
                         <div class="alert alert-success">{{session('msg')}}</div>
-                    @endif   
+                    @endif
                     </div>
                     <div class="card">
                         <div class="card-header">
@@ -21,7 +21,7 @@
                                 <!--<a class="btn btn-sm btn-warning" href="{{ route('export') }}">Export BNI Member Data</a>-->
                                 <a href="{{route('admin.member.create')}}" class="btn btn-sm btn-primary"> Upload New List</a>
                             </span>
-                        </div>                           
+                        </div>
 
                         <div class="card-body table-responsive p-0">
                             <table id="example2" class="table table-bordered table-hover">
@@ -62,7 +62,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger mt-2">Delete</button>
-                                            </form>    
+                                            </form>
                                         </td>-->
                                     </tr>
                                     @endforeach

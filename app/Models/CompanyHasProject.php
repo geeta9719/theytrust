@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompanyHasProject extends Model
 {
-
-
-  public  $table= 'campany_has_project';
+    public $table = 'campany_has_project';
     protected $fillable = [
         'company_id',
         'title',
@@ -17,6 +15,6 @@ class CompanyHasProject extends Model
         'project_size',
         'description',
         'uploaded_image',
-        'youtube_video'
+        'youtube_video',
     ];
 }

@@ -9,7 +9,6 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-
 use Socialite;
 use Auth;
 use Exception;
@@ -81,31 +80,32 @@ class RegisterController extends Controller
         return Socialite::driver('linkedin')->redirect();
     }
 
-
     public function handleLinkedinCallback()
     {
         try {
             $user = Socialite::driver('linkedin')->user();
             $finduser = User::where('linkedin_id', $user->id)->first();
-    
-            if($finduser){
+
+            if ($finduser) {
                 Auth::login($finduser);
                 return redirect('/admin');
-            }else{
+            }
+            else {
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
-                    'linkedin_id'=> $user->id,
+                    'linkedin_id' => $user->id,
                     //'first_name' => $user->first_name,
                     //'last_name' => $user->last_name,
                     //'avatar' => $user->avatar,
                 ]);
-     
+
                 Auth::login($newUser);
                 return redirect('/admin');
             }
-     
-        } catch (Exception $e) {
+
+        }
+        catch (Exception $e) {
             dd($e->getMessage());
         }
     }

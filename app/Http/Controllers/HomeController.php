@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Rennokki\Plans\Traits\HasPlans;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Mail\SendMail;
@@ -24,14 +24,13 @@ use App\Models\City;
 use App\Models\Contact;
 use App\Models\Newsletters;
 use App\Models\ReviewerEmailLog;
-use Rennokki\Plans\Models\PlanModel;
 use App\Models\ModelReference;
 use App\Models\Skill;
 use App\Models\ServiceProvider;
 use App\Helpers\SubscriptionHelper;
 
-
-
+use Faker\Factory as Faker;
+use App\Helpers\CompanyPointHelper;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -55,10 +54,10 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::with('subcategory')->get();
-        $reviews = CompanyReview::with("user",'company')->latest()->take(3)->get();
+        $reviews = CompanyReview::with("user", 'company')->latest()->take(3)->get();
         $subcategories = Subcategory::with(['subcat_child', 'category'])->get();
         $skills = Skill::all();
-        
+
         $modelReferences = ModelReference::groupBy('foreign_key_name')
             ->select('foreign_key_name')
             ->withCount('company')
@@ -67,143 +66,125 @@ class HomeController extends Controller
         return view('home.index', compact('categories', 'reviews', 'subcategories', 'skills', 'modelReferences'));
     }
 
-   
-
     public function about()
     {
 
-        return view( 'home.about' );
+        return view('home.about');
     }
 
     public function privacy()
     {
-        return view( 'home.privacy' );
+        return view('home.privacy');
     }
 
     public function terms()
     {
-        return view( 'home.terms' );
+        return view('home.terms');
     }
 
     public function faq()
     {
-        return view( 'home.faq' );
+        return view('home.faq');
     }
 
-    public function showLocationsFromService( Request $request )
+    public function showLocationsFromService(Request $request)
     {
 
-        $data['country']    = DB::table('countries')->pluck('name','iso2')->all();
-        $subcategory_id     = $request->subcategory_id;
-        $locations          = DB::table('addresses')
+        $data['country'] = DB::table('countries')->pluck('name', 'iso2')->all();
+        $subcategory_id = $request->subcategory_id;
+        $locations = DB::table('addresses')
             ->join('companies', 'companies.id', '=', 'addresses.company_id')
             ->join('service_lines', 'service_lines.company_id', '=', 'addresses.company_id')
-            ->select('addresses.id as address_id','addresses.state_iso2','addresses.country_iso2','addresses.city','addresses.address', 'companies.name')
+            ->select('addresses.id as address_id', 'addresses.state_iso2', 'addresses.country_iso2', 'addresses.city', 'addresses.address', 'companies.name')
             ->where('service_lines.subcategory_id', $subcategory_id)
-            ->where('addresses.address','!=', '')
+            ->where('addresses.address', '!=', '')
             ->groupBy('addresses.address')
             ->get();
 
-
         $html = '<option value="">Select Location</option>';
 
-        foreach( $locations as $loc )
-        {
+        foreach ($locations as $loc) {
             $html .= "<option value='".$loc->city."' data-name='".strtolower($loc->city)."'>".$loc->city.", ".$data['country'][$loc->country_iso2]."</option>";
         }
 
-        die( $html );
+        die($html);
     }
 
-    public function getCompany( Request $request )
+    public function getCompany(Request $request)
     {
 
         /*************************************/
 
-        $data['subcategories']  =   $subcategories = DB::table('subcategories')->pluck('subcategory','id')->all();
-        $rate_reviews           =   DB::select("SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating,
+        $data['subcategories'] = $subcategories = DB::table('subcategories')->pluck('subcategory', 'id')->all();
+        $rate_reviews = DB::select("SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating,
                                     position_title, most_impressive FROM company_reviews GROUP BY company_reviews.company_id");
-        $rate_review            = array();
+        $rate_review = [];
 
-        foreach( $rate_reviews as $val )
-        {
+        foreach ($rate_reviews as $val) {
             $rate_review[ $val->company_id ] = $val;
         }
 
         $data['rate_review'] = $rate_review;
 
-        $service_line        = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent FROM service_lines");
-        $service_lines       = array();
+        $service_line = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent FROM service_lines");
+        $service_lines = [];
 
-        foreach( $service_line as $val )
-        {
+        foreach ($service_line as $val) {
             $service_lines[$val->company_id][] = $val;
         }
 
         $data['service_lines'] = $service_lines;
 
-
         /*************************************/
 
+        $where = [];
 
-        $where = array();
-
-        if( !empty( $request->services ) )
-        {
-            $where[]= 'WHERE service_lines.subcategory_id IN ('.implode(',',$request->services).')';
+        if (!empty($request->services)) {
+            $where[] = 'WHERE service_lines.subcategory_id IN ('.implode(',', $request->services).')';
         }
 
-        if( !empty( $request->location[0] ) )
-        {
-            $where[]= 'addresses.state_iso2 IN (\''.implode('\',\'',$request->location).'\')';
+        if (!empty($request->location[0])) {
+            $where[] = 'addresses.state_iso2 IN (\''.implode('\',\'', $request->location).'\')';
         }
 
-        if( !empty( $request->budget ) )
-        {
-            $where[]= 'companies.budget = "'.$request->budget.'"';
+        if (!empty($request->budget)) {
+            $where[] = 'companies.budget = "'.$request->budget.'"';
         }
 
-        if( !empty( $request->rates ) )
-        {
-            $where[]= 'companies.rate IN (\''.implode('\',\'',$request->rates).'\')';
+        if (!empty($request->rates)) {
+            $where[] = 'companies.rate IN (\''.implode('\',\'', $request->rates).'\')';
         }
 
-        if( !empty( $request->industry ) )
-        {
-            $where[]= 'add_industries.industry_id IN ('.implode(',',$request->industry).')';
+        if (!empty($request->industry)) {
+            $where[] = 'add_industries.industry_id IN ('.implode(',', $request->industry).')';
         }
 
-        if( !empty( $request->reviews ) )
-        {
-            $where[]= '(SELECT COUNT(company_reviews.id) AS reviews GROUP BY company_reviews.company_id) >= '.$request->reviews;
+        if (!empty($request->reviews)) {
+            $where[] = '(SELECT COUNT(company_reviews.id) AS reviews GROUP BY company_reviews.company_id) >= '.$request->reviews;
         }
 
-        if( !empty( $request->rating ) )
-        {
-            $where[]= '(SELECT avg(company_reviews.overall_rating) AS rating GROUP BY company_reviews.company_id) >= '.$request->rating;
+        if (!empty($request->rating)) {
+            $where[] = '(SELECT avg(company_reviews.overall_rating) AS rating GROUP BY company_reviews.company_id) >= '.$request->rating;
         }
 
-        $where      = implode( ' AND ', $where );
+        $where = implode(' AND ', $where);
 
-        $company    = DB::select("SELECT DISTINCT(companies.id),companies.*,addresses.address FROM companies LEFT JOIN addresses ON addresses.company_id = companies.id
+        $company = DB::select("SELECT DISTINCT(companies.id),companies.*,addresses.address FROM companies LEFT JOIN addresses ON addresses.company_id = companies.id
                         LEFT JOIN service_lines     ON service_lines.company_id     = addresses.company_id
                         LEFT JOIN add_industries    ON add_industries.company_id    = service_lines.company_id
                         LEFT JOIN company_reviews   ON company_reviews.company_id   = add_industries.company_id ".$where);
 
+        $totalList = ($company) ? count($company) : 0;
 
-
-        $totalList  = ( $company ) ? count( $company ) : 0;
-
-        $html       = "";
-        $html      .=  '
+        $html = "";
+        $html .= '
 
         <div class="col-md-12  pr-5">
             <h5><span class="totalList serchbtn">'.$totalList.' Firms</span> List of the Best Advertising Agencies & Marketing Firms</h5>
         </div>';
 
-        foreach( $company as $key => $val )
-        {
-            $html .=  '
+        foreach ($company as $key => $val) {
+            $html .= '
             <div class="row  ml-0 mr-0 mt-3 searchresult item'.$key.'" style="border: 1px solid gray;">
                 <div class="col-md-9 recordbox">
                     <div class="row pt-3 ml-0 mr-0 pr-2">
@@ -214,30 +195,25 @@ class HomeController extends Controller
                             <h3> '.$val->name.'</h3>
                             <p>';
 
-                                if( isset( $rate_review[ $val->id ] ) )
-                                {
-                                    $html .=  '<span style="font-weight:bolder ;">'.number_format((float)$rate_review[$val->id]->rating, 1, '.', '').'</span>';
+            if (isset($rate_review[ $val->id ])) {
+                $html .= '<span style="font-weight:bolder ;">'.number_format((float)$rate_review[$val->id]->rating, 1, '.', '').'</span>';
 
-                                    for( $i=1; $i<=5; $i++ )
-                                    {
-                                        if( $i <= $rate_review[ $val->id ]->rating )
-                                        {
-                                            $html .='<span style="color:#ff3b00f2;font-size:35px;font-weight:bolder;padding-top:10px;"> <img src="'.asset('front_components/images/red.png').'" width="15px;"> </span>';
-                                        }
-                                        elseif( $rate_review[ $val->id ]->rating <= $i-1 )
-                                        {
-                                            $html .='<span style="color: black;font-size:35px;font-weight:bolder ;padding-top: 10px;"> <img src="'.asset('front_components/images/comb2.png').'" width="15px;"> </span>';
-                                        }
-                                        else
-                                        {
-                                            $html .='<span style="color: black;font-size:35px;font-weight:bolder ;padding-top: 10px;"> <img src="'.asset('front_components/images/red-half.png').'" width="15px;"> </span>';
-                                        }
-                                    }
+                for ($i = 1; $i <= 5; $i++) {
+                    if ($i <= $rate_review[ $val->id ]->rating) {
+                        $html .= '<span style="color:#ff3b00f2;font-size:35px;font-weight:bolder;padding-top:10px;"> <img src="'.asset('front_components/images/red.png').'" width="15px;"> </span>';
+                    }
+                    elseif ($rate_review[ $val->id ]->rating <= $i - 1) {
+                        $html .= '<span style="color: black;font-size:35px;font-weight:bolder ;padding-top: 10px;"> <img src="'.asset('front_components/images/comb2.png').'" width="15px;"> </span>';
+                    }
+                    else {
+                        $html .= '<span style="color: black;font-size:35px;font-weight:bolder ;padding-top: 10px;"> <img src="'.asset('front_components/images/red-half.png').'" width="15px;"> </span>';
+                    }
+                }
 
-                                    $html .='<span>'.$rate_review[$val->id]->review.' REVIEWS</span>';
-                                }
+                $html .= '<span>'.$rate_review[$val->id]->review.' REVIEWS</span>';
+            }
 
-                            $html .='</p>
+            $html .= '</p>
 
                         </div>
                         <div class="col-md-4 ">
@@ -255,32 +231,29 @@ class HomeController extends Controller
                         </div>
                         <div class="col-md-6 brdright">';
 
-                            $html .= '<p>
+            $html .= '<p>
 
                             <div id="piechart'.$val->id.'"></div>';
 
-                                $t      = 0;
-                                $data   = array();
-                                $data[0]= array( 'Services', 'Percent' );
+            $t = 0;
+            $data = [];
+            $data[0] = [ 'Services', 'Percent' ];
 
-                                for( $i = 0; $i < count( $service_lines[ $val->id ] ); $i++ )
-                                {
-                                    if( $service_lines[ $val->id ][$i]->percent > 0 )
-                                    {
-                                        $t          = $t + $service_lines[ $val->id ][ $i ]->percent;
-                                        $data[$i+1] = array( $subcategories[ $service_lines[ $val->id ][$i]->subcategory_id ], (int)$service_lines[ $val->id ][$i]->percent );
-                                    }
-                                }
+            for ($i = 0; $i < count($service_lines[ $val->id ]); $i++) {
+                if ($service_lines[ $val->id ][$i]->percent > 0) {
+                    $t = $t + $service_lines[ $val->id ][ $i ]->percent;
+                    $data[$i + 1] = [ $subcategories[ $service_lines[ $val->id ][$i]->subcategory_id ], (int)$service_lines[ $val->id ][$i]->percent ];
+                }
+            }
 
-                                if( $t < 100 )
-                                {
-                                    $p          = 100 - $t;
-                                    $data[$i+1] = array( "None", $p );
-                                }
+            if ($t < 100) {
+                $p = 100 - $t;
+                $data[$i + 1] = [ "None", $p ];
+            }
 
-                                $data = json_encode( $data );
+            $data = json_encode($data);
 
-                                ?>
+            ?>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
@@ -308,67 +281,63 @@ function drawChart() {
                             $html .= '
                             </p>';
 
-                            $html .='
+            $html .= '
                         </div>
                         <div class="col-md-4 pt-3">';
 
-                            if( isset( $rate_review[ $val->id ] ) )
-                            {
-                                $html .='<p>"'.$rate_review[ $val->id ]->most_impressive.'</p>
+            if (isset($rate_review[ $val->id ])) {
+                $html .= '<p>"'.$rate_review[ $val->id ]->most_impressive.'</p>
                                 <p>'.$rate_review[$val->id]->position_title.'</p>';
-                            }
+            }
 
-                            $html .='
+            $html .= '
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3 pt-3 text-center px-0">
                    <div class="container py-4 border-bottom ">
-                        <a href="'. url( $val->website ) . '" target="_blank" class="serchbtn w-100">View Website</a>
+                        <a href="'. url($val->website) . '" target="_blank" class="serchbtn w-100">View Website</a>
                    </div>
                    <div class="container py-4 border-bottom">
-                        <a href="'. url( 'company-profile/' . $val->id ) .'" target="_blank" class="serchbtn w-100">Visit Profile</a>
+                        <a href="'. url('company-profile/' . $val->id) .'" target="_blank" class="serchbtn w-100">Visit Profile</a>
                    </div>
                    <div class="container py-4">
-                        <a href="'. url( 'company-contact/' . $val->id ) .'" target="_blank" class="serchbtn w-100">Contact</a>
+                        <a href="'. url('company-contact/' . $val->id) .'" target="_blank" class="serchbtn w-100">Contact</a>
                    </div>
                 </div>
             </div> <br/>
             ';
         }
 
-        die( $html );
+        die($html);
 
     }
 
-    public function companies( Request $request )
+    public function companies(Request $request)
     {
 
-        $data['industry']   = Industry::pluck('name','id')->all();
-        $data['budget']     = Budget::pluck('budget','id')->all();
-        $data['rate']       = Rate::pluck('rate','id')->all();
-        $data['locations']  = DB::table('addresses')->where('addresses.address','!=', '')->pluck('address','state_iso2')->all();
+        $data['industry'] = Industry::pluck('name', 'id')->all();
+        $data['budget'] = Budget::pluck('budget', 'id')->all();
+        $data['rate'] = Rate::pluck('rate', 'id')->all();
+        $data['locations'] = DB::table('addresses')->where('addresses.address', '!=', '')->pluck('address', 'state_iso2')->all();
 
         /*************************************/
 
-        $data['subcategories']  = DB::table('subcategories')->pluck('subcategory','id')->all();
-        $rate_review            = DB::select( "SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating,
-                                  position_title, most_impressive FROM company_reviews GROUP BY company_reviews.company_id" );
-        $rate                   = array();
+        $data['subcategories'] = DB::table('subcategories')->pluck('subcategory', 'id')->all();
+        $rate_review = DB::select("SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating,
+                                  position_title, most_impressive FROM company_reviews GROUP BY company_reviews.company_id");
+        $rate = [];
 
-        foreach( $rate_review as $val )
-        {
+        foreach ($rate_review as $val) {
             $rate[$val->company_id] = $val;
         }
 
         $data['rate_review'] = $rate;
 
+        $service_line = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent FROM service_lines");
+        $service_lines = [];
 
-        $service_line        = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent FROM service_lines");
-        $service_lines       = array();
-
-        foreach( $service_line as $val )
-        {
+        foreach ($service_line as $val) {
             $service_lines[$val->company_id][] = $val;
         }
 
@@ -378,306 +347,271 @@ function drawChart() {
 
         /*************************************/
 
-        $where = array();
+        $where = [];
 
-        if( !empty( $request->services ) )
-        {
-            $where[]= 'WHERE service_lines.subcategory_id IN (' . implode( ',', $request->services ) . ')';
+        if (!empty($request->services)) {
+            $where[] = 'WHERE service_lines.subcategory_id IN (' . implode(',', $request->services) . ')';
         }
 
-        if( !empty( $request->location[0] ) )
-        {
-            $where[]= 'addresses.state_iso2 IN (\''.implode('\',\'',$request->location).'\')';
+        if (!empty($request->location[0])) {
+            $where[] = 'addresses.state_iso2 IN (\''.implode('\',\'', $request->location).'\')';
         }
 
-        if( !empty( $request->budget ) )
-        {
-            $where[]= 'companies.budget = "'.$request->budget.'"';
+        if (!empty($request->budget)) {
+            $where[] = 'companies.budget = "'.$request->budget.'"';
         }
 
-        if( !empty( $request->rates ) )
-        {
-            $where[]= 'companies.rate IN (\''.implode('\',\'',$request->rates).'\')';
+        if (!empty($request->rates)) {
+            $where[] = 'companies.rate IN (\''.implode('\',\'', $request->rates).'\')';
         }
 
-        if( !empty( $request->industry ) )
-        {
-            $where[]= 'add_industries.industry_id IN ('.implode(',',$request->industry).')';
+        if (!empty($request->industry)) {
+            $where[] = 'add_industries.industry_id IN ('.implode(',', $request->industry).')';
         }
 
-        if( !empty( $request->reviews ) )
-        {
-            $where[]= '(SELECT COUNT(company_reviews.id) AS reviews GROUP BY company_reviews.company_id) >= '.$request->reviews;
+        if (!empty($request->reviews)) {
+            $where[] = '(SELECT COUNT(company_reviews.id) AS reviews GROUP BY company_reviews.company_id) >= '.$request->reviews;
         }
 
-        if( !empty( $request->rating ) )
-        {
-            $where[]= '(SELECT avg(company_reviews.overall_rating) AS rating GROUP BY company_reviews.company_id) >= '.$request->rating;
+        if (!empty($request->rating)) {
+            $where[] = '(SELECT avg(company_reviews.overall_rating) AS rating GROUP BY company_reviews.company_id) >= '.$request->rating;
         }
 
-        $where = implode( ' AND ', $where );
+        $where = implode(' AND ', $where);
 
-        $data['company'] = $company = DB::select( "SELECT DISTINCT(companies.id), companies.*, addresses.address FROM companies
+        $data['company'] = $company = DB::select("SELECT DISTINCT(companies.id), companies.*, addresses.address FROM companies
                                         LEFT JOIN addresses ON addresses.company_id = companies.id
                                         LEFT JOIN service_lines ON service_lines.company_id = companies.id
                                         LEFT JOIN add_industries ON add_industries.company_id = companies.id
-                                        LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where );
+                                        LEFT JOIN company_reviews ON company_reviews.company_id = companies.id " . $where);
 
-        return view( 'home.searchDirectory', $data );
+        return view('home.searchDirectory', $data);
 
     }
 
-    public function getSearchList( Request $request )
+    public function getSearchList(Request $request)
     {
-        $term           = explode(' ',$request->term);
+        $term = explode(' ', $request->term);
 
-        $whereComp      = array();
-        $whereComp1     = array();
-        $whereCity      = array();
-        $whereSub       = array();
+        $whereComp = [];
+        $whereComp1 = [];
+        $whereCity = [];
+        $whereSub = [];
 
-        foreach( $term as $t )
-        {
-            if( strlen( $t ) >= 3 )
-            {
-                $whereSub[]     = " subcategories.subcategory like '%".$t."%'";
-                $whereCity[]    = " addresses.city like '%".$t."%'";
+        foreach ($term as $t) {
+            if (strlen($t) >= 3) {
+                $whereSub[] = " subcategories.subcategory like '%".$t."%'";
+                $whereCity[] = " addresses.city like '%".$t."%'";
 
-                $whereComp[]    = " companies.name like '%".$t."%'";
-                $whereComp1[]   = " 'name', 'like', '%".$request->term."%'";
+                $whereComp[] = " companies.name like '%".$t."%'";
+                $whereComp1[] = " 'name', 'like', '%".$request->term."%'";
             }
         }
 
-        $whereC         = ' WHERE '.implode(' OR ', $whereComp);
-        $whereC1        = 'where('.implode(' )->orWhere( ', $whereComp1).')';
-        $whereC2        = implode(' )->orWhere( ', $whereComp1);
+        $whereC = ' WHERE '.implode(' OR ', $whereComp);
+        $whereC1 = 'where('.implode(' )->orWhere( ', $whereComp1).')';
+        $whereC2 = implode(' )->orWhere( ', $whereComp1);
 
+        $whereS = ' WHERE '.implode(' OR ', $whereSub);
+        $whereCI = ' WHERE '.implode(' OR ', $whereCity);
+        $data['sub'] = DB::select("SELECT subcategories.id, subcategories.subcategory FROM subcategories " . $whereS);
 
-        $whereS         = ' WHERE '.implode(' OR ', $whereSub);
-        $whereCI        = ' WHERE '.implode(' OR ', $whereCity);
-        $data['sub']    = DB::select( "SELECT subcategories.id, subcategories.subcategory FROM subcategories " . $whereS );
-
-        $subc = array();
+        $subc = [];
 
         //print_r($data['sub']);
 
-        if( count( $data['sub'] ) > 0 )
-        {
-            foreach( $data['sub'] as $sub )
-            {
+        if (count($data['sub']) > 0) {
+            foreach ($data['sub'] as $sub) {
                 $subc[] = $sub->subcategory;
             }
 
             $subc = " WHERE subcategories.subcategory IN ('".implode('\',\'', $subc)."') ";
         }
-        else
-        {
+        else {
             $subc = "";
         }
 
         //echo "SELECT subcategories.id,subcategories.subcategory FROM subcategories ".$whereS;
 
-        $data['city']   = DB::select("SELECT addresses.company_id,addresses.city FROM addresses ".$whereCI." GROUP BY addresses.city");
-        $city           = array();
+        $data['city'] = DB::select("SELECT addresses.company_id,addresses.city FROM addresses ".$whereCI." GROUP BY addresses.city");
+        $city = [];
 
-
-        if( count( $data['city'] ) > 0 )
-        {
-            foreach( $data['city'] as $add )
-            {
+        if (count($data['city']) > 0) {
+            foreach ($data['city'] as $add) {
                 $city[] = $add->city;
             }
 
-            if( !empty( $subc ) )
-            {
+            if (!empty($subc)) {
                 $city = " AND addresses.city IN ('".implode('\',\'', $city)."') ";
             }
-            else
-            {
+            else {
                 $city = " WHERE addresses.city IN ('".implode('\',\'', $city)."') ";
             }
         }
-        else
-        {
+        else {
             $city = "";
         }
 
-
-
-        if( !empty( $subc ) || !empty( $city ) )
-        {
+        if (!empty($subc) || !empty($city)) {
             $data['subcategory'] = DB::select("SELECT subcategories.id,subcategories.subcategory,addresses.city,addresses.state_iso2 FROM subcategories
                                     INNER JOIN service_lines ON service_lines.subcategory_id = subcategories.id
-                                    INNER JOIN addresses ON addresses.company_id = service_lines.company_id  " . $subc . $city . " GROUP BY service_lines.subcategory_id" );
+                                    INNER JOIN addresses ON addresses.company_id = service_lines.company_id  " . $subc . $city . " GROUP BY service_lines.subcategory_id");
         }
-        else
-        {
-            $data['subcategory'] = array();
+        else {
+            $data['subcategory'] = [];
         }
 
         $data['company'] = DB::select("SELECT companies.id,companies.name,companies.logo FROM companies ".$whereC);
 
+        $rate_review = DB::select("SELECT company_reviews.company_id, avg(overall_rating) as rating FROM company_reviews GROUP BY company_reviews.company_id");
 
-        $rate_review     = DB::select("SELECT company_reviews.company_id, avg(overall_rating) as rating FROM company_reviews GROUP BY company_reviews.company_id");
+        $rate = [];
 
-        $rate = array();
-
-        foreach( $rate_review as $val )
-        {
+        foreach ($rate_review as $val) {
             $rate[$val->company_id] = $val;
         }
 
         $data['rate_review'] = $rate;
 
-        $html       = "";
+        $html = "";
         $subcat_loc = "";
         $state_iso2 = "";
 
-        $html      .= '
+        $html .= '
         <div class="search_results__row top_companies">';
 
-            if( count( $data['subcategory'] ) > 0 )
-            {
-                $html .= '
+        if (count($data['subcategory']) > 0) {
+            $html .= '
                 <div class="search_results__title"><strong>Top Companies</strong></div>
                 <ul class="search_results__content">';
 
-                foreach( $data['subcategory'] as $subcat )
-                {
-                    if( !empty( $data['city'] ) )
-                    {
-                        $subcat_loc = " in ".ucfirst($subcat->city);
-                        $state_iso2 = '&location[]='.$subcat->state_iso2;
-                    }
-
-                    $html .= '
-                    <li style="list-style:none;"><a style="text-decoration:none;" href="'.url('companies?_token='.csrf_token().'&services[]='.$subcat->id).$state_iso2.'">Top <strong>'.ucfirst($subcat->subcategory).'</strong> Companies '.$subcat_loc.'</a></li>';
+            foreach ($data['subcategory'] as $subcat) {
+                if (!empty($data['city'])) {
+                    $subcat_loc = " in ".ucfirst($subcat->city);
+                    $state_iso2 = '&location[]='.$subcat->state_iso2;
                 }
 
-                $html .= '</ul>';
+                $html .= '
+                    <li style="list-style:none;"><a style="text-decoration:none;" href="'.url('companies?_token='.csrf_token().'&services[]='.$subcat->id).$state_iso2.'">Top <strong>'.ucfirst($subcat->subcategory).'</strong> Companies '.$subcat_loc.'</a></li>';
             }
 
-            $company_loc = "";
+            $html .= '</ul>';
+        }
 
-            if( count( $data['company'] ) > 0 )
-            {
-                $html .= '
+        $company_loc = "";
+
+        if (count($data['company']) > 0) {
+            $html .= '
 
                 <div class="search_results__title"><strong>Profiles</strong></div>
                 <ul class="search_results__content">';
 
-                foreach( $data['company'] as $company )
-                {
+            foreach ($data['company'] as $company) {
 
-                    if( isset( $data['rate_review'][$company->id] ) )
-                    {
-                        $rt = number_format((float)$data['rate_review'][$company->id]->rating, 1, '.', '').' <img src="'.asset('front_components/images/red.png').'" width="15px;">';
-                    }
-                    else
-                    {
-                        $rt = '0.0  <img src="'.asset('front_components/images/red.png').'" width="15px;">';
-                    }
+                if (isset($data['rate_review'][$company->id])) {
+                    $rt = number_format((float)$data['rate_review'][$company->id]->rating, 1, '.', '').' <img src="'.asset('front_components/images/red.png').'" width="15px;">';
+                }
+                else {
+                    $rt = '0.0  <img src="'.asset('front_components/images/red.png').'" width="15px;">';
+                }
 
-                    $html .= '
+                $html .= '
                     <li style="list-style:none;">
                         <a style="text-decoration:none;" href="'.url('company-profile/'.ucfirst($company->id)).'"><img src="'.asset('storage/'.$company->logo).'" width="20px" height="20px"> &nbsp;<strong>'.$company->name.'</strong> '.$company_loc.'</a>
                         <span style="float:right;">'.$rt.' </span>
                     </li>';
-                }
-
-                $html .= '</ul>';
             }
 
-            $html .= '</div>';
+            $html .= '</ul>';
+        }
 
-        die( $html );
+        $html .= '</div>';
+
+        die($html);
     }
 
-    public function companyProfile( Request $request, $company_id )
+    public function companyProfile(Request $request, $company_id)
     {
         /*************************************/
 
-        $data = array();
+        $data = [];
 
-        $data['subcategories']  = DB::table('subcategories')->pluck('subcategory','id')->all();
-        $data['subcat_child']   = DB::table('subcat_children')->pluck('name','id')->all();
-        $data['industry']       = DB::table('industries')->pluck('name','id')->all();
+        $data['subcategories'] = DB::table('subcategories')->pluck('subcategory', 'id')->all();
+        $data['subcat_child'] = DB::table('subcat_children')->pluck('name', 'id')->all();
+        $data['industry'] = DB::table('industries')->pluck('name', 'id')->all();
 
-        $rate_review = DB::select( "SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive FROM company_reviews WHERE company_reviews.company_id = ".$company_id." GROUP BY company_reviews.company_id" );
+        $rate_review = DB::select("SELECT company_reviews.company_id, COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive FROM company_reviews WHERE company_reviews.company_id = ".$company_id." GROUP BY company_reviews.company_id");
 
-        if( $rate_review )
-        {
+        if ($rate_review) {
             $data['rate_review'] = $rate_review[0];
         }
 
         //dd($data['rate_review']);
 
-        $service_line = DB::select( "SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent FROM service_lines WHERE service_lines.company_id = ".$company_id );
+        $service_line = DB::select("SELECT service_lines.company_id, service_lines.subcategory_id, service_lines.percent FROM service_lines WHERE service_lines.company_id = ".$company_id);
 
         $data['service_lines'] = $service_line;
 
         //dd($data['service_lines']);
 
-        $add_focus          = DB::select("SELECT add_foci.company_id, add_foci.subcat_child_id, add_foci.percent FROM add_foci WHERE add_foci.company_id = ".$company_id);
-        $data['add_focus']  = $add_focus;
+        $add_focus = DB::select("SELECT add_foci.company_id, add_foci.subcat_child_id, add_foci.percent FROM add_foci WHERE add_foci.company_id = ".$company_id);
+        $data['add_focus'] = $add_focus;
 
         //dd($data['add_focus']);
 
-        $add_industry       = DB::select("SELECT add_industries.company_id, add_industries.industry_id, add_industries.percent FROM add_industries WHERE add_industries.company_id = ".$company_id);
+        $add_industry = DB::select("SELECT add_industries.company_id, add_industries.industry_id, add_industries.percent FROM add_industries WHERE add_industries.company_id = ".$company_id);
 
         $data['add_industry'] = $add_industry;
         //dd($data['service_lines'])
 
-        $review             = DB::select( "SELECT company_reviews.* FROM company_reviews WHERE company_reviews.company_id = ".$company_id );
+        $review = DB::select("SELECT company_reviews.* FROM company_reviews WHERE company_reviews.company_id = ".$company_id);
 
-        $data['review']     = $review;
+        $data['review'] = $review;
 
         //dd($data['review']);
 
         /*************************************/
 
-        $data['company']    = Company::find($company_id);
-        $data['address']    = Address::where('company_id',$company_id)->get();
+        $data['company'] = Company::find($company_id);
+        $data['address'] = Address::where('company_id', $company_id)->get();
 
         //dd($data);
         return view('home.companyProfile', $data);
     }
 
-    public function companyContact( Request $request, $company_id )
+    public function companyContact(Request $request, $company_id)
     {
-        session( [ 'referer' => url( 'company-contact/' . $company_id ) ] );
+        session([ 'referer' => url('company-contact/' . $company_id) ]);
 
-        $data['companies'] = DB::table('companies')->where( 'id', $company_id )->get();
+        $data['companies'] = DB::table('companies')->where('id', $company_id)->get();
 
-        if( Auth::check() )
-        {
+        if (Auth::check()) {
 
             return view('home.companyContact', $data);
         }
-        else
-        {
+        else {
             return redirect('auth/linkedin');
         }
     }
 
-    public function sendCompanycontactEmail( Request $request )
+    public function sendCompanycontactEmail(Request $request)
     {
         //echo "<pre>"; print_r($request->all());die;
 
         $request->validate([
-            'full_name'     => 'required',
-            'company_name'  => 'required',
+            'full_name' => 'required',
+            'company_name' => 'required',
             'contact_email' => 'required|email',
-            'subject'       => 'required',
-            'message'       => 'required'
+            'subject' => 'required',
+            'message' => 'required',
         ]);
 
         $details = [
-            'title'         => $request->full_name,
-            'company_name'  => $request->company_name,
+            'title' => $request->full_name,
+            'company_name' => $request->company_name,
             'contact_email' => $request->contact_email,
-            'subject'       => $request->subject,
-            'message'       => $request->message
+            'subject' => $request->subject,
+            'message' => $request->message,
         ];
 
         Mail::to('raivipin94@gmail.com')->send(new SendMail($details));
@@ -690,155 +624,118 @@ function drawChart() {
 
         //dd($request);
 
-        $data = array();
+        $data = [];
 
-        if( $request->form == 'form1' )
-        {
-            if($request->project_type == '')
-            {
+        if ($request->form == 'form1') {
+            if ($request->project_type == '') {
                 $data['project_type'] = 'Project type should not be empty';
             }
 
-            if($request->project_title == '')
-            {
+            if ($request->project_title == '') {
                 $data['project_title'] = 'Project title should not be empty';
             }
-            elseif(strlen($request->project_title) == 2)
-            {
+            elseif (strlen($request->project_title) == 2) {
                 $data['project_title'] = 'Minimum length should be two charecters';
             }
-            elseif(is_numeric($request->project_title[0]))
-            {
+            elseif (is_numeric($request->project_title[0])) {
                 $data['project_title'] = 'Project type should not be start with numeric.';
             }
 
-            if($request->company_type == '')
-            {
+            if ($request->company_type == '') {
                 $data['company_type'] = 'Company type should not be empty';
             }
 
-            if($request->cost_range == '')
-            {
+            if ($request->cost_range == '') {
                 $data['cost_range'] = 'Cost should not be empty';
             }
-            if($request->project_start == '')
-            {
+            if ($request->project_start == '') {
                 $data['project_start'] = 'Project start date should not be empty';
             }
-            if($request->project_end == '')
-            {
+            if ($request->project_end == '') {
                 $data['project_end'] = 'Project end date should not be empty';
             }
         }
 
-        if( $request->form == 'form2' )
-        {
+        if ($request->form == 'form2') {
             // dd($request->form);
-            if($request->company_position == '')
-            {
+            if ($request->company_position == '') {
                 $data['company_position'] = 'It should not be empty';
             }
-            if($request->for_what_project == '')
-            {
+            if ($request->for_what_project == '') {
                 $data['for_what_project'] = 'It should not be empty';
             }
-            if($request->how_select == '')
-            {
+            if ($request->how_select == '') {
                 $data['how_select'] = 'It should not be empty';
             }
-            if($request->scope_of_work == '')
-            {
+            if ($request->scope_of_work == '') {
                 $data['scope_of_work'] = 'It should not be empty';
             }
-            if($request->team_composition == '')
-            {
+            if ($request->team_composition == '') {
                 $data['team_composition'] = 'It should not be empty';
             }
-            if($request->any_outcome == ''){
+            if ($request->any_outcome == '') {
                 $data['any_outcome'] = 'It should not be empty';
             }
-            if($request->how_effective == '')
-            {
+            if ($request->how_effective == '') {
                 $data['how_effective'] = 'It should not be empty';
             }
-            if($request->most_impressive == '')
-            {
+            if ($request->most_impressive == '') {
                 $data['most_impressive'] = 'It should not be empty';
             }
-            if($request->area_of_improvements == '')
-            {
+            if ($request->area_of_improvements == '') {
                 $data['area_of_improvements'] = 'It should not be empty';
             }
-            if($request->quality == '')
-            {
+            if ($request->quality == '') {
                 $data['quality'] = 'It should not be empty';
             }
-            if($request->timeliness == '')
-            {
+            if ($request->timeliness == '') {
                 $data['timeliness'] = 'It should not be empty';
             }
-            if($request->cost == '')
-            {
+            if ($request->cost == '') {
                 $data['cost'] = 'It should not be empty';
             }
 
-
-            if($request->communication == '')
-            {
+            if ($request->communication == '') {
                 $data['communication'] = 'It should not be empty';
             }
 
-            if($request->expertise == '')
-            {
+            if ($request->expertise == '') {
                 $data['expertise'] = 'It should not be empty';
             }
 
-            if($request->ease_of_working == '')
-            {
+            if ($request->ease_of_working == '') {
                 $data['ease_of_working'] = 'It should not be empty';
             }
 
-            if($request->refer_ability == '')
-            {
+            if ($request->refer_ability == '') {
                 $data['refer_ability'] = 'It should not be empty';
             }
-            if($request->overall_rating == '')
-            {
+            if ($request->overall_rating == '') {
                 $data['overall_rating'] = 'It should not be empty';
             }
         }
 
+        if ($request->form == 'form3') {
 
-        if( $request->form == 'form3' )
-        {
-
-            if( $request->full_name == '' )
-            {
+            if ($request->full_name == '') {
                 $data['full_name'] = 'Name should not be empty';
             }
-
-            elseif( strlen( $request->full_name ) == 2 )
-            {
+            elseif (strlen($request->full_name) == 2) {
                 $data['full_name'] = 'Minimum Length should be two charecters';
             }
 
-            if($request->position_title != '')
-            {
-                if( strlen( $request->position_title ) == 2 )
-                {
+            if ($request->position_title != '') {
+                if (strlen($request->position_title) == 2) {
                     $data['position_title'] = 'Minimum length should be two charecters';
                 }
             }
-            if( $request->company_name != '' )
-            {
-                if( strlen( $request->position_title ) == 2 )
-                {
+            if ($request->company_name != '') {
+                if (strlen($request->position_title) == 2) {
                     $data['position_title'] = 'Company Name should be two charecters long atleast.';
                 }
             }
 
-            if( $request->company_size == '' )
-            {
+            if ($request->company_size == '') {
                 $data['company_size'] = 'Company Size should not be empty';
             }
 
@@ -858,47 +755,34 @@ function drawChart() {
             // }
         }
 
-        if( $request->form == 'form4' )
-        {
+        if ($request->form == 'form4') {
 
-            if( $request->company_email == '' )
-            {
+            if ($request->company_email == '') {
                 $data['company_email'] = 'Email should not be empty';
             }
-
-            elseif( filter_var( $request->company_email, FILTER_VALIDATE_EMAIL ) === false )
-            {
+            elseif (filter_var($request->company_email, FILTER_VALIDATE_EMAIL) === false) {
                 $data['company_email'] = 'Email not valid';
             }
 
-            if($request->phone_number == '')
-            {
+            if ($request->phone_number == '') {
                 $data['phone_number'] = 'Phone should not be empty';
             }
-
-            elseif( strlen( $request->phone_number ) != 10 )
-            {
+            elseif (strlen($request->phone_number) != 10) {
                 $data['phone_number'] = 'Length should be 10 charecters';
             }
-
-            elseif( !is_numeric( $request->phone_number[0] ) )
-            {
+            elseif (!is_numeric($request->phone_number[0])) {
                 $data['phone_number'] = 'Phone should be numeric.';
             }
 
-            if( $request->linkedin_url == '' )
-            {
+            if ($request->linkedin_url == '') {
                 $data['linkedin_url'] = 'Linkedin url should not be empty';
             }
-
-            elseif( filter_var( $request->linkedin_url, FILTER_VALIDATE_URL ) === false )
-            {
+            elseif (filter_var($request->linkedin_url, FILTER_VALIDATE_URL) === false) {
                 $data['linkedin_url'] = 'Url is not a valid URL';
             }
 
-            if( $request->company_url != '' )
-            {
-                if(filter_var($request->company_url, FILTER_VALIDATE_URL) === false) {
+            if ($request->company_url != '') {
+                if (filter_var($request->company_url, FILTER_VALIDATE_URL) === false) {
                     $data['company_url'] = 'url is not a valid URL';
                 }
             }
@@ -911,24 +795,21 @@ function drawChart() {
     {
         $cd = '';
 
-        if(Auth::check())
-        {
+        if (Auth::check()) {
             $uid = auth()->user()->id;
             $cd = Company::select('*')->where('user_id', '=', $uid)->first();
 
-            if($cd)
-            {
-                return redirect()->route('company.dashboard',$cd->id);
+            if ($cd) {
+                return redirect()->route('company.dashboard', $cd->id);
             }
-            else
-            {
-                $user =  Auth::user();
-                 if(!$user->hasActiveSubscription()){
+            else {
+                $user = Auth::user();
+                if (!$user->hasActiveSubscription()) {
                     return redirect('user/' . $user->id . '/basicInfo?profile=basic');
 
-                 }
-                 $company = Company::where('user_id', $user->id)->first();
-                 if (!$company) {
+                }
+                $company = Company::where('user_id', $user->id)->first();
+                if (!$company) {
                     return redirect()->route('user.basicInfo', ['user' => $user]);
                 }
                 // // // Check for the company's address
@@ -942,9 +823,8 @@ function drawChart() {
                 return view('home.getListed');
             }
         }
-        else
-        {
-            
+        else {
+
             //session(['referer' => url('user/personal')]);
             session(['referer' => url('sponsorship')]);
             return redirect('auth/linkedin');
@@ -955,105 +835,94 @@ function drawChart() {
     {
         // dd("adsfsdf");
 
-
         return view('home.plans');
         $cd = '';
 
-        if(Auth::check())
-        {
+        if (Auth::check()) {
             $uid = auth()->user()->id;
             $cd = Company::select('*')->where('user_id', '=', $uid)->first();
 
-            if($cd)
-            {
-                return redirect()->route('company.dashboard',$cd->id);
+            if ($cd) {
+                return redirect()->route('company.dashboard', $cd->id);
             }
-            else
-            {
+            else {
                 return view('plans-compare');
-               
+
             }
         }
-        else
-        {
+        else {
             //session(['referer' => url('user/personal')]);
             session(['referer' => url('sponsorship')]);
             return redirect('auth/linkedin');
         }
     }
 
-
     public function getPriceListing()
     {
 
-        if( Auth::check() )
-        {
-            $user =  Auth::user();
+        if (Auth::check()) {
+            $user = Auth::user();
             $key = \config('services.stripe.secret');
             $stripe = new \Stripe\StripeClient($key);
             $plansraw = $stripe->plans->all();
             $plans = $plansraw->data;
-            
-            foreach($plans as $plan) {
+
+            foreach ($plans as $plan) {
                 $prod = $stripe->products->retrieve(
-                    $plan->product,[]
+                    $plan->product,
+                    []
                 );
                 $plan->product = $prod;
             }
             $user = Auth::user();
 
             return view('home.getPriceListing', [
-                'user'=>$user,
-                'plans' => $plans
+                'user' => $user,
+                'plans' => $plans,
             ]);
         }
-        else
-        {
+        else {
             return redirect('auth/linkedin');
         }
     }
 
-
-    public function saveChoosenPlan( Request $request )
+    public function saveChoosenPlan(Request $request)
     {
-        $plan   = $request->plan;
-        $user_id= $request->user_id;
+        $plan = $request->plan;
+        $user_id = $request->user_id;
 
-        $user   = User::find( $user_id );
+        $user = User::find($user_id);
 
         $user->plan = $plan;
 
-        if( $user->save() )
-        {
-            return response()->json( ['status'=> 'success'] );
+        if ($user->save()) {
+            return response()->json(['status' => 'success']);
         }
-        else
-        {
-            return response()->json( ['status'=> 'failure'] );
+        else {
+            return response()->json(['status' => 'failure']);
         }
 
     }
 
-
-    public function review(Request $request,$company)
+    public function review(Request $request, $company)
     {
-        if(Auth::check()){
-            return redirect()->route('company.getReview',$company);
-        }else{
+        if (Auth::check()) {
+            return redirect()->route('company.getReview', $company);
+        }
+        else {
             session(['referer' => url('company/'.$company.'/getReview')]);
             return redirect('auth/linkedin');
         }
     }
 
-    public function getReview( Request $request, $company )
+    public function getReview(Request $request, $company)
     {
-
 
         $user = Auth::user();
 
         // Check the review count for the company
         $reviews_count = CompanyReview::where('company_id', $company)->count();
-    
+
         // Check if the user can write a review using the SubscriptionHelper
         if (!SubscriptionHelper::canWriteReview($reviews_count)) {
             return redirect()->route('company.getPriceListing');
@@ -1067,9 +936,8 @@ function drawChart() {
 
         $s = Size::all();
 
-        foreach ( $s as $value )
-        {
-            $b = explode('-',$value->size);
+        foreach ($s as $value) {
+            $b = explode('-', $value->size);
             $size[$b[0]] = $value;
         }
 
@@ -1083,7 +951,7 @@ function drawChart() {
 
         $bud = Budget::all();
         foreach ($bud as $value) {
-            $b = explode('-',$value->budget);
+            $b = explode('-', $value->budget);
             $budget[$b[0]] = $value;
         }
         ksort($budget);
@@ -1092,182 +960,176 @@ function drawChart() {
 
         $data['attribution'] = Attribution::All();
 
-        $data['countries']     = Country::All();
+        $data['countries'] = Country::All();
 
-        return view('home.getReview' ,$data);
+        return view('home.getReview', $data);
     }
 
-    public function saveReview( Request $request )
+    public function saveReview(Request $request)
     {
 
         // dd($request->all());
-        $inputs = array();
+        $inputs = [];
 
-        $inputs['company_id']               = $request->company_id;
-        $inputs['user_id']                  = $request->user_id;
-
+        $inputs['company_id'] = $request->company_id;
+        $inputs['user_id'] = $request->user_id;
 
         # Step 1
 
-        $inputs['project_type']             = $request->project_type;
-        $inputs['project_title']            = $request->project_title;
-        $inputs['company_type']             = $request->company_type;
-        $inputs['cost_range']               = $request->cost_range;
-        $inputs['project_start']            = $request->project_start;
-        $inputs['project_end']              = $request->project_end;
-
+        $inputs['project_type'] = $request->project_type;
+        $inputs['project_title'] = $request->project_title;
+        $inputs['company_type'] = $request->company_type;
+        $inputs['cost_range'] = $request->cost_range;
+        $inputs['project_start'] = $request->project_start;
+        $inputs['project_end'] = $request->project_end;
 
         # Step 2 #DONE
 
-        $inputs['company_position']         = $request->company_position;
-        $inputs['for_what_project']         = $request->for_what_project;
+        $inputs['company_position'] = $request->company_position;
+        $inputs['for_what_project'] = $request->for_what_project;
         // $inputs['how_select']               = $request->how_select;
-        $inputs['scope_of_work']            = $request->scope_of_work;
-        $inputs['team_composition']         = $request->team_composition;
-        $inputs['any_outcomes']             = $request->any_outcome;
-        $inputs['how_effective']            = $request->how_effective;
-        $inputs['most_impressive']          = $request->most_impressive;
-        $inputs['area_of_improvements']     = $request->area_of_improvements;
+        $inputs['scope_of_work'] = $request->scope_of_work;
+        $inputs['team_composition'] = $request->team_composition;
+        $inputs['any_outcomes'] = $request->any_outcome;
+        $inputs['how_effective'] = $request->how_effective;
+        $inputs['most_impressive'] = $request->most_impressive;
+        $inputs['area_of_improvements'] = $request->area_of_improvements;
 
+        $inputs['quality'] = $request->quality;
+        $inputs['quality_review'] = $request->quality_review;
 
-        $inputs['quality']                  = $request->quality;
-        $inputs['quality_review']           = $request->quality_review;
+        $inputs['timeliness'] = $request->timeliness;
+        $inputs['timeliness_review'] = $request->timeliness_review;
 
-        $inputs['timeliness']               = $request->timeliness;
-        $inputs['timeliness_review']        = $request->timeliness_review;
+        $inputs['cost'] = $request->cost;
+        $inputs['cost_review'] = $request->cost_review;
 
-        $inputs['cost']                     = $request->cost;
-        $inputs['cost_review']              = $request->cost_review;
+        $inputs['communication'] = $request->communication;
+        $inputs['communication_review'] = $request->communication_review;
 
-        $inputs['communication']            = $request->communication;
-        $inputs['communication_review']     = $request->communication_review;
+        $inputs['expertise'] = $request->expertise;
+        $inputs['expertise_review'] = $request->expertise_review;
 
-        $inputs['expertise']                = $request->expertise;
-        $inputs['expertise_review']         = $request->expertise_review;
+        $inputs['ease_of_working'] = $request->ease_of_working;
+        $inputs['ease_of_working_review'] = $request->ease_of_working_review;
 
-        $inputs['ease_of_working']          = $request->ease_of_working;
-        $inputs['ease_of_working_review']   = $request->ease_of_working_review;
+        $inputs['refer_ability'] = $request->refer_ability;
+        $inputs['refer_ability_review'] = $request->refer_ability_review;
 
-        $inputs['refer_ability']            = $request->refer_ability;
-        $inputs['refer_ability_review']     = $request->refer_ability_review;
-
-        $inputs['overall_rating']           = $request->overall_rating;
-        $inputs['overall_rating_review']    = $request->overall_rating_review;
-
+        $inputs['overall_rating'] = $request->overall_rating;
+        $inputs['overall_rating_review'] = $request->overall_rating_review;
 
         #DONE
 
-        $inputs['full_name']                = $request->full_name;
-        $inputs['position_title']           = $request->position_title;
-        $inputs['company_name']             = $request->company_name;
-        $inputs['company_size']             = $request->company_size;
-        $inputs['country']                  = $request->country;
-        $inputs['state']                    = "null";
-        $inputs['city']                     = "null";
+        $inputs['full_name'] = $request->full_name;
+        $inputs['position_title'] = $request->position_title;
+        $inputs['company_name'] = $request->company_name;
+        $inputs['company_size'] = $request->company_size;
+        $inputs['country'] = $request->country;
+        $inputs['state'] = "null";
+        $inputs['city'] = "null";
 
+        $inputs['company_email'] = $request->company_email;
+        $inputs['phone_number'] = $request->phone_number;
+        $inputs['linkedin_url'] = $request->linkedin_url;
+        $inputs['company_url'] = $request->company_url;
+        $inputs['published'] = 0;
 
-        $inputs['company_email']            = $request->company_email;
-        $inputs['phone_number']             = $request->phone_number;
-        $inputs['linkedin_url']             = $request->linkedin_url;
-        $inputs['company_url']              = $request->company_url;
-        $inputs['published']   = 0;
+        $howSelectIds = $request->input('how_select', []);  // how_select[] should be an array
 
-         $howSelectIds = $request->input('how_select', []);  // how_select[] should be an array
+        // Retrieve service provider names by their IDs
+        $serviceProviders = ServiceProvider::whereIn('id', $howSelectIds)->pluck('name');
 
-    // Retrieve service provider names by their IDs
-    $serviceProviders = ServiceProvider::whereIn('id', $howSelectIds)->pluck('name');
+        // Convert service names to a comma-separated string (you can store them as you need)
+        $inputs['how_select'] = $serviceProviders->implode(', ');
 
-    // Convert service names to a comma-separated string (you can store them as you need)
-    $inputs['how_select'] = $serviceProviders->implode(', '); 
+        CompanyReview::create($inputs);
+        $result = CompanyPointHelper::processReview(
+            $companyId,
+            $rating, // Use the overall rating to determine points
+            'Unverified' // Since the review is unverified initially
+        );
 
-        CompanyReview::create( $inputs );
-
-        return response()->json( $inputs );
+        return response()->json($inputs);
 
     }
 
-    public function contact( Request $request )
+    public function contact(Request $request)
     {
         return view('home.contact');
     }
 
-    public function sendContactEmail( Request $request )
+    public function sendContactEmail(Request $request)
     {
 
         $request->validate([
-                                'help_options'  => 'required',
-                                'first_name'    => 'required',
-                                'last_name'     => 'required',
-                                'email'         => 'required|email',
-                                'phone'         => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:14',
+                                'help_options' => 'required',
+                                'first_name' => 'required',
+                                'last_name' => 'required',
+                                'email' => 'required|email',
+                                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:14',
                           ]);
 
+        $inputs['help_options'] = $request->help_options;
+        $inputs['first_name'] = $request->first_name;
+        $inputs['last_name'] = $request->last_name;
+        $inputs['email'] = $request->email;
+        $inputs['phone'] = $request->phone;
+        $inputs['message'] = $request->message;
 
+        Contact::create($inputs);
 
-        $inputs['help_options']   = $request->help_options;
-        $inputs['first_name']     = $request->first_name;
-        $inputs['last_name']      = $request->last_name;
-        $inputs['email']          = $request->email;
-        $inputs['phone']          = $request->phone;
-        $inputs['message']          = $request->message;
-
-
-        Contact::create( $inputs );
-
-        $subject    =  "New Enquiry From Contact Page";
+        $subject = "New Enquiry From Contact Page";
 
         $email_type = 'contact';
 
-        $details    = [
-                        'first_name'    => $request->first_name,
-                        'last_name'     => $request->last_name,
-                        'email'         => $request->email,
-                        'phone'         => $request->phone,
-                        'help_options'  => $request->help_options,
-                        'subject'       => $subject
+        $details = [
+                        'first_name' => $request->first_name,
+                        'last_name' => $request->last_name,
+                        'email' => $request->email,
+                        'phone' => $request->phone,
+                        'help_options' => $request->help_options,
+                        'subject' => $subject,
                       ];
 
-        Mail::to( 'pavank@cheenti.com')->send( new ContactMail( $details, $subject, $email_type ) );
+        Mail::to('pavank@cheenti.com')->send(new ContactMail($details, $subject, $email_type));
 
-        return back()->with( 'success', 'Your request has been submitted successfully.' );
+        return back()->with('success', 'Your request has been submitted successfully.');
 
     }
 
-    public function send_email_to_reviewer( Request $request )
+    public function send_email_to_reviewer(Request $request)
     {
 
-        $inputs['email']          = $request->email;
-        $inputs['email_subject']  = $request->email_subject;
-        $inputs['email_content']  = html_entity_decode( $request->email_content, ENT_QUOTES, "ISO-8859-1" );
+        $inputs['email'] = $request->email;
+        $inputs['email_subject'] = $request->email_subject;
+        $inputs['email_content'] = html_entity_decode($request->email_content, ENT_QUOTES, "ISO-8859-1");
 
-        ReviewerEmailLog::create( $inputs );
+        ReviewerEmailLog::create($inputs);
 
-        $subject        =  $request->email_subject;
-        $details        =  ['email_content' => html_entity_decode( $request->email_content, ENT_QUOTES, "ISO-8859-1" ), 'subject' => $subject ];
-        $email_type     =  'reviewer_email';
+        $subject = $request->email_subject;
+        $details = ['email_content' => html_entity_decode($request->email_content, ENT_QUOTES, "ISO-8859-1"), 'subject' => $subject ];
+        $email_type = 'reviewer_email';
 
-        Mail::to( 'pavank@cheenti.com')->send( new ContactMail( $details, $subject, $email_type ) );
+        Mail::to('pavank@cheenti.com')->send(new ContactMail($details, $subject, $email_type));
 
-        return response()->json( ['status' => 'success' ] );
+        return response()->json(['status' => 'success' ]);
     }
 
-    public function company_review_email_logs( Request $request )
+    public function company_review_email_logs(Request $request)
     {
 
         $data['review_logs'] = ReviewerEmailLog::paginate(5);
 
-        return view( 'admin.company.review_email_logs', $data );
+        return view('admin.company.review_email_logs', $data);
     }
-
-
-
 
     //     Newsletters::create( $inputs );
 
     //     return back()->with( 'newsuccess', 'Thanks.. You have been subscribed successfully.' );
 
     // }
-   
+
     //     Newsletters::create( $inputs );
 
     //     return back()->with( 'newsuccess', 'Thanks.. You have been subscribed successfully.' );
@@ -1276,14 +1138,13 @@ function drawChart() {
 
     public function subscribeNewsletter(Request $request)
     {
-            $request->validate(['email' => 'required|email']);
+        $request->validate(['email' => 'required|email']);
 
-            $inputs['email'] = $request->email;
-            Newsletters::create($inputs);
+        $inputs['email'] = $request->email;
+        Newsletters::create($inputs);
 
-            return redirect()->to(url()->previous() . '#success-msg')->with('newsuccess', 'Thanks.. You have been subscribed successfully.');
+        return redirect()->to(url()->previous() . '#success-msg')->with('newsuccess', 'Thanks.. You have been subscribed successfully.');
     }
-
 
     // public function saveChoosenPlan( Request $request )
     // {
@@ -1304,4 +1165,86 @@ function drawChart() {
     //     }
 
     // }
+
+    public function generateSingleCompanyReview(Request $request)
+    {
+
+        // dd("asdfasdf");
+        $faker = Faker::create();
+        $companyId = 519;
+
+        // Step 2: Generate random overall_rating
+        $rating = $faker->randomElement([1, 2, 3, 4, 5]);
+
+        // Step 3: Create a single review for the specified company
+        $review = CompanyReview::create([
+            'company_id' => $companyId,
+            'user_id' => $faker->numberBetween(1, 1000), // Random user ID
+            'project_type' => $faker->randomElement(['Web Development', 'Mobile App', 'Consulting']),
+            'project_title' => $faker->sentence(3),
+            'company_type' => $faker->randomElement(['Private', 'Public']),
+            'cost_range' => $faker->randomElement(['$5000-$10000', '$10000-$50000']),
+            'project_start' => $faker->date(),
+            'project_end' => $faker->date(),
+            'company_position' => $faker->sentence(),
+            'for_what_project' => $faker->sentence(),
+            'how_select' => $faker->paragraph(),
+            'scope_of_work' => $faker->paragraph(),
+            'team_composition' => $faker->paragraph(),
+            'any_outcomes' => $faker->paragraph(),
+            'how_effective' => $faker->paragraph(),
+            'most_impressive' => $faker->paragraph(),
+            'area_of_improvements' => $faker->paragraph(),
+            'quality' => $faker->randomElement([1, 2, 3, 4, 5]),
+            'quality_review' => $faker->sentence(),
+            'timeliness' => $faker->randomElement([1, 2, 3, 4, 5]),
+            'timeliness_review' => $faker->sentence(),
+            'cost' => $faker->randomFloat(2, 1000, 50000),
+            'cost_review' => $faker->sentence(),
+            'communication' => $faker->randomElement([1, 2, 3, 4, 5]),
+            'communication_review' => $faker->sentence(),
+            'expertise' => $faker->randomElement([1, 2, 3, 4, 5]),
+            'expertise_review' => $faker->sentence(),
+            'ease_of_working' => $faker->randomElement([1, 2, 3, 4, 5]),
+            'ease_of_working_review' => $faker->sentence(),
+            'refer_ability' => $faker->randomElement([1, 2, 3, 4, 5]),
+            'refer_ability_review' => $faker->sentence(),
+            'overall_rating' => $rating,
+            'overall_rating_review' => $faker->sentence(),
+            'full_name' => $faker->name,
+            'attribution' => $faker->company,
+            'position_title' => $faker->jobTitle,
+            'company_name' => $faker->company,
+            'company_size' => $faker->randomElement(['Small', 'Medium', 'Large']),
+            'city' => $faker->city,
+            'state' => $faker->state,
+            'country' => $faker->country,
+            'company_email' => $faker->companyEmail,
+            'phone_number' => $faker->phoneNumber,
+            'linkedin_url' => $faker->url,
+            'company_url' => $faker->url,
+            'status' => 1,
+            'project_summary' => $faker->paragraph(),
+            'feedback_summary' => $faker->paragraph(),
+            'published' => $faker->randomElement(['0', '1']),
+            'created_at' => now(),
+            'updated_at' => now(),
+            'comment' => $faker->sentence(),
+        ]);
+
+        // Step 4: Process points for the company
+        $result = CompanyPointHelper::processReview(
+            $companyId,
+            $rating, // Use the overall rating to determine points
+            'Unverified' // Since the review is unverified initially
+        );
+
+        // Step 5: Return the response
+        return response()->json([
+            'message' => 'Review created and points updated successfully.',
+            'review' => $review,
+            'company_points' => $result,
+
+        ]);
+    }
 }

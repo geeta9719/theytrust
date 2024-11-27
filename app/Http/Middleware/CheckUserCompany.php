@@ -8,15 +8,13 @@ use App\Models\Company;
 use App\Models\Address;
 use App\Models\AddFocus;
 
-
 class CheckUserCompany
 {
     public function handle(Request $request, Closure $next)
     {
         $user = $request->user();
 
-
-        if ($request->routeIs('user.basicInfo', 'user.saveBasicInfo','company.savelocation','company.location', 'user.saveBasicInfo','company.focus','company.savefocus')) {
+        if ($request->routeIs('user.basicInfo', 'user.saveBasicInfo', 'company.savelocation', 'company.location', 'user.saveBasicInfo', 'company.focus', 'company.savefocus')) {
             return $next($request);
         }
 

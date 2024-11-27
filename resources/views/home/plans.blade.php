@@ -1,7 +1,7 @@
-@php 
+@php
 @endphp
 @extends(false? 'layouts.home-master' : 'layouts.home')
-@section('content') 
+@section('content')
 
 <style>
     .pricetable-box{
@@ -32,7 +32,7 @@ px
 }
 </style>
     <div class="container-fluid my-4 ">
-        
+
         <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,10 +52,10 @@ px
                     <th>Basic</th>
                     <th>Premium Local</th>
                     <th>Featured Regional</th>
-          
+
                 </tr>
                 <tr>
-                
+
             </thead>
             <tbody>
                 <tr>
@@ -140,10 +140,10 @@ px
                     <th>....</th>
                 </tr>
 
-            
-                
+
+
                 </tr>
-             
+
             </tbody>
         </table>
         <h2>Basic - Free</h2>

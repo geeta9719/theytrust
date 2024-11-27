@@ -11,10 +11,10 @@ class AddressSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        
+
         // Fetch all companies along with their associated user_id
         $companies = DB::table('companies')->select('id', 'user_id')->get();
-        
+
         foreach ($companies as $company) {
             DB::table('addresses')->where('company_id', $company->id)->delete();
 

@@ -77,7 +77,7 @@
 </p>
                 </div>
             </div>
-        
+
          <div class="col-lg-3 col-md-6 px-4 px-md-1 mb-0">
             <div class="agenciesbox">
                 <img src="https://theytrust-us.developmentserver.info/front_components/images/icon1.png" alt="">
@@ -85,12 +85,12 @@
                 <hr>
                 <h4>AR and VR Development
 </h4>
-                <p>Unlock the potential of Augmented Reality (AR) and Virtual Reality (VR) with our expert AR/VR development services. 
+                <p>Unlock the potential of Augmented Reality (AR) and Virtual Reality (VR) with our expert AR/VR development services.
 </p>
                 <hr>
                 <h4>Android App Development
 </h4>
-                <p>Enhance your mobile presence with our cutting-edge Android app development solutions. 
+                <p>Enhance your mobile presence with our cutting-edge Android app development solutions.
 
 </p>
                 <hr>
@@ -100,7 +100,7 @@
 </p>
              </div>
              </div>
-       
+
          <div class="col-lg-3 col-md-6 px-4 px-md-1">
           <div class="agenciesbox tabview acc">
             <img src="https://theytrust-us.developmentserver.info/front_components/images/icon2.png" alt="">
@@ -109,12 +109,12 @@
             <hr>
             <h4>Accounting
 </h4>
-            <p>Comprehensive financial management and reporting solutions for businesses of all sizes. 
+            <p>Comprehensive financial management and reporting solutions for businesses of all sizes.
 </p>
             <hr>
             <h4>Bookkeeping
 </h4>
-            <p>Accurate and efficient tracking of financial transactions to ensure precise financial records. 
+            <p>Accurate and efficient tracking of financial transactions to ensure precise financial records.
 </p>
             <hr>
             <h4>Forensic Accounting
@@ -123,7 +123,7 @@
 </p>
            </div>
           </div>
-        
+
          <div class="col-lg-3 col-md-6 px-4 px-md-1">
          <div class="agenciesbox tabview">
             <img src="https://theytrust-us.developmentserver.info/front_components/images/icon3.png" alt="">
@@ -145,7 +145,7 @@
             <p>Expert assistance navigating complex customs regulations and procedures, ensuring smooth clearance and compliance for international trade transactions.
 </p>
            </div>
-           
+
          </div>
          </div>
           </div>

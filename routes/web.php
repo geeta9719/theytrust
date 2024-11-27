@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
@@ -22,9 +21,6 @@ use App\Http\Controllers\SkillCategoryController;
 use App\Http\Controllers\ModelReferenceController;
 use App\Http\Controllers\SponceController;
 
-
-
-
 // use App\Http\Controllers\swapcontroller;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PlanFeatureController;
@@ -35,10 +31,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\PageController;
 
-
 // use App\Http\Controllers\CompanyController;
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -61,13 +54,11 @@ Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::post('/stripe/webhook', [PaymentContorller::class, 'handle']);
 
 Route::get('/auth/linkedin', [AuthController::class, 'redirectToLinkedin'])->name('auth.linkedin');
-Route::get('/auth/linkedin/callback', [ AuthController::class, 'handleLinkedinCallback'] );
+Route::get('/auth/linkedin/callback', [ AuthController::class, 'handleLinkedinCallback']);
 
-Route::get('/auth/linkedin/claim/{user_id}', [ AuthController::class, 'redirectToLinkedinClaimProfile' ] )->name( 'claim-your-profile' );
-Route::get('/linkedin/callback_claim_profile', [ AuthController::class, 'handleLinkedinCalimYourProfile'] );
+Route::get('/auth/linkedin/claim/{user_id}', [ AuthController::class, 'redirectToLinkedinClaimProfile' ])->name('claim-your-profile');
+Route::get('/linkedin/callback_claim_profile', [ AuthController::class, 'handleLinkedinCalimYourProfile']);
 Route::get('verify-email/{token}', [AuthController::class,'verifyEmail'])->name('verify.email');
-
-
 
 /*****************Abandoned*******************/
 
@@ -96,8 +87,6 @@ Route::get('/directory/{name}/{loc}', [SearchController::class, 'companies'])->n
 
 Route::post('/directory/{name}', [SearchController::class, 'companies'])->name('in-directory');
 
-
-
 Route::get('/directory/{name}/{loc?}', [SearchController::class, 'companies'])->name('in');
 
 Route::get('/search/city-select2', [SearchController::class, 'get_searched_city_select2'])->name('select2-cities');
@@ -114,7 +103,6 @@ Route::get('/api/subcategories', [UserController::class, 'subcategories']);
 Route::get('/api/skill', [UserController::class, 'skill']);
 Route::get('/api/subskill', [UserController::class, 'subskill']);
 
-
 /*search end*/
 
 Route::get('/company/{company}/review', [HomeController::class, 'review'])->name('company.review');
@@ -124,18 +112,16 @@ Route::get('contact', [HomeController::class, 'contact']);
 
 Route::post('sendContactEmail', [HomeController::class, 'sendContactEmail']);
 
-Route::post('/subscribe-newsletter', [ HomeController::class, 'subscribeNewsletter'] )->name('subscribe');
+Route::post('/subscribe-newsletter', [ HomeController::class, 'subscribeNewsletter'])->name('subscribe');
 
-
-Route::get('claim-profile-status', function(){
-    return view( 'home.companyClaimProfileStatus' );
+Route::get('claim-profile-status', function () {
+    return view('home.companyClaimProfileStatus');
 });
-
 
 Route::get('/sponsorship', [HomeController::class, 'getPriceListing']);
 //////////////////////////////////////////
-Route::middleware('auth')->group(function(){
-    
+Route::middleware('auth')->group(function () {
+
     //user
     Route::get('/user', [HomeController::class, 'index'])->name('home');
     Route::get('/company/{company}/dashboard', [UserController::class, 'dashboard'])->name('company.dashboard');
@@ -144,18 +130,11 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/user/choice', [UserController::class, 'choice'])->name('user.choice');
 
-
-
-
-    Route::post( '/user/choose-plan', [ HomeController::class, 'saveChoosenPlan' ] );
-
-
-
-
+    Route::post('/user/choose-plan', [ HomeController::class, 'saveChoosenPlan' ]);
 
     Route::get('/user/personal', [UserController::class, 'personal'])->name('user.personal');
     Route::post('/user/{user}/savePersonal', [UserController::class, 'savePersonal'])->name('user.savePersonal');
-    Route::get( '/company/{company_id}/industry', [ AddCompany::class, 'getdataIndustry'] )->name( 'company.industry' );
+    Route::get('/company/{company_id}/industry', [ AddCompany::class, 'getdataIndustry'])->name('company.industry');
 
     Route::get('/user/{user}/basicInfo', [UserController::class, 'basicInfo'])->name('user.basicInfo');
 
@@ -166,11 +145,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/company/{company}/location', [UserController::class, 'location'])->name('company.location');
     Route::post('/company/location', [UserController::class, 'savelocation'])->name('company.savelocation');
 
-    Route::get( '/company/location/delete/{loc_id}', [UserController::class, 'deleteLocation'] )->name('delete-location-by-id');
+    Route::get('/company/location/delete/{loc_id}', [UserController::class, 'deleteLocation'])->name('delete-location-by-id');
 
     Route::get('/company/{company}/focus', [UserController::class, 'focus'])->name('company.focus');
     Route::post('/company/focus', [UserController::class, 'saveFocus'])->name('company.saveFocus');
-
 
     Route::post('/company/marketing', [UserController::class, 'saveAdminInfo'])->name('company.saveAdminInfo');
 
@@ -182,11 +160,11 @@ Route::middleware('auth')->group(function(){
     Route::get('/company/{company}/getReview', [HomeController::class, 'getReview'])->name('company.getReview');
     Route::Post('/get-review-save', [HomeController::class, 'saveReview'])->name('saveReview');
 
-    Route::get( '/review/states', [ CompanyController::class, 'get_states_by_country' ] );
-    Route::get( '/review/cities', [ CompanyController::class, 'get_cities_by_state' ] );
+    Route::get('/review/states', [ CompanyController::class, 'get_states_by_country' ]);
+    Route::get('/review/cities', [ CompanyController::class, 'get_cities_by_state' ]);
 
     //admin
-    Route::middleware('isAdmin')->group( function(){
+    Route::middleware('isAdmin')->group(function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
         Route::get('/admin/category/show', [CategoryController::class, 'index'])->name('admin.category.index');
@@ -196,80 +174,67 @@ Route::middleware('auth')->group(function(){
         Route::put('/admin/category/{category}/update', [CategoryController::class, 'update'])->name('admin.category.update');
         Route::delete('/admin/category/{category}/destroy', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
         Route::post('/admin/category/set-priority', [CategoryController::class, 'set_priority'])->name('admin.category.set_priority');
-            Route::get('admin/seo-search', [SeosearchController::class,'index'])->name('admin.seo-search');
-            Route::get('/upload-seo-excel', [SeosearchController::class, 'showForm']);
-            Route::post('/upload-seo-excel', [SeosearchController::class, 'importExcel']);
-            Route::put('/seo/{id}', [SeosearchController::class, 'update'])->name('seo.update');
-            Route::delete('/seo/{id}', [SeosearchController::class, 'destroy'])->name('seo.destroy');
-        Route::get('/file-import',[SeosearchController::class,'importView'])->name('import-view'); 
-        Route::post('/import',[SeosearchController::class,'import'])->name('import'); 
-        Route::get('/export-users',[SeosearchController::class,'exportUsers'])->name('export-users');
-
-
+        Route::get('admin/seo-search', [SeosearchController::class,'index'])->name('admin.seo-search');
+        Route::get('/upload-seo-excel', [SeosearchController::class, 'showForm']);
+        Route::post('/upload-seo-excel', [SeosearchController::class, 'importExcel']);
+        Route::put('/seo/{id}', [SeosearchController::class, 'update'])->name('seo.update');
+        Route::delete('/seo/{id}', [SeosearchController::class, 'destroy'])->name('seo.destroy');
+        Route::get('/file-import', [SeosearchController::class,'importView'])->name('import-view');
+        Route::post('/import', [SeosearchController::class,'import'])->name('import');
+        Route::get('/export-users', [SeosearchController::class,'exportUsers'])->name('export-users');
 
         // Company
 
-        Route::get( '/admin/company/add/{user_id?}/{company_id?}', [ AddCompany::class, 'add_company_and_user'] )->name( 'admin.company.add' );
-        Route::post( '/admin/company/save', [ AddCompany::class, 'save_company_and_user' ] )->name( 'admin.company.save' );
+        Route::get('/admin/company/add/{user_id?}/{company_id?}', [ AddCompany::class, 'add_company_and_user'])->name('admin.company.add');
+        Route::post('/admin/company/save', [ AddCompany::class, 'save_company_and_user' ])->name('admin.company.save');
 
-        Route::get( '/admin/company/{company_id}/{user_id}/location/', [ AddCompany::class, 'add_company_location' ])->name( 'admin.company.location' );
-        Route::post( '/admin/company/save-location', [ AddCompany::class, 'save_company_location'] )->name( 'admin.company.save-location' );
-        
-        Route::get( '/admin/company/{company_id}/focus', [ AddCompany::class, 'add_company_focus'] )->name( 'admin.company.focus' );
+        Route::get('/admin/company/{company_id}/{user_id}/location/', [ AddCompany::class, 'add_company_location' ])->name('admin.company.location');
+        Route::post('/admin/company/save-location', [ AddCompany::class, 'save_company_location'])->name('admin.company.save-location');
+
+        Route::get('/admin/company/{company_id}/focus', [ AddCompany::class, 'add_company_focus'])->name('admin.company.focus');
 
         Route::post('/admin/company/save-focus', [AddCompany::class, 'save_company_focus'])->name('admin.company.savefocus');
 
-        Route::get('/admin/company/{company_id}/admin-info', [AddCompany::class, 'add_admin_info'] )->name('admin.company.admininfo');
-        Route::post('/admin/company/save-admin-info', [AddCompany::class, 'save_company_admin_info'] )->name('admin.company.save-admininfo');
+        Route::get('/admin/company/{company_id}/admin-info', [AddCompany::class, 'add_admin_info'])->name('admin.company.admininfo');
+        Route::post('/admin/company/save-admin-info', [AddCompany::class, 'save_company_admin_info'])->name('admin.company.save-admininfo');
 
+        Route::post('admin/send-reviwer-mail', [ HomeController::class, 'send_email_to_reviewer']);
 
-        Route::post( 'admin/send-reviwer-mail', [ HomeController::class, 'send_email_to_reviewer'] );
-
-        Route::get('admin/company/review/email-logs', [ HomeController::class, 'company_review_email_logs'] )->name('admin.review.email.logs');
+        Route::get('admin/company/review/email-logs', [ HomeController::class, 'company_review_email_logs'])->name('admin.review.email.logs');
         Route::get('/admin/subcategory/show', [SubCategoryController::class, 'index'])->name('admin.subcategory.index');
         Route::get('/admin/subcategory/create', [SubCategoryController::class, 'create'])->name('admin.subcategory.create');
         Route::post('/admin/subcategory/store', [SubCategoryController::class, 'store'])->name('admin.subcategory.store');
         Route::get('/admin/subcategory/{subcategory}/edit', [SubCategoryController::class, 'edit'])->name('admin.subcategory.edit');
         Route::put('/admin/subcategory/{subcategory}/update', [SubCategoryController::class, 'update'])->name('admin.subcategory.update');
-        Route::delete('/admin/subcategory/{subcategory}/destroy',[SubCategoryController::class,'destroy'])->name('admin.subcategory.destroy');
-        Route::post('/admin/subcategory/set-priority',[SubCategoryController::class, 'set_priority'])->name('admin.subcategory.set_priority');
-        
+        Route::delete('/admin/subcategory/{subcategory}/destroy', [SubCategoryController::class,'destroy'])->name('admin.subcategory.destroy');
+        Route::post('/admin/subcategory/set-priority', [SubCategoryController::class, 'set_priority'])->name('admin.subcategory.set_priority');
+
         // by vipin
-       
-///////skill controller/////
 
+        ///////skill controller/////
 
-
-Route::get('admin/skills/index', [SkillCategoryController::class, 'index'])->name('admin.skills.index');
-Route::get('admin/skills/create', [SkillCategoryController::class, 'create'])->name('admin.skills.create');
-Route::get('admin/skills/{id}/edit', [SkillCategoryController::class, 'edit'])->name('admin.skills.edit');
-Route::post('/admin/skills', [SkillCategoryController::class, 'store'])->name('admin.skills.store');
-Route::put('admin/skills/{id}', [SkillCategoryController::class, 'update'])->name('admin.skills.update');
-Route::delete('/admin/skills/{skill}', [SkillCategoryController::class, 'destroy'])->name('admin.skills.destroy');
-
-
-
-
+        Route::get('admin/skills/index', [SkillCategoryController::class, 'index'])->name('admin.skills.index');
+        Route::get('admin/skills/create', [SkillCategoryController::class, 'create'])->name('admin.skills.create');
+        Route::get('admin/skills/{id}/edit', [SkillCategoryController::class, 'edit'])->name('admin.skills.edit');
+        Route::post('/admin/skills', [SkillCategoryController::class, 'store'])->name('admin.skills.store');
+        Route::put('admin/skills/{id}', [SkillCategoryController::class, 'update'])->name('admin.skills.update');
+        Route::delete('/admin/skills/{skill}', [SkillCategoryController::class, 'destroy'])->name('admin.skills.destroy');
 
         Route::get('admin/subcategory-child/show', [SubcatChildController::class, 'index'])->name('admin.subcategory-child.show');
-		Route::get('admin/subcategory-child/create', [SubcatChildController::class, 'create'])->name('admin.subcategory-child.create');
-		Route::post('admin/subcategory-child/store', [SubcatChildController::class, 'store'])->name('admin.subcategory-child.store');
-		Route::get('/admin/subcategory-child/{subcategorychild}/edit', [SubcatChildController::class, 'edit'])->name('admin.subcategory-child.edit');
-		Route::put('/admin/subcategory-child/{subcategorychild}/update', [SubcatChildController::class, 'update'])->name('admin.subcategory-child.update');
-		Route::delete('/admin/subcategory-child/{subcategorychild}/destroy', [SubcatChildController::class, 'destroy'])->name('admin.subcategory-child.destroy');
-        
-
-
+        Route::get('admin/subcategory-child/create', [SubcatChildController::class, 'create'])->name('admin.subcategory-child.create');
+        Route::post('admin/subcategory-child/store', [SubcatChildController::class, 'store'])->name('admin.subcategory-child.store');
+        Route::get('/admin/subcategory-child/{subcategorychild}/edit', [SubcatChildController::class, 'edit'])->name('admin.subcategory-child.edit');
+        Route::put('/admin/subcategory-child/{subcategorychild}/update', [SubcatChildController::class, 'update'])->name('admin.subcategory-child.update');
+        Route::delete('/admin/subcategory-child/{subcategorychild}/destroy', [SubcatChildController::class, 'destroy'])->name('admin.subcategory-child.destroy');
 
         Route::get('admin/company/list', [CompanyController::class, 'company_list'])->name('admin.company.list');
-        
+
         Route::post('admin/publish-company', [CompanyController::class, 'publish_company'])->name('admin.publish_company');
 
         Route::post('admin/publish-all-company', [CompanyController::class, 'publish_all_company'])->name('admin.publish_all_company');
 
-        Route::post('admin/flag-company', [ CompanyController::class, 'flag_company'] )->name( 'admin.flag_company' );
+        Route::post('admin/flag-company', [ CompanyController::class, 'flag_company'])->name('admin.flag_company');
 
-        
         Route::get('admin/company/review', [CompanyController::class, 'company_review'])->name('admin.company.review');
         Route::get('admin/company/{viewreview}/viewreview', [CompanyController::class, 'view_reviews'])->name('admin.company.viewreview');
         Route::get('admin/company/{viewreview}/edit', [CompanyController::class, 'edit_review'])->name('admin.company.editreview');
@@ -286,7 +251,7 @@ Route::delete('/admin/skills/{skill}', [SkillCategoryController::class, 'destroy
         Route::get('/admin/attribution/{attribution}/edit', [AttributionController::class, 'edit'])->name('admin.attribution.edit');
         Route::put('/admin/attribution/{attribution}/update', [AttributionController::class, 'update'])->name('admin.attribution.update');
         Route::delete('/admin/attribution/{attribution}/destroy', [AttributionController::class, 'destroy'])->name('admin.attribution.destroy');
-        
+
         Route::get('admin/size/show', [SizeController::class, 'index'])->name('admin.size.show');
         Route::get('/admin/size/create', [SizeController::class, 'create'])->name('admin.size.create');
         Route::post('/admin/size/store', [SizeController::class, 'store'])->name('admin.size.store');
@@ -318,17 +283,17 @@ Route::delete('/admin/skills/{skill}', [SkillCategoryController::class, 'destroy
         Route::resource('plans', PlanController::class);
         // Route::resource('planfeatures', PlanFeatureController::class);
         Route::resource('plansubscription', PlanSubscriptionController::class);
-    });    
+    });
     Route::get('/checkout', [PaymentContorller::class, 'checkout'])->name('checkout');
     Route::post('/user/choose-plan', [PaymentContorller::class, 'choosePlan'])->name('user.choosePlan');
     Route::post('/create-checkout-session', [PaymentContorller::class, 'createCheckoutSession']);
-   
+
     Route::get('/send-email/{userId}', [PaymentContorller::class, 'sendEmailWithPdf'])->name('send.email.with.pdf');
     Route::resource('planfeatures', PlanFeatureController::class);
     Route::get('/company/{company}/projects', [CompanyController::class, 'CompnayProjectIndex'])->name('projects.index');
     Route::get('/admin/model-references/create', [ModelReferenceController::class, 'create'])->name('model-references.create');
-Route::post('admin/model-references', [ModelReferenceController::class, 'store'])->name('model-references.store');
-    Route::resource('Projects','App\Http\Controllers\ProjectController');
+    Route::post('admin/model-references', [ModelReferenceController::class, 'store'])->name('model-references.store');
+    Route::resource('Projects', 'App\Http\Controllers\ProjectController');
 
     Route::get('admin/sponce/create', [SponceController::class, 'create'])->name('sponce.create');
     Route::get('admin/sponce', [SponceController::class, 'index'])->name('sponce.index');
@@ -337,22 +302,16 @@ Route::post('admin/model-references', [ModelReferenceController::class, 'store']
     Route::post('/sponce/get-companies', [SponceController::class, 'getCompaniesByUser'])->name('sponce.getCompanies');
     Route::post('/sponce/get-locations', [SponceController::class, 'getLocationsByCompany'])->name('sponce.getLocations');
     Route::get('/sponce/get-cities', [SponceController::class, 'getCities'])->name('sponce.getCities');
-Route::get('/sponce/get-states', [SponceController::class, 'getStates'])->name('sponce.getStates');
-Route::post('/sponce/search-location', [SponceController::class, 'searchLocation'])->name('sponce.searchLocation');
-Route::post('/sponce/get-data-by-type', [SponceController::class, 'getDataByType'])->name('sponce.getDataByType');
-
-
-    
-
-
+    Route::get('/sponce/get-states', [SponceController::class, 'getStates'])->name('sponce.getStates');
+    Route::post('/sponce/search-location', [SponceController::class, 'searchLocation'])->name('sponce.searchLocation');
+    Route::post('/sponce/get-data-by-type', [SponceController::class, 'getDataByType'])->name('sponce.getDataByType');
 
 });
 Route::get('admin/service-provider/search', [ServiceProviderController::class, 'search'])->name('admin.service-provider.search');
 Route::post('admin/service-provider', [ServiceProviderController::class, 'store1'])->name('admin.service-provider.store1');
-Route::resource('admin/service-provider', ServiceProviderController::class,[
-    'as' => 'admin'
+Route::resource('admin/service-provider', ServiceProviderController::class, [
+    'as' => 'admin',
 ]);
-
 
 Route::get('/subscribe/{plan}/{user}', [PaymentContorller::class, 'subscribeToPlan']);
 Route::post('/company/save-Service/{id}', [AddCompany::class, 'save_company_service'])->name('company.savefocus');
@@ -361,7 +320,6 @@ Route::get('/companydata/{id}/', [AddCompany::class, 'getdata']);
 Route::get('/industry/{id}/', [AddCompany::class, 'industryData']);
 Route::get('providers/category/', [AddCompany::class, 'browseByCategory']);
 Route::get('/company/{company}/marketing', [UserController::class, 'adminInfo'])->name('company.marketing');
-
 
 Route::get('portfolio/create', [PortfolioItemController::class, 'create'])->name('portfolio.create');
 Route::post('portfolio', [PortfolioItemController::class, 'store'])->name('portfolio.store');
@@ -381,10 +339,8 @@ Route::post('/login-email', [AuthController::class,"loginWithEmail"])->name('log
 // web.php
 Route::post('/password/email', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
 
-
 Route::post('/portfolio-items/reorder', [PortfolioItemController::class, 'reorder'])->name('portfolio_items.reorder');
 Route::post('/submit-response', [ReviewController::class,'submitResponse'])->name('submit.response');
-
 
 Route::get('/categories', [SearchController::class, 'getCategories']);
 // Route::get('/listing', [SearchController::class, 'listing'])->name('listing');
@@ -397,16 +353,12 @@ Route::get('/api/skills/{id}/deepskills', [SearchController::class, 'getDeepSkil
 Route::get('/api/companies', [SearchController::class, 'index']);
 Route::get('/api/location', [SearchController::class, 'getLocation']);
 
-
 Route::get('/get-companies', [ModelReferenceController::class, 'getCompaniesByForeignKey'])->name('get.companies.by.foreignkey');
 Route::get('/resend-verification/{email}', [AuthController::class, 'resendVerificationEmail'])->name('resend.verification');
 Route::get('password/reset/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [AuthController::class, 'reset'])->name('password.update');
 
-
-
-
-//Simple User LOg in 
+//Simple User LOg in
 
 Route::middleware([ 'check.company'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -417,10 +369,9 @@ Route::middleware([ 'check.company'])->group(function () {
 
     Route::post('/company/location', [UserController::class, 'savelocation'])->name('company.savelocation');
     Route::get('/company/{company}/location', [UserController::class, 'location'])->name('company.location');
-   
+
     Route::get('/company/{company}/focus', [UserController::class, 'focus'])->name('company.focus');
     Route::post('/company/focus', [UserController::class, 'saveFocus'])->name('company.saveFocus');
-
 
 });
 
@@ -429,9 +380,4 @@ Route::middleware([ 'check.company'])->group(function () {
 Route::get('/terms-of-use', [PageController::class, 'termsOfUse'])->name('terms-of-use');
 Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
 
-
-    
-
-
-
-
+Route::get('/generate-company-review', [HomeController::class, 'generateSingleCompanyReview'])->name('generateSingleCompanyReview');

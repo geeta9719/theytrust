@@ -18,4 +18,3 @@ class Review extends Component
         return view('components.review');
     }
 }
-

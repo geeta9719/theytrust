@@ -19,15 +19,15 @@
                 <td>{{$users->email}}</td>
                 <td>{{$users->phone}}</td>
                 <td>{{$i++}}</td>
-               
 
-                
+
+
                 <td>{{}$i++}</td>
                 <td>
-                           
+
                             <a href="{{ route('users.show', $users->id) }}">View</a>
                             <a href="{{ route('users.edit', $users->id) }}">Edit</a>
-                          
+
                             <!-- <form action="{{ route('$users.destroy', $users->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')

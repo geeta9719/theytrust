@@ -1,7 +1,14 @@
 <div>
     <!-- Forgot Password Modal -->
-    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog"
-        aria-labelledby="forgotPasswordModalLabel" aria-hidden="true" wire:ignore.self>
+    <div
+        class="modal fade"
+        id="forgotPasswordModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="forgotPasswordModalLabel"
+        aria-hidden="true"
+        wire:ignore.self
+    >
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -27,17 +34,23 @@
                         @endif
 
                         <!-- Email Input -->
-                        <p class="ml-2 enter-txt">Please enter your email address to receive password reset instructions.</p>
+                        <p class="ml-2 enter-txt">
+                            Please enter your email address to receive password reset instructions.
+                        </p>
                         <div class="form-group forgot-box">
                             <label for="email">Email Address</label>
-                            <input type="email" wire:model="email" id="email" class="form-control" required>
-                            @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+                            <input type="email" wire:model="email" id="email" class="form-control" required />
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="modal-footer forgot-box">
                         <button type="submit" class="btn btn-primary reset-link">Send Reset Link</button>
-                        <button type="button" class="btn btn-secondary reset-close-link" id="closeForgotPasswordBtn">Close</button>
+                        <button type="button" class="btn btn-secondary reset-close-link" id="closeForgotPasswordBtn">
+                            Close
+                        </button>
                     </div>
                 </form>
             </div>
@@ -47,28 +60,28 @@
 
 <!-- jQuery Script -->
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Open the modal when clicking "Forgot Password"
-        $('#open-forgot-password').on('click', function(e) {
-            e.preventDefault();
-            $('#forgotPasswordModal').modal('show');
-        });
+        $('#open-forgot-password').on('click', function (e) {
+            e.preventDefault()
+            $('#forgotPasswordModal').modal('show')
+        })
 
         // Close the modal when clicking the 'X' button in the header
-        $('#closeForgotPasswordModal').on('click', function() {
-            $('#forgotPasswordModal').modal('hide');
-        });
+        $('#closeForgotPasswordModal').on('click', function () {
+            $('#forgotPasswordModal').modal('hide')
+        })
 
         // Close the modal when clicking the 'Close' button in the footer
-        $('#closeForgotPasswordBtn').on('click', function() {
-            $('#forgotPasswordModal').modal('hide');
-        });
+        $('#closeForgotPasswordBtn').on('click', function () {
+            $('#forgotPasswordModal').modal('hide')
+        })
 
         // Keep the modal open after form submission if needed
         Livewire.on('passwordResetAttempt', function () {
-            $('#forgotPasswordModal').modal('show');
-        });
-    });
+            $('#forgotPasswordModal').modal('show')
+        })
+    })
 </script>
 
 <!-- Styling to ensure the modal behaves correctly -->

@@ -563,7 +563,7 @@ text-decoration:none;
                                 <a href="{{ url('/membership-plans') }}" class="btn  ml-2" style="background-color:#00bdd6!important;">Subscribe Now</a>
                             @endif
                         </div>
-                        
+
                         <div class="d-flex align-items-center my-2">
                             <img src="/img/tag.png" alt="Tag Icon" class="img-fluid" style="width: 20px; height: 20px;">
                             <a href="{{ $company->website }}" class="ml-2 website-txt">{{ $company->website }}</a>

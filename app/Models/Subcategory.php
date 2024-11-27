@@ -11,21 +11,24 @@ class Subcategory extends Model
 
     protected $guarded;
 
-
-    public function service_line(){
+    public function service_line()
+    {
         return $this->hasMany(Serviceline::class);
     }
 
-    public function add_focus(){
+    public function add_focus()
+    {
         return $this->hasMany(AddFocus::class);
     }
 
-    public function subcat_child(){
+    public function subcat_child()
+    {
         return $this->hasMany(SubcatChild::class);
     }
 
-    public function company_review(){
-        return $this->belongsTo(CompanyReview::class,'project_type');
+    public function company_review()
+    {
+        return $this->belongsTo(CompanyReview::class, 'project_type');
     }
 
     //New
@@ -40,15 +43,14 @@ class Subcategory extends Model
         return $this->hasMany(AddFocus::class);
     }
 
-public function companySubcatChild()
-{
-    return $this->hasMany(CompanySubcatChild::class, 'subcategory_id', 'id');
-}
+    public function companySubcatChild()
+    {
+        return $this->hasMany(CompanySubcatChild::class, 'subcategory_id', 'id');
+    }
 
-public function modelReferences()
-{
-    return $this->hasMany(ModelReference::class, 'foreign_key_id');
-}
-
+    public function modelReferences()
+    {
+        return $this->hasMany(ModelReference::class, 'foreign_key_id');
+    }
 
 }

@@ -10,7 +10,8 @@ class AddFocus extends Model
     use HasFactory;
     protected $guarded;
 
-    public function subcat_child(){
+    public function subcat_child()
+    {
         return $this->belongsTo(SubcatChild::class);
     }
 

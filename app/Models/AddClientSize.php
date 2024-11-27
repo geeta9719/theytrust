@@ -10,11 +10,13 @@ class AddClientSize extends Model
     use HasFactory;
     protected $guarded;
 
-    public function company(){
+    public function company()
+    {
         return $this->belongsTo(Company::class);
     }
-    
-    public function client_size(){
+
+    public function client_size()
+    {
         return $this->belongsTo(ClientSize::class);
     }
 }

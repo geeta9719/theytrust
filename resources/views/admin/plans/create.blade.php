@@ -16,12 +16,12 @@
 
                             <div class="form-group">
                                 <label for="name">Name:</label>
-                                <input type="text" name="name" class="form-control" required>
+                                <input type="text" name="name" class="form-control" required />
                             </div>
 
                             <div class="form-group">
                                 <label for="price">Price:</label>
-                                <input type="number" name="price" class="form-control" required>
+                                <input type="number" name="price" class="form-control" required />
                             </div>
 
                             <div class="form-group">
@@ -31,7 +31,7 @@
 
                             <div class="form-group">
                                 <label for="description">Link:</label>
-                                <input name="stripe_link" class="form-control">
+                                <input name="stripe_link" class="form-control" />
                             </div>
 
                             <!-- Metadata input -->
@@ -39,14 +39,26 @@
                                 <label for="metadata">Metadata (Key-Value Pairs):</label>
                                 <div id="metadataFields">
                                     <div class="metadata-field">
-                                        <input type="text" name="metadata[key][]" placeholder="Key" class="form-control" required>
-                                        <input type="text" name="metadata[value][]" placeholder="Value" class="form-control" required>
+                                        <input
+                                            type="text"
+                                            name="metadata[key][]"
+                                            placeholder="Key"
+                                            class="form-control"
+                                            required
+                                        />
+                                        <input
+                                            type="text"
+                                            name="metadata[value][]"
+                                            placeholder="Value"
+                                            class="form-control"
+                                            required
+                                        />
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-success" onclick="addMetadataField()">Add Metadata Field</button>
+                                <button type="button" class="btn btn-success" onclick="addMetadataField()">
+                                    Add Metadata Field
+                                </button>
                             </div>
-
-                        
 
                             <div class="form-group">
                                 <label for="duration">Duration:</label>
@@ -54,8 +66,8 @@
                                     <option value="30">30 Days</option>
                                     <option value="60">60 Days</option>
                                     <option value="90">90 Days</option>
-                                    
-                                    <option value="365"> 365 Days</option>
+
+                                    <option value="365">365 Days</option>
                                     <!-- Add more options as needed -->
                                 </select>
                             </div>
@@ -79,14 +91,14 @@
 
     <script>
         function addMetadataField() {
-            var metadataFields = document.getElementById('metadataFields');
-            var newMetadataField = document.createElement('div');
-            newMetadataField.className = 'metadata-field';
+            var metadataFields = document.getElementById('metadataFields')
+            var newMetadataField = document.createElement('div')
+            newMetadataField.className = 'metadata-field'
             newMetadataField.innerHTML = `
                 <input type="text" name="metadata[key][]" placeholder="Key" class="form-control" required>
                 <input type="text" name="metadata[value][]" placeholder="Value" class="form-control" required>
-            `;
-            metadataFields.appendChild(newMetadataField);
+            `
+            metadataFields.appendChild(newMetadataField)
         }
     </script>
 @endsection

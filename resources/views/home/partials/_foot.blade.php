@@ -13,12 +13,12 @@
                             <li>News & Press</li>
                             <li>Blog</li>
                             <li>Careers</li>
-                           
+
                         </ul>
                     </div>
-                
-                    
-    
+
+
+
                 </div>
                 <div class="col-md-2">
                     <div class="footer-box">
@@ -28,10 +28,10 @@
                             <li>Browse Projects</li>
                             <li>Browse Bundles</li>
                             <li>Leave Review</li>
-                           
+
                         </ul>
                     </div>
-                   
+
                 </div>
                 <div class="col-md-2">
                     <div class="footer-box">
@@ -41,10 +41,10 @@
                             <li>Sponsorships</li>
                             <li>Pricing</li>
                             <li>Download TTU Badge</li>
-                           
+
                         </ul>
                     </div>
-                    
+
                 </div>
                 <div class="col-md-2">
                     <div class="footer-box">
@@ -57,12 +57,12 @@
                            <li>Site Map</li>
                         </ul>
                     </div>
-                  
+
                 </div>
                 <div class="col-md-4">
                     <img src="https://theytrust-us.developmentserver.info/front_components/images/theylogo.png" alt="" class="img-fluid">
                     <p>  © 2024 They Trust Us, All Rights Reserved.</p>
-                  
+
                 </div>
             </div>
         </div>

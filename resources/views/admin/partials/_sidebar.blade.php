@@ -41,7 +41,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          
+
           <li class="nav-item menu-open" >
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -49,20 +49,20 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            
+
             <ul class="nav nav-treeview">
               @if(request()->is('admin/category/show'))
                 @php $a = 'menu-open' @endphp
               @elseif(request()->is('admin/category/create'))
-                @php $a = 'menu-open' @endphp   
+                @php $a = 'menu-open' @endphp
               @elseif(request()->is('admin/subcategory/show'))
-                @php $a = 'menu-open' @endphp 
+                @php $a = 'menu-open' @endphp
               @elseif(request()->is('admin/subcategory/create'))
-                @php $a = 'menu-open' @endphp 
+                @php $a = 'menu-open' @endphp
                 @elseif(request()->is('admin/seo-search'))
-                @php $a = 'menu-open' @endphp   
+                @php $a = 'menu-open' @endphp
               @elseif(request()->is('admin/subcategory-child/show'))
-                @php $a = 'menu-open' @endphp          
+                @php $a = 'menu-open' @endphp
               @else
                 @php $a = '' @endphp
               @endif
@@ -112,9 +112,9 @@
                         <p>Skills</p>
                     </a>
                 </li>
-              
-                
-                
+
+
+
 
                   <li class="nav-item">
                       <a href="{{ route('admin.seo-search') }}" class="nav-link {{ request()->is('admin/seo-search') ? 'active act' : '' }}">
@@ -133,7 +133,7 @@
               @elseif(request()->is('admin/company/review'))
                 @php $a = 'menu-open' @endphp
               @elseif(request()->is('admin/company/review/email-logs'))
-                @php $a = 'menu-open' @endphp       
+                @php $a = 'menu-open' @endphp
               @else
                 @php $a = '' @endphp
               @endif
@@ -175,22 +175,22 @@
                     </a>
                   </li>
 
-                 
+
 
                 </ul>
               </li>
 
-              
+
               @if(request()->is('admin/attribution/show'))
                 @php $a = 'menu-open' @endphp
               @elseif(request()->is('admin/rate/show'))
-                @php $a = 'menu-open' @endphp 
+                @php $a = 'menu-open' @endphp
               @elseif(request()->is('admin/size/show'))
                 @php $a = 'menu-open' @endphp
               @elseif(request()->is('admin/contacts'))
-                @php $a = 'menu-open' @endphp    
+                @php $a = 'menu-open' @endphp
                 @elseif(request()->is('admin/budget/show'))
-                @php $a = 'menu-open' @endphp         
+                @php $a = 'menu-open' @endphp
               @else
                 @php $a = '' @endphp
               @endif
@@ -237,7 +237,7 @@
               </li>
 
               @if(request()->is('admin/users/list'))
-                @php $a = 'menu-open' @endphp          
+                @php $a = 'menu-open' @endphp
               @else
                 @php $a = '' @endphp
               @endif
@@ -253,7 +253,7 @@
                       <p>Users List</p>
                     </a>
                   </li>
-                  
+
                 </ul>
               </li>
 
@@ -262,7 +262,7 @@
           @else
               @php $a = '' @endphp
           @endif
-          
+
           <li class="nav-item {{ $a }} see" id="se5" onclick="hideShow('5')">
               <a href="#" class="nav-link active se">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -304,7 +304,7 @@
 
               {{-- <ul class="nav nav-treeview me" id="me7">
                 <li class="nav-item">
-                  
+
                     <a href="{{ route('plans.test') }}" class="nav-link {{ request()->is('plans*') ? 'active act' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Plans Subscriptionlist</p>
@@ -312,10 +312,10 @@
                   </li>
             </ul> --}}
           </li>
-          
+
 
             @if(request()->is('planfeatures*'))
-            @php $a = 'menu-open' @endphp          
+            @php $a = 'menu-open' @endphp
           @else
             @php $a = '' @endphp
           @endif
@@ -331,7 +331,7 @@
                   <p>PlanFeature List</p>
                 </a>
               </li>
-              
+
             </ul>
               {{-- plansubscription --}}
             <ul class="nav nav-treeview me" id="me7">
@@ -341,14 +341,14 @@
                   <p>plansubscription List</p>
                 </a>
               </li>
-              
+
             </ul>
 
           </li>
 
             </li>
 
-         
+
 
 
           <script>

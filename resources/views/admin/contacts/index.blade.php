@@ -20,23 +20,23 @@
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Email</th>
-                                    
+
                                         <th>Phone</th>
                                         <th>Message</th>
                                         <th>Created At</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($contacts as $contact)
-                                    <tr>
-                                        <td>{{ $contact->id }}</td>
-                                        <td>{{ $contact->first_name }}</td>
-                                        <td>{{ $contact->last_name }}</td>
-                                        <td>{{ $contact->email }}</td>
-                                        <td>{{ $contact->phone }}</td>
-                                        <td>{{ $contact->message }}</td>
-                                        <td>{{ $contact->created_at }}</td>
-                                    </tr>
+                                    @foreach ($contacts as $contact)
+                                        <tr>
+                                            <td>{{ $contact->id }}</td>
+                                            <td>{{ $contact->first_name }}</td>
+                                            <td>{{ $contact->last_name }}</td>
+                                            <td>{{ $contact->email }}</td>
+                                            <td>{{ $contact->phone }}</td>
+                                            <td>{{ $contact->message }}</td>
+                                            <td>{{ $contact->created_at }}</td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -44,7 +44,8 @@
                     </div>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 @endsection

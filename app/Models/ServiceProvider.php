@@ -12,5 +12,3 @@ class ServiceProvider extends Model
     protected $fillable = ['name', 'top_service'];
 
 }
-
-

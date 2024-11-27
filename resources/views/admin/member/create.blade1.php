@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <?php 
-    //print_r($errors); 
+    <?php
+    //print_r($errors);
     $errors->count();
     ?>
     <!-- Main content -->
@@ -17,7 +17,7 @@
                         <div class="alert alert-danger">{{Session::get('message')}}</div>
                         @elseif(session('msg'))
                         <div class="alert alert-success">{{session('msg')}}</div>
-                    @endif   
+                    @endif
                     </div>
                     <div class="card">
                         <div class="card-header">
@@ -25,7 +25,7 @@
                             <span style="float:right;">
                                 <a href="{{route('admin.member.index')}}" class="btn btn-sm btn-primary" > Show </a>
                             </span>
-                        </div>                        
+                        </div>
 
                         <!--Add new data start here-->
                         <div class="col-md-8 addNew" style="margin:0 auto; margin-top:20px;;" id="addNew">
@@ -33,7 +33,7 @@
                             <div class="card card-primary">
                                 <div class="card-header" >
                                     <h3 class="card-title" >Upload CSV File</h3>
-                                </div>                                
+                                </div>
                                 <!-- form start -->
                                 <!--<form role="form" name="add" id="add" action="{{route('admin.member.store')}}" method="post" enctype="multipart/form-data">
                                     @csrf
@@ -51,7 +51,7 @@
                                         <button type="submit" name="create" class="btn btn-sm btn-primary" style="float:right;">Create</button>
                                     </div>
                                 </form>-->
-                                
+
                                 <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="card-body ">
@@ -69,7 +69,7 @@
 
 
                             </div>
-                        </div> 
+                        </div>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
@@ -83,6 +83,6 @@
 
 @section('script')
 <script>
-    
+
 </script>
 @endsection

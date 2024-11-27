@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <?php 
-    //print_r($errors); 
+    <?php
+    //print_r($errors);
     //print_r($service);
     $errors->count();
     ?>
@@ -18,7 +18,7 @@
                         <div class="alert alert-danger">{{Session::get('message')}}</div>
                         @elseif(session('msg'))
                         <div class="alert alert-success">{{session('msg')}}</div>
-                    @endif   
+                    @endif
                     </div>
                     <div class="card">
                         <div class="card-header">
@@ -26,7 +26,7 @@
                             <span style="float:right;">
                                 <a href="{{route('admin.aboutdirector.show')}}" class="btn btn-sm btn-primary"> Show </a>
                             </span>
-                        </div>                           
+                        </div>
 
                         <div class="card-body table-responsive p-0">
                             <!-- update record here -->
@@ -67,7 +67,7 @@
                                                 <label for="director_img">Image</label>
                                                 <input type="file" class="form-control-file" id="director_img" name="director_img" >
                                             </div>
-                                            
+
                                         </div>
                                         <div class="card-footer">
                                             <button type="submit" name="update" class="btn btn-sm btn-primary" style="float:right;">Update</button>

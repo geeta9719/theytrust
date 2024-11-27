@@ -9,11 +9,13 @@ class City extends Model
 {
     use HasFactory;
 
-    public function country(){
-        return $this->belongsTo(Country::class,'country_code','iso2');
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_code', 'iso2');
     }
 
-    public function state(){
-        return $this->belongsTo(State::class,'state_code','iso2');
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state_code', 'iso2');
     }
 }

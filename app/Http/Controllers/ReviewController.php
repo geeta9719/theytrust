@@ -11,17 +11,13 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ReviewResent;
 use App\Models\CompanyReview;
 
-
-
 class ReviewController extends Controller
 {
-
     public function index()
     {
 
         $user = Auth::user();
         $company = Company::where('user_id', $user->id)->first();
-
 
         if (!$company) {
             return redirect()->back()->with('error', 'No company associated with this user.');
@@ -42,52 +38,53 @@ class ReviewController extends Controller
             'email' => 'required|email|max:255',
             'note' => 'nullable|string',
         ]);
-    
+
         $user = Auth::user();
         $company = Company::where('user_id', $user->id)->first();
-    
+
         if (!$company) {
             return redirect()->back()->with('error', 'No company associated with this user.');
         }
-    
+
         $review = ReviewRequest::create([
             'name' => $request->name,
             'email' => $request->email,
             'note' => $request->note,
             'company_id' => $company->id,
         ]);
-    
+
         // Send email notification
         Mail::to($request->email)->send(new NewReviewRequest($review, $company));
-    
+
         return redirect()->route('comapany.reviews.request.index')->with('success', 'Review request submitted successfully!');
     }
 
     public function resend($id)
     {
         $review = ReviewRequest::findOrFail($id);
-       
+
         $user = Auth::user();
         $company = Company::where('user_id', $user->id)->first();
-    
+
         Mail::to($review->email)->send(new ReviewResent($review, $company));
-    
+
         return redirect()->route('comapany.reviews.request.index')->with('success', 'Review request resent successfully!');
     }
 
     public function submitResponse(Request $request)
-{
-    $review = CompanyReview::where('id', $request->review_id)
-    ->first();
+    {
+        $review = CompanyReview::where('id', $request->review_id)
+        ->first();
 
-    if ($review) {
-        $review->comment = $request->comment;
-        $review->save();
+        if ($review) {
+            $review->comment = $request->comment;
+            $review->save();
 
-        return redirect()->back()->with('success', 'Response submitted successfully.');
-    } else {
-        return redirect()->back()->with('error', 'Review not found.');
+            return redirect()->back()->with('success', 'Response submitted successfully.');
+        }
+        else {
+            return redirect()->back()->with('error', 'Review not found.');
+        }
+
     }
-
-}
 }

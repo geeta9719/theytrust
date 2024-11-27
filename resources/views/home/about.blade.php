@@ -65,14 +65,14 @@
 <section class="container-fluid agencies text-center animatedParent">
 	<div class="container animated fadeInUp slowest go">
 		<div class="row">
-		
+
 		</div>
 		<div class="row pt-5 mt-4 equal">
 			<div class="col-lg-3 col-md-6 px-4 px-md-1">
 				<div class="agenciesbox">
 					<img src="https://theytrust-us.developmentserver.info/front_components/images/icons.png" alt="">
 					<h3>Share critical products and business  information. </h3>
-					
+
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-6 px-4 px-md-1">
@@ -82,21 +82,21 @@
      Build relationships between service seekers and providers.
 
              </h3>
-					
+
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-6 px-4 px-md-1">
 				<div class="agenciesbox">
 					<img src="https://theytrust-us.developmentserver.info/front_components/images/icons.png" alt="">
 					<h3>Treat our customer’s information as our valuable business asset.</h3>
-					
+
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-6 px-4 px-md-1">
 				<div class="agenciesbox">
 					<img src="https://theytrust-us.developmentserver.info/front_components/images/icons.png" alt="">
 					<h3>Ensure unbiased and authentic reviews to bring honesty to the market.</h3>
-					
+
 				</div>
 			</div>
 		</div>

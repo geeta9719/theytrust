@@ -20,13 +20,13 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
-    
+
     /*public function show()//by arvind
     {
         echo 'jai ho';
     }*/
 
-    /*   //custum method by arvind 
+    /*   //custum method by arvind
     use AuthenticatesUsers {
         logout as performLogout;
     }

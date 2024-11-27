@@ -1,9 +1,8 @@
-
 @extends('layouts.home-master')
 
 @section('content')
     <div id="app">
-        <listing-component 
+        <listing-component
             :categories="{{ json_encode($categories) }}"
             :budgets="{{ json_encode($budgets) }}"
             :rates="{{ json_encode($rates) }}"

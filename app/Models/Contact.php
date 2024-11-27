@@ -11,5 +11,5 @@ class Contact extends Model
 
     protected $guarded;
 
-    const UPDATED_AT = null;
+    public const UPDATED_AT = null;
 }
