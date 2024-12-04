@@ -31,7 +31,7 @@ class PaymentContorller extends Controller
             Stripe::setApiKey(config('services.stripe.secret'));
             $user = auth()->user();
             $company = Company::where('user_id', auth()->id())->first();
-            $plan = PlanModel::find($request->plan);
+            $plan = PlanModel::find($request->plan_id);
             $redirectUrl = url('company/' . $company->id . '/dashboard');
             if ($plan->price == 0) {
                 $subscription = $user->subscribeTo($plan, $plan->duration, false);
@@ -84,15 +84,17 @@ class PaymentContorller extends Controller
     public function choosePlan(Request $request)
     {
         try {
+            // dd("sdfsdfsdf");
             Log::info('Webhook event handled PLan  - Type:');
             $request->validate([
-                'plan' => 'required|string',
+                'plan_id' => 'required|string',
                 'user_id' => 'required|integer',
             ]);
             $session = $this->createCheckoutSession($request);
             return response()->json(['status' => 'success', 'sessionId' => $session]);
         }
         catch (\Exception $e) {
+            dd($e->$e->getMessage());
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
