@@ -1,5 +1,6 @@
 @php
     $company = \App\Models\Company::where('user_id', auth()->user()->id)->first();
+    $userid=  auth()->user()->id;
 @endphp
 @extends($company ? 'layouts.home-master' : 'layouts.home')
 @section('content')
@@ -95,7 +96,13 @@
 
             </div>
             <div class="text-center mt-3">
-                <button class="text-center purple-btn btn">Get Premium Local</button></div>
+                <button class="text-center purple-btn btn choose-plan" 
+                                data-plan-id="2" 
+                                data-url="/dashboard" 
+                                data-uid="{{ $userid }}">
+                                Get Premium Localssss
+                 </button>
+                </div>
             <div class="features"></div>
             <div class="features px-2 mt-3">
                 <h4>Features</h4>
@@ -138,7 +145,10 @@
 
             </div>
             <div class="text-center mt-3">
-                <button class="text-center purple-btn btn">Get Premium Regional</button></div>
+                <button class="text-center purple-btn btn choose-plan" 
+                data-plan-id="3" 
+                data-url="/dashboard" 
+                data-uid="{{ $userid }}">Get Premium Regional</button></div>
             <div class="features"></div>
             <div class="features px-2 mt-3">
                 <h4>Features</h4>
@@ -746,10 +756,57 @@
             </div>
         </div>
     </section>
-     
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+{{-- @endsection --}}
+<script src="https://js.stripe.com/v3/"></script>
+
+<script type="text/javascript">
+    const stripe = Stripe('pk_test_51OMTmgSBpRscNHwB4qiyJOy6swL8uwFI7DFbTzrmLZYaPXnKs1qVKLOdwwZz2R1UqL9SgOxc5BZaxFN9Nr9flN6U00duoOXtey');
+
+    $(document).ready(function () {
+        // Bind the click event to the buttons with the class 'choose-plan'
+        $('.choose-plan').on('click', function () {
+            debugger
+            // Get plan ID, URL, and user ID from data attributes
+            var planId = $(this).data('plan-id'); // Correctly fetch plan ID
+            var url = $(this).data('url');
+            var userId = $(this).data('uid');
+            console.log(planId,url,userId);
+
+            // Check if planId, url, and userId are valid
+            if (!planId || !url || !userId) {
+                alert('Missing required data for plan selection.');
+                return;
+            }
+
+            // AJAX request to submit plan selection
+            $.ajax({
+                url: '{{ url('create-checkout-session') }}', // API endpoint
+                type: 'POST', // HTTP method
+                data: {
+                    plan_id: planId, 
+                    user_id: userId,
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (result) {
+            if (result.status === 'success') {
+                if (result.is_free) {
+                    window.location.href = result.redirect_url;
+                } else {
+                    stripe.redirectToCheckout({ sessionId: result.sessionId });
+                }
+            } else {
+                alert('Plan selection failed. Please try again.');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        },
+            });
+        });
+    });
+</script>
+
 @endsection
 
 
