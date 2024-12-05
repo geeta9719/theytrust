@@ -19,8 +19,6 @@ use App\Models\CompanyReview;
 use App\Models\Address;
 use App\Models\User;
 use App\Models\Country;
-use App\Models\State;
-use App\Models\City;
 use App\Models\Contact;
 use App\Models\Newsletters;
 use App\Models\ReviewerEmailLog;
@@ -739,20 +737,6 @@ function drawChart() {
                 $data['company_size'] = 'Company Size should not be empty';
             }
 
-            // if( $request->city == '' )
-            // {
-            //     $data['city'] = 'City should not be empty';
-            // }
-
-            // if( $request->state == '' )
-            // {
-            //     $data['state'] = 'State should not be empty';
-            // }
-
-            // if( $request->country == '' )
-            // {
-            //     $data['country'] = 'Country should not be empty';
-            // }
         }
 
         if ($request->form == 'form4') {
@@ -812,20 +796,10 @@ function drawChart() {
                 if (!$company) {
                     return redirect()->route('user.basicInfo', ['user' => $user]);
                 }
-                // // // Check for the company's address
-                // // $address = Address::where('company_id', $company->id)->first();
-                // // if (!$address) {
-                // //     return redirect()->route('company.location', ['company' => $company]);
-                // // }
-
-                // // return redirect('membership-plans');
-                // return redirect()->route('user.personal');
                 return view('home.getListed');
             }
         }
         else {
-
-            //session(['referer' => url('user/personal')]);
             session(['referer' => url('sponsorship')]);
             return redirect('auth/linkedin');
         }
@@ -833,7 +807,6 @@ function drawChart() {
 
     public function getPlancompare(Request $request)
     {
-        // dd("adsfsdf");
 
         return view('home.plans');
         $cd = '';
@@ -967,8 +940,6 @@ function drawChart() {
 
     public function saveReview(Request $request)
     {
-
-        // dd($request->all());
         $inputs = [];
 
         $inputs['company_id'] = $request->company_id;
@@ -1045,9 +1016,9 @@ function drawChart() {
 
         CompanyReview::create($inputs);
         $result = CompanyPointHelper::processReview(
-            $companyId,
-            $rating, // Use the overall rating to determine points
-            'Unverified' // Since the review is unverified initially
+            $request->company_id,
+            $request->overall_rating,
+            'Unverified'
         );
 
         return response()->json($inputs);
@@ -1124,18 +1095,6 @@ function drawChart() {
         return view('admin.company.review_email_logs', $data);
     }
 
-    //     Newsletters::create( $inputs );
-
-    //     return back()->with( 'newsuccess', 'Thanks.. You have been subscribed successfully.' );
-
-    // }
-
-    //     Newsletters::create( $inputs );
-
-    //     return back()->with( 'newsuccess', 'Thanks.. You have been subscribed successfully.' );
-
-    // }
-
     public function subscribeNewsletter(Request $request)
     {
         $request->validate(['email' => 'required|email']);
@@ -1169,7 +1128,6 @@ function drawChart() {
     public function generateSingleCompanyReview(Request $request)
     {
 
-        // dd("asdfasdf");
         $faker = Faker::create();
         $companyId = 519;
 
