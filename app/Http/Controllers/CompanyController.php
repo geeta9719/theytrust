@@ -15,6 +15,8 @@ use App\Models\Budget;
 use App\Models\CompanyHasProject;
 use App\Models\Attribution;
 use Illuminate\Support\Facades\Validator;
+use App\Helpers\CompanyPointHelper;
+
 
 class CompanyController extends Controller
 {
@@ -69,8 +71,8 @@ class CompanyController extends Controller
         return response()->json($data);
     }
 
-    public function company_review()
-    {
+    public function company_review(Request $request)
+{
         $data['reviews'] = CompanyReview::paginate(10);
         return view('admin.company.review', $data);
     }
@@ -138,6 +140,24 @@ class CompanyController extends Controller
         $review->update($validatedData);
         return redirect()->route('admin.company.review')->with('success', 'Review updated successfully');
     }
+
+    public function verify(Request $request)
+{
+    $request->validate([
+        'review_id' => 'required|exists:company_reviews,id',
+        'verification_description' => 'required|string',
+    ]);
+
+    $review = CompanyReview::find($request->review_id);
+    $review->verified_by = auth()->id(); // Assuming the admin is logged in
+    $review->verification_description = $request->verification_description;
+    $review->save();$result = CompanyPointHelper::processReview(
+        $companyId,
+        $review->company_id, 
+        'Verified' 
+    );
+    return response()->json(['message' => 'Review verified successfully']);
+}
 
     public function publish_review(Request $request)
     {

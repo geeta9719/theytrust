@@ -15,6 +15,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Company;
 use PDF;
+use App\Helpers\CompanyPointHelper;
 
 class PaymentContorller extends Controller
 {
@@ -84,7 +85,6 @@ class PaymentContorller extends Controller
     public function choosePlan(Request $request)
     {
         try {
-            // dd("sdfsdfsdf");
             Log::info('Webhook event handled PLan  - Type:');
             $request->validate([
                 'plan_id' => 'required|string',
@@ -161,6 +161,11 @@ class PaymentContorller extends Controller
             $user = User::find($userId);
             $subscription = $this->subscribeToPlan($plan, $user, false);
             $this->sendEmailWithPdf($user->id);
+             $company = Company::with('user')->where('id', $compnayId)->first();
+            if ($companyId && $membershipType) {
+                $membershipPointsResult = CompanyPointHelper::processMembershipPoints($companyId, $plan->name);
+                Log::info('Membership points updated: ', $membershipPointsResult);
+            }
 
             // }
         }
