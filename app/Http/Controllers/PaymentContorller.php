@@ -146,7 +146,7 @@ class PaymentContorller extends Controller
             $planId = $metadata->plan_id ?? null;
             $userId = $metadata->user_id ?? null;
 
-            Log::info('ddddddddddddddddddddddddddddddddd points updated: ', $company);
+            Log::info('ddddddddddddddddddddddddddddddddd points updated: ');
 
             // Use a database transaction to ensure data integrity
             DB::transaction(function () use ($paymentStatus, $amount, $currency, $planId, $userId) {
