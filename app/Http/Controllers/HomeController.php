@@ -26,6 +26,7 @@ use App\Models\ModelReference;
 use App\Models\Skill;
 use App\Models\ServiceProvider;
 use App\Helpers\SubscriptionHelper;
+use Rennokki\Plans\Models\PlanModel;
 
 use Faker\Factory as Faker;
 use App\Helpers\CompanyPointHelper;
@@ -1129,7 +1130,7 @@ function drawChart() {
     {
 
         $faker = Faker::create();
-        $companyId = 519;
+        $companyId = 405;
 
         // Step 2: Generate random overall_rating
         $rating = $faker->randomElement([1, 2, 3, 4, 5]);
@@ -1196,6 +1197,12 @@ function drawChart() {
             $rating, // Use the overall rating to determine points
             'Unverified' // Since the review is unverified initially
         );
+        $plan = PlanModel::find(2);
+
+        if ($companyId) {
+            $membershipPointsResult = CompanyPointHelper::processMembershipPoints($companyId, $plan->name);
+            // Log::info('Membership points updated: ', $membershipPointsResult);
+        }
 
         // Step 5: Return the response
         return response()->json([
