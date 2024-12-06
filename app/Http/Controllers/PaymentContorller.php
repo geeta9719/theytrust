@@ -162,7 +162,7 @@ class PaymentContorller extends Controller
             $plan = PlanModel::find($planId);
             $user = User::find($userId);
             $subscription = $this->subscribeToPlan($plan, $user, false);
-            $this->sendEmailWithPdf($user->id);
+            // $this->sendEmailWithPdf($user->id);
             Log::info('userIduserIduserIduserIduserIduserIduserIduserId points updated: ',$userId,";;;;;");
             $company = Company::where('user_id', $userId)->first();
             Log::info('userIduserIduserIduserIduserIduserIduserIduserId points updated: ',$company->id,$company[0],";;;;;");
