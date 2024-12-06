@@ -146,6 +146,8 @@ class PaymentContorller extends Controller
             $planId = $metadata->plan_id ?? null;
             $userId = $metadata->user_id ?? null;
 
+            Log::info('ddddddddddddddddddddddddddddddddd points updated: ', $company);
+
             // Use a database transaction to ensure data integrity
             DB::transaction(function () use ($paymentStatus, $amount, $currency, $planId, $userId) {
                 // Create a new transaction record
@@ -162,7 +164,7 @@ class PaymentContorller extends Controller
             $subscription = $this->subscribeToPlan($plan, $user, false);
             $this->sendEmailWithPdf($user->id);
             $company = Company::with('user')->where('id', $userId)->first();
-            Log::info('Membership points updated: ', $company);
+            Log::info('kkkkkkkkkkkkkkkkkkkkkkkkkkk points updated: ', $company);
             if ($company->id) {
                 $membershipPointsResult = CompanyPointHelper::processMembershipPoints($company->id, $plan->name);
                 Log::info('Membership points updated: ', $membershipPointsResult);
