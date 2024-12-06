@@ -1130,7 +1130,7 @@ function drawChart() {
     {
 
         $faker = Faker::create();
-        $companyId = 405;
+        $companyId = 69;
 
         // Step 2: Generate random overall_rating
         $rating = $faker->randomElement([1, 2, 3, 4, 5]);
