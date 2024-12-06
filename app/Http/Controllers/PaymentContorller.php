@@ -149,16 +149,16 @@ class PaymentContorller extends Controller
             Log::info('ddddddddddddddddddddddddddddddddd points updated: ');
 
             // Use a database transaction to ensure data integrity
-            DB::transaction(function () use ($paymentStatus, $amount, $currency, $planId, $userId) {
-                // Create a new transaction record
-                $transaction = new Transaction();
-                $transaction->payment_status = $paymentStatus;
-                $transaction->amount = $amount;
-                $transaction->currency = $currency;
-                $transaction->plan_id = $planId;
-                $transaction->user_id = $userId;
-                $transaction->save();
-            });
+            // DB::transaction(function () use ($paymentStatus, $amount, $currency, $planId, $userId) {
+            //     // Create a new transaction record
+            //     $transaction = new Transaction();
+            //     $transaction->payment_status = $paymentStatus;
+            //     $transaction->amount = $amount;
+            //     $transaction->currency = $currency;
+            //     $transaction->plan_id = $planId;
+            //     $transaction->user_id = $userId;
+            //     $transaction->save();
+            // });
             $plan = PlanModel::find($planId);
             $user = User::find($userId);
             $subscription = $this->subscribeToPlan($plan, $user, false);
