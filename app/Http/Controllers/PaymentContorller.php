@@ -163,7 +163,7 @@ class PaymentContorller extends Controller
             $user = User::find($userId);
             $subscription = $this->subscribeToPlan($plan, $user, false);
             $this->sendEmailWithPdf($user->id);
-            $company = Company::with('user')->where('id', $userId)->first();
+            $company = Company::where('user_id', $userId)->first();
             Log::info('kkkkkkkkkkkkkkkkkkkkkkkkkkk points updated: ', $company);
             if ($company->id) {
                 $membershipPointsResult = CompanyPointHelper::processMembershipPoints($company->id, $plan->name);
