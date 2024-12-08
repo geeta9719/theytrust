@@ -41,6 +41,7 @@
                                         <th>Review</th>
                                         <th>Created</th>
                                         <th>Action</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -79,6 +80,19 @@
 				                            <a href="{{route('admin.review.edit',$review->id)}}" class="btn btn-sm btn-primary viewBtn" id="viewhBtn_{{$review->id}}">Update</a>
                                             <a href="javascript:void(0)" class="btn btn-sm btn-primary publishBtn" id="publishBtn_{{$review->id}}" onclick="publish({{$review->id}})">{{$btnText}}</a>
                                             <a href="javascript:void(0)" class="btn btn-sm btn-primary send-email-model" data-email="{{$review->company_email}}">Reply</button>
+                                                
+                                        </td>
+                                        <td nowrap>
+                                            @if(!$review->verified_by)
+                                                <button class="btn btn-sm btn-primary verify-review-btn" 
+                                                        data-id="{{ $review->id }}" 
+                                                        data-toggle="modal" 
+                                                        data-target="#verifyReviewModal">
+                                                    Verify
+                                                </button>
+                                            @else
+                                                Verified by: {{ $review->verifier->name ?? 'Admin' }}
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
@@ -91,6 +105,7 @@
                                         </td>
                                         <td colspan="7" style="text-align:center">{!! $reviews->links() !!}</td>
                                     </tr>
+                                    
                                 @else
                                     <tr><td colspan="11" style="text-align:center">No Record Found</td></tr>
                                 @endif
@@ -132,6 +147,31 @@
             </div>
       </div>
     </div>
+
+    <div class="modal fade" id="verifyReviewModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Verify Review</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="verifyReviewForm">
+                        @csrf
+                        <input type="hidden" name="review_id" id="review_id">
+                        <div class="form-group">
+                            <label for="verification_description">Verification Description</label>
+                            <textarea name="verification_description" id="verification_description" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Verify</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
 @endsection
 
@@ -328,5 +368,44 @@
             });
         }
     });
+    $(document).ready(function () {
+    // Open modal and set review ID
+    $('.verify-review-btn').click(function () {
+        const reviewId = $(this).data('id');
+        $('#review_id').val(reviewId);
+    });
+
+    // Handle form submission
+    $('#verifyReviewForm').submit(function (e) {
+        e.preventDefault();
+
+        const reviewId = $('#review_id').val();
+        const description = $('#verification_description').val();
+
+        if (!description) {
+            alert('Verification description is required.');
+            return;
+        }
+
+        $.ajax({
+            url: "{{ route('admin.reviews.verify') }}",
+            method: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                review_id: reviewId,
+                verification_description: description
+            },
+            success: function (response) {
+                alert(response.message);
+                location.reload(); 
+            },
+            error: function (xhr) {
+                console.error(xhr.responseJSON.message);
+                alert('Verification failed. Please try again.');
+            }
+        });
+    });
+});
+
 </script>
 @endsection

@@ -30,6 +30,7 @@ use App\Http\Controllers\PortfolioItemController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController ;
 
 // use App\Http\Controllers\CompanyController;
 
@@ -234,6 +235,7 @@ Route::middleware('auth')->group(function () {
         Route::post('admin/publish-all-company', [CompanyController::class, 'publish_all_company'])->name('admin.publish_all_company');
 
         Route::post('admin/flag-company', [ CompanyController::class, 'flag_company'])->name('admin.flag_company');
+        Route::post('/admin/reviews/verify', [CompanyController::class, 'verify'])->name('admin.reviews.verify');
 
         Route::get('admin/company/review', [CompanyController::class, 'company_review'])->name('admin.company.review');
         Route::get('admin/company/{viewreview}/viewreview', [CompanyController::class, 'view_reviews'])->name('admin.company.viewreview');
