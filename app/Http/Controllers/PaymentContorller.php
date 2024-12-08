@@ -166,7 +166,7 @@ class PaymentContorller extends Controller
             // Log::info('userIduser: ',$userId,";;;;;");
             $company = Company::where('user_id', $userId)->first();
             // Log::info('userIduserId: ',$company->id,$company[0],";;;;;");
-            Log::info('companycompanycompanycompanycompany points updated: ',$company->id,$plan->name,";;;;;");
+            // Log::info('companycompanycompanycompanycompany points updated: ',$company->id,$plan->name,";;;;;");
             if ($company->id) {
                 $membershipPointsResult = CompanyPointHelper::processMembershipPoints($company->id, $plan->name);
                 Log::info('Membership points updated: ', $membershipPointsResult);
