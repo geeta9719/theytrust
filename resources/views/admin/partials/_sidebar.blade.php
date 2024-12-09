@@ -63,6 +63,7 @@
                 @php $a = 'menu-open' @endphp
               @elseif(request()->is('admin/subcategory-child/show'))
                 @php $a = 'menu-open' @endphp
+
               @else
                 @php $a = '' @endphp
               @endif
@@ -344,7 +345,29 @@
 
             </ul>
 
+
           </li>
+          
+          @if(request()->is('/admin/sponce/create'))
+          @php $a = 'menu-open' @endphp
+            @else
+          @php $a = '' @endphp
+         @endif
+        <li class="nav-item  {{ $a }} see" id="se6" onclick="hideShow('6')" ><!--menu-open-->
+          <a href="#" class="nav-link active se">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p >sponsorship<i class="right fas fa-angle-left"></i></p>
+          </a>
+          <ul class="nav nav-treeview me" id="me6">
+            <li class="nav-item">
+              <a href="{{route('sponce.create')}}" class="nav-link {{ request()->is('sponce') ? 'active act' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Sponsorship Create</p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
 
             </li>
 
