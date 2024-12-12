@@ -1302,10 +1302,6 @@ class SearchController extends Controller
             }
 
             $data = SubscriptionHelper::determineModelsByRequest($request->all());
-
-            // dd($data);
-
-            // $locationTypeModel = $data['location_type_model'];
             $categoryTypeModel = $data['category_type_model'];
             $categoryId = $data['categoryId'];
 
@@ -1314,7 +1310,6 @@ class SearchController extends Controller
                 $sponcescompanies = Company::whereHas('sponces', function ($query) use ($categoryTypeModel, $categoryId) {
                     $query->where('category_type_model', $categoryTypeModel)
                           ->where('category_id', $categoryId)
-                        //   ->where('category_id', $categoryId)
                           ->where('location_type_model', 'App\Models\City');
                 })
                 ->with(['serviceLines.category','address', 'user','user.CurrentSubscription','sponces.planSubscription' => function ($query) {
@@ -1327,18 +1322,42 @@ class SearchController extends Controller
                 ]);
 
             }
-            $companies = $query->get()->sort(function ($a, $b) {
+            // $companies = $query->get()->sort(function ($a, $b) {
+            //     $priorityA = $a->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
+            //     $priorityB = $b->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
+
+            //     // First, compare by priority (ascending)
+            //     if ($priorityA !== $priorityB) {
+            //         return $priorityA <=> $priorityB;
+            //     }
+
+            //     // If priority is the same, compare by ttu_score (descending)
+            //     return ($b->ttu_score ?? 0) <=> ($a->ttu_score ?? 0);
+            // });
+            $companies = $query->get();
+            $companies = $companies->sortByDesc('ttu_score')->values();
+            $rank = 1;
+            $companies->each(function ($company) use (&$rank) {
+            $company->ttu_rank = $rank++;
+            });
+            $companies = $companies->sort(function ($a, $b) {
                 $priorityA = $a->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
                 $priorityB = $b->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
-
-                // First, compare by priority (ascending)
+            
+                // Sort by priority (ascending)
                 if ($priorityA !== $priorityB) {
                     return $priorityA <=> $priorityB;
                 }
-
-                // If priority is the same, compare by ttu_score (descending)
-                return ($b->ttu_score ?? 0) <=> ($a->ttu_score ?? 0);
+            
+                // Sort by ttu_rank (ascending)
+                if ($a->ttu_rank !== $b->ttu_rank) {
+                    return $a->ttu_rank <=> $b->ttu_rank;
+                }
+            
+                // Sort by name (ascending)
+                return strcmp($a->name ?? '', $b->name ?? '');
             });
+
 
             if (isset($sponcescompanies)) {
                 $companies = $companies->merge($sponcescompanies);

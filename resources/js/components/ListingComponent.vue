@@ -304,6 +304,7 @@ select {
                 <p>{{ company?.user?.current_subscription[0]?.plan?.name ??'Free' }}</p>
                 
                   <p> ttu_score  {{ company?.ttu_score }}</p>
+                  <p> ttu_rank  {{ company?.ttu_rank }}</p>
               </div>
               <div class="col-md-4 write-box">
                 <p v-if="company.company_review_count">

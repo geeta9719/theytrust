@@ -219,7 +219,16 @@
 
                         </div>
                         <div class="text-center mt-3">
-                            <button class="text-center purple-btn btn">Get Premium Local</button></div>
+                            <button class="text-center purple-btn btn choose-plan" 
+                            data-plan-id="5" 
+                            data-url="/dashboard" 
+                            data-uid="{{ $userid }}">
+                            Get Premium Local
+             </button>
+
+
+            </div>
+                            {{-- <button class="text-center purple-btn btn">Get Premium Local</button></div> --}}
                         <div class="features"></div>
                         <div class="features px-2 mt-3">
                             <h4>Features</h4>
@@ -260,7 +269,15 @@
 
                         </div>
                         <div class="text-center mt-3">
-                            <button class="text-center purple-btn btn">Get Premium Regional</button></div>
+
+                            <button class="text-center purple-btn btn choose-plan" 
+                            data-plan-id="6" 
+                            data-url="/dashboard" 
+                            data-uid="{{ $userid }}">
+                            Get Premium Regional
+             </button>
+
+                        </div>
                         <div class="features"></div>
                         <div class="features px-2 mt-3">
                             <h4>Features</h4>
@@ -353,7 +370,17 @@
 
             </div>
             <div class="text-center mt-3">
-                <button class="text-center purple-btn btn">Get Premium Local</button></div>
+
+                <button class="text-center purple-btn btn choose-plan" 
+                data-plan-id="8" 
+                data-url="/dashboard" 
+                data-uid="{{ $userid }}">
+                Get Premium 9
+ </button>
+
+
+                {{-- <button class="text-center purple-btn btn">Get Premium Local</button> --}}
+            </div>
             <div class="features"></div>
             <div class="features px-2 mt-3">
                 <h4>Features</h4>
@@ -396,7 +423,17 @@
 
             </div>
             <div class="text-center mt-3">
-                <button class="text-center purple-btn btn">Get Premium Regional</button></div>
+                {{-- <button class="text-center purple-btn btn">Get Premium Regional</button></div> --}}
+
+
+                <button class="text-center purple-btn btn choose-plan" 
+                data-plan-id="9" 
+                data-url="/dashboard" 
+                data-uid="{{ $userid }}">
+                Get Premium Regional
+ </button>
+</div>
+
             <div class="features"></div>
             <div class="features px-2 mt-3">
                 <h4>Features</h4>
