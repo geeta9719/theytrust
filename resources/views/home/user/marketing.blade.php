@@ -26,10 +26,10 @@
             </div>
         </div>
     </section>
-    <section class="formbox container">
+    <section class="formbox container mb-5">
         <div class="row">
             <div class="col-lg-12">
-                <div class="col-lg-12 form-size">
+                <div class="col-lg-12 form-size" id="app">
                     <!--<form action="/action_page.php" class="was-validated">-->
                     <form
                         role="form"
@@ -125,10 +125,12 @@
                                 <div class="invalid-feedback analytics rmvCls"></div>
                             </div>
                         </div>
-                        <a href="{{ route('company.focus', $company->id) }}" class="btn btn-sm btn-primary"><</a>
+                        <!-- <a href="{{ route('company.focus', $company->id) }}" class="save-btn"><</a> -->
                         <div class="col-md-12 text-center btnbasic">
-                            <button type="button" class="btn btn-sm btn-primary" onclick="checkValue()">Next</button>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="saveAndBack()">
+                        <button href="{{ route('company.focus', $company->id) }}" class="save-btn">Previous
+                        </button>
+                            <button type="button" class="next-btn" onclick="checkValue()">Next</button>
+                            <button type="button" class="save-btn" onclick="saveAndBack()">
                                 Save and Exit
                             </button>
                         </div>
