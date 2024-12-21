@@ -32,6 +32,7 @@ use App\Models\CompanyReview;
 
 use Illuminate\Http\Request;
 use Rennokki\Plans\Models\PlanModel;
+use App\Helpers\CompanyPointHelper;
 
 class UserController extends Controller
 {
@@ -831,8 +832,8 @@ class UserController extends Controller
             $find->facebook = $request->facebook;
             $find->twitter = $request->twitter;
             $find->analytics = $request->analytics;
-
             $find->save();
+            $completenessResult =  CompanyPointHelper::calculateProfileCompleteness($request->company_id); 
         }
         else {
             $inputs['company_id'] = $request->company_id;
@@ -843,6 +844,8 @@ class UserController extends Controller
             $inputs['twitter'] = $request->twitter;
             $inputs['analytics'] = $request->analytics;
             AdminInfo::create($inputs);
+            $completenessResult = self::calculateProfileCompleteness($request->company_id);
+
         }
         $plan = PlanModel::find(7);
 

@@ -1,93 +1,99 @@
 @extends('layouts.home-master')
 
 @section('content')
-    <style>
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            max-width: 1200px;
-            margin: auto;
-            padding: 20px;
-            gap: 20px;
-        }
-        form {
-            flex: 1;
-            max-width: 600px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        input[type='text'],
-        input[type='url'],
-        input[type='file'],
-        input[type='date'],
-        select,
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .char-count {
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 20px;
-            display: block;
-            text-align: right;
-        }
-        button {
-            display: inline-block;
-            width: 100%;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            outline: none;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 0 4px #999;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        button:active {
-            background-color: #0056b3;
-            box-shadow: 0 2px #666;
-            transform: translateY(2px);
-        }
-        #preview {
-            flex: 1;
-            max-width: 600px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #eb1010;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        #preview img,
-        #preview iframe,
-        #preview object,
-        #preview video {
-            width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-    </style>
+<style>
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+        gap: 20px;
+    }
+    form {
+        flex: 1 1 600px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    input[type="text"],
+    input[type="url"],
+    input[type="file"],
+    input[type="date"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    .char-count {
+        font-size: 12px;
+        color: #999;
+        margin-bottom: 20px;
+        display: block;
+        text-align: right;
+    }
+    .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: -5px;
+        margin-bottom: 10px;
+    }
+    button {
+        display: inline-block;
+        width: 100%;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 4px #999;
+        transition: background-color 0.3s;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    button:active {
+        background-color: #0056b3;
+        box-shadow: 0 2px #666;
+        transform: translateY(2px);
+    }
+    #preview {
+        flex: 1 1 600px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    #preview img,
+    #preview iframe,
+    #preview object,
+    #preview video {
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+</style>
 
     <h1 style="text-align: center">Edit Portfolio Item</h1>
     <div class="container">
@@ -162,15 +168,23 @@
                 value="{{ $portfolioItem->country_location }}"
             />
 
-            <label for="services_provided">Services Provided</label>
-            <select id="services_provided" name="services_provided[]" class="form-control" multiple="multiple">
-                @foreach ($portfolioItem->services_provided as $service)
-                    <option value="{{ $service }}" selected>{{ $service }}</option>
-                @endforeach
-            </select>
-            @error('services_provided')
-                <span class="error-message">{{ $message }}</span>
-            @enderror
+            <div class="form-group">
+                <label for="services_provided">
+                    What services did you receive from 
+                    <b>(for example: Digital Marketing, Web design, Mobile App development)</b>
+                </label>
+                <strong style="color: red;"> *</strong>
+                <select id="services_provided" name="services_provided[]" class="form-control" multiple="multiple">
+                    @foreach ($services as $id => $name)
+                        <option value="{{ $id }}" selected>{{ $name }}</option> <!-- Show name, keep ID as value -->
+                    @endforeach
+                </select>
+                @error('services_provided')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
+            </div>
+
+          
 
             <label for="short_description">Short Description</label>
             <textarea name="short_description" id="short_description">
@@ -230,6 +244,11 @@
     </div>
 
     <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         function toggleMediaInput() {
             var mediaType = document.getElementById('media_type').value
@@ -310,5 +329,78 @@
             updateCharCount('client_name', 35)
             updateCharCount('services_provided', 140)
         })
+        $("#services_provided").select2({
+      tags: true, // Allow new tags to be created
+      placeholder: "Type to search or create a tag",
+      minimumInputLength: 2, // Start searching after 2 characters
+      multiple: true, // Enable multiple selections
+      ajax: {
+        url: "{{ route('admin.service-provider.search') }}", // URL for fetching existing tags
+        dataType: 'json',
+        delay: 250, // Delay to prevent too many requests
+        data: function(params) {
+          return {
+            q: params.term // Send the search term to the server
+          };
+        },
+        processResults: function(data) {
+          return {
+            results: $.map(data, function(item) {
+              return {
+                id: item.id,
+                text: item.name
+              };
+            })
+          };
+        },
+        cache: true
+      },
+      createTag: function(params) {
+        var term = $.trim(params.term);
+
+        if (term === '') {
+          return null;
+        }
+
+        return {
+          id: term, // Temporary ID before it's saved on the server
+          text: term,
+          newTag: true // Mark it as a new tag
+        };
+      }
+    }).on('select2:select', function(e) {
+      var data = e.params.data;
+
+      if (data.newTag) {
+        // If it's a new tag, send it to the server
+        $.ajax({
+          url: "{{ route('admin.service-provider.store') }}", // URL to create a new tag
+          type: 'POST',
+          data: {
+            name: data.text, // The new tag name
+            _token: '{{ csrf_token() }}' // CSRF token for security
+          },
+          success: function(response) {
+            console.log(response);
+            // Replace the temporary ID with the real ID from the server
+            var newOption = new Option(response.name, response.id, true, true);
+            $('#services_provided').find('option[value="' + data.id + '"]').remove(); // Remove the temporary option
+            $('#services_provided').append(newOption).trigger('change'); // Add the new option with the correct ID
+          },
+          error: function(xhr, status, error) {
+            console.error("Tag creation failed: ", error);
+          }
+        });
+      }
+    });
+
+    // Handle removing tags correctly
+    $('#services_provided').on('select2:unselect', function(e) {
+
+      var data = e.params.data;
+
+      // Remove only the selected option
+      $('#services_provided option[value="' + data.id + '"]').remove();
+    });
     </script>
 @endsection

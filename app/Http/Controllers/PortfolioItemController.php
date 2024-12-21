@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\PortfolioItem;
 use Illuminate\Http\Request;
+use App\Models\ServiceProvider;
 
 class PortfolioItemController extends Controller
 {
@@ -26,7 +27,6 @@ class PortfolioItemController extends Controller
     public function store(Request $request)
     {
 
-        // dd($request->all());
         $validated = $request->validate([
             'media' => 'nullable|file|mimes:jpeg,png,pdf,mp4|max:10240',
             'youtube_url' => 'nullable|url',
@@ -41,6 +41,9 @@ class PortfolioItemController extends Controller
 
         $media = null;
 
+        $servicesProvidedString = implode(',', $request['services_provided']);
+
+
         if ($request->hasFile('media')) {
             $media = [
                 'type' => 'file',
@@ -54,16 +57,16 @@ class PortfolioItemController extends Controller
             ];
         }
 
-        // Fetch the company associated with the authenticated user
         $company = Company::where('user_id', auth()->id())->first();
 
-        // Ensure the company ID is added to the validated data before creating the PortfolioItem
-        $portfolioItemData = array_merge($validated, ['media' => $media, 'company_id' => $company->id]);
+        $portfolioItemData = array_merge($validated, [
+            'media' => $media,
+            'company_id' => $company->id,
+            'services_provided' => $servicesProvidedString, // Save as comma-separated string
+        ]);
 
-        // Create the PortfolioItem
         PortfolioItem::create($portfolioItemData);
 
-        // Redirect back to company dashboard or any other relevant page
         $redirectUrl = url('company/' . $company->id . '/dashboard');
         return redirect($redirectUrl)->with('success', 'Portfolio item added successfully.');
     }
@@ -92,8 +95,18 @@ class PortfolioItemController extends Controller
     public function edit($id)
     {
         $portfolioItem = PortfolioItem::findOrFail($id);
-        dd($portfolioItem);
-        return view('home.user.portfolio_items.edit', compact('portfolioItem'));
+
+        // Explode the stored service IDs into an array
+        $serviceIds = explode(',', $portfolioItem->services_provided);
+    
+        // Fetch the service names using the IDs
+        $services = ServiceProvider::whereIn('id', $serviceIds)->pluck('name', 'id');
+        $portfolioItem['services_provided'] = 'services_provided';
+
+
+// dd($portfolioItem,$services);    
+        // Pass both the portfolio item and the services to the view
+        return view('home.user.portfolio_items.edit', compact('portfolioItem', 'services'));
     }
 
     public function update(Request $request, $id)
@@ -114,6 +127,8 @@ class PortfolioItemController extends Controller
 
         $media = $portfolioItem->media;
 
+        $servicesProvidedString = implode(',', $request['services_provided']);
+
         if ($request->hasFile('media')) {
             $media = [
                 'type' => 'file',
@@ -127,7 +142,7 @@ class PortfolioItemController extends Controller
             ];
         }
 
-        $portfolioItem->update(array_merge($validated, ['media' => $media]));
+        $portfolioItem->update(array_merge($validated, ['media' => $media, 'services_provided' => $servicesProvidedString ]));
         return redirect()->route('portfolio_items.tableView', $portfolioItem->company_id)->with('success', 'Portfolio item updated successfully.');
     }
     public function destroy($id)

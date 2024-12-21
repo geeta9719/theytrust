@@ -122,5 +122,42 @@ class CompanyPointHelper
 
     return $membershipTypeMapping[$planName] ?? 'Basic'; // Default to 'Basic' if not found
 }
+
+
+public static function calculateProfileCompleteness($companyId)
+    {
+        $weight = Weight::where('parameter', 'Profile Completeness')
+        ->first();
+
+        if (!$weight) {
+            return ['error' => 'Invalid membership type or weight not found.'];
+        }
+
+        $companyPoint = CompanyPoint::firstOrNew([
+            'company_id' => $companyId,
+            'weight_id' => $weight->id,
+        ]);
+
+        // Update company points based on membership type
+        $companyPoint->count = 1; // Membership is a one-time addition
+        $companyPoint->points = $weight->points;
+        $companyPoint->weighted_points = $companyPoint->points * ($weight->weight_percentage / 100);
+        $companyPoint->save();
+
+        // Update the total weighted points for the company
+        $totalWeightedPoints = CompanyPoint::where('company_id', $companyId)->sum('weighted_points');
+        $company = Company::find($companyId);
+        if ($company) {
+            $company->ttu_score = $totalWeightedPoints;
+            $company->save();
+        }
+
+        return [
+            'points' => $companyPoint->points,
+            'weighted_points' => $companyPoint->weighted_points,
+            'message' => 'Membership points updated successfully.',
+        ];
+    }
+
     
 }
