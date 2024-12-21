@@ -25,6 +25,12 @@
             .next-btn:hover {
                 color: #000;
             }
+            .portfolio .reviews-row h3{
+                background-color: #006d7c;
+    padding: 11px;
+    border-radius: 63%;
+    color: #fff !important;
+            }
             .sidebar-review-box .qualitybox {
                 display: none;
                 flex-wrap: wrap;
@@ -104,8 +110,16 @@
                 /* line-height * number of lines */
                 position: relative;
             }
-
-            .short-description.expanded {
+.info-box h2{
+    color: #000;
+    font-size:35px;
+}
+  
+.info-box h4{
+    color: #000;
+    font-size:20px;
+}
+.short-description.expanded {
                 -webkit-line-clamp: unset;
                 max-height: none;
             }
@@ -115,6 +129,7 @@
             .breadcrumb li a {
                 color: #00bdd6 !important;
                 text-decoration:none;
+                font-size:15px;
             }
             .breadcrumb {
                 color: #00bdd6 !important;
@@ -290,18 +305,18 @@ float: none !important;
         <div class="container shadow portfolio portfolio-top py-3 mb-5">
             <div class="row">
                 <div class="col-lg-12 bg-white py-md-3 p-0">
-                    <div class="row topsec">
+                    <div class="row top-sec">
                         <div class="col-md-8">
                             <div class="row text-center text-md-left">
                                 <div class="col-md-3">
                                     <img src="{{ asset($company->logo) }}" alt="" class="border img-fluid" />
                                 </div>
-                                <div class="col-md-9 mt-2 mt-md-0">
-                                    <h3>{{ $company->name }}</h3>
+                                <div class="col-md-9 mt-2 mt-md-0 info-box">
+                                    <h2>{{ $company->name }}</h2>
                                     <h4 class="mt-2 mt-md-0 mb-md-2">{{ $company->tagline }}</h4>
                                     <div class="review-box mt-md-5">
                                     <div class="reviews-row text-center reviewrate">
-                               <div class="review-box">
+                               <div class="review-box writereview">
                                
                                     <h3 class="ratio">{{ number_format($rate_review->rating, 1) }}</h3>
                                 <div class="px-md-3 px-0 pl-1">
