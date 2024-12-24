@@ -19,6 +19,15 @@
         <script src="{{ asset('portfolioimage/js/tab.js') }}"></script>
 
         <style>
+
+#portfolio,
+#reviews{
+    display:none
+}
+
+#tabs-nav li{
+    cursor:pointer;
+}
             .row.button-section {
                 margin: auto !important;
             }
@@ -185,17 +194,17 @@ align-items: center;
   font-size: 14px; 
   font-weight: 400; 
   color: #00BDD6FF; 
-margin-left:10px;
-text-decoration:underline;
+margin-left:0px;
+text-decoration:none;
 }
 .working-hr-box{
     display:flex;
 }
 .working-hr{
-    font-size: 12px !important;
-    margin-top: 11px ;
-    margin-left: -10px ;
-    margin-bottom: 36px ;
+    font-size: 14px !important;
+    margin-top: 11px;
+    margin-left: 4px;
+    margin-bottom: 36px;
 }
 .scroll-content p{
     font-weight: 400;
@@ -223,7 +232,58 @@ text-decoration:underline;
     font-size: 21px !important;
     color: #171A1FFF !important;
 }
+.scroll-content p{
+    font-weight:400px;
+}
+.write-txt{
+    margin-left:10px!important;
+    text-decoration:underline;
+}
+.working-hr span{
+    font-size: 12px !important;
+    font-weight: 400;
+    margin-right: 0px;
+    font-size: 1rem;
+    background: #00bdd6;
+    padding: 6px 6px;
+    border-radius: 17px;
+    color: #fff;
+    margin-left: 9px;
+}
+.review-box h5 {
+    color: #000;
+    font-size: 18px;
+    font-weight:700;
+}
+.details p{
+    font-size: 15px!important;
+}
 @media (max-width: 767px) {
+    .breadcrumb {
+    
+    font-size: 10px;
+}
+.portfolio .sidebar-review-box .userbox {
+    justify-content: center;
+    margin: 3px 44px;
+}
+    .short-description{
+        margin-left: 25px;   
+    }
+    .tab-content p{
+        margin: 0 25px; 
+    }
+    .user-col p{
+        margin: 0 25px; 
+    }
+    .portfolio .scroll-content {
+   
+    margin-left: 25px;
+}
+    .working-hr {
+
+margin-bottom: 14px;
+}
     .portfolio .topsec h4 {
     margin-bottom: 36px;
 }
@@ -280,14 +340,14 @@ float: none !important;
     <li class="breadcrumb-item active" aria-current="page">Current Page</li>
   </ol>
 </nav>
-     <ul id="tabs-nav">
-         <li class="active"><a href="#tab1"><i style="font-size:17px" class="fa"></i> PROFILE</a></li>
-         <li><a href="#tab2"><i style="font-size:17px" class="fa"></i> REVIEWS
+     <ul id="tabs-nav" >
+         <li class="tab1"><a  ><i style="font-size:17px" class="fa"></i> PROFILE</a></li>
+         <li class="tab2"><a ><i style="font-size:17px" class="fa"></i> REVIEWS
                  </a></li>
-         <li><a href="#tab3"><i style="font-size:17px" class="fa"></i> PORTFOLIO
+         <li class="tab3"><a cl><i style="font-size:17px" class="fa"></i> PORTFOLIO
                  </a></li>
-         <li><a href="#tab4"><i style="font-size:17px" class="fa"></i>BUNDLES</a></li>
-         <li><a href="#tab4"><i style="font-size:17px" class="fa"></i>PROJECTS</a></li>
+         <li class="tab4"><a><i style="font-size:17px" class="fa"></i>BUNDLES</a></li>
+         <li class="tab5"><a ><i style="font-size:17px" class="fa"></i>PROJECTS</a></li>
          <li class="purple"><a href="#tab4"><i style="font-size:17px" class="fa"></i>REQUEST A QUOTE</a></li>
          <li class="purple"><a href="#tab4"><i style="font-size:17px" class="fa"></i>WWW</a></li>
      </ul>
@@ -305,6 +365,10 @@ float: none !important;
         <div class="container shadow portfolio portfolio-top py-3 mb-5">
             <div class="row">
                 <div class="col-lg-12 bg-white py-md-3 p-0">
+
+
+<!-- profile start -->
+<div id="profile">
                     <div class="row top-sec">
                         <div class="col-md-8">
                             <div class="row text-center text-md-left">
@@ -313,20 +377,20 @@ float: none !important;
                                 </div>
                                 <div class="col-md-9 mt-2 mt-md-0 info-box">
                                     <h2>{{ $company->name }}</h2>
-                                    <h4 class="mt-2 mt-md-0 mb-md-2">{{ $company->tagline }}</h4>
+                                    <h4 class="mt-2 mt-md-0 mb-md-2 mb-4">{{ $company->tagline }}</h4>
                                     <div class="review-box mt-md-5">
                                     <div class="reviews-row text-center reviewrate">
                                <div class="review-box writereview">
                                
                                     <h3 class="ratio">{{ number_format($rate_review->rating, 1) }}</h3>
-                                <div class="px-md-3 px-0 pl-1">
+                                <div class="pl-md-3 pr-md-2">
                                     {!! generateStarRating($rate_review->rating) !!}
                                 </div>
                                 </div>
                                 <div class="review-box">
                                 @if ($reviews_count > 0)
                                     <a href="{{ url('review/' . $company->id) }}" target="_blank" class="reviewstxt">
-                                        <h3>{{ $reviews_count }} REVIEWS</h3>
+                                        <h5>{{ $reviews_count }} REVIEWS</h5>
                                     </a>
                                 @else
                                     <p class="mb-0">No Reviews</p>
@@ -468,20 +532,36 @@ float: none !important;
                             </div>
                         </div>
                     </div>
+                    </div>
+          <!-- profile end -->
 
+
+
+
+
+             <!-- review start -->
+             <div id="reviews">
                     <div class="container mt-3 mt-md-3 p-0 reviews-sec greybox border-bottom">
                         <h2 class="my-heading">Reviews</h2>
                         @foreach ($reviews as $review)
                             <x-review :review="$review" />
                         @endforeach
                     </div>
-
+                    </div>
+             <!-- review end -->
+<!-- Portfolio start -->
+<div id="portfolio">
                     <div class="container mt-3  mt-md-3 p-0 reviews-sec greybox border-bottom">
                         <h2 class="my-heading">Portfolio / Case Studies</h2>
                         @foreach ($caseStudies as $caseStudy)
                             <x-portfolio :portfolio="$caseStudy" />
                         @endforeach
                     </div>
+                    </div>
+<!-- Portfolio end -->
+
+
+
                     <div class="mt-4 text-center">
                         <a href="{{ route('portfolio', ['company' => $company->id]) }}" class="submitbtn next-btn">
                             View All
@@ -652,4 +732,8 @@ float: none !important;
 
     <script src="{{ asset('front_components/js/jquery.js') }}"></script>
     <script src="{{ asset('front_components/js/tab.js') }}"></script>
+    <script>
+
+ 
+          </script>
 @endsection
