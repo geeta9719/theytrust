@@ -28,6 +28,9 @@
 #tabs-nav li{
     cursor:pointer;
 }
+.info-box{
+    padding:0!important;
+}
             .row.button-section {
                 margin: auto !important;
             }
@@ -39,6 +42,7 @@
     padding: 11px;
     border-radius: 63%;
     color: #fff !important;
+    font-size:14px;
             }
             .sidebar-review-box .qualitybox {
                 display: none;
@@ -147,6 +151,9 @@
                   } 
             .breadcrumb-item+.breadcrumb-item::before
             {  content: ">";
+            }
+            .portfolio .reviews-sec h4{
+background-color:#00BDD6FF;
             }
             .portfolio-top ul#tabs-nav li:hover, .portfolio-top ul#tabs-nav li.active {
              background-color: #0095a9;
@@ -387,17 +394,17 @@ float: none !important;
                                     {!! generateStarRating($rate_review->rating) !!}
                                 </div>
                                 </div>
-                                <div class="review-box">
+                                <div class="d-flex">
                                 @if ($reviews_count > 0)
                                     <a href="{{ url('review/' . $company->id) }}" target="_blank" class="reviewstxt">
                                         <h5>{{ $reviews_count }} REVIEWS</h5>
                                     </a>
                                 @else
-                                    <p class="mb-0">No Reviews</p>
+                                    <h5 class="mb-0">No Reviews</h5>
                                 @endif
 <!-- write -->
                                 @if (auth()->check() && auth()->user()->id === $company->user_id)
-                                    <a href="{{ route('comapany.reviews.request.index') }}" class="btn btn-primary">
+                                    <a href="{{ route('comapany.reviews.request.index') }}" class="write-txt">
                                         Reqest a Review
                                     </a>
                                 @else

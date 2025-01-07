@@ -14,24 +14,38 @@
     <section class="container-fluid agencies   " style="background: #fff;  ">
         <div class="container  ">
             <div class="row upgrade">
-                <div class="col-lg-6 ">
+                <div class="col-lg-6 col-12">
                     <h2 class="sec-heading mb-3 mb-lg-0">Upgrade your plan</h2>
                 </div>
-                <div class="col-lg-6 text-center  ">
+                <div class="col-lg-6 col-12 text-center  ">
                     <div class="btn-box">
                         <div class="d-sm-flex justify-content-center">
                             <!-- <button class="monthly btn">Monthly</button>
                             <button class="annual btn">Annual Commitment</button>
                             <button class="yearly btn">Yearly</button> -->
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item active">
-                                    <a class="nav-link  annual btn" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Monthly</a>
+                                <li class="nav-item ">
+                                    <a class="nav-link  monthly btn active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Monthly</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link annual btn" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Annual Commitment</a>
+                                    <a class="nav-link annual btn" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                                       <span class="before-txt">
+                                      <img src="https://theytrust-us.developmentserver.info/front_components/images/saving.png" alt="">
+                                        Save 50% 
+                                       </span>
+                                    
+                                    Annual Commitment</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link annual btn" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Yearly</a>
+                                    <a class="nav-link yearly btn" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                                    <span class="before-txt">
+                                      <img src="https://theytrust-us.developmentserver.info/front_components/images/fire.png" alt="">
+                                        50% + 20%
+                                       </span>yearly
+
+                                    </a>
+                                   
+                                    
                                 </li>
                             </ul>
                         </div>
