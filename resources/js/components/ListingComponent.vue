@@ -210,6 +210,37 @@ select {
     flex-direction: column;
   }
 }
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3; /* Light grey */
+  border-top: 5px solid #3498db; /* Blue */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 </style>
 
 
@@ -227,6 +258,9 @@ select {
       <a href="#" v-if="selectedSubcategory" @click.prevent="selectSubcategory(selectedSubcategory.id)">{{
         selectedSubcategory.subcategory }}</a>
     </nav>
+    <div v-if="loading" class="loader-overlay">
+      <div class="loader"></div>
+    </div>
     <div class="container">
       <h1>{{ pageTitle }}</h1>
       <p>
@@ -411,7 +445,8 @@ export default {
       },
       companies: [], // To store fetched companies data
       expandedDescriptions: {},
-      sortOrder: 'asc'
+      sortOrder: 'asc',
+      loading: false,
     };
   },
   methods: {
@@ -630,7 +665,14 @@ export default {
       const newURL = `${newPath}${query.toString() ? `?${query.toString()}` : ''}`;
 
       window.history.pushState(null, '', newURL);
-      this.fetchCompanies(); // Fetch companies data when URL updates
+      // this.fetchCompanies(); // Fetch companies data when URL updates
+      this.loading = true;
+
+      this.fetchCompanies()
+    .finally(() => {
+      // Set loading to false when fetch is complete
+      this.loading = false;
+    });
     },
     resetFilters() {
       this.pageTitle = 'Top Category Name (Title of the page)';
