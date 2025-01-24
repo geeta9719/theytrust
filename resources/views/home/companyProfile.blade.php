@@ -30,25 +30,27 @@
         <script src="{{ asset('portfolioimage/js/tab.js') }}"></script>
 
         <style>
-            #portfolio,
-            #reviews {
-                display: none;
-            }
 
-            #tabs-nav li {
-                cursor: pointer;
-            }
+#portfolio,
+#reviews{
+    display:none
+}
+
+#tabs-nav li{
+    cursor:pointer;
+}
             .row.button-section {
                 margin: auto !important;
             }
             .next-btn:hover {
                 color: #000;
             }
-            .portfolio .reviews-row h3 {
+            .portfolio .reviews-row h3{
                 background-color: #006d7c;
-                padding: 11px;
-                border-radius: 63%;
-                color: #fff !important;
+    padding: 11px;
+    border-radius: 63%;
+    color: #fff !important;
+    font-size:15px!important;
             }
             .sidebar-review-box .qualitybox {
                 display: none;
@@ -56,8 +58,8 @@
                 gap: 0;
                 margin-top: 20px;
             }
-            .portfolio .sidebar-review-box .col-md-4 {
-                padding: 0;
+            .portfolio .sidebar-review-box .col-md-4{
+                padding:0;
             }
             .next-btn {
                 color: #fff;
@@ -69,15 +71,16 @@
                 margin-left: 12px;
             }
             .portfolio .topsec p {
-                margin-top: 20px;
-                margin-right: 20px !important;
-            }
+    margin-top: 20px;
+    margin-right: 20px!important;
+}
             .portfolio .topsec h3 {
-                font-family: Epilogue !important;
-                font-size: 20px !important;
+                font-family: Epilogue!important;
+                font-size: 20px!important;
                 font-weight: 700 !important;
-                color: #171a1fff !important;
-                margin: 0;
+                color: #171A1FFF !important;
+                margin:0;
+               
             }
             .portfolio .reviewrate {
                 align-items: center !important;
@@ -94,27 +97,27 @@
                 font-weight: 400;
                 font-family: 'Inter', sans-serif;
             }
-            .fa {
-                margin-right: 4px;
-            }
-
+            .fa{          margin-right: 4px;}
+  
             .bluestar {
                 color: #00bdd6;
-                font-size: 24px; /* Adjust size as needed */
-            }
-            .portfolio-top .topsec h2 {
-                font-size: 41px !important;
-                font-family: Epilogue; /* Heading */
-            }
+  font-size: 24px; /* Adjust size as needed */
+}
+.portfolio-top .topsec h2 {
+    font-size: 41px !important;
+    font-family: Epilogue; /* Heading */
+}
 
-            .portfolio .topsec .ratio {
-                font-size: 14px !important;
-                font-weight: 500 !important;
-                color: #fff !important;
-                background-color: #006d7c;
-                padding: 10px 7px 7px 7px;
-                border-radius: 35px;
-            }
+
+
+            .portfolio .topsec .ratio{
+            font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #fff !important;
+    background-color: #006d7c;
+    padding: 10px 7px 7px 7px;
+    border-radius: 35px;}
+
 
             .short-description {
                 overflow: hidden;
@@ -128,209 +131,229 @@
                 /* line-height * number of lines */
                 position: relative;
             }
-            .info-box h2 {
-                color: #000;
-                font-size: 35px;
-            }
-
-            .info-box h4 {
-                color: #000;
-                font-size: 20px;
-            }
-            .short-description.expanded {
+.info-box h2{
+    color: #000;
+    font-size:35px;
+}
+  
+.info-box h4{
+    color: #000;
+    font-size:20px;
+}
+.short-description.expanded {
                 -webkit-line-clamp: unset;
                 max-height: none;
+            }
+            .ttu-score-text{
+                text-align:center;
+            }
+            .ttu-score-widget{
+                width: 297px;
+                margin: auto;
+            }
+            .ttu-score-range{
+                text-align:center;
             }
             .readmore a {
                 color: #000 !important;
             }
             .breadcrumb li a {
                 color: #00bdd6 !important;
-                text-decoration: none;
-                font-size: 15px;
+                text-decoration:none;
+                font-size:15px;
             }
             .breadcrumb {
                 color: #00bdd6 !important;
                 background-color: #ffffff;
+  
+                  } 
+            .breadcrumb-item+.breadcrumb-item::before
+            {  content: ">";
             }
-            .breadcrumb-item + .breadcrumb-item::before {
-                content: '>';
+            .portfolio .reviews-sec h4{
+background-color:#00BDD6FF;
             }
-            .portfolio-top ul#tabs-nav li:hover,
-            .portfolio-top ul#tabs-nav li.active {
-                background-color: #0095a9;
-            }
-            .portfolio-top {
-                padding: 0;
-            }
-            .portfolio-top ul#tabs-nav li {
-                background-color: #00bdd6ff;
+            .portfolio-top ul#tabs-nav li:hover, .portfolio-top ul#tabs-nav li.active {
+             background-color: #0095a9;
+             }
+             .portfolio-top{
+                padding:0;
+             }
+            .portfolio-top ul#tabs-nav li{
+                background-color: #00BDD6FF;
                 padding: 7px 33px;
-            }
+             }
 
-            .portfolio-top #tabs-nav li a {
-                text-decoration: none;
-                color: #fff;
-                font-size: 15px;
-            }
-            .portfolio-top ul#tabs-nav {
-                list-style: none;
-                margin: 0;
-                padding: 0px;
-                overflow: auto;
-                background-color: #fff;
-                display: flex;
-                justify-content: space-between;
-            }
-            .purple {
-                background-color: #b9a8e4 !important;
-            }
-            .portfolio .reviewrate {
-                float: none;
-                margin-top: 2px;
-            }
-            .review-box {
-                display: flex;
-                align-items: center;
-            }
-            .write-txt {
-                color: #00bdd6;
-            }
-            .reviews-row a {
-                font-family: Inter;
-                font-size: 14px;
-                font-weight: 400;
-                color: #00bdd6ff;
-                margin-left: 0px;
-                text-decoration: none;
-            }
-            .working-hr-box {
-                display: flex;
-            }
-            .working-hr {
-                font-size: 14px !important;
-                margin-top: 11px;
-                margin-left: 4px;
-                margin-bottom: 36px;
-            }
-            .scroll-content p {
-                font-weight: 400;
-                font-size: 16px;
-                margin: 0;
-            }
-            .my-heading {
-                font-family: Epilogue; /* Heading */
-                font-size: 28px;
-                line-height: 58px;
-                font-weight: 700;
-                color: #171a1fff; /* neutral-900 */
-                background: #00bdd6ff; /* primary-500 */
-                border-radius: 0px;
-                padding: 10px;
-            }
-            .portfolio .topsec h3 {
-                font-family: Epilogue !important;
-                font-size: 29px !important;
-                font-weight: 700 !important;
-                color: #171a1fff !important;
-            }
-            .portfolio .topsec h4 {
-                font-family: Epilogue !important;
-                font-size: 21px !important;
-                color: #171a1fff !important;
-            }
-            .scroll-content p {
-                font-weight: 400px;
-            }
-            .write-txt {
-                margin-left: 10px !important;
-                text-decoration: underline;
-            }
-            .working-hr span {
-                font-size: 12px !important;
-                font-weight: 400;
-                margin-right: 0px;
-                font-size: 1rem;
-                background: #00bdd6;
-                padding: 6px 6px;
-                border-radius: 17px;
-                color: #fff;
-                margin-left: 9px;
-            }
-            .review-box h5 {
-                color: #000;
-                font-size: 18px;
-                font-weight: 700;
-            }
-            .details p {
-                font-size: 15px !important;
-            }
-            @media (max-width: 767px) {
-                .breadcrumb {
-                    font-size: 10px;
-                }
-                .portfolio .sidebar-review-box .userbox {
-                    justify-content: center;
-                    margin: 3px 44px;
-                }
-                .short-description {
-                    margin-left: 25px;
-                }
-                .tab-content p {
-                    margin: 0 25px;
-                }
-                .user-col p {
-                    margin: 0 25px;
-                }
-                .portfolio .scroll-content {
-                    margin-left: 25px;
-                }
-                .working-hr {
-                    margin-bottom: 14px;
-                }
-                .portfolio .topsec h4 {
-                    margin-bottom: 36px;
-                }
-                .portfolio .topsec .ratio {
-                    font-size: 14px !important;
-                    font-weight: 500 !important;
-                    color: #fff !important;
-                    background-color: #006d7c;
-                    padding: 6px;
-                    border-radius: 62%;
-                    width: 25%;
-                }
-                .portfolio .reviews-row .fa {
-                    font-size: 14px;
-                    margin-left: 0px;
-                }
-                .review-box {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-                .working-hr-box {
-                    display: block;
-                }
-                .target-sec a {
-                    margin: 0 20px;
-                }
-                .write-review {
-                    float: none !important;
-                }
-                .portfolio-top ul#tabs-nav {
-                    display: block;
-                }
-                .portfolio ul#tabs-nav li {
-                    width: 100%;
-                    border: 0;
-                }
-            }
-            @media (max-width: 991px) {
-                .portfolio ul#tabs-nav {
-                    display: block;
-                }
-            }
+            
+
+.portfolio-top #tabs-nav li a {
+    text-decoration: none;
+    color: #FFF;
+    font-size:15px;
+}
+.portfolio-top ul#tabs-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0px;
+    overflow: auto;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+}
+.purple{
+background-color:#b9a8e4!important;
+}
+.portfolio .reviewrate {
+float: none; 
+margin-top: 2px;
+}
+.review-box{
+display:flex;
+align-items: center;
+}
+.write-txt{
+    color:#00bdd6;
+}
+.reviews-row a{
+  font-family: Inter; 
+  font-size: 14px; 
+  font-weight: 400; 
+  color: #00BDD6FF; 
+margin-left:0px;
+text-decoration:none;
+}
+.working-hr-box{
+    display:flex;
+}
+.working-hr{
+    font-size: 14px !important;
+    margin-top: 11px;
+    margin-left:0px;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+}
+.scroll-content p{
+    font-weight: 400;
+    font-size: 16px;
+    margin: 0;
+}
+.my-heading {
+  font-family: Epilogue; /* Heading */
+  font-size: 28px; 
+  line-height: 58px; 
+  font-weight: 700; 
+  color: #171A1FFF; /* neutral-900 */
+  background: #00BDD6FF; /* primary-500 */
+  border-radius: 0px; 
+  padding:10px;
+}
+.portfolio .topsec h3 {
+    font-family: Epilogue !important;
+    font-size: 29px !important;
+    font-weight: 700 !important;
+    color: #171A1FFF !important;
+}
+.portfolio .topsec h4 {
+    font-family: Epilogue !important;
+    font-size: 21px !important;
+    color: #171A1FFF !important;
+}
+.scroll-content p{
+    font-weight:400px;
+}
+.write-txt{
+    margin-left:10px!important;
+    text-decoration:underline;
+}
+.working-hr span{
+    font-size: 12px !important;
+    font-weight: 400;
+    margin-right: 0px;
+    font-size: 1rem;
+    background: #00bdd6;
+    padding: 6px 6px;
+    border-radius: 17px;
+    color: #fff;
+    margin-left: 9px;
+}
+.review-box h5 {
+    color: #000;
+    font-size: 18px;
+    font-weight:700;
+}
+.details p{
+    font-size: 15px!important;
+}
+@media (max-width: 767px) {
+    .breadcrumb {
+    
+    font-size: 10px;
+}
+.portfolio .sidebar-review-box .userbox {
+    justify-content: center;
+    margin: 3px 44px;
+}
+    .short-description{
+        margin-left: 25px;   
+    }
+    .tab-content p{
+        margin: 0 25px; 
+    }
+    .user-col p{
+        margin: 0 25px; 
+    }
+    .portfolio .scroll-content {
+   
+    margin-left: 25px;
+}
+    .working-hr {
+
+margin-bottom: 14px;
+}
+    .portfolio .topsec h4 {
+    margin-bottom: 36px;
+}
+.portfolio .topsec .ratio {
+    font-size: 14px !important;
+        font-weight: 500 !important;
+        color: #fff !important;
+        background-color: #006d7c;
+        padding: 6px;
+        border-radius: 62%;
+        width: 25%;
+}
+.portfolio .reviews-row .fa {
+    font-size: 14px;
+    margin-left: 0px;
+}
+    .review-box{display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .working-hr-box{
+    display:block;
+}
+    .target-sec a {
+    
+    margin: 0 20px;
+}
+.write-review {
+float: none !important;
+}
+.portfolio-top ul#tabs-nav{
+    display:block;
+}
+.portfolio ul#tabs-nav li {
+        width: 100%;
+        border: 0;
+    }
+}
+@media (max-width: 991px) {
+    .portfolio ul#tabs-nav {
+        display: block;
+    }
+}
         </style>
     </head>
 
@@ -436,7 +459,7 @@
                                                         {!! generateStarRating($rate_review->rating) !!}
                                                     </div>
                                                 </div>
-                                                <div class="review-box">
+                                                <div class="review-box ">
                                                     @if ($reviews_count > 0)
                                                         <a
                                                             href="{{ url('review/' . $company->id) }}"
@@ -449,16 +472,17 @@
                                                             </h5>
                                                         </a>
                                                     @else
-                                                        <p class="mb-0">
+                                                    <span class="reviewstxt">
+                                                        <h5 class="mb-0">
                                                             No Reviews
-                                                        </p>
+        </h5></span>
                                                     @endif
                                                     <!-- write -->
 
                                                     @if (auth()->check() && auth()->user()->id === $company->user_id)
                                                         <a
                                                             href="{{ route('comapany.reviews.request.index') }}"
-                                                            class="btn btn-primary"
+                                                            class="write-txt"
                                                         >
                                                             Reqest a Review
                                                         </a>
