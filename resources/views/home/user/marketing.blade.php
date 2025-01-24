@@ -127,8 +127,8 @@
                         </div>
                         <!-- <a href="{{ route('company.focus', $company->id) }}" class="save-btn"><</a> -->
                         <div class="col-md-12 text-center btnbasic">
-                        <button href="{{ route('company.focus', $company->id) }}" class="save-btn">Previous
-                        </button>
+                        {{-- <button href="{{ route('company.focus', $company->id) }}" class="save-btn">Previous
+                        </button> --}}
                             <button type="button" class="next-btn" onclick="checkValue()">Next</button>
                             <button type="button" class="save-btn" onclick="saveAndBack()">
                                 Save and Exit

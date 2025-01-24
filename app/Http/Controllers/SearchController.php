@@ -945,11 +945,6 @@ class SearchController extends Controller
 
         $data['company'] = Company::where('id', $company_id)->first();
 
-        // if (!$data['company']) {
-        //     $cleaned_company_id = str_replace('-', ' ', $company_id);
-        //     $data['company'] = Company::where('name', 'like', '%' . $cleaned_company_id . '%')->first();
-        //     $company_id =   $data['company']->id;
-        // }
 
         $data['rate_review'] = DB::table('company_reviews')
             ->select('company_id', 'position_title', 'most_impressive', 'project_title')
@@ -1140,7 +1135,6 @@ class SearchController extends Controller
         $data['reviews'] = CompanyReview::with('user', 'company')
             ->where('company_id', $company->id)
             ->paginate(3);
-        // dd($data);
 
         return view('home.review', $data);
     }
@@ -1247,6 +1241,8 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         try {
+
+            $order = $request->filled('order');
             $query = Company::with(['serviceLines.category','address', 'user','user.CurrentSubscription'])->withCount('companyReview');
 
             if ($request->filled('categoryId')) {
@@ -1322,18 +1318,6 @@ class SearchController extends Controller
                 ]);
 
             }
-            // $companies = $query->get()->sort(function ($a, $b) {
-            //     $priorityA = $a->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
-            //     $priorityB = $b->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
-
-            //     // First, compare by priority (ascending)
-            //     if ($priorityA !== $priorityB) {
-            //         return $priorityA <=> $priorityB;
-            //     }
-
-            //     // If priority is the same, compare by ttu_score (descending)
-            //     return ($b->ttu_score ?? 0) <=> ($a->ttu_score ?? 0);
-            // });
             $companies = $query->get();
             $companies = $companies->sortByDesc('ttu_score')->values();
             $rank = 1;
@@ -1343,22 +1327,23 @@ class SearchController extends Controller
             $companies = $companies->sort(function ($a, $b) {
                 $priorityA = $a->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
                 $priorityB = $b->user->CurrentSubscription[0]->plan->priority ?? PHP_INT_MAX;
-            
+
                 // Sort by priority (ascending)
                 if ($priorityA !== $priorityB) {
                     return $priorityA <=> $priorityB;
                 }
-            
+
                 // Sort by ttu_rank (ascending)
                 if ($a->ttu_rank !== $b->ttu_rank) {
                     return $a->ttu_rank <=> $b->ttu_rank;
                 }
-            
+
                 // Sort by name (ascending)
                 return strcmp($a->name ?? '', $b->name ?? '');
+                
             });
 
-
+            // dd($companies);
             if (isset($sponcescompanies)) {
                 $companies = $companies->merge($sponcescompanies);
             }

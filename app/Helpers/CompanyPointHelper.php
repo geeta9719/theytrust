@@ -138,8 +138,7 @@ public static function calculateProfileCompleteness($companyId)
             'weight_id' => $weight->id,
         ]);
 
-        // Update company points based on membership type
-        $companyPoint->count = 1; // Membership is a one-time addition
+        $companyPoint->count = 1; 
         $companyPoint->points = $weight->points;
         $companyPoint->weighted_points = $companyPoint->points * ($weight->weight_percentage / 100);
         $companyPoint->save();
