@@ -34,7 +34,7 @@ class CompanyPointHelper
             }
         }
 
-        $totalWeightedPoints = CompanyPoint::where('company_id', $companyId)->sum('weighted_points');
+        $totalWeightedPoints = CompanyPoint::where('company_id', $companyId)->sum('points');
         $company = Company::find($companyId);
         if ($company) {
             $company->ttu_score = $totalWeightedPoints;
@@ -95,7 +95,7 @@ class CompanyPointHelper
         $companyPoint->save();
 
         // Update the total weighted points for the company
-        $totalWeightedPoints = CompanyPoint::where('company_id', $companyId)->sum('weighted_points');
+        $totalWeightedPoints = CompanyPoint::where('company_id', $companyId)->sum('points');
         $company = Company::find($companyId);
         if ($company) {
             $company->ttu_score = $totalWeightedPoints;
@@ -145,7 +145,7 @@ public static function calculateProfileCompleteness($companyId)
         $companyPoint->save();
 
         // Update the total weighted points for the company
-        $totalWeightedPoints = CompanyPoint::where('company_id', $companyId)->sum('weighted_points');
+        $totalWeightedPoints = CompanyPoint::where('company_id', $companyId)->sum('points');
         $company = Company::find($companyId);
         if ($company) {
             $company->ttu_score = $totalWeightedPoints;
@@ -159,5 +159,5 @@ public static function calculateProfileCompleteness($companyId)
         ];
     }
 
-    
+
 }
