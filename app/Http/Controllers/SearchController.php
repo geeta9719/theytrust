@@ -1243,7 +1243,7 @@ class SearchController extends Controller
         try {
 
             $order = $request->filled('order');
-            $query = Company::with(['serviceLines.category','address', 'user','user.CurrentSubscription'])->withCount('companyReview');
+            $query = Company::with(['serviceLines.category','address', 'addIndustry','user','user.CurrentSubscription'])->withCount('companyReview');
 
             if ($request->filled('categoryId')) {
                 $query->whereHas('serviceLines', function ($query) use ($request) {
