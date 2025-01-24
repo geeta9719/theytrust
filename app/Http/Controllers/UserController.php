@@ -833,7 +833,7 @@ class UserController extends Controller
             $find->twitter = $request->twitter;
             $find->analytics = $request->analytics;
             $find->save();
-            $completenessResult =  CompanyPointHelper::calculateProfileCompleteness($request->company_id); 
+            $completenessResult =  CompanyPointHelper::calculateProfileCompleteness($request->company_id);
         }
         else {
             $inputs['company_id'] = $request->company_id;
@@ -844,7 +844,7 @@ class UserController extends Controller
             $inputs['twitter'] = $request->twitter;
             $inputs['analytics'] = $request->analytics;
             AdminInfo::create($inputs);
-            $completenessResult = self::calculateProfileCompleteness($request->company_id);
+            $completenessResult = CompanyPointHelper::calculateProfileCompleteness($request->company_id);
 
         }
         $plan = PlanModel::find(7);
