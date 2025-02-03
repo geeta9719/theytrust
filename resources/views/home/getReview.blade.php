@@ -8,7 +8,11 @@
     @import url(https://fonts.googleapis.com/css?family=Calibri:400,300,700);
     .rating {
         border: none;
-        margin-right: 49px
+        margin-right: 49px;
+    }
+    .about-sec .form-group{
+margin:0 0 1rem 0;
+
     }
     .spanRating {
         padding: 5px;
@@ -199,18 +203,35 @@
     .btn:focus {
         outline: none
     }
-    .btn {
-        border-radius: 22px;
-        text-transform: capitalize;
-        font-size: 13px;
-        padding: 8px 19px;
-        cursor: pointer;
+    .about-project label {
+    font-weight: 600;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+}
+.project h1{
+    text-align:center;
+}
+.project span{
+    text-align:center;
+}
+   .about-project .btn {
         color: #fff;
-        background-color: #D50000
+    background-color: #00bdd6;
+    border-color: #00bdd6;
+    border-radius: 5px;
+    padding: 5px 24px 6px 23px;
+    font-size: 13px;
+    text-align: center;
     }
-    .btn:hover {
-        background-color: #D32F2F !important
-    }
+    .about-project .btn:hover {
+    color: #fff;
+    background-color: #00bdd6;
+    border-color: #00bdd6;
+    border-radius: 5px;
+    padding: 5px 24px 6px 23px;
+    font-size: 13px;
+    text-align: center;}
+    
     .tag-label {
     display: inline-block;
     background-color: #007bff;
@@ -237,9 +258,9 @@
     </div>
 </section>
 
-<section class="formbox container">
+<section class="formbox container mb-5 mt-5">
 
-    <div class="row  ">
+    <div class="row about-project ">
 
         <div class="col-lg-12">
 
@@ -259,16 +280,17 @@
                         @csrf
 
                         {{-- <input type="hidden" name="form" value="form1"> --}}
+<div class="text-center">
+                        <h1>About Project</h1>
 
-                        <h5>About Project</h5>
-
-                        <span>Provide some preliminary information about the project you are reviewing</span>
-
-                        <div class="form-group pt-4">
+                        <span class="text-center">Provide some preliminary information about the project you are reviewing</span>
+                        </div>
+                        <div class="row about-sec"> 
+                        <div class="form-group pt-4 col-md-6">
 
                             <label for="project_type">Choose project type</label><strong style="color: red;"> *</strong>
 
-                            <select class="form-control rmvId" id="project_type" name="project_type" required>
+                            <select class="form-control rmvId bigselect" id="project_type" name="project_type" required>
                                 <option value="">Select a value</option>
                                 @foreach($category as $cat)
                                 @foreach($cat->subcategory as $c)
@@ -281,21 +303,21 @@
 
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group  pt-4 col-md-6">
 
                             <label for="project_title">Write a title for the project</label><strong style="color: red;">*</strong>
-                            <input type="text" class="form-control rmvId" id="project_title" placeholder="Enter Title" name="project_title" required />
+                            <input type="text" class="form-control rmvId bigselect" id="project_title" placeholder="Enter Title" name="project_title" required />
                             <div class="invalid-feedback project_title rmvCls"></div>
 
                         </div>
 
 
 
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
 
                             <label for="company_type">Choose your company type</label><strong style="color: red;">*</strong>
 
-                            <select class="form-control rmvId" id="company_type" name="company_type" required>
+                            <select class="form-control rmvId bigselect" id="company_type" name="company_type" required>
 
                                 <option value="">Select a value</option>
 
@@ -308,11 +330,11 @@
                             <div class="invalid-feedback company_type rmvCls"></div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
 
                             <label for="title">Project value range</label><strong style="color: red;"> *</strong>
 
-                            <select class="form-control rmvId" id="cost_range" name="cost_range" required>
+                            <select class="form-control rmvId bigselect" id="cost_range" name="cost_range" required>
 
                                 <option value="">Select a value</option>
 
@@ -332,23 +354,24 @@
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
                             <label for="project_start">Project start date</label><strong style="color: red;"> *</strong>
-                            <input type="text" class="form-control date1 rmvId" id="project_start" placeholder="yyyy-mm-dd" name="project_start" required />
+                            <input type="text" class="form-control date1 rmvId bigselect" id="project_start" placeholder="yyyy-mm-dd" name="project_start" required />
                             <div class="invalid-feedback project_start rmvCls"></div>
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
                             <label for="project_end">Project finish date</label><strong style="color: red;"> *</strong>
-                            <input type="text" class="form-control date1 rmvId" id="project_end" placeholder="yyyy-mm-dd" name="project_end" required />
+                            <input type="text" class="form-control date1 rmvId bigselect" id="project_end" placeholder="yyyy-mm-dd" name="project_end" required />
                             <div class="invalid-feedback project_end rmvCls"></div>
                         </div>
-
+                        </div>
+                        <div class="col-md-12 text-center">
                         <button type="button" class="btn btn-primary" onclick="nextStep('review','next','1','project')">Next Section</button>
-
-                    </div>
-
+                        </div>  
+                    
+               
                     <!-- Step 1 END -->
 
                     <!-- Step 1 Start -->
