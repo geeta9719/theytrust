@@ -359,7 +359,7 @@ float: none !important;
 
     <body>
         <div class="container portfolio-top">
-            <nav aria-label="Breadcrumb" class="">
+            {{-- <nav aria-label="Breadcrumb" class="">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="/">Home</a>
@@ -374,7 +374,7 @@ float: none !important;
                         Current Page
                     </li>
                 </ol>
-            </nav>
+            </nav> --}}
             <ul id="tabs-nav">
                 <li class="tab1">
                     <a>

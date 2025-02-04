@@ -24,7 +24,7 @@
       <div v-for="(selectedCategory, index) in selectedData" :key="selectedCategory.id" class="category-item">
         <template v-if="selectedCategory.subcategories.length > 0"> 
           <div class="sub-category-card">
-            <h3 :class="subCategorySum(selectedCategory) === 100 ? 'green' : 'red'">{{ selectedCategory.category_name }} :{{ subCategorySum(selectedCategory) }} %</h3>
+            <h3 :class="subCategorySum(selectedCategory) == 100 ? 'green' : 'red'">{{ selectedCategory.category_name }} ::<span> {{ subCategorySum(selectedCategory) }} % </span></h3>
             <div class="subcategory row">
               <div v-for="(selectedSubCategory, index) in selectedCategory.subcategories" :key="selectedSubCategory.id"
                 class="category-item col-md-3 col-12">
