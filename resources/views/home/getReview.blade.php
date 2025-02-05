@@ -8,29 +8,36 @@
     @import url(https://fonts.googleapis.com/css?family=Calibri:400,300,700);
     .rating {
         border: none;
-        margin-right: 49px;
-    }
-    .about-sec .form-group{
-margin:0 0 1rem 0;
-
+        margin-right: 49px
     }
     .spanRating {
-        padding: 5px;
-        border-radius: 25px;
-        background-color: red;
-        width: 50px;
-        height: 50px;
+  
+    width: 100%;
+    height: 31px;
+    background-color: #006d7c;
+    padding: 6px 2px;
+    border-radius: 76%;
+    color: #fff !important;
+    font-size: 10px !important;
+    max-width: 32px;
+    text-align: center;
+    margin-top: -7px;
     }
+    /* .select2-container .select2-search--inline .select2-search__field {
+        height:auto!important;
+    } */
+    .select2-container--default .select2-selection--multiple {
+    border: 1px solid #ced4da!important;}
     .myratings {
-        font-size: 30px;
+        font-size: 12px;
         color: white
     }
     .rating>label:before {
-        margin: 5px;
-        font-size: 2.25em;
-        font-family: FontAwesome;
-        display: inline-block;
-        content: "\f005"
+        margin: 0 4px;
+    font-size: 15px;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
     }
     .rating>.half:before {
         content: "\f089";
@@ -47,13 +54,13 @@ margin:0 0 1rem 0;
     .rating>[id^="quality"]:checked~label,
     .rating:not(:checked)>label:hover,
     .rating:not(:checked)>label:hover~label {
-        color: #FFD700
+        color: #00bdd6
     }
     .rating>[id^="quality"]:checked+label:hover,
     .rating>[id^="quality"]:checked~label:hover,
     .rating>label:hover~[id^="quality"]:checked~label,
     .rating>[id^="quality"]:checked~label:hover~label {
-        color: #FFED85
+        color: #00bdd6
     }
     /* .rating>[id^="scheduling"] {
         display: none
@@ -75,13 +82,13 @@ margin:0 0 1rem 0;
     .rating>[id^="cost"]:checked~label,
     .rating:not(:checked)>label:hover,
     .rating:not(:checked)>label:hover~label {
-        color: #FFD700
+        color:#00bdd6
     }
     .rating>[id^="cost"]:checked+label:hover,
     .rating>[id^="cost"]:checked~label:hover,
     .rating>label:hover~[id^="cost"]:checked~label,
     .rating>[id^="cost"]:checked~label:hover~label {
-        color: #FFED85
+        color: #00bdd6
     }
     /* .rating>[id^="refer_to_friend"] {
         display: none
@@ -104,13 +111,13 @@ margin:0 0 1rem 0;
     .rating>[id^="timeliness"]:checked~label,
     .rating:not(:checked)>label:hover,
     .rating:not(:checked)>label:hover~label {
-        color: #FFD700
+        color:#00bdd6
     }
     .rating>[id^="timeliness"]:checked+label:hover,
     .rating>[id^="timeliness"]:checked~label:hover,
     .rating>label:hover~[id^="timeliness"]:checked~label,
     .rating>[id^="timeliness"]:checked~label:hover~label {
-        color: #FFED85
+        color:#00bdd6
     }
 
 
@@ -120,13 +127,13 @@ margin:0 0 1rem 0;
     .rating>[id^="communication"]:checked~label,
     .rating:not(:checked)>label:hover,
     .rating:not(:checked)>label:hover~label {
-        color: #FFD700
+        color: #00bdd6
     }
     .rating>[id^="communication"]:checked+label:hover,
     .rating>[id^="communication"]:checked~label:hover,
     .rating>label:hover~[id^="communication"]:checked~label,
     .rating>[id^="communication"]:checked~label:hover~label {
-        color: #FFED85
+        color: #00bdd6
     }
 
 
@@ -136,13 +143,13 @@ margin:0 0 1rem 0;
     .rating>[id^="expertise"]:checked~label,
     .rating:not(:checked)>label:hover,
     .rating:not(:checked)>label:hover~label {
-        color: #FFD700
+        color:#00bdd6
     }
     .rating>[id^="expertise"]:checked+label:hover,
     .rating>[id^="expertise"]:checked~label:hover,
     .rating>label:hover~[id^="expertise"]:checked~label,
     .rating>[id^="expertise"]:checked~label:hover~label {
-        color: #FFED85
+        color: #00bdd6
     }
 
     .rating>[id^="ease_of_working"] {
@@ -151,13 +158,13 @@ margin:0 0 1rem 0;
     .rating>[id^="ease_of_working"]:checked~label,
     .rating:not(:checked)>label:hover,
     .rating:not(:checked)>label:hover~label {
-        color: #FFD700
+        color: #00bdd6
     }
     .rating>[id^="ease_of_working"]:checked+label:hover,
     .rating>[id^="ease_of_working"]:checked~label:hover,
     .rating>label:hover~[id^="ease_of_working"]:checked~label,
     .rating>[id^="ease_of_working"]:checked~label:hover~label {
-        color: #FFED85
+        color: #00bdd6
     }
 
     .rating>[id^="refer_ability"] {
@@ -166,17 +173,14 @@ margin:0 0 1rem 0;
     .rating>[id^="refer_ability"]:checked~label,
     .rating:not(:checked)>label:hover,
     .rating:not(:checked)>label:hover~label {
-        color: #FFD700
+        color: #00bdd6
     }
     .rating>[id^="refer_ability"]:checked+label:hover,
     .rating>[id^="refer_ability"]:checked~label:hover,
     .rating>label:hover~[id^="refer_ability"]:checked~label,
     .rating>[id^="refer_ability"]:checked~label:hover~label {
-        color: #FFED85
+        color:#00bdd6
     }
-
-
-/* sneha */
 
     .rating>[id^="overall_rating"] {
         display: none
@@ -184,13 +188,13 @@ margin:0 0 1rem 0;
     .rating>[id^="overall_rating"]:checked~label,
     .rating:not(:checked)>label:hover,
     .rating:not(:checked)>label:hover~label {
-        color: #FFD700
+        color: #00bdd6
     }
     .rating>[id^="overall_rating"]:checked+label:hover,
     .rating>[id^="overall_rating"]:checked~label:hover,
     .rating>label:hover~[id^="overall_rating"]:checked~label,
     .rating>[id^="overall_rating"]:checked~label:hover~label {
-        color: #FFED85
+        color: #00bdd6
     }
     .reset-option {
         display: none
@@ -203,18 +207,62 @@ margin:0 0 1rem 0;
     .btn:focus {
         outline: none
     }
+    /* sneha */
+    h5{
+        margin-left: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #323842; 
+    /* font-size: 24px;
+    line-height: 30px;
+    font-weight: 700;
+    color: #171A1FFF;
+    background: #00BDD6FF;
+    border-radius: 0px;
+    padding: 4px 20px 4px 20px;
+    font-family: "Epilogue", sans-serif;
+    width: fit-content; */
+    }
+    .tell-sec .form-group {
+    margin: 0 0 1rem 0;
+}
+    .what span{
+    color: #00bdd6;
+    font-size: 13px;
+    font-weight: 500;
+    }
+    .about-project input {
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+    color: #495057;
+}
+    .about-project .btn:hover {
+    color: #212529;
+    text-decoration: none;
+}
+    .about-project .btn-box{
+        margin:auto;
+    }
     .about-project label {
     font-weight: 600;
     font-size: 14px;
     font-family: "Inter", sans-serif;
 }
-.project h1{
-    text-align:center;
+.about-sec .form-group{
+margin:0 0 1rem 0;
+
+    }
+    .about-project h1{
+        text-align:center;
+    }
+    /* .about-project span{
+        text-align:center;
+    } */
+   .what .select2-container {
+    width: 100% !important;
 }
-.project span{
-    text-align:center;
-}
-   .about-project .btn {
+    .about-project .btn {
         color: #fff;
     background-color: #00bdd6;
     border-color: #00bdd6;
@@ -231,7 +279,14 @@ margin:0 0 1rem 0;
     padding: 5px 24px 6px 23px;
     font-size: 13px;
     text-align: center;}
-    
+   .select2-selection--multiple{
+    text-align:left;
+   }
+   .about-project .btn:active {
+    color: #fff;
+    background-color: #00bdd6!important;
+    border-color: #00bdd6!important;}
+        /* sneha */
     .tag-label {
     display: inline-block;
     background-color: #007bff;
@@ -258,7 +313,7 @@ margin:0 0 1rem 0;
     </div>
 </section>
 
-<section class="formbox container mb-5 mt-5">
+<section class="formbox container">
 
     <div class="row about-project ">
 
@@ -273,6 +328,8 @@ margin:0 0 1rem 0;
                     <input type="hidden" name="company_id" value="{{$company->id}}">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 
+
+                   
                     <!-- Step 1 Start -->
 
                     <div class="project step" id="project">
@@ -280,15 +337,15 @@ margin:0 0 1rem 0;
                         @csrf
 
                         {{-- <input type="hidden" name="form" value="form1"> --}}
-<div class="text-center">
+                       <div class="text-center mt-5 ">
                         <h1>About Project</h1>
 
-                        <span class="text-center">Provide some preliminary information about the project you are reviewing</span>
+                        <span>Provide some preliminary information about the project you are reviewing</span>
                         </div>
-                        <div class="row about-sec"> 
+                        <div class="row about-sec mb-5"> 
                         <div class="form-group pt-4 col-md-6">
 
-                            <label for="project_type">Choose project type</label><strong style="color: red;"> *</strong>
+                            <label for="project_type">Choose project type <strong style="color: red;"> *</strong></label>
 
                             <select class="form-control rmvId bigselect" id="project_type" name="project_type" required>
                                 <option value="">Select a value</option>
@@ -303,9 +360,9 @@ margin:0 0 1rem 0;
 
                         </div>
 
-                        <div class="form-group  pt-4 col-md-6">
+                        <div class="form-group pt-md-4 pt-0 col-md-6">
 
-                            <label for="project_title">Write a title for the project</label><strong style="color: red;">*</strong>
+                            <label for="project_title">Write a title for the project <strong style="color: red;">*</strong></label>
                             <input type="text" class="form-control rmvId bigselect" id="project_title" placeholder="Enter Title" name="project_title" required />
                             <div class="invalid-feedback project_title rmvCls"></div>
 
@@ -315,7 +372,7 @@ margin:0 0 1rem 0;
 
                         <div class="form-group col-md-6">
 
-                            <label for="company_type">Choose your company type</label><strong style="color: red;">*</strong>
+                            <label for="company_type">Choose your company type <strong style="color: red;">*</strong></label>
 
                             <select class="form-control rmvId bigselect" id="company_type" name="company_type" required>
 
@@ -332,7 +389,7 @@ margin:0 0 1rem 0;
 
                         <div class="form-group col-md-6">
 
-                            <label for="title">Project value range</label><strong style="color: red;"> *</strong>
+                            <label for="title">Project value range <strong style="color: red;"> *</strong></label>
 
                             <select class="form-control rmvId bigselect" id="cost_range" name="cost_range" required>
 
@@ -355,40 +412,41 @@ margin:0 0 1rem 0;
 
 
                         <div class="form-group col-md-6">
-                            <label for="project_start">Project start date</label><strong style="color: red;"> *</strong>
+                            <label for="project_start">Project start date <strong style="color: red;"> *</strong></label>
                             <input type="text" class="form-control date1 rmvId bigselect" id="project_start" placeholder="yyyy-mm-dd" name="project_start" required />
                             <div class="invalid-feedback project_start rmvCls"></div>
                         </div>
 
 
                         <div class="form-group col-md-6">
-                            <label for="project_end">Project finish date</label><strong style="color: red;"> *</strong>
+                            <label for="project_end">Project finish date <strong style="color: red;"> *</strong></label>
                             <input type="text" class="form-control date1 rmvId bigselect" id="project_end" placeholder="yyyy-mm-dd" name="project_end" required />
                             <div class="invalid-feedback project_end rmvCls"></div>
                         </div>
+                        <div class="text-center btn-box">
+                        <button type="button" class="btn btn-primary text-center" onclick="nextStep('review','next','1','project')">Next Section</button>
                         </div>
-                        <div class="col-md-12 text-center">
-                        <button type="button" class="btn btn-primary" onclick="nextStep('review','next','1','project')">Next Section</button>
-                        </div>  
-                    
-               
+                    </div>
+                    </div>
                     <!-- Step 1 END -->
-
+                    <div class="row mb-5">
                     <!-- Step 1 Start -->
-
+                  
+                    <div class="col-md-10 mx-auto">
                     <div class="review step" id="review" style="display: none;">
 
                         @csrf
 
                         <input type="hidden" name="form" value="form2">
 
-                        <h5>Detailed Information about the project</h5>
+                        <h4 class="text-center mt-4">Detailed Information about the project</h4>
 
                         <div class="form-group pt-4">
                             <h5> Company information </h5>
+                            
                             <div class="form-group ">
-                                <label for="company_position"> Please tell us about your business and what is your role</label><strong style="color: red;"> * </strong>
-                                <textarea class="form-control rmvId" id="company_position" name="company_position" required></textarea>
+                                <label for="company_position"> Please tell us about your business and what is your role <strong style="color: red;"> * </strong></label>
+                                <textarea class="form-control rmvId bigselect" id="company_position" name="company_position" required></textarea>
                                 <div class="invalid-feedback company_position rmvCls"></div>
                             </div>
                         </div>
@@ -397,9 +455,7 @@ margin:0 0 1rem 0;
                             <h5> Problem Statement </h5>
                             <div class="form-group">
 
-                                <label for="for_what_project">What specific challenges were you facing before working with {{$company->name}}                             </label>
-
-                                <strong style="color: red;"> *</strong>
+                                <label for="for_what_project">What specific challenges were you facing before working with {{$company->name}} <strong style="color: red;"> *</strong></label>
 
                                 <textarea class="form-control rmvId" id="for_what_project" placeholder="" name="for_what_project" required></textarea>
 
@@ -407,12 +463,12 @@ margin:0 0 1rem 0;
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group ml-3">
 
                             <label for="area_of_improvements">What were your main concerns or pain points related to your project?
-                            </label>
+                            <strong style="color: red;"> *</strong> </label>
 
-                            <strong style="color: red;"> *</strong>
+                         
 
                             <textarea class="form-control rmvId" id="area_of_improvements" placeholder="" name="area_of_improvements" required></textarea>
 
@@ -420,19 +476,19 @@ margin:0 0 1rem 0;
 
                         </div>
 
-                        <div class="form-group pt-4">
+                        <div class="form-group pt-2 ml-1">
 
                             <h5> Engagement </h5>
 
                             <div class="form-group">
-                                <label for="scope_of_work">Tell us about the project in detail</label><strong style="color: red;"> *</strong>
+                                <label for="scope_of_work">Tell us about the project in detail <strong style="color: red;"> *</strong></label>
                                 <textarea class="form-control rmvId" id="scope_of_work" name="scope_of_work" required></textarea>
                                 <div class="invalid-feedback scope_of_work rmvCls"></div>
                             </div>
 
-                            <div class="form-group ">
-                                <label for="how_select">What services did you receive from <b>{{$company->name}}? <b>  for eg. Digital Marketing, Web design, Mobile App development)
-                                </label><strong style="color: red;"> *</strong>
+                            <div class="form-group what">
+                                <label for="how_select ">What services did you receive from <span>{{$company->name}}? <span>  for eg. Digital Marketing, Web design, Mobile App development)
+                                <strong style="color: red;"> *</strong></label>
                                 <select id="how_select" name="how_select[]" class="form-control" multiple="multiple"></select>
                                 <span class="error-message">Please enter 2 or more characters</span>
                             </div>
@@ -440,12 +496,12 @@ margin:0 0 1rem 0;
 
                             {{-- <input type="text" id="how_select" class="form-control" placeholder="Type to search or create a tag"> --}}
 
-                            <div class="form-group pt-4">
+                            <div class="form-group pt-0">
 
                                 <label for="team_composition">What factors led to the selection of the vendor
-                                </label>
+                                <strong style="color: red;"> *</strong></label>
 
-                                <strong style="color: red;"> *</strong>
+                                
 
                                 <textarea class="form-control rmvId" id="team_composition" name="team_composition" required/></textarea>
 
@@ -454,28 +510,28 @@ margin:0 0 1rem 0;
 
                         </div>
 
-                        <div class="form-group pt-4">
+                        <div class="form-group pt-2 ml-0">
 
                             <h5> Success Story / Solution Provided
                             </h5>
 
                             <div class="form-group">
 
-                                <label for="any_outcome">Talk about how the vendor made this project a success</label>
+                                <label for="any_outcome">Talk about how the vendor made this project a success <strong style="color: red;"> *</strong></label>
 
-                                <strong style="color: red;"> *</strong>
+                               
 
                                 <textarea class="form-control rmvId" id="any_outcome" placeholder="" name="any_outcome" required></textarea>
 
                                 <div class="invalid-feedback any_outcome rmvCls"></div>
                             </div>
 
-                            <div class="form-group pt-4">
+                            <div class="form-group pt-0">
 
                                 <label for="how_effective">In what ways have the services positively impacted your business? (eg. increased sales, improved brand awareness, Enhanced user engagement)
-                                </label>
+                                <strong style="color: red;"> *</strong></label>
 
-                                <strong style="color: red;"> *</strong>
+                             
 
                                 <textarea class="form-control rmvId" id="how_effective" name="how_effective" required></textarea>
 
@@ -484,8 +540,8 @@ margin:0 0 1rem 0;
 
                             <div class="form-group">
 
-                                <label for="most_impressive">What were the top 3 things that impressed you the most about the vendor (eg. communication, expertise, creativity, process etc)Is there anything else you would like to share about your experience</label>
-                                <strong style="color: red;"> *</strong>
+                                <label for="most_impressive">What were the top 3 things that impressed you the most about the vendor (eg. communication, expertise, creativity, process etc)Is there anything else you would like to share about your experience <strong style="color: red;"> *</strong></label>
+                                
 
                                 <textarea class="form-control rmvId" id="most_impressive" placeholder="" name="most_impressive" required></textarea>
 
@@ -496,9 +552,9 @@ margin:0 0 1rem 0;
 
                         </div>
 
-                        <div class="form-group pt-4">
+                        <div class="form-group pt-2 ml-0">
 
-                            <h4> Rate the vendor on a 5 point scale for the following parameters </h4>
+                            <h5> Rate the vendor on a 5 point scale for the following parameters </h5>
 
                             <?php
 
@@ -519,9 +575,9 @@ margin:0 0 1rem 0;
 
                                 <div>
 
-                                    <label for="{{$key}}">{{$val}}</label>
+                                    <label for="{{$key}}">{{$val}} <strong style="color: red;"> *</strong></label>
 
-                                    <strong style="color: red;"> *</strong>
+                                    
 
                                 </div>
 
@@ -551,25 +607,26 @@ margin:0 0 1rem 0;
 
                                 <div class="spanRating" style="float:left;"> <span class="myratings {{$key}}" style="margin:0 auto;">0</span></div>
 
-                                <div class="invalid-feedback {{$key}} rmvCls"></div>
+                             <div class="invalid-feedback {{$key}} rmvCls"></div> 
 
                                 <input type="text" class="form-control rmvId" id="{{$key}}_review" name="{{$key}}_review" required placeholder="Explain your rating">
 
-                                <div class="invalid-feedback {{$key}}_review rmvCls"></div>
+                                 <!-- <div class="invalid-feedback {{$key}}_review rmvCls"></div>  -->
 
                             </div>
 
                             @endforeach
 
                         </div>
-
+                           <div class="text-center">
                         <button type="button" class="btn btn-primary" onclick="nextStep('project','back','2','review')"> < </button>
                         <button type="button" class="btn btn-primary" onclick="nextStep('reviewer','next','2','review')">Next Section</button>
-
+                        </div>
                     </div>
 
                     <!-- Step 2 END -->
-
+                    </div>
+                    </div>
 
                     <!-- Step 1 Start -->
 
@@ -579,13 +636,15 @@ margin:0 0 1rem 0;
 
                         <input type="hidden" name="form" value="form3">
 
-                        <h5>Tell us about yourself.</h5>
+                        <h4 class="text-center mt-4">Tell us about yourself.</h4>
 
-                        <div class="form-group pt-4">
+                        <div class="row tell-sec mb-4">
 
-                            <label for="full_name">Full Name</label>
+                        <div class="form-group pt-md-4 pt-0 col-md-6">
 
-                            <strong style="color: red;"> *</strong>
+                            <label for="full_name">Full Name  <strong style="color: red;"> *</strong></label>
+
+                           
 
                             <input type="text" class="form-control" id="full_name" name="full_name" value="{{auth()->user()->name}}" required>
 
@@ -593,25 +652,25 @@ margin:0 0 1rem 0;
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group col-md-6 pt-md-4 pt-0">
                             <label for="position_title">Position</label>
                             <input type="text" class="form-control" id="position_title" name="position_title" />
                             <div class="invalid-feedback position_title rmvCls"></div>
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
                             <label for="company_name">Company Name</label>
                             <input type="text" class="form-control" id="company_name" name="company_name" />
                             <div class="invalid-feedback company_name rmvCls"></div>
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
 
-                            <label for="company_size">Company Size</label>
+                            <label for="company_size">Company Size  <strong style="color: red;"> *</strong></label>
 
-                            <strong style="color: red;"> *</strong>
+                           
 
                             <select class="form-control" id="company_size" name="company_size" required>
 
@@ -626,9 +685,9 @@ margin:0 0 1rem 0;
                             <div class="invalid-feedback company_size rmvCls"></div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
 
-                            <label for="country">Country</label><strong style="color: red;"> *</strong>
+                            <label for="country">Country <strong style="color: red;"> *</strong></label>
 
                             <select class="form-control" id="country" name="country" required >
 
@@ -644,11 +703,11 @@ margin:0 0 1rem 0;
 
                         </div>
 
-                        {{-- <div class="form-group">
+                        {{-- <div class="form-group col-md-6">
 
-                            <label for="city_country">State</label>
+                            <label for="city_country">State <strong style="color: red;"> *</strong></label>
 
-                            <strong style="color: red;"> *</strong>
+                            
 
                             <select class="form-control" id="state" name="state" required>
                                 <option value="">Select a state.</option>
@@ -658,9 +717,9 @@ margin:0 0 1rem 0;
 
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
 
-                            <label for="city">City</label><strong style="color: red;"> *</strong>
+                            <label for="city">City <strong style="color: red;"> *</strong></label>
 
                             <select class="form-control" id="city" name="city" required>
                                 <option value="">Select a city.</option>
@@ -670,9 +729,11 @@ margin:0 0 1rem 0;
 
                         </div>
                         --}}
+                        </div>
+                        <div class="col-md-12 text-center mb-5">
                         <button type="button" class="btn btn-primary" onclick="nextStep('review','back','3','reviewer')"> < </button>
                         <button type="button" class="btn btn-primary" onclick="nextStep('verify','next','3','reviewer')">Next Section</button>
-
+                        </div>
                     </div>
 
 
@@ -687,12 +748,12 @@ margin:0 0 1rem 0;
 
                         <input type="hidden" name="form" value="form4">
 
-                        <h5>Contact details</h5>
+                        <h4 class="text-center mt-4">Contact details</h4>
 
+                        <div class="row tell-sec mb-4">
+                        <div class="form-group col-md-6 pt-md-4 pt-0">
 
-                        <div class="form-group pt-4">
-
-                            <label for="company_email">Company email</label><strong style="color: red;"> *</strong>
+                            <label for="company_email">Company email <strong style="color: red;"> *</strong></label>
 
                             <span class="color:red;">The email must match the company URL</span>
 
@@ -702,21 +763,21 @@ margin:0 0 1rem 0;
 
                         </div>
 
-                        <div class="form-group pt-4">
-                            <label for="phone_number">Mobile number</label>
+                        <div class="form-group col-md-6 pt-md-4 pt-0">
+                            <label for="phone_number">Mobile number <strong style="color: red;"> *</strong></label>
 
-                            <strong style="color: red;"> *</strong>
+                            
 
                             <input type="text" class="form-control" id="phone_number" name="phone_number" required />
 
                             <div class="invalid-feedback phone_number rmvCls"></div>
                         </div>
 
-                        <div class="form-group pt-4">
+                        <div class="form-group col-md-6 ">
 
-                            <label for="linkedin_url">Linkedin URL</label>
+                            <label for="linkedin_url">Linkedin URL <strong style="color: red;"> *</strong></label>
 
-                            <strong style="color: red;"> *</strong>
+                            
 
                             <input type="text" class="form-control" id="linkedin_url" name="linkedin_url" required placeholder="https://example.com" />
 
@@ -724,31 +785,32 @@ margin:0 0 1rem 0;
 
                         </div>
 
-                        <div class="form-group pt-4">
+                        <div class="form-group col-md-6 ">
                             <label for="company_url">Company URL</label>
 
                             <input type="text" class="form-control" id="company_url" name="company_url" placeholder="https://example.com" />
 
                             <div class="invalid-feedback company_url rmvCls"></div>
                         </div>
-
+                       </div>
+                       <div class="col-md-12 text-center mb-5">
                         <button type="button" class="btn btn-primary" onclick="nextStep('reviewer','back','4','verify')"> < </button>
                         <button type="button" class="btn btn-primary" onclick="nextStep('success','next','4','verify')">Submit</button>
-
+                        </div>
                     </div>
 
                 </form>
 
-            <div class="success step" id="success" style="display: none;">
+            <div class="success step mb-5 text-center" id="success" style="display: none;">
 
-                <h5>Successfully Submitted!</h5>
+            <h4 class="text-center mt-4">Successfully Submitted!</h4>
 
-                <span>Thank you for submitting your review. It is under moderation right now, you will receive an email once it is approved</span>
-
+                <span class="text-center">Thank you for submitting your review. It is under moderation right now, you will receive an email once it is approved</span>
+                <div class="col-md-12 text-center mb-5 mt-3">
                 <a href="{{url('/')}}" class="btn btn-primary">Back to TheyTrustUs</a>
 
                 <button type="button" class="btn btn-primary" onclick="nextStep('verify','back','5','success')"> < </button>
-
+                            </div>
             </div>
         </div>
 
