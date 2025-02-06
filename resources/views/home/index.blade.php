@@ -54,8 +54,9 @@
         <h3 class="text-center">Recent Reviews</h3>
         <p class="text-center they">They Cared to Share their Experiences.</p>
         <div class="row">
+            
             @foreach($reviews as $review)
-            {{-- <div class="col-md-6 col-lg-4 reviewby recent mx-auto">
+            <div class="col-md-6 col-lg-4 reviewby recent mx-auto">
                 <div class="greybox">
                     <div class="d-lg-flex userbox ">
                         <div class="d-lg-flex user-img">
@@ -196,7 +197,7 @@
                     <p class="text-md-right text-center"><a href="{{ url('/review/' . $review->company_id) }}">Read Full Review</a></p>
                     <!-- <p class="text-right"><a href="#">Read Full Review</a></p> -->
                 </div>
-            </div> --}}
+            </div>
             @endforeach
         </div>
     </div>
