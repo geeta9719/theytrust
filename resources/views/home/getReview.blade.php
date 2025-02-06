@@ -335,8 +335,8 @@ margin:0 0 1rem 0;
                     <div class="project step" id="project">
 
                         @csrf
-
-                        {{-- <input type="hidden" name="form" value="form1"> --}}
+                        
+                        <input type="hidden" name="form" value="form1">
                        <div class="text-center mt-5 ">
                         <h1>About Project</h1>
 
@@ -398,7 +398,7 @@ margin:0 0 1rem 0;
                                 @foreach($budget as $b)
                                 <?php
                                     $bb = explode('-', $b['budget']);
-                                $bud = '$'.$bb[0].' - $'.$bb[1];
+                                $bud = $bb[0].' - '.$bb[1];
 
                                 ?>
                                 <option value="{{ $b['budget'] }}">{{ $bud }}</option>
@@ -969,6 +969,7 @@ margin:0 0 1rem 0;
 
         addValue = function (idd)
         {
+            debugger
             var sim = $("#" + idd).val();
             var name = $("#" + idd).attr('name');
             $("." + name).css('color', 'white');
@@ -1052,8 +1053,7 @@ margin:0 0 1rem 0;
     });
 });
 
-</script>
-</script>
 
+</script>
 
 @endsection
