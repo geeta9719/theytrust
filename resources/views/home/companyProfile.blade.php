@@ -30,27 +30,26 @@
         <script src="{{ asset('portfolioimage/js/tab.js') }}"></script>
 
         <style>
+            #portfolio,
+            #reviews {
+                display: none;
+            }
 
-#portfolio,
-#reviews{
-    display:none
-}
-
-#tabs-nav li{
-    cursor:pointer;
-}
+            #tabs-nav li {
+                cursor: pointer;
+            }
             .row.button-section {
                 margin: auto !important;
             }
             .next-btn:hover {
                 color: #000;
             }
-            .portfolio .reviews-row h3{
+            .portfolio .reviews-row h3 {
                 background-color: #006d7c;
-    padding: 11px;
-    border-radius: 63%;
-    color: #fff !important;
-    font-size:15px!important;
+                padding: 11px;
+                border-radius: 63%;
+                color: #fff !important;
+                font-size: 15px !important;
             }
             .sidebar-review-box .qualitybox {
                 display: none;
@@ -58,8 +57,8 @@
                 gap: 0;
                 margin-top: 20px;
             }
-            .portfolio .sidebar-review-box .col-md-4{
-                padding:0;
+            .portfolio .sidebar-review-box .col-md-4 {
+                padding: 0;
             }
             .next-btn {
                 color: #fff;
@@ -71,16 +70,15 @@
                 margin-left: 12px;
             }
             .portfolio .topsec p {
-    margin-top: 20px;
-    margin-right: 20px!important;
-}
+                margin-top: 20px;
+                margin-right: 20px !important;
+            }
             .portfolio .topsec h3 {
-                font-family: Epilogue!important;
-                font-size: 20px!important;
+                font-family: Epilogue !important;
+                font-size: 20px !important;
                 font-weight: 700 !important;
-                color: #171A1FFF !important;
-                margin:0;
-               
+                color: #171a1fff !important;
+                margin: 0;
             }
             .portfolio .reviewrate {
                 align-items: center !important;
@@ -97,27 +95,27 @@
                 font-weight: 400;
                 font-family: 'Inter', sans-serif;
             }
-            .fa{          margin-right: 4px;}
-  
+            .fa {
+                margin-right: 4px;
+            }
+
             .bluestar {
                 color: #00bdd6;
-  font-size: 24px; /* Adjust size as needed */
-}
-.portfolio-top .topsec h2 {
-    font-size: 41px !important;
-    font-family: Epilogue; /* Heading */
-}
+                font-size: 24px; /* Adjust size as needed */
+            }
+            .portfolio-top .topsec h2 {
+                font-size: 41px !important;
+                font-family: Epilogue; /* Heading */
+            }
 
-
-
-            .portfolio .topsec .ratio{
-            font-size: 14px !important;
-    font-weight: 500 !important;
-    color: #fff !important;
-    background-color: #006d7c;
-    padding: 10px 7px 7px 7px;
-    border-radius: 35px;}
-
+            .portfolio .topsec .ratio {
+                font-size: 14px !important;
+                font-weight: 500 !important;
+                color: #fff !important;
+                background-color: #006d7c;
+                padding: 10px 7px 7px 7px;
+                border-radius: 35px;
+            }
 
             .short-description {
                 overflow: hidden;
@@ -131,250 +129,247 @@
                 /* line-height * number of lines */
                 position: relative;
             }
-.info-box h2{
-    color: #000;
-    font-size:35px;
-}
-  
-.info-box h4{
-    color: #000;
-    font-size:20px;
-}
-.short-description.expanded {
+            .info-box h2 {
+                color: #000;
+                font-size: 35px;
+            }
+
+            .info-box h4 {
+                color: #000;
+                font-size: 20px;
+            }
+            .short-description.expanded {
                 -webkit-line-clamp: unset;
                 max-height: none;
             }
-            .ttu-score-text{
-                text-align:center;
+            .ttu-score-text {
+                text-align: center;
             }
-            .ttu-score-widget{
+            .ttu-score-widget {
                 width: 297px;
                 margin: auto;
             }
-            .ttu-score-range{
-                text-align:center;
+            .ttu-score-range {
+                text-align: center;
             }
             .readmore a {
                 color: #000 !important;
             }
             .breadcrumb li a {
                 color: #00bdd6 !important;
-                text-decoration:none;
-                font-size:15px;
+                text-decoration: none;
+                font-size: 15px;
             }
             .breadcrumb {
                 color: #00bdd6 !important;
                 background-color: #ffffff;
-  
-                  } 
-            .breadcrumb-item+.breadcrumb-item::before
-            {  content: ">";
             }
-            .portfolio .reviews-sec h4{
-background-color:#00BDD6FF;
+            .breadcrumb-item + .breadcrumb-item::before {
+                content: '>';
             }
-            .portfolio-top ul#tabs-nav li:hover, .portfolio-top ul#tabs-nav li.active {
-             background-color: #0095a9;
-             }
-             .portfolio-top{
-                padding:0;
-             }
-            .portfolio-top ul#tabs-nav li{
-                background-color: #00BDD6FF;
+            .portfolio .reviews-sec h4 {
+                background-color: #00bdd6ff;
+            }
+            .portfolio-top ul#tabs-nav li:hover,
+            .portfolio-top ul#tabs-nav li.active {
+                background-color: #0095a9;
+            }
+            .portfolio-top {
+                padding: 0;
+            }
+            .portfolio-top ul#tabs-nav li {
+                background-color: #00bdd6ff;
                 padding: 7px 33px;
-             }
+            }
 
-            
-
-.portfolio-top #tabs-nav li a {
-    text-decoration: none;
-    color: #FFF;
-    font-size:15px;
-}
-.portfolio-top ul#tabs-nav {
-    list-style: none;
-    margin: 0;
-    padding: 0px;
-    overflow: auto;
-    background-color: #fff;
-    display: flex;
-    justify-content: space-between;
-}
-.purple{
-background-color:#b9a8e4!important;
-}
-.portfolio .reviewrate {
-float: none; 
-margin-top: 2px;
-}
-.review-box{
-display:flex;
-align-items: center;
-}
-.write-txt{
-    color:#00bdd6;
-}
-.reviews-row a{
-  font-family: Inter; 
-  font-size: 14px; 
-  font-weight: 400; 
-  color: #00BDD6FF; 
-margin-left:0px;
-text-decoration:none;
-}
-.working-hr-box{
-    display:flex;
-}
-.working-hr{
-    font-size: 14px !important;
-    margin-top: 11px;
-    margin-left:0px;
-    margin-bottom: 36px;
-    display: flex;
-    align-items: center;
-}
-.scroll-content p{
-    font-weight: 400;
-    font-size: 16px;
-    margin: 0;
-}
-.my-heading {
-  font-family: Epilogue; /* Heading */
-  font-size: 28px; 
-  line-height: 58px; 
-  font-weight: 700; 
-  color: #171A1FFF; /* neutral-900 */
-  background: #00BDD6FF; /* primary-500 */
-  border-radius: 0px; 
-  padding:10px;
-}
-.portfolio .topsec h3 {
-    font-family: Epilogue !important;
-    font-size: 29px !important;
-    font-weight: 700 !important;
-    color: #171A1FFF !important;
-}
-.portfolio .topsec h4 {
-    font-family: Epilogue !important;
-    font-size: 21px !important;
-    color: #171A1FFF !important;
-}
-.scroll-content p{
-    font-weight:400px;
-}
-.write-txt{
-    margin-left:10px!important;
-    text-decoration:underline;
-}
-.working-hr span{
-    font-size: 12px !important;
-    font-weight: 400;
-    margin-right: 0px;
-    font-size: 1rem;
-    background: #00bdd6;
-    padding: 6px 6px;
-    border-radius: 17px;
-    color: #fff;
-    margin-left: 9px;
-}
-.review-box h5 {
-    color: #000;
-    font-size: 18px;
-    font-weight:700;
-}
-.details p{
-    font-size: 15px!important;
-}
-@media (max-width: 767px) {
-    .breadcrumb {
-    
-    font-size: 10px;
-}
-.portfolio .sidebar-review-box .userbox {
-    justify-content: center;
-    margin: 3px 44px;
-}
-    .short-description{
-        margin-left: 25px;   
-    }
-    .tab-content p{
-        margin: 0 25px; 
-    }
-    .user-col p{
-        margin: 0 25px; 
-    }
-    .portfolio .scroll-content {
-   
-    margin-left: 25px;
-}
-    .working-hr {
-
-margin-bottom: 14px;
-}
-    .portfolio .topsec h4 {
-    margin-bottom: 36px;
-}
-.portfolio .topsec .ratio {
-    font-size: 14px !important;
-        font-weight: 500 !important;
-        color: #fff !important;
-        background-color: #006d7c;
-        padding: 6px;
-        border-radius: 62%;
-        width: 25%;
-}
-.portfolio .reviews-row .fa {
-    font-size: 14px;
-    margin-left: 0px;
-}
-    .review-box{display:flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .working-hr-box{
-    display:block;
-}
-    .target-sec a {
-    
-    margin: 0 20px;
-}
-.write-review {
-float: none !important;
-}
-.portfolio-top ul#tabs-nav{
-    display:block;
-}
-.portfolio ul#tabs-nav li {
-        width: 100%;
-        border: 0;
-    }
-}
-@media (max-width: 991px) {
-    .portfolio ul#tabs-nav {
-        display: block;
-    }
-}
+            .portfolio-top #tabs-nav li a {
+                text-decoration: none;
+                color: #fff;
+                font-size: 15px;
+            }
+            .portfolio-top ul#tabs-nav {
+                list-style: none;
+                margin: 0;
+                padding: 0px;
+                overflow: auto;
+                background-color: #fff;
+                display: flex;
+                justify-content: space-between;
+            }
+            .purple {
+                background-color: #b9a8e4 !important;
+            }
+            .portfolio .reviewrate {
+                float: none;
+                margin-top: 2px;
+            }
+            .review-box {
+                display: flex;
+                align-items: center;
+            }
+            .write-txt {
+                color: #00bdd6;
+            }
+            .reviews-row a {
+                font-family: Inter;
+                font-size: 14px;
+                font-weight: 400;
+                color: #00bdd6ff;
+                margin-left: 0px;
+                text-decoration: none;
+            }
+            .working-hr-box {
+                display: flex;
+            }
+            .working-hr {
+                font-size: 14px !important;
+                margin-top: 11px;
+                margin-left: 0px;
+                margin-bottom: 36px;
+                display: flex;
+                align-items: center;
+            }
+            .scroll-content p {
+                font-weight: 400;
+                font-size: 16px;
+                margin: 0;
+            }
+            .my-heading {
+                font-family: Epilogue; /* Heading */
+                font-size: 28px;
+                line-height: 58px;
+                font-weight: 700;
+                color: #171a1fff; /* neutral-900 */
+                background: #00bdd6ff; /* primary-500 */
+                border-radius: 0px;
+                padding: 10px;
+            }
+            .portfolio .topsec h3 {
+                font-family: Epilogue !important;
+                font-size: 29px !important;
+                font-weight: 700 !important;
+                color: #171a1fff !important;
+            }
+            .portfolio .topsec h4 {
+                font-family: Epilogue !important;
+                font-size: 21px !important;
+                color: #171a1fff !important;
+            }
+            .scroll-content p {
+                font-weight: 400px;
+            }
+            .write-txt {
+                margin-left: 10px !important;
+                text-decoration: underline;
+            }
+            .working-hr span {
+                font-size: 12px !important;
+                font-weight: 400;
+                margin-right: 0px;
+                font-size: 1rem;
+                background: #00bdd6;
+                padding: 6px 6px;
+                border-radius: 17px;
+                color: #fff;
+                margin-left: 9px;
+            }
+            .review-box h5 {
+                color: #000;
+                font-size: 18px;
+                font-weight: 700;
+            }
+            .details p {
+                font-size: 15px !important;
+            }
+            @media (max-width: 767px) {
+                .breadcrumb {
+                    font-size: 10px;
+                }
+                .portfolio .sidebar-review-box .userbox {
+                    justify-content: center;
+                    margin: 3px 44px;
+                }
+                .short-description {
+                    margin-left: 25px;
+                }
+                .tab-content p {
+                    margin: 0 25px;
+                }
+                .user-col p {
+                    margin: 0 25px;
+                }
+                .portfolio .scroll-content {
+                    margin-left: 25px;
+                }
+                .working-hr {
+                    margin-bottom: 14px;
+                }
+                .portfolio .topsec h4 {
+                    margin-bottom: 36px;
+                }
+                .portfolio .topsec .ratio {
+                    font-size: 14px !important;
+                    font-weight: 500 !important;
+                    color: #fff !important;
+                    background-color: #006d7c;
+                    padding: 6px;
+                    border-radius: 62%;
+                    width: 25%;
+                }
+                .portfolio .reviews-row .fa {
+                    font-size: 14px;
+                    margin-left: 0px;
+                }
+                .review-box {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .working-hr-box {
+                    display: block;
+                }
+                .target-sec a {
+                    margin: 0 20px;
+                }
+                .write-review {
+                    float: none !important;
+                }
+                .portfolio-top ul#tabs-nav {
+                    display: block;
+                }
+                .portfolio ul#tabs-nav li {
+                    width: 100%;
+                    border: 0;
+                }
+            }
+            @media (max-width: 991px) {
+                .portfolio ul#tabs-nav {
+                    display: block;
+                }
+            }
         </style>
     </head>
 
     <body>
         <div class="container portfolio-top">
-            {{-- <nav aria-label="Breadcrumb" class="">
+            {{--
+                <nav aria-label="Breadcrumb" class="">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="/">Home</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="/category">Category</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="/category/subcategory">Subcategory</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        Current Page
-                    </li>
+                <li class="breadcrumb-item">
+                <a href="/">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                <a href="/category">Category</a>
+                </li>
+                <li class="breadcrumb-item">
+                <a href="/category/subcategory">Subcategory</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                Current Page
+                </li>
                 </ol>
-            </nav> --}}
+                </nav>
+            --}}
             <ul id="tabs-nav">
                 <li class="tab1">
                     <a>
@@ -421,14 +416,18 @@ float: none !important;
             </ul>
         </div>
 
-        <div class="container shadow portfolio portfolio-top py-3 mb-5">
+        <div
+            class="container shadow portfolio portfolio-top py-3 mb-5"
+        >
             <div class="row">
                 <div class="col-lg-12 bg-white py-md-3 p-0">
                     <!-- profile start -->
                     <div id="profile">
                         <div class="row top-sec">
                             <div class="col-md-8">
-                                <div class="row text-center text-md-left">
+                                <div
+                                    class="row text-center text-md-left"
+                                >
                                     <div class="col-md-3">
                                         <img
                                             src="{{ asset($company->logo) }}"
@@ -436,14 +435,20 @@ float: none !important;
                                             class="border img-fluid"
                                         />
                                     </div>
-                                    <div class="col-md-9 mt-2 mt-md-0 info-box">
+                                    <div
+                                        class="col-md-9 mt-2 mt-md-0 info-box"
+                                    >
                                         <h2>
                                             {{ $company->name }}
                                         </h2>
-                                        <h4 class="mt-2 mt-md-0 mb-md-2 mb-4">
+                                        <h4
+                                            class="mt-2 mt-md-0 mb-md-2 mb-4"
+                                        >
                                             {{ $company->tagline }}
                                         </h4>
-                                        <div class="review-box mt-md-5">
+                                        <div
+                                            class="review-box mt-md-5"
+                                        >
                                             <div
                                                 class="reviews-row text-center reviewrate"
                                             >
@@ -459,7 +464,9 @@ float: none !important;
                                                         {!! generateStarRating($rate_review->rating) !!}
                                                     </div>
                                                 </div>
-                                                <div class="review-box ">
+                                                <div
+                                                    class="review-box"
+                                                >
                                                     @if ($reviews_count > 0)
                                                         <a
                                                             href="{{ url('review/' . $company->id) }}"
@@ -472,10 +479,16 @@ float: none !important;
                                                             </h5>
                                                         </a>
                                                     @else
-                                                    <span class="reviewstxt">
-                                                        <h5 class="mb-0">
-                                                            No Reviews
-        </h5></span>
+                                                        <span
+                                                            class="reviewstxt"
+                                                        >
+                                                            <h5
+                                                                class="mb-0"
+                                                            >
+                                                                No
+                                                                Reviews
+                                                            </h5>
+                                                        </span>
                                                     @endif
                                                     <!-- write -->
 
@@ -484,7 +497,8 @@ float: none !important;
                                                             href="{{ route('comapany.reviews.request.index') }}"
                                                             class="write-txt"
                                                         >
-                                                            Reqest a Review
+                                                            Reqest a
+                                                            Review
                                                         </a>
                                                     @else
                                                         <a
@@ -492,7 +506,8 @@ float: none !important;
                                                             class="write-txt"
                                                             target="_blank"
                                                         >
-                                                            Write a Review
+                                                            Write a
+                                                            Review
                                                         </a>
                                                     @endif
                                                 </div>
@@ -503,30 +518,56 @@ float: none !important;
                                         </div>
                                         <div class="working-hr-box">
                                             <p class="working-hr">
-                                                <span>Hourly Rate</span>
+                                                <span>
+                                                    Hourly Rate
+                                                </span>
                                                 {{ $company->rate }}
                                             </p>
                                             <p class="working-hr">
-                                                <span># of Employees</span>
+                                                <span>
+                                                    # of Employees
+                                                </span>
                                                 {{ $company->size }}
                                             </p>
                                             <p class="working-hr">
-                                                <span>Min Project Size</span>
+                                                <span>
+                                                    Min Project Size
+                                                </span>
                                                 {{ $company->budget }}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 text-md-right text-center pt-md-0 pt-2 border-left border-bottom"
- >
-                                <h5 class="ttu-score-heading d-flex align-items-center justify-content-center">
-                                    <img src="https://theytrust-us.developmentserver.info/front_components/images/logo.png" alt="TTU Icon" style="width: 70px; margin-right: 8px;">
+                            <div
+                                class="col-md-4 text-md-right text-center pt-md-0 pt-2 border-left border-bottom"
+                            >
+                                <h5
+                                    class="ttu-score-heading d-flex align-items-center justify-content-center"
+                                >
+                                    <img
+                                        src="https://theytrust-us.developmentserver.info/front_components/images/logo.png"
+                                        alt="TTU Icon"
+                                        style="
+                                            width: 70px;
+                                            margin-right: 8px;
+                                        "
+                                    />
 
-                                    <i class="fa fa-info-circle" aria-hidden="true" style="margin-left: 5px; color: #00bdd6;"></i>
+                                    <i
+                                        class="fa fa-info-circle"
+                                        aria-hidden="true"
+                                        style="
+                                            margin-left: 5px;
+                                            color: #00bdd6;
+                                        "
+                                    ></i>
                                 </h5>
                                 <div class="ttu-score-widget">
-                                    <svg viewBox="0 0 36 18" class="circle-chart">
+                                    <svg
+                                        viewBox="0 0 36 18"
+                                        class="circle-chart"
+                                    >
                                         <path
                                             class="circle-bg"
                                             d="M2 16 a14 14 0 0 1 32 0"
@@ -544,19 +585,26 @@ float: none !important;
                                         />
                                     </svg>
                                     <div class="ttu-score-text">
-                                        <span class="ttu-score-number">{{ number_format($company->ttu_score,0) }}</span>
-                                        <span class="ttu-score-grade">C</span>
+                                        <span
+                                            class="ttu-score-number"
+                                        >
+                                            {{ number_format($company->ttu_score, 0) }}
+                                        </span>
+                                        <span class="ttu-score-grade">
+                                            C
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="ttu-score-range">
                                     {{-- <span>0</span> --}}
                                     <span>100</span>
                                 </div>
-
                             </div>
                         </div>
                         <div class="row target-sec border-bottom">
-                            <div class="col-md-8 pr-md-1 border-right pr-0">
+                            <div
+                                class="col-md-8 pr-md-1 border-right pr-0"
+                            >
                                 <h2
                                     class="area my-heading greybox mb-3 mt-md-4"
                                 >
@@ -670,9 +718,13 @@ float: none !important;
                         <div
                             class="container mt-3 mt-md-3 p-0 reviews-sec greybox border-bottom"
                         >
-                            <h2 class="my-heading">Portfolio / Case Studies</h2>
+                            <h2 class="my-heading">
+                                Portfolio / Case Studies
+                            </h2>
                             @foreach ($caseStudies as $caseStudy)
-                                <x-portfolio :portfolio="$caseStudy" />
+                                <x-portfolio
+                                    :portfolio="$caseStudy"
+                                />
                             @endforeach
                         </div>
                     </div>
@@ -719,7 +771,8 @@ float: none !important;
                 canvas.height = 100
 
                 var startAngle = -0.5 * Math.PI // Start from the top
-                var endAngle = (percentage / 100) * 2 * Math.PI - 0.5 * Math.PI
+                var endAngle =
+                    (percentage / 100) * 2 * Math.PI - 0.5 * Math.PI
                 var counterClockwise = false
 
                 context.lineWidth = 10
@@ -727,13 +780,27 @@ float: none !important;
 
                 // Draw the background circle
                 context.beginPath()
-                context.arc(50, 50, 40, 0, 2 * Math.PI, counterClockwise)
+                context.arc(
+                    50,
+                    50,
+                    40,
+                    0,
+                    2 * Math.PI,
+                    counterClockwise,
+                )
                 context.strokeStyle = '#eee'
                 context.stroke()
 
                 // Draw the progress circle
                 context.beginPath()
-                context.arc(50, 50, 40, startAngle, endAngle, counterClockwise)
+                context.arc(
+                    50,
+                    50,
+                    40,
+                    startAngle,
+                    endAngle,
+                    counterClockwise,
+                )
                 context.strokeStyle = '#00f'
                 context.stroke()
 
@@ -747,7 +814,9 @@ float: none !important;
         })
         document.addEventListener('DOMContentLoaded', function () {
             var readMoreBtn = document.getElementById('read-more-btn')
-            var shortDescription = document.querySelector('.short-description')
+            var shortDescription = document.querySelector(
+                '.short-description',
+            )
 
             readMoreBtn.addEventListener('click', function () {
                 shortDescription.classList.toggle('expanded')
@@ -761,28 +830,32 @@ float: none !important;
 
         document.addEventListener('DOMContentLoaded', function () {
             // Show the first tab by default
-            document.querySelector('#tabs-nav li:first-child a').click()
+            document
+                .querySelector('#tabs-nav li:first-child a')
+                .click()
 
             // Handle tab clicks
-            document.querySelectorAll('#tabs-nav a').forEach(function (tab) {
-                tab.addEventListener('click', function (e) {
-                    e.preventDefault()
-                    document
-                        .querySelectorAll('#tabs-nav a')
-                        .forEach(function (link) {
-                            link.classList.remove('active')
-                        })
-                    tab.classList.add('active')
-                    document
-                        .querySelectorAll('.tab-content')
-                        .forEach(function (content) {
-                            content.style.display = 'none'
-                        })
-                    document.querySelector(
-                        tab.getAttribute('href'),
-                    ).style.display = 'block'
+            document
+                .querySelectorAll('#tabs-nav a')
+                .forEach(function (tab) {
+                    tab.addEventListener('click', function (e) {
+                        e.preventDefault()
+                        document
+                            .querySelectorAll('#tabs-nav a')
+                            .forEach(function (link) {
+                                link.classList.remove('active')
+                            })
+                        tab.classList.add('active')
+                        document
+                            .querySelectorAll('.tab-content')
+                            .forEach(function (content) {
+                                content.style.display = 'none'
+                            })
+                        document.querySelector(
+                            tab.getAttribute('href'),
+                        ).style.display = 'block'
+                    })
                 })
-            })
         })
 
         $(document).ready(function () {

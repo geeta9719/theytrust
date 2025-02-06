@@ -1,5 +1,4 @@
 @extends('layouts.home-master')
-
 @section('content')
     <?php
     $profile = '';
@@ -75,7 +74,7 @@
 
                                         <?php
                                     }
-?>
+    ?>
 
                                         <hr class="step2hr" />
 
@@ -97,7 +96,7 @@ if (Auth::check() && $profile != '') {
 
                                         <?php
 }
-?>
+    ?>
                                     </div>
                                 </div>
                             </div>
@@ -107,4 +106,26 @@ if (Auth::check() && $profile != '') {
             </div>
         </div>
     </section>
+@endsection
+
+@section('script')
+    <script type="text/javascript">
+        $('.choose-plan').click(function () {
+            debugger
+            var plan = $(this).val()
+            var url = $(this).data('url')
+            var user_id = $(this).data('uid')
+
+            $.ajax({
+                url: '{{ url('/user/choose-plan') }}',
+                type: 'POST',
+                data: { plan: plan, user_id: user_id, _token: '{{ csrf_token() }}' },
+                success: function (result) {
+                    if (result.status == 'success') {
+                        window.location.href = url
+                    }
+                },
+            })
+        })
+    </script>
 @endsection

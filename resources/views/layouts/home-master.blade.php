@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    @stack('styles')
     @livewireStyles
     @include('home.partials._header')
-    <body>
-        @stack('styles')
-        {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> --}}
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-        <script src="{{ asset('front_components/js/select2.min.js') }}"></script>
-        <script src="{{ asset('front_components/js/css3-animate-it.js') }}"></script>
-        <script src="{{ asset('front_components/js/slick.js') }}"></script>
-        <script src="{{ asset('front_components/js/custom.js') }}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-        {{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> --}}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="{{ asset('js/custom.js') }}"></script>
+</head>
+<body>
 
-        @include('home.partials._navbar')
+    @include('home.partials._navbar')
 
-        @yield('content')
+    @yield('content')
 
-        @livewireScripts
-        @include('home.partials._foot')
+    <!-- jQuery (Only One Version) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        @include('home.partials._footer')
+    <!-- Bootstrap JS Bundle (Includes Popper.js) -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-        @yield('script')
-    </body>
+    <!-- Additional Libraries -->
+    <script src="{{ asset('front_components/js/select2.min.js') }}"></script>
+    <script src="{{ asset('front_components/js/css3-animate-it.js') }}"></script>
+    <script src="{{ asset('front_components/js/slick.js') }}"></script>
+    <script src="{{ asset('front_components/js/custom.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
+
+    <!-- Form Validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+
+    @livewireScripts
+    @include('home.partials._foot')
+    @include('home.partials._footer')
+    
+    @yield('script')
+</body>
 </html>

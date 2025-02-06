@@ -119,7 +119,7 @@ Route::get('claim-profile-status', function () {
     return view('home.companyClaimProfileStatus');
 });
 
-Route::get('/sponsorship', [HomeController::class, 'getPriceListing']);
+Route::get('/sponsorship', [HomeController::class, 'getPriceListing'])->name('company.getPriceListing');
 //////////////////////////////////////////
 Route::middleware('auth')->group(function () {
 
