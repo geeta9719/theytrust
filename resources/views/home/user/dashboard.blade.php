@@ -2,7 +2,521 @@
 
 @section('content')
 {{-- <link rel="stylesheet" href="css/style.css"> --}}
+<style>
+    .first-sec {
+        background-color: #45a2ef;
+        border-radius: 4px 4px 0 0;
+    }
+    .ppack{
+        justify-content: left;
+        align-items: center;
+    }
 
+    .ppack img{
+        padding: 0 !important;
+        margin: 0;
+    }
+    .pack{
+        justify-content: right;
+        align-items: center;
+    }
+
+    .pack img{
+        padding: 0 !important;
+        margin: 0;
+        width: 18px;
+    }
+.website-txt{
+    color:#171A1FFF;
+    word-break: break-all;
+}
+    .first-sec h2 {
+        color: #fff;
+        margin: 0;
+        font-size: 22px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    .first-sec .row-2 {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        text-align: center;
+        padding: 8px;
+        margin-bottom: 5px;
+    }
+
+    .first-sec .row-2 p {
+        margin: 0;
+    }
+
+    .first-sec .row-3 {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+
+    }
+
+    .editupdate {
+        position: absolute;
+        bottom: 24px;
+        right: 16px;
+    }
+
+    .top-box {
+        background-color: #45a2ef;
+        padding: 6px 0px 0px 0;
+        border-radius: 4px 4px 0 0;
+        box-sizing: border-box;
+        border: 5px solid #45a2ef;
+    }
+
+    .top-box h2 {
+        color: #fff;
+        padding: 0px 20px;
+        font-size: 22px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    .box {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        padding: 0;
+        margin: 0;
+    }
+
+    .box1 {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        padding: 0;
+        margin: 0;
+    }
+
+    .second-box p {
+        color: #45a2ef;
+        font-weight: bold;
+        text-align: center;
+        font-size: 12px;
+        margin: 0;
+        padding: 9px 0;
+    }
+
+    .logo-box {
+        background-color: #fff;
+        margin-top: 4px;
+        padding: 20px 12px;
+        border-radius: 4px;
+        min-height: 86%;
+        border-bottom: 5px solid #45a2ef;
+    }
+
+    .logo-inner {
+        vertical-align: middle;
+        align-items: center;
+    }
+
+    .logo-inner p {
+        margin-left: 10px;
+    }
+
+    .third-box p {
+        display: block;
+    }
+
+    .third-box h3 {
+        font-weight: bold;
+        font-size: 18px;
+        display: block;
+    }
+
+    .bottom {
+        border-radius: 44px;
+        background-color: #45a2ef;
+        font-weight: 600;
+        font-size: 20px;
+        padding: 15px 60px;
+        margin-top: 20px;
+        margin-left: 15px;
+        color: #fff;
+    }
+
+    .review .btn {
+        margin: 0;
+    }
+
+    .second-box .btn {
+        color: #fff;
+        background-color: #9095a0 !important;
+        border-color: #9095a0 !important;
+        /* padding: 3px 0 !important; */
+        /* margin-left: 20px; */
+        border-radius: 5px;
+        padding: 5px 8px 5px 8px;
+        font-size: 13px;
+    }
+    .btn {
+        color: #fff;
+        background-color: #9095a0 !important;
+        border-color: #9095a0 !important;
+        /* padding: 3px 0 !important; */
+        /* margin-left: 20px; */
+        border-radius: 5px;
+        padding: 5px 8px 5px 8px;
+        font-size: 13px;
+    }
+
+    .greybox {
+        background-color: #f3f4f6;
+    }
+
+    .greybox p {
+        font-size: 14px!important;
+    }
+
+    .category-group,
+    .subcategory-group,
+    .skills-group,
+    .deep-skills-group {
+        align-items: flex-start;
+        margin-bottom: 0 !important;
+    }
+
+    .subcategoybox {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .review p {
+        margin: 0 0px 0 20px;
+        font-size: 1rem;
+    }
+
+    .logo-box p {
+        font-size: 14px;
+        font-family: "Inter", sans-serif !important;
+    }
+
+    .address a {
+        text-decoration: underline;
+    }
+
+    .address input {
+        text-align: center;
+    }
+
+    .area a {
+        text-decoration: underline;
+        color: #00bdd6;
+    }
+
+    .address h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #323842;
+    }
+
+    .btnbox {
+        position: absolute;
+        bottom: 37px;
+        width: 94%;
+    }
+
+    .service h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #323842;
+    }
+
+    .address h4 {
+        font-size: 16px;
+        font-weight: bold;
+        color: #4f545d;
+    }
+
+    .address p {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0;
+    }
+
+    .address img {
+        width: 50px;
+        height: auto;
+    }
+
+    .address .arrow {
+        width: 23px;
+        height: 23px;
+
+    }
+
+    input {
+        width: 74px;
+        padding: 0;
+        margin: 0;
+        height: 27px;
+        background-color: #dee1e6;
+        border: 1px solid #dee1e6;
+    }
+
+    .service-btn {
+        flex-flow: row wrap;
+        align-items: center;
+    }
+
+    .mobileview {
+        flex-flow: row wrap;
+        align-items: center;
+        margin: 29px 0;
+    }
+
+    .service-btn a {
+        color: #fff;
+        background-color: #858585;
+        padding: 5px 20px;
+        border-radius: 25px;
+        margin-bottom: 11px;
+        display: inline-block;
+    }
+
+    .service-btn a.white {
+        color: #000;
+        background-color: #fff;
+        padding: 5px 20px;
+        border-radius: 25px;
+        margin-bottom: 11px;
+        display: inline-block;
+        border: 1px solid #ccc;
+    }
+
+    .leads {
+        color: #fff;
+    background-color: #00bdd6 !important;
+    border-color: #00bdd6 !important;
+    border-radius: 6px;
+    padding: 3px 52px 4px 52px;
+    font-size: 14px;
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+    border: 0;
+    }
+    .leads:hover {
+        border: 0;
+        outline:none;
+        color:#000;
+    }
+    .btnbox a:hover{
+        color:#000;
+    }
+    .greybox a:hover{
+color:#000;
+text-decoration:none;
+    }
+    .leads:focus {
+        border: 0;
+        outline:none;
+    }
+    .field-name {
+        min-width: 170px;
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    .cate-box {
+        display: flex;
+        width: 233px;
+        justify-content: space-between;
+        margin-right: 15px;
+        margin-bottom: 10px;
+    }
+
+    .cate-box p {
+        font-size: 14px;
+    }
+
+    .cate-box input {
+        text-align: center;
+    }
+
+    .btn-group {
+        justify-content: space-between;
+    }
+
+    .cate-box p {
+        margin: 0;
+    }
+
+    .review .btn {
+        min-width: 108px;
+    }
+
+    .greybox a {
+        color: #fff;
+        background-color: #9095a0 !important;
+        border-color: #9095a0 !important;
+        /* padding: 3px 0 !important; */
+        /* margin-left: 20px; */
+        border-radius: 5px;
+        padding: 3px 8px 7px 8px;
+        font-size: 13px;
+    }
+
+    .reviewcount {
+        text-align: center;
+        color: #8d8e91;
+        margin-top: 11px;
+        font-size:14px;
+    }
+
+    @media (max-width: 1199px) {
+
+        .greybox a {
+
+            margin-left: 0;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            width: max-content;
+        }
+
+        .box.second-box {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .logo-box {
+
+            min-height: auto;
+
+        }
+
+        .address h4 {
+
+            text-align: center;
+        }
+
+        .address h3 {
+            text-align: center;
+        }
+
+        .address p {
+
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .field-name {
+
+            min-width: 130px !important;
+        }
+
+        .editupdate {
+            position: static;
+        }
+
+        .btnbox {
+            position: static;
+            bottom: 37px;
+            width: 100%;
+        }
+
+        .third-box .col-md-4 {}
+
+        .second-box p {
+            font-size: 17px;
+        }
+    }
+
+    .service-line {
+        margin-bottom: 40px;
+        /* Increased margin to create space between primary categories */
+    }
+
+    .category-group,
+    .subcategory-group,
+    .skills-group,
+    .deep-skills-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .field-name {
+
+
+
+        color: #3c424c;
+        font-weight: 400;
+        margin-right: 10px;
+        min-width: 150px;
+        /* Adjusted for better alignment */
+    }
+
+    .cate-box {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+    }
+
+    .cate-box p {
+        margin: 0;
+        margin-right: 10px;
+    }
+
+    .percentage-input {
+        width: 60px;
+        text-align: center;
+        background-color: #e0e0e0;
+        border: none;
+        padding: 5px;
+        margin-left: 10px;
+    }
+
+    .skill-tags,
+    .deep-skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .skill-tag,
+    .deep-skill-tag {
+        display: inline-block;
+        background-color: #ddd;
+        padding: 5px 10px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        border-radius: 15px;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .skill-tag:hover,
+    .deep-skill-tag:hover {
+        background-color: #ccc;
+    }
+
+    .area a {
+        text-decoration: none;
+        color: #00bdd6;
+        font-size:14px;
+    }
+
+    .area a:hover {
+        text-decoration: underline;
+        color: #00bdd6;
+        font-size:14px;
+    }
+</style>
 
 @if(Session::has('message'))
 <div class="alert alert-success" style="text-align:center;font-weight: bolder;">{{ Session::get('message') }}</div>
