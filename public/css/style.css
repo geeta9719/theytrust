@@ -1,4 +1,4 @@
- /* Ensures the dropdown is hidden by default */
+ /* Ensures the dropdown is hidden by default
  .dropdown-menu {
      display: none;
      position: absolute;
@@ -586,4 +586,4 @@ text-decoration:none;
         text-decoration: underline;
         color: #00bdd6;
         font-size:14px;
-    }
+    } */
