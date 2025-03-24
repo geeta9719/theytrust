@@ -222,7 +222,7 @@
             @endif
             @endforeach
         </div>
-        <p class="text-md-right text-center browse my-4"><a href="{{ url('categories') }}">Browse All Providers ></a></p>
+        <p class="text-md-right text-center browse my-4"><a href="{{ url('providers/category/') }}">Browse All Providers ></a></p>
        </section>
     <section class="container-fluid skills-section">
         <div class="container">
@@ -246,7 +246,7 @@
                 @endif
                 @endforeach
             </div>
-            <p class="text-md-right text-center browse my-4"><a href="{{ url('skills') }}">Browse All Skills ></a></p>
+            <!-- <p class="text-md-right text-center browse my-4"><a href="{{ url('skills') }}">Browse All Skills ></a></p> -->
         </div>
     </section>
     <section class="container-fluid movers-section">
