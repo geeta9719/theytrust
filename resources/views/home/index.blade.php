@@ -22,12 +22,12 @@
     </div>
 </section>
 <!-- Provider Search Section -->
-<section class="container-fluid provider-sec-box">
+<!-- <section class="container-fluid provider-sec-box">
     <div class="provider-sec container">
-        <form action="{{ url('companies') }}" method="POST" id="searchForm">
+        <form action="{{ url('listing') }}" method="POST" id="searchForm">
             @csrf
             <div class="inner">
-                <!-- <p>I am looking for</p> -->
+        
                 <select class="form-control dropdown1 address" id="subcategories" name="services[]">
                     <span>I am looking for</span>
 
@@ -38,16 +38,14 @@
                     @endforeach
                 </select>
                 <div class="d-flex align-items-center location">
-                    <!-- <img src="{{asset('front_components/images/map1.png')}}" alt="" class="img-fluid mapcss"> -->
                     <select class="form-control address location dropdown2" id="locations" name="location"></select>
                 </div>
                 <button class="btn btn-secondary circle-button" onclick="setAction()"> <i class="icon fa fa-search"></i>
-                    <!-- Find Provider -->
                 </button>
             </div>
         </form>
     </div>
-</section>
+</section> -->
 <!-- Recent Reviews Section -->
 <section class="container-fluid recent-reviews">
     <div class="container">
@@ -311,9 +309,9 @@
                 var service = $("#subcategories").find(':selected').data('name');
                 var location = $("#locations").find(':selected').attr('data-name');
                 if (location == undefined || location == '') {
-                    $('#searchForm').attr("action", "{{url('directory')}}/" + service);
+                    $('#searchForm').attr("action", "{{url('listing')}}/" + service);
                 } else {
-                    $('#searchForm').attr("action", "{{url('directory')}}/" + service + '/' + location);
+                    $('#searchForm').attr("action", "{{url('listing')}}/" + service + '/' + location);
                 }
                 $('#searchForm').submit();
             }
