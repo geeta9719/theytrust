@@ -1297,7 +1297,9 @@ class SearchController extends Controller
                 $query->where('budget', $rate->rate);
             }
 
-            $data = SubscriptionHelper::determineModelsByRequest($request->all());
+            $helper = new SubscriptionHelper();
+            $data = $helper->determineModelsByRequest($request->all());
+
             $categoryTypeModel = $data['category_type_model'];
             $categoryId = $data['categoryId'];
 
