@@ -1,13 +1,49 @@
 @extends('layouts.home-master')
 
 @section('content')
-    <div class="container mt-5">
-        <h2>Portfolio Items for {{ $company->name }}</h2>
+<style>
+  .table-box thead{
+    background-color: #00bdd6ff;
+    padding: 7px 30px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+  }  
+  .table-box td{
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: capitalize;
+  }
+  .table-box th{
+    font-size: 15px;
+    font-weight: 400;
+  }   
+  .tables-sec {
+    padding: 50px 0;
+    background-color: #f5f2fd;
+    text-align: center;
+}
+.tables-sec h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #323842;
+    font-family: "Epilogue", sans-serif;
+}
+</style>
+<section class="container-fluid tables-sec ">
+<h1>Portfolio Items for {{ $company->name }}</h1>       
+</section>
+    <div class="container mt-5 mb-5">
+        <!-- <h2>Portfolio Items for {{ $company->name }}</h2> -->
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="table table-bordered">
+        <table class="table table-bordered table-box">
             <thead>
                 <tr>
                     <th>Check</th>

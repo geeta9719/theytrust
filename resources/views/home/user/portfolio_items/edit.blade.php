@@ -2,7 +2,20 @@
 
 @section('content')
 <style>
-    .container {
+      .edit-sec {
+    padding: 50px 0;
+    background-color: #f5f2fd;
+    text-align: center;
+}
+.edit-sec h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 0px;
+    text-align: center;
+    color: #323842;
+    font-family: "Epilogue", sans-serif;
+}
+.container {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
@@ -12,18 +25,14 @@
         padding: 20px;
         gap: 20px;
     }
-    form {
-        flex: 1 1 600px;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        background-color: #f9f9f9;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+  
     label {
         display: block;
         margin-top: 10px;
         font-weight: bold;
+        font-weight: 600;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
     }
     input[type="text"],
     input[type="url"],
@@ -33,69 +42,109 @@
     textarea {
         width: 100%;
         padding: 10px;
-        margin-top: 5px;
-        margin-bottom: 5px;
+        margin-top: 0px;
+        margin-bottom: 0px;
         border: 1px solid #ccc;
         border-radius: 5px;
         box-sizing: border-box;
+        font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+    color: #495057;
     }
-    .char-count {
+    .port-sec .char-count {
         font-size: 12px;
         color: #999;
-        margin-bottom: 20px;
+        margin-bottom: 0px;
         display: block;
         text-align: right;
     }
-    .error-message {
+    .port-sec .error-message {
         color: red;
         font-size: 12px;
         margin-top: -5px;
         margin-bottom: 10px;
     }
-    button {
-        display: inline-block;
-        width: 100%;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        text-align: center;
-        text-decoration: none;
-        outline: none;
+    .port-sec button {
         color: #fff;
-        background-color: #007BFF;
-        border: none;
-        border-radius: 5px;
-        box-shadow: 0 4px #999;
-        transition: background-color 0.3s;
+    background-color: #00bdd6;
+    border-color: #00bdd6;
+    border-radius: 5px;
+    padding: 5px 24px 6px 23px;
+    font-size: 13px;
+    text-align: center;
+    outline:none;
     }
-    button:hover {
-        background-color: #0056b3;
+    .port-sec button:hover {
+       background-color: #00bdd6;
+        outline:none;
     }
-    button:active {
-        background-color: #0056b3;
+    .port-sec button:active {
+        background-color: #00bdd6;
         box-shadow: 0 2px #666;
         transform: translateY(2px);
+        outline:none;
+    }
+    .current{
+        word-wrap: break-word;
+        width:520px;
+        font-size: 14px;
     }
     #preview {
-        flex: 1 1 600px;
+        /* flex: 1 1 600px;
         padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        background-color: #f9f9f9;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d; */
     }
     #preview img,
     #preview iframe,
     #preview object,
     #preview video {
-        width: 100%;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-top: 10px;
+        width: fit-content;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    height: 230px;
     }
+    .create-sec h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #323842;
+    font-family: "Epilogue", sans-serif;
+}
+.port-sec button{
+    color: #fff;
+    background-color: #00bdd6;
+    border-color: #00bdd6;
+    border-radius: 5px;
+    padding: 5px 24px 6px 23px;
+    font-size: 13px;
+    margin-left: 12px;
+}
+.port-sec .form-group{
+    margin:0;
+}
+    .create-sec {
+    padding: 50px 0;
+    background-color: #f5f2fd;
+    text-align:center;}
+    @media (max-width: 767px) {
+        .current{
+        word-wrap: break-word;
+        width:320px;
+        font-size: 14px;
+    }
+    .port-sec .char-count {
+   
+    margin-bottom: 0;}}
 </style>
-
-    <h1 style="text-align: center">Edit Portfolio Item</h1>
+<section class="container-fluid edit-sec ">
+<h1 style="text-align: center">Edit Portfolio Item</h1>      
+</section>
+   
     <div class="container">
         <form
             action="{{ route('portfolio_items.update', $portfolioItem->id) }}"
@@ -104,7 +153,8 @@
         >
             @csrf
             @method('PUT')
-
+            <div class="row port-sec">
+            <div class="col-md-6">
             <label for="media_type">Select Media Type</label>
             <select name="media_type" id="media_type" onchange="toggleMediaInput()">
                 <option value="image_pdf" {{ $portfolioItem->media['type'] == 'file' ? 'selected' : '' }}>
@@ -116,11 +166,11 @@
             </select>
 
             <div id="file_input_div" {{ $portfolioItem->media['type'] == 'youtube' ? 'style=display:none;' : '' }}>
-                <label for="media">Add Image or PDF</label>
+                <label for="media" class="mt-4">Add Image or PDF</label>
                 <input type="file" name="media" id="media" accept="image/*,.pdf" onchange="showPreview(event)" />
                 @if ($portfolioItem->media && $portfolioItem->media['type'] == 'file')
-                    <div>
-                        Current file:
+                    <div class="mt-4 current">
+                    <label for="current_file" class="mt-4"> Current File</label>   
                         <a href="{{ asset('storage/' . $portfolioItem->media['path']) }}" target="_blank">
                             {{ $portfolioItem->media['path'] }}
                         </a>
@@ -138,7 +188,7 @@
                 />
             </div>
 
-            <label for="project_title">Project Title</label>
+            <label for="project_title" class="mt-4">Project Title</label>
             <input
                 type="text"
                 name="project_title"
@@ -168,30 +218,7 @@
                 value="{{ $portfolioItem->country_location }}"
             />
 
-            <div class="form-group">
-                <label for="services_provided">
-                    What services did you receive from 
-                    <b>(for example: Digital Marketing, Web design, Mobile App development)</b>
-                </label>
-                <strong style="color: red;"> *</strong>
-                <select id="services_provided" name="services_provided[]" class="form-control" multiple="multiple">
-                    @foreach ($services as $id => $name)
-                        <option value="{{ $id }}" selected>{{ $name }}</option> <!-- Show name, keep ID as value -->
-                    @endforeach
-                </select>
-                @error('services_provided')
-                    <span class="error-message">{{ $message }}</span>
-                @enderror
-            </div>
-
-          
-
-            <label for="short_description">Short Description</label>
-            <textarea name="short_description" id="short_description">
-{{ $portfolioItem->short_description }}</textarea
-            >
-
-            <label for="engagement_start_date">Engagement Start Date</label>
+            <label for="engagement_start_date" class="mt-4">Engagement Start Date</label>
             <input
                 type="date"
                 name="engagement_start_date"
@@ -199,7 +226,7 @@
                 value="{{ $portfolioItem->engagement_start_date->format('Y-m-d') }}"
             />
 
-            <label for="engagement_end_date">Engagement End Date</label>
+            <label for="engagement_end_date" class="mt-4">Engagement End Date</label>
             <input
                 type="date"
                 name="engagement_end_date"
@@ -207,10 +234,9 @@
                 value="{{ optional($portfolioItem->engagement_end_date)->format('Y-m-d') }}"
             />
 
-            <button type="submit">Update</button>
-        </form>
-
-        <div id="preview">
+             </div>
+            <div class="col-md-6">
+            <div id="preview">
             @if ($portfolioItem->media)
                 @if ($portfolioItem->media['type'] == 'file')
                     @if (Str::endsWith($portfolioItem->media['path'], ['.jpg', '.jpeg', '.png']))
@@ -241,6 +267,45 @@
                 @endif
             @endif
         </div>
+            <div class="form-group">
+                <label for="services_provided">
+                    What services did you receive from 
+                    <b>(for example: Digital Marketing, Web design, Mobile App development)</b>
+                    <strong style="color: red;"> *</strong>
+                </label>
+              
+                <select id="services_provided" name="services_provided[]" class="form-control" multiple="multiple">
+                    @foreach ($services as $id => $name)
+                        <option value="{{ $id }}" selected>{{ $name }}</option> <!-- Show name, keep ID as value -->
+                    @endforeach
+                </select>
+                @error('services_provided')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
+            </div>
+
+          
+
+            <label for="short_description" class="mt-4" >Short Description</label>
+            <textarea name="short_description" id="short_description">
+{{ $portfolioItem->short_description }}</textarea
+            >
+
+         
+            </div>
+         
+            </div>
+
+
+
+            <div class="row port-sec">
+    <div class="col-md-12 text-center mt-3">
+    <button type="submit">Update</button> </div>
+    </div>
+
+        </form>
+    
+        
     </div>
 
     <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>

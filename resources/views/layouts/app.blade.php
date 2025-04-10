@@ -16,6 +16,9 @@
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" />
+        
+
+<script src="https://cdn.jsdelivr.net/npm/livewire-v2"></script> <!-- Use correct version -->
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" />

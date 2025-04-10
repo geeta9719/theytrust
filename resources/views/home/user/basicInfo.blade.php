@@ -13,12 +13,12 @@
     ?>
     <style>
     </style>
-    <section class="container-fluid signin-banner animatedParent hero-section ">
+    <section class="container-fluid signin-banner animatedParent hero-section basic ">
         <div class="container ">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-5 mx-auto text-center">
-                        <!--<h2>EDIT PROFILE</h2>-->
+                <div class="col-md-12 mx-auto text-center">
+                    
+                     <h2>Let's Get Some Basic Information</h2>
                         <!--<h3><strong class="card-title text-black" style="">Logged In With : {{ auth()->user()->email }} </strong></h3>-->
                         <p class="flashmsg">
                             @if (Session::has('message'))
@@ -28,7 +28,7 @@
                             @endif
                         </p>
                         <!-- <h3>Thank you for signup up and confirming your email</h3> -->
-                    </div>
+                   
                 </div>
             </div>
         </div>
@@ -57,24 +57,24 @@
                         <input type="hidden" id="oldLogo" name="oldLogo" value="{{ $company->logo ?? '' }}">
 
                         <div class="card-body sheet mb-5" id="sheet1">
-                            <div class="basicinfo">
+                            <!-- <div class="basicinfo">
                                 <h4 class="text-align-center"><strong class="card-title">Let's get some basic
                                         information</strong></h4>
-                            </div>
+                            </div> -->
 
 
-                            <div class="row">
-                                <div class="pt-4 col-md-11  d-flex ml-md-2 p-0 align-item-center">
-                                    <div class="pt-4 col-md-8 file-field uploadbox">
+                            <div class="">
+                                <div class="pt-4 col-md-11  d-flex ml-md-2 p-0 align-item-center row">
+                                    <div class="pt-4 col-md-7 col-12 file-field uploadbox px-0">
                                         <h4> Upload Company Logo </h4>
-                                        <div class="upload"><strong style="color: red;"> *</strong>
-                                            <input type="file" class="rmvId" id="logo" name="logo">
+                                        <div class="upload">
+                                        <strong style="color: red;"> *</strong><input type="file" class="rmvId" id="logo" name="logo">
                                             <span class="logocon d-block">(For best results upload a square logo in the
                                                 ratio of 512 × 512 pixels.)</span>
                                                 <div class="invalid-feedback logo rmvCls"></div>
                                         </div>
                                     </div>
-                                    <div class="pt-4 col-md-4 file-field companylogo">
+                                    <div class="pt-4 px-md-0 col-md-5 col-12 file-field companylogo">
                                         <img id="logoPreview" src="<?php if (!empty($company->logo)) {
                                             echo $company->logo;
                                         }
@@ -89,8 +89,8 @@
 
 
 
-                            <div class="row">
-                                <div class="company-form-box">
+                            <div class="">
+                                <div class="company-form-box row">
                                     <div class=" col-md-6 col-12">
                                         <div class="form-group pt-4">
                                             <label for="name">Organization Name </label><strong style="color: red;">
@@ -105,7 +105,7 @@
 
                                         <div class="form-group">
                                             <label for="website">Website or Company URL (eg: https://example.com)
-                                            </label><strong style="color: red;"> *</strong>
+                                                <strong style="color: red;"> *</strong></label>
                                             <input type="text" class="form-control rmvId" id="website" name="website"
                                                 value="<?php if (!empty($company->website)) {
                                                     echo $company->website;
@@ -153,7 +153,7 @@
                                     </div>
 
 
-                                    <div class=" col-md-6 col-12 pt-4">
+                                    <div class=" col-md-6 col-12 pt-md-4 pt-0">
                                         <div class="form-group">
                                             <label for="size">Organization Size</label><strong style="color: red;">
                                                 *</strong>

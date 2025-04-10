@@ -116,6 +116,7 @@ select {
 
 .service-box {
   display: flex;
+  flex-flow:wrap;
 }
 
 .write-review-link {
@@ -846,12 +847,12 @@ p {
   color: #333;
 }
 
-p a {
-  color: #007bff;
+.company-details p a {
+  color:#379ae6;
   text-decoration: none;
 }
 
-p a:hover {
+.company-details p a:hover {
   text-decoration: underline;
 }
 
@@ -883,7 +884,8 @@ p a:hover {
 }
 
 .filters button:hover {
-  background-color: #0056b3;
+  background-color: #007bff;
+  color:#000;
 }
 
 
@@ -1092,7 +1094,8 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+    background-color: #00bdd6;
+    color:#000;
 }
 
 .breadcrumb a {

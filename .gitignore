@@ -1,24 +1,35 @@
-/node_modules
-/public/hot
-/public/storage
-/storage/*.key
-/vendor
+# Laravel/Framework related
+/vendor/
+/node_modules/
 .env
-.env.backup
-.phpunit.result.cache
-docker-compose.override.yml
-Homestead.json
-Homestead.yaml
-npm-debug.log
-yarn-error.log
-/.idea
-/.vscode
-theytrustserver.zip
-theytrustserver.zip
-theytrustserver.zip
-.well-known.zip
+.env.*
+*.log
+*.sql
+theytrust
+
+# Caches & storage
+/storage/
+bootstrap/cache/
+
+# IDE & system files
+*.DS_Store
+*.idea/
+*.vscode/
+
+# Backups & old files
+*.zip
+*.tar.gz
+/public_html_backup_*
 /theytrustserver.zip
-/theytrustserver.zip
-/theytrustserver.zip
-/.well-known.zip
-/.public
+/index.php_old-1
+/faaltu/
+/old/
+/dkc.sql
+
+# Testing & misc
+/.phpunit.result.cache
+
+# Asset builds (optional)
+public/mix-manifest.json
+public/js/
+public/css/

@@ -122,6 +122,11 @@ padding-right:23px;
     border-radius: 100%;
 }
 @media (max-width:767px) {
+    .location-sec h3 {
+        font-size: 22px;
+    font-weight:500;
+    padding-top: 14px;
+margin-bottom:0;}
 .crossbtn a {
     display: block;
     padding: 1px 9px !important;
@@ -138,7 +143,7 @@ padding-right:23px;
 }}
    @media (max-width:676px) {
 
-       .headquater{    font-size: 22px;}
+       .headquater{          margin-bottom: 12px;  font-size: 22px;}
     .locationbox {
     width: 100%!important;}
     .mobileinput {
@@ -305,8 +310,8 @@ padding-right:23px;
                             <div class="container mt-5 innerformbox">
                                 <input type="hidden" name="user_id" value="<?php if(!empty($company->user_id)){ echo $company->user_id;}else{echo auth()->user()->id;}?>"> 
                                 <input type="hidden" name="company_id" value="{{$company->id}}"> 
-                                <div>
-                                    <div class="headquater">Head Office Location</div></br>
+                                <div class="text-center text-md-left">
+                                    <div class="headquater">Head Office Location</div>
                                     <div class="form-group">
                                         <label>Search Company Address</label>
                                         <input type="text" name="autocomplete[]" id="autocomplete{{$i}}" class="form-control autoApi" placeholder="Choose Location" onkeyup="onk({{$i}})">

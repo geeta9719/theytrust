@@ -201,7 +201,10 @@
     }
 
     .address a {
-        text-decoration: underline;
+          text-decoration: none;
+    color: #00bdd6;
+    font-size: 14px;
+
     }
 
     .address input {

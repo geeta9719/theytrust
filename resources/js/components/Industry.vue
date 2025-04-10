@@ -261,8 +261,8 @@ export default {
 }
 /* Add your styles here */
 .container {
-  width: 1280px;
-  max-width: 1280px;
+  width: 100%;
+
 }
 .selected {
   background-color: #eaf2f8;
@@ -314,7 +314,6 @@ font-size:15px;}
 .category-item input {
       padding: 0px 0px 0 5px;
     margin: 0;
-    text-align: center;
     color: #000!important;
     font-size: 13px;
 }
@@ -401,4 +400,37 @@ margin-bottom: 20px;
   background-color: #007bff;
   border-color: #007bff;
 }
+legend{
+  
+       font-weight: 700;
+}
+
+
+@media (max-width: 767px){
+  .container {
+  width: 100%;
+  max-width: 100%;
+}
+.category-card label{
+  font-size:13px;
+}
+.category-card h3{
+  font-size:14px;
+}
+.category h3 span{
+   font-size:14px;
+}
+legend{
+   font-size:16px;
+       font-weight: 700;
+}
+
+}
+
+
+
+
+
+
+
 </style>

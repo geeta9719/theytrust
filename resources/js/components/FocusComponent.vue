@@ -1015,6 +1015,7 @@ font-size: 18px;
 
 .subcategory label {
   margin-right: 10px;
+  font-size:15px;
 }
 
 .category {
@@ -1089,7 +1090,7 @@ border:1px solid #000;
 .catBox .primarybox {}
 
 .category-item input {
-
+    font-size: 14px;
   width: 71px;
 }
 
@@ -1127,8 +1128,9 @@ legend {
     color: #000;
     padding: 4px 20px;
     font-size: 18px;
-    font-weight: 500;
+        font-weight: 700;
     font-family: "Epilogue", sans-serif;
+    font-size: 16px !important;
 
 }
 

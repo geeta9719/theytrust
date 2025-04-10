@@ -5,6 +5,13 @@
         .company-form-box form {
             width: 100% !important;
         }
+        .about-txt{
+    font-family: "Inter", sans-serif;
+    color: #00bdd6;
+}
+.personal{
+    text-align:center;
+}
     </style>
     <section class="container-fluid signin-banner animatedParent hero-section">
         <div class="container">
@@ -50,8 +57,8 @@
                             name="oldAvatar"
                             value="{{ auth()->user()->avatar ?? '' }}"
                         />
-                        <h4><strong class="card-title">Personal Information</strong></h4>
-                        <div class="pt-4 file-field">
+                        <h4 class="text-align-center personal"><strong class="card-title ">Personal Information</strong></h4>
+                        <div class="pt-4 pl-2 pl-md-0 file-field">
                             <img
                                 src="{{ isset(auth()->user()->avatar) ? auth()->user()->avatar : asset('front_components/images/user1.png') }}"
                                 width="40"
@@ -61,7 +68,8 @@
                             <input type="file" class="rmvId" id="avatar" name="avatar" />
                             <div class="invalid-feedback avatar rmvCls"></div>
                         </div>
-
+                           <div class="row">
+                            <div class="col-md-6">
                         <div class="form-group pt-4">
                             <label for="first_name">First Name</label>
                             <strong style="color: red">*</strong>
@@ -88,7 +96,8 @@
                             />
                             <div class="invalid-feedback last_name rmvCls"></div>
                         </div>
-
+                        </div>
+                        <div class="col-md-6 pt-md-4 pt-0">
                         <div class="form-group">
                             <label for="company">Company</label>
                             <input
@@ -116,8 +125,11 @@
                             />
                             <div class="invalid-feedback email rmvCls"></div>
                         </div>
-
-                        <h4 class="pt-4"><strong class="card-title">About</strong></h4>
+                        </div>
+                        </div>
+                        <h4 class="pt-4 about-txt pl-2 "><strong class="card-title">About</strong></h4>
+                        <div class="row">
+                            <div class="col-md-6">
                         <div class="form-group pt-4">
                             <label for="twitter">Twitter</label>
                             <input
@@ -130,7 +142,8 @@
                             />
                             <div class="invalid-feedback twitter rmvCls"></div>
                         </div>
-
+                        </div>
+                        <div class="col-md-6 pt-md-4 pt-0">
                         <div class="form-group">
                             <label for="linkedin">Linkedin</label>
                             <input
@@ -143,7 +156,8 @@
                             />
                             <div class="invalid-feedback linkedin rmvId"></div>
                         </div>
-
+                        </div>
+                        </div>
                         <div class="form-group">
                             <label for="bio">Bio</label>
                             <textarea name="bio" id="bio-dd" cols="50" rows="5" class="form-control rmvId">
@@ -151,6 +165,11 @@
                             >
                             <div class="invalid-feedback bio rmvCls"></div>
                         </div>
+
+
+
+
+
                         <div class="btnbasic ml-3 mb-5">
                             <!--<button type="submit" class="btn btn-sm btn-primary">Save Changes</button>-->
                             <button type="button" class="btn-sm basicbtn" onclick="checkValue()">Save Changes</button>

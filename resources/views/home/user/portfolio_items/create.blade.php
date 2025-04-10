@@ -13,18 +13,14 @@
         padding: 20px;
         gap: 20px;
     }
-    form {
-        flex: 1 1 600px;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        background-color: #f9f9f9;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+  
     label {
         display: block;
         margin-top: 10px;
         font-weight: bold;
+        font-weight: 600;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
     }
     input[type="text"],
     input[type="url"],
@@ -34,69 +30,103 @@
     textarea {
         width: 100%;
         padding: 10px;
-        margin-top: 5px;
-        margin-bottom: 5px;
+        margin-top: 0px;
+        margin-bottom: 0px;
         border: 1px solid #ccc;
         border-radius: 5px;
         box-sizing: border-box;
+        font-size: 14px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+    color: #495057;
     }
-    .char-count {
+    .port-sec .char-count {
         font-size: 12px;
         color: #999;
-        margin-bottom: 20px;
+        margin-bottom: 0px;
         display: block;
         text-align: right;
     }
-    .error-message {
+    .port-sec .error-message {
         color: red;
-        font-size: 12px;
-        margin-top: -5px;
-        margin-bottom: 10px;
+    font-size: 12px;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    display: block;
     }
-    button {
-        display: inline-block;
-        width: 100%;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        text-align: center;
-        text-decoration: none;
-        outline: none;
+    .port-sec button {
         color: #fff;
-        background-color: #007BFF;
-        border: none;
-        border-radius: 5px;
-        box-shadow: 0 4px #999;
-        transition: background-color 0.3s;
+    background-color: #00bdd6;
+    border-color: #00bdd6;
+    border-radius: 5px;
+    padding: 5px 24px 6px 23px;
+    font-size: 13px;
+    text-align: center;
+    outline:none;
     }
-    button:hover {
-        background-color: #0056b3;
+    .port-sec button:hover {
+       background-color: #00bdd6;
+        outline:none;
     }
-    button:active {
-        background-color: #0056b3;
+    .port-sec button:active {
+        background-color: #00bdd6;
         box-shadow: 0 2px #666;
         transform: translateY(2px);
+        outline:none;
     }
     #preview {
-        flex: 1 1 600px;
+        /* flex: 1 1 600px;
         padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        background-color: #f9f9f9;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d; */
     }
     #preview img,
     #preview iframe,
     #preview object,
     #preview video {
-        width: 100%;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-top: 10px;
+        width: fit-content;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    height: 230px;
     }
+    .create-sec h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #323842;
+    font-family: "Epilogue", sans-serif;
+}
+.port-sec button{
+    color: #fff;
+    background-color: #00bdd6;
+    border-color: #00bdd6;
+    border-radius: 5px;
+    padding: 5px 24px 6px 23px;
+    font-size: 13px;
+    margin-left: 12px;
+}
+.port-sec .form-group{
+    margin:0;
+}
+    .create-sec {
+    padding: 50px 0;
+    background-color: #f5f2fd;
+    text-align:center;}
+    @media (max-width: 767px) {
+    .port-sec .char-count {
+   
+    margin-bottom: 0;}}
 </style>
+<section class="container-fluid create-sec ">
+   
+                    <h1>Add Portfolio Item</h1>
+                   
+            
+</section>
 
-<h1 style="text-align: center;">Add Portfolio Item</h1>
 <div class="row pt-5">
     <div class="col-md-12 m-0 p-0 ">
         @if ($errors->any())
@@ -116,7 +146,8 @@
 
     <form action="{{ route('portfolio.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
         @csrf
-
+        <div class="row port-sec">
+            <div class="col-md-6">
         <label for="media_type">Select Media Type</label>
         <select name="media_type" id="media_type" onchange="toggleMediaInput()">
             <option value="image_pdf" {{ old('media_type') == 'image_pdf' ? 'selected' : '' }}>Image or PDF File</option>
@@ -125,17 +156,17 @@
         <div class="error-message" id="media_type_error"></div>
 
         <div id="file_input_div" style="{{ old('media_type') == 'youtube_url' ? 'display:none;' : '' }}">
-            <label for="media">Add Image or PDF</label>
+            <label for="media" class="mt-4">Add Image or PDF</label>
             <input type="file" name="media" id="media" accept="image/*,.pdf" onchange="showPreview(event)">
             <div class="error-message" id="media_error"></div>
         </div>
         <div id="url_input_div" style="{{ old('media_type') == 'youtube_url' ? 'display:block;' : 'display:none;' }}">
-            <label for="youtube_url">Insert YouTube Video URL</label>
+            <label for="youtube_url" >Insert YouTube Video URL</label>
             <input type="url" name="youtube_url" id="youtube_url" value="{{ old('youtube_url') }}" onchange="showPreview(event)">
             <div class="error-message" id="youtube_url_error"></div>
         </div>
 
-        <label for="project_title">Project Title</label>
+        <label for="project_title" class="mt-4">Project Title</label>
         <input type="text" name="project_title" id="project_title" value="{{ old('project_title') }}" maxlength="70" oninput="updateCharCount('project_title', 70)">
         <span class="char-count" id="project_title-char-count">0/70</span>
         <div class="error-message" id="project_title_error"></div>
@@ -148,34 +179,48 @@
         <label for="country_location">Country / Location</label>
         <input type="text" name="country_location" id="country_location" value="{{ old('country_location') }}">
         <div class="error-message" id="country_location_error"></div>
+        <label for="engagement_start_date" class="mt-4">Engagement Start Date</label>
+        <input type="date" name="engagement_start_date" id="engagement_start_date" value="{{ old('engagement_start_date') }}">
+        <div class="error-message" id="engagement_start_date_error"></div>
 
-
-
-        <div class="form-group ">
-            <label for="services_provided">What services did you receive from <b>  for eg. Digital Marketing, Web design, Mobile App development)
-            </label><strong style="color: red;"> *</strong>
-            <select id="services_provided" name="services_provided[]" class="form-control" multiple="multiple"></select>
-            <span class="error-message">Please enter 2 or more characters</span>
+        <label for="engagement_end_date" class="mt-4">Engagement End Date</label>
+        <input type="date" name="engagement_end_date" id="engagement_end_date" value="{{ old('engagement_end_date') }}">
+        <div class="error-message" id="engagement_end_date_error"></div>
         </div>
+        <div class="col-md-6">
+        <div id="preview"></div>
+
+
 
         <label for="short_description">Short Description</label>
         <textarea name="short_description" id="short_description">{{ old('short_description') }}</textarea>
         <div class="error-message" id="short_description_error"></div>
 
-        <label for="engagement_start_date">Engagement Start Date</label>
-        <input type="date" name="engagement_start_date" id="engagement_start_date" value="{{ old('engagement_start_date') }}">
-        <div class="error-message" id="engagement_start_date_error"></div>
 
-        <label for="engagement_end_date">Engagement End Date</label>
-        <input type="date" name="engagement_end_date" id="engagement_end_date" value="{{ old('engagement_end_date') }}">
-        <div class="error-message" id="engagement_end_date_error"></div>
+        <div class="form-group mt-1">
+            <label for="services_provided" class="mt-4">What services did you receive from <b>  for eg. Digital Marketing, Web design, Mobile App development)
+            <strong style="color: red;"> *</strong> </label>
+            <select id="services_provided" name="services_provided[]" class="form-control" multiple="multiple"></select>
+            <span class="error-message">Please enter 2 or more characters</span>
+        </div>
 
-        <button type="submit">Save</button>
+        
+
+        
+
+      
+        </div>
+   
+    </div>
+    <div class="row port-sec">
+    <div class="col-md-12 text-center mt-3">
+    <button type="submit">Save</button> </div>
+    </div>
     </form>
 
-    <div id="preview"></div>
+    <!-- <div id="preview"></div> -->
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <!-- Select2 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
