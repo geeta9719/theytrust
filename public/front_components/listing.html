@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theytrustus</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/slick.css " />
+    <link rel="stylesheet" type="text/css" href="css/slick-theme.css " />
+    <style>
+        .list-top {
+            background-color: #f9f9fc;
+            padding: 50px 0 100px 0;
+        }
+        .list-top a {
+            color: #000;
+            font-size: 18px;
+        }
+        .list-top h2 {
+            color: #000;
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+        .list-box a {
+            color: #000;
+            font-size: 22px;
+            text-decoration: underline;
+        }
+        .filter-box .form-control::placeholder {
+            color: #000;
+            font-weight: 500;
+        }
+        .filter-box .form-control {
+            border: 0px;
+            font-size: 14px;
+            padding: 2px 16px;
+            border-radius: 0;
+            color: #000 !important;
+            font-weight: bold;
+            background-image: url(images/dropdown-arrow.png);
+            background-repeat: no-repeat;
+            background-position: right center;
+        }
+        .filter-box option {
+            font-size: 14px;
+            color: #000 !important;
+            font-weight: bold;
+        }
+        .dropbox .dropinner {
+            border-bottom: 1px solid #ccc;
+            padding: 12px 0;
+        }
+        .filter-box {
+            border: 0px;
+        }
+        .filter-box select {
+            font-size: 12px;
+        }
+        .filter-box .dropbox {
+            border: 1px solid #ccc;
+        }
+        .firmbox h3 {
+            color: #000;
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+        .form-control:focus {
+            box-shadow: none;
+        }
+        .firm-sec button {
+            border: 0;
+            background-color: transparent;
+            padding: 0 13px;
+            border-right: 1px solid #ccc;
+        }
+        .firm-sec .input-group {
+            border: 1px solid #ccc;
+            padding: 10px 0;
+            margin-top: 42px;
+        }
+        .firm-sec .form-control {
+            border: 0;
+            height: calc(2em + 0.75rem + 2px);
+            font-weight: bold;
+            color: #949494;
+            padding: 10px 25px;
+        }
+        .firm-box p {
+            font-size: 22px;
+            text-decoration: underline;
+        }
+        .firm-box {
+            padding: 25px 0;
+        }
+        .graph-sec .icon-box p {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .graph-sec .icon-box img {
+            margin-right: 5px;
+        }
+        .graph-sec h3 {
+            font-size: 25px;
+        }
+        .graph-sec p {
+            font-size: 12px;
+        }
+        .graph-sec .reviews-row {
+            padding: 15px 0 20px 0;
+        }
+        .graph-sec .reviews-row .fa-star {
+            font-size: 20px;
+        }
+        .graph-sec .reviews-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .graph-sec .reviews-row h3 {
+            margin: 0
+        }
+        .graph-sec .links a {
+            font-size: 15px;
+        }
+        .graph-sec .links a:nth-child(2) {
+            margin: 0 35px;
+        }
+        .verified-sec img {
+            display: block;
+        }
+        @media (max-width:600px) {
+            .graph-sec .links a:nth-child(2) {
+                margin: 0 15px;
+            }
+            .firm-box p {
+                font-size: 18px;
+            }
+            .graph-sec .border-right {
+                border-right: 0px solid #dee2e6 !important;
+                border-bottom: 1px solid #dee2e6 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- banner section start -->
+    <section class="container-fluid list-top">
+        <div class=" container">
+            <a href="">Home | Directory</a>
+            <h2>Top Advertising Companies</h2>
+        </div>
+    </section>
+    <section class="container-fluid mt-5 mb-5 list-box">
+        <div class=" container">
+            <div class="row">
+                <div class="col-lg-3 col-md-5 text-right pr-md-5">
+                    <a href="">Clear All</a>
+                    <div class="filter-box mt-2">
+                        <div class="dropbox">
+                            <div class="dropinner">
+                                <select class="form-control dropdown1">
+                                    <option selected>Filter</option>
+                                    <option>Filter</option>
+                                    <option>Filter</option>
+                                    <option>Filter</option>
+                                </select>
+                            </div>
+                            <div class="dropinner">
+                                <select class="form-control dropdown1">
+                                    <option selected>Services</option>
+                                    <option>Services</option>
+                                    <option>Services</option>
+                                    <option>Services</option>
+                                </select>
+                            </div>
+                            <div class="dropinner">
+                                <select class="form-control dropdown1">
+                                    <option selected>Client Budget</option>
+                                    <option>Client Budget</option>
+                                    <option>Client Budget</option>
+                                    <option>Client Budget</option>
+                                </select>
+                            </div>
+                            <div class="dropinner">
+                                <select class="form-control dropdown1">
+                                    <option selected>Industry</option>
+                                    <option>Industry</option>
+                                    <option>Industry</option>
+                                    <option>Industry</option>
+                                </select>
+                            </div>
+                            <div class="dropinner">
+                                <select class="form-control dropdown1">
+                                    <option selected>Client Budget</option>
+                                    <option>Client Budget</option>
+                                    <option>Client Budget</option>
+                                    <option>Client Budget</option>
+                                </select>
+                            </div>
+                            <div class="dropinner">
+                                <select class="form-control dropdown1">
+                                    <option selected>Reviews</option>
+                                    <option>Reviews</option>
+                                    <option>Reviews</option>
+                                    <option>Reviews</option>
+                                </select>
+                            </div>
+                            <div class="dropinner">
+                                <select class="form-control dropdown1">
+                                    <option selected>Rating</option>
+                                    <option>Rating</option>
+                                    <option>Rating</option>
+                                    <option>Rating</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-7 firm-sec pl-md-4">
+                    <div class="input-group ">
+                        <button type="button"><img src="images/search-icon.png" alt=""> </button>
+                        <input type="text" class="form-control" placeholder="Location">
+                    </div>
+                    <div class="firm-box d-lg-flex ">
+                        <p class="mr-5">31 Firms</p>
+                        <p>List of the Best Advertising Firms</p>
+                    </div>
+                    <div class="graph-sec row border mx-0 py-4 px-3 align-items-center">
+                        <div class="col-xl-2 col-lg-6 border-right verified-sec pb-3 pb-md-0">
+                            <img src="images/dorsay.png" alt="" class="img-fluid ">
+                            <img src="images/verified.png" alt="" class="img-fluid ">
+                            <div class="icon-box mt-4">
+                                <p class="d-flex  align-items-center"><img src="images/verified-icon1.png" alt="">
+                                    $25000+</p>
+                                <p class="d-flex  align-items-center"><img src="images/time.png" alt=""> $25-$50/hr</p>
+                                <p class="d-flex  align-items-center"><img src="images/person.png" alt=""> 10-50</p>
+                                <p class="d-flex  align-items-center"><img src="images/location2.png" alt=""> Pontiac
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 pl-md-4 mt-md-0 mt-4">
+                            <h3>Dorsay Creative</h3>
+                            <p> Your goals are our driving force. <br>
+                                We make your business thrive</p>
+                            <div class="reviews-row">
+                                <h3>2.0 </h3>
+                                <div class="px-3">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <h3>1 REVIEWS</h3>
+                            </div>
+                            <div class="links">
+                                <a href="#">View Website</a>
+                                <a href="#">View Profile</a>
+                                <a href="#">Contact</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-4  pl-md-0 mt-xl-0 mt-5">
+                            <img src="images/graph.png" alt="" class="img-fluid ml-xl-n4 mx-auto d-block">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+ 
+    <!-- banner section end -->
+    <!-- Latest compiled JavaScript -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/css3-animate-it.js"></script>
+    <script src="js/slick.js"></script>
+    <script src="js/custom.js"> </script>
+    <!-- footer end -->
+</body>
+</html>

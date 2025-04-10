@@ -1,0 +1,49 @@
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Third Party Services
+    |--------------------------------------------------------------------------
+    |
+    | This file is for storing the credentials for third party services such
+    | as Mailgun, Postmark, AWS and more. This file provides the de facto
+    | location for this type of information, allowing packages to have
+    | a conventional file to locate the various service credentials.
+    |
+    */
+
+    'mailgun' => [
+                        'domain' => env('MAILGUN_DOMAIN'),
+                        'secret' => env('MAILGUN_SECRET'),
+                        'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
+                    ],
+
+    'postmark' => [
+                        'token' => env('POSTMARK_TOKEN'),
+                    ],
+
+    'ses' => [
+                        'key' => env('AWS_ACCESS_KEY_ID'),
+                        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                        'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+                    ],
+
+    'linkedin' => [
+                        'client_id' => '86b3qp4jkl1t5u',
+                        'client_secret' => 'vyYjYpvtszO3Wwa3',
+                        'redirect' => 'https://theytrust-us.developmentserver.info/auth/linkedin/callback',
+                    ],
+
+    'linkedin2' => [
+                        'client_id' => '86b3qp4jkl1t5u',
+                        'client_secret' => 'vyYjYpvtszO3Wwa3',
+                        'redirect' => 'https://theytrust-us.developmentserver.info/linkedin/callback_claim_profile',
+                    ],
+     'stripe' => [
+                        'key' => 'pk_test_51OMTmgSBpRscNHwB4qiyJOy6swL8uwFI7DFbTzrmLZYaPXnKs1qVKLOdwwZz2R1UqL9SgOxc5BZaxFN9Nr9flN6U00duoOXtey',
+                        'secret' => 'sk_test_51OMTmgSBpRscNHwBohIRTFpbv0SFsLr4pYMDFWghhtqmEFVHCT0SZo0L6q5MDdFr4NzIXIsTRwoYqkPTeJMKN9R900BTtTiNn2',
+     ],
+
+];

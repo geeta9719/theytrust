@@ -1,0 +1,64 @@
+* {box-sizing: border-box;}
+    /* Create two unequal columns that floats next to each other */
+    .column {
+      float: left;
+      padding: 10px;
+      min-height: 300px; /* Should be removed. Only for demonstration */
+    }
+    .left {width: 25%;}
+    .right {width: 75%;}
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .brdtop{  border-top: 2px solid #0087f2;}
+    .brdbottom{  border-bottom: 2px solid #0087f2;}
+    .focuspage .focusleftbox{
+        background-color: #fff;
+    border-right: 2px solid #0087f2;
+    border-left: 2px solid #0087f2;
+    padding: 20px;
+      }
+    .focuspage .dropdown-toggle .dropdown-toggle{
+        background-color: #0087f2;
+    border: none;
+    width: 100%;
+    color: #fff;
+    text-align: left;
+    padding: 0px 14px;
+    margin-bottom: 2px;
+      }
+     .focuspage .dropdown{
+        background-color: #0087f2;
+    border: none;
+    width: 100%;
+    color: #fff;
+    text-align: left;
+    padding: 3px 14px;
+    margin-bottom: 2px;
+      }
+      .focuspage .dropdown-toggle{ background-color: #0087f2;
+    border: none;
+    width: 100%;
+    color: #fff;
+    text-align: left;
+    padding: 3px 14px;
+    margin-bottom: 2px;}
+    .focuspage h4{    color: #191b1f;
+        font-size: 1.5rem;
+        font-weight: bolder;
+      }
+      .focuspage ul li a{    color: #000000;
+    padding: 0px 20px;
+   }
+    .focusleftbox ul {
+       
+        height: 240px;
+  width: 303px;
+  overflow-y: scroll;
+    }
+    ::-webkit-scrollbar-track {
+    background-color: red;
+}

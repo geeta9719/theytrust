@@ -1,0 +1,35 @@
+# Laravel/Framework related
+/vendor/
+/node_modules/
+.env
+.env.*
+*.log
+*.sql
+theytrust
+
+# Caches & storage
+/storage/
+bootstrap/cache/
+
+# IDE & system files
+*.DS_Store
+*.idea/
+*.vscode/
+
+# Backups & old files
+*.zip
+*.tar.gz
+/public_html_backup_*
+/theytrustserver.zip
+/index.php_old-1
+/faaltu/
+/old/
+/dkc.sql
+
+# Testing & misc
+/.phpunit.result.cache
+
+# Asset builds (optional)
+public/mix-manifest.json
+public/js/
+public/css/
