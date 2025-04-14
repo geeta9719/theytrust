@@ -9,14 +9,14 @@
         <link
             rel="stylesheet"
             type="text/css"
-            href="{{ asset('public/portfolioimage/css/bootstrap.min.css') }}"
+            href="{{ asset('portfolioimage/css/bootstrap.min.css') }}"
         />
         <link
             rel="stylesheet"
             type="text/css"
-            href="{{ asset('public/portfolioimage/css/font-awesome.min.css') }}"
+            href="{{ asset('portfolioimage/css/font-awesome.min.css') }}"
         />
-        <!-- <link rel="stylesheet" type="text/css" href="{{ asset('public/portfolioimage/css/style1.css') }}"> -->
+        <!-- <link rel="stylesheet" type="text/css" href="{{ asset('portfolioimage/css/style1.css') }}"> -->
         <link
             rel="stylesheet"
             type="text/css"
@@ -26,17 +26,29 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
-        <script src="{{ asset('public/portfolioimage/js/jquery.js') }}"></script>
-        <script src="{{ asset('public/portfolioimage/js/tab.js') }}"></script>
+        <script src="{{ asset('portfolioimage/js/jquery.js') }}"></script>
+        <script src="{{ asset('portfolioimage/js/tab.js') }}"></script>
 
         <style>
             #portfolio,
             #reviews {
                 display: none;
             }
-
+            .p-img img{
+                max-height:194px;
+            }
+            .p-img{
+                max-height: 100%;
+    border: 1px solid #f0efef !important;
+    padding: 0;
+    width: 100%;
+    height: 129px;
+            }
             #tabs-nav li {
                 cursor: pointer;
+            }
+            .scroll{
+                padding-left:36px;
             }
             .row.button-section {
                 margin: auto !important;
@@ -98,16 +110,18 @@
             .fa {
                 margin-right: 4px;
             }
-
+            .target-indus{
+                border-left:1px solid #ccc;
+            }
             .bluestar {
                 color: #00bdd6;
-                font-size: 24px; /* Adjust size as needed */
+                font-size: 17px; /* Adjust size as needed */
             }
             .portfolio-top .topsec h2 {
                 font-size: 41px !important;
                 font-family: Epilogue; /* Heading */
             }
-
+            .user-img{    padding-left: 8px;}
             .portfolio .topsec .ratio {
                 font-size: 14px !important;
                 font-weight: 500 !important;
@@ -128,10 +142,12 @@
                 max-height: 3em;
                 /* line-height * number of lines */
                 position: relative;
+                padding-left:19px;
             }
             .info-box h2 {
                 color: #000;
                 font-size: 35px;
+                
             }
 
             .info-box h4 {
@@ -144,16 +160,23 @@
             }
             .ttu-score-text {
                 text-align: center;
-            }
+                display:flex;
+                justify-content:space-between;            }
             .ttu-score-widget {
-                width: 297px;
+                width: 217px;
                 margin: auto;
             }
             .ttu-score-range {
                 text-align: center;
             }
             .readmore a {
-                color: #000 !important;
+                font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    color: #00bdd6ff;
+    margin-left: 0px;
+    text-decoration: underline;
+    background-color: transparent !important;
             }
             .breadcrumb li a {
                 color: #00bdd6 !important;
@@ -179,7 +202,7 @@
             }
             .portfolio-top ul#tabs-nav li {
                 background-color: #00bdd6ff;
-                padding: 7px 33px;
+                padding: 7px 30px;
             }
 
             .portfolio-top #tabs-nav li a {
@@ -206,6 +229,7 @@
             .review-box {
                 display: flex;
                 align-items: center;
+                margin-top:17px;
             }
             .write-txt {
                 color: #00bdd6;
@@ -228,6 +252,7 @@
                 margin-bottom: 36px;
                 display: flex;
                 align-items: center;
+                margin-right: 12px;
             }
             .scroll-content p {
                 font-weight: 400;
@@ -263,7 +288,7 @@
                 text-decoration: underline;
             }
             .working-hr span {
-                font-size: 12px !important;
+                font-size: 11px !important;
                 font-weight: 400;
                 margin-right: 0px;
                 font-size: 1rem;
@@ -271,7 +296,7 @@
                 padding: 6px 6px;
                 border-radius: 17px;
                 color: #fff;
-                margin-left: 9px;
+                margin-right: 5px;
             }
             .review-box h5 {
                 color: #000;
@@ -282,6 +307,25 @@
                 font-size: 15px !important;
             }
             @media (max-width: 767px) {
+                .readmore a{
+                    margin-left:15px;
+                }
+                .readmore{
+                    margin-left:20px;
+                }
+                .info-box h2 {
+
+               font-size: 26px;
+                 }
+                .review-box h5{
+                    font-size:13px;
+                }
+                .info-box{
+               
+                    margin-top: 71px;
+                    padding: 20px;
+                }
+                .btn-target{margin-left:20px;}
                 .breadcrumb {
                     font-size: 10px;
                 }
@@ -290,7 +334,7 @@
                     margin: 3px 44px;
                 }
                 .short-description {
-                    margin-left: 25px;
+                    margin-left: 17px;
                 }
                 .tab-content p {
                     margin: 0 25px;
@@ -299,7 +343,7 @@
                     margin: 0 25px;
                 }
                 .portfolio .scroll-content {
-                    margin-left: 25px;
+                    margin-left: 11px;
                 }
                 .working-hr {
                     margin-bottom: 14px;
@@ -325,11 +369,24 @@
                     align-items: center;
                     justify-content: center;
                 }
+                .portfolio .greybox h2{
+                    width: 100%;
+                    font-size: 18px;
+                    padding: 3px 32px;
+                }
+                .portfolio .target-sec .greybox{
+                    padding: 3px 44px;
+                }
+                .portfolio .target-sec h2.industries{
+                    padding: 3px 44px;
+                }
                 .working-hr-box {
                     display: block;
+                   width: 100%;
+                    margin: 0 23px;
                 }
                 .target-sec a {
-                    margin: 0 20px;
+                    margin: 0 47px;
                 }
                 .write-review {
                     float: none !important;
@@ -420,15 +477,15 @@
             class="container shadow portfolio portfolio-top py-3 mb-5"
         >
             <div class="row">
-                <div class="col-lg-12 bg-white py-md-3 p-0">
+                <div class="col-lg-12 bg-white py-md-3  px-0 px-md-4">
                     <!-- profile start -->
                     <div id="profile">
                         <div class="row top-sec">
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <div
                                     class="row text-center text-md-left"
                                 >
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 p-img">
                                         <img
                                             src="{{ asset($company->logo) }}"
                                             alt=""
@@ -436,7 +493,7 @@
                                         />
                                     </div>
                                     <div
-                                        class="col-md-9 mt-2 mt-md-0 info-box"
+                                        class="col-md-9  mt-md-0 info-box"
                                     >
                                         <h2>
                                             {{ $company->name }}
@@ -447,7 +504,7 @@
                                             {{ $company->tagline }}
                                         </h4>
                                         <div
-                                            class="review-box mt-md-5"
+                                            class="review-box "
                                         >
                                             <div
                                                 class="reviews-row text-center reviewrate"
@@ -539,9 +596,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div
-                                class="col-md-4 text-md-right text-center pt-md-0 pt-2 border-left border-bottom"
-                            >
+                   <div class="col-md-3 text-md-right text-center pt-md-0 pt-2 border-left border-bottom"  >
                                 <h5
                                     class="ttu-score-heading d-flex align-items-center justify-content-center"
                                 >
@@ -603,14 +658,14 @@
                         </div>
                         <div class="row target-sec border-bottom">
                             <div
-                                class="col-md-8 pr-md-1 border-right pr-0"
+                                class="col-md-9 pr-md-1 border-0 border-md-right px-0"
                             >
                                 <h2
                                     class="area my-heading greybox mb-3 mt-md-4"
                                 >
                                     Target Services Area
                                 </h2>
-                                <div class="row mx-0 target-service">
+                                <div class="row mx-4 target-service">
                                     @foreach ($service_lines as $service)
                                         <div
                                             class="col-md-6 pb-2 text-center mb-2 mb-lg-0"
@@ -630,7 +685,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <div class="col-md-4 pl-md-3 p-0">
+                            <div class="col-md-3 target-indus pl-md-3 p-0">
                                 <h2
                                     class="industries mt-md-4 my-heading indusbox greybox mb-3"
                                 >
@@ -645,14 +700,14 @@
                         </div>
 
                         <div
-                            class="container mt-3 mt-md-3 p-0 greybox agency border-bottom"
+                            class="container mt-3 mx-0 mt-md-3 p-0 greybox agency border-bottom"
                         >
                             <h2 class="my-heading">Agency Profile</h2>
                             <p class="short-description">
                                 {{ $company->short_description }}
                             </p>
                             <p
-                                class="text-md-right text-center mr-md-5 readmore"
+                                class="text-md-right text-left mr-md-5 readmore"
                             >
                                 <a
                                     href="javascript:void(0);"
@@ -663,11 +718,11 @@
                             </p>
                         </div>
                         <div
-                            class="container mt-3 mt-md-5 p-0 greybox locations border-bottom"
+                            class="container mx-0 mt-3 mt-md-5 p-0 greybox locations border-bottom"
                         >
                             <h2 class="my-heading">Locations</h2>
                             <div class="row location-sec">
-                                <div class="col-md-4">
+                                <div class="col-md-4 scroll">
                                     <div class="scroll-container">
                                         <div class="scroll-content">
                                             @foreach ($addresses as $address)
