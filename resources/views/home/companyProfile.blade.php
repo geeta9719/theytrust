@@ -9,14 +9,14 @@
         <link
             rel="stylesheet"
             type="text/css"
-            href="{{ asset('portfolioimage/css/bootstrap.min.css') }}"
+            href="{{ asset('public/portfolioimage/css/bootstrap.min.css') }}"
         />
         <link
             rel="stylesheet"
             type="text/css"
-            href="{{ asset('portfolioimage/css/font-awesome.min.css') }}"
+            href="{{ asset('public/portfolioimage/css/font-awesome.min.css') }}"
         />
-        <!-- <link rel="stylesheet" type="text/css" href="{{ asset('portfolioimage/css/style1.css') }}"> -->
+        <!-- <link rel="stylesheet" type="text/css" href="{{ asset('public/portfolioimage/css/style1.css') }}"> -->
         <link
             rel="stylesheet"
             type="text/css"
@@ -26,8 +26,8 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
-        <script src="{{ asset('portfolioimage/js/jquery.js') }}"></script>
-        <script src="{{ asset('portfolioimage/js/tab.js') }}"></script>
+        <script src="{{ asset('public/portfolioimage/js/jquery.js') }}"></script>
+        <script src="{{ asset('public/portfolioimage/js/tab.js') }}"></script>
 
         <style>
             #portfolio,
