@@ -231,7 +231,19 @@ export default {
       });
   },
   goNext() {
-    // Submit the form and navigate to the next page
+    if (this.categorySum !== 100) {
+    this.categorySumError = 'Total percentage must be exactly 100%';
+    return;
+  } else {
+    this.categorySumError = '';
+  }
+
+  if (this.clientSizeSum !== 100) {
+    this.clientSizeSumError = 'Total percentage must be exactly 100%';
+    return;
+  } else {
+    this.clientSizeSumError = '';
+  }
     this.handleSubmit();  // Calling handleSubmit to ensure data is validated and saved
   }
   },
