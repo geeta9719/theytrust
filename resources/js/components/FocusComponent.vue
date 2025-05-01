@@ -73,7 +73,7 @@
               </label>
               <button class="icon-button" v-if="category.subcategory.length > 0"
                 @click="fetchSubcategoriesOn(category.id)">
-                <img src="/arraw.png" alt="Right arrow">
+                <img src="/public/arraw.png" alt="Right arrow">
               </button>
             </div>
           </fieldset>
@@ -99,7 +99,7 @@
                       Skill</b> </label>
                   <button class="icon-button" v-if="subcategory.subcat_child.length > 0"
                     @click="fetchSkillOn(subcategory.id, subcategory.category_id)">
-                    <img src="/arraw.png" alt="Right arrow">
+                    <img src="/public/arraw.png" alt="Right arrow">
                   </button>
                 </div>
               </div>
@@ -125,7 +125,7 @@
                   :style="{ color: selectedSkillId == skill.id ? 'blue' : 'initial' }">{{ skill.name }}</label>
                 <button class="icon-button" v-if="skill.skill.length > 0"
                   @click="fetchSubSkillOn(skill.id, skill.subcategory.id, skill.subcategory.category_id)">
-                  <img src="/arraw.png" alt="Right arrow">
+                  <img src="/public/arraw.png" alt="Right arrow">
                 </button>
               </div>
             </div>
