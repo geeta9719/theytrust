@@ -113,7 +113,7 @@
                                 />
                                 <div class="invalid-feedback twitter rmvCls"></div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="analytics">Google Analytics Tracking ID</label>
                                 <input
                                     type="text"
@@ -123,7 +123,7 @@
                                     value="<?php if (! empty($adminInfo->analytics)) {     echo $adminInfo->analytics; } ?>"
                                 />
                                 <div class="invalid-feedback analytics rmvCls"></div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- <a href="{{ route('company.focus', $company->id) }}" class="save-btn"><</a> -->
                         <div class="col-md-12 text-center btnbasic">
