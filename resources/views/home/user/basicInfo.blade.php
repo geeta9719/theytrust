@@ -172,7 +172,7 @@
                                             <label for="founded_at">Company Founded</label>
                                             <select class="form-control rmvId" id="founded_at" name="founded_at">
                                                 <option value="">Select a value</option>
-                                                <?php for ($i = 0; $i <= 49; $i++) {
+                                                <?php for ($i = 0; $i <= 100; $i++) {
                                                     $y = date('Y'); ?>
                                                 <option value="{{ $y - $i }}" <?php if (!empty($company->founded_at)) {
                                                     echo 'selected';
