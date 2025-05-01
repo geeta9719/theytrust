@@ -1085,6 +1085,7 @@ font-size: 18px;
 .catBox .category-item input {
 border:1px solid #000;
   width: 29px;
+
 }
 
 .catBox .primarybox {}
