@@ -114,7 +114,11 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="budget">Project Scale</label>
+                                            <label for="budget">Typical Project Size
+                                            <span style="font-weight: normal; color: #555;">
+                                            (Average budget range for projects your company usually handles per client)
+                                        </span>
+                                            </label>
                                             <select class="form-control rmvId" id="budget" name="budget">
                                                 <option value="">Select a value</option>
                                                 @foreach ($budget as $b)
@@ -132,7 +136,11 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="rate">Hourly Rate</label>
+                                            <label for="rate">Hourly Rate
+                                            <span style="font-weight: normal; color: #555;">
+    (Standard hourly charge your company applies for  services)
+  </span>
+                                            </label>
                                             <select class="form-control rmvId" id="rate" name="rate">
                                                 <option value="">Select a value</option>
                                                 @foreach ($rate as $b)

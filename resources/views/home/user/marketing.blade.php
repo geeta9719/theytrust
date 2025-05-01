@@ -81,7 +81,7 @@
                                 <div class="invalid-feedback mobile rmvCls"></div>
                             </div>
                             <div class="form-group">
-                                <label for="linkedin">LinkedIn URL</label>
+                                <label for="linkedin">Compnay LinkedIn URL</label>
                                 <input
                                     type="text"
                                     class="form-control rmvId"
@@ -92,7 +92,7 @@
                                 <div class="invalid-feedback linkedin rmvCls"></div>
                             </div>
                             <div class="form-group">
-                                <label for="facebook">Facebook URL</label>
+                                <label for="facebook">Compnay Facebook URL</label>
                                 <input
                                     type="text"
                                     class="form-control rmvId"
@@ -103,7 +103,7 @@
                                 <div class="invalid-feedback facebook rmvCls"></div>
                             </div>
                             <div class="form-group">
-                                <label for="twitter">Twitter URL</label>
+                                <label for="twitter">Compnay Twitter URL</label>
                                 <input
                                     type="text"
                                     class="form-control rmvId"
