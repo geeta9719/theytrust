@@ -16,11 +16,6 @@
 </div> -->
 @endif
 
-<link
-    rel="stylesheet"
-    type="text/css"
-    href="https://theytrust-us.developmentserver.info/front_components/css/custom.css"
-/>
 <div class="row p-md-4 p-0 sidebar-review-box">
     <div class="col-md-4 greybox">
         <h3 class="sidebar">
