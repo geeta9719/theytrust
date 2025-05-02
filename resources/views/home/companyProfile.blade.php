@@ -20,7 +20,7 @@
         <link
             rel="stylesheet"
             type="text/css"
-            href="https://theytrust-us.developmentserver.info/front_components/css/custom.css"
+            href="/front_components/css/custom.css"
         />
         <link
             rel="stylesheet"
@@ -399,6 +399,8 @@
                     border: 0;
                 }
             }
+      
+
             @media (max-width: 991px) {
                 .portfolio ul#tabs-nav {
                     display: block;
@@ -409,69 +411,17 @@
 
     <body>
         <div class="container portfolio-top">
-            {{--
-                <nav aria-label="Breadcrumb" class="">
-                <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                <a href="/">Home</a>
-                </li>
-                <li class="breadcrumb-item">
-                <a href="/category">Category</a>
-                </li>
-                <li class="breadcrumb-item">
-                <a href="/category/subcategory">Subcategory</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                Current Page
-                </li>
-                </ol>
-                </nav>
-            --}}
             <ul id="tabs-nav">
-                <li class="tab1">
-                    <a>
-                        <i style="font-size: 17px" class="fa"></i>
-                        PROFILE
-                    </a>
-                </li>
-                <li class="tab2">
-                    <a>
-                        <i style="font-size: 17px" class="fa"></i>
-                        REVIEWS
-                    </a>
-                </li>
-                <li class="tab3">
-                    <a cl>
-                        <i style="font-size: 17px" class="fa"></i>
-                        PORTFOLIO
-                    </a>
-                </li>
-                <li class="tab4">
-                    <a>
-                        <i style="font-size: 17px" class="fa"></i>
-                        BUNDLES
-                    </a>
-                </li>
-                <li class="tab5">
-                    <a>
-                        <i style="font-size: 17px" class="fa"></i>
-                        PROJECTS
-                    </a>
-                </li>
-                <li class="purple">
-                    <a href="#tab4">
-                        <i style="font-size: 17px" class="fa"></i>
-                        REQUEST A QUOTE
-                    </a>
-                </li>
-                <li class="purple">
-                    <a href="#tab4">
-                        <i style="font-size: 17px" class="fa"></i>
-                        WWW
-                    </a>
-                </li>
+                <li><a href="#profile"><i class="fa" style="font-size: 17px"></i> PROFILE</a></li>
+                <li><a href="#reviews"><i class="fa" style="font-size: 17px"></i> REVIEWS</a></li>
+                <li><a href="#portfolio"><i class="fa" style="font-size: 17px"></i> PORTFOLIO</a></li>
+                <li><a href="#bundles"><i class="fa" style="font-size: 17px"></i> BUNDLES</a></li>
+                <li><a href="#projects"><i class="fa" style="font-size: 17px"></i> PROJECTS</a></li>
+                <li><a href="#quote" class="purple"><i class="fa" style="font-size: 17px"></i> REQUEST A QUOTE</a></li>
+                <li><a href="#www" class="purple"><i class="fa" style="font-size: 17px"></i> WWW</a></li>
             </ul>
         </div>
+        
 
         <div
             class="container shadow portfolio portfolio-top py-3 mb-5"
@@ -479,297 +429,31 @@
             <div class="row">
                 <div class="col-lg-12 bg-white py-md-3  px-0 px-md-4">
                     <!-- profile start -->
-                    <div id="profile">
-                        <div class="row top-sec">
-                            <div class="col-md-9">
-                                <div
-                                    class="row text-center text-md-left"
-                                >
-                                    <div class="col-md-3 p-img">
-                                        <img
-                                            src="{{ asset($company->logo) }}"
-                                            alt=""
-                                            class="border img-fluid"
-                                        />
-                                    </div>
-                                    <div
-                                        class="col-md-9  mt-md-0 info-box"
-                                    >
-                                        <h2>
-                                            {{ $company->name }}
-                                        </h2>
-                                        <h4
-                                            class="mt-2 mt-md-0 mb-md-2 mb-4"
-                                        >
-                                            {{ $company->tagline }}
-                                        </h4>
-                                        <div
-                                            class="review-box "
-                                        >
-                                            <div
-                                                class="reviews-row text-center reviewrate"
-                                            >
-                                                <div
-                                                    class="review-box writereview"
-                                                >
-                                                    <h3 class="ratio">
-                                                        {{ number_format($rate_review->rating, 1) }}
-                                                    </h3>
-                                                    <div
-                                                        class="pl-md-3 pr-md-2"
-                                                    >
-                                                        {!! generateStarRating($rate_review->rating) !!}
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="review-box"
-                                                >
-                                                    @if ($reviews_count > 0)
-                                                        <a
-                                                            href="{{ url('review/' . $company->id) }}"
-                                                            target="_blank"
-                                                            class="reviewstxt"
-                                                        >
-                                                            <h5>
-                                                                {{ $reviews_count }}
-                                                                REVIEWS
-                                                            </h5>
-                                                        </a>
-                                                    @else
-                                                        <span
-                                                            class="reviewstxt"
-                                                        >
-                                                            <h5
-                                                                class="mb-0"
-                                                            >
-                                                                No
-                                                                Reviews
-                                                            </h5>
-                                                        </span>
-                                                    @endif
-                                                    <!-- write -->
-
-                                                    @if (auth()->check() && auth()->user()->id === $company->user_id)
-                                                        <a
-                                                            href="{{ route('comapany.reviews.request.index') }}"
-                                                            class="write-txt"
-                                                        >
-                                                            Reqest a
-                                                            Review
-                                                        </a>
-                                                    @else
-                                                        <a
-                                                            href="{{ url('company/' . $company->id . '/getReview') }}"
-                                                            class="write-txt"
-                                                            target="_blank"
-                                                        >
-                                                            Write a
-                                                            Review
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="write-review blue-write-review"
-                                            ></div>
-                                        </div>
-                                        <div class="working-hr-box">
-                                            <p class="working-hr">
-                                                <span>
-                                                    Hourly Rate
-                                                </span>
-                                                {{ $company->rate }}
-                                            </p>
-                                            <p class="working-hr">
-                                                <span>
-                                                    # of Employees
-                                                </span>
-                                                {{ $company->size }}
-                                            </p>
-                                            <p class="working-hr">
-                                                <span>
-                                                    Min Project Size
-                                                </span>
-                                                {{ $company->budget }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                   <div class="col-md-3 text-md-right text-center pt-md-0 pt-2 border-left border-bottom"  >
-                                <h5
-                                    class="ttu-score-heading d-flex align-items-center justify-content-center"
-                                >
-                                    <img
-                                        src="https://theytrust-us.developmentserver.info/front_components/images/logo.png"
-                                        alt="TTU Icon"
-                                        style="
-                                            width: 70px;
-                                            margin-right: 8px;
-                                        "
-                                    />
-
-                                    <i
-                                        class="fa fa-info-circle"
-                                        aria-hidden="true"
-                                        style="
-                                            margin-left: 5px;
-                                            color: #00bdd6;
-                                        "
-                                    ></i>
-                                </h5>
-                                <div class="ttu-score-widget">
-                                    <svg
-                                        viewBox="0 0 36 18"
-                                        class="circle-chart"
-                                    >
-                                        <path
-                                            class="circle-bg"
-                                            d="M2 16 a14 14 0 0 1 32 0"
-                                            fill="none"
-                                            stroke="#e6e6e6"
-                                            stroke-width="2"
-                                        />
-                                        <path
-                                            class="circle"
-                                            d="M2 16 a14 14 0 0 1 32 0"
-                                            fill="none"
-                                            stroke="#00bdd6"
-                                            stroke-width="2"
-                                            stroke-dasharray="{{ ($company->ttu_score / 100) * 50 }} 50"
-                                        />
-                                    </svg>
-                                    <div class="ttu-score-text">
-                                        <span
-                                            class="ttu-score-number"
-                                        >
-                                            {{ number_format($company->ttu_score, 0) }}
-                                        </span>
-                                        <span class="ttu-score-grade">
-                                            C
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="ttu-score-range">
-                                    {{-- <span>0</span> --}}
-                                    <span>100</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row target-sec border-bottom">
-                            <div
-                                class="col-md-9 pr-md-1 border-0 border-md-right px-0"
-                            >
-                                <h2
-                                    class="area my-heading greybox mb-3 mt-md-4"
-                                >
-                                    Target Services Area
-                                </h2>
-                                <div class="row mx-4 target-service">
-                                    @foreach ($service_lines as $service)
-                                        <div
-                                            class="col-md-6 pb-2 text-center mb-2 mb-lg-0"
-                                        >
-                                            <div
-                                                class="d-flex align-items-center"
-                                            >
-                                                <canvas
-                                                    class="progress-circle"
-                                                    data-percentage="{{ $service->percent }}"
-                                                ></canvas>
-                                                <h3>
-                                                    {{ $service->category->category }}
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                            <div class="col-md-3 target-indus pl-md-3 p-0">
-                                <h2
-                                    class="industries mt-md-4 my-heading indusbox greybox mb-3"
-                                >
-                                    Target Industries
-                                </h2>
-                                @foreach ($add_industry as $industry)
-                                    <a href="#" class="btn-target">
-                                        {{ $industry->industry->name }}
-                                    </a>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <div
-                            class="container mt-3 mx-0 mt-md-3 p-0 greybox agency border-bottom"
-                        >
-                            <h2 class="my-heading">Agency Profile</h2>
-                            <p class="short-description">
-                                {{ $company->short_description }}
-                            </p>
-                            <p
-                                class="text-md-right text-left mr-md-5 readmore"
-                            >
-                                <a
-                                    href="javascript:void(0);"
-                                    id="read-more-btn"
-                                >
-                                    READ MORE
-                                </a>
-                            </p>
-                        </div>
-                        <div
-                            class="container mx-0 mt-3 mt-md-5 p-0 greybox locations border-bottom"
-                        >
-                            <h2 class="my-heading">Locations</h2>
-                            <div class="row location-sec">
-                                <div class="col-md-4 scroll">
-                                    <div class="scroll-container">
-                                        <div class="scroll-content">
-                                            @foreach ($addresses as $address)
-                                                <p class="address">
-                                                    <b>
-                                                        {{ $address->city }}
-                                                    </b>
-                                                </p>
-                                                <p>
-                                                    {{ $address->autocomplete }}
-                                                </p>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 mt-md-0 mt-4">
-                                    <div id="map">
-                                        <iframe
-                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3265.698617944585!2d-80.71237452423959!3d35.064273372792705!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x885425c5285ababf%3A0x6980335b83dbd955!2s1003%20Sultana%20Ln%2C%20Matthews%2C%20NC%2028104%2C%20USA!5e0!3m2!1sen!2sin!4v1722940683978!5m2!1sen!2sin"
-                                            width="100%"
-                                            height="250"
-                                            style="border: 0"
-                                            allowfullscreen=""
-                                            loading="lazy"
-                                            referrerpolicy="no-referrer-when-downgrade"
-                                        ></iframe>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="profile" class="tab-content">
+                        @include('home.partials.profile')
                     </div>
                     <!-- profile end -->
 
                     <!-- review start -->
-                    <div id="reviews">
-                        <div
-                            class="container mt-3 mt-md-3 p-0 reviews-sec greybox border-bottom"
-                        >
-                            <h2 class="my-heading">Reviews</h2>
-                            @foreach ($reviews as $review)
-                                <x-review :review="$review" />
-                            @endforeach
-                        </div>
+                    <div id="reviews" class="tab-content">
+                            <div class="container mt-3 mt-md-3 p-0 reviews-sec greybox border-bottom">
+                                <h2 class="my-heading">Reviews</h2>
+                                @foreach ($reviews as $review)
+                                    <x-review :review="$review" />
+                                @endforeach
+
+                        <!-- Pagination links -->
+                            @if ($reviews instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                                    <div class="d-flex justify-content-center">
+                                        {{ $reviews->withQueryString()->fragment('reviews')->links('pagination::bootstrap-4') }}
+
+                                    </div>
+                            @endif
+                            </div>
                     </div>
                     <!-- review end -->
                     <!-- Portfolio start -->
-                    <div id="portfolio">
+                    <div id="portfolio" class="tab-content">
                         <div
                             class="container mt-3 mt-md-3 p-0 reviews-sec greybox border-bottom"
                         >
@@ -783,15 +467,11 @@
                             @endforeach
                         </div>
                     </div>
-                    <!-- Portfolio end -->
-
-                    {{--
-                        <div class="mt-4 text-center">
-                        <a href="{{ route('portfolio', ['company' => $company->id]) }}" class="submitbtn next-btn">
-                        View All
-                        </a>
-                        </div>
-                    --}}
+                    <div id="bundles" class="tab-content">Coming Soon</div>
+                    <div id="projects" class="tab-content">Coming Soon</div>
+                    <div id="quote" class="tab-content">Coming Soon</div>
+                    <div id="www" class="tab-content">Coming Soon</div>
+                                    
                 </div>
             </div>
         </div>
@@ -816,57 +496,7 @@
                 $(this).find('.tabs-nav a:first').click()
             })
         })
-        $(document).ready(function () {
-            $('.progress-circle').each(function () {
-                var canvas = this
-                var context = canvas.getContext('2d')
-                var percentage = $(canvas).data('percentage')
-
-                canvas.width = 100
-                canvas.height = 100
-
-                var startAngle = -0.5 * Math.PI // Start from the top
-                var endAngle =
-                    (percentage / 100) * 2 * Math.PI - 0.5 * Math.PI
-                var counterClockwise = false
-
-                context.lineWidth = 10
-                context.strokeStyle = '#00f' // Color of the progress circle
-
-                // Draw the background circle
-                context.beginPath()
-                context.arc(
-                    50,
-                    50,
-                    40,
-                    0,
-                    2 * Math.PI,
-                    counterClockwise,
-                )
-                context.strokeStyle = '#eee'
-                context.stroke()
-
-                // Draw the progress circle
-                context.beginPath()
-                context.arc(
-                    50,
-                    50,
-                    40,
-                    startAngle,
-                    endAngle,
-                    counterClockwise,
-                )
-                context.strokeStyle = '#00f'
-                context.stroke()
-
-                // Draw the percentage text
-                context.font = '16px Arial'
-                context.fillStyle = '#000'
-                context.textAlign = 'center'
-                context.textBaseline = 'middle'
-                context.fillText(percentage + '%', 50, 50)
-            })
-        })
+       
         document.addEventListener('DOMContentLoaded', function () {
             var readMoreBtn = document.getElementById('read-more-btn')
             var shortDescription = document.querySelector(
@@ -928,9 +558,78 @@
             })
         })
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // initMap();
-        })
+        $(document).ready(function () {
+    $('.progress-circle').each(function () {
+        const canvas = this;
+        const ctx = canvas.getContext('2d');
+        const percent = $(canvas).data('percentage');
+        
+        canvas.width = 60;
+        canvas.height = 60;
+        
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = 25;
+        const startAngle = -0.5 * Math.PI;
+        const endAngle = startAngle + (percent / 100) * 2 * Math.PI;
+
+        // background circle
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = '#e6e6e6';
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        // progress circle
+        ctx.strokeStyle = '#00bdd6';
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+        ctx.stroke();
+
+        // text
+        ctx.fillStyle = '#333';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(percent + '%', centerX, centerY);
+    });
+});
+
+
+    
+        function activateTab(tabId) {
+        const validTabs = ['#profile', '#reviews', '#portfolio', '#bundles', '#projects', '#quote', '#www'];
+
+        // Hide all
+        validTabs.forEach(id => {
+            const el = document.querySelector(id);
+            if (el) el.style.display = 'none';
+        });
+
+        // Show selected
+        const activeTab = document.querySelector(tabId);
+        if (activeTab) activeTab.style.display = 'block';
+
+        // Update nav
+        document.querySelectorAll('#tabs-nav li').forEach(li => li.classList.remove('active'));
+        const activeNav = document.querySelector(`#tabs-nav a[href="${tabId}"]`);
+        if (activeNav) activeNav.parentElement.classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const initialTab = window.location.hash || '#profile';
+        activateTab(initialTab);
+
+        // On click
+        document.querySelectorAll('#tabs-nav a').forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+                const tabId = this.getAttribute('href');
+                activateTab(tabId);
+                history.pushState(null, '', tabId);
+            });
+        });
+    });
     </script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9YeE5IDfcAUalQ8G26_crBmKoHYvoN5I&callback=initMap"

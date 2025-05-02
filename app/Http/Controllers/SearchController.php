@@ -957,11 +957,19 @@ class SearchController extends Controller
         $data['add_industry'] = AddIndustry::with('industry')->where('company_id', $company_id)->get();
         $data['addresses'] = Address::where('company_id', $company_id)->get();
 
-        $data['reviews'] = CompanyReview::with('company', 'user')
-            ->where('company_id', $company_id)
-            ->latest()
-            ->take(2)
-            ->get();
+        $review_limit = SubscriptionHelper::getReviewLimit($company_id);
+        $max_limit = 3;
+        if ($review_limit > $max_limit) {
+            $data['reviews'] = CompanyReview::with('user')
+                ->where('company_id', $company_id)
+                ->paginate($max_limit);
+        }
+        else {
+            $data['reviews'] = CompanyReview::with('user')
+                ->where('company_id', $company_id)
+                ->take($max_limit)
+                ->get();
+        }
         $data['reviews_count'] = CompanyReview::where('company_id', $company_id)->count();
 
         $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
