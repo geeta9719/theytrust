@@ -972,10 +972,21 @@ class SearchController extends Controller
         }
         $data['reviews_count'] = CompanyReview::where('company_id', $company_id)->count();
 
-        $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
-            ->latest()
-            ->take(2)
-            ->get();
+        if ($review_limit > $max_limit) {
+            $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
+                ->paginate($max_limit);
+        }
+        else {
+            $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
+                ->take($max_limit)
+                ->get();
+        }
+
+
+        // $data['caseStudies'] = PortfolioItem::where('company_id', $company_id)
+        //     ->latest()
+        //     ->take(2)
+        //     ->get();
         $data['can_write_review'] = SubscriptionHelper::canWriteReview($data['reviews_count']);
 
         return view('home.companyProfile', $data);
