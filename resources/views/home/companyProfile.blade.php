@@ -465,6 +465,13 @@
                                     :portfolio="$caseStudy"
                                 />
                             @endforeach
+
+                            @if ($caseStudies instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                            <div class="d-flex justify-content-center">
+                                {{ $caseStudies->withQueryString()->fragment('portfolio')->links('pagination::bootstrap-4') }}
+
+                            </div>
+                             @endif
                         </div>
                     </div>
                     <div id="bundles" class="tab-content">Coming Soon</div>

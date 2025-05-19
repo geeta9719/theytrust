@@ -12,9 +12,9 @@
             </div>
             <div>
                 @if ($reviews_count > 0)
-                    <a href="{{ url('review/' . $company->id) }}" target="_blank" class="text-info">
+                    {{-- <a href="{{ url('review/' . $company->id) }}" target="_blank" class="text-info"> --}}
                         <strong>{{ $reviews_count }} Reviews</strong>
-                    </a>
+                    {{-- </a> --}}
                 @else
                     <span class="text-muted">No Reviews</span>
                 @endif
