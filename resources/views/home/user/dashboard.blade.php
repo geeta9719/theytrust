@@ -563,11 +563,16 @@ text-decoration:none;
                             @endif
                         </div>
 
-                        <div class="d-flex align-items-center my-2">
-                            <img src="/img/tag.png" alt="Tag Icon" class="img-fluid" style="width: 20px; height: 20px;">
-                            <a href="{{ $company->website }}" class="ml-2 website-txt">{{ $company->website }}</a>
-                        </div>
-                        <p><a href="mailto:{{ $company->email }}" class="website-txt">{{ $company->email }}</a></p>
+                        
+                        <p>
+                            <strong>Website:</strong>
+                            <a href="{{ $company->website }}" target="_blank">Compnay Website</a>
+                        </p>
+                    
+                        <p>
+                            <strong>Email:</strong>
+                            <a href="mailto:{{ $company->email }}">{{ $company->email }}</a>
+                        </p>
                         <div class="d-flex align-items-center">
                             <img src="/img/user.png" alt="User Icon" class="img-fluid"
                                 style="width: 20px; height: 20px;">
