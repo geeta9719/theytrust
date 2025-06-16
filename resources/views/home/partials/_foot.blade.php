@@ -24,7 +24,7 @@
                     <div class="footer-box">
                         <h2>Customers</h2>
                         <ul>
-                            <li>Browse Providers</li>
+                            <li onclick="window.location.href='/providers/category'" style="cursor:pointer;">Browse Providers</li>
                             <li>Browse Projects</li>
                             <li>Browse Bundles</li>
                             <li>Leave Review</li>
@@ -39,7 +39,7 @@
                         <ul>
                             <li>Get Listed</li>
                             <li>Sponsorships</li>
-                            <li>Pricing</li>
+                            <li onclick="window.location.href='/sponsorship'" style="cursor:pointer;">Pricing</li>
                             <li>Download TTU Badge</li>
 
                         </ul>
