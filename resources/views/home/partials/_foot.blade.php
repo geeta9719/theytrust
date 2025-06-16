@@ -39,8 +39,10 @@
                         <ul>
                             <li>Get Listed</li>
                             <li>Sponsorships</li>
-                            <li onclick="window.location.href='/sponsorship'" style="cursor:pointer;">Pricing</li>
+                            <li>Pricing</li>
                             <li>Download TTU Badge</li>
+
+                            sponsorship
 
                         </ul>
                     </div>
