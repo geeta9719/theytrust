@@ -561,7 +561,7 @@
                                     class="ttu-score-heading d-flex align-items-center justify-content-center"
                                 >
                                     <img
-                                        src="https://theytrust-us.developmentserver.info/front_components/images/logo.png"
+                                        src="https://theytrust.us/front_components/images/logo.png"
                                         alt="TTU Icon"
                                         style="
                                             width: 70px;

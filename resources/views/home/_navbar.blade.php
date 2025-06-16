@@ -397,7 +397,7 @@ if (Auth::check()) {
        <div class="col-lg-6 mb-lg-0 mb-3">
            <div class="row align-items-center">
                <div class="col-md-5 mb-4 mb-md-0 logobox">
-              <a href="https://theytrust-us.developmentserver.info/">     <img src="https://theytrust-us.developmentserver.info/front_components/images/logo.png" alt=""
+              <a href="https://theytrust.us">     <img src="https://theytrust.us/front_components/images/logo.png" alt=""
                        class="img-fluid"></a>
                </div>
                <div class="col-md-6 ml-3">

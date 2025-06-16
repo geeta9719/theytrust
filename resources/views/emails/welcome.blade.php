@@ -8,7 +8,7 @@
             <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 20px; border-radius: 8px">
                 <div style="text-align: center">
                     <img
-                        src="https://theytrust-us.developmentserver.info/front_components/images/logo.png"
+                        src="https://theytrust.us/front_components/images/logo.png"
                         alt="They Trust Us"
                         style="max-width: 100px"
                     />

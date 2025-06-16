@@ -16,7 +16,7 @@
                 "
             >
                 <img
-                    src="https://theytrust-us.developmentserver.info/front_components/images/logo.png"
+                    src="https://theytrust.us/front_components/images/logo.png"
                     alt="They Trust Us Logo"
                     style="width: 150px; display: block; margin: 0 auto"
                 />

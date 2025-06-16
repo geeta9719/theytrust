@@ -289,7 +289,7 @@ color: #aaa;
         <div class="col-lg-7 mb-lg-0 mb-3">
             <div class="row align-items-center">
                 <div class="col-md-6 mb-4 mb-md-0 logobox">
-                    <img src="https://theytrust-us.developmentserver.info/front_components/images/logo.png"
+                    <img src="https://theytrust.us/front_components/images/logo.png"
                         alt="" class="img-fluid">
                 </div>
                 <div class="col-md-5">

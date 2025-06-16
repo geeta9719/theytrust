@@ -24,7 +24,7 @@ $userCompanyIds = $user && $user->companies ? $user->companies->pluck('id')->toA
             <div class="d-lg-flex user-img">
                 @php
                 $avatarUrl = $review->user->avatar ??
-                "https://theytrust-us.developmentserver.info/front_components/images/logo.png";
+                "https://theytrust.us/front_components/images/logo.png";
                 if (!Str::startsWith($avatarUrl, ['http://', 'https://'])) {
                 $avatarUrl = url($avatarUrl);
                 }
