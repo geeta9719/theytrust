@@ -14,16 +14,16 @@ class CreateReqiestReviewTable extends Migration
     public function up()
     {
       
-            Schema::create('review_requests', function (Blueprint $table) {
-                $table->id();
-                $table->string('name');
-                $table->string('email');
-                $table->text('note')->nullable();
-                $table->unsignedBigInteger('company_id');
-                $table->timestamps();
+            // Schema::create('review_requests', function (Blueprint $table) {
+            //     $table->id();
+            //     $table->string('name');
+            //     $table->string('email');
+            //     $table->text('note')->nullable();
+            //     $table->unsignedBigInteger('company_id');
+            //     $table->timestamps();
 
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            });
+            // $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            // });
     }
 
     /**

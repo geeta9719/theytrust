@@ -13,16 +13,16 @@ class CreateCompanyhasskillTable extends Migration
      */
     public function up()
     {
-        Schema::create('companyhasskill', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('skill_id');
-            // Add foreign key constraints if needed
-            // $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            // $table->foreign('skill_id')->references('id')->on('skills')->onDelete('cascade');
-            $table->timestamps();
+        // Schema::create('companyhasskill', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->unsignedBigInteger('company_id');
+        //     $table->unsignedBigInteger('skill_id');
+        //     // Add foreign key constraints if needed
+        //     // $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+        //     // $table->foreign('skill_id')->references('id')->on('skills')->onDelete('cascade');
+        //     $table->timestamps();
 
-        });
+        // });
     }
 
     /**

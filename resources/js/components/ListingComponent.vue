@@ -47,7 +47,6 @@ select {
 
 .rate {
   background: url(https://theytrust-us.developmentserver.info/img/star.png) no-repeat left center;
-
 }
 
 .dollar {
@@ -327,7 +326,7 @@ select {
           <div class="logobox">
             <img :src="company.logo" alt="Logo" class="company-logo">
             <div class="buttons">
-              <a :href="`/profile/${company.id}`" class="view-profile-btn">View Profile</a>
+              <a :href="`/profile/${company.slug}`" class="view-profile-btn">View Profile</a>
               <button class="request-quote-btn">Request Quote</button>
             </div>
           </div>

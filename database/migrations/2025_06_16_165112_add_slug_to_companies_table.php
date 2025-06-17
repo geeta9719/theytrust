@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPositionToPortfolioItemsTable extends Migration
+class AddSlugToCompaniesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddPositionToPortfolioItemsTable extends Migration
      */
     public function up()
     {
-        // Schema::table('portfolio_items', function (Blueprint $table) {
-        //     $table->integer('position')->nullable();
-        // });
+        Schema::table('companies', function (Blueprint $table) {
+            $table->string('slug')->nullable()->unique();
+        });
     }
 
     /**
@@ -25,7 +25,7 @@ class AddPositionToPortfolioItemsTable extends Migration
      */
     public function down()
     {
-        Schema::table('portfolio_items', function (Blueprint $table) {
+        Schema::table('companies', function (Blueprint $table) {
             //
         });
     }

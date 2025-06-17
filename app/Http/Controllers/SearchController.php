@@ -939,13 +939,23 @@ class SearchController extends Controller
         return view('search.index');
     }
 
-    public function companyProfile(Request $request, $company_id)
+    public function companyProfile(Request $request, $identifier)
     {
         $data = [];
 
-        $data['company'] = Company::where('id', $company_id)->first();
+        $data['company'] = Company::where('slug', $identifier)->first();
+
+        // If not found by slug, try by ID
+        if (!$data['company']) {
+            $data['company'] = Company::where('id', $identifier)->first();
+        }
 
 
+        if (!$data['company']) {
+            abort(404, 'Company not found.');
+        }
+    
+        $company_id = $data['company']->id;
         $data['rate_review'] = DB::table('company_reviews')
             ->select('company_id', 'position_title', 'most_impressive', 'project_title')
             ->selectRaw('count(id) as review')

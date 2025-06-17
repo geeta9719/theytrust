@@ -65,7 +65,7 @@
 
 
                                  <h2>
-                                 <a href="{{ url('profile/' . $review->company->id) }}">
+                                 <a href="{{ url('profile/' . $review->company->slug) }}">
                                     {{ ucwords(strtolower($review->company->name)) }}
 
                                 </a>
