@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{!! $post['title']['rendered'] !!}</h5>
                     <p class="card-text">{!! Str::limit(strip_tags($post['excerpt']['rendered']), 100) !!}</p>
-                    <a href="{{ url('blog/' . $post['id']) }}" class="btn btn-outline-primary btn-sm">Read More</a>
+                    <a href="{{ url('/blog-summary/' . $post['id']) }}" class="btn btn-outline-primary btn-sm">Read More</a>
                 </div>
             </div>
         </div>
