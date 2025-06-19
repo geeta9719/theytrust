@@ -10,14 +10,6 @@
 
 
 
-
-
-
-
-
-
-
-
 <!-- Hero Section -->
 <section class="container-fluid banner animatedParent hero-section ">
     <div class="container">
@@ -280,217 +272,8 @@
            </div>
        </div>
    </section>
-
     @endsection
-
-
     @section('script')
-<!--     
-    <section class="container-fluid movers-section">
-        <div class="container">
-            <h3 class="text-center">Movers & Shakers - Popular Skills</h3>
-            <p class="text-center">Explore businesses from some of the most popular service categories</p>
-            <div class="row  mt-5  ">
-                <div class="col-lg-3 col-md-6">
-                    <div class="moversbox">
-                        <div class="col-md-12 moverscol1">
-                            <div class="ptitle mb-2 mb-lg-0"><button>Menu 1</button></div>
-                            <div class="ptitle mb-2 mb-lg-0"><button class="btn">Menu 2</button></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9 col-md-6 marketingagencies">
-                    <h3> List of Digital Marketing Agencies </h3>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="col2box">
-                                <div class="col-md-12 ">
-
-                                    <div class="listboxinner">
-                                        <div class="row ">
-                                            <div class="col-3 p-0">
-                                                <div> <img
-                                                        src="https://theytrust-us.developmentserver.info/front_components/images/car.png"
-                                                        alt="" class="img-fluid">
-                                                </div>
-                                            </div>
-                                            <div class="col-7 listbox ">
-                                                <div class="companybox">
-                                                    <h2>Company Name</h2>
-                                                    <div>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                    </div>
-                                                    <a href="">9999 review</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
-                                                <img src="https://theytrust-us.developmentserver.info/front_components/images/heart.png"
-                                                    alt="" class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="row ">
-                                            <div class="col-3 p-0">
-                                                <div> <img
-                                                        src="https://theytrust-us.developmentserver.info/front_components/images/car.png"
-                                                        alt="" class="img-fluid">
-                                                </div>
-                                            </div>
-                                            <div class="col-7 listbox">
-                                                <div  class="companybox">
-                                                    <h2>Company Name</h2>
-                                                    <div>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                    </div>
-                                                    <a href="">9999 review</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
-                                                <img src="https://theytrust-us.developmentserver.info/front_components/images/heart.png"
-                                                    alt="" class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="row ">
-                                            <div class="col-3 p-0">
-                                                <div > <img
-                                                        src="https://theytrust-us.developmentserver.info/front_components/images/car.png"
-                                                        alt="" class="img-fluid">
-                                                </div>
-                                            </div>
-                                            <div class="col-7 listbox">
-                                                <div  class="companybox">
-                                                    <h2>Company Name</h2>
-                                                    <div>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                    </div>
-                                                    <a href="">9999 review</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
-                                                <img src="https://theytrust-us.developmentserver.info/front_components/images/heart.png"
-                                                    alt="" class="img-fluid">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="col2box">
-                                <div class="col-md-12 ">
-
-                                    <div class="listboxinner">
-                                    <div class="row ">
-                                            <div class="col-3 p-0">
-                                                <div> <img
-                                                        src="https://theytrust-us.developmentserver.info/front_components/images/car.png"
-                                                        alt="" class="img-fluid">
-                                                </div>
-                                            </div>
-                                            <div class="col-7 listbox">
-                                                <div>
-                                                    <h2>Company Name</h2>
-                                                    <div>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                    </div>
-                                                    <a href="">9999 review</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
-                                                <img src="https://theytrust-us.developmentserver.info/front_components/images/heart.png"
-                                                    alt="" class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="row ">
-                                            <div class="col-3 p-0">
-                                                <div> <img
-                                                        src="https://theytrust-us.developmentserver.info/front_components/images/car.png"
-                                                        alt="" class="img-fluid">
-                                                </div>
-                                            </div>
-                                            <div class="col-7 listbox">
-                                                <div  class="companybox">
-                                                    <h2>Company Name</h2>
-                                                    <div>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                    </div>
-                                                    <a href="">9999 review</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
-                                                <img src="https://theytrust-us.developmentserver.info/front_components/images/heart.png"
-                                                    alt="" class="img-fluid">
-                                            </div>
-                                        </div>
-                                        <div class="row ">
-                                            <div class="col-3 p-0">
-                                                <div> <img
-                                                        src="https://theytrust-us.developmentserver.info/front_components/images/car.png"
-                                                        alt="" class="img-fluid">
-                                                </div>
-                                            </div>
-                                            <div class="col-7 listbox">
-                                                <div  class="companybox">
-                                                    <h2>Company Name</h2>
-                                                    <div>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star checked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                        <span class="fa fa-star unchecked"></span>
-                                                    </div>
-                                                    <a href="">9999 review</a>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
-                                                <img src="https://theytrust-us.developmentserver.info/front_components/images/heart.png"
-                                                    alt="" class="img-fluid">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>  -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{asset('front_components/js/select2.min.js')}}"></script>
     <script>
@@ -593,14 +376,10 @@
            }
        });
    }
-
-
    $('.foreign-key-btn').click(function() {
        var foreignKey = $(this).data('key');
        loadCompanies(foreignKey);
    });
-
-
    // Automatically trigger the first foreign_key button on page load
    if ($('.foreign-key-btn').length > 0) {
        $('.foreign-key-btn').first().trigger('click');

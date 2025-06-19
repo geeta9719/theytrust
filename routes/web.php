@@ -31,6 +31,8 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ServiceProviderController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController ;
+use App\Http\Controllers\BlogController;
+
 
 // use App\Http\Controllers\CompanyController;
 
@@ -381,5 +383,8 @@ Route::middleware([ 'check.company'])->group(function () {
 
 Route::get('/terms-of-use', [PageController::class, 'termsOfUse'])->name('terms-of-use');
 Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.list');
+Route::get('/blog/{id}', [BlogController::class, 'show'])->name('blogs.show');
+
 
 Route::get('/generate-company-review', [HomeController::class, 'generateSingleCompanyReview'])->name('generateSingleCompanyReview');
