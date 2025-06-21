@@ -63,7 +63,7 @@
                 </div>
                 <div class="col-md-4">
                     <img src="https://theytrust-us.developmentserver.info/front_components/images/theylogo.png" alt="" class="img-fluid">
-                    <p>  © 2024 They Trust Us, All Rights Reserved.</p>
+                    <p>  © 2025 They Trust Us, All Rights Reserved.</p>
 
                 </div>
             </div>

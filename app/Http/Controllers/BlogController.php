@@ -25,17 +25,19 @@ class BlogController extends Controller
     }
 
     return abort(500, 'Unable to fetch blogs');
-}
+}   
 
-public function show($id)
+public function show($slug)
 {
-    $response = Http::get("https://theytrust.us/blog/wp-json/wp/v2/posts/{$id}");
+    // Fetch post by slug from WP REST API
+    $response = Http::get("https://theytrust.us/blog/wp-json/wp/v2/posts?slug={$slug}");
 
-    if ($response->ok()) {
-        $post = $response->json();
+    if ($response->ok() && count($response->json()) > 0) {
+        $post = $response->json()[0]; // API returns array of posts
         return view('blog.blog-detail', compact('post'));
     }
 
     return abort(404, 'Post not found');
 }
+
 }
