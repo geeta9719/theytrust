@@ -18,17 +18,23 @@ class CategoryController extends Controller
     }
 
     //public function store(Request $request){
-    public function store()
-    {
-        $inputs = request()->validate([
-            'category' => 'required',
-        ]);
-        $inputs['description'] = request()->description;
-        Category::create($inputs);
-        session()->flash('msg', 'Category inserted');
-        //return redirect()->route('admin.Category.index');
-        return back();
-    }
+        public function store()
+        {
+            $inputs = request()->validate([
+                'category' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'page_heading' => 'nullable|string|max:255',
+                'slug' => 'nullable|string|max:255|unique:categories,slug',
+                'meta_title' => 'nullable|string|max:255',
+                'meta_description' => 'nullable|string',
+                'title_type' => 'nullable|string|max:255',
+            ]);
+        
+            Category::create($inputs);
+        
+            session()->flash('msg', 'Category inserted');
+            return back();
+        }        
 
     public function edit(Request $request, $category)
     {
@@ -37,18 +43,25 @@ class CategoryController extends Controller
     }
 
     public function update(Request $request, $category)
-    {
-        $category = Category::find($category);
-        $inputs = request()->validate([
-            'category' => 'required',
-        ]);
-        $category->description = $request->description;
-        $category->category = $inputs['category'];
-        $category->save();//save post with owner of the user
+{
+    $category = Category::findOrFail($category);
 
-        session()->flash('msg', 'data is updated');
-        return redirect()->route('admin.category.index');
-    }
+    $validated = $request->validate([
+        'category' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
+        'page_heading' => 'nullable|string|max:255',
+        'meta_title' => 'nullable|string|max:255',
+        'meta_description' => 'nullable|string',
+        'title_type' => 'nullable|string|max:255',
+    ]);
+
+    $category->update($validated);
+
+    session()->flash('msg', 'Category updated successfully');
+    return redirect()->route('admin.category.index');
+}
+
 
     public function destroy(Category $category, Request $request)
     {

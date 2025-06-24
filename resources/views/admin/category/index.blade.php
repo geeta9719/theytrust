@@ -1,152 +1,121 @@
 @extends('layouts.admin-master')
 
 @section('content')
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-12 mt-4">
-                    <div class="col-md-4" id="msg" style="margin: 0 auto; text-align: center">
-                        @if (Session::has('message'))
-                            <div class="alert alert-danger">{{ Session::get('message') }}</div>
-                        @elseif (session('msg'))
-                            <div class="alert alert-success">{{ session('msg') }}</div>
-                        @endif
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">CATEGORY</h3>
-                            <span style="float: right">
-                                <a href="{{ route('admin.category.create') }}" class="btn btn-sm btn-primary">
-                                    Add New
-                                </a>
-                            </span>
-                        </div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mt-4">
+                <div class="col-md-4" id="msg" style="margin: 0 auto; text-align: center">
+                    @if (Session::has('message'))
+                        <div class="alert alert-danger">{{ Session::get('message') }}</div>
+                    @elseif (session('msg'))
+                        <div class="alert alert-success">{{ session('msg') }}</div>
+                    @endif
+                </div>
 
-                        <div class="card-body table-responsive p-0">
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <h3 class="card-title">CATEGORIES</h3>
+                        <a href="{{ route('admin.category.create') }}" class="btn btn-sm btn-primary">Add New</a>
+                    </div>
+
+                    <div class="card-body table-responsive p-0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-sm align-middle text-nowrap">
+                                <thead class="table-light text-center">
                                     <tr>
-                                        <th>Id</th>
+                                        <th>#</th>
                                         <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Top Service</th>
-                                        <!--<th>Status</th>-->
-                                        <th>Created</th>
-                                        <th>Updated</th>
-                                        <th>Action</th>
+                                        <th>Slug</th>
+                                        <th>Page Heading</th>
+                                        <th>Meta Title</th>
+                                        {{-- <th>Meta Description</th> --}}
+                                        {{-- <th>Title Type</th> --}}
+                                        {{-- <th>Description</th> --}}
+                                        <th>Top</th>
+                                        {{-- <th>Created</th> --}}
+                                        {{-- <th>Updated</th> --}}
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $i = 1; ?>
-
-                                    @if ($category->count() > 0)
-                                        @foreach ($category as $categories)
-                                            <?php
-                                            if ($categories->top_cat != 0) {
-                                                $checked = 'checked';
-                                            } else {
-                                                $checked = '';
-                                            }
-                                            ?>
-
-                                            <tr>
-                                                <td>{{ $i++ }}</td>
-                                                <td>{{ $categories->category }}</td>
-                                                <td>{{ $categories->description }}</td>
-                                                <td>
-                                                    <input
-                                                        type="checkbox"
-                                                        name="top_cat"
-                                                        id="top_cat_{{ $categories->id }}"
-                                                        class="top_cat"
-                                                        onclick="setPriority({{ $categories->id }})"
-                                                        title="Make this as TOP Category"
-                                                        <?php echo $checked; ?>
-                                                    />
-                                                </td>
-                                                <!--<td>{{ $categories->status }}</td>-->
-                                                <td>{{ $categories->created_at }}</td>
-                                                <td>{{ $categories->updated_at }}</td>
-                                                <td nowrap>
-                                                    <a
-                                                        href="{{ route('admin.category.edit', $categories) }}"
-                                                        class="btn btn-sm btn-primary"
-                                                    >
-                                                        Edit
-                                                    </a>
-                                                    <form
-                                                        method="post"
-                                                        action="{{ route('admin.category.destroy', $categories) }}"
-                                                        id="sdel"
-                                                    >
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button
-                                                            type="submit"
-                                                            class="btn btn-sm btn-danger mt-2"
-                                                            onclick="return confirm('Are you sure?')"
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-
+                                    @forelse ($category as $i => $cat)
                                         <tr>
-                                            <td colspan="11" style="text-align: center">{!! $category->links() !!}</td>
+                                            <td class="text-center">{{ $i + 1 }}</td>
+                                            <td>{{ $cat->category }}</td>
+                                            <td>{{ $cat->slug }}</td>
+                                            <td>{{ $cat->page_heading }}</td>
+                                            <td>{{ $cat->meta_title }}</td>
+                                            {{-- <td>{{ Str::limit($cat->meta_description, 60) }}</td> --}}
+                                            {{-- <td>{{ $cat->title_type }}</td> --}}
+                                            {{-- <td>{{ Str::limit($cat->description, 50) }}</td> --}}
+                                            <td class="text-center">
+                                                <input type="checkbox" class="top_cat" id="top_cat_{{ $cat->id }}"
+                                                    onclick="setPriority({{ $cat->id }})"
+                                                    {{ $cat->top_cat ? 'checked' : '' }}>
+                                            </td>
+                                            {{-- <td>{{ optional($cat->created_at)->format('Y-m-d') }}</td> --}}
+                                            {{-- <td>{{ optional($cat->updated_at)->format('Y-m-d') }}</td> --}}
+                                            <td>
+                                                <a href="{{ route('admin.category.edit', $cat) }}" class="btn btn-sm btn-outline-primary mb-1">Edit</a>
+                                                <form method="post" action="{{ route('admin.category.destroy', $cat) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Are you sure?')">Delete</button>
+                                                </form>
+                                            </td>
                                         </tr>
-                                    @else
+                                    @empty
                                         <tr>
-                                            <td colspan="11" style="text-align: center">No Record Found</td>
+                                            <td colspan="12" class="text-center text-muted">No records found.</td>
+                                        </tr>
+                                    @endforelse
+                        
+                                    @if ($category->hasPages())
+                                        <tr>
+                                            <td colspan="12" class="text-center">
+                                                {!! $category->links() !!}
+                                            </td>
                                         </tr>
                                     @endif
                                 </tbody>
-                                <!--<tfoot>
-                                    <tr>
-                                        <td colspan="5"></td>
-                                    </tr>
-                                </tfoot>-->
                             </table>
                         </div>
-                        <!-- /.card-body -->
+                        
                     </div>
-                    <!-- /.card -->
-                </div>
+
+                </div> <!-- /.card -->
             </div>
         </div>
-        <!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+    </div>
+</section>
 @endsection
 
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-        var setPriority
-        jQuery(document).ready(function () {
-            setPriority = function (idd) {
-                var value = jQuery('#top_cat_' + idd).is(':checked')
-                if (value == true) {
-                    var val = 1
-                    var msg = 'Added to top Category list'
-                } else {
-                    var val = 0
-                    var msg = 'Removed from top Category list'
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var setPriority;
+    jQuery(document).ready(function () {
+        setPriority = function (id) {
+            var isChecked = $('#top_cat_' + id).is(':checked');
+            var value = isChecked ? 1 : 0;
+            var msg = isChecked ? 'Added to top Category list' : 'Removed from top Category list';
+
+            $.ajax({
+                url: '{{ url('admin/category/set-priority') }}',
+                type: 'POST',
+                data: {
+                    id: id,
+                    top_cat: value,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (result) {
+                    $('#msg').html('<div class="alert alert-success">' + msg + '</div>');
+                    $('html, body').animate({ scrollTop: 0 });
                 }
-                jQuery.ajax({
-                    url: '{{ url('admin/category/set-priority') }}',
-                    type: 'POST',
-                    data: { id: idd, top_cat: val, _token: '{{ csrf_token() }}' },
-                    success: function (result) {
-                        console.log(result)
-                        $('#msg').html('<span class="alert alert-success">' + msg + '</span>')
-                        $('html, body').animate({ scrollTop: '0' })
-                    },
-                })
-            }
-        })
-    </script>
+            });
+        };
+    });
+</script>
 @endsection

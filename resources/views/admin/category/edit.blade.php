@@ -1,104 +1,110 @@
 @extends('layouts.admin-master')
 
 @section('content')
-    <?php
-    //print_r($errors);
-    //print_r($service);
-    $errors->count();
-    ?>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mt-4">
+                <div class="col-md-4" id="msg" style="margin: 0 auto; text-align: center">
+                    @if (Session::has('message'))
+                        <div class="alert alert-danger">{{ Session::get('message') }}</div>
+                    @elseif (session('msg'))
+                        <div class="alert alert-success">{{ session('msg') }}</div>
+                    @endif
+                </div>
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-12 mt-4">
-                    <div class="col-md-4" id="msg" style="margin: 0 auto; text-allign: center">
-                        @if (Session::has('message'))
-                            <div class="alert alert-danger">{{ Session::get('message') }}</div>
-                        @elseif (session('msg'))
-                            <div class="alert alert-success">{{ session('msg') }}</div>
-                        @endif
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Edit Category</h3>
+                        <span style="float: right">
+                            <a href="{{ route('admin.category.index') }}" class="btn btn-sm btn-primary">Back to List</a>
+                        </span>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">CATEGORY</h3>
-                            <span style="float: right">
-                                <a href="{{ route('admin.category.index') }}" class="btn btn-sm btn-primary">Show</a>
-                            </span>
-                        </div>
 
-                        <div class="card-body table-responsive p-0">
-                            <!-- update record here -->
-                            <div class="col-md-8 editRec" style="margin: 0 auto; margin-top: 20px" id="editRec">
-                                <!-- general form elements -->
-                                <div class="card card-primary">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Update Category</h3>
-                                    </div>
-                                    <!-- form start -->
-                                    <form
-                                        role="form"
-                                        action="{{ route('admin.category.update', $category) }}"
-                                        method="post"
-                                        enctype="multipart/form-data"
-                                    >
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <label for="category">Category</label>
-                                                <input
-                                                    type="text"
-                                                    class="form-control {{ $errors->has('category') ? 'is-invalid' : '' }}"
-                                                    id="category"
-                                                    name="category"
-                                                    value="{{ $category->category ?? '' }}"
-                                                />
-                                                @error('name')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="description">Description</label>
-                                                <textarea
-                                                    class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                                                    id="description"
-                                                    name="description"
-                                                    rows="5"
-                                                >
-{{ $category->description ?? '' }}</textarea
-                                                >
-                                                @error('description')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="card-footer">
-                                            <button
-                                                type="submit"
-                                                name="update"
-                                                class="btn btn-sm btn-primary"
-                                                style="float: right"
-                                            >
-                                                Update
-                                            </button>
-                                        </div>
-                                    </form>
+                    <div class="card-body table-responsive p-0">
+                        <div class="col-md-8 mx-auto mt-3">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Update Category</h3>
                                 </div>
+
+                                <form action="{{ route('admin.category.update', $category) }}" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="category">Category Name</label>
+                                            <input type="text" class="form-control" id="category" name="category" value="{{ old('category', $category->category) }}" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="slug">Slug</label>
+                                            <input type="text" class="form-control" id="slug" name="slug" value="{{ old('slug', $category->slug) }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="title_type">Title Type</label>
+                                            <select class="form-control" id="title_type" name="title_type">
+                                                <option value="Agencies" {{ $category->title_type == 'Agencies' ? 'selected' : '' }}>Agencies</option>
+                                                <option value="Companies" {{ $category->title_type == 'Companies' ? 'selected' : '' }}>Companies</option>
+                                                <option value="Experts" {{ $category->title_type == 'Experts' ? 'selected' : '' }}>Experts</option>
+                                                <option value="Designers" {{ $category->title_type == 'Designers' ? 'selected' : '' }}>Designers</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="page_heading">Page Heading (H1 Tag)</label>
+                                            <input type="text" class="form-control" id="page_heading" name="page_heading" value="{{ old('page_heading', $category->page_heading) }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="meta_title">Meta Title</label>
+                                            <input type="text" class="form-control" id="meta_title" name="meta_title" value="{{ old('meta_title', $category->meta_title) }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="meta_description">Meta Description</label>
+                                            <textarea class="form-control" id="meta_description" name="meta_description" rows="2">{{ old('meta_description', $category->meta_description) }}</textarea>
+                                        </div>
+
+                                       
+
+                                        <div class="form-group">
+                                            <label for="description">Description</label>
+                                            <textarea class="form-control" id="description" name="description" rows="4">{{ old('description', $category->description) }}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer text-right">
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
-                </div>
+
+                </div> <!-- /.card -->
             </div>
         </div>
-        <!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+    </div>
+</section>
 @endsection
 
 @section('script')
-    <script></script>
+<script>
+    // Optional: auto-generate page_heading/meta if user changes category name
+    document.getElementById("category").addEventListener("input", function () {
+        const category = this.value.trim();
+        const type = document.getElementById("title_type").value;
+        if (category) {
+            document.getElementById("page_heading").value = `Top ${category} ${type}`;
+            document.getElementById("meta_title").value = `Top ${category} ${type} | They Trust Us`;
+            document.getElementById("meta_description").value = `Explore the best ${category.toLowerCase()} ${type.toLowerCase()} recommended by experts.`;
+            document.getElementById("slug").value = category.toLowerCase().replace(/[\s\W-]+/g, '-');
+        }
+    });
+
+    document.getElementById("title_type").addEventListener("change", function () {
+        document.getElementById("category").dispatchEvent(new Event('input'));
+    });
+</script>
 @endsection
