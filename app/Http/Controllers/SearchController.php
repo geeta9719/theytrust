@@ -1168,8 +1168,10 @@ class SearchController extends Controller
         return view('home.review', $data);
     }
 
-    public function listing($category = null, $subcategory = null, $skill = null, $subskill = null)
+    public function listing( $location1 = null,
+    $location2 = null,$category = null, $subcategory = null, $skill = null, $subskill = null)
     {
+        // dd("dddd");
         $categories = Category::all();
         $budgets = Budget::all();
         $rates = Rate::all();

@@ -23,14 +23,23 @@ class SubcategoryController extends Controller
     public function store()
     {
         $inputs = request()->validate([
-            'category_id' => 'required',
-            'subcategory' => 'required',
+            'category_id'       => 'required|exists:categories,id',
+            'subcategory'       => 'required|string|max:255',
+            'slug'              => 'nullable|string|max:255',
+            'title_type'        => 'nullable|string|max:100',
+            'page_heading'      => 'nullable|string|max:255',
+            'meta_title'        => 'nullable|string|max:255',
+            'meta_description'  => 'nullable|string',
+            'description'       => 'nullable|string',
+            'top_subcat'        => 'nullable|boolean',
         ]);
-        $inputs['description'] = request()->description;
+    
         Subcategory::create($inputs);
-        session()->flash('msg', 'Subcategory inserted');
+    
+        session()->flash('msg', 'Subcategory inserted successfully');
         return back();
     }
+    
 
     public function edit(Request $request, $subcategory)
     {
@@ -40,19 +49,27 @@ class SubcategoryController extends Controller
     }
 
     public function update(Request $request, $subcategory)
-    {
-        $subcategory = Subcategory::find($subcategory);
-        $inputs = request()->validate([
-            'subcategory' => 'required',
-        ]);
-        $subcategory->description = $request->description;
-        $subcategory->subcategory = $inputs['subcategory'];
-        $subcategory->save();//save post with owner of the user
+{
+    $subcategory = Subcategory::findOrFail($subcategory);
 
-        session()->flash('msg', 'data is updated');
-        return redirect()->route('admin.subcategory.index');
-        //return back();
-    }
+    $inputs = $request->validate([
+        'subcategory'       => 'required|string|max:255',
+        'slug'              => 'nullable|string|max:255',
+        'title_type'        => 'nullable|string|max:100',
+        'page_heading'      => 'nullable|string|max:255',
+        'meta_title'        => 'nullable|string|max:255',
+        'meta_description'  => 'nullable|string',
+        'description'       => 'nullable|string',
+        'category_id'       => 'required|exists:categories,id',
+        'top_subcat'        => 'nullable|boolean',
+    ]);
+
+    $subcategory->update($inputs);
+
+    session()->flash('msg', 'Subcategory updated successfully');
+    return redirect()->route('admin.subcategory.index');
+}
+
 
     public function destroy(Subcategory $subcategory, Request $request)
     {

@@ -41,19 +41,27 @@ class SubcatChildController extends Controller
 
     public function update(Request $request, $subcategorychild)
     {
-        $subcategory = SubcatChild::find($subcategorychild);
-        $inputs = request()->validate([
+        $subcategory = SubcatChild::findOrFail($subcategorychild);
+    
+        // ✅ Optional: Validation
+        $validated = $request->validate([
             'subcategory_id' => 'required',
-            'name' => 'required',
+            'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
+            'title_type' => 'nullable|string|max:255',
+            'page_heading' => 'nullable|string|max:255',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string', // text field
         ]);
-
-        $subcategory->subcategory_id = $inputs['subcategory_id'];
-        $subcategory->name = $inputs['name'];
-        $subcategory->save();//save post with owner of the user
-
-        session()->flash('msg', 'data is updated');
+    
+        // ✅ Actual Update
+        $subcategory->update($validated);
+    
+        // ✅ Flash + Redirect
+        session()->flash('msg', 'Data is updated successfully.');
         return redirect()->route('admin.subcategory-child.show');
     }
+    
 
     public function destroy(SubcatChild $Subcategorychild, Request $request)
     {

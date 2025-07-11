@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <title>{{ $meta_title ?? 'TheyTrust - Find Top Providers' }}</title>
+<meta name="description" content="{{ $meta_description ?? 'Find trusted providers for all industries.' }}">
+<meta property="og:title" content="{{ $meta_title ?? 'TheyTrust - Find Top Providers' }}">
+<meta property="og:description" content="{{ $meta_description ?? 'Find trusted providers for all industries.' }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ url()->current() }}">
     
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Page Title</title>
 
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){

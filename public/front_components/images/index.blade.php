@@ -704,7 +704,7 @@ padding:80px 0 ;
                     <h4>{{ $category->category }}</h4>
                     <ul>
                         @foreach($category->subcategory->take(5) as $subcategory)
-                        <li><a href="{{ url('listing/'.$category->slug.'/'.$subcategory->slug) }}">{{ $subcategory->subcategory }}</a></li>
+                        <li><a href="{{ url('companies/'.$category->slug.'/'.$subcategory->slug) }}">{{ $subcategory->subcategory }}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -727,7 +727,7 @@ padding:80px 0 ;
                         <h4>{{ $subcategory->subcategory }}</h4>
                         <ul>
                             @foreach($subcategory->subcat_child->take(5) as $child)
-                            <li><a href="{{ url('listing/'.$subcategory->category->slug.'/'.$subcategory->slug.'/'.$child->slug) }}">{{ $child->name }}</a></li>
+                            <li><a href="{{ url('companies/'.$subcategory->category->slug.'/'.$subcategory->slug.'/'.$child->slug) }}">{{ $child->name }}</a></li>
                             @endforeach
                         </ul>
                     </div>

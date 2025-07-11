@@ -270,7 +270,7 @@ select {
         </template>
       </p>
       <div class="filter-section">
-        <h2>Discover the Globe's Best (Title of the page)</h2>
+        <!-- <h2>Discover the Globe's Best (Title of the page)</h2> -->
         <div class="filters">
           <div class="searchlocation">
             <input type="text" class="bigselect" placeholder="Search Location" v-model="searchLocation"
@@ -434,6 +434,7 @@ export default {
       selectedIndustryId: '',
       selectedRating: '',
       searchLocation: '',
+      countryname: '', // To store selected country name
       subcategories: [],
       skills: [],
       deepSkills: [],
@@ -549,9 +550,13 @@ export default {
 
       try {
         const response = await axios.get(`/api/skills/${skillId}/deepskills`);
-        console.log(response);
-        this.deepSkills = response.data.deepskills;
-        this.cache.deepSkills[skillId] = this.deepSkills;
+        console.log(response.data.deepSkills,"teteteteet");
+        debugger
+        this.deepSkills = response.data.deepSkills;
+        debugger
+        console.log('Fetched deep skills:', this.deepSkills);
+        debugger
+        // this.cache.deepSkills[skillId] = this.deepSkills;
       } catch (error) {
         console.error('Error fetching deep skills:', error);
       }
@@ -559,7 +564,7 @@ export default {
     async fetchCompanies() {
       try {
         console.log(encodeURIComponent(this.selectedBudgetId));
-        const response = await axios.get('/api/companies', {
+        const response = await axios.get('/api/data', {
           params: {
             categoryId: this.selectedCategoryId,
             subcategoryId: this.selectedSubcategoryId,
@@ -600,6 +605,7 @@ export default {
     },
     selectLocation(location) {
       this.searchLocation = location.city;
+      this.countryname = location.country_iso2;
       this.locations = [];
       this.updateURL();
     },
@@ -620,15 +626,68 @@ export default {
       this.selectedDeepSkillId = '';
       this.selectedDeepSkill = null;
     },
-    updateURL() {
-      const pathSegments = [];
+    // updateURL() {
+    //   const pathSegments = [];
 
-      if (this.selectedCategoryId) {
-        const selectedCategory = this.categories.find(category => category.id == this.selectedCategoryId);
-        if (selectedCategory) {
-          pathSegments.push(selectedCategory.slug);
-        }
-      }
+    //   if (this.selectedCategoryId) {
+    //     const selectedCategory = this.categories.find(category => category.id == this.selectedCategoryId);
+    //     if (selectedCategory) {
+    //       pathSegments.push(selectedCategory.slug);
+    //     }
+    //   }
+
+    //   if (this.selectedSubcategoryId) {
+    //     const selectedSubcategory = this.subcategories.find(subcategory => subcategory.id == this.selectedSubcategoryId);
+    //     if (selectedSubcategory) {
+    //       pathSegments.push(selectedSubcategory.slug);
+    //     }
+    //   }
+
+    //   if (this.selectedSkillId) {
+    //     const selectedSkill = this.skills.find(skill => skill.id == this.selectedSkillId);
+    //     if (selectedSkill) {
+    //       pathSegments.push(selectedSkill.slug);
+    //     }
+    //   }
+
+    //   if (this.selectedDeepSkillId) {
+    //     const selectedDeepSkill = this.deepSkills.find(deepSkill => deepSkill.id == this.selectedDeepSkillId);
+    //     if (selectedDeepSkill) {
+    //       pathSegments.push(selectedDeepSkill.slug);
+    //     }
+    //   }
+
+
+    //   const query = new URLSearchParams();
+
+    //   if (this.sortOrder) query.set('order', this.sortOrder);
+    //   if (this.selectedBudgetId) query.set('budget', this.selectedBudgetId);
+    //   if (this.selectedRateId) query.set('rate', this.selectedRateId);
+    //   if (this.selectedIndustryId) query.set('industry', this.selectedIndustryId);
+    //   if (this.selectedRating) query.set('rating', this.selectedRating);
+    //   if (this.searchLocation) query.set('location', this.searchLocation);
+
+    //   const newPath = `/listing/${pathSegments.join('/')}`;
+    //   const newURL = `${newPath}${query.toString() ? `?${query.toString()}` : ''}`;
+
+    //   window.history.pushState(null, '', newURL);
+    //   // this.fetchCompanies(); // Fetch companies data when URL updates
+    //   this.loading = true;
+
+    //   this.fetchCompanies()
+    // .finally(() => {
+    //   // Set loading to false when fetch is complete
+    //   this.loading = false;
+    // });
+    // },
+
+    updateURL() {
+  const pathSegments = [];
+
+  if (this.selectedCategoryId) {
+    const selectedCategory = this.categories.find(category => category.id == this.selectedCategoryId);
+    if (selectedCategory) pathSegments.push(selectedCategory.slug);
+  }
 
       if (this.selectedSubcategoryId) {
         const selectedSubcategory = this.subcategories.find(subcategory => subcategory.id == this.selectedSubcategoryId);
@@ -637,43 +696,45 @@ export default {
         }
       }
 
-      if (this.selectedSkillId) {
-        const selectedSkill = this.skills.find(skill => skill.id == this.selectedSkillId);
-        if (selectedSkill) {
-          pathSegments.push(selectedSkill.slug);
-        }
-      }
+  if (this.selectedSkillId) {
+    const selectedSkill = this.skills.find(skill => skill.id == this.selectedSkillId);
+    if (selectedSkill) pathSegments.push(selectedSkill.slug);
+  }
 
-      if (this.selectedDeepSkillId) {
-        const selectedDeepSkill = this.deepSkills.find(deepSkill => deepSkill.id == this.selectedDeepSkillId);
-        if (selectedDeepSkill) {
-          pathSegments.push(selectedDeepSkill.slug);
-        }
-      }
+  if (this.selectedDeepSkillId) {
+    const selectedDeepSkill = this.deepSkills.find(deepSkill => deepSkill.id == this.selectedDeepSkillId);
+    if (deepSkill) pathSegments.push(deepSkill.slug);
+  }
 
+  // ✅ Smart location prefix (only if searchLocation given)
+  let locationPrefix = '';
+  if (this.searchLocation?.trim()) {
+    const parts = this.searchLocation.trim().toLowerCase().split(/\s+/);
+    const city = parts[0];
+    const part2 = this.countryname.trim().toLowerCase().split(/\s+/);;
+    const counteryname = part2[0];
+    locationPrefix = `/${counteryname}/${city}`;
+    // locationPrefix = `/${loc1}/`;
+  }
 
-      const query = new URLSearchParams();
+  const query = new URLSearchParams();
+  if (this.sortOrder) query.set('order', this.sortOrder);
+  if (this.selectedBudgetId) query.set('budget', this.selectedBudgetId);
+  if (this.selectedRateId) query.set('rate', this.selectedRateId);
+  if (this.selectedIndustryId) query.set('industry', this.selectedIndustryId);
+  if (this.selectedRating) query.set('rating', this.selectedRating);
+  // if (this.searchLocation) query.set('location', this.searchLocation);
 
-      if (this.sortOrder) query.set('order', this.sortOrder);
-      if (this.selectedBudgetId) query.set('budget', this.selectedBudgetId);
-      if (this.selectedRateId) query.set('rate', this.selectedRateId);
-      if (this.selectedIndustryId) query.set('industry', this.selectedIndustryId);
-      if (this.selectedRating) query.set('rating', this.selectedRating);
-      if (this.searchLocation) query.set('location', this.searchLocation);
+  const newPath = `${locationPrefix}/companies/${pathSegments.join('/')}`;
+  const newURL = `${newPath}${query.toString() ? `?${query.toString()}` : ''}`;
 
-      const newPath = `/listing/${pathSegments.join('/')}`;
-      const newURL = `${newPath}${query.toString() ? `?${query.toString()}` : ''}`;
+  window.history.pushState(null, '', newURL);
+  this.loading = true;
 
-      window.history.pushState(null, '', newURL);
-      // this.fetchCompanies(); // Fetch companies data when URL updates
-      this.loading = true;
-
-      this.fetchCompanies()
-    .finally(() => {
-      // Set loading to false when fetch is complete
-      this.loading = false;
-    });
-    },
+  this.fetchCompanies().finally(() => {
+    this.loading = false;
+  });
+},
     resetFilters() {
       this.pageTitle = 'Top Category Name (Title of the page)';
       this.selectedCategory = null;
@@ -692,20 +753,36 @@ export default {
       this.clearSelection();
       this.updateURL();
     },
-    updatePageTitle() {
-      if (this.selectedDeepSkill) {
-        this.pageTitle = this.selectedDeepSkill.name;
-      } else if (this.selectedSkill) {
-        this.pageTitle = this.selectedSkill.name;
-      } else if (this.selectedSubcategory) {
-        this.pageTitle = this.selectedSubcategory.subcategory;
-      } else if (this.selectedCategory) {
-        this.pageTitle = this.selectedCategory.category;
-      } else {
-        this.pageTitle = 'Top Category Name (Title of the page)';
-      }
-      console.log('Updated pageTitle:', this.pageTitle);
-    },
+  updatePageTitle() {
+  const hasLocation = this.searchLocation?.trim() !== '';
+  const location = this.searchLocation?.trim();
+
+  if (this.selectedDeepSkill) {
+    this.pageTitle = hasLocation
+      ? `${this.selectedDeepSkill.name} in ${location}`
+      : `${this.selectedDeepSkill.name}`;
+  } else if (this.selectedSkill) {
+    this.pageTitle = hasLocation
+      ? `${this.selectedSkill.name} ${location}`
+      : `${this.selectedSkill.name} Companies`;
+  } else if (this.selectedSubcategory) {
+    this.pageTitle = hasLocation
+      ? `${this.selectedSubcategory.page_heading}  in ${location}`
+      : `${this.selectedSubcategory.page_heading} Companies`;
+  } else if (this.selectedCategory) {
+    this.pageTitle = hasLocation
+      ? ` ${this.selectedCategory.page_heading}  in ${location}`
+      : ` ${this.selectedCategory.page_heading} `;
+  } else {
+    this.pageTitle = 'Top Category Name (Title of the page)';
+  }
+
+  console.log('Page Title:', this.pageTitle);
+
+  this.$nextTick(() => {
+    this.updateMetaTags();
+  });
+},
     toggleDescription(companyId) {
       this.$set(this.expandedDescriptions, companyId, !this.expandedDescriptions[companyId]);
     },
@@ -745,7 +822,58 @@ export default {
           }
         });
       });
+    },
+    updateMetaTags() {
+  console.log("Updating meta tagssssssssssssssssssss...");
+
+  const now = new Date();
+  const monthYear = now.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+  let title = this?.pageTitle || "Find Top Service Providers";
+  console.log("Page title:", title);
+  // title = title.replace('{month-year}', monthYear);
+
+
+  // 🟡 Pick dynamic meta data from selected category/subcategory
+  const source =
+    this.selectedDeepSkill ??
+    this.selectedSkill ??
+    this.selectedSubcategory ??
+    this.selectedCategory;
+
+  let dynamicMetaTitle = source?.meta_title || title;
+  console.log("Dynamic meta title:", dynamicMetaTitle);
+  dynamicMetaTitle = dynamicMetaTitle.replace("'{month-year}'", monthYear);
+  
+  console.log("Dynamic meta title:", dynamicMetaTitle,"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",monthYear);
+  const dynamicMetaDescription = `Explore the best companies offering services in ${title}. Filter by location, rating, and more.`;
+
+
+  // ✅ Update document title
+  document.title = `${dynamicMetaTitle} | TheyTrust`;
+
+  const setMetaTag = (name, content, property = false) => {
+    const selector = property ? `meta[property='${name}']` : `meta[name='${name}']`;
+    let tag = document.head.querySelector(selector);
+
+    if (!tag) {
+      tag = document.createElement('meta');
+      if (property) tag.setAttribute('property', name);
+      else tag.setAttribute('name', name);
+      document.head.appendChild(tag);
     }
+
+    tag.setAttribute('content', content);
+  };
+
+  setMetaTag('description', dynamicMetaDescription);
+  setMetaTag('og:title', dynamicMetaTitle, true);
+  setMetaTag('og:description', dynamicMetaDescription, true);
+  setMetaTag('og:type', 'website', true);
+  setMetaTag('og:url', window.location.href, true);
+}
+
+
   },
   watch: {
     selectedCategoryId(newVal) {
@@ -758,11 +886,11 @@ export default {
         this.fetchSkills(newVal);
       }
     },
-    selectedSkillId(newVal) {
-      if (newVal) {
-        this.fetchDeepSkills(newVal);
-      }
-    }
+    // selectedSkillId(newVal) {
+    //   if (newVal) {
+    //     this.fetchDeepSkills(newVal);
+    //   }
+    // }
   },
   created() {
     this.debouncedFetchLocations = debounce(this.fetchLocations, 300);
@@ -806,6 +934,7 @@ export default {
       this.fetchSkills(this.selectedSubcategoryId);
     }
     if (this.selectedSkillId) {
+    
       this.fetchDeepSkills(this.selectedSkillId);
     }
 

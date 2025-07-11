@@ -145,63 +145,6 @@ if (Auth::check()) {
     <hr class="mb-0">
     <div class="row align-items-center menu-row pt-2 pt-md-0">
         <div class="col-xl-12">
-            {{-- <nav class="navbar navbar-expand-lg navbar-light px-0">
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                        @foreach ($categories as $category)
-                            <li class="nav-item dropdown">
-                                <!-- Main Category -->
-                                <a class="nav-link dropdown-toggle" href="/listing/{{ $category->slug }}"
-                                    id="navbarDropdown{{ $category->id }}" role="button" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    {{ $category->category }}
-                                </a>
-
-                                @if (count($category->subcategories) > 0)
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
-                                        @foreach ($category->subcategories as $subcategory)
-                                            <!-- Subcategory -->
-                                            <a class="dropdown-item dropdown-toggle"
-                                                href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}"
-                                                id="navbarDropdownSub{{ $subcategory->id }}" role="button"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{ $subcategory->subcategory }}
-                                            </a>
-                                            <!-- Sub-subcategory -->
-                                            @if (count($subcategory->subcat_child) > 0)
-                                                <ul class="dropdown-menu">
-                                                    @foreach ($subcategory->subcat_child as $subSubcategory)
-                                                        <li>
-                                                            <a class="dropdown-item"
-                                                                href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $subSubcategory->slug }}">
-                                                                {{ $subSubcategory->name }}
-                                                            </a>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                @endif
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </nav>
-        </div>
-        <div class="col-xl-4 text-right right-menu mt-2">
-            <a href="#" class="project">Projects</a>
-            <a href="#" class="bundles">Bundles</a>
-        </div>
-    </div>
-    </ul>
-    </div>
-    </nav> --}}
     <div class="row align-items-center menu-row pt-2 pt-md-0">
         <div class="col-xl-8">
             <nav class="navbar navbar-expand-lg navbar-light px-0">
@@ -215,7 +158,7 @@ if (Auth::check()) {
                         @foreach ($categories as $category)
                             <li class="nav-item dropdown">
                                 <!-- Main Category -->
-                                <a class="nav-link dropdown-toggle" href="/listing/{{ $category->slug }}"
+                                <a class="nav-link dropdown-toggle" href="/companies/{{ $category->slug }}"
                                     id="navbarDropdown{{ $category->id }}" role="button" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                     {{ $category->category }}
@@ -228,7 +171,7 @@ if (Auth::check()) {
 
                                         <li class="dropdown-submenu">
                                             <a class="dropdown-item dropdown-toggle"
-                                                href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}"
+                                                href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}"
                                                 id="navbarDropdownSub{{ $subcategory->id }}" role="button"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 {{ $subcategory->subcategory }}
@@ -239,7 +182,7 @@ if (Auth::check()) {
                                                     @foreach ($subcategory->subcat_child as $subSubcategory)
                                                         <li>
                                                             <a class="dropdown-item"
-                                                                href="/listing/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $subSubcategory->slug }}">
+                                                                href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $subSubcategory->slug }}">
                                                                 {{ $subSubcategory->name }}
                                                             </a>
                                                         </li>

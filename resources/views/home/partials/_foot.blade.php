@@ -1,6 +1,6 @@
 
 <section>
-    </head>
+    {{-- </head> --}}
     <body>
         <section class="container-fluid footer">
         <div class="container ">

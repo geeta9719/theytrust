@@ -95,9 +95,13 @@
     document.getElementById("category").addEventListener("input", function () {
         const category = this.value.trim();
         const type = document.getElementById("title_type").value;
+
         if (category) {
+            const brandName = "They Trust Us"; // Replace with your brand name
+
+            // Update Page Heading
             document.getElementById("page_heading").value = `Top ${category} ${type}`;
-            document.getElementById("meta_title").value = `Top ${category} ${type} | They Trust Us`;
+document.getElementById("meta_title").value = `Top ${category} ${type}  '{month-year}' Rankings | They Trust Us`;
             document.getElementById("meta_description").value = `Explore the best ${category.toLowerCase()} ${type.toLowerCase()} recommended by experts.`;
             document.getElementById("slug").value = category.toLowerCase().replace(/[\s\W-]+/g, '-');
         }

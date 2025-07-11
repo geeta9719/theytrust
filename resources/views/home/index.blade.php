@@ -213,7 +213,7 @@
                     <ul>
                         @foreach($category->subcategory->take(5) as $subcategory)
                         <li><a
-                                href="{{ url('listing/'.$category->slug.'/'.$subcategory->slug) }}">{{ $subcategory->subcategory }}</a>
+                                href="{{ url('companies/'.$category->slug.'/'.$subcategory->slug) }}">{{ $subcategory->subcategory }}</a>
                         </li>
                         @endforeach
                     </ul>
@@ -237,7 +237,7 @@
                         <ul>
                             @foreach($subcategory->subcat_child->take(5) as $child)
                             <li><a
-                                    href="{{ url('listing/'.$subcategory->category->slug.'/'.$subcategory->slug.'/'.$child->slug) }}">{{ $child->name }}</a>
+                                    href="{{ url('companies/'.$subcategory->category->slug.'/'.$subcategory->slug.'/'.$child->slug) }}">{{ $child->name }}</a>
                             </li>
                             @endforeach
                         </ul>

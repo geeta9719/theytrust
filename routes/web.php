@@ -347,14 +347,23 @@ Route::post('/portfolio-items/reorder', [PortfolioItemController::class, 'reorde
 Route::post('/submit-response', [ReviewController::class,'submitResponse'])->name('submit.response');
 
 Route::get('/categories', [SearchController::class, 'getCategories']);
-// Route::get('/listing', [SearchController::class, 'listing'])->name('listing');
-// routes/web.php
-// Route::get('/listing/{category?}/{subcategory?}/{skill?}/{subskill?}', [SearchController::class, 'listing'])->name('listing');
+Route::get('{country}/{location}/companies/{category?}/{subcategory?}/{skill?}/{subskill?}', 
+[SearchController::class, 'listing']
+)->name('listing.country.location');
 
+// 2. /{country}/companies/...
+Route::get('{country}/companies/{category?}/{subcategory?}/{skill?}/{subskill?}', 
+[SearchController::class, 'listing']
+)->name('listing.country');
+
+// 1. /companies/...
+Route::get('companies/{category?}/{subcategory?}/{skill?}/{subskill?}', 
+[SearchController::class, 'listing']
+)->name('listing.global');
 Route::get('/api/categories/{id}/subcategories', [SearchController::class, 'getSubcategories']);
 Route::get('/api/subcategories/{id}/skills', [SearchController::class, 'getSkills']);
 Route::get('/api/skills/{id}/deepskills', [SearchController::class, 'getDeepSkills']);
-Route::get('/api/companies', [SearchController::class, 'index']);
+Route::get('/api/data', [SearchController::class, 'index']);
 Route::get('/api/location', [SearchController::class, 'getLocation']);
 
 Route::get('/get-companies', [ModelReferenceController::class, 'getCompaniesByForeignKey'])->name('get.companies.by.foreignkey');
@@ -366,7 +375,11 @@ Route::post('password/reset', [AuthController::class, 'reset'])->name('password.
 
 Route::middleware([ 'check.company'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('/listing/{category?}/{subcategory?}/{skill?}/{subskill?}', [SearchController::class, 'listing'])->name('listing');
+    // Route::get('{location1?}/{location2?}/listing/{category?}/{subcategory?}/{skill?}/{subskill?}', [SearchController::class, 'listing'])->name('listing');
+    // 3. /{country}/{location}/companies/...
+
+
+
     Route::get('/user/{user}/basicInfo', [UserController::class, 'basicInfo'])->name('user.basicInfo');
     Route::get('/user/{user}/allinfo', [UserController::class, 'allInfo'])->name('user.allinfo');
     Route::post('/user/saveBasicInfo', [UserController::class, 'saveBasicInfo'])->name('user.saveBasicInfo');

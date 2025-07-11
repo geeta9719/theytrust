@@ -94,9 +94,12 @@
         const type = document.getElementById("title_type").value;
 
         if (category) {
+            const brandName = "They Trust Us"; // Replace with your brand name
             const heading = `Top ${category} ${type}`;
             const slug = generateSlug(category);
-            const metaTitle = `Top ${category} ${type} | They Trust Us`;
+
+            // Static placeholder for month-year
+            const metaTitle = `Top ${category} ${type} - '{month-year}' | ${brandName}`;
             const metaDesc = `Explore the best ${category.toLowerCase()} ${type.toLowerCase()} recommended by experts.`;
 
             document.getElementById("page_heading").value = heading;
@@ -106,6 +109,7 @@
                 document.getElementById("slugHint").classList.add("d-none");
             }
 
+            // Save static data in Meta Title and Meta Description
             document.getElementById("meta_title").value = metaTitle;
             document.getElementById("meta_description").value = metaDesc;
         }
