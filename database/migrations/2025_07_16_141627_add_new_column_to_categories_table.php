@@ -13,7 +13,7 @@ class AddNewColumnToCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('subcat_children', function (Blueprint $table) {
+        Schema::table('subcategories', function (Blueprint $table) {
             $table->string('page_heading')->nullable();
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
@@ -28,7 +28,7 @@ class AddNewColumnToCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('subcat_children', function (Blueprint $table) {
+        Schema::table('subcategories', function (Blueprint $table) {
             //
         });
     }
