@@ -120,7 +120,7 @@
         if (subcatText && name) {
             const subcatSlug = generateSlug(subcatText);
             const nameSlug = generateSlug(name);
-            const fullSlug = `/${nameSlug}`;
+            const fullSlug = `${nameSlug}`;
 
             document.getElementById("slug").value = fullSlug;
             document.getElementById("page_heading").value = `Top ${name} ${type}`;
