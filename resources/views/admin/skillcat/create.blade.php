@@ -90,7 +90,7 @@
         const selectedText = dropdown.options[dropdown.selectedIndex]?.text || '';
 
         if (name && selectedText) {
-            const finalSlug = `${generateSlug(selectedText)}/${generateSlug(name)}`;
+            const finalSlug = `/${generateSlug(name)}`;
             document.getElementById("slug").value = finalSlug;
             document.getElementById("page_heading").value = `Top ${name}`;
             document.getElementById("meta_title").value = `Top ${name}  '{month-year}' Rankings| They Trust Us`;
