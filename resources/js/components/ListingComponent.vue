@@ -1,249 +1,55 @@
 <style>
-.filter-section h2 {
-  background-color: #ece4fa;
-  color: #000;
-  font-size: 18px;
-  font-weight: 700;
-  font-family: "Epilogue", sans-serif;
-  padding: 7px 11px;
-}
-
-.filters select {
-  font-size: 14px;
-  font-weight: 400;
-  font-family: "Inter", sans-serif;
-  colo: #23262a;
-
-}
-
-select {
-  -webkit-appearance: auto !important;
-  -moz-appearance: auto !important;
-  text-indent: 1px;
-
-}
-
-.company-description-box {
-  border-right: 1px solid #ccc;
-}
-
-.btn-wrap {
-  width: 100%;
-  text-align: right
-}
-
-.company-details h3 {
-  font-size: 24px !important;
-  font-weight: 700;
-  color: #171a1f !important;
-  text-transform: capitalize;
-  font-family: "Epilogue", sans-serif;
-}
-
-.btn-wrap button:hover {
-  background-color: #dee1e6;
-  color: #000;
-}
-
-.rate {
-  background: url(https://theytrust-us.developmentserver.info/img/star.png) no-repeat left center;
-}
-
-.dollar {
-  background: url(https://theytrust-us.developmentserver.info/img/dollar.png) no-repeat left center;
-
-}
-
-
-.indust {
-  background: url(https://theytrust-us.developmentserver.info/img/zig.png) no-repeat left center;
-
-}
-
-
-
-
-.btn-wrap button {
-  background-color: #dee1e6;
-  color: #000;
-}
-
-.smallselect {
-  height: 35px;
-  width: 70px;
-  background-size: 18px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 0 0px 0 18px;
-  background-position-x: 3px;
-  background-color: #fff;
-}
-
-.bigselect {
-  height: 35px;
-  width: 188px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 0 0px 0 18px;
-  text-indent: 4px;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: "Inter", sans-serif;
-  color: #23262a;
-
-}
-
-.bigselect::placeholder {
-  color: #23262a;
-}
-
-.logobox {
-  display: block;
-}
-
-
-.logobox .buttons {
-
-  display: grid;
-
-}
-
-.write-box {
-  text-align: right;
-  padding-right: 41px;
-}
-
-.service-box {
-  display: flex;
-  flex-flow:wrap;
-}
-
-.write-review-link {
-  margin-top: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-left: 12px;
-  color: #379ae6 !important;
-  text-decoration: underline;
-  display: block;
-}
-
-.company-description {
-  margin-bottom: 40px;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: "Inter", sans-serif;
-}
-
-.location-suggestions {
-  position: relative;
-}
-
-.searchlocation {
-  position: relative;
-}
-
-.searchlocation ul {
-  margin: 0;
-  padding: 0;
-}
-
-.searchlocation ul li {
-  padding: 10px;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: "Inter", sans-serif;
-  color: #23262a;
-
-}
-
-
-
-@media (max-width: 767px) {
-  .searchlocation {
-    position: absolute;
-    width: 65%;
-    border: 0;
-  }
-
-  .company-header {
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
-  }
-
-  .company-description-box {
-    border: 0;
-  }
-
-  .company-details {
-    border: 0 !important;
-  }
-
-  .company-description {
-    margin-bottom: 0;
-  }
-
-  .smallselect {
-    padding: 0;
-    width: 100%;
-
-    margin-top: 17px;
-  }
-
-  .bigselect {
-    padding: 0;
-    width: 100%;
-
-    margin-top: 17px;
-  }
-
-
-
-  .logobox {
-    display: block;
-    text-align: center;
-  }
-
-  .service-box {
-    display: flex;
-    flex-direction: column;
-  }
-}
 .loader-overlay {
   position: fixed;
   top: 0;
   left: 0;
+  background-color: rgba(255, 255, 255, 0.9);
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 }
 
-.loader {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #f3f3f3; /* Light grey */
-  border-top: 5px solid #3498db; /* Blue */
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.rocket-loader {
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  color: #333;
+  animation: float 2s ease-in-out infinite;
 }
 
-@keyframes spin {
+.rocket-loader i {
+  font-size: 48px;
+  color: #6c5ce7;
+  animation: flyUp 1s ease-in-out infinite alternate;
+}
+
+.rocket-loader span {
+  display: block;
+  margin-top: 10px;
+  font-size: 16px;
+  color: #444;
+}
+
+@keyframes flyUp {
   0% {
-    transform: rotate(0deg);
+    transform: translateY(0);
   }
   100% {
-    transform: rotate(360deg);
+    transform: translateY(-12px);
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
 </style>
-
-
 <template>
 
 
@@ -259,7 +65,13 @@ select {
         selectedSubcategory.subcategory }}</a>
     </nav>
     <div v-if="loading" class="loader-overlay">
-      <div class="loader"></div>
+      <div class="loader-overlay">
+  <div class="rocket-loader">
+    <i class="fas fa-rocket fa-bounce"></i>
+    <span>Launching your results...</span>
+  </div>
+</div>
+
     </div>
     <div class="container">
       <h1>{{ pageTitle }}</h1>
@@ -270,11 +82,12 @@ select {
         </template>
       </p>
       <div class="filter-section">
-        <!-- <h2>Discover the Globe's Best (Title of the page)</h2> -->
         <div class="filters">
           <div class="searchlocation">
             <input type="text" class="bigselect" placeholder="Search Location" v-model="searchLocation"
               @input="debouncedFetchLocations" />
+            <span v-if="searchLocation" @click="clearLocation"
+              style="position: absolute; right: 10px; top: 9px; cursor: pointer; color: red;">×</span>
             <ul v-if="locations.length" class="location-suggestions">
               <li v-for="location in locations" :key="location.id" @click="selectLocation(location)">
                 {{ location.city }}
@@ -335,10 +148,10 @@ select {
               <div class="col-md-8">
                 <h3>{{ company.name }}</h3>
                 <p>{{ company.tagline }}</p>
-                <p>{{ company?.user?.current_subscription[0]?.plan?.name ??'Free' }}</p>
-                
-                  <p> ttu_score  {{ company?.ttu_score }}</p>
-                  <p> ttu_rank  {{ company?.ttu_rank }}</p>
+                <p>{{ company?.user?.current_subscription[0]?.plan?.name ?? 'Free' }}</p>
+
+                <p> ttu_score {{ company?.ttu_score }}</p>
+                <p> ttu_rank {{ company?.ttu_rank }}</p>
               </div>
               <div class="col-md-4 write-box">
                 <p v-if="company.company_review_count">
@@ -448,6 +261,7 @@ export default {
       expandedDescriptions: {},
       sortOrder: 'asc',
       loading: false,
+      updateUrl: ''
     };
   },
   methods: {
@@ -550,7 +364,7 @@ export default {
 
       try {
         const response = await axios.get(`/api/skills/${skillId}/deepskills`);
-        console.log(response.data.deepSkills,"teteteteet");
+        console.log(response.data.deepSkills, "teteteteet");
         debugger
         this.deepSkills = response.data.deepSkills;
         debugger
@@ -607,7 +421,10 @@ export default {
       this.searchLocation = location.city;
       this.countryname = location.country_iso2;
       this.locations = [];
-      this.updateURL();
+
+      // 🔁 Trigger page update actions
+      this.updateURL();          // ✅ update URL with location
+      this.updatePageTitle();    // ✅ update meta title & description
     },
     clearSelection() {
       this.subcategories = [];
@@ -626,68 +443,14 @@ export default {
       this.selectedDeepSkillId = '';
       this.selectedDeepSkill = null;
     },
-    // updateURL() {
-    //   const pathSegments = [];
-
-    //   if (this.selectedCategoryId) {
-    //     const selectedCategory = this.categories.find(category => category.id == this.selectedCategoryId);
-    //     if (selectedCategory) {
-    //       pathSegments.push(selectedCategory.slug);
-    //     }
-    //   }
-
-    //   if (this.selectedSubcategoryId) {
-    //     const selectedSubcategory = this.subcategories.find(subcategory => subcategory.id == this.selectedSubcategoryId);
-    //     if (selectedSubcategory) {
-    //       pathSegments.push(selectedSubcategory.slug);
-    //     }
-    //   }
-
-    //   if (this.selectedSkillId) {
-    //     const selectedSkill = this.skills.find(skill => skill.id == this.selectedSkillId);
-    //     if (selectedSkill) {
-    //       pathSegments.push(selectedSkill.slug);
-    //     }
-    //   }
-
-    //   if (this.selectedDeepSkillId) {
-    //     const selectedDeepSkill = this.deepSkills.find(deepSkill => deepSkill.id == this.selectedDeepSkillId);
-    //     if (selectedDeepSkill) {
-    //       pathSegments.push(selectedDeepSkill.slug);
-    //     }
-    //   }
-
-
-    //   const query = new URLSearchParams();
-
-    //   if (this.sortOrder) query.set('order', this.sortOrder);
-    //   if (this.selectedBudgetId) query.set('budget', this.selectedBudgetId);
-    //   if (this.selectedRateId) query.set('rate', this.selectedRateId);
-    //   if (this.selectedIndustryId) query.set('industry', this.selectedIndustryId);
-    //   if (this.selectedRating) query.set('rating', this.selectedRating);
-    //   if (this.searchLocation) query.set('location', this.searchLocation);
-
-    //   const newPath = `/listing/${pathSegments.join('/')}`;
-    //   const newURL = `${newPath}${query.toString() ? `?${query.toString()}` : ''}`;
-
-    //   window.history.pushState(null, '', newURL);
-    //   // this.fetchCompanies(); // Fetch companies data when URL updates
-    //   this.loading = true;
-
-    //   this.fetchCompanies()
-    // .finally(() => {
-    //   // Set loading to false when fetch is complete
-    //   this.loading = false;
-    // });
-    // },
 
     updateURL() {
-  const pathSegments = [];
+      const pathSegments = [];
 
-  if (this.selectedCategoryId) {
-    const selectedCategory = this.categories.find(category => category.id == this.selectedCategoryId);
-    if (selectedCategory) pathSegments.push(selectedCategory.slug);
-  }
+      if (this.selectedCategoryId) {
+        const selectedCategory = this.categories.find(category => category.id == this.selectedCategoryId);
+        if (selectedCategory) pathSegments.push(selectedCategory.slug);
+      }
 
       if (this.selectedSubcategoryId) {
         const selectedSubcategory = this.subcategories.find(subcategory => subcategory.id == this.selectedSubcategoryId);
@@ -696,45 +459,46 @@ export default {
         }
       }
 
-  if (this.selectedSkillId) {
-    const selectedSkill = this.skills.find(skill => skill.id == this.selectedSkillId);
-    if (selectedSkill) pathSegments.push(selectedSkill.slug);
-  }
+      if (this.selectedSkillId) {
+        const selectedSkill = this.skills.find(skill => skill.id == this.selectedSkillId);
+        if (selectedSkill) pathSegments.push(selectedSkill.slug);
+      }
 
-  if (this.selectedDeepSkillId) {
-    const selectedDeepSkill = this.deepSkills.find(deepSkill => deepSkill.id == this.selectedDeepSkillId);
-    if (deepSkill) pathSegments.push(deepSkill.slug);
-  }
+      if (this.selectedDeepSkillId) {
+        const selectedDeepSkill = this.deepSkills.find(deepSkill => deepSkill.id == this.selectedDeepSkillId);
+        if (deepSkill) pathSegments.push(deepSkill.slug);
+      }
 
-  // ✅ Smart location prefix (only if searchLocation given)
-  let locationPrefix = '';
-  if (this.searchLocation?.trim()) {
-    const parts = this.searchLocation.trim().toLowerCase().split(/\s+/);
-    const city = parts[0];
-    const part2 = this.countryname.trim().toLowerCase().split(/\s+/);;
-    const counteryname = part2[0];
-    locationPrefix = `/${counteryname}/${city}`;
-    // locationPrefix = `/${loc1}/`;
-  }
+      // ✅ Smart location prefix (only if searchLocation given)
+      let locationPrefix = '';
+      if (this.searchLocation?.trim()) {
+        const parts = this.searchLocation.trim().toLowerCase().split(/\s+/);
+        const city = parts[0];
+        const part2 = this.countryname.trim().toLowerCase().split(/\s+/);;
+        const counteryname = part2[0];
+        locationPrefix = `/${counteryname}/${city}`;
+        // locationPrefix = `/${loc1}/`;
+      }
 
-  const query = new URLSearchParams();
-  if (this.sortOrder) query.set('order', this.sortOrder);
-  if (this.selectedBudgetId) query.set('budget', this.selectedBudgetId);
-  if (this.selectedRateId) query.set('rate', this.selectedRateId);
-  if (this.selectedIndustryId) query.set('industry', this.selectedIndustryId);
-  if (this.selectedRating) query.set('rating', this.selectedRating);
-  // if (this.searchLocation) query.set('location', this.searchLocation);
+      const query = new URLSearchParams();
+      if (this.sortOrder) query.set('order', this.sortOrder);
+      if (this.selectedBudgetId) query.set('budget', this.selectedBudgetId);
+      if (this.selectedRateId) query.set('rate', this.selectedRateId);
+      if (this.selectedIndustryId) query.set('industry', this.selectedIndustryId);
+      if (this.selectedRating) query.set('rating', this.selectedRating);
+      // if (this.searchLocation) query.set('location', this.searchLocation);
 
-  const newPath = `${locationPrefix}/companies/${pathSegments.join('/')}`;
-  const newURL = `${newPath}${query.toString() ? `?${query.toString()}` : ''}`;
+      const newPath = `${locationPrefix}/companies/${pathSegments.join('/')}`;
+      const newURL = `${newPath}${query.toString() ? `?${query.toString()}` : ''}`;
+      this.updateUrl = newURL;
 
-  window.history.pushState(null, '', newURL);
-  this.loading = true;
+      window.history.pushState(null, '', newURL);
+      this.loading = true;
 
-  this.fetchCompanies().finally(() => {
-    this.loading = false;
-  });
-},
+      this.fetchCompanies().finally(() => {
+        this.loading = false;
+      });
+    },
     resetFilters() {
       this.pageTitle = 'Top Category Name (Title of the page)';
       this.selectedCategory = null;
@@ -753,36 +517,36 @@ export default {
       this.clearSelection();
       this.updateURL();
     },
-  updatePageTitle() {
-  const hasLocation = this.searchLocation?.trim() !== '';
-  const location = this.searchLocation?.trim();
+    updatePageTitle() {
+      const hasLocation = this.searchLocation?.trim() !== '';
+      const location = this.searchLocation?.trim();
 
-  if (this.selectedDeepSkill) {
-    this.pageTitle = hasLocation
-      ? `${this.selectedDeepSkill.name} in ${location}`
-      : `${this.selectedDeepSkill.name}`;
-  } else if (this.selectedSkill) {
-    this.pageTitle = hasLocation
-      ? `${this.selectedSkill.name} ${location}`
-      : `${this.selectedSkill.name} `;
-  } else if (this.selectedSubcategory) {
-    this.pageTitle = hasLocation
-      ? `${this.selectedSubcategory.page_heading}  in ${location}`
-      : `${this.selectedSubcategory.page_heading} `;
-  } else if (this.selectedCategory) {
-    this.pageTitle = hasLocation
-      ? ` ${this.selectedCategory.page_heading}  in ${location}`
-      : ` ${this.selectedCategory.page_heading} `;
-  } else {
-    this.pageTitle = 'Top Category Name ';
-  }
+      if (this.selectedDeepSkill) {
+        this.pageTitle = hasLocation
+          ? `${this.selectedDeepSkill.name} in ${location}`
+          : `${this.selectedDeepSkill.name}`;
+      } else if (this.selectedSkill) {
+        this.pageTitle = hasLocation
+          ? `${this.selectedSkill.name} ${location}`
+          : `${this.selectedSkill.name} `;
+      } else if (this.selectedSubcategory) {
+        this.pageTitle = hasLocation
+          ? `${this.selectedSubcategory.page_heading}  in ${location}`
+          : `${this.selectedSubcategory.page_heading} `;
+      } else if (this.selectedCategory) {
+        this.pageTitle = hasLocation
+          ? ` ${this.selectedCategory.page_heading}  in ${location}`
+          : ` ${this.selectedCategory.page_heading} `;
+      } else {
+        this.pageTitle = 'Top Category Name ';
+      }
 
-  console.log('Page Title:', this.pageTitle);
+      console.log('Page Title:', this.pageTitle);
 
-  this.$nextTick(() => {
-    this.updateMetaTags();
-  });
-},
+      this.$nextTick(() => {
+        this.updateMetaTags();
+      });
+    },
     toggleDescription(companyId) {
       this.$set(this.expandedDescriptions, companyId, !this.expandedDescriptions[companyId]);
     },
@@ -824,74 +588,73 @@ export default {
       });
     },
     updateMetaTags() {
-  console.log("Updating meta tagssssssssssssssssssss...");
+      console.log("Updating meta tags...");
 
-  const now = new Date();
-  const monthYear = now.toLocaleString('default', { month: 'long', year: 'numeric' });
+      const now = new Date();
+      const month = now.toLocaleString('default', { month: 'long' });
+      const year = now.getFullYear();
+      const monthYear = `${month}-${year}`;
 
-  let title = this?.pageTitle || "Find Top Service Providers";
-  console.log("Page title:", title);
-  // title = title.replace('{month-year}', monthYear);
+      let title = this?.pageTitle || "Find Top Service Providers";
 
+      const source =
+        this.selectedDeepSkill ??
+        this.selectedSkill ??
+        this.selectedSubcategory ??
+        this.selectedCategory;
 
-  // 🟡 Pick dynamic meta data from selected category/subcategory
-  const source =
-    this.selectedDeepSkill ??
-    this.selectedSkill ??
-    this.selectedSubcategory ??
-    this.selectedCategory;
+      let dynamicMetaTitle = source?.meta_title || title;
+      dynamicMetaTitle = dynamicMetaTitle.replace("'{month-year}'", monthYear);
 
-  let dynamicMetaTitle = source?.meta_title || title;
-  console.log("Dynamic meta title:", dynamicMetaTitle);
-  dynamicMetaTitle = dynamicMetaTitle.replace("'{month-year}'", monthYear);
-  
-  const dynamicMetaDescription = `Explore the ${this.pageTitle}ranked by client reviews, team size, hourly rate, expertise and location. Find your partner today.`;
+      const dynamicMetaDescription = `Explore the ${this.pageTitle} ranked by client reviews, team size, hourly rate, expertise and location. Find your partner today.`;
 
-  console.log("Dynamic meta description:", dynamicMetaDescription);
+      // ✅ Set document title
+      document.title = `${dynamicMetaTitle}`;
 
-  console.log(": ", document.title);
-console.log("Desc: ", document.querySelector("meta[name='description']")?.getAttribute('content'));
-console.log("OG Title: ", document.querySelector("meta[property='og:title']")?.getAttribute('content'));
+      // ✅ Utility function to set or create meta tag
+      const setMetaTag = (name, content, property = false) => {
+        const selector = property ? `meta[property='${name}']` : `meta[name='${name}']`;
+        let tag = document.head.querySelector(selector);
 
+        if (!tag) {
+          tag = document.createElement('meta');
+          if (property) {
+            tag.setAttribute('property', name);
+          } else {
+            tag.setAttribute('name', name);
+          }
+          document.head.appendChild(tag);
+        }
 
+        tag.setAttribute('content', content);
+      };
 
+      // ✅ Set standard + OG tags
+      setMetaTag('description', dynamicMetaDescription);
+      setMetaTag('og:title', dynamicMetaTitle, true);
+      setMetaTag('og:description', dynamicMetaDescription, true);
+      setMetaTag('og:type', 'website', true);
+      setMetaTag('og:url', window.location.href, true);
 
-  // ✅ Update document title
-  document.title = `${dynamicMetaTitle}`;
+      // ✅ Debug logs
+      console.log("✅ Updated title: ", document.title);
+      console.log("✅ Updated description: ", document.querySelector("meta[name='description']")?.getAttribute('content'));
+      console.log("✅ Updated OG Title: ", document.querySelector("meta[property='og:title']")?.getAttribute('content'));
+    },
+    clearLocation() {
+      this.searchLocation = '';
+      this.countryname = '';
+      this.locations = [];
 
-  const setMetaTag = (name, content, property = false) => {
-  const id = property ? `meta-og-${name.split(':')[1]}` : `meta-${name}`;
-  let tag = document.getElementById(id);
+      // blur the input (optional)
+      this.$nextTick(() => {
+        const input = document.querySelector('.searchlocation input');
+        if (input) input.blur();
+      });
 
-  if (!tag) {
-    tag = document.createElement('meta');
-    if (property) {
-      tag.setAttribute('property', name);
-    } else {
-      tag.setAttribute('name', name);
+      this.updateURL();
+      this.updatePageTitle();
     }
-    tag.setAttribute('id', id);
-    document.head.appendChild(tag);
-  }
-
-  tag.setAttribute('content', content);
-  window.history.pushState(null, '', newURL);
-  this.loading = true;
-
-  
-  this.fetchCompanies().finally(() => {
-    this.loading = false;
-    this.updatePageTitle(); // ✅ add this line
-  });
-};
-
-
-  setMetaTag('description', dynamicMetaDescription);
-  setMetaTag('og:title', dynamicMetaTitle, true);
-  setMetaTag('og:description', dynamicMetaDescription, true);
-  setMetaTag('og:type', 'website', true);
-  setMetaTag('og:url', window.location.href, true);
-}
 
 
   },
@@ -954,299 +717,12 @@ console.log("OG Title: ", document.querySelector("meta[property='og:title']")?.g
       this.fetchSkills(this.selectedSubcategoryId);
     }
     if (this.selectedSkillId) {
-    
+
       this.fetchDeepSkills(this.selectedSkillId);
     }
 
-    this.updateURL();
-    this.updatePageTitle();
+    // this.updateURL();
+    // this.updatePageTitle();
   }
 };
 </script>
-
-<style>
-.category-page {
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.breadcrumb {
-  font-size: 14px;
-  margin-bottom: 20px;
-  color: #555;
-}
-
-.breadcrumb a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.breadcrumb a:hover {
-  text-decoration: underline;
-}
-
-h1 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-p {
-  font-size: 16px;
-  color: #333;
-}
-
-.company-details p a {
-  color:#379ae6;
-  text-decoration: none;
-}
-
-.company-details p a:hover {
-  text-decoration: underline;
-}
-
-.filter-section {
-  margin-top: 20px;
-  background-color: #f9f9f9;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  /* gap: 10px; */
-  justify-content: space-between;
-  align-items: center;
-}
-
-
-.filters button {
-  padding: 10px 15px;
-  font-size: 14px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.filters button:hover {
-  background-color: #007bff;
-  color:#000;
-}
-
-
-.location-suggestions {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 10;
-}
-
-.location-suggestions li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.location-suggestions li:hover {
-  background-color: #f1f1f1;
-}
-
-.result-card {
-  border: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-}
-
-.company-header {
-  display: flex;
-  gap: 20px;
-}
-
-.company-logo {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-}
-
-.company-details .company-description {
-  border-top: 1px solid #ccc;
-  padding-top: 18px;
-  margin-top: 20px;
-}
-
-.company-details p {
-  font-size: 12px;
-  font-weight: 400;
-  font-family: "Inter", sans-serif;
-  padding-left: 28px;
-}
-
-.company-details h3 {
-  padding-left: 28px;
-}
-
-.company-details h4 {
-  padding-left: 28px;
-  font-size: 16px;
-  font-weight: 700;
-  font-family: "Epilogue", sans-serif;
-  border-top: 1px solid #ccc;
-  padding-top: 34px;
-
-}
-
-.company-details .service-line {
-  padding-left: 28px;
-}
-
-.company-details {
-  flex: 1;
-  border-left: 1px solid #ccc;
-
-}
-
-.company-description,
-.company-full-description {
-
-  text-overflow: ellipsis;
-}
-
-.company-full-description.expanded {
-  max-height: none;
-}
-
-.company-service-lines {
-  margin-top: 20px;
-}
-
-.service-line {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.service-line canvas {
-  border-radius: 50%;
-}
-
-.service-line-category {
-  font-size: 14px;
-}
-
-.company-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.meta-item {
-  display: flex;
-  margin: auto;
-  width: 100%;
-}
-
-.meta-title {
-  color: #00bdd6;
-  background-color: #ebfdff;
-  border-color: #00bdd6 !important;
-  border-radius: 5px;
-  padding: 3px 21px 3px 14px;
-  font-size: 14px;
-  margin-right: 5px;
-  font-weight: 400 !important;
-  border: 0;
-  border-radius: 18px;
-  font-family: "Inter", sans-serif;
-  vertical-align: middle;
-  display: flex;
-  align-items: center;
-
-}
-
-.meta-title {
-  font-weight: bold;
-}
-
-.meta-value {
-  color: #424448;
-  font-weight: 400;
-  font-size: 14px;
-  font-family: "Inter", sans-serif;
-}
-
-.buttons {
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
-}
-
-.company-details .buttons {
-  padding-left: 28px;
-}
-
-.write-box p span {
-  font-size: 14px;
-  font-weight: 700;
-  font-family: "Epilogue", sans-serif;
-}
-
-.write-box p a {
-  font-size: 14px;
-  font-weight: 400;
-  font-family: "Inter", sans-serif;
-}
-
-.view-profile-btn:hover,
-.request-quote-btn:hover {
-  color: #000 !important;
-  text-decoration: none !important;
-}
-
-.view-profile-btn,
-.request-quote-btn {
-  padding: 6px 15px;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: "Inter", sans-serif;
-  color: #fff;
-  background-color: #00bdd6;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-align: center;
-}
-
-.view-profile-btn:hover,
-.request-quote-btn:hover {
-  background-color: #00bdd6;
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px 15px;
-  background-color: #00bdd6;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-    background-color: #00bdd6;
-    color:#000;
-}
-
-.breadcrumb a {
-  color: #00bdd6 !important;
-}
-</style>
