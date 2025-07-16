@@ -133,7 +133,7 @@
         if (categoryText && subcategoryText) {
             const categorySlug = generateSlug(categoryText);
             const subcategorySlug = generateSlug(subcategoryText);
-            const fullSlug = `/${subcategorySlug}`;
+            const fullSlug = `${subcategorySlug}`;
 
             document.getElementById("slug").value = fullSlug;
             document.getElementById("page_heading").value = `Top ${subcategoryText} ${type}`;
