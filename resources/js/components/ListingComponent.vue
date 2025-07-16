@@ -764,17 +764,17 @@ export default {
   } else if (this.selectedSkill) {
     this.pageTitle = hasLocation
       ? `${this.selectedSkill.name} ${location}`
-      : `${this.selectedSkill.name} Companies`;
+      : `${this.selectedSkill.name} `;
   } else if (this.selectedSubcategory) {
     this.pageTitle = hasLocation
       ? `${this.selectedSubcategory.page_heading}  in ${location}`
-      : `${this.selectedSubcategory.page_heading} Companies`;
+      : `${this.selectedSubcategory.page_heading} `;
   } else if (this.selectedCategory) {
     this.pageTitle = hasLocation
       ? ` ${this.selectedCategory.page_heading}  in ${location}`
       : ` ${this.selectedCategory.page_heading} `;
   } else {
-    this.pageTitle = 'Top Category Name (Title of the page)';
+    this.pageTitle = 'Top Category Name ';
   }
 
   console.log('Page Title:', this.pageTitle);
@@ -845,26 +845,46 @@ export default {
   console.log("Dynamic meta title:", dynamicMetaTitle);
   dynamicMetaTitle = dynamicMetaTitle.replace("'{month-year}'", monthYear);
   
-  console.log("Dynamic meta title:", dynamicMetaTitle,"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",monthYear);
-  const dynamicMetaDescription = `Explore the best companies offering services in ${title}. Filter by location, rating, and more.`;
+  const dynamicMetaDescription = `Explore the ${this.pageTitle}ranked by client reviews, team size, hourly rate, expertise and location. Find your partner today.`;
+
+  console.log("Dynamic meta description:", dynamicMetaDescription);
+
+  console.log(": ", document.title);
+console.log("Desc: ", document.querySelector("meta[name='description']")?.getAttribute('content'));
+console.log("OG Title: ", document.querySelector("meta[property='og:title']")?.getAttribute('content'));
+
+
 
 
   // ✅ Update document title
-  document.title = `${dynamicMetaTitle} | TheyTrust`;
+  document.title = `${dynamicMetaTitle}`;
 
   const setMetaTag = (name, content, property = false) => {
-    const selector = property ? `meta[property='${name}']` : `meta[name='${name}']`;
-    let tag = document.head.querySelector(selector);
+  const id = property ? `meta-og-${name.split(':')[1]}` : `meta-${name}`;
+  let tag = document.getElementById(id);
 
-    if (!tag) {
-      tag = document.createElement('meta');
-      if (property) tag.setAttribute('property', name);
-      else tag.setAttribute('name', name);
-      document.head.appendChild(tag);
+  if (!tag) {
+    tag = document.createElement('meta');
+    if (property) {
+      tag.setAttribute('property', name);
+    } else {
+      tag.setAttribute('name', name);
     }
+    tag.setAttribute('id', id);
+    document.head.appendChild(tag);
+  }
 
-    tag.setAttribute('content', content);
-  };
+  tag.setAttribute('content', content);
+  window.history.pushState(null, '', newURL);
+  this.loading = true;
+
+  
+  this.fetchCompanies().finally(() => {
+    this.loading = false;
+    this.updatePageTitle(); // ✅ add this line
+  });
+};
+
 
   setMetaTag('description', dynamicMetaDescription);
   setMetaTag('og:title', dynamicMetaTitle, true);
