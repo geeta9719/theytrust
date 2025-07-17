@@ -605,8 +605,17 @@ export default {
 
       let dynamicMetaTitle = source?.meta_title || title;
       dynamicMetaTitle = dynamicMetaTitle.replace("'{month-year}'", monthYear);
+  
+      const location = this.searchLocation?.trim();
+const suffix = ' | They Trust Us';
 
-      const dynamicMetaDescription = `Explore the ${this.pageTitle} ranked by client reviews, team size, hourly rate, expertise and location. Find your partner today.`;
+// Add "in Location" before the suffix if location is present
+if (location) {
+  dynamicMetaTitle = dynamicMetaTitle.replace(suffix, ` in ${location}${suffix}`);
+}
+
+
+      const dynamicMetaDescription =  `Explore the ${this.pageTitle} ranked by client reviews, team size, hourly rate, expertise and location. Find your partner today.`;
 
       // ✅ Set document title
       document.title = `${dynamicMetaTitle}`;

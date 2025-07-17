@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{{ $meta_title ?? 'TheyTrust - Find Top Providers' }}</title>
-<meta name="description" content="{{ $meta_description ?? 'Find trusted providers for all industries.' }}">
-<meta property="og:title" content="{{ $meta_title ?? 'TheyTrust - Find Top Providers' }}">
-<meta property="og:description" content="{{ $meta_description ?? 'Find trusted providers for all industries.' }}">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url()->current() }}">
+    <title id="meta-title">{{ $meta_title ?? 'TheyTrust - Find Top Providers' }}</title>
+    <meta name="description" content="{{ $meta_description ?? 'Find trusted providers for all industries.' }}" id="meta-description">
+    <meta property="og:title" content="{{ $meta_title ?? 'TheyTrust - Find Top Providers' }}" id="meta-og-title">
+    <meta property="og:description" content="{{ $meta_description ?? 'Find trusted providers for all industries.' }}" id="meta-og-description">
+    <meta property="og:type" content="website" id="meta-og-type">
+    <meta property="og:url" content="{{ url()->current() }}" id="meta-og-url">
+    
     
 
     <script type="text/javascript">
