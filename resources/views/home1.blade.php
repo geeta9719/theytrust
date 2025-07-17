@@ -161,8 +161,6 @@ select {
 
 }
 
-
-
 @media (max-width: 767px) {
   .searchlocation {
     position: absolute;
