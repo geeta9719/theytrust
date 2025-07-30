@@ -402,13 +402,19 @@ Route::get('/blog-summary/{id}', [BlogController::class, 'show'])->name('blogs.s
 
 
 Route::get('/generate-company-review', [HomeController::class, 'generateSingleCompanyReview'])->name('generateSingleCompanyReview');
-Route::get('/sitemap.xml', [SitemapController::class, 'index']);
+Route::get('/sitemap.xml', [SitemapController::class, 'htmlIndex']);
 Route::get('/sitemap-companies.xml', [SitemapController::class, 'companies']);
 Route::get('/sitemap-categories.xml', [SitemapController::class, 'categories']);
 Route::get('/sitemap-subcategories.xml', [SitemapController::class, 'subcategories']);
 
-Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages']);
+Route::get('/sitemap-pages.xml', [SitemapController::class, 'htmlPages']);
 Route::get('/sitemap-blogs.xml', [SitemapController::class, 'BlogXml']);
+Route::get('/sitemap-skills.xml', [SitemapController::class, 'htmlSkills']);
+Route::get('/sitemap-deepskills.xml', [SitemapController::class, 'htmlDeepSkills']);
+
+Route::get('sitemap', [SitemapController::class, 'htmlFullSitemap']);
+
+
 
 
 

@@ -161,9 +161,9 @@
                                                                                 <ul>
                                                                                     @foreach ($subcat_child->skill as $skill)
                                                                                         <li>
-                                                                                            <a href="{{ route('companies', [$category->slug, $subcategory->slug, $subcat_child->slug, $skill->slug]) }}">
+                                                                                            {{-- <a href="{{ route('companies', [$category->slug, $subcategory->slug, $subcat_child->slug, $skill->slug]) }}">
                                                                                                 {{ $skill->name }}
-                                                                                            </a>
+                                                                                            </a> --}}
                                                                                         </li>
                                                                                     @endforeach
                                                                                 </ul>
