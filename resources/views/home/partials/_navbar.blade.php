@@ -12,6 +12,23 @@ if (Auth::check()) {
 }
 ?>
 
+<style>
+   .dropdown-submenu {
+    position: relative;
+}
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+    display: none;
+    position: absolute;
+}
+.dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+}
+ 
+</style>
+
 
 <section class="my-header container-fluid py-3 px-lg-5">
     <div class="row align-items-center">
@@ -143,42 +160,81 @@ if (Auth::check()) {
 
 
     <hr class="mb-0">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        @foreach ($categories as $category)
-            <li class="nav-item dropdown position-relative">
-                <a class="nav-link" href="/companies/{{ $category->slug }}">
-                    {{ $category->category }}
-                </a>
-    
-                @if ($category->subcategories->count())
-                    <ul class="dropdown-menu position-absolute">
-                        @foreach ($category->subcategories as $subcategory)
-                            <li class="dropdown-submenu position-relative">
-                                <a class="dropdown-item" href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}">
-                                    {{ $subcategory->subcategory }}
+    <div class="row align-items-center menu-row pt-2 pt-md-0">
+        <div class="col-xl-12">
+    <div class="row align-items-center menu-row pt-2 pt-md-0">
+        <div class="col-xl-8">
+            <nav class="navbar navbar-expand-lg navbar-light px-0">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        @foreach ($categories as $category)
+                        <li class="nav-item dropdown">
+                            <div class="d-flex align-items-center">
+                                <!-- ✅ Clickable Main Category -->
+                                <a class="nav-link" href="/companies/{{ $category->slug }}">
+                                    {{ $category->category }}
                                 </a>
-    
-                                @if ($subcategory->subcat_child->count())
-                                    <ul class="dropdown-menu position-absolute">
-                                        @foreach ($subcategory->subcat_child as $child)
-                                            <li>
-                                                <a class="dropdown-item"
-                                                    href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $child->slug }}">
-                                                    {{ $child->name }}
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                    
+                                @if(count($category->subcategories) > 0)
+                                    <!-- ✅ Separate toggle button for dropdown -->
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"></a>
                                 @endif
-                            </li>
-                        @endforeach
+                            </div>
+                    
+                            @if(count($category->subcategories) > 0)
+                                <ul class="dropdown-menu">
+                                    @foreach($category->subcategories as $subcategory)
+                                        <li class="dropdown-submenu">
+                                            <div class="d-flex align-items-center">
+                                                <!-- ✅ Subcategory link (redirects) -->
+                                                <a class="dropdown-item" href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}">
+                                                    {{ $subcategory->subcategory }}
+                                                </a>
+                    
+                                                @if(count($subcategory->subcat_child) > 0)
+                                                    <!-- ✅ Toggle arrow for sub-subcategory -->
+                                                    <a href="#" class="dropdown-toggle dropdown-item" data-toggle="dropdown"
+                                                       style="width: auto;"></a>
+                                                @endif
+                                            </div>
+                    
+                                            @if(count($subcategory->subcat_child) > 0)
+                                                <ul class="dropdown-menu">
+                                                    @foreach($subcategory->subcat_child as $subSubcategory)
+                                                        <li>
+                                                            <a class="dropdown-item"
+                                                               href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $subSubcategory->slug }}">
+                                                                {{ $subSubcategory->name }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </li>
+                    @endforeach
+                    
+                    
                     </ul>
-                @endif
-            </li>
-        @endforeach
-    </ul>
-    
-    {{-- </div> --}}
+                </div>
+            </nav>
+        </div>
+
+        <div class="col-xl-4 text-right right-menu mt-2">
+            <a href="#" class="project">Projects</a>
+            <a href="#" class="bundles">Bundles</a>
+        </div>
+    </div>
+
+    </div>
 
     <div class="modal fade" id="emailVerificationModal" tabindex="-1" aria-labelledby="emailVerificationModalLabel"
         aria-hidden="true">
@@ -407,6 +463,18 @@ if (Auth::check()) {
 
             // Show the login modal
             $('#login-modal').modal('show');
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.dropdown-submenu > a').on("click", function (e) {
+            var submenu = $(this).next('.dropdown-menu');
+            $('.dropdown-submenu .dropdown-menu').not(submenu).hide();
+            submenu.toggle();
+            e.stopPropagation();
+            // e.preventDefault();
         });
     });
 </script>
