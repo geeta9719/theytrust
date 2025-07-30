@@ -143,70 +143,42 @@ if (Auth::check()) {
 
 
     <hr class="mb-0">
-    <div class="row align-items-center menu-row pt-2 pt-md-0">
-        <div class="col-xl-12">
-    <div class="row align-items-center menu-row pt-2 pt-md-0">
-        <div class="col-xl-8">
-            <nav class="navbar navbar-expand-lg navbar-light px-0">
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                        @foreach ($categories as $category)
-                            <li class="nav-item dropdown">
-                                <!-- Main Category -->
-                                <a class="nav-link dropdown-toggle" href="/companies/{{ $category->slug }}"
-                                    id="navbarDropdown{{ $category->id }}" role="button" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    {{ $category->category }}
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        @foreach ($categories as $category)
+            <li class="nav-item dropdown position-relative">
+                <a class="nav-link" href="/companies/{{ $category->slug }}">
+                    {{ $category->category }}
+                </a>
+    
+                @if ($category->subcategories->count())
+                    <ul class="dropdown-menu position-absolute">
+                        @foreach ($category->subcategories as $subcategory)
+                            <li class="dropdown-submenu position-relative">
+                                <a class="dropdown-item" href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}">
+                                    {{ $subcategory->subcategory }}
                                 </a>
-
-                                @if (count($category->subcategories) > 0)
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
-                                        @foreach ($category->subcategories as $subcategory)
-                                            <!-- Subcategory -->
-
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item dropdown-toggle"
-                                                href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}"
-                                                id="navbarDropdownSub{{ $subcategory->id }}" role="button"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{ $subcategory->subcategory }}
-                                            </a>
-                                            <!-- Sub-subcategory -->
-                                            @if (count($subcategory->subcat_child) > 0)
-                                                <ul class="dropdown-menu">
-                                                    @foreach ($subcategory->subcat_child as $subSubcategory)
-                                                        <li>
-                                                            <a class="dropdown-item"
-                                                                href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $subSubcategory->slug }}">
-                                                                {{ $subSubcategory->name }}
-                                                            </a>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            @endif
-                                        </li>
+    
+                                @if ($subcategory->subcat_child->count())
+                                    <ul class="dropdown-menu position-absolute">
+                                        @foreach ($subcategory->subcat_child as $child)
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $child->slug }}">
+                                                    {{ $child->name }}
+                                                </a>
+                                            </li>
                                         @endforeach
-                                     </ul>
+                                    </ul>
                                 @endif
                             </li>
                         @endforeach
                     </ul>
-                </div>
-            </nav>
-        </div>
-
-        <div class="col-xl-4 text-right right-menu mt-2">
-            <a href="#" class="project">Projects</a>
-            <a href="#" class="bundles">Bundles</a>
-        </div>
-    </div>
-
-    </div>
+                @endif
+            </li>
+        @endforeach
+    </ul>
+    
+    {{-- </div> --}}
 
     <div class="modal fade" id="emailVerificationModal" tabindex="-1" aria-labelledby="emailVerificationModalLabel"
         aria-hidden="true">

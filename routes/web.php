@@ -20,6 +20,7 @@ use App\Http\Controllers\SeosearchController;
 use App\Http\Controllers\SkillCategoryController;
 use App\Http\Controllers\ModelReferenceController;
 use App\Http\Controllers\SponceController;
+use App\Http\Controllers\SitemapController;
 
 // use App\Http\Controllers\swapcontroller;
 use App\Http\Controllers\PlanController;
@@ -401,3 +402,13 @@ Route::get('/blog-summary/{id}', [BlogController::class, 'show'])->name('blogs.s
 
 
 Route::get('/generate-company-review', [HomeController::class, 'generateSingleCompanyReview'])->name('generateSingleCompanyReview');
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
+Route::get('/sitemap-companies.xml', [SitemapController::class, 'companies']);
+Route::get('/sitemap-categories.xml', [SitemapController::class, 'categories']);
+Route::get('/sitemap-subcategories.xml', [SitemapController::class, 'subcategories']);
+
+Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages']);
+Route::get('/sitemap-blogs.xml', [SitemapController::class, 'BlogXml']);
+
+
+
