@@ -15,11 +15,11 @@ class SitemapController extends Controller
     {
         $sitemaps = [
             ['url' => url('/sitemap-pages.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
-            ['url' => url('/sitemap-profiles.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
+            // ['url' => url('/sitemap-profiles.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             ['url' => url('/sitemap-companies.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             ['url' => url('/sitemap-categories.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             ['url' => url('/sitemap-subcategories.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
-            ['url' => url('/blog/sitemap_index.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
+            // ['url' => url('/blog/sitemap_index.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             ['url' => url('/sitemap-skills.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             ['url' => url('/sitemap-deepskills.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             ['url' => url('https://theytrust.us/blog/post-sitemap.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
