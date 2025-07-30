@@ -22,6 +22,9 @@ class SitemapController extends Controller
             ['url' => url('/blog/sitemap_index.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             ['url' => url('/sitemap-skills.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             ['url' => url('/sitemap-deepskills.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
+            ['url' => url('https://theytrust.us/blog/post-sitemap.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
+            
+            
         ];
         return view('home.sitemap.index', compact('sitemaps'));
     }
