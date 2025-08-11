@@ -58,9 +58,9 @@ if (Auth::check()) {
         </div>
         <div class="col-lg-6 right-col">
             <div class="inner">
-                <a href="#">Get Listed</a>
-                <a href="#" class="posta">Post a Project</a>
-                <a href="#" class="review-btn">Review a Business</a>
+                {{-- <a href="#">Get Listed</a> --}}
+                {{-- <a href="#" class="posta">Post a Project</a> --}}
+                {{-- <a href="#" class="review-btn">Review a Business</a> --}}
             </div>
 
 
