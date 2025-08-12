@@ -898,9 +898,9 @@ function drawChart() {
         $reviews_count = CompanyReview::where('company_id', $company)->count();
 
         // Check if the user can write a review using the SubscriptionHelper
-        if (!SubscriptionHelper::canWriteReview($reviews_count)) {
-            return redirect()->route('company.getPriceListing');
-        }
+        // if (!SubscriptionHelper::canWriteReview($reviews_count)) {
+        //     return redirect()->route('company.getPriceListing');
+        // }
 
         $data['company'] = Company::find($company);
         $data['category'] = Category::All();

@@ -961,6 +961,7 @@ class SearchController extends Controller
             ->selectRaw('count(id) as review')
             ->selectRaw('avg(overall_rating) as rating')
             ->where('company_id', $company_id)
+            ->orderBy('id', 'desc') 
             ->first();
 
         $data['service_lines'] = ServiceLine::with('category')->where('company_id', $company_id)->get();

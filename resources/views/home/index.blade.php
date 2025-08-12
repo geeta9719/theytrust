@@ -57,21 +57,60 @@
             <div class="col-md-6 col-lg-4 reviewby recent mx-auto">
                 <div class="greybox">
                     <div class="d-lg-flex userbox ">
-                        <div class="d-lg-flex user-img">
+                        
+                        {{-- <div class="d-lg-flex user-img">
 
-                            <img src="{{ asset($review->company->logo) ?? asset('img/black-image.png') }}" alt=""
-                                class="img-fluid d-md-inline d-table mx-auto">
+                            <img src="{{ isset($review->company) && $review->company->logo 
+                            ? asset($review->company->logo) 
+                            : asset('img/black-image.png') }}" 
+                            alt=""
+                            class="img-fluid d-md-inline d-table mx-auto">
                             <div class="user-name text-center text-md-left">
-
-
                                  <h2>
-                                 <a href="{{ url('profile/' . $review->company->slug) }}">
-                                    {{ ucwords(strtolower($review->company->name)) }}
-
-                                </a>
+                                    @if(isset($review->company))
+                                    <a href="{{ url('profile/' . $review->company->slug) }}">
+                                        {{ ucwords(strtolower($review->company->name)) }}
+                                    </a>
+                                @else
+                                    <span>No Company</span>
+                                @endif
+                                
                             </h2>
                             </div>
+                        </div> --}}
+
+                        <div class="d-lg-flex user-img">
+                            @php
+                                $hasCompany = isset($review->company);
+                                $logo = $hasCompany && !empty($review->company->logo)
+                                    ? $review->company->logo
+                                    : asset('img/black-image.png');
+                        
+                                // Placeholder image for broken URLs
+                                $fallback = asset('img/black-image.png');
+                            @endphp
+                        
+                            <img
+                                src="{{ $logo }}"
+                                alt="{{ $hasCompany ? $review->company->name : 'No Company' }}"
+                                class="img-fluid d-md-inline d-table mx-auto"
+                                loading="lazy"
+                                onerror="this.onerror=null;this.src='{{ $fallback }}';"
+                            >
+                        
+                            <div class="user-name text-center text-md-left">
+                                <h2>
+                                    @if($hasCompany)
+                                        <a href="{{ url('profile/' . $review->company->slug) }}">
+                                            {{ ucwords(strtolower($review->company->name)) }}
+                                        </a>
+                                    @else
+                                        <span>No Company</span>
+                                    @endif
+                                </h2>
+                            </div>
                         </div>
+                        
                         <!-- <div class="text-center text-md-left reviewrate">
                             <br> {!! generateStarRating($review['overall_rating']) !!}
                         </div> -->
@@ -192,7 +231,10 @@
                             <button>{{ $review['refer_ability'] }}</button>
                         </div>
                     </div>
-                    <p class="text-md-right text-center"><a href="{{ url('/review/' . $review->company_id) }}">Read Full Review</a></p>
+                    <p class="text-md-right text-center">
+                        <a href="{{ url('/profile/' . $review->company->slug) }}#reviews">Read Full Review</a>
+                    </p>
+                    
                     <!-- <p class="text-right"><a href="#">Read Full Review</a></p> -->
                 </div>
             </div>
