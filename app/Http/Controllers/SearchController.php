@@ -45,28 +45,66 @@ class SearchController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-    public function get_location(Request $request)
-    {
-        //DB::enableQueryLog(); //start for print query
-        $data['country'] = DB::table('countries')->pluck('name', 'iso2')->all();
-        $subcategory_id = $request->subcategory_id;
-        $locations = DB::table('addresses')
-            ->join('companies', 'companies.id', '=', 'addresses.company_id')
-            ->join('service_lines', 'service_lines.company_id', '=', 'addresses.company_id')
-            ->select('addresses.id as address_id', 'addresses.state_iso2', 'addresses.country_iso2', 'addresses.city', 'addresses.address', 'companies.name')
-            ->where('service_lines.subcategory_id', $subcategory_id)
-            ->where('addresses.address', '!=', '')
-            ->groupBy('addresses.address')
-            ->get();
-        //dd(DB::getQueryLog()); //print here query
-        $html = '<option value="">Select Location</option>';
-        //print_r($data['country']);
-        foreach ($locations as $loc) {
-            $html .= "<option value='" . $loc->city . "' data-name='" . strtolower($loc->city) . "'>" . $loc->city . ", " . $data['country'][$loc->country_iso2] . "</option>";
+     public function get_location(Request $request)
+{
+    $subcategoryId = $request->subcategory_id;
+
+    // Country names (iso2 => name)
+    $countries = DB::table('countries')->pluck('name', 'iso2')->all();
+
+    // Distinct Country + City (no state)
+    $rows = DB::table('addresses')
+        ->join('companies', 'companies.id', '=', 'addresses.company_id')
+        ->join('service_lines', 'service_lines.company_id', '=', 'addresses.company_id')
+        ->select(
+            'addresses.country_iso2 as country_iso2',
+            DB::raw('TRIM(addresses.city) as city')
+        )
+        ->when($subcategoryId, fn($q) => $q->where('service_lines.subcategory_id', $subcategoryId))
+        ->whereNotNull('addresses.country_iso2')->where('addresses.country_iso2', '!=', '')
+        ->whereNotNull('addresses.city')->whereRaw('TRIM(addresses.city) != ""')
+        ->distinct()
+        ->orderBy('addresses.country_iso2')
+        ->orderBy('addresses.city')
+        ->get();
+
+    // Group cities under each country
+    $byCountry = [];
+    foreach ($rows as $r) {
+        $cIso = $r->country_iso2;
+        $city = $r->city;
+
+        if (!isset($byCountry[$cIso])) {
+            $byCountry[$cIso] = ['name' => ($countries[$cIso] ?? $cIso), 'cities' => []];
         }
-        echo $html;
-        die;
+        $byCountry[$cIso]['cities'][$city] = true; // de-dup
     }
+
+    // Build HTML
+    $html = '<option value="">Select City</option>';
+
+    foreach ($byCountry as $iso2 => $data) {
+        $countryName = e($data['name']);
+        $html .= '<optgroup label="'.$countryName.'">';
+        // Only cities (no country clickable option)
+        $cities = array_keys($data['cities']);
+        sort($cities, SORT_NATURAL | SORT_FLAG_CASE);
+        foreach ($cities as $city) {
+            $cityEsc = e($city);
+            $html .= '<option value="city|'.$iso2.'|'.$cityEsc.'" '
+                  .  'data-type="city" '
+                  .  'data-country="'.$iso2.'" '
+                  .  'data-country-name="'.$countryName.'" '
+                  .  'data-city="'.$cityEsc.'">'
+                  .  $cityEsc.', '.$countryName
+                  .  '</option>';
+        }
+        $html .= '</optgroup>';
+    }
+    echo $html; die;
+}
+
+     
 
     public function getIdByCatName($cat_name)
     {
@@ -1473,26 +1511,22 @@ class SearchController extends Controller
     public function getLocation(Request $request)
     {
         $search = $request->input('search');
-        $country = $request->input('country');
-
-        // Validate the country parameter
-        // if (!$country) {
-        //     return response()->json(['error' => 'Country parameter is required'], 400);
-        // }
-
-        // Query to get the cities based on the country and optional search term
+    
         $query = DB::table('addresses')
             ->select('*')
             ->groupBy('city');
-
-        // If a search term is provided, add a where clause for the search term
-        if ($search) {
-            $query->where('city', 'like', $search . '%');
+    
+        if (!empty($search)) {
+            $query->where(function($q) use ($search) {
+                $q->where('city', 'like', $search . '%')
+                  ->orWhere('country_iso2', 'like', $search . '%');
+            });
         }
-
+    
         $locations = $query->get();
-
+    
         return response()->json(['locations' => $locations]);
     }
+    
 
 }

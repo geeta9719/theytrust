@@ -22,30 +22,34 @@
     </div>
 </section>
 <!-- Provider Search Section -->
-<!-- <section class="container-fluid provider-sec-box">
+<section class="container-fluid provider-sec-box">
     <div class="provider-sec container">
-        <form action="{{ url('listing') }}" method="POST" id="searchForm">
-            @csrf
+        <form action="{{ url('listing') }}" method="get" id="searchForm">
             <div class="inner">
-        
                 <select class="form-control dropdown1 address" id="subcategories" name="services[]">
-                    <span>I am looking for</span>
-
+                    <option value="">I am looking for…</option>
                     @foreach($subcategories as $subcategory)
-                    <option value="{{$subcategory->id}}"
-                        data-name="{{strtolower(str_replace(' ','-',$subcategory->subcategory))}}">
-                        {{$subcategory->subcategory}}</option>
+                        <option value="{{ $subcategory->id }}"
+                            data-name="{{ $subcategory->category->slug . '/' . $subcategory->slug }}">
+                            {{ $subcategory->subcategory }}
+                        </option>
                     @endforeach
                 </select>
+                
                 <div class="d-flex align-items-center location">
-                    <select class="form-control address location dropdown2" id="locations" name="location"></select>
+                    <select class="form-control address location dropdown2" id="locations" name="location">
+                        <option value="">Select location…</option>
+                    </select>
                 </div>
-                <button class="btn btn-secondary circle-button" onclick="setAction()"> <i class="icon fa fa-search"></i>
+                
+                <button type="button" class="btn btn-secondary circle-button" id="searchBtn">
+                    <i class="icon fa fa-search"></i>
                 </button>
+                
             </div>
         </form>
     </div>
-</section> -->
+</section> 
 <!-- Recent Reviews Section -->
 <section class="container-fluid recent-reviews">
     <div class="container">
@@ -325,120 +329,105 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{asset('front_components/js/select2.min.js')}}"></script>
-    <script>
-        var setAction;
-        jQuery(document).ready(function () {
-            jQuery.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            });
-            jQuery('#subcategories').on('change', function () {
-                var subcategory_id = jQuery(this).val();
-                jQuery.ajax({
-                    url: "{{ url('get-location') }}",
-                    method: "POST",
-                    data: {
-                        subcategory_id: subcategory_id
-                    },
-                    success: function (res) {
-                        jQuery('#locations').empty().append(res);
-                    }
-                });
-            });
-            jQuery('#subcategories').trigger('change');
-            setAction = function () {
-                var service = $("#subcategories").find(':selected').data('name');
-                var location = $("#locations").find(':selected').attr('data-name');
-                if (location == undefined || location == '') {
-                    $('#searchForm').attr("action", "{{url('listing')}}/" + service);
-                } else {
-                    $('#searchForm').attr("action", "{{url('listing')}}/" + service + '/' + location);
-                }
-                $('#searchForm').submit();
-            }
-        });
-        $(document).ready(function () {
-            $('#subcategories').select2();
-        });
+   
+ {{-- <script> --}}
+ <script>
+  var setAction;
+
+  // simple slugify
+  function slugify(str) {
+    return (str || "")
+      .toString()
+      .trim()
+      .toLowerCase()
+      .normalize('NFKD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-z0-9]+/g,'-')
+      .replace(/^-+|-+$/g,'');
+  }
+
+  jQuery(function ($) {
+    $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } });
+
+    // load locations on subcategory change
+    $('#subcategories').on('change', function () {
+      var subcategory_id = $(this).val();
+      if (!subcategory_id) {
+        $('#locations').html('<option value="">Select location…</option>');
+        return;
+      }
+      $.post("{{ url('get-location') }}", { subcategory_id }, function (res) {
+        $('#locations').empty().append(res);
+        if ($('#locations').data('select2')) $('#locations').select2('destroy');
+        $('#locations').select2 && $('#locations').select2();
+        $('#locations').prop('selectedIndex', 0);
+      });
+    });
+
+    // init selects
+    $('#subcategories').select2 && $('#subcategories').select2();
+    $('#subcategories').trigger('change');
+
+    // click handler (prevents accidental submit)
+    $('#searchBtn').on('click', function () { setAction(); });
+
+    // only submits when both are valid
+    setAction = function () {
+      const $sub = $('#subcategories').find(':selected');
+      const subName = ($sub.data('name') || '').toString().trim();
+      const $loc = $('#locations').find(':selected');
+
+      // validate subcategory
+      if (!$sub.val() || !subName) {
+        alert('Please select a service first.');
+        $('#subcategories').focus();
+        return false;
+      }
+      // validate location
+      if (!$loc.length || !$loc.val()) {
+        alert('Please select a location.');
+        $('#locations').focus();
+        return false;
+      }
+
+      const type    = ($loc.data('type') || '').toString();     // 'country' | 'city'
+      const country = ($loc.data('country') || '').toString().trim();
+      const city    = ($loc.data('city') || '').toString().trim();
+
+      if (!country || !type) {
+        alert('Invalid location option. Please reselect.');
+        return false;
+      }
+
+      // optional extra segments (if you later add these selects)
+      const getSeg = (sel) => $(sel).length ? ( $(sel).find(':selected').data('name') || '' ) : '';
+      const category    = getSeg('#categories');
+      const subcategory = subName; // from #subcategories
+      const skill       = getSeg('#skills');
+      const subskill    = getSeg('#subskills');
+
+      const tail = [category, subcategory, skill, subskill]
+                    .filter(Boolean).map(slugify).join('/');
+
+      let action = '';
+      if (type === 'country') {
+        action = `/${country}/companies`;
+      } else if (type === 'city') {
+        const locationSlug = slugify(city);
+        action = `/${country}/${locationSlug}/companies`;
+      } else {
+        alert('Unsupported location type.');
+        return false;
+      }
+
+      if (tail) action += `/${subcategory}`;
+      window.location.assign(action);
+      return false; // safety
 
 
-        $(document).ready(function() {
-   function loadCompanies(foreignKey) {
-       $.ajax({
-           url: '{{ route('get.companies.by.foreignkey') }}',
-           type: 'GET',
-           data: { foreign_key_name: foreignKey },
-           success: function(response) {
-               var companiesList = $('#companies-list');
-               companiesList.empty(); // Clear previous companies
-
-               if (response.length > 0) {
-                   response.forEach(function(company) {
-                       // Generate star ratings based on the company rating
-                       var starRating = '';
-                       var rating = company.reviews; // Assume reviews is the rating value
-
-                       for (var i = 1; i <= 5; i++) {
-                           if (i <= rating) {
-                               starRating += '<span class="fa fa-star checked"></span>';
-                           } else if (i - rating < 1) {
-                               starRating += '<span class="fa fa-star-half-alt checked"></span>';
-                           } else {
-                               starRating += '<span class="fa fa-star"></span>';
-                           }
-                       }
-
-
-                       var companyHtml = '<div class="col-lg-6">' +
-                           '<div class="col2box">' +
-                               '<div class="col-md-12 ">' +
-                                   '<div class="listboxinner">' +
-                                       '<div class="row py-2">' +
-                                           '<div class="col-3 p-0">' +
-                                               '<div class="logoimage"><img src="' + company.logo + '" alt="" class="img-fluid"></div>' +
-                                           '</div>' +
-                                           '<div class="col-7 listbox">' +
-                                               '<div>' +
-                                                   '<h2>' + company.name + '</h2>' +
-                                                   '<div>' + starRating + '</div>' +
-                                                   '<a href="" class="reviewcount">' + company.reviewsCount + ' review</a>' +
-                                               '</div>' +
-                                           '</div>' +
-                                           '<div class="col-2">' +
-                                               '<img src="https://theytrust-us.developmentserver.info/front_components/images/heart.png" alt="" class="img-fluid">' +
-                                           '</div>' +
-                                       '</div>' +
-                                   '</div>' +
-                               '</div>' +
-                           '</div>' +
-                       '</div>';
-
-                       companiesList.append(companyHtml);
-                   });
-               } else {
-                   companiesList.append('<p>No companies found for this category.</p>');
-               }
-           },
-           error: function(xhr) {
-               console.log('Error:', xhr.responseText);
-           }
-       });
-   }
-
-
-   $('.foreign-key-btn').click(function() {
-       var foreignKey = $(this).data('key');
-       loadCompanies(foreignKey);
-   });
-
-
-   // Automatically trigger the first foreign_key button on page load
-   if ($('.foreign-key-btn').length > 0) {
-       $('.foreign-key-btn').first().trigger('click');
-   }
-});
-
-    </script>
+    //   $('#searchForm').attr('action', action).trigger('submit');
+      return true;
+    };
+  });
+</script>
 
     @endsection
