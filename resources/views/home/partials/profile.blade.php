@@ -63,20 +63,49 @@
     <div class="col-md-3">
         <h4 class="mb-3">Target Industries</h4>
         <div class="d-flex flex-wrap">
-            @foreach ($add_industry as $industry)
-                <span class="badge badge-light border text-dark mb-2 mr-2">
-                    {{ $industry->industry->name }}
-                </span>
-            @endforeach
+            @forelse ($add_industry as $ind)
+                @php
+                    // Adjust these property names if needed:
+                    $indName = $ind->industry->name ?? ($ind->name ?? 'Industry');
+                    $indPct  = (int) ($ind->percent ?? ($ind->percent ?? 40));
+                @endphp
+                <div class="ttu-pill d-flex align-items-center mb-3 mr-4">
+                    <canvas class="progress-circle" data-percentage="{{ $indPct }}"></canvas>
+                    <span class="ttu-pill-text ml-2">{{ $indName }}</span>
+                </div>
+            @empty
+                <div class="text-muted">No industries added.</div>
+            @endforelse
         </div>
+
     </div>
+    <div class="col-md-6 mb-4">
+    <h4 class="mb-3">Market Size</h4>
+    <div class="d-flex flex-wrap">
+        @forelse ($market_sizes as $ms)
+            @php
+                $msName = $ms->name
+                          ?? ($ms->market_size->name ?? 'Market Size'); // e.g., "1-10", "11-50", etc.
+                $msPct  = (int) ($ms->percent
+                          ?? ($ms->pivot->percent ?? 40));           // default 40 if missing
+            @endphp
+            <div class="ttu-pill d-flex align-items-center mb-3 mr-4">
+                <canvas class="progress-circle" data-percentage="{{ $msPct }}"></canvas>
+                <span class="ml-2">{{ $msName }}</span>
+            </div>
+        @empty
+            <div class="text-muted">No market size data.</div>
+        @endforelse
+    </div>
+</div>
 </div>
 
 
 <div class="border-top pt-4">
     <h4>Agency Profile</h4>
-    <p class="mb-2 text-muted short-description">{{ $company->short_description }}</p>
-    <a href="javascript:void(0);" id="read-more-btn" class="text-info text-decoration-underline">READ MORE</a>
+    <p class="mb-2 text-muted short-descriptio">{!! nl2br(e($company->short_description)) !!}
+    </p>
+    {{-- <a href="javascript:void(0);" id="read-more-btn" class="text-info text-decoration-underline">READ MORE</a> --}}
 </div>
 
 <div class="border-top pt-4">
@@ -93,3 +122,29 @@
         </div>
     </div>
 </div>
+
+<div class="container mt-3 mt-md-3 p-0 reviews-sec greybox border-bottom">
+    <h2 class="my-heading">Reviews</h2>
+
+    @if($reviews->count() > 0)
+        @foreach ($reviews->take(1) as $review)
+            <x-review :review="$review" />
+        @endforeach
+    @else
+        <p class="text-muted">This is a new company, so the user has not given a review for this company.</p>
+    @endif
+</div>
+
+<div class="container mt-3 mt-md-3 p-0 reviews-sec greybox border-bottom">
+    <h2 class="my-heading">Portfolio / Case Studies</h2>
+
+    @if($caseStudies->count() > 0)
+        @foreach ($caseStudies->take(1) as $caseStudy)
+            <x-portfolio :portfolio="$caseStudy" />
+        @endforeach
+    @else
+        <p class="text-muted">No portfolio or case study has been added for this company yet.</p>
+    @endif
+</div>
+
+

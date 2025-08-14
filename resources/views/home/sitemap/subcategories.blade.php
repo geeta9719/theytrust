@@ -21,6 +21,7 @@
         <thead>
             <tr>
                 <th>Subcategory URL</th>
+                <th>Last Modified</th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +33,7 @@
                         </a>
                     </td>
                 </tr>
+                <tr>{{ $latestDate->format('d-m-Y') }} ({{ $latestDate->diffForHumans() }})</tr>
             @endforeach
         </tbody>
     </table>

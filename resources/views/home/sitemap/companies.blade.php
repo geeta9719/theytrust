@@ -30,7 +30,8 @@
                     <td><a href="{{ url('/profile/' . $company->slug) }}" target="_blank">
                         {{ url('/profile/' . $company->slug) }}
                     </a></td>
-                    <td>{{ $company->updated_at ?? $company->created_at }}</td>
+                    <td>{{ $latestDate->format('d-m-Y') }} ({{ $latestDate->diffForHumans() }})</td>
+
                 </tr>
             @endforeach
         </tbody>

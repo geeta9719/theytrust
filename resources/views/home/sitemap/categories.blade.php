@@ -21,7 +21,7 @@
         <thead>
             <tr>
                 <th>Category URL</th>
-                <th>Status</th>
+                <th>Last Modified</th>
             </tr>
         </thead>
         <tbody>
@@ -30,7 +30,8 @@
                     <td><a href="{{ url('companies/' . $category->slug) }}" target="_blank">
                         {{ url('companies/' . $category->slug) }}
                     </a></td>
-                    <td>{{ $category->status === 0 ? 'Active' : 'Pending' }}</td>
+                    <td>{{ $latestDate->format('d-m-Y') }} ({{ $latestDate->diffForHumans() }})</td>
+
                 </tr>
             @endforeach
         </tbody>
