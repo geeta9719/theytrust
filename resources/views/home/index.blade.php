@@ -51,7 +51,7 @@
     </div>
 </section> 
 <!-- Recent Reviews Section -->
-<section class="container-fluid recent-reviews">
+<section class="container-fluid recent-reviews ">
     <div class="container">
         <h3 class="text-center">Recent Reviews</h3>
         <p class="text-center they">They Cared to Share their Experiences.</p>
@@ -60,7 +60,7 @@
             @foreach($reviews as $review)
             <div class="col-md-6 col-lg-4 reviewby recent mx-auto">
                 <div class="greybox">
-                    <div class="d-lg-flex userbox ">
+                    <div class="d-lg-flex userbox brd-line">
                         
                         {{-- <div class="d-lg-flex user-img">
 
@@ -120,7 +120,7 @@
                         </div> -->
                     </div>
                     <!-- <p class="dotted"></p> -->
-                    <div class="d-lg-flex reviewedbybox">
+                    <div class="d-lg-flex reviewedbybox review-brd">
                         <p class="dotted"></p>
                         <div class="d-lg-flex user-img ">
                             <h4> <i style="font-size:19px" class="fa"></i> Reviewed By </h4>
@@ -248,9 +248,9 @@
 </section>
 <section class="container-fluid categories-section">
     <div class="container">
-        <h3 class="text-center">Browse Providers by Category</h3>
-        <p class="text-center">Explore service providers in just a click</p>
-        <div class="row explorebox justify-content-center">
+        <h3 class="">Browse Providers by Category</h3>
+        <p class="">Explore service providers in just a click</p>
+        <div class="row explorebox ">
             @foreach($categories as $category)
             @if($category->subcategory->isNotEmpty())
             <div class="exploreinner ">
@@ -272,13 +272,13 @@
        </section>
     <section class="container-fluid skills-section">
         <div class="container">
-            <h3 class="text-center">Browse Providers by Skills</h3>
-            <p class="text-center">Explore service providers with specific skills in a click</p>
-            <div class="row justify-content-center">
+            <h3 class="">Browse Providers by Skills</h3>
+            <p class="">Explore service providers with specific skills in a click</p>
+            <div class="row ">
                 @foreach($subcategories as $subcategory)
                 @if($subcategory->subcat_child->isNotEmpty())
                 <div class="skill-box">
-                    <div class="col-md-12">
+                    <div class="col-md-12 px-0">
                         <h4>{{ $subcategory->subcategory }}</h4>
                         <ul>
                             @foreach($subcategory->subcat_child->take(5) as $child)
