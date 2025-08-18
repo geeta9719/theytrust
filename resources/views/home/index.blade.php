@@ -139,7 +139,7 @@
                             <img src="{{ $avatarUrl }}" alt=""
                                 class="img-fluid d-md-inline d-table mx-auto">
                             <div class="user-name userboxes text-center text-md-left">
-                                <h2>{{ $review->fullname }}</h2>
+                                <h2>{{ $review->full_name }}</h2>
                                 <h3>{{ $review->company_name }} | {{ $review->country }}</h3>
                                 <h4>{{ $review->position_title }} </h4>
                             </div>
