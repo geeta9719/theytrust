@@ -69,7 +69,7 @@ if (Auth::check()) {
                         data-target="#singin-modal"
                     >
                         <img
-                            src="https://theytrust-us.developmentserver.info/front_components/images/user1.png"
+                            src="https://theytrust.us/front_components/images/user1.png"
                             alt=""
                         />
                     </a>

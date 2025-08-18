@@ -1,7 +1,7 @@
 <section class="container-fluid footer">
     <div class="container text-center">
         <ul>
-            <li><a href="https://theytrust-us.developmentserver.info/">Home</a></li>
+            <li><a href="https://theytrust.us/">Home</a></li>
             <li><a href="{{ url('about') }}">About</a></li>
             <li><a href="{{ url('/sponsorship') }}">Sponsorship</a></li>
             <li><a href="{{ url('contact') }}">Contact</a></li>

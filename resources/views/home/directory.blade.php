@@ -64,7 +64,7 @@
         }
 
         .directory-blade .verified-sec a::after {
-            content: url('https://theytrust-us.developmentserver.info/front_components/images/min-arrow.png');
+            content: url('https://theytrust.us/front_components/images/min-arrow.png');
             max-width: 30px;
             margin-left: 10px;
         }
@@ -265,7 +265,7 @@
         }
 
         .logo-wrapper a h2::after {
-            content: url('https://theytrust-us.developmentserver.info/front_components/images/min-arrow.png');
+            content: url('https://theytrust.us/front_components/images/min-arrow.png');
             max-width: 30px;
             margin-left: 10px;
         }
@@ -292,7 +292,7 @@
         }
 
         .reviews-row a h3::after {
-            content: url('https://theytrust-us.developmentserver.info/front_components/images/min-arrow.png');
+            content: url('https://theytrust.us/front_components/images/min-arrow.png');
             max-width: 30px;
             margin-left: 10px;
         }
@@ -604,7 +604,7 @@
                                                     <p>{{ $cmp->tagline }}</p>
                                                     <!-- <div class="d-flex recordbox"><p>$50-$100</p> <p>50-200 Employees</p> <p>$1000</p></div>  -->
                                                 </div>
-                                                <!-- <img src="https://theytrust-us.developmentserver.info/front_components/images/logoimg.jpg" alt="" class="img-fluid"> -->
+                                                <!-- <img src="https://theytrust.us/front_components/images/logoimg.jpg" alt="" class="img-fluid"> -->
                                             </div>
                                         </div>
                                         @if (isset($rate_review[$cmp->id]))

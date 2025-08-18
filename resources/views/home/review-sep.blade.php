@@ -57,7 +57,7 @@
                     <div class="col-md-7">
                         <div class="row text-center text-md-left">
                             <div class="col-md-3 ">
-                                <img src="https://theytrust-us.developmentserver.info/storage/images/logo/JPs1fNEQ5UCGh1xu2NqD54a4QIlN4BIErWAy9NF0.png" alt="" class="img-fluid">
+                                <img src="https://theytrust.us/storage/images/logo/JPs1fNEQ5UCGh1xu2NqD54a4QIlN4BIErWAy9NF0.png" alt="" class="img-fluid">
                             </div>
                             <div class="col-md-8 mt-2 mt-md-0">
                                 <h2>{{ $reviews[0]->company->name }}</h2>
@@ -69,7 +69,7 @@
                                 <i class="fa fa-star-half-o bluestar"></i>
                                 <i class="fa fa-star-o bluestar"></i>
                             </div>
-                            <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank" class="mr-2 reviewuppercase">
+                            <a href="https://theytrust.us/profile/102#reviewsec" target="_blank" class="mr-2 reviewuppercase">
                                 {{  $reviews->count() }} REVIEWS
                             </a>
                             <a href="/company/{{ $reviews[0]->company->id }}/getReview" target="_blank" class="write">
@@ -90,10 +90,10 @@
                                 <i class="fa fa-star-half-o bluestar"></i>
                                 <i class="fa fa-star-o bluestar"></i>
                             </div>
-                            <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank" class="">
+                            <a href="https://theytrust.us/profile/102#reviewsec" target="_blank" class="">
                                 <h3>1 REVIEWS</h3>
                             </a> -->
-                            <img src="https://theytrust-us.developmentserver.info/front_components/images/score.png" alt="" class="img-fluid">
+                            <img src="https://theytrust.us/front_components/images/score.png" alt="" class="img-fluid">
                         </div>
                     </div>
                 </div>

@@ -8,8 +8,8 @@
 @section('content')
     <script src="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/js/bootstrap-multiselect.js"></script>
     <link href="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/css/bootstrap-multiselect.css" rel="stylesheet" />
-    <link href="https://theytrust-us.developmentserver.info/front_components/css/subscription-style.css" rel="stylesheet" />
-    <link href="https://theytrust-us.developmentserver.info/front_components/css/subscription.css" rel="stylesheet" />
+    <link href="https://theytrust.us/front_components/css/subscription-style.css" rel="stylesheet" />
+    <link href="https://theytrust.us/front_components/css/subscription.css" rel="stylesheet" />
     
     <section class="container-fluid agencies   " style="background: #fff;  ">
         <div class="container  ">
@@ -30,7 +30,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link annual btn" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
                                        <span class="before-txt">
-                                      <img src="https://theytrust-us.developmentserver.info/front_components/images/saving.png" alt="">
+                                      <img src="https://theytrust.us/front_components/images/saving.png" alt="">
                                         Save 50% 
                                        </span>
                                     
@@ -39,7 +39,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link yearly btn" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
                                     <span class="before-txt">
-                                      <img src="https://theytrust-us.developmentserver.info/front_components/images/fire.png" alt="">
+                                      <img src="https://theytrust.us/front_components/images/fire.png" alt="">
                                         50% + 20%
                                        </span>yearly
 

@@ -72,7 +72,7 @@
        display:inline-block;
    }
    .email-id {
-    background: url(https://theytrust-us.developmentserver.info/img/key.png) no-repeat left center;
+    background: url(https://theytrust.us/img/key.png) no-repeat left center;
     height: auto;
     width: 100%;
     background-size: 18px;
