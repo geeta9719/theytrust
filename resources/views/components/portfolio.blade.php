@@ -34,10 +34,16 @@
                 {{ $portfolio->engagement_end_date->format('F Y') }}
             </p>
         </div>
-        <div class="d-md-flex p-2 mb-2 text-center text-md-left">
-            <div class="ptitle"><button>Project Description</button></div>
-            <p>{{ $portfolio->short_description }}</p>
+        <div class="d-md-flex p-2 mb-2 text-md-left">
+            <div class="ptitle mb-2 mb-md-0">
+                <button>Project Description</button>
+            </div>
+        
+            <div class="pl-md-3 flex-fill text-left" style="max-width: 900px; word-break: break-word; line-height: 1.6;">
+                {!! $portfolio->short_description !!}
+            </div>
         </div>
+        
     </div>
     <div class="col-md-6 mb-3">
         <div class="p-2 mb-2">
@@ -48,6 +54,7 @@
                         $extension = pathinfo($media, PATHINFO_EXTENSION);
                         $isImage = in_array($extension, ['jpg', 'jpeg', 'png']);
                         $isPDF = $extension === 'pdf';
+                        // {{dd($media);}}
                         $isYouTube = strpos($media, 'youtube.com') !== false || strpos($media, 'youtu.be') !== false;
                     @endphp
 
