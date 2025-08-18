@@ -267,7 +267,7 @@
     <div class="container">
         <h3 class="text-center">Browse Providers by Category</h3>
         <p class="text-center">Explore service providers in just a click</p>
-        <div class="row explorebox justify-content-center">
+        <div class="row explorebox ">
             @foreach($categories as $category)
             @if($category->subcategory->isNotEmpty())
             <div class="exploreinner ">
@@ -291,7 +291,7 @@
         <div class="container">
             <h3 class="text-center">Browse Providers by Skills</h3>
             <p class="text-center">Explore service providers with specific skills in a click</p>
-            <div class="row justify-content-center">
+            <div class="row ">
                 @foreach($subcategories as $subcategory)
                 @if($subcategory->subcat_child->isNotEmpty())
                 <div class="skill-box">
