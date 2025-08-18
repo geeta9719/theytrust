@@ -30,8 +30,11 @@
                     <td><a href="{{ url('/profile/' . $company->slug) }}" target="_blank">
                         {{ url('/profile/' . $company->slug) }}
                     </a></td>
-                    <td>{{ $latestDate->format('d-m-Y') }} ({{ $latestDate->diffForHumans() }})</td>
-
+                    <td>
+                        {{ \Carbon\Carbon::parse($company->updated_at ?? $company->created_at)->format('d-m-Y') }}
+                        ({{ \Carbon\Carbon::parse($company->updated_at ?? $company->created_at)->diffForHumans() }})
+                    </td>
+                    
                 </tr>
             @endforeach
         </tbody>

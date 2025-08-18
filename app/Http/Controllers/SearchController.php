@@ -1004,6 +1004,7 @@ class SearchController extends Controller
 
         $data['service_lines'] = ServiceLine::with('category')->where('company_id', $company_id)->get();
         $data['add_industry'] = AddIndustry::with('industry')->where('company_id', $company_id)->get();
+        $data['market_sizes'] = AddClientSize::with('client_size')->where('company_id', $company_id)->get();
         $data['addresses'] = Address::where('company_id', $company_id)->get();
 
         $review_limit = SubscriptionHelper::getReviewLimit($company_id);

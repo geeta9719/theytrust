@@ -17,6 +17,7 @@
 <body>
     <h1>Subcategories Sitemap</h1>
     <p>This sitemap lists subcategories under their respective categories.</p>
+
     <table>
         <thead>
             <tr>
@@ -28,12 +29,15 @@
             @foreach ($subcategories as $item)
                 <tr>
                     <td>
-                        <a href="{{ url('companies/' . $item->cat_slug . '/' . $item->sub_slug) }}" target="_blank">
+                        <a href="{{ url('companies/' . $item->cat_slug . '/' . $item->sub_slug) }}" target="_blank" rel="noopener">
                             {{ url('companies/' . $item->cat_slug . '/' . $item->sub_slug) }}
                         </a>
                     </td>
+                    <td>
+                        {{ \Carbon\Carbon::parse($item->last_modified)->format('d-m-Y') }}
+                        ({{ \Carbon\Carbon::parse($item->last_modified)->diffForHumans() }})
+                    </td>
                 </tr>
-                <tr>{{ $latestDate->format('d-m-Y') }} ({{ $latestDate->diffForHumans() }})</tr>
             @endforeach
         </tbody>
     </table>

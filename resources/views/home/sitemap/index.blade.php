@@ -30,8 +30,7 @@
                 <tr>
                     <td><a href="{{ $map['url'] }}" target="_blank">{{ $map['url'] }}</a></td>
                     <td>{{ $map['lastmod'] }}</td>
-                </tr>
-                <tr>{{ $latestDate->format('d-m-Y') }} ({{ $latestDate->diffForHumans() }})</tr>
+                </tr>b                
             @endforeach
         </tbody>
     </table>

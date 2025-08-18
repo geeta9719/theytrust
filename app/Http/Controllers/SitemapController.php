@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
+
 class SitemapController extends Controller
 {
     public function htmlIndex()
@@ -64,7 +65,7 @@ class SitemapController extends Controller
     public function categories()
     {
         $categories = DB::table('categories')
-        ->select('slug', 'status')
+        ->select('slug', 'status','updated_at', 'created_at')
         ->whereIn('status', [0, 1])
         ->get();
 
@@ -72,18 +73,26 @@ class SitemapController extends Controller
     }
     
 
+    use Illuminate\Support\Facades\DB;
+
     public function subcategories()
     {
-        $subcategories = DB::table('subcategories')
-        ->join('categories', 'subcategories.category_id', '=', 'categories.id')
-        ->where('subcategories.status', 1)
-        ->whereIn('categories.status', [0, 1])
-        ->select('subcategories.slug as sub_slug', 'categories.slug as cat_slug')
-        ->get();
-
-    return view('home.sitemap.subcategories', compact('subcategories'));
+        $subcategories = \DB::table('subcategories')
+            ->join('categories', 'subcategories.category_id', '=', 'categories.id')
+            ->where('subcategories.status', 1)
+            ->whereIn('categories.status', [0, 1])
+            ->select(
+                'subcategories.slug as sub_slug',
+                'categories.slug as cat_slug',
+                \DB::raw('COALESCE(subcategories.updated_at, subcategories.created_at) as last_modified')
+            )
+            ->orderByDesc('last_modified')
+            ->get();
+    
+        return view('home.sitemap.subcategories', compact('subcategories'));
     }
     
+
     public function htmlSkills()
 {
     $skills  = DB::table('subcat_children')
