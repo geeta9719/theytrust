@@ -51,7 +51,7 @@
     </div>
 </section> 
 <!-- Recent Reviews Section -->
-<section class="container-fluid recent-reviews ">
+<section class="container-fluid recent-reviews">
     <div class="container">
         <h3 class="text-center">Recent Reviews</h3>
         <p class="text-center they">They Cared to Share their Experiences.</p>
@@ -60,7 +60,7 @@
             @foreach($reviews as $review)
             <div class="col-md-6 col-lg-4 reviewby recent mx-auto">
                 <div class="greybox">
-                    <div class="d-lg-flex userbox brd-line">
+                    <div class="d-lg-flex userbox ">
                         
                         {{-- <div class="d-lg-flex user-img">
 
@@ -120,7 +120,7 @@
                         </div> -->
                     </div>
                     <!-- <p class="dotted"></p> -->
-                    <div class="d-lg-flex reviewedbybox review-brd">
+                    <div class="d-lg-flex reviewedbybox">
                         <p class="dotted"></p>
                         <div class="d-lg-flex user-img ">
                             <h4> <i style="font-size:19px" class="fa"></i> Reviewed By </h4>
@@ -136,13 +136,30 @@
                     }
 
                 @endphp
-                            <img src="{{ $avatarUrl }}" alt=""
-                                class="img-fluid d-md-inline d-table mx-auto">
+                            <img src="{{ $avatarUrl }}" alt="" class="img-fluid d-md-inline d-table mx-auto">
                             <div class="user-name userboxes text-center text-md-left">
-                                <h2>{{ $review->full_name }}</h2>
-                                <h3>{{ $review->company_name }} | {{ $review->country }}</h3>
-                                <h4>{{ $review->position_title }} </h4>
-                            </div>
+                                <h2>
+                                  {{ $review->full_name }}
+                                  @if(!empty($review->created_at))
+                                    <small class="text-muted ml-2">
+                                      {{ \Carbon\Carbon::parse($review->created_at)->diffForHumans(['short' => true, 'parts' => 1]) }}
+                                    </small>
+                                  @endif
+                                </h2>
+                              
+                                @php
+                                  $parts = collect([
+                                    trim($review->position_title ?? ''),
+                                    trim($review->company_name ?? ''),
+                                    trim($review->country ?? ''),
+                                  ])->filter();
+                                @endphp
+                              
+                                @if($parts->isNotEmpty())
+                                  <h3>{{ $parts->implode(' | ') }}</h3>
+                                @endif
+                              </div>
+                              
                         </div>
                         <div class="text-center text-md-left reviewrate">
                             <br> {!! generateStarRating($review['overall_rating']) !!}
@@ -158,7 +175,7 @@
                         <div class="d-lg-flex reviewby pt-1">
                             <div class="ptitle mb-2 mb-lg-0"><button>Services Provided</button></div>
                             <div>
-                                <p>{{  $review->how_effective }}</p>
+                                <p>{{  $review->how_select }}</p>
                             </div>
                         </div>
                         <div class="d-lg-flex reviewby pt-1">
@@ -248,9 +265,9 @@
 </section>
 <section class="container-fluid categories-section">
     <div class="container">
-        <h3 class="">Browse Providers by Category</h3>
-        <p class="">Explore service providers in just a click</p>
-        <div class="row explorebox ">
+        <h3 class="text-center">Browse Providers by Category</h3>
+        <p class="text-center">Explore service providers in just a click</p>
+        <div class="row explorebox justify-content-center">
             @foreach($categories as $category)
             @if($category->subcategory->isNotEmpty())
             <div class="exploreinner ">
@@ -272,13 +289,13 @@
        </section>
     <section class="container-fluid skills-section">
         <div class="container">
-            <h3 class="">Browse Providers by Skills</h3>
-            <p class="">Explore service providers with specific skills in a click</p>
-            <div class="row ">
+            <h3 class="text-center">Browse Providers by Skills</h3>
+            <p class="text-center">Explore service providers with specific skills in a click</p>
+            <div class="row justify-content-center">
                 @foreach($subcategories as $subcategory)
                 @if($subcategory->subcat_child->isNotEmpty())
                 <div class="skill-box">
-                    <div class="col-md-12 px-0">
+                    <div class="col-md-12">
                         <h4>{{ $subcategory->subcategory }}</h4>
                         <ul>
                             @foreach($subcategory->subcat_child->take(5) as $child)
