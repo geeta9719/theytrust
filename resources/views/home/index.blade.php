@@ -60,7 +60,7 @@
             @foreach($reviews as $review)
             <div class="col-md-6 col-lg-4 reviewby recent mx-auto">
                 <div class="greybox">
-                    <div class="d-lg-flex userbox ">
+                    <div class="d-lg-flex userbox brd-line">
                         
                         {{-- <div class="d-lg-flex user-img">
 
@@ -120,7 +120,7 @@
                         </div> -->
                     </div>
                     <!-- <p class="dotted"></p> -->
-                    <div class="d-lg-flex reviewedbybox">
+                    <div class="d-lg-flex reviewedbybox review-brd">
                         <p class="dotted"></p>
                         <div class="d-lg-flex user-img ">
                             <h4> <i style="font-size:19px" class="fa"></i> Reviewed By </h4>
@@ -128,14 +128,14 @@
                     </div>
                     <div class="d-lg-flex userbox">
                         <div class="d-lg-flex user-img ">
-                @php
+                       @php
                        $avatarUrl = $review->user->avatar ??
                        "https://theytrust.us/front_components/images/logo.png";
                        if (!Str::startsWith($avatarUrl, ['http://', 'https://'])) {
                        $avatarUrl = url($avatarUrl);
-                    }
+                       }
 
-                @endphp
+                          @endphp
                             <img src="{{ $avatarUrl }}" alt="" class="img-fluid d-md-inline d-table mx-auto">
                             <div class="user-name userboxes text-center text-md-left">
                                 <h2>
@@ -165,6 +165,9 @@
                             <br> {!! generateStarRating($review['overall_rating']) !!}
                         </div>
                     </div>
+
+
+                    
                     <div class="user-col">
                         <div class="d-lg-flex reviewby pt-2">
                             <div class="ptitle mb-2 mb-lg-0"><button>Project Type</button></div>
