@@ -51,15 +51,15 @@
 
 <!-- Recent Reviews Section -->
 <section class="container-fluid recent-reviews">
-    <div class="container">
+    <div class="">
         <h3 class="text-center">Recent Reviews</h3>
         <p class="text-center they">They Cared to Share their Experiences.</p>
         <div class="row">
             @foreach($reviews as $review)
-                <div class="col-md-6 col-lg-4 reviewby recent mx-auto">
+                <div class="col-md-12 col-lg-4  reviewby recent mx-auto">
                     <div class="greybox">
-                        <div class="d-lg-flex userbox brd-line">
-                            <div class="d-lg-flex user-img">
+                        <div class="d-lg-flex  userbox brd-line">
+                            <div class="d-lg-flex d-md-flex user-img">
                                 @php
                                     $hasCompany = isset($review->company);
                                     $logo = $hasCompany && !empty($review->company->logo)
@@ -90,11 +90,14 @@
                         <div class="d-lg-flex reviewedbybox review-brd">
                             <p class="dotted"></p>
                             <div class="d-lg-flex user-img">
-                                <h4><i style="font-size:19px" class="fa"></i> Reviewed By</h4>
+                                <h4>
+                                   <i style="font-size:19px" class="fa"></i>
+                                <!-- <img src="https://theytrust.us/front_components/images/icon-comment.png" class="img-fluid" alt=""> -->
+                                 Reviewed By</h4>
                             </div>
                         </div>
                         <div class="d-lg-flex userbox">
-                            <div class="d-lg-flex user-img">
+                            <div class="d-lg-flex d-md-flex user-img">
                                 @php
                                     $avatarUrl = $review->user->avatar ?? "https://theytrust.us/front_components/images/logo.png";
                                     if (!Str::startsWith($avatarUrl, ['http://', 'https://'])) {
@@ -119,7 +122,7 @@
                                         ])->filter();
                                     @endphp
                                     @if($parts->isNotEmpty())
-                                        <h3>{{ $parts->implode(' | ') }}</h3>
+                                        
                                     @endif
                                 </div>
                                 
@@ -131,31 +134,31 @@
                         </div>
                         <h3>{{ $parts->implode(' | ') }}</h3>
                         <div class="user-col">
-                            <div class="d-lg-flex reviewby pt-2">
+                            <div class="d-flex align-items-center reviewby pt-2">
                                 <div class="ptitle mb-2 mb-lg-0"><button>Project Type</button></div>
                                 <div>
                                     <p>{{ $review['project_type'] }}</p>
                                 </div>
                             </div>
-                            <div class="d-lg-flex reviewby pt-1">
+                            <div class="d-flex align-items-center reviewby pt-2">
                                 <div class="ptitle mb-2 mb-lg-0"><button>Services Provided</button></div>
                                 <div>
                                     <p>{{ $review->how_select }}</p>
                                 </div>
                             </div>
-                            <div class="d-lg-flex reviewby pt-1">
+                            <div class="d-flex align-items-center reviewby pt-2">
                                 <div class="ptitle mb-2 mb-lg-0"><button>Project Value</button></div>
                                 <div>
                                     <p>{{ $review['cost_range'] }}</p>
                                 </div>
                             </div>
-                            <div class="d-lg-flex reviewby pt-1">
+                            <div class="d-flex align-items-center reviewby pt-2">
                                 <div class="ptitle mb-2 mb-lg-0"><button>Client Size</button></div>
                                 <div>
                                     <p>{{ $review['company_size'] }}</p>
                                 </div>
                             </div>
-                            <div class="d-lg-flex reviewby pt-1">
+                            <div class="d-flex align-items-center reviewby pt-2">
                                 <div class="ptitle mb-2 mb-lg-0"><button>Client Industry</button></div>
                                 <div>
                                     <p>{{ $review['client_industry'] }}</p>
@@ -189,9 +192,17 @@
 
 <!-- Categories Section -->
 <section class="container-fluid categories-section">
-    <div class="container">
-        <h3 class="text-center">Browse Providers by Category</h3>
-        <p class="text-center">Explore service providers in just a click</p>
+    <div class="">
+        <div class="row">
+          <div class="col-md-6">  <h3 class="">Browse Providers by Category</h3>
+          <p class="">Explore service providers in just a click</p></div>
+          <div class="col-md-6">
+            <p class="text-md-right text-center browse my-4">
+            <a href="{{ url('providers/category/') }}">Browse All Providers ></a>
+            </p>
+             </div>
+        </div>
+      
         <div class="row explorebox">
             @foreach($categories as $category)
                 @if($category->subcategory->isNotEmpty())
@@ -212,22 +223,30 @@
                 @endif
             @endforeach
         </div>
-        <p class="text-md-right text-center browse my-4">
-            <a href="{{ url('providers/category/') }}">Browse All Providers ></a>
-        </p>
+     
     </div>
 </section>
 
 <!-- Skills Section -->
 <section class="container-fluid skills-section">
-    <div class="container">
-        <h3 class="text-center">Browse Providers by Skills</h3>
-        <p class="text-center">Explore service providers with specific skills in a click</p>
+    <div class="">
+
+ <div class="row">
+          <div class="col-md-6">   <h3 class="">Browse Providers by Skills</h3>
+        <p class="">Explore service providers with specific skills in a click</p></div>
+          <div class="col-md-6">
+           <p class="text-md-right text-center browse my-4">
+            <a href="{{ url('skills') }}">Browse All Skills ></a>
+        </p>
+             </div>
+        </div>
+
+       
         <div class="row">
             @foreach($subcategories as $subcategory)
                 @if($subcategory->subcat_child->isNotEmpty())
                     <div class="skill-box">
-                        <div class="col-md-12">
+                        <div class="col-md-12 pl-2">
                             <h4>{{ $subcategory->subcategory }}</h4>
                             <ul>
                                 @foreach($subcategory->subcat_child->take(5) as $child)
@@ -243,15 +262,13 @@
                 @endif
             @endforeach
         </div>
-        <p class="text-md-right text-center browse my-4">
-            <a href="{{ url('skills') }}">Browse All Skills ></a>
-        </p>
+        
     </div>
 </section>
 
 <!-- Movers Section -->
 <section class="container-fluid movers-section">
-    <div class="container">
+    <div class="">
         <h3 class="text-center">Movers & Shakers - Popular Skills</h3>
         <p class="text-center">Explore businesses from some of the most popular service categories</p>
         <div class="row mt-5">
