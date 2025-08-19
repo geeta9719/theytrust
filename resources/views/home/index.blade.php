@@ -172,7 +172,7 @@
                         <div class="qualitybox row">
                             @foreach(['quality', 'timeliness', 'cost', 'expertise', 'communication', 'ease_of_working', 'refer_ability'] as $rating)
                                 <div class="pt-4 qualityreview">
-                                    <button>{{ ucfirst($rating) }}</button>
+                                    <button>{{ ucwords(str_replace('_', ' ', $rating)) }}</button>
                                     <div class="star d-flex">
                                         {!! generateStarRating($review[$rating]) !!}
                                     </div>
