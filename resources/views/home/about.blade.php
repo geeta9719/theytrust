@@ -70,14 +70,14 @@
 		<div class="row pt-5 mt-4 equal">
 			<div class="col-lg-3 col-md-6 px-4 px-md-1">
 				<div class="agenciesbox">
-					<img src="https://theytrust-us.developmentserver.info/front_components/images/icons.png" alt="">
+					<img src="https://theytrust.us/front_components/images/icons.png" alt="">
 					<h3>Share critical products and business  information. </h3>
 
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-6 px-4 px-md-1">
 				<div class="agenciesbox">
-					<img src="https://theytrust-us.developmentserver.info/front_components/images/icons.png" alt="">
+					<img src="https://theytrust.us/front_components/images/icons.png" alt="">
 					<h3>
      Build relationships between service seekers and providers.
 
@@ -87,20 +87,20 @@
 			</div>
 			<div class="col-lg-3 col-md-6 px-4 px-md-1">
 				<div class="agenciesbox">
-					<img src="https://theytrust-us.developmentserver.info/front_components/images/icons.png" alt="">
+					<img src="https://theytrust.us/front_components/images/icons.png" alt="">
 					<h3>Treat our customer’s information as our valuable business asset.</h3>
 
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-6 px-4 px-md-1">
 				<div class="agenciesbox">
-					<img src="https://theytrust-us.developmentserver.info/front_components/images/icons.png" alt="">
+					<img src="https://theytrust.us/front_components/images/icons.png" alt="">
 					<h3>Ensure unbiased and authentic reviews to bring honesty to the market.</h3>
 
 				</div>
 			</div>
 		</div>
-		<a href="https://theytrust-us.developmentserver.info/company/104/dashboard" class="btn btn-primary animated fadeInRight slower go mt-5  mb-5">Join TheyTrustUs
+		<a href="https://theytrust.us/company/104/dashboard" class="btn btn-primary animated fadeInRight slower go mt-5  mb-5">Join TheyTrustUs
 
  <span style="margin-left: 3px; font-weight: 900;">&gt;</span></a>
 	</div>
