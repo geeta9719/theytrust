@@ -5,18 +5,26 @@
 if (!function_exists('generateStarRating')) {
     function generateStarRating($rating)
     {
+        // clamp and round to nearest 0.5
+        $rating = max(0, min(5, round($rating * 2) / 2));
+
         $stars = '';
-        for ($i = 0; $i < 5; $i++) {
-            if ($rating > $i) {
+        for ($i = 1; $i <= 5; $i++) {
+            if ($rating >= $i) {
+                // full star
                 $stars .= '<i class="fa fa-star bluestar"></i>';
-            }
-            else {
+            } elseif ($rating >= ($i - 0.5)) {
+                // half star
+                $stars .= '<i class="fa fa-star-half-o bluestar"></i>';
+            } else {
+                // empty star
                 $stars .= '<i class="fa fa-star-o bluestar"></i>';
             }
         }
         return $stars;
     }
 }
+
 
 // app/helpers.php
 
