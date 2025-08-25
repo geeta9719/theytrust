@@ -415,6 +415,50 @@
     </head>
 
     <body>
+        {{-- BREADCRUMB (paste above the tabs container) --}}
+<nav aria-label="breadcrumb" class="container mt-2">
+    <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+      {{-- Home --}}
+      <li class="breadcrumb-item"
+          itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{ route('home') }}" itemprop="item">
+          <span itemprop="name">Home</span>
+        </a>
+        <meta itemprop="position" content="1">
+      </li>
+  
+      {{-- Listing --}}
+      <li class="breadcrumb-item"
+          itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{ route('listing.global') }}" itemprop="item">
+          <span itemprop="name">Listing</span>
+        </a>
+        <meta itemprop="position" content="2">
+      </li>
+  
+      {{-- Agency Name (linkable) --}}
+      @php
+        $agencyName = $agency->name ?? ($company->name ?? 'Agency Name');
+        $agencySlug = $agency->slug ?? ($company->slug ?? 'agency-slug');
+      @endphp
+      <li class="breadcrumb-item"
+          itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="" itemprop="item">
+          <span itemprop="name">{{ $agencyName }}</span>
+        </a>
+        <meta itemprop="position" content="3">
+      </li>
+  
+      {{-- Profile (current page, no link) --}}
+      <li class="breadcrumb-item active"
+          aria-current="page"
+          itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">Profile</span>
+        <meta itemprop="position" content="4">
+      </li>
+    </ol>
+  </nav>
+  
         <div class="container portfolio-top">
             <ul id="tabs-nav">
                 <li><a href="#profile"><i class="fa" style="font-size: 17px"></i> PROFILE</a></li>
