@@ -265,21 +265,15 @@ font-family: "Epilogue", sans-serif;
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5 text-md-right">
-                        <div class="reviews-row text-center ">
-                            <!-- <h3>3.5 </h3>
-                            <div class="px-3"><i class="fa fa-star bluestar"></i>
-                                <i class="fa fa-star bluestar"></i>
-                                <i class="fa fa-star bluestar"></i>
-                                <i class="fa fa-star-half-o bluestar"></i>
-                                <i class="fa fa-star-o bluestar"></i>
-                            </div>
-                            <a href="https://theytrust-us.developmentserver.info/profile/102#reviewsec" target="_blank" class="">
-                                <h3>1 REVIEWS</h3>
-                            </a> -->
-                            <img src="https://theytrust-us.developmentserver.info/front_components/images/score.png" alt="" class="img-fluid">
-                        </div>
-                    </div>
+                    <div class="col-md-3 text-left pl-0 graph">
+                      <div class="d-flex justify-content-center align-items-center"><img src="/front_components/images/logo1.png" class="mb-2 graph-img"  /><span class=" font-weight-bold">{{ number_format($company->ttu_score, 0) }} / 100</span> </div> 
+                       <svg viewBox="0 0 36 18" class="w-100" style="height: 60px;">
+                           <path d="M2 16 a14 14 0 0 1 32 0" fill="none" stroke="#e6e6e6" stroke-width="2" />
+                           <path d="M2 16 a14 14 0 0 1 32 0" fill="none" stroke="#00bdd6" stroke-width="2" stroke-dasharray="{{ ($company->ttu_score / 100) * 50 }} 50" />
+                       </svg>
+                       <!-- <div class="font-weight-bold">{{ number_format($company->ttu_score, 0) }} / 100</div> -->
+                   
+                   </div>
                 </div>
                 <div class="container mt-1 reviews-sec greybox">
                     <!-- <h2 class="my-heading"> Reviews </h2> -->
