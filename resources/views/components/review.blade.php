@@ -7,7 +7,11 @@
 
 {{-- <div class="container  mt-3 mt-md-2 p-0 reviews-sec greybox"> --}}
 {{-- <h2 class="my-heading"> Reviews </h2> --}}
-<h4 class="headingtxt">{{ $review->project_type }}</h4>
+<h4 class="">{{ $review->project_type }}</h4>
+ <h3 class="sidebar">
+            <i style="font-size: 24px" class="fa">&#xf27b;</i>
+            Reviewed By
+        </h3>
 @if (in_array($review->company_id, $userCompanyIds))
     <!-- <div class="mt-2">
     <button type="button" class="btn btn-respond" data-toggle="modal" data-target="#respondModal">
@@ -16,14 +20,11 @@
 </div> -->
 @endif
 
-<div class="row p-md-4 p-0 sidebar-review-box">
-    <div class="col-md-4 greybox">
-        <h3 class="sidebar">
-            <i style="font-size: 24px" class="fa">&#xf27b;</i>
-            Reviewed By
-        </h3>
-        <div class="d-lg-flex userbox">
-            <div class="d-lg-flex user-img">
+<div class="row pt-md-0 px-md-4 p-0 sidebar-review-box">
+    <div class="col-md-4 greybox pb-md-3 pb-2 mb-md-3 pb-0">
+       
+        <div class="d-lg-flex userbox mt-md-4">
+            <div class="d-lg-flex  user-img">
                 @php
                     $avatarUrl = $review->user->avatar ?? 'https://theytrust.us/front_components/images/logo.png';
                     if (! Str::startsWith($avatarUrl, ['http://', 'https://'])) {
@@ -47,25 +48,25 @@
         </div>
         <div class="user-col">
             <div class="d-lg-flex reviewby pt-2">
-                <div class="ptitle mb-2 mb-lg-0"><button>Project Type</button></div>
+                <div class="ptitle mb-0 mb-lg-0"><button>Project Type</button></div>
                 <div>
                     <p>{{ $review['project_type'] }}</p>
                 </div>
             </div>
             <div class="d-lg-flex reviewby pt-1">
-                <div class="ptitle mb-2 mb-lg-0"><button>Services Provided</button></div>
+                <div class="ptitle mb-0 mb-lg-0"><button>Services Provided</button></div>
                 <div>
                     <p>{{ $review->how_effective }}</p>
                 </div>
             </div>
             <div class="d-lg-flex reviewby pt-1">
-                <div class="ptitle mb-2 mb-lg-0"><button>Project Value</button></div>
+                <div class="ptitle mb-0 mb-lg-0"><button>Project Value</button></div>
                 <div>
                     <p>{{ $review['cost_range'] }}</p>
                 </div>
             </div>
             <div class="d-lg-flex reviewby pt-1">
-                <div class="ptitle mb-2 mb-lg-0"><button>Project Duration</button></div>
+                <div class="ptitle mb-0 mb-lg-0"><button>Project Duration</button></div>
                 <div>
                     <p>
                         {{ Carbon::parse($review['project_start_date'])->format('F Y') }} -
@@ -74,13 +75,13 @@
                 </div>
             </div>
             <div class="d-lg-flex reviewby pt-1">
-                <div class="ptitle mb-2 mb-lg-0"><button>Client Size</button></div>
+                <div class="ptitle mb-0 mb-lg-0"><button>Client Size</button></div>
                 <div>
                     <p>{{ $review['company_size'] }}</p>
                 </div>
             </div>
             <div class="d-lg-flex reviewby pt-1 pb-2">
-                <div class="ptitle mb-2 mb-lg-0"><button>Client Industry</button></div>
+                <div class="ptitle mb-0 mb-lg-0"><button>Client Industry</button></div>
                 <div>
                     <p>{{ $review['client_industry'] }}</p>
                 </div>
@@ -90,7 +91,7 @@
         <div class="d-flex reviewby">
             <div class="ptitle"><button>Project Title</button></div>
         </div>
-        <div class="qualitybox row">
+        <div class="mx-md-2 mx-0 row">
             <div class="pt-4 qualityreview">
                 <button>Quality</button>
                 <div class="star d-flex">
@@ -328,7 +329,8 @@
             font-size: 20px;
         }
 
-        /* .portfolio .bluestar {
+        /* .portfolio 
+         {
             color: #388cff;
         } */
 
@@ -585,16 +587,16 @@
         }
 
         .portfolio .sidebar-review-box .qualityreview button {
-            color: #000;
-            background-color: #f2f3f5 !important;
-            border-color: #f2f3f5 !important;
-            border-radius: 5px;
-            padding: 3px 8px 7px 8px;
-            font-size: 13px;
-            margin-right: 5px;
-            font-weight: bold;
-            border: 0;
-            border-radius: 14px;
+               color: #000;
+    background-color: #f2f3f5 !important;
+    border-color: #f2f3f5 !important;
+    border-radius: 5px;
+    padding: 3px 8px 7px 8px;
+ font-size: 11px !important;
+    margin-right: 5px;
+    font-weight: 700;
+    border: 0;
+    border-radius: 14px;
         }
 
         .checked {
@@ -611,6 +613,10 @@
 
         .tabs-nav .active {
             background-color: #565e6b;
+        }
+        .bluestar{
+            color: #f2c43f!important;
+                font-size: 14px!important;
         }
 
         /* .portfolio .bluestar {
@@ -815,7 +821,7 @@
         }
         .sidebar-review-box .userbox img {
             width: 46px;
-            height: 46px;
+            height: auto;
             border-radius: 50%;
         }
         .sidebar-review-box .user-name {
@@ -878,7 +884,9 @@
             border-radius: 14px;
             font-family: 'Epilogue', sans-serif;
         }
-
+.fa {
+    margin-right: 2px!important;
+}
         @media (max-width: 1199px) {
             .portfolio .reviews-sec h3 {
                 font-size: 18px;

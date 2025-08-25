@@ -50,7 +50,7 @@
 </section>
 
 <!-- Recent Reviews Section -->
-<section class="container-fluid recent-reviews">
+<section class="container-fluid recent-reviews home-review">
     <div class="">
         <h3 class="text-center">Recent Reviews</h3>
         <p class="text-center they">They Cared to Share their Experiences.</p>

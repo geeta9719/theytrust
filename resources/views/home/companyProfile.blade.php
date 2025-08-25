@@ -207,6 +207,11 @@
 
             .portfolio-top #tabs-nav li a {
                 text-decoration: none;
+                color: #85878b;
+                font-size: 15px;
+            }
+              .portfolio-top #tabs-nav li .purple {
+                text-decoration: none;
                 color: #fff;
                 font-size: 15px;
             }
@@ -417,8 +422,8 @@
                 <li><a href="#portfolio"><i class="fa" style="font-size: 17px"></i> PORTFOLIO</a></li>
                 <li><a href="#bundles"><i class="fa" style="font-size: 17px"></i> BUNDLES</a></li>
                 <li><a href="#projects"><i class="fa" style="font-size: 17px"></i> PROJECTS</a></li>
-                <li><a href="#quote" class="purple"><i class="fa" style="font-size: 17px"></i> REQUEST A QUOTE</a></li>
-                <li><a href="#www" class="purple"><i class="fa" style="font-size: 17px"></i> WWW</a></li>
+                <li class="purple"><a href="#quote" class="purple"><i class="fa" style="font-size: 17px"></i> REQUEST A QUOTE</a></li>
+                <li class="purple"><a href="#www" class="purple"><i class="fa" style="font-size: 17px"></i> WWW</a></li>
             </ul>
         </div>
         

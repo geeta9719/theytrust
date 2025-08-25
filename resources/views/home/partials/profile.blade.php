@@ -1,10 +1,10 @@
-<div class="row align-items-center mb-4">
-    <div class="col-md-3 text-center">
+<div class="row align-items-center company-profile-sec mb-4">
+    <div class="col-md-2 text-left pl-0">
         <img src="{{ asset($company->logo ?? 'public/images/default-logo.png') }}" class="img-fluid border" style="max-height: 150px;" />
     </div>
-    <div class="col-md-6">
-        <h2 class="h3 font-weight-bold">{{ $company->name }}</h2>
-        <h4 class="h5 text-muted">{{ $company->tagline }}</h4>
+    <div class="col-md-7">
+        <h2 class="h3 font-weight-bold company-name">{{ $company->name }}</h2>
+        <h4 class="h5 text-muted tagline">{{ $company->tagline }}</h4>
         <div class="d-flex align-items-center flex-wrap mt-2">
             <div class="mr-3 d-flex align-items-center">
                 <h3 class="bg-info text-white rounded-circle p-3 mb-0">{{ number_format($rate_review->rating, 1) }}</h3>
@@ -29,22 +29,23 @@
             </div>
         </div>
         <div class="mt-3 d-flex flex-wrap">
-            <div class="mr-4"><strong>Hourly Rate:</strong> {{ $company->rate }}</div>
-            <div class="mr-4"><strong># of Employees:</strong> {{ $company->size }}</div>
-            <div><strong>Min Project Size:</strong> {{ $company->budget }}</div>
+            <div class="mr-4 rate-box"><strong>Hourly Rate:</strong><span> {{ $company->rate }}</span></div>
+            <div class="mr-4  rate-box"><strong># of Employees:</strong><span> {{ $company->size }}</span></div>
+            <div class="rate-box"><strong>Min Project Size:</strong> <span>{{ $company->budget }}</span></div>
         </div>
     </div>
-    <div class="col-md-3 text-center">
-        <img src="/front_components/images/logo.png" class="mb-2" style="max-width: 60px;" />
+    <div class="col-md-3 text-left pl-0 graph">
+       <div class="d-flex justify-content-center align-items-center"><img src="/front_components/images/logo.png" class="mb-2 graph-img"  /><span class=" font-weight-bold">{{ number_format($company->ttu_score, 0) }} / 100</span> </div> 
         <svg viewBox="0 0 36 18" class="w-100" style="height: 60px;">
             <path d="M2 16 a14 14 0 0 1 32 0" fill="none" stroke="#e6e6e6" stroke-width="2" />
             <path d="M2 16 a14 14 0 0 1 32 0" fill="none" stroke="#00bdd6" stroke-width="2" stroke-dasharray="{{ ($company->ttu_score / 100) * 50 }} 50" />
         </svg>
-        <div class="mt-2 font-weight-bold">{{ number_format($company->ttu_score, 0) }} / 100</div>
+        <!-- <div class="font-weight-bold">{{ number_format($company->ttu_score, 0) }} / 100</div> -->
+    
     </div>
 </div>
 
-<div class="row border-top pt-4">
+<div class="row border-top pt-4 target-service-area-sec">
     <div class="col-md-9">
         <h4 class="mb-3">Target Services Area</h4>
         <div class="row">
@@ -60,7 +61,7 @@
             @endforeach
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 target-box">
         <h4 class="mb-3">Target Industries</h4>
         <div class="d-flex flex-wrap">
             @forelse ($add_industry as $ind)
@@ -69,7 +70,7 @@
                     $indName = $ind->industry->name ?? ($ind->name ?? 'Industry');
                     $indPct  = (int) ($ind->percent ?? ($ind->percent ?? 40));
                 @endphp
-                <div class="ttu-pill d-flex align-items-center mb-3 mr-4">
+                <div class="ttu-pill d-flex align-items-center mb-3 ">
                     <canvas class="progress-circle" data-percentage="{{ $indPct }}"></canvas>
                     <span class="ttu-pill-text ml-2">{{ $indName }}</span>
                 </div>
@@ -77,11 +78,27 @@
                 <div class="text-muted">No industries added.</div>
             @endforelse
         </div>
-
-    </div>
-    <div class="col-md-6 mb-4">
-    <h4 class="mb-3">Market Size</h4>
+ <h4 class="mb-3">Market Size</h4>
     <div class="d-flex flex-wrap">
+        @forelse ($market_sizes as $ms)
+            @php
+                $msName = $ms->name
+                          ?? ($ms->market_size->name ?? 'Market Size'); // e.g., "1-10", "11-50", etc.
+                $msPct  = (int) ($ms->percent
+                          ?? ($ms->pivot->percent ?? 40));           // default 40 if missing
+            @endphp
+            <div class="ttu-pill d-flex align-items-center mb-3 ">
+                <canvas class="progress-circle" data-percentage="{{ $msPct }}"></canvas>
+                <span class="ml-2 ttu-pill-text">{{ $msName }}</span>
+            </div>
+        @empty
+            <div class="text-muted">No market size data.</div>
+        @endforelse
+    </div>
+    </div>
+    <!-- <div class="col-md-6 mb-4">
+      <h4 class="mb-3">Market Size</h4>
+      <div class="d-flex flex-wrap">
         @forelse ($market_sizes as $ms)
             @php
                 $msName = $ms->name
@@ -96,19 +113,19 @@
         @empty
             <div class="text-muted">No market size data.</div>
         @endforelse
-    </div>
-</div>
+     </div>
+    </div> -->
 </div>
 
 
-<div class="border-top pt-4">
+<div class="border-top agency-profile-sec pt-4 my-md-2">
     <h4>Agency Profile</h4>
     <p class="mb-2 text-muted short-descriptio">{!! nl2br(e($company->short_description)) !!}
     </p>
     {{-- <a href="javascript:void(0);" id="read-more-btn" class="text-info text-decoration-underline">READ MORE</a> --}}
 </div>
 
-<div class="border-top pt-4">
+<div class="border-top pt-4 locations-sec">
     <h4>Locations</h4>
     <div class="row">
         <div class="col-md-5">
@@ -123,7 +140,7 @@
     </div>
 </div>
 
-<div class="container mt-3 mt-md-3 p-0 reviews-sec greybox border-bottom">
+<div class="container mt-3 mt-md-3 p-0 reviews-sec web-sec greybox border-bottom">
     <h2 class="my-heading">Reviews</h2>
 
     @if($reviews->count() > 0)
@@ -135,8 +152,8 @@
     @endif
 </div>
 
-<div class="container mt-3 mt-md-3 p-0 reviews-sec greybox border-bottom">
-    <h2 class="my-heading">Portfolio / Case Studies</h2>
+<div class="container mt-3 mt-md-3 p-0 reviews-sec greybox case-sec border-bottom">
+    <h4 class="">Portfolio / Case Studies</h4>
 
     @if($caseStudies->count() > 0)
         @foreach ($caseStudies->take(1) as $caseStudy)

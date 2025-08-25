@@ -11,23 +11,23 @@
 </style>
 <div class="row case">
     <div class="col-md-6 mb-3 details">
-        <div class="d-md-flex p-2 mb-2 text-center text-md-left">
+        <div class="d-md-flex pb-md-1 pl-md-3 mb-0 text-center text-md-left">
             <div class="ptitle"><button>Project Title</button></div>
             <p>{{ $portfolio->project_title }}</p>
         </div>
-        <div class="d-md-flex p-2 mb-2 text-center text-md-left">
+        <div class="d-md-flex pb-md-1 pl-md-3 mb-0 text-center text-md-left">
             <div class="ptitle"><button>Client Name</button></div>
             <p>{{ $portfolio->client_name }}</p>
         </div>
-        <div class="d-md-flex p-2 mb-2 text-center text-md-left">
+        <div class="d-md-flex pb-md-1 pl-md-3 mb-0 text-center text-md-left">
             <div class="ptitle"><button>Country / Location</button></div>
             <p>{{ $portfolio->country_location }}</p>
         </div>
-        <div class="d-md-flex p-2 mb-2 text-center text-md-left">
+        <div class="d-md-flex pb-md-1 pl-md-3 mb-0 text-center text-md-left">
             <div class="ptitle"><button>Services Provided</button></div>
             <p>{{ $portfolio->services_provided }}</p>
         </div>
-        <div class="d-md-flex p-2 mb-2 text-center text-md-left">
+        <div class="d-md-flex pb-md-1 pl-md-3 mb-0 text-center text-md-left">
             <div class="ptitle"><button>Project Duration</button></div>
             <p>
                 {{ $portfolio->engagement_start_date->format('F Y') }} -
