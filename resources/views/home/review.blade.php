@@ -204,7 +204,51 @@ font-family: "Epilogue", sans-serif;
 
 <body>
 
+  
 <div class="col-md-12">
+       {{-- BREADCRUMB (paste above the tabs container) --}}
+<nav aria-label="breadcrumb" class="container mt-2">
+  <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+    {{-- Home --}}
+    <li class="breadcrumb-item"
+        itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="{{ route('home') }}" itemprop="item">
+        <span itemprop="name">Home</span>
+      </a>
+      <meta itemprop="position" content="1">
+    </li>
+
+    {{-- Listing --}}
+    <li class="breadcrumb-item"
+        itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="{{ route('listing.global') }}" itemprop="item">
+        <span itemprop="name">Listing</span>
+      </a>
+      <meta itemprop="position" content="2">
+    </li>
+
+    {{-- Agency Name (linkable) --}}
+    @php
+      $agencyName = $agency->name ?? ($company->name ?? 'Agency Name');
+      $agencySlug = $agency->slug ?? ($company->slug ?? 'agency-slug');
+    @endphp
+    <li class="breadcrumb-item"
+        itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{ url('profile/' . $company->slug) }}">
+    
+          <span itemprop="name">{{ $agencyName }}</span>
+      </a>
+      <meta itemprop="position" content="3">
+    </li>
+
+    <li class="breadcrumb-item active"
+        aria-current="page"
+        itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span itemprop="name">Reviews</span>
+      <meta itemprop="position" content="4">
+    </li>
+  </ol>
+</nav>
 <div class="container mb-5">
         <div class=" btn-group">
             <!-- <div class=" text-center d-md-flex d-block"> -->
@@ -223,7 +267,7 @@ font-family: "Epilogue", sans-serif;
 </div>
 
 
-    <div class="container portfolio review-portfolio-sec">
+    {{-- <div class="container portfolio review-portfolio-sec">
         <div class="row">
             <div class="col-lg-12 shadow bg-white py-3">
             <div class="row topsec mb-3">
@@ -269,7 +313,7 @@ font-family: "Epilogue", sans-serif;
                       <div class="d-flex justify-content-center align-items-center"><img src="/front_components/images/logo1.png" class="mb-2 graph-img"  /><span class=" font-weight-bold">{{ number_format($company->ttu_score, 0) }} / 100</span> </div> 
                        <svg viewBox="0 0 36 18" class="w-100" style="height: 60px;">
                            <path d="M2 16 a14 14 0 0 1 32 0" fill="none" stroke="#e6e6e6" stroke-width="2" />
-                           <path d="M2 16 a14 14 0 0 1 32 0" fill="none" stroke="#00bdd6" stroke-width="2" stroke-dasharray="{{ ($company->ttu_score / 100) * 50 }} 50" />
+                           <path d="M2 161 a14 14 0 0 1 32 0" fill="none" stroke="#00bdd6" stroke-width="2" stroke-dasharray="{{ ($company->ttu_score / 100) * 50 }} 50" />
                        </svg>
                        <!-- <div class="font-weight-bold">{{ number_format($company->ttu_score, 0) }} / 100</div> -->
                    
@@ -290,7 +334,11 @@ font-family: "Epilogue", sans-serif;
                 </div>
 
         </div>
-    </div>
+    </div> --}}
+
+    @livewire('compnay-reviews', ['companyId' => $company->id])
+
+
     </div>
 </body>
 
