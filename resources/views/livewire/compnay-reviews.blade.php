@@ -6,7 +6,7 @@
           <div class="col-md-7">
             <div class="row text-center text-md-left">
               <div class="col-md-3">
-                <img src="{{ asset($company->logo ?? 'public/images/default-logo.png') }}"
+                <img src="{{ asset($company->logo ?? '/front_components/images/logo.png') }}"
                      class="img-fluid border" style="max-height:150px;" />
               </div>
               <div class="col-md-8 mt-2 mt-md-0">
@@ -41,7 +41,7 @@
           {{-- Score graph (unchanged) --}}
           <div class="col-md-3 text-left pl-0 graph">
             <div class="d-flex justify-content-center align-items-center">
-              <img src="/front_components/images/logo1.png" class="mb-2 graph-img" />
+              <img src="/front_components/images/logo.png" class="mb-2 graph-img" />
               <span class="font-weight-bold">{{ number_format($company->ttu_score, 0) }} / 100</span>
             </div>
             <svg viewBox="0 0 36 18" class="w-100" style="height: 60px;">
