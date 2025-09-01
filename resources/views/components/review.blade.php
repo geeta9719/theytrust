@@ -1051,3 +1051,58 @@
         }
     </style>
 @endpush
+
+
+<script>
+    (function($){
+      function initTabs(root){
+        var $root = root instanceof jQuery ? root : $(root);
+        $root.find('.tabs').each(function(){
+          var $c = $(this);
+          var $links = $c.find('.tabs-nav a');
+          var $panes = $c.find('.tabs-content > .tab-content');
+          if(!$links.length || !$panes.length) return;
+    
+          // de-dup handlers
+          $links.off('click.ttuTabs').on('click.ttuTabs', function(e){
+            e.preventDefault();
+            var target = $(this).attr('href');
+            $links.removeClass('active');
+            $(this).addClass('active');
+            $panes.removeClass('active').hide();
+            $c.find(target).addClass('active').show();
+          });
+    
+          // default select: first (ya pehle se active ho to usko)
+          var $initial = $links.filter('.active').first().length ? $links.filter('.active').first() : $links.first();
+          $initial.trigger('click');
+        });
+      }
+    
+      // page load
+      $(function(){ initTabs(document); });
+    
+      // Livewire detected? (v2/v3 both)
+      if (window.Livewire) {
+        document.addEventListener('livewire:load', function(){ initTabs(document); });
+        document.addEventListener('livewire:initialized', function(){ initTabs(document); });
+        document.addEventListener('livewire:navigated', function(){ initTabs(document); });
+        if (typeof Livewire.hook === 'function') {
+          Livewire.hook('message.processed', function(){ initTabs(document); });
+        }
+      }
+    
+      // Browser event from PHP (YEH IMPORTANT HAI)
+      window.addEventListener('ttu:tabs-refresh', function(){
+        initTabs(document);
+      });
+    })(jQuery);
+    </script>
+    
+    <style>
+      /* default hide; active dikhe */
+      .tabs .tabs-content > .tab-content{display:none;}
+      .tabs .tabs-content > .tab-content.active{display:block;}
+      .tabs .tabs-nav a.active{background:#565e6c;}
+    </style>
+    

@@ -40,8 +40,24 @@ class CompnayReviews extends Component
         ->values();
 }
 
-    public function updatingService() { $this->resetPage(); }
-    public function updatingSort()    { $this->resetPage(); }
+public function hydrate()
+{
+    // Livewire v2/v3: window pe custom event dispatch hoga
+    $this->dispatchBrowserEvent('ttu:tabs-refresh');
+}
+
+/** Filters change pe page reset + refresh */
+public function updatingService()
+{
+    $this->resetPage();
+    $this->dispatchBrowserEvent('ttu:tabs-refresh');
+}
+
+public function updatingSort()
+{
+    $this->resetPage();
+    $this->dispatchBrowserEvent('ttu:tabs-refresh');
+}
 
     protected function allowedPerPage(): int
     {
