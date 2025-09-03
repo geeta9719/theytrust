@@ -811,7 +811,7 @@
 <script src="https://js.stripe.com/v3/"></script>
 
 <script type="text/javascript">
-    const stripe = Stripe('pk_live_51JaerYLLNy8T5qgwbZ6cW5MdMSYfiATEMC32LqvGnkLshyL6mQrIVWUjxfDtIGwcfXl5L6Ph0gKd68COy3ZNBNei00XNp5YCun');
+    const stripe = Stripe('pk_test_51JaerYLLNy8T5qgwNqwGecQwuSq9Huu5rdvOQYBdLlTRsfLWbxcfIprAktLUhzFQR4R7PVbcKu2f9B1r7lifiVzS006T4QKX5F');
     $(document).ready(function () {
         // Bind the click event to the buttons with the class 'choose-plan'
         $('.choose-plan').on('click', function () {
