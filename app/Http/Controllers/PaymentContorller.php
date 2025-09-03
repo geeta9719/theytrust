@@ -105,7 +105,7 @@ class PaymentContorller extends Controller
 
         $payload = $request->getContent();
         $sigHeader = $request->header('Stripe-Signature');
-        $endpointSecret = config('we_1OUSmQSBpRscNHwBYng6RvEl'); // Replace with your webhook secret
+        $endpointSecret = config('whsec_WSCssGdchSw7TYICEmaf1IIybWPvvAJv'); // Replace with your webhook secret
 
         try {
             $event = Event::constructFrom(json_decode($payload, true), $sigHeader, $endpointSecret);
