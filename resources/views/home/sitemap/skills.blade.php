@@ -24,13 +24,22 @@
         </thead>
         <tbody>
             @foreach ($skills as $item)
+                @php
+                    $dt = $item->updated_at ? \Carbon\Carbon::parse($item->updated_at) : null;
+                @endphp
                 <tr>
                     <td>
                         <a href="{{ url('companies/' . $item->cat_slug . '/' . $item->sub_slug . '/' . $item->subchild_slug) }}" target="_blank">
                             {{ url('companies/' . $item->cat_slug . '/' . $item->sub_slug . '/' . $item->subchild_slug) }}
                         </a>
                     </td>
-                    <td>{{ $latestDate->format('d-m-Y') }} ({{ $latestDate->diffForHumans() }})</td>
+                    <td>
+                        @if($dt)
+                            {{ $dt->format('d-m-Y') }} ({{ $dt->diffForHumans() }})
+                        @else
+                            —
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         </tbody>

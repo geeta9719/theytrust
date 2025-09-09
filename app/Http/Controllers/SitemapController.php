@@ -2,7 +2,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
+// use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -22,7 +24,6 @@ class SitemapController extends Controller
             ['url' => url('/sitemap-subcategories.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             // ['url' => url('/blog/sitemap_index.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             ['url' => url('/sitemap-skills.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
-            ['url' => url('/sitemap-deepskills.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             ['url' => url('https://theytrust.us/blog/post-sitemap.xml'), 'lastmod' => '2025-07-30 05:20 +00:00'],
             
             
@@ -73,7 +74,6 @@ class SitemapController extends Controller
     }
     
 
-    use Illuminate\Support\Facades\DB;
 
     public function subcategories()
     {
@@ -93,24 +93,27 @@ class SitemapController extends Controller
     }
     
 
-    public function htmlSkills()
+
+public function htmlSkills()
 {
-    $skills  = DB::table('subcat_children')
-    ->join('subcategories', 'subcat_children.subcategory_id', '=', 'subcategories.id')
-    ->join('categories', 'subcategories.category_id', '=', 'categories.id')
-    ->where('subcat_children.status', 1)
-    ->where('subcategories.status', 1)
-    ->whereIn('categories.status', [0, 1])
-    ->select(
-        'subcat_children.slug as subchild_slug',
-        'subcat_children.name as subchild_name',
-        'subcategories.slug as sub_slug',
-        'categories.slug as cat_slug'
-    )
-    ->get();
+    $skills = DB::table('subcat_children')
+        ->join('subcategories', 'subcat_children.subcategory_id', '=', 'subcategories.id')
+        ->join('categories', 'subcategories.category_id', '=', 'categories.id')
+        ->where('subcat_children.status', 1)
+        ->where('subcategories.status', 1)
+        ->whereIn('categories.status', [0, 1])
+        ->select(
+            'subcat_children.slug as subchild_slug',
+            'subcat_children.name as subchild_name',
+            'subcategories.slug as sub_slug',
+            'categories.slug as cat_slug',
+            'subcat_children.updated_at as updated_at' // <-- important
+        )
+        ->get();
 
     return view('home.sitemap.skills', compact('skills'));
 }
+
 
 
 public function htmlDeepSkills()
