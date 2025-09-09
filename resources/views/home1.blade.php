@@ -50,17 +50,17 @@ select {
 }
 
 .rate {
-  background: url(https://theytrust-us.developmentserver.info/img/star.png) no-repeat left center;
+  background: url(https://theytrust.us/img/star.png) no-repeat left center;
 }
 
 .dollar {
-  background: url(https://theytrust-us.developmentserver.info/img/dollar.png) no-repeat left center;
+  background: url(https://theytrust.us/img/dollar.png) no-repeat left center;
 
 }
 
 
 .indust {
-  background: url(https://theytrust-us.developmentserver.info/img/zig.png) no-repeat left center;
+  background: url(https://theytrust.us/img/zig.png) no-repeat left center;
 
 }
 
