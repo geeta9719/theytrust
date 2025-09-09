@@ -28,7 +28,6 @@
             @foreach ($pages as $page)
                 <tr>
                     <td><a href="{{ url($page['url']) }}" target="_blank">{{ url($page['url']) }}</a></td>
-                    <td>{{ $page['lastmod'] }}</td>
                 </tr>
             @endforeach
         </tbody>

@@ -34,8 +34,7 @@
                         </a>
                     </td>
                     <td>
-                        {{ \Carbon\Carbon::parse($item->last_modified)->format('d-m-Y') }}
-                        ({{ \Carbon\Carbon::parse($item->last_modified)->diffForHumans() }})
+                        {{ \Carbon\Carbon::parse($item->last_modified)}}
                     </td>
                 </tr>
             @endforeach

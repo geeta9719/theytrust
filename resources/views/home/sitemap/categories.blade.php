@@ -31,8 +31,7 @@
                         {{ url('companies/' . $category->slug) }}
                     </a></td>
                     <td>
-                    {{ \Carbon\Carbon::parse($category->updated_at ?? $category->created_at)->format('d-m-Y') }}
-                    ({{ \Carbon\Carbon::parse($category->updated_at ?? $category->created_at)->diffForHumans() }})
+                    {{ \Carbon\Carbon::parse($category->updated_at ?? $category->created_at) }}
                     </td>
                 </tr>
             @endforeach

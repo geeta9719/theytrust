@@ -35,7 +35,7 @@
                     </td>
                     <td>
                         @if($dt)
-                            {{ $dt->format('d-m-Y') }} ({{ $dt->diffForHumans() }})
+                            {{ $dt }} 
                         @else
                             —
                         @endif

@@ -30,7 +30,6 @@
                             {{ url('companies/' . $item->cat_slug . '/' . $item->sub_slug . '/' . $item->subchild_slug . '/' . $item->skill_slug) }}
                         </a>
                     </td>
-                    <td>{{ $latestDate->format('d-m-Y') }} ({{ $latestDate->diffForHumans() }})</td>
                 </tr>
             @endforeach
         </tbody>
