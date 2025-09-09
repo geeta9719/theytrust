@@ -70,6 +70,7 @@ class PaymentContorller extends Controller
                 'success_url' => url('company/' . $company->id . '/dashboard'),
                 'cancel_url' => url('/'),
             ]);
+            // dd($session);
             return response()->json(['status' => 'success', 'sessionId' => $session->id]);
         }
         catch (ApiErrorException $e) {
@@ -162,7 +163,27 @@ class PaymentContorller extends Controller
             $plan = PlanModel::find($planId);
             $user = User::find($userId);
             $subscription = $this->subscribeToPlan($plan, $user, false);
-            $this->sendEmailWithPdf($user->id);
+            $invoice = $this->makeInvoiceData([
+                'number'          => 'INV-' . strtoupper(substr($paymentIntent->id ?? uniqid(), -8)),
+                'date'            => now()->format('Y-m-d'),
+                'status'          => $paymentStatus,
+                'payment_method'  => $paymentIntent->charges->data[0]->payment_method_details->type ?? 'Stripe',
+                'currency'        => strtoupper($currency),
+                'currency_symbol' => in_array(strtolower($currency), ['usd']) ? '$' : (strtolower($currency) === 'inr' ? '₹' : strtoupper($currency).' '),
+                'tx_id'           => $paymentIntent->id ?? null,
+                'item_title'      => 'TheyTrustUs Membership',
+                'item_desc'       => $plan->description ?? '',
+                'plan_name'       => $plan->name ?? 'Plan',
+                'amount'          => $amount,
+                // 'discount'      => 0.00,
+                // 'tax'           => 0.00,
+            ]);
+
+
+
+            
+            $this->sendEmailWithPdf($user->id, $invoice); // <-- pass the invoice array you built
+
             // Log::info('userIduser: ',$userId,";;;;;");
             $company = Company::where('user_id', $userId)->first();
             // Log::info('userIduserId: ',$company->id,$company[0],";;;;;");
@@ -181,36 +202,30 @@ class PaymentContorller extends Controller
         }
     }
 
-    public function sendEmailWithPdf($userId)
-    {
-        try {
-            $user = User::findOrFail($userId);
-            $pdfContent = $this->generatePdf($user);
+    public function sendEmailWithPdf($userId, array $invoice)
+{
+    try {
+        $user = User::findOrFail($userId);
+        $pdfContent = $this->generatePdf($user, $invoice);
 
-            $data = Mail::send([], [], function ($message) use ($user, $pdfContent) {
-                $message->to($user->email)
-                        ->subject('User Details PDF')
-                        ->attachData($pdfContent, 'user_details.pdf', [
-                            'mime' => 'application/pdf',
-                        ]);
-            });
-            // dd($data);
-        }
-        catch (\Exception $e) {
-            dd($e);
-            // Log::error('Error in handleAllowedEvents: ' . $e->getMessage());
-
-        }
+        Mail::send([], [], function ($message) use ($user, $pdfContent) {
+            $message->to($user->email)
+                    ->subject('TheyTrustUs — Invoice')
+                    ->attachData($pdfContent, 'invoice.pdf', ['mime' => 'application/pdf']);
+        });
 
         return "Email sent successfully";
+    } catch (\Exception $e) {
+        Log::error('sendEmailWithPdf error: ' . $e->getMessage());
+        return "Email failed: " . $e->getMessage();
     }
+}
 
-    public function generatePdf($user)
+
+    public function generatePdf(User $user, array $invoice)
     {
-        // dd($user);
-        $pdf = PDF::loadView('invoicePDF', [$user]);
-        return $pdf->download('invoice.pdf');
-
+        $pdf = PDF::loadView('invoicePDF', compact('user', 'invoice'));
+        return $pdf->output(); // raw PDF bytes
     }
 
     public function subscribeToPlan(PlanModel $plan, User $user)
@@ -224,4 +239,33 @@ class PaymentContorller extends Controller
             return response()->json(['error' => 'Subscription failed: ' . $e->getMessage()], 500);
         }
     }
+
+    function makeInvoiceData(array $overrides = []): array
+    {
+        // Sensible defaults; override from Stripe PI/Plan where available
+        $defaults = [
+            'number'          => 'INV-' . strtoupper(uniqid()),
+            'date'            => now()->format('Y-m-d'),
+            'status'          => 'succeeded',          // or canceled/payment_failed
+            'payment_method'  => 'Stripe',
+            'currency'        => 'usd',
+            'currency_symbol' => '$',                  // simple map below if you want
+            'tx_id'           => null,
+            'item_title'      => 'TheyTrustUs Membership',
+            'item_desc'       => '',
+            'plan_name'       => 'Plan',
+            'amount'          => 0.00,
+            'discount'        => 0.00,
+            'tax'             => 0.00,
+            'total'           => 0.00,
+        ];
+    
+        $data = array_merge($defaults, $overrides);
+        if (empty($data['total'])) {
+            $data['total'] = ($data['amount'] - ($data['discount'] ?? 0)) + ($data['tax'] ?? 0);
+        }
+        return $data;
+    }
 }
+
+
