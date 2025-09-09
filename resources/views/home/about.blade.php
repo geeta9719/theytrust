@@ -100,7 +100,7 @@
 				</div>
 			</div>
 		</div>
-		<a href="https://theytrust.us/company/104/dashboard" class="btn btn-primary animated fadeInRight slower go mt-5  mb-5">Join TheyTrustUs
+		<a href="" class="btn btn-primary animated fadeInRight slower go mt-5  mb-5">Join TheyTrustUs
 
  <span style="margin-left: 3px; font-weight: 900;">&gt;</span></a>
 	</div>
