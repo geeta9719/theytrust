@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Companies Sitemap</title>
-    <link rel="icon" type="image/png" href="https://theytrust.us/front_components/images/logo.png">
+    <link rel="icon" type="image/png" href="https://theytrust.us/front_components/images/favicon.png">
+
 
     <style>
         body { font-family: Arial, sans-serif; margin: 30px; }
