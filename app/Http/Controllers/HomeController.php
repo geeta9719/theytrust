@@ -62,7 +62,17 @@ class HomeController extends Controller
             ->withCount('company')
             ->get();
 
-        return view('home.index', compact('categories', 'reviews', 'subcategories', 'skills', 'modelReferences'));
+        // return view('home.index', compact('categories', 'reviews', 'subcategories', 'skills', 'modelReferences'));
+        return view('home.index', [
+            'categories'      => $categories,
+            'reviews'         => $reviews,
+            'subcategories'   => $subcategories,
+            'skills'          => $skills,
+            'modelReferences' => $modelReferences,
+            'meta_title'      => 'They Trust Us | Discover Trusted Business Service Providers',
+            'meta_description'=> 'Find and connect with top-rated business service providers to scale your company with confidence. Discover vetted partners trusted by global buyers.'
+        ]);
+        
     }
 
     public function about()
