@@ -75,11 +75,13 @@ class HomeController extends Controller
         
     }
 
-    public function about()
-    {
-
-        return view('home.about');
+    public function about(){
+            return view('home.about', [
+                'meta_title' => 'About Us | They Trust Us',
+                'meta_description' => 'Learn more about They Trust Us, our mission, and how we connect businesses with trusted service providers worldwide.'
+            ]);
     }
+
 
     public function privacy()
     {
