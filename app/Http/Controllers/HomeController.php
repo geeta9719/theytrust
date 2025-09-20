@@ -84,19 +84,31 @@ class HomeController extends Controller
 
 
     public function privacy()
-    {
-        return view('home.privacy');
-    }
+{
+    return view('home.privacy', [
+        'meta_title' => 'Privacy Policy - They Trust Us',
+        'meta_description' => 'Review the Privacy Policy of They Trust Us to learn how we protect your personal data and ensure safe browsing on our service provider directory.'
+    ]);
+}
 
-    public function terms()
-    {
-        return view('home.terms');
-    }
 
-    public function faq()
-    {
-        return view('home.faq');
-    }
+
+public function terms()
+{
+    return view('home.terms', [
+        'meta_title' => 'Service Terms & Conditions | They Trust Us',
+        'meta_description' => 'Explore the terms and conditions governing your use of They Trust Us, the platform designed to help businesses discover reliable service partners.'
+    ]);
+}
+
+public function faq()
+{
+    return view('home.faq', [
+        'meta_title' => 'FAQ | They Trust Us Platform Questions & Answers',
+        'meta_description' => 'Find answers to frequently asked questions about They Trust Us. Learn how to search, discover, and connect with trusted business service providers.'
+    ]);
+}
+
 
     public function showLocationsFromService(Request $request)
     {
