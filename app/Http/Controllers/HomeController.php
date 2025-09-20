@@ -1051,9 +1051,13 @@ function drawChart() {
     }
 
     public function contact(Request $request)
-    {
-        return view('home.contact');
-    }
+{
+    return view('home.contact', [
+        'meta_title' => 'Contact Us - Get in Touch with Us - They Trust Us',
+        'meta_description' => 'Get in touch with They Trust Us. Contact our team for support, inquiries, or partnership opportunities to connect with top service providers.'
+    ]);
+}
+
 
     public function sendContactEmail(Request $request)
     {

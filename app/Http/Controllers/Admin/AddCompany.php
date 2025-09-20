@@ -714,10 +714,14 @@ class AddCompany extends Controller
         return redirect()->route('admin.company.admininfo', $request->company_id);
     }
 
-    public function browseByCategory()
-    {
-        $categories = Category::with('subcategories.subcat_child.skill')->get();
-        return view('home.browseByCategory', compact('categories'));
+    public function browseByCategory(){
+    $categories = Category::with('subcategories.subcat_child.skill')->get();
 
-    }
+    return view('home.browseByCategory', [
+        'categories'        => $categories,
+        'meta_title'        => 'Find Trusted Providers by Category | They Trust Us',
+        'meta_description'  => 'Browse trusted service providers by category. Compare partners, read reviews, and choose the best companies to solve your business challenges fast.'
+    ]);
+}
+
 }
