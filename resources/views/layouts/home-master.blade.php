@@ -8,7 +8,8 @@
     <meta property="og:type" content="website" id="meta-og-type">
     <meta property="og:url" content="{{ url()->current() }}" id="meta-og-url">
     
-    
+        @yield('meta')
+
 
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
