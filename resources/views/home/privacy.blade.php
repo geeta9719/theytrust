@@ -1,4 +1,10 @@
 @extends('layouts.home-master')
+@section('meta')
+    @php
+        $meta_title = 'Privacy Policy - They Trust Us';
+        $meta_description = 'Review the Privacy Policy of They Trust Us to learn how we protect your personal data and ensure safe browsing on our service provider directory.';
+    @endphp
+@endsection
 
 @section('content')
     <section class="container-fluid signin-banner animatedParent hero-section">

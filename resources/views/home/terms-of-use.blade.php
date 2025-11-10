@@ -1,5 +1,11 @@
 @extends('layouts.home-master')
 
+@section('meta')
+    @php
+        $meta_title = 'Terms of Use - They Trust Us';
+        $meta_description = 'Read the Terms of Use for They Trust Us to understand your rights, responsibilities, and guidelines while using our trusted service provider platform.';
+    @endphp
+@endsection
 @section('content')
     <section class="container terms-section">
         <div class="row">
