@@ -1,5 +1,12 @@
-@extends('layouts.home-master')
+			@extends('layouts.home-master')
 @section('content')
+@section('meta')
+    @php
+        $meta_title = 'About They Trust Us | Your Partner for Finding Trusted Providers';
+        $meta_description = 'Learn how They Trust Us connects buyers with trusted service providers. Our mission is to help businesses scale with vetted, reliable partners worldwide.';
+    @endphp
+@endsection
+
 <section class="container-fluid signin-banner animatedParent hero-section ">
 	<div class="container ">
 		<div class="row">
