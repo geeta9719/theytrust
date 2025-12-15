@@ -1,6 +1,7 @@
 @extends('layouts.home-master')
 @section('content')
     <head>
+        
         <title>Portfolio Listing</title>
         <link
             rel="stylesheet"
@@ -696,4 +697,36 @@
     <script src="{{ asset('front_components/js/jquery.js') }}"></script>
     <script src="{{ asset('front_components/js/tab.js') }}"></script>
     <script></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const companyName = @json($agency->name ?? ($company->name ?? 'Company'));
+        
+            const title = companyName + ' Reviews - They Trust Us';
+            const description =
+                'Explore detailed, verified reviews of ' +
+                companyName +
+                '. Visit the company profile to see what real clients have to say.';
+        
+            // Title
+            document.title = title;
+        
+            // Meta description
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.setAttribute('content', description);
+        
+            // OG title
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', title);
+        
+            // OG description
+            const ogDesc = document.querySelector('meta[property="og:description"]');
+            if (ogDesc) ogDesc.setAttribute('content', description);
+        
+            // OG URL
+            const ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.setAttribute('content', window.location.href);
+        });
+        </script>
+        
 @endsection
