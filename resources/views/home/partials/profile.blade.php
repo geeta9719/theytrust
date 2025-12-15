@@ -67,7 +67,7 @@
                         <canvas class="progress-circle" width="60" height="60" data-percentage="{{ $service->percent }}"></canvas>
                     </div>
                     <div>
-                        <strong>{{ $service->category->category }}</strong>
+                        <strong>{{ $service->category?->category }}</strong>
                     </div>
                 </div>
             @endforeach
@@ -95,7 +95,7 @@
         @forelse ($market_sizes as $ms)
             @php
                 $msName = $ms->name
-                          ?? ($ms->market_size->name ?? 'Market Size'); // e.g., "1-10", "11-50", etc.
+                          ?? ($ms->client_size->name ?? 'Market Size'); // e.g., "1-10", "11-50", etc.
                 $msPct  = (int) ($ms->percent
                           ?? ($ms->pivot->percent ?? 40));           // default 40 if missing
             @endphp
@@ -159,6 +159,12 @@
         @foreach ($reviews->take(1) as $review)
             <x-review :review="$review" />
         @endforeach
+        <div class="text-end mt-2">
+            <a href="{{ route('review', $company->id) }}" class="btn btn-link">
+                View all reviews
+            </a>
+        </div>
+    
     @else
         <p class="text-muted">This is a new company, so the user has not given a review for this company.</p>
     @endif
