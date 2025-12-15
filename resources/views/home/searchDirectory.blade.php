@@ -57,7 +57,10 @@ else {
             <div class="col-md-12">
                 <div class="col-md-8 mx-auto text-center">
                     <!--<h2>EDIT PROFILE</h2>-->
-                    <h3>Top {{$subcategories[$subcat[0]]}} Companies</h3>
+					<h3>
+						Top {{ $subcategories[$subcat[0] ?? null] ?? 'All' }} Companies
+					</h3>
+					
                     <!--<p>Company Company Company Company Company Company</p>-->
                 </div>
             </div>
