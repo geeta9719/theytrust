@@ -180,9 +180,13 @@ else {
 
     <div class="" id="addCompanyList">
     	<div class="col-md-12 pr-5">
-	        <h5>
-	        	<span class="totalList serchbtn">@if($company) {{count($company)}} @else {{0}} @endif Firms</span> List of the Best {{$subcategories[$subcat[0]]}} Firms
-	        </h5>
+			<h5>
+				<span class="totalList serchbtn">
+					{{ $company ? count($company) : 0 }} Firms
+				</span>
+				List of the Best {{ $subcategories[$subcat[0] ?? null] ?? 'All' }} Firms
+			</h5>
+			
 	    </div>
 		@if($company)
 			@foreach($company as $key=>$cmp)
