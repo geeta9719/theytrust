@@ -72,15 +72,47 @@ class Company extends Model
     public function getLogoAttribute($value)
     {
         if (!empty($value)) {
+            // Check if it's already a full URL (from C panel)
             if (strpos($value, 'https://') !== false || strpos($value, 'http://') !== false) {
                 return $value;
             }
-            return asset('storage/' .$value);
+            // Otherwise, treat it as a storage path
+            return asset('storage/' . $value);
         }
-        else {
-            return $value;
+        return $value;
+    }
+
+    /**
+     * Helper method to get logo for display
+     * Handles both Azure Storage URLs and local storage paths
+     */
+    public function getLogoUrl()
+    {
+        if (empty($this->attributes['logo'])) {
+            return asset('img/default-logo.png');
         }
 
+        $logo = $this->attributes['logo'];
+
+        // If it's already a full Azure URL, return it directly
+        if (strpos($logo, 'https://') === 0 || strpos($logo, 'http://') === 0) {
+            return $logo;
+        }
+
+        // If it's a blob storage path from Azure
+        if (!empty($logo)) {
+            $azureAccount = env('AZURE_STORAGE_ACCOUNT');
+            $container = env('AZURE_STORAGE_CONTAINER');
+            
+            // Construct the full Azure Blob Storage URL
+            // Format: https://accountname.blob.core.windows.net/container/path
+            if ($azureAccount && $container) {
+                return "https://{$azureAccount}.blob.core.windows.net/{$container}/{$logo}";
+            }
+        }
+
+        // Fallback to default
+        return asset('img/default-logo.png');
     }
 
     // New

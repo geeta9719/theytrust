@@ -53,6 +53,15 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
 
+        'azure' => [
+            'driver' => 'azure',
+            'account' => env('AZURE_STORAGE_ACCOUNT'),
+            'key' => env('AZURE_STORAGE_KEY'),
+            'container' => env('AZURE_STORAGE_CONTAINER'),
+            'url' => env('AZURE_STORAGE_URL'),
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*

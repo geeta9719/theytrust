@@ -88,7 +88,7 @@
 
                         <div class="pt-4 file-field">
                             @if ($company)
-                                <img src="{{ $company->logo }}" width="40" height="40" style="border-radius: 25px" />
+                                <img src="{{ $company->getLogoUrl() }}" width="40" height="40" style="border-radius: 25px" />
                             @else
                                 <img
                                     src="{{ asset('front_components/images/logo1.jfif') }}"

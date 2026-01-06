@@ -36,87 +36,6 @@ use App\Helpers\CompanyPointHelper;
 
 class UserController extends Controller
 {
-    //    public function dashboard(Request $request, $company)
-    // {
-    //     $user  = auth()->user();
-    //     $uid   = auth()->user()->id;
-    //     $urole = auth()->user()->role;
-    //     $cid   = Company::where('user_id', $uid)->first();
-    //     $data['currentSubscription'] = $user->currentSubscription;
-
-    //     if ((isset($cid->id) && $cid->id == $company) || $urole == 1) {
-    //         $data['company'] = DB::select("SELECT companies.*,COUNT(company_reviews.id) AS review, avg(overall_rating) as rating, position_title, most_impressive, COUNT(service_lines.id) AS service_lines,addresses.autocomplete,addresses.city,addresses.country_iso2,addresses.address FROM companies LEFT JOIN company_reviews ON company_reviews.company_id = companies.id LEFT JOIN service_lines ON service_lines.company_id = companies.id LEFT JOIN addresses ON addresses.company_id = companies.id WHERE companies.id = $company");
-
-    //         $data['company'] = $data['company'][0];
-
-    //         // Fetch and format service lines and related data
-    //         $serviceLines = ServiceLine::with(['category'])
-    //             ->where('company_id', $company)
-    //             ->get();
-
-    //         $formattedData = [];
-    //         foreach ($serviceLines as $serviceLine) {
-    //             $subcategories = DB::table('add_foci')
-    //                 ->join('subcategories', 'add_foci.subcategory_id', '=', 'subcategories.id')
-    //                 ->where('subcategories.category_id', $serviceLine->category->id)
-    //                 ->select('subcategories.id', 'subcategories.subcategory', 'add_foci.percent as inputValue')
-    //                 ->get();
-
-    //             $formattedSubcategories = [];
-    //             foreach ($subcategories as $subcategory) {
-    //                 $skills = DB::table('company_subcat_child')
-    //                     ->join('subcat_children', 'company_subcat_child.subcat_child_id', '=', 'subcat_children.id')
-    //                     ->where('subcat_children.subcategory_id', $subcategory->id)
-    //                     ->select('subcat_children.id', 'subcat_children.name')
-    //                     ->get();
-
-    //                 $formattedSkills = [];
-    //                 foreach ($skills as $skill) {
-    //                     $subskills = DB::table('companyhasskill')
-    //                         ->join('skills', 'companyhasskill.skill_id', '=', 'skills.id')
-    //                         ->where('skills.subcat_child_id', $skill->id)
-    //                         ->select('skills.id', 'skills.name')
-    //                         ->get();
-
-    //                     $formattedSubskills = [];
-    //                     foreach ($subskills as $subskill) {
-    //                         $formattedSubskills[] = [
-    //                             'subskill_id' => $subskill->id,
-    //                             'subskill_name' => $subskill->name,
-    //                         ];
-    //                     }
-
-    //                     $formattedSkills[] = [
-    //                         'skill_id' => $skill->id,
-    //                         'skill_name' => $skill->name,
-    //                         'subskills_count' => count($formattedSubskills),
-    //                         'subskills' => $formattedSubskills,
-    //                     ];
-    //                 }
-
-    //                 $formattedSubcategories[] = [
-    //                     'subcategory_id' => $subcategory->id,
-    //                     'subcategory_name' => $subcategory->subcategory,
-    //                     'value' => $subcategory->inputValue,
-    //                     'skills' => $formattedSkills,
-    //                 ];
-    //             }
-
-    //             $formattedData[] = [
-    //                 'category_id' => $serviceLine->category->id,
-    //                 'category_name' => $serviceLine->category->category,
-    //                 'inputValue' => $serviceLine->percent,
-    //                 'subcategories' => $formattedSubcategories,
-    //             ];
-    //         }
-
-    //         $data['serviceLines'] = $formattedData;
-
-    //         return view('home.user.dashboard', $data);
-    //     } else {
-    //         abort(403);
-    //     }
-    // }
     public function dashboard(Request $request, $company)
     {
         $user = auth()->user();
@@ -124,21 +43,39 @@ class UserController extends Controller
         $urole = $user->role;
         $cid = Company::where('user_id', $uid)->first();
         $data['currentSubscription'] = $user->currentSubscription;
-        // dd($data);
 
         if ((isset($cid->id) && $cid->id == $company) || $urole == 1) {
-            $data['company'] = DB::select("
-            SELECT companies.*, COUNT(company_reviews.id) AS review, AVG(overall_rating) AS rating,
-            position_title, most_impressive, COUNT(service_lines.id) AS service_lines,
-            addresses.autocomplete, addresses.city, addresses.country_iso2, addresses.address
-            FROM companies
-            LEFT JOIN company_reviews ON company_reviews.company_id = companies.id
-            LEFT JOIN service_lines ON service_lines.company_id = companies.id
-            LEFT JOIN addresses ON addresses.company_id = companies.id
-            WHERE companies.id = $company
-        ");
+            $sql = <<<'SQL'
+SELECT companies.*, COUNT(company_reviews.id) AS review, AVG(overall_rating) AS rating,
+       position_title, most_impressive, COUNT(service_lines.id) AS service_lines,
+       addresses.autocomplete, addresses.city, addresses.country_iso2, addresses.address
+FROM companies
+LEFT JOIN company_reviews ON company_reviews.company_id = companies.id
+LEFT JOIN service_lines ON service_lines.company_id = companies.id
+LEFT JOIN addresses ON addresses.company_id = companies.id
+WHERE companies.id = ?
+GROUP BY companies.id
+SQL;
 
-            $data['company'] = $data['company'][0];
+            $companyRowResult = DB::select($sql, [$company]);
+            $companyRow = isset($companyRowResult[0]) ? $companyRowResult[0] : null;
+
+            // Load Eloquent Company model so view methods (like getLogoUrl) are available
+            $companyModel = Company::find($company);
+            if ($companyModel && $companyRow) {
+                // copy selected aggregated fields onto the model instance for view use
+                foreach (get_object_vars($companyRow) as $key => $value) {
+                    $companyModel->$key = $value;
+                }
+            } elseif ($companyRow) {
+                // fallback: convert stdClass to an object with same properties
+                $companyModel = new Company();
+                foreach (get_object_vars($companyRow) as $key => $value) {
+                    $companyModel->$key = $value;
+                }
+            }
+
+            $data['company'] = $companyModel;
 
             // Fetch and format service lines and related data
             $serviceLines = ServiceLine::with(['category'])
@@ -149,11 +86,9 @@ class UserController extends Controller
             foreach ($serviceLines as $serviceLine) {
                 $subcategories = DB::table('add_foci')
                 ->join('subcategories', 'add_foci.subcategory_id', '=', 'subcategories.id')
-                // ->join('companies', 'add_foci.company_id', '=', 'companies.id')
                 ->where('subcategories.category_id', $serviceLine->category->id)
                 ->where('add_foci.company_id', $company)
                 ->select('subcategories.id', 'subcategories.subcategory', 'add_foci.percent as inputValue')
-
                 ->get();
 
                 $formattedSubcategories = [];
@@ -207,7 +142,6 @@ class UserController extends Controller
 
             $data['serviceLines'] = $formattedData;
 
-            // dd($data['serviceLines']);
             $data['serviceLineCount'] = count($formattedData);
 
             // Fetch industries
@@ -303,7 +237,6 @@ class UserController extends Controller
 
         if ($uid == $user || $urole == 1) {
             $company = Company::where('user_id', $request->user)->first();
-            // $address = '';
 
             if ($company) {
                 $address = Address::where('company_id', $company->id)->where('user_id', auth()->user()->id)->first();
@@ -320,8 +253,6 @@ class UserController extends Controller
                 $b = explode('-', $value->budget);
                 $budget[$b[0]] = $value;
             }
-
-            // ksort( $budget );
 
             $s = Size::all();
 
@@ -359,55 +290,73 @@ class UserController extends Controller
 
     public function saveBasicInfo(Request $request)
     {
-        $company = Company::where('user_id', $request->user_id)->first();
-        if ($company) {
-            $company->profile_type = $request->profile_type;
-            $company->name = $request->name;
-            $company->website = $request->website;
-            $company->size = $request->size;
-            $company->budget = $request->budget;
-            $company->rate = $request->rate;
-            $company->founded_at = $request->founded_at;
-            $company->tagline = $request->tagline;
-            $company->short_description = $request->short_description;
-
+        try {
+            $company = Company::where('user_id', $request->user_id)->first();
+            
             if ($request->hasFile('logo')) {
-                $path = $request->file('logo')->store('images/logo');
-                $company->logo = $path;
+                // Get the uploaded file
+                $file = $request->file('logo');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                
+                // Initialize Azure Storage Manager
+                $azureManager = new \App\Storage\AzureStorageManager(
+                    env('AZURE_STORAGE_ACCOUNT'),
+                    env('AZURE_STORAGE_KEY'),
+                    env('AZURE_STORAGE_CONTAINER')
+                );
+                
+                // Upload file to Azure
+                $filePath = 'company-logos/' . $fileName;
+                $azureManager->putStream($filePath, fopen($file->getRealPath(), 'r'));
+                
+                $logoPath = $filePath;
+            } else {
+                $logoPath = null;
+            }
+            
+            if ($company) {
+                $company->profile_type = $request->profile_type;
+                $company->name = $request->name;
+                $company->website = $request->website;
+                $company->size = $request->size;
+                $company->budget = $request->budget;
+                $company->rate = $request->rate;
+                $company->founded_at = $request->founded_at;
+                $company->tagline = $request->tagline;
+                $company->short_description = $request->short_description;
+
+                if ($logoPath) {
+                    $company->logo = $logoPath;
+                }
+
+                $company->save();
+            } else {
+                $inputs['profile_type'] = $request->profile_type;
+                $inputs['name'] = $request->name;
+                $inputs['website'] = $request->website;
+                $inputs['size'] = $request->size;
+                $inputs['budget'] = $request->budget;
+                $inputs['rate'] = $request->rate;
+                $inputs['founded_at'] = $request->founded_at;
+                $inputs['tagline'] = $request->tagline;
+                $inputs['short_description'] = $request->short_description;
+                $inputs['user_id'] = $request->user_id;
+
+                if ($logoPath) {
+                    $inputs['logo'] = $logoPath;
+                }
+
+                $company = Company::create($inputs);
             }
 
-            $company->save();
-        }
-        else {
-
-            $inputs['profile_type'] = $request->profile_type;
-            $inputs['name'] = $request->name;
-            $inputs['website'] = $request->website;
-            $inputs['size'] = $request->size;
-            $inputs['budget'] = $request->budget;
-            $inputs['rate'] = $request->rate;
-            $inputs['founded_at'] = $request->founded_at;
-            $inputs['tagline'] = $request->tagline;
-            $inputs['short_description'] = $request->short_description;
-            $inputs['user_id'] = $request->user_id;
-
-            if ($request->hasFile('logo')) {
-                $path = $request->file('logo')->store('images/logo');
-                $inputs['logo'] = $path;
+            if ($request->has('save_and_back')) {
+                return redirect()->route('company.dashboard', $company->id)->with('success', 'Company information saved successfully!');
+            } else {
+                return redirect()->route('company.location', $company->id)->with('success', 'Company information saved successfully!');
             }
-
-            Company::create($inputs);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error uploading logo: ' . $e->getMessage());
         }
-
-        $company = Company::where('user_id', $request->user_id)->first();
-        if ($request->has('save_and_back')) {
-            return redirect()->route('company.dashboard', $company->id); // Redirect to the company dashboard
-
-        }
-        else {
-            return redirect()->route('company.location', $company->id);
-        }
-
     }
 
     public function location(Request $request, $company)
@@ -463,105 +412,27 @@ class UserController extends Controller
             }
         }
 
-        // dd($request->has('save_and_back'));
-        // if ($request->has('save_and_back')) {
-        //     return redirect()->route('company.dashboard', $company->id); // Redirect to the company dashboard
-
-        // } else {
-        //     return redirect()->route('company.focus', $company->id);
-        // }
-        // dd()
-
-        // dd($request->input('save_and_back'),$request->input('next'));
         if ($request->input('save_and_back') == 1) {
-            // dd("Sdfsdf");
-            // Redirect to company dashboard
-
             return redirect()->route('company.dashboard', $company->id);
         }
         else {
-            // Redirect to the next page
             return redirect()->route('company.focus', $company->id);
         }
-
     }
-
-    // public function focus( Request $request, $company )
-    // {
-
-    //     $comp           = Company::where('id', $company)->first();
-    //     $category       = Category::all();
-    //     $serviceLine    = ServiceLine::where('company_id', $company)->get();
-
-    //     foreach( $serviceLine as $value )
-    //     {
-    //         if( $value->percent > 10 )
-    //         {
-    //             $subcat[] = $value->subcategory_id;
-    //         }
-    //     }
-
-    //     $subcat_children = SubcatChild::all();
-    //     $subcat_child    = array();
-
-    //     foreach ( $subcat_children as $value )
-    //     {
-    //         $subcat_child[$value->subcategory_id][] = $value;
-    //     }
-
-    //     $addFocus = AddFocus::where( 'company_id', $company )->get();
-    //     $add_focus = array();
-
-    //     foreach ($addFocus as $value)
-    //     {
-    //         $add_focus[$value->subcategory_id][] = $value;
-    //     }
-
-    //     $industry           = Industry::all();
-    //     $addIndustry        = AddIndustry::where( 'company_id', $company )->get();
-
-    //     $clientSize         = ClientSize::all();
-    //     $addClientSize      = AddClientSize::where( 'company_id', $company )->get();
-    //     $specialization     = Specialization::all();
-    //     $addSpecialization  = AddSpecialization::where( 'company_id', $company )->get();
-
-    //     return view( 'home.test', [
-    //                                         'categories'          => $category,
-    //                                         'company'           => $comp,
-    //                                         'addFocus'          => $addFocus,
-    //                                         'industry'          => $industry,
-    //                                         'addIndustry'       => $addIndustry,
-    //                                         'clientSize'        => $clientSize,
-    //                                         'addClientSize'     => $addClientSize,
-    //                                         'specialization'    => $specialization,
-    //                                         'addSpecialization' => $addSpecialization,
-    //                                         'serviceLine'       => $serviceLine,
-    //                                         'add_focus'         => $add_focus,
-    //                                         'subcat_child'      => $subcat_child
-    //                                     ] );
-    // }
 
     public function focus(Request $request, $company)
     {
-
         $comp = Company::where('id', $company)->first();
         $category = Category::with('subcategory')->get();
-        // $serviceLines = ServiceLine::with(['category.subcategory.add_focus' => function ($query) use ($company) {
-        //                     $query->where('company_id', $company);
-        //                 }])
-        //               ->where('company_id', $company)
-        //               ->get();
 
         return view('home.focus', [
             'categories' => $category,
             'company' => $company,
-            // 'serviceLines' => $serviceLines
         ]);
     }
 
     public function test(Request $request, $company)
     {
-
         $comp = Company::where('id', $company)->first();
         $category = Category::all();
 
@@ -575,7 +446,6 @@ class UserController extends Controller
 
         $subcat_children = SubcatChild::all();
         $subcat_child = [];
-        // dd( $subcat_children);
 
         foreach ($subcat_children as $value) {
             $subcat_child[$value->subcategory_id][] = $value;
@@ -599,7 +469,6 @@ class UserController extends Controller
 
         return view('home.test', [
             'categories' => $category,
-
         ]);
     }
 
@@ -623,7 +492,6 @@ class UserController extends Controller
 
     public function subcategories(Request $request)
     {
-
         $selectedCategories = $request->input('categories');
         $subcategories = Subcategory::select('subcategories.*', 'categories.category as category_name', 'categories.id as category_id')
             ->join('categories', 'categories.id', '=', 'subcategories.category_id')
@@ -631,13 +499,11 @@ class UserController extends Controller
             ->where('category_id', $selectedCategories)
             ->get();
 
-        // Return subcategories and their corresponding category names as JSON response
         return response()->json($subcategories);
     }
 
     public function saveFocus(Request $request)
     {
-
         if (!empty($request->service)) {
             $inputs = [];
 
@@ -819,7 +685,6 @@ class UserController extends Controller
 
     public function saveAdminInfo(Request $request)
     {
-
         $id = $request->id;
         $find = AdminInfo::where('id', $id)->where('company_id', $request->company_id)->first();
         $user = Auth::user();
@@ -849,26 +714,15 @@ class UserController extends Controller
         }
         $plan = PlanModel::find(7);
 
-        // $subscription = $user->subscribeTo($plan,$plan->duration,false);
         session()->flash('msg', 'Saved Successfully');
         return redirect()->route('company.dashboard', $request->company_id);
-
-        // if ($request->has('save_and_back')) {
-        //     return redirect()->route('company.dashboard', $request->company_id); // Redirect to the company dashboard
-        //     $subscription = $user->subscribeTo($plan,$plan->duration,false);
-
-        // } else {
-        //     return redirect()->route('plans', $request->company_id);
-        // }
     }
 
     public function validationStep(Request $request)
     {
-
         $data = [];
         $validExt =
             ['jpg', 'jpeg', 'png', 'gif', 'jfif'];
-        //  dd($request->all());
 
         if ($request->form == 'personal') {
             if ($_FILES['avatar']['name'] != '') {
@@ -1054,12 +908,7 @@ class UserController extends Controller
 
     public function getSubcatChild(Request $request)
     {
-
-        #$data = $add_focus = SubcatChild::where( "subcategory_id", $request->subcategory_id )->get( [ "id", "subcategory_id", "name" ] );
-
         $add_focus = SubcatChild::where("subcategory_id", $request->subcategory_id)->get(["id", "subcategory_id", "name"]);
-
-        #echo '<pre>'; die( print_r( $add_focus ) );
 
         $html = "";
 
@@ -1116,7 +965,6 @@ class UserController extends Controller
 
     public function deleteLocation(Request $request, $location_id)
     {
-
         if (Address::find($location_id)->delete()) {
             session()->flash('msg', 'Yay.. Deleted successfully.');
             return redirect()->back();

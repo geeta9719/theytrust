@@ -203,7 +203,7 @@
                         <div class="row text-center text-md-left">
                             <div class="col-md-3">
                                 @if($company->logo)
-                                    <img src="{{ $company->logo }}" alt="{{ $company->name }}" class="img-fluid">
+                                    <img src="{{ $company->getLogoUrl() }}" alt="{{ $company->name }}" class="img-fluid">
                                 @else
                                     <div style="width: 100px; height: 100px; background: #FF6B35; color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; border-radius: 10px; margin: auto;">
                                         {{ strtoupper(substr($company->name, 0, 2)) }}

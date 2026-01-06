@@ -181,6 +181,7 @@ return [
         /* linkdin login*/
         Laravel\Socialite\SocialiteServiceProvider::class,
         Rennokki\Plans\PlansServiceProvider::class,
+        App\Providers\AzureStorageServiceProvider::class,
 
     ],
 

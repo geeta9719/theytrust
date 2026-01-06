@@ -75,8 +75,8 @@
                                         </div>
                                     </div>
                                     <div class="pt-4 px-md-0 col-md-5 col-12 file-field companylogo">
-                                        <img id="logoPreview" src="<?php if (!empty($company->logo)) {
-                                            echo $company->logo;
+                                        <img id="logoPreview" src="<?php if (!empty($company) && !empty($company->logo)) {
+                                            echo $company->getLogoUrl();
                                         }
                                         else {
                                             echo asset('front_components/download.jpeg');

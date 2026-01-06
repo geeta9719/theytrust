@@ -6,8 +6,8 @@
           <div class="col-md-7">
             <div class="row text-center text-md-left">
               <div class="col-md-3">
-                <img src="{{ asset($company->logo ?? '/front_components/images/logo.png') }}"
-                     class="img-fluid border" style="max-height:150px;" />
+                <img src="{{ $company->getLogoUrl() }}"
+                     class="img-fluid border" style="max-height:150px;" alt="{{ $company->name }} logo" />
               </div>
               <div class="col-md-8 mt-2 mt-md-0">
                 <div class="d-flex mt-3 writereview">
@@ -91,4 +91,3 @@
       </div>
     </div>
   </div>
-  

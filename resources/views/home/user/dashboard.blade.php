@@ -540,7 +540,7 @@ text-decoration:none;
                 <div class="logo-box">
                     <div>
                         <div class="d-flex logo-inner logoimg align-items-center">
-                            <img src='{{ url("storage/$company->logo") }}' alt="Company Logo" class="img-fluid"
+                            <img src='{{ $company->getLogoUrl() }}' alt="Company Logo" class="img-fluid"
                                 style="width: 50px; height: 50px;">
                             <p class="ml-2" style=" color:#9e7155;"><strong>{{ ucfirst($company->name) }}</strong></p>
                         </div>
@@ -663,7 +663,7 @@ text-decoration:none;
                         {{ $index == 0 ? 'HeadQuarters' : 'Location ' . ($index + 1) }}
                     </h4>
                     <div class="row justify-content-between mb-3 {{ $index > 1 ? 'additional-address' : '' }}" {{
-                        $index> 1 ? 'style=display:none;' : '' }}>
+                        $index> 1 ? 'style=display:none;' : '' }}">
                         <div class="col-lg-9 d-lg-flex align-items-center text-center text-lg-left">
                             <img src="/img/a1.png" alt="Location Image" class="img-fluid mr-2"
                                 style="width: 50px; height: 50px;">

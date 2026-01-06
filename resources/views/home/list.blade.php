@@ -41,7 +41,7 @@
                         <div class="col-md-7">
                             <div class="row text-center text-md-left">
                                 <div class="col-md-3">
-                                    <img src="{{ asset($company->logo) }}" alt="" class="img-fluid" />
+                                    <img src="{{ $company->getLogoUrl() }}" alt="{{ $company->name }}" class="img-fluid" />
                                 </div>
                                 <div class="col-md-8 mt-2 mt-md-0">
                                     <h2>{{ $company->name }}</h2>
