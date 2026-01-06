@@ -288,18 +288,18 @@ export default {
         return '/front_components/images/logo.png';
       }
 
-      const logo = String(company.logo || '');
+      let logo = String(company.logo || '');
 
       // Absolute URL already
       if (/^https?:\/\//i.test(logo)) return logo;
 
+      // If logo starts with '/storage/' or 'storage/', strip that prefix
+      logo = logo.replace(/^\/?storage\//i, '').replace(/^\//, '');
+
       // If the path already contains 'company-logos' or 'images/logo' assume Azure blob path
       if (logo.indexOf('company-logos') !== -1 || logo.indexOf('images/logo') !== -1) {
-        // Replace with your Azure account/container base if needed.
-        // Prefer using a global config var if set on window.APP.azureUrl
         const azureBase = (window.APP && window.APP.azureUrl) || 'https://cheenti.blob.core.windows.net';
-        // If the saved logo path already includes the container, avoid double container
-        return `${azureBase}/${logo.replace(/^\/+/, '')}`;
+        return `${azureBase}/${logo}`;
       }
 
       // Default to local storage URL (works when using `php artisan storage:link`)
