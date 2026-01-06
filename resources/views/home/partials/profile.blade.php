@@ -1,6 +1,10 @@
 <div class="row align-items-center company-profile-sec mb-4">
     <div class="col-md-2 text-left pl-0">
-        <img src="{{ asset($company->logo ?? 'public/images/default-logo.png') }}" class="img-fluid border" style="max-height: 150px;" />
+        @if($company->logo && file_exists(public_path('storage/' . $company->logo)))
+            <img src="{{ asset('storage/' . $company->logo) }}" class="img-fluid border" style="max-height: 150px;" />
+        @else
+            <img src="{{ asset('img/default-logo.png') }}" class="img-fluid border" style="max-height: 150px;" />
+        @endif
     </div>
     <div class="col-md-7">
         <h2 class="h3 font-weight-bold company-name">{{ $company->name }}</h2>
