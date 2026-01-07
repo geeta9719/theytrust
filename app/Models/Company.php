@@ -10,6 +10,13 @@ class Company extends Model
     use HasFactory;
 
     protected $guarded;
+    
+    /**
+     * Attributes to append to model's JSON form
+     * This ensures logo_url is always included in API responses
+     */
+    protected $appends = ['logo_url'];
+    
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -80,6 +87,15 @@ class Company extends Model
             return asset('storage/' . $value);
         }
         return $value;
+    }
+
+    /**
+     * Accessor for logo_url attribute
+     * This will be automatically included in JSON responses
+     */
+    public function getLogoUrlAttribute()
+    {
+        return $this->getLogoUrl();
     }
 
     /**

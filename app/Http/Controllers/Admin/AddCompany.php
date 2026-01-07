@@ -102,7 +102,8 @@ class AddCompany extends Controller
                 $inputs['user_id'] = $user->id;
 
                 if ($request->hasFile('logo')) {
-                    $path = $request->file('logo')->store('images/logo');
+                    // Upload to Azure blob storage
+                    $path = $request->file('logo')->store('company-logos', 'azure');
                     $inputs['logo'] = $path;
                 }
 
@@ -165,7 +166,8 @@ class AddCompany extends Controller
             $company->user_id = $user->id;
 
             if ($request->hasFile('logo')) {
-                $path = $request->file('logo')->store('images/logo');
+                // Upload to Azure blob storage
+                $path = $request->file('logo')->store('company-logos', 'azure');
                 $company->logo = $path;
             }
 

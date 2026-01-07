@@ -11,6 +11,12 @@
         <title>{{ config('app.name', 'Theytrustus') }}</title>
 
         <!-- Scripts -->
+        <script>
+            window.APP = {
+                azureUrl: "{{ config('filesystems.disks.azure.url') }}",
+                debug: true
+            };
+        </script>
         <script src="{{ asset('js/app.js') }}" defer></script>
 
         <!-- Fonts -->

@@ -11,6 +11,13 @@
         @yield('meta')
 
 
+    <script>
+        window.APP = {
+            azureUrl: "{{ config('filesystems.disks.azure.url') }}",
+            debug: true
+        };
+    </script>
+
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
