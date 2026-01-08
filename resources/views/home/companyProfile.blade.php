@@ -31,9 +31,11 @@
         <script src="{{ asset('portfolioimage/js/tab.js') }}"></script>
 
         <style>
-            #portfolio,
-            #reviews {
+            .tab-content {
                 display: none;
+            }
+            .tab-content:first-of-type {
+                display: block;
             }
             .p-img img{
                 max-height:194px;
@@ -431,7 +433,7 @@
       {{-- Listing --}}
       <li class="breadcrumb-item"
           itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a href="{{ route('listing.global') }}" itemprop="item">
+        <a href="javascript:void(0);" id="backToListing" itemprop="item">
           <span itemprop="name">Listing</span>
         </a>
         <meta itemprop="position" content="2">
@@ -535,86 +537,46 @@
     </body>
 
     <script>
-        $(document).ready(function () {
-            $('.tabs-nav a').on('click', function (e) {
-                e.preventDefault()
-                var $this = $(this)
-                var $tabs = $this.closest('.tabs')
-                var $tabsContent = $tabs.find('.tabs-content')
-
-                $tabs.find('.tabs-nav a').removeClass('active')
-                $this.addClass('active')
-
-                $tabsContent.find('.tab-content').hide()
-                $($this.attr('href')).show()
-            })
-
-            $('.tabs').each(function () {
-                $(this).find('.tabs-nav a:first').click()
-            })
-        })
-       
+        // Read More/Less functionality
         document.addEventListener('DOMContentLoaded', function () {
             var readMoreBtn = document.getElementById('read-more-btn')
-            var shortDescription = document.querySelector(
-                '.short-description',
-            )
+            var shortDescription = document.querySelector('.short-description')
 
-            readMoreBtn.addEventListener('click', function () {
-                shortDescription.classList.toggle('expanded')
-                if (shortDescription.classList.contains('expanded')) {
-                    readMoreBtn.textContent = 'READ LESS'
-                } else {
-                    readMoreBtn.textContent = 'READ MORE'
-                }
-            })
-        })
-
-        document.addEventListener('DOMContentLoaded', function () {
-            // Show the first tab by default
-            document
-                .querySelector('#tabs-nav li:first-child a')
-                .click()
-
-            // Handle tab clicks
-            document
-                .querySelectorAll('#tabs-nav a')
-                .forEach(function (tab) {
-                    tab.addEventListener('click', function (e) {
-                        e.preventDefault()
-                        document
-                            .querySelectorAll('#tabs-nav a')
-                            .forEach(function (link) {
-                                link.classList.remove('active')
-                            })
-                        tab.classList.add('active')
-                        document
-                            .querySelectorAll('.tab-content')
-                            .forEach(function (content) {
-                                content.style.display = 'none'
-                            })
-                        document.querySelector(
-                            tab.getAttribute('href'),
-                        ).style.display = 'block'
-                    })
+            if (readMoreBtn && shortDescription) {
+                readMoreBtn.addEventListener('click', function () {
+                    shortDescription.classList.toggle('expanded')
+                    if (shortDescription.classList.contains('expanded')) {
+                        readMoreBtn.textContent = 'READ LESS'
+                    } else {
+                        readMoreBtn.textContent = 'READ MORE'
+                    }
                 })
+            }
+            
+            // Back to listing navigation
+            var backToListingBtn = document.getElementById('backToListing');
+            if (backToListingBtn) {
+                backToListingBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var referrer = document.referrer;
+                    
+                    // Check if referrer is from the same domain and contains listing/directory/search pages
+                    if (referrer && 
+                        (referrer.includes('/directory/') || 
+                         referrer.includes('/listing') || 
+                         referrer.includes('/companies') ||
+                         referrer.includes('/search') ||
+                         referrer.includes(window.location.host))) {
+                        window.history.back();
+                    } else {
+                        // Default to global listing page
+                        window.location.href = "{{ route('listing.global') }}";
+                    }
+                });
+            }
         })
 
-        $(document).ready(function () {
-            $('#tabs-nav li a').click(function (e) {
-                e.preventDefault()
-
-                // Get the target tab id from href attribute
-                var tabId = $(this).attr('href')
-
-                // Hide all tab contents
-                $('.tab-content').hide()
-
-                // Show the clicked tab content
-                $(tabId).show()
-            })
-        })
-
+        // Progress Circle functionality
         $(document).ready(function () {
     $('.progress-circle').each(function () {
         const canvas = this;
@@ -653,17 +615,17 @@
 });
 
 
-    
+    // Tab functionality with hash support
         function activateTab(tabId) {
         const validTabs = ['#profile', '#reviews', '#portfolio', '#bundles', '#projects', '#quote', '#www'];
 
-        // Hide all
+        // Hide all tabs
         validTabs.forEach(id => {
             const el = document.querySelector(id);
             if (el) el.style.display = 'none';
         });
 
-        // Show selected
+        // Show selected tab
         const activeTab = document.querySelector(tabId);
         if (activeTab) activeTab.style.display = 'block';
 
