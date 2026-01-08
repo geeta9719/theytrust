@@ -17,6 +17,7 @@
             debug: true
         };
     </script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
@@ -47,9 +48,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 
-    @include('home.partials._navbar')
+    <div id="app">
+        @include('home.partials._navbar')
 
-    @yield('content')
+        @yield('content')
+    </div>
 
     <!-- jQuery (Only One Version) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

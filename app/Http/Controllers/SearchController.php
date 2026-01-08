@@ -824,153 +824,205 @@ class SearchController extends Controller
 
     public function getSearchList(Request $request)
     {
-        $term = explode(' ', $request->term);
-        $whereComp = [];
-        $whereComp1 = [];
-        $whereCity = [];
-        $whereSub = [];
-
-        $whereCat = [];
-
-        foreach ($term as $t) {
-            if (strlen($t) >= 3) {
-                $whereSub[] = " subcategories.subcategory like '%" . $t . "%'";
-                $whereCat[] = " categories.category like '%" . $t . "%'";
-
-                $whereCity[] = " addresses.city like '%" . $t . "%'";
-                $whereComp[] = " companies.name like '%" . $t . "%'";
-                $whereComp1[] = " 'name', 'like', '%" . $request->term . "%'";
-            }
+        $searchTerm = $request->term;
+        
+        if (strlen($searchTerm) < 3) {
+            return response('');
         }
 
-        $whereC = ' WHERE (' . implode(' OR ', $whereComp) . ' ) AND companies.is_publish != 0 ';
-        $whereC1 = ' WHERE (' . implode(' )->orWhere( ', $whereComp1) . ')';
-        $whereC2 = implode(' )->orWhere( ', $whereComp1);
+        // Search companies using Eloquent (safer than raw SQL)
+        $companies = Company::where('name', 'LIKE', "%{$searchTerm}%")
+            ->where('is_publish', '!=', 0)
+            ->select('id', 'name', 'logo', 'slug')
+            ->limit(10)
+            ->get();
 
-        $whereS = ' WHERE ' . implode(' OR ', $whereSub) . ' OR ' . implode(' OR ', $whereCat);
-        $whereCI = ' WHERE ' . implode(' OR ', $whereCity);
+        // Search subcategories
+        $subcategories = DB::table('subcategories')
+            ->leftJoin('categories', 'categories.id', '=', 'subcategories.category_id')
+            ->where(function($query) use ($searchTerm) {
+                $query->where('subcategories.subcategory', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('categories.category', 'LIKE', "%{$searchTerm}%");
+            })
+            ->select('subcategories.id', 'subcategories.subcategory')
+            ->limit(5)
+            ->get();
 
-        $data['sub'] = DB::select("SELECT subcategories.id, subcategories.subcategory FROM subcategories
-                                   LEFT JOIN categories  on categories.id = subcategories.category_id " . $whereS);
+        // Search cities
+        $cities = DB::table('addresses')
+            ->where('city', 'LIKE', "%{$searchTerm}%")
+            ->groupBy('city', 'state_iso2')
+            ->select('city', 'state_iso2')
+            ->limit(5)
+            ->get();
 
-        $subc = [];
+        // Get subcategory-location combinations
+        $data['subcategory'] = [];
+        if ($subcategories->isNotEmpty() || $cities->isNotEmpty()) {
+            $query = DB::table('subcategories')
+                ->join('service_lines', 'service_lines.subcategory_id', '=', 'subcategories.id')
+                ->join('addresses', 'addresses.company_id', '=', 'service_lines.company_id')
+                ->select('subcategories.id', 'subcategories.subcategory', 'addresses.city', 'addresses.state_iso2')
+                ->groupBy('service_lines.subcategory_id', 'addresses.city', 'addresses.state_iso2');
 
-        if (count($data['sub']) > 0) {
-            foreach ($data['sub'] as $sub) {
-                $subc[] = $sub->subcategory;
-            }
-
-            $subc = " WHERE subcategories.subcategory IN ( '" . implode('\',\'', $subc) . "') ";
-        }
-        else {
-            $subc = "";
-        }
-
-        $data['city'] = DB::select("SELECT addresses.company_id,addresses.city FROM addresses " . $whereCI . " GROUP BY addresses.city");
-        $city = [];
-
-        if (count($data['city']) > 0) {
-            foreach ($data['city'] as $add) {
-                $city[] = $add->city;
+            if ($subcategories->isNotEmpty()) {
+                $subcatIds = $subcategories->pluck('subcategory')->toArray();
+                $query->whereIn('subcategories.subcategory', $subcatIds);
             }
 
-            if (!empty($subc)) {
-                $city = " AND addresses.city IN ('" . implode('\',\'', $city) . "') ";
+            if ($cities->isNotEmpty()) {
+                $cityNames = $cities->pluck('city')->toArray();
+                if ($subcategories->isNotEmpty()) {
+                    $query->whereIn('addresses.city', $cityNames);
+                } else {
+                    $query->whereIn('addresses.city', $cityNames);
+                }
             }
-            else {
-                $city = " WHERE addresses.city IN ('" . implode('\',\'', $city) . "') ";
-            }
-        }
-        else {
-            $city = "";
+
+            $data['subcategory'] = $query->limit(5)->get();
         }
 
-        if (!empty($subc) || !empty($city)) {
-            $data['subcategory'] = DB::select("SELECT subcategories.id,subcategories.subcategory,addresses.city,addresses.state_iso2 FROM subcategories INNER JOIN service_lines ON service_lines.subcategory_id = subcategories.id INNER JOIN addresses ON addresses.company_id = service_lines.company_id  " . $subc . $city . " GROUP BY service_lines.subcategory_id");
-        }
-        else {
-            $data['subcategory'] = [];
-        }
+        $data['company'] = $companies;
 
-        $data['company'] = DB::select("SELECT companies.id,companies.name,companies.logo FROM companies " . $whereC);
+        // Get company ratings
+        $companyIds = $companies->pluck('id')->toArray();
+        $rate_review = DB::table('company_reviews')
+            ->select('company_id')
+            ->selectRaw('avg(overall_rating) as rating')
+            ->whereIn('company_id', $companyIds)
+            ->groupBy('company_id')
+            ->get()
+            ->keyBy('company_id');
 
-        $rate_review = DB::select("SELECT company_reviews.company_id, avg(overall_rating) as rating FROM company_reviews GROUP BY company_reviews.company_id");
+        $data['rate_review'] = $rate_review;
 
-        $rate = [];
+        // Get top SEO companies
+        $topSeoCompanies = Seo::where('name', 'LIKE', "%{$searchTerm}%")
+            ->orderBy('usage_count', 'desc')
+            ->take(2)
+            ->get();
 
-        foreach ($rate_review as $val) {
-            $rate[$val->company_id] = $val;
-        }
-
-        $data['rate_review'] = $rate;
-
-        $query = Seo::query();
-
-        if ($request->term) {
-            $query->where('name', 'LIKE', "%$request->term%");
-        }
-
-        $topSeoCompanies = $query->orderBy('usage_count', 'desc')->take(2)->get();
-
-        $html = "";
-
-        $subcat_loc = "";
-        $state_iso2 = "";
-        $html .= '
-        <div class="search_results__row top_companies">';
+        // Build HTML response
+        $html = '<div class="search_results__row top_companies">';
+        
+        // Top Companies by Subcategory
         if (count($data['subcategory']) > 0) {
-            $html .= '
-                <div class="search_results__title"><strong>Top Companies</strong></div>
+            $html .= '<div class="search_results__title"><strong>Top Companies</strong></div>
                 <ul class="search_results__content">';
             foreach ($data['subcategory'] as $subcat) {
-                if (!empty($data['city'])) {
-                    $subcat_loc = " in " . ucfirst($subcat->city);
-                    $state_iso2 = '&location[]=' . $subcat->state_iso2;
-                }
-                /*$html .= '
-                    <li style="list-style:none;"><a style="text-decoration:none;" href="'.url('directory',[strtolower(str_replace(' ','-',$subcat->subcategory)),strtolower($subcat->city)]).'">Top <strong>'.ucfirst($subcat->subcategory).'</strong> Companies '.$subcat_loc.'</a></li>';*/
-                $html .= '
-                    <li style="list-style:none;"><a style="text-decoration:none;" href="' . url('directory', [strtolower(str_replace(' ', '-', $subcat->subcategory))]) . '">Top <strong>' . ucfirst($subcat->subcategory) . '</strong> Companies ' . $subcat_loc . '</a></li>';
+                $subcat_loc = !empty($subcat->city) ? " in " . ucfirst($subcat->city) : "";
+                $subcatSlug = strtolower(str_replace(' ', '-', $subcat->subcategory));
+                $html .= '<li style="list-style:none;">
+                    <a style="text-decoration:none;" href="' . url('directory', [$subcatSlug]) . '">
+                        Top <strong>' . ucfirst($subcat->subcategory) . '</strong> Companies ' . $subcat_loc . '
+                    </a>
+                </li>';
             }
             $html .= '</ul>';
         }
 
-        $html .= '<div class="search_results__title"><strong>Top SEO Companies</strong></div>
+        // Top SEO Companies
+        if ($topSeoCompanies->isNotEmpty()) {
+            $html .= '<div class="search_results__title"><strong>Top SEO Companies</strong></div>
                 <ul class="search_results__content">';
-        foreach ($topSeoCompanies as $seoCompany) {
-            $html .= '<li style="list-style:none;">
-                        <a style="text-decoration:none;" href="' . url('profile/' . $seoCompany->id) . '"><img src="' . asset('storage/' . $seoCompany->logo) . '" width="20px" height="20px"> &nbsp;<strong>' . $seoCompany->name . '</strong></a>
-                    </li>';
-        }
-        $html .= '</ul>';
-
-        $company_loc = "";
-        if (count($data['company']) > 0) {
-            $html .= '
-                <div class="search_results__title"><strong>Profiles</strong></div>
-                <ul class="search_results__content">';
-            foreach ($data['company'] as $company) {
-                //if(!empty($data['city'])){$company_loc = " ".ucfirst($company->city);}
-                if (isset($data['rate_review'][$company->id])) {
-                    $rt = number_format((float)$data['rate_review'][$company->id]->rating, 1, '.', '') . ' <img src="' . asset('front_components/images/red.png') . '" width="15px;">';
-                }
-                else {
-                    $rt = '0.0  <img src="' . asset('front_components/images/red.png') . '" width="15px;">';
-                }
-                $html .= '
-                    <li style="list-style:none;">
-                        <a style="text-decoration:none;" href="' . url('profile/' . $company->id) . '"><img src="' . asset('storage/' . $company->logo) . '" width="20px" height="20px"> &nbsp;<strong>' . $company->name . '</strong> ' . $company_loc . '</a>
-                        <span style="float:right;">' . $rt . ' </span>
-                    </li>';
+            foreach ($topSeoCompanies as $seoCompany) {
+                $logoUrl = $seoCompany->getLogoUrl();
+                $profileUrl = $seoCompany->slug ? url('profile/' . $seoCompany->slug) : url('profile/' . $seoCompany->id);
+                $html .= '<li style="list-style:none;">
+                    <a style="text-decoration:none;" href="' . $profileUrl . '">
+                        <img src="' . $logoUrl . '" width="20px" height="20px" onerror="this.src=\'/img/default-logo.png\'"> &nbsp;
+                        <strong>' . htmlspecialchars($seoCompany->name) . '</strong>
+                    </a>
+                </li>';
             }
             $html .= '</ul>';
         }
 
-        $html .= '
-        </div>';
+        // Company Profiles
+        if ($companies->isNotEmpty()) {
+            $html .= '<div class="search_results__title"><strong>Profiles</strong></div>
+                <ul class="search_results__content">';
+            foreach ($companies as $company) {
+                $rating = isset($rate_review[$company->id]) 
+                    ? number_format((float)$rate_review[$company->id]->rating, 1, '.', '') 
+                    : '0.0';
+                $starIcon = '<img src="' . asset('front_components/images/red.png') . '" width="15px;">';
+                
+                $logoUrl = $company->getLogoUrl();
+                $profileUrl = $company->slug ? url('profile/' . $company->slug) : url('profile/' . $company->id);
+                
+                $html .= '<li style="list-style:none;">
+                    <a style="text-decoration:none;" href="' . $profileUrl . '">
+                        <img src="' . $logoUrl . '" width="20px" height="20px" onerror="this.src=\'/img/default-logo.png\'"> &nbsp;
+                        <strong>' . htmlspecialchars($company->name) . '</strong>
+                    </a>
+                    <span style="float:right;">' . $rating . ' ' . $starIcon . '</span>
+                </li>';
+            }
+            $html .= '</ul>';
+        }
 
-        echo $html;
-        die();
+        $html .= '</div>';
+
+        return response($html);
+    }
+
+    /**
+     * API endpoint returning JSON grouped search results for header autocomplete.
+     * GET /api/search-main?q=keyword
+     */
+    public function apiSearchMain(Request $request)
+    {
+        $q = trim($request->get('q', ''));
+
+        if (strlen($q) < 1) {
+            return response()->json([
+                'companies' => [],
+                'categories' => [],
+                'subcategories' => [],
+                'locations' => [],
+            ]);
+        }
+
+        // Companies
+        $companies = Company::where('name', 'LIKE', "%{$q}%")
+            ->where('is_publish', '!=', 0)
+            ->select('name', 'slug')
+            ->limit(10)
+            ->get()
+            ->map(function($c){ return ['name' => $c->name, 'slug' => $c->slug]; });
+
+        // Categories and subcategories
+        $categories = DB::table('categories')
+            ->where('category', 'LIKE', "%{$q}%")
+            ->select('category as name', 'slug')
+            ->limit(6)
+            ->get()
+            ->map(function($r){ return ['name' => $r->name, 'slug' => $r->slug ?? '']; });
+
+        $subcategories = DB::table('subcategories')
+            ->where('subcategory', 'LIKE', "%{$q}%")
+            ->select('subcategory as name', 'slug')
+            ->limit(8)
+            ->get()
+            ->map(function($r){ return ['name' => $r->name, 'slug' => $r->slug ?? '']; });
+
+        // Locations (city or country)
+        $locations = DB::table('addresses')
+            ->where('city', 'LIKE', "%{$q}%")
+            ->orWhere('country_iso2', 'LIKE', "%{$q}%")
+            ->select(DB::raw("CONCAT(IFNULL(city,''), IF(city IS NOT NULL AND city!='', CONCAT(', ', country_iso2), '')) as name"), DB::raw("'' as slug"))
+            ->groupBy('city','country_iso2')
+            ->limit(8)
+            ->get()
+            ->map(function($r){ return ['name' => $r->name, 'slug' => $r->name]; });
+
+        return response()->json([
+            'companies' => $companies,
+            'categories' => $categories,
+            'subcategories' => $subcategories,
+            'locations' => $locations,
+        ]);
     }
     public function Seosearch()
     {
@@ -1314,7 +1366,9 @@ class SearchController extends Controller
         try {
 
             $order = $request->filled('order');
-            $query = Company::with(['serviceLines.category','address', 'addIndustry','user','user.CurrentSubscription'])->withCount('companyReview');
+            $query = Company::with(['serviceLines.category','address', 'addIndustry','user','user.CurrentSubscription'])
+                ->where('is_publish', '!=', 0)
+                ->withCount('companyReview');
 
             if ($request->filled('categoryId')) {
                 $query->whereHas('serviceLines', function ($query) use ($request) {
@@ -1360,12 +1414,16 @@ class SearchController extends Controller
 
             if ($request->filled('budget')) {
                 $budget = Budget::where('id', $request->input('budget'))->first();
-                $query->where('budget', $budget->budget);
+                if ($budget) {
+                    $query->where('budget', $budget->budget);
+                }
             }
 
             if ($request->filled('rate')) {
-                $rate = Budget::where('id', $request->input('rate'))->first();
-                $query->where('budget', $rate->rate);
+                $rate = Rate::where('id', $request->input('rate'))->first();
+                if ($rate) {
+                    $query->where('rate', $rate->rate);
+                }
             }
 
             $helper = new SubscriptionHelper();
@@ -1424,7 +1482,8 @@ class SearchController extends Controller
             return response()->json(['companies' => $companies->values()]);
         }
         catch (\Exception $err) {
-            dd($err);
+            \Log::error('Error in SearchController index: ' . $err->getMessage());
+            return response()->json(['companies' => [], 'error' => $err->getMessage()], 500);
         }
     }
 

@@ -43,12 +43,9 @@ if (Auth::check()) {
                     <div class="">
                         <div class="">
                             <div class="searchbox-sec">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                <div id="global-search-mount">
+                                    <global-header-search></global-header-search>
                                 </div>
-                                <input type="text" class="search" name="search" id="search" placeholder="Search"
-                                    onkeyup="search()">
-                                <div class="srcbxc"></div>
 
                             </div>
                         </div>

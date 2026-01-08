@@ -170,8 +170,7 @@ if (Auth::check()) {
            </a>
            <div class="right-section d-lg-flex d-xl-none d-none">
                <div class="input-group ">
-                   <input type="text" class="form-control search" name="search" id="search" placeholder="Search"
-                       onkeyup="search()">
+                   <input type="text" class="form-control search" name="search" id="search" placeholder="Search">
                    <div class="input-group-prepend">
                        <span class="input-group-text"><i class="fa fa-search"></i></span>
                    </div>
@@ -364,15 +363,12 @@ if (Auth::check()) {
 
                </div>
                <div class="right-section d-lg-none d-xl-flex">
-                   <div class="input-group">
-                       <input type="text" class="form-control search" name="search" id="search1" placeholder="Search">
-                       <div class="srcbxc"></div>
-
-
-                       <div class="input-group-prepend">
-                           <span class="input-group-text"><i class="fa fa-search"></i></span>
+                       <div class="input-group">
+                       <!-- Vue global header search will replace the plain input when Vue app mounts -->
+                       <div id="global-search-mount">
+                           <global-header-search></global-header-search>
                        </div>
-                   </div>
+                       </div>
                </div>
        </nav>
 
@@ -407,8 +403,7 @@ if (Auth::check()) {
                        <div class="input-group-prepend">
                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
                                </div>
-                           <input type="text" class="search" name="search" id="search" placeholder="Search"
-                               onkeyup="search()">
+                           <input type="text" class="search" name="search" id="search" placeholder="Search">
                                <div class="srcbxc"></div>
                                
                        </div>
@@ -773,11 +768,24 @@ if (Auth::check()) {
        });
 
 
-       // Bind the input event for the search field
-       $("#search1").on('input', function() {
-           // debugger;
+       // Bind the input event for the search fields (debounced)
+       function debounce(fn, delay) {
+           let timer = null;
+           return function() {
+               const context = this, args = arguments;
+               clearTimeout(timer);
+               timer = setTimeout(function() {
+                   fn.apply(context, args);
+               }, delay);
+           };
+       }
+
+       const debouncedSearch = debounce(function() {
            search1();
-       });
+       }, 250);
+
+       // watch both inputs
+       $("#search1, #search").on('input', debouncedSearch);
 
 
        function search1() {
@@ -807,9 +815,16 @@ if (Auth::check()) {
 
 
        $("body").click(function(e) {
-           if (!$(e.target).hasClass('srcbxc')) {
+           // If click happened outside the results container and outside the search inputs, hide results
+           if ($(e.target).closest('.srcbxc').length === 0 && $(e.target).closest('#search, #search1').length === 0) {
                $(".srcbxc").hide();
            }
+       });
+
+       // If a result link is clicked, allow default navigation but also hide results shortly after
+       $(document).on('click', '.srcbxc a', function(e) {
+           // Let the browser follow the link; hide dropdown after small delay
+           setTimeout(function() { $(".srcbxc").hide(); }, 200);
        });
    });
 </script>
