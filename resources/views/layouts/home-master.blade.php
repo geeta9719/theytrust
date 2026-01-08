@@ -73,6 +73,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     @include('home.partials._foot')
     @include('home.partials._footer')
     
+    <!-- Header Search Enhancement (standalone, no Vue conflict) -->
+    <script src="{{ asset('js/header-search.js') }}"></script>
 
     @yield('script')
 </body>

@@ -97,6 +97,7 @@ Route::get('/search/city-select2', [SearchController::class, 'get_searched_city_
 Route::get('/test1/{name}/{loc?}', [SearchController::class, 'test1'])->name('in');
 
 Route::get('/get-search-list', [SearchController::class, 'getSearchList'])->name('get-search-list');
+Route::get('/api/search-main', [SearchController::class, 'apiSearchMain']);
 Route::get('/get-company-list', [SearchController::class, 'getCompany'])->name('get-company-list');
 Route::get('/review/{company}', [SearchController::class, 'review'])->name('review');
 Route::get('company/reviews', [SearchController::class, 'listView'])->name('reviews.listView');
