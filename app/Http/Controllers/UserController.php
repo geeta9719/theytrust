@@ -324,6 +324,11 @@ SQL;
                 $company->founded_at = $request->founded_at;
                 $company->tagline = $request->tagline;
                 $company->short_description = $request->short_description;
+                
+                // Generate slug from company name
+                if (!$company->slug || $company->name !== $company->getOriginal('name')) {
+                    $company->slug = str_replace('+', '-', strtolower(html_entity_decode(urlencode($request->name))));
+                }
 
                 if ($logoPath) {
                     $company->logo = $logoPath;
@@ -341,6 +346,9 @@ SQL;
                 $inputs['tagline'] = $request->tagline;
                 $inputs['short_description'] = $request->short_description;
                 $inputs['user_id'] = $request->user_id;
+                
+                // Generate slug from company name
+                $inputs['slug'] = str_replace('+', '-', strtolower(html_entity_decode(urlencode($request->name))));
 
                 if ($logoPath) {
                     $inputs['logo'] = $logoPath;

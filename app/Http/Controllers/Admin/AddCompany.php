@@ -100,6 +100,9 @@ class AddCompany extends Controller
                 $inputs['tagline'] = $request->tagline;
                 $inputs['short_description'] = $request->short_description;
                 $inputs['user_id'] = $user->id;
+                
+                // Generate slug from company name
+                $inputs['slug'] = str_replace('+', '-', strtolower(html_entity_decode(urlencode($request->org_name))));
 
                 if ($request->hasFile('logo')) {
                     // Upload to Azure blob storage
@@ -164,6 +167,11 @@ class AddCompany extends Controller
             $company->tagline = $request->tagline;
             $company->short_description = $request->short_description;
             $company->user_id = $user->id;
+            
+            // Generate slug from company name
+            if (!$company->slug || $company->name !== $request->org_name) {
+                $company->slug = str_replace('+', '-', strtolower(html_entity_decode(urlencode($request->org_name))));
+            }
 
             if ($request->hasFile('logo')) {
                 // Upload to Azure blob storage
