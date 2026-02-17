@@ -3,352 +3,326 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company;
-use App\Models\User;
 use App\Models\CompanyReview;
 use OpenAI\Factory;
 use Carbon\Carbon;
 
 class CompanyReviewSeeder extends Seeder
 {
-    protected $client;
-    protected int $reviewsPerCompany = 1;   // change if needed
-    protected int $sleepMsBetweenCalls = 250; // to avoid rate limits
+    /**
+     * Generate realistic reviews for every company using OpenAI (gpt-4o-mini).
+     *
+     * Usage:
+     *   php artisan db:seed --class=CompanyReviewSeeder          → default 5 reviews/company
+     *   REVIEWS_PER_COMPANY=20 php artisan db:seed --class=CompanyReviewSeeder
+     *
+     * Requires OPENAI_API_KEY in .env
+     */
 
-    public function __construct()
+    // ─── Configuration ────────────────────────────────────────────────────
+    protected string $model = 'gpt-4o-mini';
+
+    // Cached lookup data (loaded once in run())
+    protected array $cachedProjectTypes = [];
+    protected array $cachedCompanyTypes = [];
+    protected array $cachedCompanySizes = [];
+
+    public function run(): void
     {
-        Log::info('📌 CompanyReviewSeeder::__construct start');
-
         $apiKey = env('OPENAI_API_KEY');
-        if (!$apiKey) {
-            Log::error('❌ OPENAI_API_KEY missing in .env');
-        } else {
-            Log::info('✅ OPENAI_API_KEY found (not printing for security)');
-        }
 
-        try {
-            $this->client = (new Factory())
-                ->withApiKey($apiKey)
-                ->make();
-            Log::info('✅ OpenAI client initialized via Factory');
-        } catch (\Throwable $e) {
-            Log::error('❌ Failed to initialize OpenAI client', ['error' => $e->getMessage()]);
-            $this->client = null;
-        }
-
-        Log::info('📌 CompanyReviewSeeder::__construct end');
-    }
-
-    public function run()
-    {
-        Log::info('🚀 CompanyReviewSeeder::run started');
-
-        $companyIds = Company::pluck('id', 'id')->all();
-        $users      = User::pluck('id', 'id')->all();
-
-        Log::info('📊 Counts', [
-            'companies' => count($companyIds),
-            'users'     => count($users),
-            'reviewsPerCompany' => $this->reviewsPerCompany
-        ]);
-
-        if (empty($companyIds) || empty($users)) {
-            $this->command?->warn('No companies or users found. Seed those first.');
-            Log::warning('⚠️ Aborting: companies or users missing');
+        if (empty($apiKey)) {
+            $this->command?->error('❌ OPENAI_API_KEY not found in .env — cannot generate reviews.');
             return;
         }
 
-        $inserted = 0; $failed = 0;
+        $client = (new Factory())
+            ->withApiKey($apiKey)
+            ->withHttpHeader('OpenAI-Beta', 'assistants=v2')
+            ->make();
 
-        foreach ($companyIds as $companyId) {
-            $company = Company::find($companyId);
-            if (!$company) {
-                Log::warning('⚠️ Company not found by id, skipping', ['company_id' => $companyId]);
-                continue;
-            }
+        $reviewsPerCompany = (int) env('REVIEWS_PER_COMPANY', 5);
 
-            Log::info('🏢 Starting company', ['company_id' => $companyId, 'company_name' => $company->name]);
+        // Allow seeding for specific company via SEED_COMPANY_SLUG env
+        $companySlug = env('SEED_COMPANY_SLUG', null);
+        if ($companySlug) {
+            $companies = Company::where('slug', $companySlug)->where('status', 1)->get();
+        } else {
+            $companies = Company::where('status', 1)->get();
+        }
 
-            for ($i = 1; $i <= $this->reviewsPerCompany; $i++) {
-                Log::info('🧩 Review loop begin', ['company_id' => $companyId, 'review_idx' => $i]);
+        if ($companies->isEmpty()) {
+            $this->command?->error('❌ No companies found. Run CompanySeeder first.');
+            return;
+        }
 
+        // Get the owner user (seeder user)
+        $ownerId = $companies->first()->user_id;
+
+        // Pre-load lookup data once (avoid querying DB inside every review)
+        $this->cachedProjectTypes = DB::table('subcategories')->pluck('subcategory')->toArray();
+        if (empty($this->cachedProjectTypes)) {
+            $this->cachedProjectTypes = ['Search Engine Optimization', 'iOS', 'CMS', 'Content Marketing', 'Brand Strategy & Development'];
+        }
+        $this->cachedCompanyTypes = DB::table('categories')->where('status', 0)->pluck('category')->toArray();
+        if (empty($this->cachedCompanyTypes)) {
+            $this->cachedCompanyTypes = ['Web Development', 'Mobile App Development', 'Digital Marketing', 'Traditional Marketing', 'Branding'];
+        }
+        $this->cachedCompanySizes = DB::table('sizes')->where('status', 1)->pluck('size')->toArray();
+        if (empty($this->cachedCompanySizes)) {
+            $this->cachedCompanySizes = ['0-10', '10-50', '50-100', '100-200', '200-300'];
+        }
+
+        $this->command?->info("🤖 Generating {$reviewsPerCompany} AI reviews for each of {$companies->count()} companies...");
+        $this->command?->info("   Model: {$this->model}");
+        $this->command?->newLine();
+
+        $totalCreated = 0;
+
+        foreach ($companies as $company) {
+            $this->command?->info("📝 {$company->name}...");
+
+            $ratingSum = 0;
+            $created   = 0;
+
+            for ($r = 1; $r <= $reviewsPerCompany; $r++) {
                 try {
-                    $payload = $this->generateReviewViaAI($company);
+                    $reviewData = $this->generateReviewViaAI($client, $company, $r);
 
-                    if (empty($payload)) {
-                        Log::warning('⚠️ AI payload empty, using fallbacks', [
-                            'company_id' => $companyId, 'review_idx' => $i
-                        ]);
-                    } else {
-                        Log::info('✅ AI payload received', [
-                            'company_id' => $companyId, 'review_idx' => $i,
-                            'keys' => array_keys($payload)
-                        ]);
+                    if (!$reviewData) {
+                        $this->command?->warn("   ⚠ Review #{$r} — AI returned invalid JSON, skipping.");
+                        continue;
                     }
 
-                    // ensure dates valid
-                    [$start, $end] = $this->normalizedDates(
-                        $payload['project_start'] ?? null,
-                        $payload['project_end'] ?? null
-                    );
-                    Log::info('📅 Normalized dates', ['start' => $start, 'end' => $end]);
+                    $projectStart = $this->randomPastDate(6, 24);
+                    $projectEnd   = (clone $projectStart)->addMonths(rand(2, 8))->endOfMonth();
 
-                    $userId = array_rand($users);
-                    $row = [
-                        'company_id'             => $companyId,
-                        'user_id'                => $userId,
-                        'project_type'           => $payload['project_type']           ?? 'Web Development',
-                        'project_title'          => $payload['project_title']          ?? 'Custom Development Project',
-                        'company_type'           => $payload['company_type']           ?? 'Private',
-                        'cost_range'             => $payload['cost_range']             ?? '$10000-$50000',
-                        'project_start'          => $start,
-                        'project_end'            => $end,
-                        'company_position'       => $payload['company_position']       ?? 'Project Sponsor',
-                        'for_what_project'       => $payload['for_what_project']       ?? 'Website revamp and SEO',
-                        'how_select'             => $payload['how_select']             ?? 'Compared 3 vendors; chose for expertise and references.',
-                        'scope_of_work'          => $payload['scope_of_work']          ?? 'Discovery, UI/UX, frontend, backend, QA, deployment.',
-                        'team_composition'       => $payload['team_composition']       ?? 'PM, 2 FE devs, 2 BE devs, QA, designer.',
-                        'any_outcome'           => $payload['any_outcome']           ?? 'Traffic +65%, conversion +22% post launch.',
-                        'how_effective'          => $payload['how_effective']          ?? 'Milestone-based delivery with weekly demos; minimal rework.',
-                        'most_impressive'        => $payload['most_impressive']        ?? 'Clear communication and proactive risk handling.',
-                        'area_of_improvements'   => $payload['area_of_improvements']   ?? 'Add more performance benchmarks pre-release.',
-                        'quality'                => $this->clampInt($payload['quality'] ?? 4),
-                        'quality_review'         => $payload['quality_review']         ?? 'Code quality and UX were consistently strong.',
-                        'timeliness'             => $this->clampInt($payload['timeliness'] ?? 4),
-                        'timeliness_review'      => $payload['timeliness_review']      ?? 'Most sprints were delivered on time.',
-                        'cost'                   => 3,
-                        'cost_review'            => $payload['cost_review']            ?? 'Pricing aligned with scope; transparent change orders.',
-                        'communication'          => $this->clampInt($payload['communication'] ?? 5),
-                        'communication_review'   => $payload['communication_review']   ?? 'Daily Slack updates and weekly Zoom check-ins.',
-                        'expertise'              => $this->clampInt($payload['expertise'] ?? 5),
-                        'expertise_review'       => $payload['expertise_review']       ?? 'Deep knowledge of Laravel, React, and SEO.',
-                        'ease_of_working'        => $this->clampInt($payload['ease_of_working'] ?? 5),
-                        'ease_of_working_review' => $payload['ease_of_working_review'] ?? 'Flexible with scope and quick to respond.',
-                        'refer_ability'          => $this->clampInt($payload['refer_ability'] ?? 5),
-                        'refer_ability_review'   => $payload['refer_ability_review']   ?? 'Would recommend to peers for ecommerce builds.',
-                        'overall_rating'         => $this->clampInt($payload['overall_rating'] ?? 5),
-                        'overall_rating_review'  => $payload['overall_rating_review']  ?? 'Exceeded expectations across delivery and ROI.',
-                        'full_name'              => $payload['full_name']              ?? 'A. Sharma',
-                        'attribution'            => $payload['attribution']            ?? 'GrowthWorks Ltd.',
-                        'position_title'         => $payload['position_title']         ?? 'Head of Digital',
-                        'company_name'           => $payload['company_name']           ?? ($company->name ?? 'Client Company'),
-                        'company_size'           => $payload['company_size']           ?? 'Medium',
-                        'city'                   => $payload['city']                   ?? 'Bengaluru',
-                        'state'                  => $payload['state']                  ?? 'KA',
-                        'country'                => $payload['country']                ?? 'IN',
-                        'company_email'          => $payload['company_email']          ?? 'contact@example.com',
-                        'phone_number'           => $payload['phone_number']          ?? '+91-9876543210',
-                        'linkedin_url'           => $payload['linkedin_url']          ?? 'https://www.linkedin.com/company/example',
-                        'company_url'            => $payload['company_url']            ?? 'https://example.com',
+                    CompanyReview::create([
+                        'company_id'             => $company->id,
+                        'user_id'                => $ownerId,
+                        'project_type'           => $reviewData['project_type'] ?? 'Web Development',
+                        'project_title'          => $reviewData['project_title'] ?? 'Software Development Project',
+                        'company_type'           => $reviewData['company_type'] ?? 'Private',
+                        'cost_range'             => $reviewData['cost_range'] ?? '$10000-$25000',
+                        'project_start'          => $projectStart->toDateString(),
+                        'project_end'            => $projectEnd->toDateString(),
+                        'company_position'       => $reviewData['company_position'] ?? 'CTO',
+                        'for_what_project'       => $reviewData['for_what_project'] ?? '',
+                        'how_select'             => $reviewData['how_select'] ?? '',
+                        'scope_of_work'          => $reviewData['scope_of_work'] ?? '',
+                        'team_composition'       => $reviewData['team_composition'] ?? '',
+                        'any_outcomes'           => $reviewData['any_outcomes'] ?? '',
+                        'how_effective'          => $reviewData['how_effective'] ?? '',
+                        'most_impressive'        => $reviewData['most_impressive'] ?? '',
+                        'area_of_improvements'   => $reviewData['area_of_improvements'] ?? '',
+                        'quality'                => $this->clampInt($reviewData['quality'] ?? 4),
+                        'quality_review'         => $reviewData['quality_review'] ?? '',
+                        'timeliness'             => $this->clampInt($reviewData['timeliness'] ?? 4),
+                        'timeliness_review'      => $reviewData['timeliness_review'] ?? '',
+                        'cost'                   => $this->clampInt($reviewData['cost'] ?? 4),
+                        'cost_review'            => $reviewData['cost_review'] ?? '',
+                        'communication'          => $this->clampInt($reviewData['communication'] ?? 4),
+                        'communication_review'   => $reviewData['communication_review'] ?? '',
+                        'expertise'              => $this->clampInt($reviewData['expertise'] ?? 4),
+                        'expertise_review'       => $reviewData['expertise_review'] ?? '',
+                        'ease_of_working'        => $this->clampInt($reviewData['ease_of_working'] ?? 4),
+                        'ease_of_working_review' => $reviewData['ease_of_working_review'] ?? '',
+                        'refer_ability'          => $this->clampInt($reviewData['refer_ability'] ?? 4),
+                        'refer_ability_review'   => $reviewData['refer_ability_review'] ?? '',
+                        'overall_rating'         => $this->clampInt($reviewData['overall_rating'] ?? 4),
+                        'overall_rating_review'  => $reviewData['overall_rating_review'] ?? '',
+                        'full_name'              => $reviewData['full_name'] ?? 'Anonymous Reviewer',
+                        'attribution'            => rand(2, 5),
+                        'position_title'         => $reviewData['position_title'] ?? 'Manager',
+                        'company_name'           => $reviewData['reviewer_company_name'] ?? 'Tech Corp',
+                        'company_size'           => $reviewData['company_size'] ?? 'Medium',
+                        'city'                   => $reviewData['city'] ?? 'Mumbai',
+                        'state'                  => $reviewData['state'] ?? 'MH',
+                        'country'                => $reviewData['country'] ?? 'IN',
+                        'company_email'          => $reviewData['company_email'] ?? '',
+                        'phone_number'           => $reviewData['phone_number'] ?? '',
+                        'linkedin_url'           => $reviewData['linkedin_url'] ?? '',
+                        'company_url'            => $reviewData['company_url'] ?? '',
                         'status'                 => 1,
-                        'project_summary'        => $payload['project_summary']        ?? 'Replatform to Laravel + React with SEO.',
-                        'feedback_summary'       => $payload['feedback_summary']       ?? 'Strong ownership, measurable business impact.',
-                        'published'              => (string)($payload['published'] ?? '1'),
+                        'project_summary'        => $reviewData['project_summary'] ?? '',
+                        'feedback_summary'       => $reviewData['feedback_summary'] ?? '',
+                        'published'              => '1',
+                        'comment'                => 'AI-generated review #' . $r . ' for ' . $company->name,
                         'created_at'             => now(),
                         'updated_at'             => now(),
-                        'comment'                => $payload['comment']                ?? 'Detailed scope delivered as planned.',
-                    ];
-
-                    Log::info('🧾 Row built (summary)', [
-                        'company_id' => $companyId,
-                        'review_idx' => $i,
-                        'title' => $row['project_title'],
-                        'rating' => $row['overall_rating'],
-                        'cost' => $row['cost'],
-                        'dates' => $row['project_start'] . ' → ' . $row['project_end'],
                     ]);
 
-                    CompanyReview::create($row);
+                    $ratingSum += $this->clampInt($reviewData['overall_rating'] ?? 4);
+                    $created++;
+                    $totalCreated++;
 
-                    $inserted++;
-                    Log::info('✅ Review inserted', ['company_id' => $companyId, 'review_idx' => $i]);
+                    $this->command?->info("   ✅ Review #{$r} — {$reviewData['full_name']} ({$reviewData['overall_rating']}/5)");
 
-                    // rate-limit friendly
-                    usleep($this->sleepMsBetweenCalls * 1000);
-
-                } catch (\Throwable $e) {
-                    $failed++;
-                    Log::error('❌ Review insert failed', [
-                        'company_id' => $companyId,
-                        'review_idx' => $i,
-                        'error' => $e->getMessage(),
-                    ]);
+                } catch (\Exception $e) {
+                    $this->command?->error("   ❌ Review #{$r} failed: " . $e->getMessage());
                 }
+
+                // Small delay to avoid rate-limiting
+                usleep(300000); // 300ms
             }
 
-            Log::info('🏁 Finished company', [
-                'company_id' => $companyId,
-                'inserted_so_far' => $inserted,
-                'failed_so_far' => $failed
-            ]);
+            // ── Update avg_review_score ───────────────────────────────────
+            if ($created > 0) {
+                $avgScore = round($ratingSum / $created, 2);
+                DB::table('companies')->where('id', $company->id)->update([
+                    'avg_review_score' => $avgScore,
+                    'updated_at'       => now(),
+                ]);
+                $this->command?->info("   📊 avg_review_score → {$avgScore} ({$created} reviews)");
+            }
+
+            $this->command?->newLine();
         }
 
-        Log::info('🎯 Seeding complete', ['inserted' => $inserted, 'failed' => $failed]);
+        $this->command?->info("🎉 Done! {$totalCreated} AI reviews created across {$companies->count()} companies.");
     }
 
-    private function generateReviewViaAI($company): array
+    // ─── OpenAI Call ──────────────────────────────────────────────────────
+
+    private function generateReviewViaAI($client, Company $company, int $reviewNum): ?array
     {
-        Log::info('🔍 generateReviewViaAI called', ['company' => $company->name ?? 'N/A']);
+        $prompt = $this->buildPrompt($company, $reviewNum);
 
-        if (!$this->client) {
-            Log::error('❌ OpenAI client not initialized – returning empty payload');
-            return [];
-        }
-        if (!env('OPENAI_API_KEY')) {
-            Log::error('❌ OPENAI_API_KEY missing – returning empty payload');
-            return [];
-        }
-
-        $companyName  = $company->name ?? 'The Vendor';
-        $industryHint = $this->guessIndustryFromServiceLines($company) ?? 'Web Development';
-        $prompt       = $this->promptTemplate($companyName, $industryHint);
-
-        try {
-            Log::info('📤 Sending chat.create', [
-                'model' => 'gpt-4o-mini',
-                'company' => $companyName,
-                'industry' => $industryHint
-            ]);
-
-            $res = $this->client->chat()->create([
-                'model' => 'gpt-4o-mini',
-                'temperature' => 0.7,
-                'messages' => [
-                    ['role' => 'system', 'content' => 'You generate realistic B2B client reviews. Return ONLY strict JSON that matches the schema.'],
-                    ['role' => 'user', 'content' => $prompt],
+        $response = $client->chat()->create([
+            'model'           => $this->model,
+            'response_format' => ['type' => 'json_object'],
+            'temperature'     => 0.85,
+            'max_tokens'      => 2000,
+            'messages'        => [
+                [
+                    'role'    => 'system',
+                    'content' => 'You are a professional business reviewer. You write detailed, realistic client reviews for IT and digital services companies. Always respond with valid JSON only.',
                 ],
-                'response_format' => ['type' => 'json_object']
-            ]);
+                [
+                    'role'    => 'user',
+                    'content' => $prompt,
+                ],
+            ],
+        ]);
 
-            // Avoid logging entire object (can be huge); log essentials:
-            $content = $res->choices[0]->message->content ?? '{}';
-            Log::info('📥 OpenAI response content snippet', ['first_200' => mb_substr($content, 0, 200)]);
+        $content = $response->choices[0]->message->content ?? '';
+        $data = json_decode($content, true);
 
-            $data = json_decode($content, true);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                Log::error('❌ JSON decode error', ['error' => json_last_error_msg()]);
-                return [];
-            }
-
-            Log::info('✅ AI JSON parsed', ['keys' => array_keys($data)]);
-            return is_array($data) ? $data : [];
-
-        } catch (\Throwable $e) {
-            Log::error('❌ OpenAI API error', ['error' => $e->getMessage()]);
-            return [];
-        }
+        return is_array($data) ? $data : null;
     }
 
-    private function promptTemplate(string $companyName, string $industry): string
-    {
-        return <<<PROMPT
-Write a realistic, first-person client review for "{$companyName}" about a {$industry} engagement.
-Keep tone professional, specific, and measurable (traffic, conversion, load time, revenue).
-Dates should be plausible within last 2 years. Ratings are integers 1–5.
+    // ─── Prompt Builder ───────────────────────────────────────────────────
 
-Return STRICT JSON ONLY with ALL keys:
+    private function buildPrompt(Company $company, int $reviewNum): string
+    {
+        $costRanges = ['$5000-$10000', '$10000-$25000', '$25000-$50000', '$50000-$100000', '$100000-$500000'];
+
+        // Use cached lookup arrays (loaded once in run())
+        $projectTypes = $this->cachedProjectTypes;  // subcategories
+        $companyTypes = $this->cachedCompanyTypes;  // categories
+        $companySizes = $this->cachedCompanySizes;  // sizes
+
+        $positions = ['CTO', 'VP Engineering', 'Head of Digital', 'Product Manager', 'Director of IT', 'CEO', 'Marketing Director', 'COO', 'Founder', 'Head of Operations'];
+        $countries = [
+            ['country' => 'IN', 'cities' => ['Mumbai', 'Delhi', 'Bengaluru', 'Hyderabad', 'Pune', 'Chennai', 'Kolkata', 'Ahmedabad']],
+            ['country' => 'US', 'cities' => ['New York', 'San Francisco', 'Chicago', 'Austin', 'Seattle', 'Boston', 'Los Angeles']],
+            ['country' => 'GB', 'cities' => ['London', 'Manchester', 'Birmingham', 'Edinburgh']],
+            ['country' => 'SG', 'cities' => ['Singapore']],
+            ['country' => 'AE', 'cities' => ['Dubai', 'Abu Dhabi']],
+            ['country' => 'CA', 'cities' => ['Toronto', 'Vancouver', 'Montreal']],
+        ];
+
+        $loc = $countries[array_rand($countries)];
+        $city = $loc['cities'][array_rand($loc['cities'])];
+        $costRange = $costRanges[array_rand($costRanges)];
+        $projectType = $projectTypes[array_rand($projectTypes)];  // subcategory
+        $companyType = $companyTypes[array_rand($companyTypes)];  // category (reviewer's business type)
+        $position = $positions[array_rand($positions)];
+        $companySize = $companySizes[array_rand($companySizes)];
+
+        return <<<PROMPT
+Generate a unique, detailed, and realistic client review #{$reviewNum} for the following company:
+
+**Company Name:** {$company->name}
+**Tagline:** {$company->tagline}
+**Description:** {$company->short_description}
+**Location:** {$company->email}
+
+**Reviewer Context:**
+- Reviewer is from: {$city}, {$loc['country']}
+- Reviewer's company size: {$companySize}
+- Services provided (project type): {$projectType}
+- Reviewer's business category: {$companyType}
+- Budget range: {$costRange}
+- Reviewer position: {$position}
+
+Return a JSON object with these exact keys (all values must be strings except ratings which are integers 1-5):
 
 {
-  "project_title": "string (5-9 words)",
-  "project_type": "one of: Web Development | Mobile App | Consulting | SEO | PPC | Ecommerce",
-  "company_type": "Private or Public",
-  "cost_range": "like "$10000-$50000"",
-  "project_start": "YYYY-MM-DD",
-  "project_end": "YYYY-MM-DD (>= start)",
-  "company_position": "string (client role)",
-  "for_what_project": "3-7 lines describing the main challenges, pain points, and context before starting the project",
-  "how_select": "Write 2–3 sentences explaining the decision-making process in selecting the vendor, including key differentiators such as industry expertise, relevant case studies, cost transparency, responsiveness during the proposal stage, proven track record, and client references."
-  "scope_of_work": "Write 2–3 sentences describing the specific services and deliverables provided by the vendor. Mention concrete items such as website redesign, e-commerce setup, SEO optimization, mobile app development, UI/UX design, backend integration, digital marketing campaigns, or analytics implementation, depending on the type of project."
- "team_composition": "2–3 sentences explaining what factors led to the selection of the vendor, such as industry expertise, relevant past work, client references, competitive pricing, responsiveness, or innovative approach."
-  "any_outcome": "Write 2–3 sentences explaining how the vendor contributed to the success of the project, mentioning specific actions they took and measurable results (e.g., percentage increase in traffic, sales, engagement, or efficiency gains)."
-"how_effective": "Write 2–3 sentences describing the measurable positive impact {$companyName}’s services had on the client’s business, such as increased sales, improved brand awareness, enhanced user engagement, reduced operational costs, or improved efficiency. Include at least one metric or specific example."
-"most_impressive": "In 1–2 sentences, state the top three strengths you found most impressive about {$companyName}, and optionally add a short final remark about the overall experience."
- "area_of_improvements": "Write 2 realistic sentence describing a main concern, bottleneck, or improvement area in the project, framed constructively and professionally."
-  "quality": 1,
-  "quality_review": "4 sentence",
-  "timeliness": 1,
-  "timeliness_review": "4 sentence",
-  "cost": 12000,
-  "cost_review": "4 sentence",
-  "communication": 1,
-  "communication_review": "4 sentence",
-  "expertise": 1,
-  "expertise_review": "4 sentence",
-  "ease_of_working": 1,
-  "ease_of_working_review": "4 sentence",
-  "refer_ability": 1,
-  "refer_ability_review": "4 sentence",
-  "overall_rating": 1,
-  "overall_rating_review": "4 sentence",
-  "full_name": "realistic Indian name",
-  "attribution": "client org",
-  "position_title": "client job title",
-  "company_name": "{$companyName}",
-  "company_size": "Small | Medium | Large",
-  "city": "city",
-  "state": "state/region",
-  "country": "country code or name",
-  "company_email": "email",
-  "phone_number": "phone",
-  "linkedin_url": "url",
-  "company_url": "url",
-  "project_summary": "5 sentence summary",
-  "feedback_summary": "5 sentence summary",
-  "published": "0 or 1",
-  "comment": "short internal note"
+  "project_type": "{$projectType}",
+  "project_title": "A specific, realistic project title (not generic)",
+  "company_type": "{$companyType}",
+  "cost_range": "{$costRange}",
+  "company_position": "3-4 sentences describing the reviewer's business (what their company does, industry, size, revenue) and their specific role/responsibilities. Example: 'I am the {$position} at [company name], a mid-sized retail company specializing in premium fashion. We generate approximately $5M in annual revenue with 50+ employees. My role involves overseeing all technology initiatives, vendor relationships, and digital transformation projects.'",
+  "for_what_project": "3-4 sentences explaining why they needed this project, the business problem, specific pain points",
+  "how_select": "2-3 sentences on how they chose this company over competitors",
+  "scope_of_work": "3-4 sentences detailing exact deliverables, technologies, integrations",
+  "team_composition": "2-3 sentences describing the team assigned (roles and size)",
+  "any_outcomes": "3-4 sentences with specific measurable outcomes (percentages, numbers, metrics)",
+  "how_effective": "2-3 sentences on project management, delivery cadence, issue resolution",
+  "most_impressive": "2-3 sentences on what stood out the most",
+  "area_of_improvements": "1-2 sentences on constructive feedback (realistic, not harsh)",
+  "quality": integer 3-5,
+  "quality_review": "2 sentences reviewing code/deliverable quality",
+  "timeliness": integer 3-5,
+  "timeliness_review": "2 sentences reviewing schedule adherence",
+  "cost": integer 3-5,
+  "cost_review": "2 sentences reviewing value for money",
+  "communication": integer 3-5,
+  "communication_review": "2 sentences reviewing communication quality",
+  "expertise": integer 3-5,
+  "expertise_review": "2 sentences reviewing technical expertise",
+  "ease_of_working": integer 3-5,
+  "ease_of_working_review": "2 sentences reviewing collaboration ease",
+  "refer_ability": integer 3-5,
+  "refer_ability_review": "2 sentences on likelihood to recommend",
+  "overall_rating": integer 3-5,
+  "overall_rating_review": "2-3 sentences overall summary",
+  "full_name": "A realistic full name matching the reviewer's country ({$loc['country']})",
+  "position_title": "{$position}",
+  "reviewer_company_name": "A realistic company name from {$city}",
+  "company_size": "{$companySize}",
+  "city": "{$city}",
+  "state": "state/province code",
+  "country": "{$loc['country']}",
+  "company_email": "realistic email at reviewer's company domain",
+  "phone_number": "realistic phone number for {$loc['country']}",
+  "linkedin_url": "realistic LinkedIn URL for the reviewer",
+  "company_url": "realistic company website URL",
+  "project_summary": "2-3 sentence summary of the project and key results",
+  "feedback_summary": "2-3 sentence summary of overall feedback"
 }
-Rules:
-- Dates: end >= start; use recent realistic dates.
-- Ratings: integers 1–5; keep overall_rating aligned with others (avg ±1).
-- Numbers must be numbers (cost).
+
+IMPORTANT:
+- Make each review UNIQUE — different projects, outcomes, names, companies
+- Use realistic metrics and specific numbers (not vague)
+- Ratings should mostly be 4-5 but occasionally 3 for realism
+- Names should match the country/culture ({$loc['country']})
+- Do NOT use placeholder text or lorem ipsum
 PROMPT;
     }
 
-    private function guessIndustryFromServiceLines($company): ?string
+    // ─── Helpers ──────────────────────────────────────────────────────────
+
+    private function clampInt($val): int
     {
-        $name = Str::lower($company->name ?? '');
-        if (Str::contains($name, ['app', 'mobile'])) return 'Mobile App';
-        if (Str::contains($name, ['seo', 'search'])) return 'SEO';
-        if (Str::contains($name, ['commerce', 'shop', 'cart'])) return 'Ecommerce';
-        return 'Web Development';
+        return max(1, min(5, (int) $val));
     }
 
-    private function normalizedDates($start, $end): array
+    private function randomPastDate(int $minMonths, int $maxMonths): Carbon
     {
-        try {
-            $s = $start ? Carbon::parse($start) : now()->subMonths(rand(6, 18))->startOfMonth();
-        } catch (\Throwable $e) {
-            Log::warning('⚠️ project_start parse failed; using default', ['err' => $e->getMessage()]);
-            $s = now()->subMonths(rand(6, 18))->startOfMonth();
-        }
-        try {
-            $e = $end ? Carbon::parse($end) : (clone $s)->addMonths(rand(2, 6))->endOfMonth();
-        } catch (\Throwable $e2) {
-            Log::warning('⚠️ project_end parse failed; using default', ['err' => $e2->getMessage()]);
-            $e = (clone $s)->addMonths(rand(2, 6))->endOfMonth();
-        }
-        if ($e->lt($s)) {
-            Log::warning('⚠️ project_end < project_start; fixing by +2 months');
-            $e = (clone $s)->addMonths(2);
-        }
-        return [$s->toDateString(), $e->toDateString()];
-    }
-
-    private function clampInt($v): int
-    {
-        $v = (int) $v;
-        if ($v < 1) $v = 1;
-        if ($v > 5) $v = 5;
-        return $v;
-    }
-
-    private function clampCost($v): float
-    {
-        $v = (float) $v;
-        if ($v < 1000)   $v = 1000;
-        if ($v > 500000) $v = 500000;
-        return round($v, 2);
+        return Carbon::now()->subMonths(rand($minMonths, $maxMonths))->startOfMonth();
     }
 }

@@ -25,7 +25,7 @@
         </div>
         <div class="d-md-flex pb-md-1 pl-md-3 mb-0 text-center text-md-left">
             <div class="ptitle"><button>Services Provided</button></div>
-            <p>{{ $portfolio->services_provided }}</p>
+            <p>{{ is_array($portfolio->services_provided) ? implode(', ', $portfolio->services_provided) : $portfolio->services_provided }}</p>
         </div>
         <div class="d-md-flex pb-md-1 pl-md-3 mb-0 text-center text-md-left">
             <div class="ptitle"><button>Project Duration</button></div>
@@ -56,13 +56,22 @@
                         $isPDF = $extension === 'pdf';
                         // {{dd($media);}}
                         $isYouTube = strpos($media, 'youtube.com') !== false || strpos($media, 'youtu.be') !== false;
+
+                        // Build correct image URL: Azure path vs local vs full URL
+                        if (Str::startsWith($media, ['http://', 'https://'])) {
+                            $mediaUrl = $media;
+                        } elseif (Str::startsWith($media, 'portfolio/') || Str::startsWith($media, 'logos/')) {
+                            $mediaUrl = rtrim(env('AZURE_STORAGE_URL', ''), '/') . '/' . env('AZURE_STORAGE_CONTAINER', 'company-logos') . '/' . $media;
+                        } else {
+                            $mediaUrl = asset('storage/' . $media);
+                        }
                     @endphp
 
                     @if ($isImage)
-                        <img src="{{ asset('storage/' . $media) }}" alt="" class="w-100 mb-3" />
+                        <img src="{{ $mediaUrl }}" alt="" class="w-100 mb-3" />
                     @elseif ($isPDF)
                         <embed
-                            src="{{ asset('storage/' . $media) }}"
+                            src="{{ $mediaUrl }}"
                             width="100%"
                             height="500px"
                             type="application/pdf"

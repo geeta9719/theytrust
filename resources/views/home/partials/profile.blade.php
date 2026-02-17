@@ -47,7 +47,7 @@
         </div>
     </div>
     <div class="col-md-3 text-left pl-0 graph">
-       <div class="d-flex justify-content-center align-items-center"><img src="/front_components/images/logo.png" class="mb-2 graph-img"  /><span class=" font-weight-bold">{{ number_format($company->ttu_score, 0) }} / 100</span> </div> 
+       <div class="d-flex justify-content-center align-items-center"><img src="/front_components/images/logo1.png" class="mb-2 graph-img"  /><span class=" font-weight-bold">{{ number_format($company->ttu_score, 0) }} / 100</span> </div> 
         <svg viewBox="0 0 36 18" class="w-100" style="height: 60px;">
             <path d="M2 16 a14 14 0 0 1 32 0" fill="none" stroke="#e6e6e6" stroke-width="2" />
             <path d="M2 16 a14 14 0 0 1 32 0" fill="none" stroke="#00bdd6" stroke-width="2" stroke-dasharray="{{ ($company->ttu_score / 100) * 50 }} 50" />

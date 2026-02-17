@@ -13,15 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(CompanySeeder::class);
-        $this->call(CompanyReviewSeeder::class); 
-        $this->call(AddressSeeder::class);
-        $this->call(ServiceLineSeeder::class);
-        $this->call(AddIndustriesSeeder::class);
-        $this->call(PortfolioItemSeeder::class);
-
-
-
+        // CompanySeeder: companies + addresses + industries + service lines + client sizes + portfolio items
+        // CompanyReviewSeeder: AI-generated reviews via OpenAI for all companies
+        $this->call([
+            CompanySeeder::class,
+            CompanyReviewSeeder::class,
+        ]);
     }
     
 

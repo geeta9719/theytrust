@@ -34,8 +34,7 @@
 
                 <img src="{{ $avatarUrl }}" alt="" class="img-fluid d-md-inline d-table mx-auto" />
                 <div class="user-name sidebarheading userboxes text-center text-md-left">
-                    <h3>{{ $review->fullname }}</h3>
-                    <h3>Aman</h3>
+                    <h3>{{ $review->full_name }}</h3>
                     <h5 class="sideh4">
                         {{ $review->position_title }} | {{ $review->company_name }} | {{ $review->country }}
                     </h5>
@@ -54,9 +53,9 @@
                 </div>
             </div>
             <div class="d-lg-flex reviewby pt-1">
-                <div class="ptitle mb-0 mb-lg-0"><button>Services Provided</button></div>
+                <div class="ptitle mb-0 mb-lg-0"><button>Client Industry</button></div>
                 <div>
-                    <p>{{ $review->how_effective }}</p>
+                    <p>{{ $review->company_type }}</p>
                 </div>
             </div>
             <div class="d-lg-flex reviewby pt-1">
@@ -69,8 +68,8 @@
                 <div class="ptitle mb-0 mb-lg-0"><button>Project Duration</button></div>
                 <div>
                     <p>
-                        {{ Carbon::parse($review['project_start_date'])->format('F Y') }} -
-                        {{ Carbon::parse($review['project_end_date'])->format('F Y') }}
+                        {{ Carbon::parse($review['project_start'])->format('F Y') }} -
+                        {{ Carbon::parse($review['project_end'])->format('F Y') }}
                     </p>
                 </div>
             </div>
@@ -80,16 +79,14 @@
                     <p>{{ $review['company_size'] }}</p>
                 </div>
             </div>
-            <div class="d-lg-flex reviewby pt-1 pb-2">
-                <div class="ptitle mb-0 mb-lg-0"><button>Client Industry</button></div>
-                <div>
-                    <p>{{ $review['client_industry'] }}</p>
-                </div>
-            </div>
+
         </div>
         <!-- <p class="dotted"></p> -->
         <div class="d-flex reviewby">
             <div class="ptitle"><button>Project Title</button></div>
+            <div>
+                <p>{{ $review['project_title'] }}</p>
+            </div>
         </div>
         <div class="mx-md-2 mx-0 row">
             <div class="pt-4 qualityreview">
@@ -218,7 +215,7 @@
                         <i style="font-size: 24px" class="fa">&#xf29c;</i>
                         <b>Talk about how the vendor made this project a success</b>
                     </p>
-                    <p>{{ $review->any_outcome }}</p>
+                    <p>{{ $review->any_outcomes }}</p>
                     <p>
                         <i style="font-size: 24px" class="fa">&#xf29c;</i>
                         <b>

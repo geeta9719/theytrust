@@ -3,6 +3,7 @@
 namespace App\Storage;
 
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
 use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
 
 class AzureStorageManager
@@ -23,7 +24,26 @@ class AzureStorageManager
     public function put(string $path, string $contents, array $options = []): bool
     {
         try {
-            $this->client->createBlockBlob($this->container, $path, $contents);
+            $blobOptions = new CreateBlockBlobOptions();
+
+            // Set Content-Type from options or detect from extension
+            $contentType = $options['ContentType'] ?? $options['content_type'] ?? null;
+            if (!$contentType) {
+                $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+                $mimeMap = [
+                    'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg',
+                    'png' => 'image/png',  'gif'  => 'image/gif',
+                    'svg' => 'image/svg+xml', 'webp' => 'image/webp',
+                    'pdf' => 'application/pdf',
+                    'json' => 'application/json',
+                    'css' => 'text/css', 'js' => 'application/javascript',
+                    'html' => 'text/html', 'txt' => 'text/plain',
+                ];
+                $contentType = $mimeMap[$ext] ?? 'application/octet-stream';
+            }
+            $blobOptions->setContentType($contentType);
+
+            $this->client->createBlockBlob($this->container, $path, $contents, $blobOptions);
             return true;
         } catch (ServiceException $e) {
             throw new \RuntimeException('Failed to upload to Azure: ' . $e->getMessage());
