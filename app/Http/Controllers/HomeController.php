@@ -1089,6 +1089,7 @@ function drawChart() {
                         'email' => $request->email,
                         'phone' => $request->phone,
                         'help_options' => $request->help_options,
+                        'message' => $request->message,
                         'subject' => $subject,
                       ];
 
