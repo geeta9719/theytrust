@@ -95,6 +95,46 @@
             background-color: #a6f5ff;
             margin-top: 4px;
         }
+
+        .innercard .d-flex {
+            width: 100%;
+        }
+
+        .innercard .category-link,
+        .heading-bg .subcategory-link {
+            flex: 1;
+            text-decoration: none;
+        }
+
+        .accordion-arrow {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 15px;
+            font-size: 14px;
+            color: #5b6371;
+            display: flex;
+            align-items: center;
+        }
+
+        .accordion-arrow::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-image: url('https://theytrust-us.developmentserver.info/front_components/images/arrow.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .accordion-arrow.collapsed::after {
+            transform: rotate(-90deg);
+        }
+
+        .innercard a::after,
+        .heading-bg a::after {
+            display: none;
+        }
     </style>
 
     <div class="container">
@@ -103,17 +143,17 @@
                 @if ($category->subcategories->count())
                     <div class="card maincard">
                         <div class="card-header innercard" id="heading-{{ $category->id }}">
-                            <h5 class="mb-0">
-                                <a
-                                    role="button"
-                                    data-toggle="collapse"
-                                    href="#collapse-{{ $category->id }}"
-                                    aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
-                                    aria-controls="collapse-{{ $category->id }}"
-                                    class="{{ $index !== 0 ? 'collapsed' : '' }}"
-                                >
+                            <h5 class="mb-0 d-flex align-items-center justify-content-between">
+                                <a class="category-link" href="/companies/{{ $category->slug }}">
                                     {{ $category->category }}
                                 </a>
+                                <button
+                                    class="accordion-arrow {{ $index !== 0 ? 'collapsed' : '' }}"
+                                    data-toggle="collapse"
+                                    data-target="#collapse-{{ $category->id }}"
+                                    aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
+                                    aria-controls="collapse-{{ $category->id }}"
+                                ></button>
                             </h5>
                         </div>
                         <div
@@ -131,17 +171,17 @@
                                                     class="card-header heading-bg"
                                                     id="heading-{{ $category->id }}-{{ $subcategory->id }}"
                                                 >
-                                                    <h5 class="mb-0">
-                                                        <a
-                                                            class="collapsed"
-                                                            role="button"
-                                                            data-toggle="collapse"
-                                                            href="#collapse-{{ $category->id }}-{{ $subcategory->id }}"
-                                                            aria-expanded="false"
-                                                            aria-controls="collapse-{{ $category->id }}-{{ $subcategory->id }}"
-                                                        >
+                                                    <h5 class="mb-0 d-flex align-items-center justify-content-between">
+                                                        <a class="subcategory-link" href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}">
                                                             {{ $subcategory->subcategory }}
                                                         </a>
+                                                        <button
+                                                            class="accordion-arrow collapsed"
+                                                            data-toggle="collapse"
+                                                            data-target="#collapse-{{ $category->id }}-{{ $subcategory->id }}"
+                                                            aria-expanded="false"
+                                                            aria-controls="collapse-{{ $category->id }}-{{ $subcategory->id }}"
+                                                        ></button>
                                                     </h5>
                                                 </div>
                                                 <div
@@ -157,13 +197,17 @@
                                                                     @foreach ($subcategory->subcat_child as $subcat_child)
                                                                         @if ($subcat_child->skill->count())
                                                                             <div class="col-md-2 col-4 mt-3 mt-md-0">
-                                                                                <h3>{{ $subcat_child->name }}</h3>
+                                                                                <h3>
+                                                                                    <a href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $subcat_child->slug }}">
+                                                                                        {{ $subcat_child->name }}
+                                                                                    </a>
+                                                                                </h3>
                                                                                 <ul>
                                                                                     @foreach ($subcat_child->skill as $skill)
                                                                                         <li>
-                                                                                            {{-- <a href="{{ route('companies', [$category->slug, $subcategory->slug, $subcat_child->slug, $skill->slug]) }}">
+                                                                                            <a href="/companies/{{ $category->slug }}/{{ $subcategory->slug }}/{{ $subcat_child->slug }}/{{ $skill->slug }}">
                                                                                                 {{ $skill->name }}
-                                                                                            </a> --}}
+                                                                                            </a>
                                                                                         </li>
                                                                                     @endforeach
                                                                                 </ul>
@@ -188,12 +232,4 @@
     </div>
 @endsection
 
-@section('script')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
-    <script
-        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"
-    ></script>
-@endsection
+{{-- Scripts already loaded via home-master layout (jQuery 3.6.0 + Bootstrap 4.5.2 bundle) --}}

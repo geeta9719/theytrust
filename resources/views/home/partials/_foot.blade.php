@@ -10,7 +10,11 @@
                         <h2>Company</h2>
                         <ul>
                             <li><a href="{{ route('about') }}" style="color:inherit;text-decoration:none;">About Us</a></li>
-                            <li><a href="{{ route('blogs.list') }}" style="color:inherit;text-decoration:none;">Blog</a></li>
+                            <li>
+    <a href="https://theytrust.us/blog/" style="color:inherit;text-decoration:none;">
+        Blog
+    </a>
+</li>
                             <li><a href="{{ route('faq') }}" style="color:inherit;text-decoration:none;">FAQ</a></li>
                             <li><a href="contact" style="color:inherit;text-decoration:none;">Contact</a></li>
                         </ul>
@@ -32,9 +36,14 @@
                         <h2>Companies</h2>
                         <ul>
                             <li><a href="{{ route('get-listed') }}" style="color:inherit;text-decoration:none;">Get Listed</a></li>
-                            <li><a href="{{ route('company.getPriceListing') }}" style="color:inherit;text-decoration:none;">Sponsorships</a></li>
-                            <li><a href="{{ route('plans') }}" style="color:inherit;text-decoration:none;">Pricing</a></li>
-                            <li><a href="{{ route('plans.compare') }}" style="color:inherit;text-decoration:none;">Compare Plans</a></li>
+                            @auth
+                                <li><a href="{{ route('company.getPriceListing') }}" style="color:inherit;text-decoration:none;">Sponsorships</a></li>
+                                <li><a href="{{ route('plans') }}" style="color:inherit;text-decoration:none;">Pricing</a></li>
+                            @else
+                                <li><a href="#" style="color:inherit;text-decoration:none;" data-toggle="modal" data-target="#login-modal">Sponsorships</a></li>
+                                <li><a href="#" style="color:inherit;text-decoration:none;" data-toggle="modal" data-target="#login-modal">Pricing</a></li>
+                            @endauth
+
                         </ul>
                     </div>
                 </div>
@@ -63,21 +72,12 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const signUpModal = new bootstrap.Modal(document.getElementById('singin-modal'));
-            const loginModal = new bootstrap.Modal(document.getElementById('login-modal'));
-
-            // Show Log In modal on Sign Up modal "Log In" button click
-            document.getElementById('login-link').addEventListener('click', function() {
-                signUpModal.hide();
-                loginModal.show();
-            });
-
-            // Check if showModal is set in session (Laravel blade example)
+        $(document).ready(function() {
+            // Check if showModal is set in session
             @if (session('showModal') == 'signup')
-                signUpModal.show();
+                $('#signup-modal').modal('show');
             @elseif (session('showModal') == 'login')
-                loginModal.show();
+                $('#login-modal').modal('show');
             @endif
         });
     </script>

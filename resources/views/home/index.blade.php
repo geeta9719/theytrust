@@ -298,7 +298,7 @@
 @endsection
 
 @section('script')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{{-- jQuery already loaded in header, do NOT reload here --}}
 <script src="{{ asset('front_components/js/select2.min.js') }}"></script>
 <script>
     var setAction;

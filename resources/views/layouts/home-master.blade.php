@@ -51,8 +51,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     @yield('content')
 
-    <!-- jQuery (Only One Version) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery is loaded in _header.blade.php (head) so navbar scripts can use it -->
 
     <!-- Bootstrap JS Bundle (Includes Popper.js) -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
